@@ -1,6 +1,6 @@
 # excuse me, this is my first Rakefile :(  [m]
 require 'rake'
-require 'rake/rdoctask2'
+require 'rdoctask2'
 require 'rake/gempackagetask.rb'
 
 ROOT = ''

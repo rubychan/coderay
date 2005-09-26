@@ -19,7 +19,7 @@ Rake::RDocTask.new :rdoc do |rd|
 	rd.main = ROOT + 'README'
 	rd.title = "CodeRay Documentation"
 	rd.options << '--line-numbers' << '--inline-source' << '--tab-width' << '2'
-	#rd.template = 'coderay'
+	rd.template = './coderay_rdoc_template.rb'
 	rd.rdoc_files.add ROOT + 'README'
 	rd.rdoc_files.add *Dir[LIB_ROOT + '**/*.rb']
 #	rd.rdoc_files.include ROOT + 'coderay/scanners/*.rb'
@@ -149,7 +149,9 @@ end
 
 require 'net/ftp'
 require 'yaml'
-$username = YAML.load_file('ftp.yaml')[:username]
+FTP_YAML = 'ftp.yaml'
+$username = File.exist?(FTP_YAML) ? YAML.load_file(FTP_YAML)[:username] : 'anonymous'
+
 def cYcnus_ftp
 	Net::FTP.open('cycnus.de') do |ftp|
 		g 'ftp login, password needed: '

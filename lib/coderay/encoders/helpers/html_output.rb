@@ -54,7 +54,7 @@ module CodeRay
 			wrapper :div, :span, :page
 
 			def wrapped_in
-				@wrapped_in || nil
+				@wrapped_in ||= nil
 			end
 			attr_writer :wrapped_in
 			

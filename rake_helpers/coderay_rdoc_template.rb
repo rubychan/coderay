@@ -3,52 +3,73 @@ module RDoc::Page
 
 FONTS = "Tahoma, Verdana, sans-serif"
 
-STYLE = <<CSS
-a { text-decoration: none; }
-a:link { color: #CCF; }
-a:visited { color: #88A; }
-a:hover, a:active, a:focus { color: white; }
+require 'rake_helpers/ca.rb'
 
-body, td, p {
-  background-color: black;
-  color: white;
+Hy.ca <<CA
+<<
+	BACKGROUND = '#322'
+	
+	GOLD = '#e92'
+	DARK_GOLD = '#630'
+	FIRE = '#fc3'
+	MORE_FIRE = '#fe0'
+	LIGHT_BLUE = '#CCF'
+	DARK_BLUE = '#004'
+	FLARE = LIGHT_BLUE
+	DARK_GRAY = '#444'
+	PURPLE = '#d8f'
+	DARK_PURPLE = '#303'
+
+	LINK = LIGHT_BLUE
+	VISITED = '#ccc'
+	HOVER = '#f44'
+	
+	BORDER = '3px double gray'
+>>
+CA
+
+STYLE = Hy.ca <<CSS
+a { text-decoration: none; }
+a:link { color: $LINK }
+a:visited { color: $VISITED }
+a:hover, a:active, a:focus { color: $HOVER }
+
+body {
+  background-color: $BACKGROUND;
+  color: $GOLD;
   margin: 0px;
   font-family: %fonts%;
-  font-size: small;
 }
 
+img { border: $BORDER; }
+
 hr {
-	background-color: white; color: white;
-	height: 2px;
-	border: 0px;
-	margin: 0px;
+	background-color: none; color: none;
+	height: 3px;
+	border: 1px solid gray;
+	margin: 0.5em 0em;
 	padding: 0px;
 }
 
-#content {
-  margin: 2em;
-}
-
-#description p {
-  margin-bottom: 0.5em;
-}
+tt { color: $LIGHT_BLUE; font-size: 1em; }
 
 .sectiontitle {
-  margin-top: 1em;
-  margin-bottom: 1em;
-  padding: 0.5em;
-  padding-left: 2em;
-  background: #005;
-  color: #FFF;
-  font-weight: bold;
-  border: 1px dotted black;
+	font-size: 1.2em;
+	font-weight: bold;
+	font-color: white;
+	border: $BORDER;
+	padding: 0.2em;
+	margin: 1em auto; margin-top: 3em;
+	text-align: center;
+	width: 75%;
+	background-color: $DARK_BLUE;
 }
 
 .attr-rw {
   padding-left: 1em;
   padding-right: 1em;
   text-align: center;
-  color: #055;
+  color: silver;
 }
 
 .attr-name {
@@ -62,33 +83,41 @@ hr {
   font-family: monospace;
 }
 
-.file-title-prefix {
-  font-size: large;
-}
-
-.file-title {
-  font-size: large;
-  font-weight: bold;
-  background: #005;
-  color: #FFF;
-}
-
 .banner {
-  background: #005;
-  color: #FFF;
-  border: 1px solid black;
-  padding: 1em;
+	border-collapse: collapse;
+  font-size: small;
+  background: $DARK_PURPLE;
+  color: silver;
+  border: 0px;
+  border-bottom: $BORDER;
+  padding: 0.5em;
+  margin-bottom: 1em;
 }
+.xbanner table { border-collapse: collapse; }
 
 .banner td {
-  background: transparent;
-  color: #FFF;
+  color: silver;
+	background-color: transparent;
+	padding: 0.2em 0.5em;
+}
+.banner td.ruby-chan {
+	vertical-align: bottom;
+	padding: 0px;
+	width: 1px;
+}
+
+.file-title-prefix { }
+
+td.file-title {
+  font-size: 140%;
+  font-weight: bold;
+  color: $PURPLE;
 }
 
 .dyn-source {
   display: none;
   background: #FFE;
-  color: #000;
+  color: black;
   border: 1px dotted black;
   margin: 0.5em 2em 0.5em 2em;
   padding: 0.5em;
@@ -108,25 +137,32 @@ hr {
   margin-left: 1em;
   margin-right: 1em;
   margin-bottom: 1em;
+  border: 1px solid white;
+	color: $MORE_FIRE;
+	background: $DARK_PURPLE;
 }
 
 .description pre {
-	border: 1px solid silver;
-	background: #112;
+	border: 1px solid gray;
+	background: $DARK_BLUE;
 	color: white;
 	padding: 0.5em;
 }
 
 .method .title {
   font-family: monospace;
-  font-size: large;
-  border-bottom: 1px dashed black;
-  margin-bottom: 0.3em;
-  padding-bottom: 0.1em;
+  font-size: larger;
+  color: $PURPLE;
+  background: $DARK_GRAY;
+  border-bottom: $BORDER;
+  margin: 0px; padding: 0.1em 0.5em;
 }
 
 .method .description, .method .sourcecode {
-  margin-left: 1em;
+  margin: 0.2em 1em;
+}
+.method p {
+	color: $GOLD;
 }
 
 .description p, .sourcecode p {
@@ -134,41 +170,53 @@ hr {
 }
 
 .method .sourcecode p.source-link {
-  text-indent: 0em;
   margin-top: 0.5em;
+  font-style: normal;
 }
+.arrow { font-size: larger; }
 
 .method .aka {
   margin-top: 0.3em;
   margin-left: 1em;
-  font-style: italic;
-  text-indent: 2em;
+  color: $FIRE;
+}
+
+#content {
+  margin: 2em; margin-top: 0px;
+}
+
+#description p {
+  margin-bottom: 0.5em;
 }
 
 h1 {
 	font-size: 1.5em;
 	font-weight: bold;
-	font-color: ;
-	border: 2px solid white;
-	padding: 0.5em 1em;
-	margin: 1em 0px;
-	border-left: 0px; border-right: 0px;
+	color: $FLARE;
+	border: $BORDER;
+	padding: 0.25em;
+	margin: 1em auto;
+	text-align: center;
+	width: 33%;
+	background-color: $DARK_BLUE;
 }
+h1 a:link, h1 a:visited { color: $FLARE }
 
 h2 {
-  padding: 0.5em 1em 0.5em 1em;
-  border: 1px solid black;
-  font-size: large;
+	margin-bottom: 0.5em;
+	margin-top: 2em;
+  font-size: 1.2em;
   font-weight: bold;
-  color: #FFF;
-  background: #009;
+  color: $FIRE;
 }
 
 h3, h4, h5, h6 {
-  padding: 0.2em 1em 0.2em 1em;
-  border: 1px dashed black;
-  color: #000;
-  background: #AAF;
+	margin-bottom: 0.4em;
+	margin-top: 1.5em;
+	padding: 0px;
+  border: 0px;
+  color: $FIRE;
+  font-size: 1em;
 }
 
 .sourcecode > pre {
@@ -177,13 +225,14 @@ h3, h4, h5, h6 {
 	color: white;
 	padding: 0.5em;
 }
-
 CSS
 
-XHTML_PREAMBLE = %{<?xml version="1.0" encoding="%charset%"?>
-<!DOCTYPE html 
-     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+XHTML_FRAMESET_PREAMBLE = #<?xml version="1.0" encoding="%charset%"?>
+%{<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+}
+
+XHTML_PREAMBLE =
+%{<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 }
 
 HEADER = XHTML_PREAMBLE + <<ENDHEADER
@@ -238,12 +287,15 @@ HEADER = XHTML_PREAMBLE + <<ENDHEADER
 ENDHEADER
 
 FILE_PAGE = <<HTML
-<table border='0' cellpadding='0' cellspacing='0' width="100%" class='banner'>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="banner">
   <tr><td>
-    <table width="100%" border='0' cellpadding='0' cellspacing='0'><tr>
-      <td class="file-title" colspan="2"><span class="file-title-prefix">File</span><br />%short_name%</td>
-      <td align="right">
-        <table border='0' cellspacing="0" cellpadding="2">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <td class="file-title" colspan="2"><span class="file-title-prefix">File</span> %short_name%</td>
+		</tr>
+    <tr>
+    	<td>
+        <table border="0" cellspacing="0" cellpadding="2">
           <tr>
             <td>Path:</td>
             <td>%full_path%
@@ -259,17 +311,27 @@ ENDIF:cvsurl
         </table>
       </td></tr>
     </table>
-  </td></tr>
-</table><br>
+  </td>
+  <td class="ruby-chan">
+	  <a href="http://ruby.cYcnus.de"><img src="http://ruby.cYcnus.de/pics/ruby-doc-chan.gif" alt="Ruby-Chan" style="border: 0px" /></a>
+  </td>
+ </tr>
+</table><br />
 HTML
 
 ###################################################################
 
 CLASS_PAGE = <<HTML
-<table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
-  <td class="file-title"><span class="file-title-prefix">%classmod%</span><br />%full_name%</td>
-  <td align="right">
-    <table cellspacing=0 cellpadding=2>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="banner">
+	<tr>
+  	<td class="file-title"><span class="file-title-prefix">%classmod%</span> %full_name%</td>
+		<td rowspan="2" class="ruby-chan">
+			<a href="http://ruby.cYcnus.de"><img src="http://ruby.cYcnus.de/pics/ruby-doc-chan.gif" alt="Ruby-Chan" style="border: 0px" /></a>
+		</td>
+	</tr>
+	<tr>
+ 	 <td>
+    <table cellspacing="0" cellpadding="2">
       <tr valign="top">
         <td>In:</td>
         <td>
@@ -306,7 +368,7 @@ HTML
 METHOD_LIST = <<HTML
   <div id="content">
 IF:diagram
-  <table cellpadding='0' cellspacing='0' border='0' width="100%"><tr><td align="center">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td align="center">
     %diagram%
   </td></tr></table>
 ENDIF:diagram
@@ -368,15 +430,15 @@ ENDIF:classlist
 
 IF:constants
   <div class="sectiontitle">Constants</div>
-  <table border='0' cellpadding='5'>
+  <table border="0" cellpadding="5">
 START:constants
-  <tr valign='top'>
+  <tr valign="top">
     <td class="attr-name">%name%</td>
     <td>=</td>
     <td class="attr-value">%value%</td>
   </tr>
 IF:desc
-  <tr valign='top'>
+  <tr valign="top">
     <td>&nbsp;</td>
     <td colspan="2" class="attr-desc">%desc%</td>
   </tr>
@@ -387,16 +449,16 @@ ENDIF:constants
 
 IF:attributes
   <div class="sectiontitle">Attributes</div>
-  <table border='0' cellpadding='5'>
+  <table border="0" cellpadding="5">
 START:attributes
-  <tr valign='top'>
-    <td class='attr-rw'>
+  <tr valign="top">
+    <td class="attr-rw">
 IF:rw
 [%rw%]
 ENDIF:rw
     </td>
-    <td class='attr-name'>%name%</td>
-    <td class='attr-desc'>%a_desc%</td>
+    <td class="attr-name">%name%</td>
+    <td class="attr-desc">%a_desc%</td>
   </tr>
 END:attributes
   </table>
@@ -416,7 +478,7 @@ IFNOT:callseq
     <a name="%aref%"></a><b>%name%</b>%params%
 ENDIF:callseq
 IF:codeurl
-[ <a href="javascript:openCode('%codeurl%')">source</a> ]
+[ <a href="javascript:openCode("%codeurl%")">source</a> ]
 ENDIF:codeurl
   </div>
 IF:m_desc
@@ -426,15 +488,16 @@ IF:m_desc
 ENDIF:m_desc
 IF:aka
 <div class="aka">
-  This method is also aliased as
+  --- This method is also aliased as
 START:aka
   <a href="%aref%">%name%</a>
 END:aka
+  ---
 </div>
 ENDIF:aka
 IF:sourcecode
 <div class="sourcecode">
-  <p class="source-link">[ <a href="javascript:toggleSource('%aref%_source')" id="l_%aref%_source">show source</a> ]</p>
+  <p class="source-link"><span class="arrow">&rarr;</span> <a href="javascript:toggleSource('%aref%_source')" id="l_%aref%_source">show source</a></p>
   <div id="%aref%_source" class="dyn-source">
 <pre>
 %sourcecode%
@@ -471,8 +534,8 @@ ENDBODY
 SRC_PAGE = XHTML_PREAMBLE + <<HTML
 <html>
 <head><title>%title%</title>
-<meta http-equiv="Content-Type" content="text/html; charset=%charset%">
-<style>
+<meta http-equiv="Content-Type" content="text/html; charset=%charset%" />
+<style type="text/css">
 .ruby-comment    { color: green; font-style: italic }
 .ruby-constant   { color: #4433aa; font-weight: bold; }
 .ruby-identifier { color: #222222;  }
@@ -502,46 +565,45 @@ HTML
 
 FILE_INDEX = XHTML_PREAMBLE + <<HTML
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=%charset%">
-<style>
+<head><title>List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=%charset%" />
+<style type="text/css">
 <!--
+#{ Hy.ca <<CA
   body {
-    background-color: #EEE;
+    background-color: $DARK_PURPLE;
     font-family: #{FONTS}; 
-    color: #000;
+    color: white;
     margin: 0px;
   }
   .banner {
-    background: #005;
-    color: #FFF;
-    padding: 0.2em;
-    font-size: small;
+    background: $DARK_BLUE;
+    color: $GOLD;
+    padding: 0em 0.2em;
+    border-bottom: $BORDER;
+    font-size: smaller;
     font-weight: bold;
     text-align: center;
   }
   .entries {
-    margin: 0.25em 1em 0 1em;
-    font-size: x-small;
+    margin: 0.25em 0em 0em 0.5em;
+    font-size: 75%;
   }
-  a {
-    color: #00F;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-  a:hover {
-    color: #77F;
-    text-decoration: underline;
-  }
+  a { text-decoration: none; white-space: nowrap; }
+  a:link { color: $LINK; }
+  a:visited { color: $VISITED; }
+  a:hover, a:active, a:focus { color: $HOVER; }
+CA
+}
 -->
 </style>
-<base target="docwin">
+<base target="docwin" />
 </head>
 <body>
 <div class="banner">%list_title%</div>
 <div class="entries">
 START:entries
-<a href="%href%">%name%</a><br>
+<a href="%href%">%name%</a><br />
 END:entries
 </div>
 </body></html>
@@ -550,11 +612,11 @@ HTML
 CLASS_INDEX = FILE_INDEX
 METHOD_INDEX = FILE_INDEX
 
-INDEX = XHTML_PREAMBLE + <<HTML
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en>
+INDEX = XHTML_FRAMESET_PREAMBLE + <<HTML
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <title>%title%</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=%charset%">
+  <meta http-equiv="Content-Type" content="text/html; charset=%charset%" />
 </head>
 
 <frameset cols="20%,*">
@@ -564,12 +626,12 @@ INDEX = XHTML_PREAMBLE + <<HTML
         <frame src="fr_method_index.html" name="Methods" />
     </frameset>
 IF:inline_source
-      <frame  src="%initial_page%" name="docwin">
+      <frame  src="%initial_page%" name="docwin" />
 ENDIF:inline_source
 IFNOT:inline_source
     <frameset rows="80%,20%">
-      <frame  src="%initial_page%" name="docwin">
-      <frame  src="blank.html" name="source">
+      <frame  src="%initial_page%" name="docwin" />
+      <frame  src="blank.html" name="source" />
     </frameset>
 ENDIF:inline_source
     <noframes>

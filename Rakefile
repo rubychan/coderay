@@ -19,7 +19,7 @@ Rake::RDocTask.new :rdoc do |rd|
 	rd.main = ROOT + 'README'
 	rd.title = "CodeRay Documentation"
 	rd.options << '--line-numbers' << '--inline-source' << '--tab-width' << '2'
-	rd.template = './coderay_rdoc_template.rb'
+	rd.template = 'rake_helpers/coderay_rdoc_template.rb'
 	rd.rdoc_files.add ROOT + 'README'
 	rd.rdoc_files.add *Dir[LIB_ROOT + '**/*.rb']
 #	rd.rdoc_files.include ROOT + 'coderay/scanners/*.rb'

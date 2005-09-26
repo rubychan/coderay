@@ -1,0 +1,62 @@
+#!C:/ruby/bin/ruby
+
+# CodeRay Executable
+# 
+# Version: 0.1
+# Author: murphy
+
+require 'optparse'
+
+def err msg
+	$stderr.puts msg
+end
+
+begin
+	require 'coderay'
+
+	if ARGV.empty?
+		puts <<-USAGE
+Usage:
+  coderay lang [format] < file > output
+  coderay file [format]
+		USAGE
+	end
+	
+	unless format = ARGV[1]
+		$stderr.puts 'No format given; setting to default (HTML)'
+		format = :html
+	end
+
+	lang = ARGV[0] or raise 'No lang/file given.'
+	if lang[/\A:(\w+)\z/]
+		lang = $1.to_sym
+		input = $stdin.read
+		tokens = CodeRay.scan input, lang
+	else
+		file = lang
+		tokens = CodeRay.scan_file file
+		output_filename = file[0...-File.extname(file).size]
+	end
+
+	output = tokens.encode format
+	out = $stdout
+	if output_filename
+		output_filename << '.' << CodeRay::Encoders[format]::FILE_EXTENSION
+		if File.exist? output_filename
+			err 'File %s already exists.' % output_filename
+			exit
+		else
+			out = File.open output_filename, 'w'
+		end
+	else
+		
+	end
+	out.print output
+
+rescue => boom
+	err "Error: #{boom.message}\n"
+	err boom.backtrace
+	err '-' * 50
+	err ARGV.options
+	exit 1
+end

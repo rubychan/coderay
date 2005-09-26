@@ -1,0 +1,64 @@
+= CodeRay
+
+== About
+CodeRay is a Ruby library for syntax highlighting.
+
+Syntax highlighting means: You put your code in, and you get it back colored;
+Keywords, Strings, Floats, Comments - all in different colors.
+And with line numbers.
+
+*Syntax* *Highlighting*...
+* makes code easier to read
+* lets you detect errors faster
+* helps you to understand the syntax of a language
+* looks nice
+* is what everybody should have on their website
+* solves all your problems and makes the girls run after you
+
+Version: 0.4.1 (2005.june.1)
+Author:: murphy
+Idea:: licenser
+Website:: rd.cYcnus.de/coderay[http://rd.cYcnus.de/coderay]
+Copyright:: (c) 2005 by cYcnus
+License:: Not yet decided
+
+-----
+
+== Installation
+
+  % gem install coderay
+
+
+=== Dependencies
+
+CodeRay needs Ruby 1.8 and the strscan[http://www.ruby-doc.org/stdlib/libdoc/strscan/rdoc/index.htm] library included.
+
+
+== Example Usage
+(Forgive me, but this is not highlighted.)
+
+  require 'coderay'
+  
+  hl = CodeRay.html :line_numbers => :column
+  puts hl.highlight_page "puts 'Hello, world!'", :ruby
+
+
+== Documentation
+
+See CodeRay.
+
+
+-----
+
+== Credits
+
+=== Special Thanks to
+* licenser (Heinz N. Gies) for ending my QBasic career, inventing the Coder project and the input/output plugin system.
+  CodeRay would not exist without him.
+
+=== Thanks to
+* Caleb Clausen for writing RubyLexer (see http://rubyforge.org/projects/rubylexer) and lots of mails
+* Jamis Buck for writing Syntax (see http://rubyforge.org/projects/syntax)
+* everyone who used CodeRay on http://www.rubyforen.de and http://www.infhu.de/mx
+* iGEL, magichisoka, manveru and everyone I forgot from rubyforen.de
+* Dookie (who is no longer with us...) and Leonidas from http://www.python-forum.de

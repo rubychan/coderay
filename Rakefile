@@ -130,7 +130,7 @@ task :make_gemspec do
 	gemtask.version = s.version = $version
 end
 
-GEMDIR = '\gem_server\gems'
+GEMDIR = 'gem_server\gems'
 task :copy_gem do
 	$gemfile = "coderay-#$version.gem"
 	cp "pkg/#$gemfile", GEMDIR

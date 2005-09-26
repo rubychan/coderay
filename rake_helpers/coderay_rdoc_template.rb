@@ -28,7 +28,10 @@ Hy.ca <<CA
 >>
 CA
 
-STYLE = Hy.ca <<CSS
+$: << 'lib'
+require 'coderay'
+
+STYLE = Hy.ca <<CSS + CodeRay::Encoders[:html]::CSS::DEFAULT_STYLESHEET
 a { text-decoration: none; }
 a:link { color: $LINK }
 a:visited { color: $VISITED }
@@ -116,21 +119,7 @@ td.file-title {
 
 .dyn-source {
   display: none;
-  background: #FFE;
-  color: black;
-  border: 1px dotted black;
-  margin: 0.5em 2em 0.5em 2em;
-  padding: 0.5em;
-}
-
-.dyn-source .cmt {
-  color: #00F;
-  font-style: italic;
-}
-
-.dyn-source .kw {
-  color: #070;
-  font-weight: bold;
+  margin: 0.5em;
 }
 
 .method {
@@ -499,9 +488,7 @@ IF:sourcecode
 <div class="sourcecode">
   <p class="source-link"><span class="arrow">&rarr;</span> <a href="javascript:toggleSource('%aref%_source')" id="l_%aref%_source">show source</a></p>
   <div id="%aref%_source" class="dyn-source">
-<pre>
 %sourcecode%
-</pre>
   </div>
 </div>
 ENDIF:sourcecode

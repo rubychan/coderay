@@ -44,7 +44,7 @@ module CodeRay
 						define_method wrapper do |*args|
 							wrap wrapper, *args
 						end
-						define_method(:"#{wrapper}!") do |*args|  
+						define_method "#{wrapper}!".to_sym do |*args|  
 							wrap! wrapper, *args
 						end
 					end

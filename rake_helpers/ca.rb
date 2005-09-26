@@ -37,4 +37,4 @@ begin
 	print Hy.ca(ca)
 rescue => boom
 	p boom
-end
+end if __FILE__ == $0

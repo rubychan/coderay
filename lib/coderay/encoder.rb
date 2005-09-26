@@ -1,6 +1,6 @@
 module CodeRay
 
-  # This module holds class Encoder and its subclasses.
+  # This module holds the Encoder class and its subclasses.
   # For example, the HTML encoder is named CodeRay::Encoders::HTML
   # can be found in coderay/encoders/html.
   # 
@@ -10,26 +10,30 @@ module CodeRay
   module Encoders
 
     # Raised if Encoders[] fails because:
-    # * an file could not be found
+    # * a file could not be found
     # * the requested Encoder is not registered
     EncoderNotFound = Class.new Exception
 
-    # Loaded Encoders are saved here.
-    ENCODERS = Hash.new do |h, lang|
-      path = Encoders.path_to lang
-      lang = lang.to_sym
-      begin
-        require path
-      rescue LoadError
-        raise EncoderNotFound, "#{path} not found."
-      else
-        # Encoder should have registered by now
-        unless h[lang]
-          raise EncoderNotFound, "No Encoder for #{lang} found in #{path}."
+    def Encoders.create_encoders_hash
+      Hash.new do |h, lang|
+        path = Encoders.path_to lang
+        lang = lang.to_sym
+        begin
+          require path
+        rescue LoadError
+          raise EncoderNotFound, "#{path} not found."
+        else
+          # Encoder should have registered by now
+          unless h[lang]
+            raise EncoderNotFound, "No Encoder for #{lang} found in #{path}."
+          end
         end
+        h[lang]
       end
-      h[lang]
     end
+
+    # Loaded Encoders are saved here.
+    ENCODERS = create_encoders_hash
 
     class << self
 
@@ -63,8 +67,10 @@ module CodeRay
     end
 
 
-    # The Encoder base class. Together with CodeRay::Scanner and
-    # CodeRay::Tokens, it forms the highlighting triad.
+    # = Encoder
+    #
+    # The Encoder base class. Together with Scanner and
+    # Tokens, it forms the highlighting triad.
     #
     # Encoder instances take a Tokens object and do something with it.
     #

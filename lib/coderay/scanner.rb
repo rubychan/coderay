@@ -131,12 +131,14 @@ Known scanners: #{SCANNERS}
 
 
     require 'strscan'
+    # = Scanner
+    #
     # The base class for all Scanners.
     #
     # It is a subclass of Ruby's great +StringScanner+, which
     # makes it easy to access the scanning methods inside.
     #
-    # It is also +Enumerable+, so you can do this:
+    # It is also +Enumerable+, so you can use it like an Array of Tokens:
     #
     #   require 'coderay'
     #   
@@ -148,8 +150,8 @@ Known scanners: #{SCANNERS}
     #   
     #   # prints: (*==)++;
     # 
-    # OK, this is not a very good example :)
-    # You can also use map, any?, find and even sort_by.
+    # OK, this is a very simple example :)
+    # You can also use +map+, +any?+, +find+ and even +sort_by+, if you want.
     class Scanner < StringScanner
 
       # Raised if a Scanner fails while scanning

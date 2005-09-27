@@ -27,6 +27,8 @@ Subversion: $Id$
 
 == Installation
 
+You need RubyGems[http://rubyforge.org/frs/?group_id=126].
+
   % gem install coderay
 
 

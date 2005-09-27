@@ -6,7 +6,7 @@ require 'rake/gempackagetask.rb'
 ROOT = ''
 LIB_ROOT = ROOT + 'lib/'
 
-task :default => :same
+task :default => :make
 
 task :doc => [:deldoc, :rdoc]
 task :deldoc do
@@ -94,24 +94,14 @@ $: << './lib'
 require 'coderay'
 $version = CodeRay::Version
 
-desc 'Create a nightly build gem'
-task :next => [:inc_build, :build, :make_gem]
-
 desc 'Create the gem again'
-task :same => [:build, :make_gem]
+task :make => [:build, :make_gem]
 
 BUILD_FILE = 'build'
-task :inc_build do
-	build = File.read(BUILD_FILE).to_i
-	File.open(BUILD_FILE, 'w') { |f| f.write build.succ }
-end
 task :build do
 	$version.sub!(/\d+$/) { |minor| minor.to_i - 1 }
 	$version << '.' << File.read(BUILD_FILE)[/\d+/]
 end
-
-desc 'Create a release gem'
-task :release => [:make_gem]
 
 task :make_gem => [:copy_files, :make_gemspec, :gem, :copy_gem]
 

@@ -22,7 +22,7 @@ Rake::RDocTask.new :rdoc do |rd|
 	rd.options << '--fmt' << 'html_coderay'
 	rd.template = 'rake_helpers/coderay_rdoc_template.rb'
 	rd.rdoc_files.add ROOT + 'README'
-	rd.rdoc_files.add *Dir[LIB_ROOT + '**/*.rb']
+	rd.rdoc_files.add *Dir[LIB_ROOT + '*.rb']
 #	rd.rdoc_files.include ROOT + 'coderay/scanners/*.rb'
 #	rd.rdoc_files.include ROOT + 'coderay/scanners/helpers/*.rb'
 #	rd.rdoc_files.include ROOT + 'coderay/encoders/*.rb'
@@ -80,7 +80,7 @@ def gemspec
 		# Credits
 		s.author = 'murphy'
 		s.email = 'murphy@cYcnus.de'
-		s.homepage = 'http://ruby.cycnus.de'
+		s.homepage = 'http://rd.cycnus.de/coderay'
 	end
 end
 
@@ -131,11 +131,11 @@ task :make_gemspec do
 	gemtask.version = s.version = $version
 end
 
-GEMDIR = 'gem_server\gems'
+GEMDIR = 'gem_server/gems'
 task :copy_gem do
 	$gemfile = "coderay-#$version.gem"
 	cp "pkg/#$gemfile", GEMDIR
-	system 'ruby -S generate_yaml_index.rb -d \gem_server'
+	system 'ruby -S generate_yaml_index.rb -d gem_server'
 end
 
 def g msg
@@ -164,9 +164,10 @@ end
 
 task :upload_gem do
 	gn 'Uploading gem:'
-	Dir.chdir '\gem_server' do
+	Dir.chdir 'gem_server' do
 		cYcnus_ftp do |ftp|
 			uploader = proc do |f|
+				raise 'File %s not found!' % f unless File.exist? f
 				g 'Uploading %s...' % f
 				ftp.putbinaryfile f, f
 				gd

@@ -1,5 +1,8 @@
 = CodeRay
 
+You might want to see the original version of this documentation on
+http://rd.cYcnus.de/coderay/doc (use Ctrl+Click to open it in its own frame.)
+
 == About
 CodeRay is a Ruby library for syntax highlighting.
 

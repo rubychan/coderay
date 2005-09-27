@@ -54,7 +54,7 @@ def gemspec
 		s.requirements = ['strscan']
 		s.date = Time.now.strftime '%Y-%m-%d'
 		s.has_rdoc = true
-		s.rdoc_options = '-SNw2', '-mREADME'
+		s.rdoc_options = '-SNw2', '-mREADME', '-a'
 		s.extra_rdoc_files = %w(./README)
 
 		# Description
@@ -113,7 +113,7 @@ end
 desc 'Create a release gem'
 task :release => [:make_gem]
 
-task :make_gem => [:copy_files, :make_gemspec, :gem, :copy_gem, :upload_gem]
+task :make_gem => [:copy_files, :make_gemspec, :gem, :copy_gem]
 
 desc 'Copy the gem files'
 task :copy_files do

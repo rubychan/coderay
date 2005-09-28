@@ -23,7 +23,6 @@ def set_rdoc_info rd, small = false
 	rd.options << '--all'
 	rd.template = 'rake_helpers/coderay_rdoc_template.rb'
 	rd.rdoc_files.add ROOT + 'README'
-	rd.rdoc_files.add ROOT + 'LICENSE'
 	rd.rdoc_files.add *Dir[LIB_ROOT + "#{'**/' unless small}*.rb"]
 end
 
@@ -61,7 +60,7 @@ def gemspec
 		s.date = Time.now.strftime '%Y-%m-%d'
 		s.has_rdoc = true
 		s.rdoc_options = '-SNw2', '-mREADME', '-a', '-t CodeRay Documentation'
-		s.extra_rdoc_files = %w(./README ./LICENSE)
+		s.extra_rdoc_files = %w(./README)
 
 		# Description
 		s.summary = <<-EOF

@@ -9,7 +9,7 @@ module CodeRay
   # given format.
   module Encoders
 
-    # Raised if Encoders[] fails because:
+    # Raised if Encoders::[] fails because:
     # * a file could not be found
     # * the requested Encoder is not registered
     EncoderNotFound = Class.new Exception
@@ -170,7 +170,7 @@ module CodeRay
         finish options
       end
 
-      # Behave like a proc. The tokens method is converted to a proc.
+      # Behave like a proc. The token method is converted to a proc.
       def to_proc
         method(:token).to_proc
       end

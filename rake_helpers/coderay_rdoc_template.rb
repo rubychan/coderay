@@ -84,6 +84,8 @@ tt { color: $LIGHT_BLUE; font-size: 1em; }
 
 .attr-value {
   font-family: monospace;
+	color: $LIGHT_BLUE;
+	font-size: 1em;
 }
 
 .banner {

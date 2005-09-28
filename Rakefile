@@ -218,5 +218,5 @@ task :upload_doc => :rdoc do
 			Dir['**/*.*'].each &uploader
 		end
 	end
-	gn 'Gem successfully uploaded.'
+	gn 'Documentation uploaded.'
 end

@@ -150,7 +150,7 @@ module CodeRay
       # +lang+.
       def encode code, lang, options = {}
         options = @options.merge options
-        scanner_options = options.fetch(:scanner_options, {})
+        scanner_options = get_scanner_options(options)
         tokens = CodeRay.scan code, lang, scanner_options
         encode_tokens tokens, options
       end

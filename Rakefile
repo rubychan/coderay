@@ -1,6 +1,6 @@
 # excuse me, this is my first Rakefile :(  [m]
 require 'rake'
-require 'rdoctask2'
+require 'rake_helpers/rdoctask2'
 require 'rake/gempackagetask.rb'
 
 ROOT = ''
@@ -8,14 +8,14 @@ LIB_ROOT = ROOT + 'lib/'
 
 task :default => :make
 
-task :doc => [:deldoc, :rdoc]
-task :deldoc do
-	rm_r 'doc' if File.directory? 'doc'
-end
+#task :doc => [:deldoc, :make_doc]
+#task :minidoc => [:deldoc, :make_minidoc]
+#task :deldoc do
+#	rm_r 'doc' if File.directory? 'doc'
+#end
 
-desc 'Generate documentation for CodeRay'
-Rake::RDocTask.new :rdoc do |rd|
-	rd.rdoc_dir = 'doc'
+def set_rdoc_info rd, small = false
+#	rd.rdoc_dir = 'doc'
 	rd.main = ROOT + 'README'
 	rd.title = "CodeRay Documentation"
 	rd.options << '--line-numbers' << '--inline-source' << '--tab-width' << '2'
@@ -23,12 +23,18 @@ Rake::RDocTask.new :rdoc do |rd|
 	rd.options << '--all'
 	rd.template = 'rake_helpers/coderay_rdoc_template.rb'
 	rd.rdoc_files.add ROOT + 'README'
-	rd.rdoc_files.add *Dir[LIB_ROOT + '*.rb']
-#	rd.rdoc_files.include ROOT + 'coderay/scanners/*.rb'
-#	rd.rdoc_files.include ROOT + 'coderay/scanners/helpers/*.rb'
-#	rd.rdoc_files.include ROOT + 'coderay/encoders/*.rb'
-#	rd.rdoc_files.include ROOT + 'coderay/encoders/helpers/*.rb'
-#	rd.rdoc_files.include ROOT + 'coderay/helpers/*.rb'
+	rd.rdoc_files.add ROOT + 'LICENSE'
+	rd.rdoc_files.add *Dir[LIB_ROOT + "#{'**/' unless small}*.rb"]
+end
+
+desc 'Generate documentation for CodeRay'
+Rake::RDocTask.new :rdoc do |rd|
+	set_rdoc_info rd
+end
+
+desc 'Generate test documentation for CodeRay'
+Rake::RDocTask.new :rdoc_small do |rd|
+	set_rdoc_info rd, true
 end
 
 desc 'Report code statistics (LOC) from the application'
@@ -54,8 +60,8 @@ def gemspec
 		s.requirements = ['strscan']
 		s.date = Time.now.strftime '%Y-%m-%d'
 		s.has_rdoc = true
-		s.rdoc_options = '-SNw2', '-mREADME', '-a'
-		s.extra_rdoc_files = %w(./README)
+		s.rdoc_options = '-SNw2', '-mREADME', '-a', '-t CodeRay Documentation'
+		s.extra_rdoc_files = %w(./README ./LICENSE)
 
 		# Description
 		s.summary = <<-EOF
@@ -153,18 +159,22 @@ def cYcnus_ftp
 	end
 end
 
+def uploader_for ftp
+	proc do |l, r|
+		raise 'File %s not found!' % l unless File.exist? l
+		g 'Uploading %s to %s...' % [l, r]
+		ftp.putbinaryfile f, f
+		gd
+	end
+end
+
 task :upload_gem do
 	gn 'Uploading gem:'
 	Dir.chdir 'gem_server' do
 		cYcnus_ftp do |ftp|
-			uploader = proc do |f|
-				raise 'File %s not found!' % f unless File.exist? f
-				g 'Uploading %s...' % f
-				ftp.putbinaryfile f, f
-				gd
-			end
+			uploader = uploader_for ftp
 			ftp.chdir 'public_html/raindark/coderay'
-			%w(yaml yaml.Z).each &uploader
+			%w(yaml yaml.Z).each { |f| uploader.call f, f }
 			Dir.chdir 'gems' do
 				ftp.chdir 'gems'
 				uploader.call $gemfile
@@ -175,20 +185,18 @@ task :upload_gem do
 end
 
 task :example do
-	Dir.chdir 'demo' do
-		g 'Highlighting self...'
-		system 'ruby -w highlight_self.rb -o -L'
-		gd
-		gn 'Uploading example:'
-		cYcnus_ftp do |ftp|
-			ftp.chdir 'public_html/raindark/coderay'
-			uploader = proc do |l, r|
-				g 'Uploading %s to %s...' % [l, r]
-				ftp.putbinaryfile l, r
-				gd
-			end
-			uploader.call 'highlight_self/all_in_one.html', 'example.html'
+	g 'Highlighting self...'
+	system 'ruby -wIlib ../hidden/highlight.rb -r -1 lib demo bin rake_helpers'
+	gd
+	gn 'Uploading example:'
+	cYcnus_ftp do |ftp|
+		ftp.chdir 'public_html/raindark/coderay'
+		uploader = proc do |l, r|
+			g 'Uploading %s to %s...' % [l, r]
+			ftp.putbinaryfile l, r
+			gd
 		end
-		gn 'Example uploaded.'
+		uploader.call 'highlighted/all_in_one.html', 'example.html'
 	end
+	gn 'Example uploaded.'
 end

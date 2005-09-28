@@ -56,6 +56,76 @@
 #
 # and look at the file it created.
 # 
+
+# = CodeRay
+#
+# The CodeRay module provides convenience methods for the engine.
+#
+# * The +lang+ and +format+ arguments select Scanner and Encoder to use. These are
+#   simply lower-case symbols, like <tt>:python</tt> or <tt>:html</tt>.
+# * All methods take an optional hash as last parameter, +options+, that is send to
+#   the Encoder / Scanner.
+# * Input and language are always sorted in this order: +code+, +lang+.
+# 	(This is in alphabetical order, if you need a mnemonic ;)
+# 
+# You should be able to highlight everything you want just using this methods;
+# so there is no need to dive into CodeRay's deep class hierarchy.
+#
+# The exmaples in the demo/ directory demonstrate common cases using this interface.
+#	
+# = Basic Access Ways
+#
+# Read this to get a general view what CodeRay provides.
+# 
+# == Scanning
+#	
+#	Scanning means analysing an input string, splitting it up into Tokens.
+#	Each Token knows about what type it is: string, comment, class name, etc.
+#
+#	Each +lang+ (language) has its own Scanner; for example, <tt>:ruby</tt> code is
+#	handled by CodeRay::Scanners::RubyScanner.
+# 
+# CodeRay.scan:: Scan a string in a given language into Tokens.
+#                This is the most common method to use.
+# CodeRay.scan_file:: Scan a file and guess the language using FileType.
+# 
+# The Tokens object you get from these methods can encode itself; see Tokens.
+# 
+# == Encoding
+#
+# Encoding means compiling Tokens into an output. This can be colored HTML or
+# LaTeX, a textual statistic or just the number of non-whitespace tokens.
+# 
+# Each Encoder provides output in a specific +format+, so you select Encoders via
+# formats like <tt>:html</tt> or <tt>:statistic</tt>.
+# 
+# CodeRay.encode:: Scan and encode a string in a given language.
+# CodeRay.encode_tokens:: Encode the given tokens.
+# CodeRay.encode_file:: Scan a file, guess the language using FileType and encode it.
+#
+# == Streaming
+#
+# Streaming saves RAM by running Scanner and Encoder in some sort of
+# pipe mode; see TokenStream.
+# 
+# CodeRay.scan_stream:: Scan in stream mode.
+# 
+#	== All-in-One Encoding
+#
+# CodeRay.encode:: Highlight a string with a given input and output format.
+#
+# == Instanciating
+#	
+#	You can use an Encoder instance to highlight multiple inputs. This way, the setup
+#	for this Encoder must only be done once.
+#	
+# CodeRay.encoder:: Create an Encoder instance with format and options.
+#
+# There is no CodeRay.scanner method because Scanners are bound to an input string
+# on creation; you can't re-use them with another string.
+#
+#	The scanning methods provide more flexibility; we recommend to use these.
+#	
 module CodeRay
 	
 	Version = '0.4.2'
@@ -108,7 +178,10 @@ module CodeRay
 			scan code, lang, options, &block
 		end
 
-		# Encode +code+ with the Encoder for +format+ and the Scanner for +lang+.
+		# Encode a string in Streaming mode.
+		# 
+		# This starts scanning +code+ with the the Scanner for +lang+ 
+		# while encodes the output with the Encoder for +format+.
 		# +options+ will be passed to the Encoder.
 		#
 		# See CodeRay::Encoder.encode_stream
@@ -116,16 +189,47 @@ module CodeRay
 			encoder(format, options).encode_stream code, lang, options
 		end
 
+		# Encode a string.
+		# 
+		# This scans +code+ with the the Scanner for +lang+ and then
+		# encodes it with the Encoder for +format+.
+		# +options+ will be passed to the Encoder.
+		#
+		# See CodeRay::Encoder.encode
 		def encode code, lang, format, options = {}
 			encoder(format, options).encode code, lang, options
+		end
+		
+		# Encode pre-scanned Tokens.
+		# Use this together with CodeRay.scan:
+		# 
+		#  require 'coderay'
+		#  
+		#  # Highlight a short Ruby code example in a HTML span
+		#  tokens = CodeRay.scan '1 + 2', :ruby
+		#  puts CodeRay.encode_tokens(tokens, :span)
+		#
+		def encode_tokens tokens, format, options = {}
+			encoder(format, options).encode_tokens tokens, options
+		end
+
+		# Encodes +filename+ (a path to a code file) with the Scanner for +lang+.
+		# 
+		# See CodeRay.scan_file.
+		# Notice that the second argument is the output +format+, not the input language.
+		# 
+		# Example:
+		#  require 'coderay'
+		#  page = CodeRay.encode_file 'some_c_code.c', :html
+		def encode_file filename, format, options = {}
+			tokens = scan_file filename, auto, get_scanner_options(options)
+			encode_tokens tokens, format, options
 		end
 
 		# Finds the Encoder class for +format+ and creates an instance, passing
 		# +options+ to it.
 		# 
 		# Example:
-		#  require 'coderay'
-		#  token_count = CodeRay.encoder(:count).encodea("puts 17 + 4\n", :ruby).to_i  #-> 8
 		#  require 'coderay'
 		#  
 		#  stats = CodeRay.encoder(:statistic)
@@ -138,6 +242,16 @@ module CodeRay
 		#  #-> 2 out of 4 tokens have the kind :integer.
 		def encoder format, options = {}
 			Encoders[format].new options
+		end
+
+		# Extract the options for the scanner from the +options+ hash.
+		#
+		#	Returns an empty Hash if <tt>:scanner_options</tt> is not set.
+		#	
+		# This is used if a method like CodeRay.encode has to provide options
+		# for Encoder _and_ scanner.
+		def get_scanner_options options
+			options.fetch :scanner_options, {}
 		end
 
 	end

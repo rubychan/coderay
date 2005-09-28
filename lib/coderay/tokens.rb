@@ -151,9 +151,15 @@ module CodeRay
 		# This can not be undone, but should yield the same output
 		# in most Encoders.  It basically makes the output smaller.
 		#
-		# Combined with dump, it saves database space.
+		# Combined with dump, it saves space for the cost
+    # calculating time.
+    #
+    # If the scanner is written carefully, this is not required - 
+    # for example, consecutive //-comment lines can already be 
+    # joined in one token by the Scanner.
 		def optimize
-			last_kind, last_text = nil, nil
+      print ' Tokens#optimize: before: %d - ' % size if $DEBUG
+			last_kind = last_text = nil
 			new = self.class.new
 			each do |text, kind|
 				if text.is_a? String
@@ -166,15 +172,17 @@ module CodeRay
 					end
 				else
 					new << [last_text, last_kind] if last_kind
-					last_kind, last_text = nil, nil
+					last_kind = last_text = nil
 					new << [text, kind]
 				end
 			end
 			new << [last_text, last_kind] if last_kind
+      print 'after: %d (%d saved = %2.0f%%)' % 
+        [new.size, size - new.size, 1.0 - (new.size.to_f / size)] if $DEBUG
 			new
 		end
 
-		# Compact the object itself; see compact.
+		# Compact the object itself; see optimize.
 		def optimize!
 			replace optimize
 		end
@@ -290,9 +298,9 @@ module CodeRay
 			raise NotImplementedError, 'A TokenStream cannot be dumped.'
 		end
 
-		# A TokenStream cannot be compacted. Use Tokens.
-		def compact
-			raise NotImplementedError, 'A TokenStream cannot be compacted.'
+		# A TokenStream cannot be optimized. Use Tokens.
+		def optimize
+			raise NotImplementedError, 'A TokenStream cannot be optimized.'
 		end
 
 	end

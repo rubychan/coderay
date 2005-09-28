@@ -165,7 +165,7 @@ module CodeRay
         raise NotStreamableError, self unless kind_of? Streamable
         options = @options.merge options
         setup options
-        scanner_options = options.fetch :scanner_options, {}
+        scanner_options = CodeRay.get_scanner_options options
         @token_stream = CodeRay.scan_stream code, lang, scanner_options, &self
         finish options
       end

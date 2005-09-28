@@ -106,7 +106,7 @@ module Rake
 		def option_list
 			result = @options.dup
 			result << "--main" << main if main
-			result << "--title" << "'#{title}'" if title
+			result << "--title" << "#{title}" if title
 			result << "-T" << template if template
 			result
 		end

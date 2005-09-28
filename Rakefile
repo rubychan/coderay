@@ -129,7 +129,7 @@ task :make_gemspec do
 end
 
 GEMDIR = 'gem_server/gems'
-task :copy_gem do
+task :copy_gem => :build do
 	$gemfile = "coderay-#$version.gem"
 	cp "pkg/#$gemfile", GEMDIR
 	system 'ruby -S generate_yaml_index.rb -d gem_server'
@@ -150,8 +150,11 @@ require 'yaml'
 FTP_YAML = 'ftp.yaml'
 $username = File.exist?(FTP_YAML) ? YAML.load_file(FTP_YAML)[:username] : 'anonymous'
 
+FTP_DOMAIN = 'cycnus.de'
+FTP_CODERAY_DIR = 'public_html/raindark/coderay'
+
 def cYcnus_ftp
-	Net::FTP.open('cycnus.de') do |ftp|
+	Net::FTP.open(FTP_DOMAIN) do |ftp|
 		g 'ftp login, password needed: '
 		ftp.login $username, $stdin.gets
 		gn 'logged in.'
@@ -160,21 +163,23 @@ def cYcnus_ftp
 end
 
 def uploader_for ftp
-	proc do |l, r|
+	proc do |l, *r|
+		r = r.first || l
 		raise 'File %s not found!' % l unless File.exist? l
 		g 'Uploading %s to %s...' % [l, r]
-		ftp.putbinaryfile f, f
+		ftp.putbinaryfile l, r
 		gd
 	end
 end
 
-task :upload_gem do
+desc 'Upload gemfile to ' + FTP_DOMAIN
+task :upload_gem => :copy_gem do
 	gn 'Uploading gem:'
 	Dir.chdir 'gem_server' do
 		cYcnus_ftp do |ftp|
 			uploader = uploader_for ftp
-			ftp.chdir 'public_html/raindark/coderay'
-			%w(yaml yaml.Z).each { |f| uploader.call f, f }
+			ftp.chdir FTP_CODERAY_DIR
+			%w(yaml yaml.Z).each &uploader
 			Dir.chdir 'gems' do
 				ftp.chdir 'gems'
 				uploader.call $gemfile
@@ -184,13 +189,14 @@ task :upload_gem do
 	gn 'Gem successfully uploaded.'
 end
 
-task :example do
+desc 'Upload example to ' + FTP_DOMAIN
+task :upload_example do
 	g 'Highlighting self...'
 	system 'ruby -wIlib ../hidden/highlight.rb -r -1 lib demo bin rake_helpers'
 	gd
 	gn 'Uploading example:'
 	cYcnus_ftp do |ftp|
-		ftp.chdir 'public_html/raindark/coderay'
+		ftp.chdir FTP_CODERAY_DIR
 		uploader = proc do |l, r|
 			g 'Uploading %s to %s...' % [l, r]
 			ftp.putbinaryfile l, r
@@ -199,4 +205,18 @@ task :example do
 		uploader.call 'highlighted/all_in_one.html', 'example.html'
 	end
 	gn 'Example uploaded.'
+end
+
+desc 'Upload rdoc to ' + FTP_DOMAIN
+task :upload_doc => :rdoc do
+	gn 'Uploading documentation:'
+	Dir.chdir 'rdoc' do
+		cYcnus_ftp do |ftp|
+			uploader = uploader_for ftp
+			ftp.chdir FTP_CODERAY_DIR
+			ftp.chdir 'doc'
+			Dir['**/*.*'].each &uploader
+		end
+	end
+	gn 'Gem successfully uploaded.'
 end

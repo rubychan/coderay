@@ -4,9 +4,9 @@ module CodeRay
   # For example, the Ruby scanner is named CodeRay::Scanners::Ruby
   # can be found in coderay/scanners/ruby.
   # 
-  # Scanner also provides methods and constants for the register mechanism
-  # and the [] method that returns the Scanner class belonging to the
-  # given lang.
+  # Scanner also provides methods and constants for the register
+  # mechanism and the [] method that returns the Scanner class
+  # belonging to the given lang.
   module Scanners
 
     # Raised if Scanners[] fails because:
@@ -28,7 +28,10 @@ module CodeRay
       #   register_for :ruby
       def register scanner_class, *langs
         for lang in langs
-          raise ArgumentError, 'lang must be a Symbol, but it was a %s' % lang.class unless lang.is_a? Symbol
+          unless lang.is_a? Symbol
+            raise ArgumentError,
+              "lang must be a Symbol, but it was a #{lang.class}"
+          end
           SCANNERS[lang] = scanner_class
         end
       end
@@ -43,8 +46,8 @@ module CodeRay
       # * a String containing only alphanumeric characters (\w+)
       # * a Symbol
       #
-      # Strings are converted to lowercase symbols (so +'C'+ and +'c'+ load the
-      # same scanner, namely the one registered for +:c+.)
+      # Strings are converted to lowercase symbols (so +'C'+ and +'c'+
+      # load the same scanner, namely the one registered for +:c+.)
       # 
       # If the scanner isn't registered yet, it is searched.
       # CodeRay expects that the scanner class is defined in
@@ -55,9 +58,10 @@ module CodeRay
       #
       # If the file isn't found, a ScannerNotFound exception is raised
       #
-      # The scanner should register itself using +register+. If the scanner is
-      # still not found (because has not registered or registered under another lang),
-      # a ScannerNotFound exception is raised.
+      # The scanner should register itself using +register+. If the
+      # scanner is still not found (because has not registered or
+      # registered under another
+      # lang), a ScannerNotFound exception is raised.
       def [] lang
         lang = normalize lang
 
@@ -123,7 +127,8 @@ Known scanners: #{SCANNERS}
         elsif lang.nil?
           :plaintext
         else
-          raise ArgumentError, "String or Symbol expected, but #{lang.class} given."
+          raise ArgumentError,
+            "String or Symbol expected, but #{lang.class} given."
         end
       end
 
@@ -151,7 +156,8 @@ Known scanners: #{SCANNERS}
     #   # prints: (*==)++;
     # 
     # OK, this is a very simple example :)
-    # You can also use +map+, +any?+, +find+ and even +sort_by+, if you want.
+    # You can also use +map+, +any?+, +find+ and even +sort_by+,
+    # if you want.
     class Scanner < StringScanner
 
       # Raised if a Scanner fails while scanning
@@ -177,23 +183,26 @@ Known scanners: #{SCANNERS}
         def streamable?
           is_a? Streamable
         end
-        
+
       end
 
 =begin
-      ## Excluded for speed reasons - protected seems to make methods slow.
+      ## Excluded for speed reasons; protected seems to make methods slow.
 
       # Save the StringScanner methods from being called.
       # This would not be useful for highlighting.
-      strscan_public_methods = StringScanner.instance_methods - StringScanner.ancestors[1].instance_methods
-      protected(*strscan_public_methods)
+strscan_public_methods =
+  StringScanner.instance_methods - StringScanner.ancestors[1].instance_methods
+protected(*strscan_public_methods)
 =end
+
       # Creates a new Scanner.
       #
-      # * +code+ is the input String and is handled by the superclass StringScanner.
+      # * +code+ is the input String and is handled by the superclass
+      #   StringScanner.
       # * +options+ is a Hash with Symbols as keys.
-      #   It is merged with the default options of the class (you can overwrite
-      #   default options here.)
+      #   It is merged with the default options of the class (you can
+      #   overwrite default options here.)
       # * +block+ is the callback for streamed highlighting.
       #
       # If you set :stream to +true+ in the options, the Scanner uses a
@@ -205,15 +214,18 @@ Known scanners: #{SCANNERS}
         raise "I am only the basic Scanner class. I can't scan anything. :(\n" + 
           "Use my subclasses." if self.class == Scanner
 
-        # I love this hack. It seems to silence all dos/unix/mac newline problems.
+        # I love this hack. It seems to silence
+        # all dos/unix/mac newline problems.
         super code.gsub(/\r\n?/, "\n")
 
         if @options[:stream]
-          warn "warning in CodeRay::Scanner.new: :stream is set, but no block was given" unless block_given?
+          warn "warning in CodeRay::Scanner.new: :stream is set, "\
+            "but no block was given" unless block_given?
           raise NotStreamableError, self unless kind_of? Streamable
           @tokens = TokenStream.new(&block)
         else
-          warn "warning in CodeRay::Scanner.new: Block given, but :stream is #{@options[:stream]}" if block_given?
+          warn "warning in CodeRay::Scanner.new: Block given, "\
+            "but :stream is #{@options[:stream]}" if block_given?
           @tokens = Tokens.new
         end
       end
@@ -238,7 +250,8 @@ Known scanners: #{SCANNERS}
 
       # Traverses the tokens.
       def each &block
-        raise ArgumentError, 'Cannot traverse TokenStream.' if @options[:stream]
+        raise ArgumentError, 
+          'Cannot traverse TokenStream.' if @options[:stream]
         tokens.each(&block)
       end
       include Enumerable
@@ -250,13 +263,14 @@ Known scanners: #{SCANNERS}
       def line
         string[0..pos].count("\n") + 1
       end
-      
-    protected
 
-      # This is the central method, and often the only one a subclass implements.
+      protected
+
+      # This is the central method, and commonly the only one a subclass
+      # implements.
       # 
-      # Subclasses must implement this method; it must return +tokens+ and must only
-      # use Tokens#<< for storing scanned tokens.
+      # Subclasses must implement this method; it must return +tokens+
+      # and must only use Tokens#<< for storing scanned tokens!
       def scan_tokens tokens, options
         raise NotImplementedError, "#{self.class}#scan_tokens not implemented."
       end
@@ -282,13 +296,13 @@ surrounding code:
 ***ERROR***
 
         EOE
-          File.basename(caller[0]),
-          msg,
-          tokens.last(10).map { |t| t.inspect }.join("\n"),
-          line, pos,
-          matched, bol?, eos?,
-          string[pos-ambit,ambit],
-          string[pos,ambit],
+        File.basename(caller[0]),
+        msg,
+        tokens.last(10).map { |t| t.inspect }.join("\n"),
+        line, pos,
+        matched, bol?, eos?,
+        string[pos-ambit,ambit],
+        string[pos,ambit],
         ]
       end
 
@@ -297,4 +311,4 @@ surrounding code:
   end
 end
 
-# vim:sw=2:ts=2:et:tw=78
+# vim:sw=2:ts=2:noet:tw=78

@@ -116,9 +116,9 @@ task :copy_files do
 end
 
 task :make_gemspec do
-	candidates = Dir['./**/*.rb'] +
-#		Dir['./demo/demo_*.rb'] +
-		Dir['./bin/*'] +
+	candidates = Dir['./lib/**/*.rb'] +
+		Dir['./demo/*.rb'] +
+#		Dir['./bin/*'] +
 #		Dir['./demo/bench/*'] +
 #		Dir['./test/*'] +
 		%w( ./README ./LICENSE)
@@ -130,6 +130,7 @@ end
 GEMDIR = 'gem_server/gems'
 task :copy_gem => :build do
 	$gemfile = "coderay-#$version.gem"
+	Dir[GEMDIR + '/*.gem'].each { |g| rm g }
 	cp "pkg/#$gemfile", GEMDIR
 	system 'ruby -S generate_yaml_index.rb -d gem_server'
 end
@@ -172,7 +173,7 @@ def uploader_for ftp
 end
 
 desc 'Upload gemfile to ' + FTP_DOMAIN
-task :upload_gem => :copy_gem do
+task :up_gem => :copy_gem do
 	gn 'Uploading gem:'
 	Dir.chdir 'gem_server' do
 		cYcnus_ftp do |ftp|
@@ -189,7 +190,7 @@ task :upload_gem => :copy_gem do
 end
 
 desc 'Upload example to ' + FTP_DOMAIN
-task :upload_example do
+task :up_example do
 	g 'Highlighting self...'
 	system 'ruby -wIlib ../hidden/highlight.rb -r -1 lib demo bin rake_helpers'
 	gd
@@ -207,7 +208,7 @@ task :upload_example do
 end
 
 desc 'Upload rdoc to ' + FTP_DOMAIN
-task :upload_doc => :rdoc do
+task :up_doc => :rdoc do
 	gn 'Uploading documentation:'
 	Dir.chdir 'rdoc' do
 		cYcnus_ftp do |ftp|

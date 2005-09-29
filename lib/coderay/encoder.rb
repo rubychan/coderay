@@ -8,65 +8,8 @@ module CodeRay
 	# mechanism and the [] method that returns the Encoder class
 	# belonging to the given format.
 	module Encoders
-
-		# Raised if Encoders::[] fails because:
-		# * a file could not be found
-		# * the requested Encoder is not registered
-		EncoderNotFound = Class.new Exception
-
-		def Encoders.create_encoders_hash
-			Hash.new do |h, lang|
-				path = Encoders.path_to lang
-				lang = lang.to_sym
-				begin
-					require path
-				rescue LoadError
-					raise EncoderNotFound, "#{path} not found."
-				else
-					# Encoder should have registered by now
-					unless h[lang]
-						raise EncoderNotFound,
-							"No Encoder for #{lang} found in #{path}."
-					end
-				end
-				h[lang]
-			end
-		end
-
-		# Loaded Encoders are saved here.
-		ENCODERS = create_encoders_hash
-
-		class << self
-
-			# Every Encoder class must register itself for one or more
-			# +formats+ by calling register_for, which calls this method.
-			#
-			# See CodeRay::Encoder.register_for.
-			def register encoder_class, *formats
-				for format in formats
-					ENCODERS[format.to_sym] = encoder_class
-				end
-			end
-
-			# Returns the Encoder for +lang+.
-			# 
-			# Example:
-			#  require 'coderay'
-			#  yaml_encoder = CodeRay::Encoders[:yaml]
-			def [] lang
-				ENCODERS[lang]
-			end
-
-			# Alias for +[]+.
-			alias load []
-
-			# Returns the path to the encoder for format.
-			def path_to plugin
-				File.join 'coderay', 'encoders', "#{plugin}.rb"
-			end
-
-		end
-
+		extend PluginHost
+		plugin_path 'coderay/encoders'
 
 		# = Encoder
 		#
@@ -81,23 +24,12 @@ module CodeRay
 		# If you want the highlighted code in a div or a span instead,
 		# use its subclasses Div and Span. 
 		class Encoder
+			extend Plugin
+			plugin_host Encoders
 
 			attr_reader :token_stream
 
 			class << self
-
-				# Register this class for the given langs.
-				#
-				# Example:
-				#   class MyEncoder < CodeRay::Encoders:Encoder
-				#     register_for :myenc
-				#     ...
-				#   end
-				#
-				# See Encoder.register.
-				def register_for *args
-					Encoders.register self, *args
-				end
 
 				# Returns if the Encoder can be used in streaming mode.
 				def streamable?
@@ -131,12 +63,12 @@ module CodeRay
 			# - encode_tokens expects a +tokens+ object instead
 			# - encode_stream is like encode, but uses streaming mode.
 			# 
-			# Each method has an optional +options+ parameter. These are added
-			# to the options you passed at creation.
+			# Each method has an optional +options+ parameter. These are
+			# added to the options you passed at creation.
 			def initialize options = {}
 				@options = self.class::DEFAULT_OPTIONS.merge options
-				raise "I am only the basic Encoder class. I can't encode anything. :(\n"\
-					"Use my subclasses." if self.class == Encoder
+				raise "I am only the basic Encoder class. I can't encode "\
+					"anything. :( Use my subclasses." if self.class == Encoder
 			end
 
 			# Encode a Tokens object.
@@ -147,8 +79,8 @@ module CodeRay
 				finish options
 			end
 
-			# Encode the given +code+ after tokenizing it using the Scanner for
-			# +lang+.
+			# Encode the given +code+ after tokenizing it using the Scanner
+			# for +lang+.
 			def encode code, lang, options = {}
 				options = @options.merge options
 				scanner_options = CodeRay.get_scanner_options(options)
@@ -160,8 +92,8 @@ module CodeRay
 			# more clear to you.
 			alias highlight encode
 
-			# Encode the given +code+ using the Scanner for +lang+ in streaming
-			# mode.
+			# Encode the given +code+ using the Scanner for +lang+ in
+			# streaming mode.
 			def encode_stream code, lang, options = {}
 				raise NotStreamableError, self unless kind_of? Streamable
 				options = @options.merge options
@@ -177,7 +109,7 @@ module CodeRay
 				method(:token).to_proc
 			end
 
-			protected
+		protected
 
 			# Called with merged options before encoding starts.
 			# Sets @out to an empty string.
@@ -193,7 +125,8 @@ module CodeRay
 			# Raises a NotImplementedError exception if it is not overwritten
 			# in subclass.
 			def token text, kind
-				raise NotImplementedError, "#{self.class}#token not implemented."
+				raise NotImplementedError,
+					"#{self.class}#token not implemented."
 			end
 
 			# Called with merged options after encoding starts.

@@ -1,11 +1,13 @@
 
 # = PluginHost
 #
+# $Id$
+#
 # A simple subclass plugin system.
 # 
 #	Example:		
 #		class Generators < PluginHost
-#			PLUGIN_PATH = File.join 'app', PLUGIN_HOST_ID
+#			plugin_path 'app/generators'
 #		end
 #		
 #	  class Generator
@@ -20,7 +22,7 @@
 #	  Generators[:fancy]  #-> FancyGenerator
 #	  # or
 #	  require_plugin 'Generators/fancy'
-class PluginHost
+module PluginHost
 
 	# Raised if Encoders::[] fails because:
 	# * a file could not be found
@@ -32,11 +34,30 @@ class PluginHost
 
 	class << self
 
-		def inherited clas
-			PLUGIN_HOSTS << clas
-			clas.create_plugin_hash
+		def extended mod
+			PLUGIN_HOSTS << mod
 		end
 
+		def included mod
+			warn "#{name} should not be included. Use extend."
+		end
+
+		# Find the PluginHost for host_id.
+		def host_by_id host_id
+			unless PLUGIN_HOSTS_BY_ID.default_proc
+				ph = Hash.new do |h, _host_id|
+					for host in PLUGIN_HOSTS
+						h[host.host_id] = host
+					end
+					h.fetch _host_id, nil
+				end				
+				PLUGIN_HOSTS_BY_ID.replace ph
+			end
+			PLUGIN_HOSTS_BY_ID[host_id]
+		end
+
+	end
+	
 		def plugin_host_id host_id
 			if host_id.is_a? String
 				raise ArgumentError,
@@ -48,9 +69,9 @@ class PluginHost
 		# The path where the plugins can be found.
 		def plugin_path *args
 			unless args.empty?
-				@@plugin_path = File.join *args
+				@plugin_path = File.join(*args)
 			end
-			@@plugin_path
+			@plugin_path
 		end
 
 		# The host's ID.
@@ -64,21 +85,6 @@ class PluginHost
 			end
 		end
 
-		# Find the PluginHost for host_id.
-		def host_by_id host_id
-			unless PLUGIN_HOSTS_BY_ID.default_proc
-				ph = Hash.new do |h, _host_id|
-					for host in PLUGIN_HOSTS
-						h[host.host_id] = host
-					end
-					p h
-					h.fetch _host_id, nil
-				end				
-				PLUGIN_HOSTS_BY_ID.replace ph
-			end
-			PLUGIN_HOSTS_BY_ID[host_id]
-		end
-
 		def create_plugin_hash
 			@plugin_hash =
 				Hash.new do |h, plugin_id|
@@ -86,7 +92,7 @@ class PluginHost
 					path = path_to id
 					begin
 						puts 'Loading plugin: ' + path if $DEBUG
-						load path
+						require path
 					rescue LoadError
 						raise PluginNotFound, "#{path} not found."
 					else
@@ -100,6 +106,10 @@ class PluginHost
 				end
 		end
 
+		def plugin_hash
+			@plugin_hash ||= create_plugin_hash
+		end
+
 
 		# Every plugin must register itself for one or more
 		# +ids+ by calling register_for, which calls this method.
@@ -111,7 +121,7 @@ class PluginHost
 					raise ArgumentError,
 						"id must be a Symbol, but it was a #{id.class}" 
 				end
-				@plugin_hash[validate_id(id)] = plugin
+				plugin_hash[validate_id(id)] = plugin
 			end
 		end
 
@@ -128,7 +138,7 @@ class PluginHost
 		# Loads all plugins using all_plugin_names and load.
 		def load_all
 			for plugin in all_plugin_names
-				load plugin
+				load_plugin plugin
 			end
 		end
 
@@ -138,11 +148,11 @@ class PluginHost
 		# Example:
 		#  yaml_plugin = MyPluginHost[:yaml]
 		def [] id, *args, &blk
-			@plugin_hash.[] validate_id(id), *args, &blk
+			plugin_hash.[] validate_id(id), *args, &blk
 		end
 
 		# Alias for +[]+.
-		alias load []
+		alias load_plugin []
 
 		# Returns the Plugin for +id+.
 		# Use it like Hash#fetch.
@@ -150,7 +160,7 @@ class PluginHost
 		# Example:
 		#  yaml_plugin = MyPluginHost[:yaml, :default]
 		def fetch id, *args, &blk
-			@plugin_hash.fetch validate_id(id), *args, &blk
+			plugin_hash.fetch validate_id(id), *args, &blk
 		end
 
 		# Returns the path to the encoder for format.
@@ -178,7 +188,7 @@ class PluginHost
 			end
 		end
 
-	end
+	#end
 
 
 end
@@ -193,6 +203,10 @@ end
 #	Example: see PluginHost.
 module Plugin
 
+	def included mod
+		warn "#{name} should not be included. Use extend."
+	end
+
 	# Register this class for the given langs.
 	# Example:
 	#   class MyPlugin < PluginHost::BaseClass
@@ -206,7 +220,12 @@ module Plugin
 	end
 
 	# The host for this Plugin class.
-	def plugin_host
+	def plugin_host host = nil
+		if host and not host.is_a? PluginHost
+			raise ArgumentError,
+				"PluginHost expected, but #{host.class} given."
+		end
+		self.const_set :PLUGIN_HOST, host if host
 		self::PLUGIN_HOST
 	end
 
@@ -221,7 +240,7 @@ end
 # Returns the loaded plugin.
 def require_plugin path
 	host, plugin_id = path.split '/', 2
-	PluginHost.host_by_id(host).load plugin_id
+	PluginHost.host_by_id(host).load_plugin plugin_id
 end
 
 
@@ -236,13 +255,14 @@ require 'test/unit'
 
 class TC_PLUGINS < Test::Unit::TestCase
 
-	class Generators < PluginHost
-		plugin_path '..'
+	class Generators
+		extend PluginHost
+		plugin_path '.'
 	end
 
 	class Generator
 		extend Plugin
-		PLUGIN_HOST = Generators
+		plugin_host Generators
 	end
 
 	class FancyGenerator < Generator
@@ -254,7 +274,9 @@ class TC_PLUGINS < Test::Unit::TestCase
 			Generators[:plugin_host]
 		end	
 		assert_equal FancyGenerator, Generators[:plugin_host]
-		
+	end
+	
+	def test_require
 		assert_nothing_raised do
 			require_plugin('TC_PLUGINS::Generators/plugin_host')
 		end

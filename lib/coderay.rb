@@ -128,7 +128,7 @@
 #	
 module CodeRay
 	
-	Version = '0.4.2'
+	Version = '0.4.4'
 	
 	require 'coderay/tokens'
 	require 'coderay/scanner'

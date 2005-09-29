@@ -1,5 +1,7 @@
 # = CodeRay
 #
+# $Id$
+#
 # CodeRay is a Ruby library for syntax highlighting.
 #
 # I try to make CodeRay easy to use and intuitive, but at the same time fully featured, complete,
@@ -28,7 +30,7 @@
 # === Highlight Ruby code in a string as html
 # 
 #   require 'coderay'
-#   print CodeRay.scan('puts "Hello, world!"', :ruby).compact.html.page
+#   print CodeRay.scan('puts "Hello, world!"', :ruby).html
 #
 #   # prints something like this:
 #   puts <span class="s">&quot;Hello, world!&quot;</span>
@@ -37,8 +39,8 @@
 # === Highlight C code from a file in a html div
 # 
 #   require 'coderay'
-#   print CodeRay.scan(File.read('ruby.h'), :c).html.div
-#   # print CodeRay.scan_file('ruby.h').html.div ## not working yet
+#   print CodeRay.scan(File.read('ruby.h'), :c).div
+#   print CodeRay.scan_file('ruby.h').html.div
 # 
 # You can include this div in your page. The used CSS styles can be printed with
 # 
@@ -125,7 +127,6 @@
 # on creation; you can't re-use them with another string.
 #
 #	The scanning methods provide more flexibility; we recommend to use these.
-#	
 module CodeRay
 	
 	Version = '0.4.4'

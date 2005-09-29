@@ -1,4 +1,4 @@
-# = CodeRay
+# = CodeRay Library
 #
 # $Id$
 #
@@ -10,7 +10,7 @@
 # See README.
 # 
 # It consists mainly of
-# * the main engine: CodeRay, CodeRay::Scanner, CodeRay::Tokens, CodeRay::TokenStream, CodeRay::Encoder
+# * the main engine: CodeRay (Scanners::Scanner, Tokens/TokenStream, Encoders::Encoder), PluginHost
 # * the scanners in CodeRay::Scanners
 # * the encoders in CodeRay::Encoders
 # 
@@ -58,8 +58,7 @@
 #
 # and look at the file it created.
 # 
-
-# = CodeRay
+# = CodeRay Module
 #
 # The CodeRay module provides convenience methods for the engine.
 #

@@ -1,0 +1,44 @@
+// vim:ts=4:ft=c:
+Category = X (done), / (partly done), T (test), (else)
+	Planned = planned in version 0.x
+		Priority = 3 (low) .. 1 (high), 0 (extrem high)
+			Expense = 0 (trivial), 1 (low) .. 3 (high)
+
+Project:
+						Documentation:
+3/4		0	2				Doc the interface
+3/4		0	1				write examples
+		0	2				Test demos
+
+
+						Interface:
+						
+						PluginLoading:
+		2	1				Make save (only allow \w+ names or something)
+						
+
+
+Scanners:
+						Ruby:
+		3	2				Regexp comment highlighting
+		3	2				Options: Highlight characters/escapes/inline code
+		2	1				Meta characters
+
+
+
+Encoders:
+						HTML:
+1/2		1	2				dynamic CSS creation
+							=> alternative inline style via <span style="...">
+						Colors:
+		3	2				colorschemes
+						Statistic:
+		2	1				return Statistic object with to_s method instead of String
+
+
+
+Tools:
+						testfox:
+		2	3				wxRuby and HTML output
+
+

@@ -152,7 +152,8 @@ module CodeRay
 		# Scans +filename+ (a path to a code file) with the Scanner for +lang+.
 		# 
 		# If +lang+ is :auto or omitted, the CodeRay::FileType module is used to
-		# determine it. If it cannot find out what type it is, it uses CodeRay::Scanners::Plaintext.
+		# determine it. If it cannot find out what type it is, it uses
+		# CodeRay::Scanners::Plaintext.
 		#
 		# Calls CodeRay.scan.
 		# 

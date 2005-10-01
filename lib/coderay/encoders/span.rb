@@ -10,7 +10,6 @@ module CodeRay module Encoders
 		DEFAULT_OPTIONS = HTML::DEFAULT_OPTIONS.merge({
 			:css => :style,
 			:wrap => :span,
-			:line_numbers => nil,
 		})
 	end
 

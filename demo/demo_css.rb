@@ -1,6 +1,4 @@
 require 'coderay'
 
-data = File.read $0
-page = CodeRay.scan(data, :ruby).optimize.html(:css => :style, :debug => $DEBUG).page
-
-puts page
+# print the default stylesheet for HTML codes
+puts CodeRay::Encoders[:html]::CSS::DEFAULT_STYLESHEET

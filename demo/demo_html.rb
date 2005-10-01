@@ -392,4 +392,3 @@ module CodeRay
 	end
 
 end
-

@@ -15,7 +15,8 @@ module Encoders
 			:css => :class,
 
 			:wrap => :page,
-			:line_numbers => :table,
+
+			:line_numbers => nil,
 			:line_numbers_offset => 1,
 			:bold_every => 10,
 		}

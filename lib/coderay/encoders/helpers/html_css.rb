@@ -20,7 +20,7 @@ module CodeRay module Encoders
 			
 		private
 			
-			CSS_CLASS = /
+			CSS_CLASS_PATTERN = /
 				( (?:                # $1 = classes
 					\s* \. [-\w]+
 				)+ )
@@ -31,8 +31,8 @@ module CodeRay module Encoders
 				( . )                # $3 = error
 			/mx
 			def parse stylesheet
-				stylesheet.scan CSS_CLASS do |classes, style, error|
-					raise "CSS parse error: '#{error}' not recognized" if error
+				stylesheet.scan CSS_CLASS_PATTERN do |classes, style, error|
+					raise "CSS parse error: '#{error.inspect}' not recognized" if error
 					styles = classes.scan(/[-\w]+/)
 					cl = styles.pop
 					@classes[cl] ||= Hash.new
@@ -41,48 +41,31 @@ module CodeRay module Encoders
 			end
 			
 			MAIN = <<-'MAIN'
-.code {
-	background-color: #FAFAFA;
-	border: 1px solid #D1D7DC;
+.CodeRay {
+	background-color: #f8f8f8;
+	border: 1px solid silver;
 	font-family: 'Courier New', 'Terminal', monospace;
-	font-size: 10pt;
 	color: black;
-	vertical-align: top;
-	text-align: left;
-	padding: 0px;
 }
-span.code { white-space: pre; }
-.code tt { font-weight: bold; }
-.code pre {
-	font-size: 10pt;
-	margin: 0px 5px;
-}
-.code .code_table {
-	margin: 0px;
-}
-.code .line_numbers {
-	margin: 0px;
-	background-color:#DEF; color: #777;
-	vertical-align: top;
+.CodeRay pre { margin: 0px; }
+
+div.CodeRay { }
+
+span.CodeRay { white-space: pre; border: 0; }
+
+table.CodeRay { border-collapse: collapse; }
+table.CodeRay td { padding: 2px 4px; vertical-align: top; }
+
+.CodeRay .line_numbers {
+	background-color: #def;
+	color: gray;
 	text-align: right;
 }
-.code .code_cell {
-	width: 100%;
-	background-color:#FAFAFA;
-	color: black;
-	vertical-align: top;
-	text-align: left;
-}
-.code .no {
-	background-color:#DEF;
-	color: #777;
-	padding: 0px 5px;
-	font-weight: normal;
-	font-style: normal;
-}
+.CodeRay .line_numbers tt { font-weight: bold; }
 
-.code tt { display: hidden; }
-
+.CodeRay .code {
+}
+.CodeRay .code pre { overflow: auto; }
 			MAIN
 
 			TOKENS = <<-'TOKENS'
@@ -93,7 +76,7 @@ span.code { white-space: pre; }
 .bi { color:#509; font-weight:bold; }
 .c  { color:#888; }
 
-.ch { color:#04D; /* background-color:#f0f0ff; */ }
+.ch { color:#04D; }
 .ch .k { color:#04D; }
 .ch .dl { color:#039; }
 
@@ -155,7 +138,7 @@ span.code { white-space: pre; }
 .xt { color:#444; }
 			TOKENS
 			
-			DEFAULT_STYLESHEET = MAIN + TOKENS
+			DEFAULT_STYLESHEET = MAIN + TOKENS.gsub(/^(?!$)/, '.CodeRay ')
 		
 		end
 	end

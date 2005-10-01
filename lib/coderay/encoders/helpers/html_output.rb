@@ -200,22 +200,15 @@ module CodeRay
 
 			DIV, DIV_TABLE, PAGE =
 				<<-`DIV`, <<-`DIV_TABLE`, <<-`PAGE`
-			
-<div class="code">
-<pre><%CONTENT%></pre>
+<div class="CodeRay">
+	<div class="code"><pre><%CONTENT%></pre></div>	
 </div>
 			DIV
-
-<div class="code">
-	<table class="code_table">
-		<tr>
-			<td class="line_numbers"><pre><%LINE_NUMBERS%></pre></td>
-			<td class="code_cell"><div class="nowrap"><pre><%CONTENT%></pre></div></td>
-		</tr>
-	</table>
-</div>			
+<table class="CodeRay"> <tr>
+	<td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><%LINE_NUMBERS%></pre></td>
+	<td class="code"><pre title="double click to expand" ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><%CONTENT%></pre></td>
+</tr> </table>
 			DIV_TABLE
-<?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="de">
@@ -227,6 +220,7 @@ module CodeRay
 	</style>
 </head>
 <body style="background-color: white;">
+
 <%CONTENT%>
 </body>
 </html>

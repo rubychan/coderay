@@ -72,7 +72,8 @@ module CodeRay module Scanners
 							tokens << [modifiers, :modifier] unless modifiers.empty?
 							if parse_regexp
 								extended = modifiers.index ?x
-								tokens, regexp = saved_tokens, tokens
+								tokens = saved_tokens
+								regexp = tokens
 								for text, type in regexp
 									if text.is_a? String
 										case type
@@ -125,7 +126,8 @@ module CodeRay module Scanners
 						when ?{
 							states.push [state, depth, heredocs]
 							fancy_allowed = regexp_allowed = true
-							state, depth = :initial, 1
+							state = :initial
+							depth = 1
 							tokens << [match + getch, :escape]
 						when ?$, ?@
 							tokens << [match, :escape]
@@ -192,7 +194,7 @@ module CodeRay module Scanners
 								when '}'
 									depth -= 1
 									if depth == 0
-										state, depth, heredocs = *states.pop
+										state, depth, heredocs = states.pop
 										type = :escape
 									end
 								end
@@ -214,7 +216,7 @@ module CodeRay module Scanners
 						elsif match = scan(/ ['"] /mx)
 							tokens << [:open, :string]
 							type = :delimiter
-							state = StringState.new :string, match != '\'', match.dup  # important for streaming
+							state = StringState.new :string, match != '\'', match  # important for streaming
 							
 						elsif match = scan(/#{INSTANCE_VARIABLE}/o)
 							type = :instance_variable
@@ -223,13 +225,14 @@ module CodeRay module Scanners
 							tokens << [:open, :regexp]
 							type = :delimiter
 							interpreted = true
-							state = StringState.new :regexp, interpreted, match.dup
+							state = StringState.new :regexp, interpreted, match
 							if parse_regexp
-								tokens, saved_tokens = [], tokens
+								tokens = []
+								saved_tokens = tokens
 							end
 							
 						elsif match = scan(/#{NUMERIC}/o)
-							type = if match[/#{FLOAT}/o] then :float else :integer end							
+							type = if match[/#{FLOAT}/o] then :float else :integer end
 
 						elsif fancy_allowed and match = scan(/#{SYMBOL}/o)
 							case match[1]
@@ -240,7 +243,8 @@ module CodeRay module Scanners
 							type = :symbol
 							
 						elsif fancy_allowed and match = scan(/#{HEREDOC_OPEN}/o)
-							indented, quote = self[1] == '-', self[3]
+							indented = self[1] == '-'
+							quote = self[3]
 							delim = self[quote ? 4 : 2]
 							type = QUOTE_TO_TYPE[quote]
 							tokens << [:open, type]
@@ -271,7 +275,7 @@ module CodeRay module Scanners
 							else
 								tokens << [:open, :shell]
 								type = :delimiter
-								state = StringState.new :shell, true, '`'
+								state = StringState.new :shell, true, match
 							end
 							
 						elsif match = scan(/#{GLOBAL_VARIABLE}/o)

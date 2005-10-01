@@ -3,6 +3,7 @@ module Encoders
 
 	class Count < Encoder
 
+		include Streamable
 		register_for :count
 
 	protected		

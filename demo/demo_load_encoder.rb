@@ -7,7 +7,11 @@ rescue
 end
 
 yaml_encoder = CodeRay::Encoders[:yaml] 
-puts 'Now it is loaded.'
+print 'Now it is loaded: '
+p yaml_encoder
+puts 'See?'
 
-p yaml_encoder == CodeRay::Encoders::YAML  #-> true
+tokens_encoder = require_plugin 'CodeRay::Encoders/tokens'
+print 'Require is also possible: '
+p tokens_encoder
 puts 'See?'

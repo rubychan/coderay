@@ -1,5 +1,7 @@
 module CodeRay
 
+	# = Tokens
+	#
 	# The Tokens class represents a list of tokens returnd from
 	# a Scanner.
 	#
@@ -137,6 +139,15 @@ module CodeRay
 			encoder.encode_tokens self, options
 		end
 
+
+		# Turn into a string using Encoders::Text.
+		#
+		# +options+ are passed to the encoder if given.
+		def to_s options = {}
+			encode :text, options
+		end
+
+
 		# Redirects unknown methods to encoder calls.
 		#
 		# For example, if you call +tokens.html+, the HTML encoder
@@ -152,13 +163,13 @@ module CodeRay
 		# in most Encoders.  It basically makes the output smaller.
 		#
 		# Combined with dump, it saves space for the cost
-    # calculating time.
-    #
-    # If the scanner is written carefully, this is not required - 
-    # for example, consecutive //-comment lines can already be 
-    # joined in one token by the Scanner.
+		# calculating time.
+		#
+		# If the scanner is written carefully, this is not required - 
+		# for example, consecutive //-comment lines can already be 
+		# joined in one token by the Scanner.
 		def optimize
-      print ' Tokens#optimize: before: %d - ' % size if $DEBUG
+			print ' Tokens#optimize: before: %d - ' % size if $DEBUG
 			last_kind = last_text = nil
 			new = self.class.new
 			each do |text, kind|
@@ -177,8 +188,8 @@ module CodeRay
 				end
 			end
 			new << [last_text, last_kind] if last_kind
-      print 'after: %d (%d saved = %2.0f%%)' % 
-        [new.size, size - new.size, 1.0 - (new.size.to_f / size)] if $DEBUG
+			print 'after: %d (%d saved = %2.0f%%)' % 
+				[new.size, size - new.size, 1.0 - (new.size.to_f / size)] if $DEBUG
 			new
 		end
 
@@ -241,6 +252,8 @@ module CodeRay
 	end
 
 
+	# = TokenStream
+	#
 	# The TokenStream class is a fake Array without elements.
 	# 
 	# It redirects the method << to a block given at creation.
@@ -283,9 +296,12 @@ module CodeRay
 		end
 
 		# Calls +block+ with +token+ and increments size.
+		#
+		# Returns self.
 		def << token
 			@callback.call token
 			@size += 1
+			self
 		end
 
 		# This method is not implemented due to speed reasons. Use Tokens.
@@ -306,5 +322,3 @@ module CodeRay
 	end
 
 end
-
-# vim:sw=2:ts=2:et:tw=78

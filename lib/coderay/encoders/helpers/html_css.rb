@@ -46,6 +46,8 @@ module CodeRay module Encoders
 	border: 1px solid silver;
 	font-family: 'Courier New', 'Terminal', monospace;
 	color: black;
+	width: 100%;
+	padding: 2px;
 }
 .CodeRay pre { margin: 0px; }
 
@@ -56,12 +58,14 @@ span.CodeRay { white-space: pre; border: 0; }
 table.CodeRay { border-collapse: collapse; }
 table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 
-.CodeRay .line_numbers {
+.CodeRay .line_numbers, .CodeRay .no {
 	background-color: #def;
 	color: gray;
 	text-align: right;
 }
 .CodeRay .line_numbers tt { font-weight: bold; }
+.CodeRay .no { padding: 0px 4px; }
+.CodeRay .code { width: 100%; }
 
 .CodeRay .code {
 }

@@ -74,9 +74,9 @@ class CodeRayServlet < WEBrick::HTTPServlet::AbstractServlet
 	end
 end
 
-# 0xCODE = 49374 
+# this is taken by "qip_msgd" - I don't know that.
 module CodeRay
-	PORT = 0xC0DE
+	PORT = 0xC0DE / 20
 end
 
 server = WEBrick::HTTPServer.new :Port => CodeRay::PORT

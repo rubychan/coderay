@@ -100,9 +100,9 @@ module CodeRay
 			def numerize! mode = :table, options = {}
 				return self unless mode
 
-				offset = options.fetch :line_numbers_offset, DEFAULT_OPTIONS[:line_numbers_offset]
-				unless offset.is_a? Integer
-					raise ArgumentError, "Invalid value %p for :offset; Integer expected." % offset
+				start = options.fetch :line_number_start, DEFAULT_OPTIONS[:line_number_start]
+				unless start.is_a? Integer
+					raise ArgumentError, "Invalid value %p for :line_number_start; Integer expected." % start
 				end
 				
 				unless NUMERIZABLE_WRAPPINGS.include? options[:wrap]
@@ -130,11 +130,11 @@ module CodeRay
 
 				case mode				
 				when :inline
-					max_width = line_count.to_s.size
-					line = offset - 1
+					max_width = (start + line_count).to_s.size
+					line = start
 					gsub!(/^/) do
-						line += 1
 						line_number = bolding.call line
+						line += 1
 						"<span class=\"no\">#{ line_number.rjust(max_width) }</span>  "
 					end
 					wrap! :div
@@ -144,7 +144,7 @@ module CodeRay
 					# Because even monospace fonts seem to have different heights when bold, 
 					# I make the newline bold, both in the code and the line numbers.
 					# FIXME Still not working perfect for Mr. Internet Exploder
-					line_numbers = (offset ... offset + line_count).to_a.map(&bolding).join("\n")
+					line_numbers = (start ... start + line_count).to_a.map(&bolding).join("\n")
 					line_numbers << "\n"  # also for Mr. MS Internet Exploder :-/
 					line_numbers.gsub!(/\n/) { "<tt>\n</tt>" }
 					
@@ -196,19 +196,22 @@ module CodeRay
 
 #-- don't include the templates in docu
 			
-			SPAN = `<span class="code"><%CONTENT%></span>`
+			SPAN = `<span class="CodeRay"><%CONTENT%></span>`
 
-			DIV, DIV_TABLE, PAGE =
-				<<-`DIV`, <<-`DIV_TABLE`, <<-`PAGE`
+			DIV = <<-`DIV`
 <div class="CodeRay">
 	<div class="code"><pre><%CONTENT%></pre></div>	
 </div>
 			DIV
+
+			DIV_TABLE = <<-`DIV_TABLE`
 <table class="CodeRay"> <tr>
 	<td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><%LINE_NUMBERS%></pre></td>
 	<td class="code"><pre title="double click to expand" ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><%CONTENT%></pre></td>
 </tr> </table>
 			DIV_TABLE
+
+			PAGE = <<-`PAGE`
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="de">

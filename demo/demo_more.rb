@@ -1,13 +1,11 @@
-require 'rubygems'
-$: << '..'
 require 'coderay'
-require 'benchmark'
 
 c, ruby = DATA.read.split(/^---$/)
 DATA.rewind
 me = DATA.read[/.*^__END__$/m]
 $input = c + ruby + me
 
+require 'benchmark'
 time = Benchmark.realtime do
 
 	# here CodeRay comes to play

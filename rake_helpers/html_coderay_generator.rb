@@ -1086,7 +1086,7 @@ module Generators
       code = tokens.map { |t| t.text }.join
       options = {
       	:css => :class,
-      	:line_numbers_offset => code[/\A.*?, line (\d+)/,1].to_i - 1,
+      	:line_numbers_start => code[/\A.*?, line (\d+)/,1].to_i - 1,
       	:bold_every => :no_bolding,
       }
       options[:line_numbers] = nil unless Options.instance.include_line_numbers

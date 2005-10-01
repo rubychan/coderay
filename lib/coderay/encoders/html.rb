@@ -17,7 +17,7 @@ module Encoders
 			:wrap => :page,
 
 			:line_numbers => nil,
-			:line_numbers_offset => 1,
+			:line_number_start => 1,
 			:bold_every => 10,
 		}
 		NUMERIZABLE_WRAPPINGS = [:div, :page]
@@ -133,8 +133,9 @@ module Encoders
 
 		def token text, type
 			if text.is_a? String
-				# be careful when streaming: text is changed!
-				text.gsub!(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
+				if text =~ /#{HTML_ESCAPE_PATTERN}/o
+					text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
+				end
 				@opened[0] = type
 				style = @css_style[@opened]
 				if style

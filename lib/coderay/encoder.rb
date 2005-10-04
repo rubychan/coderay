@@ -122,11 +122,28 @@ module CodeRay
 			# Called with +text+ and +kind+ of the currently scanned token.
 			# For simple scanners, it's enougth to implement this method.
 			#
-			# Raises a NotImplementedError exception if it is not overwritten
-			# in subclass.
+			# By default, it calls text_token or block_token, depending on
+			# whether +text+ is a String.
 			def token text, kind
-				raise NotImplementedError,
-					"#{self.class}#token not implemented."
+				if text.is_a? String
+					text_token text, kind
+				else
+					block_token text, kind
+				end
+			end
+
+			def text_token text, kind
+			end
+
+			def block_token action, kind
+				case action
+				when :open
+					open_token kind
+				when :close
+					close_token kind
+				else
+					raise 'unknown block action: %p' % action
+				end
 			end
 
 			# Called with merged options after encoding starts.

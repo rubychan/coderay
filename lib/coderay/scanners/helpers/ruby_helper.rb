@@ -60,19 +60,17 @@ module CodeRay module Scanners
 		QUOTE_TO_TYPE.default = :string
 		
 		REGEXP_MODIFIERS = /[mixounse]*/
-		REGEXP_SYMBOLS = /
-			[|?*+?(){}\[\].^$]
-		/x
+		REGEXP_SYMBOLS = /[|?*+?(){}\[\].^$]/
 
-		DECIMAL = /\d+(?:_\d+)*/  # doesn't recognize 09 as octal error
+		DECIMAL = /\d+(?:_\d+)*/
 		OCTAL = /0_?[0-7]+(?:_[0-7]+)*/
 		HEXADECIMAL = /0x[0-9A-Fa-f]+(?:_[0-9A-Fa-f]+)*/
 		BINARY = /0b[01]+(?:_[01]+)*/
 
 		EXPONENT = / [eE] [+-]? #{DECIMAL} /ox
-		FLOAT_OR_INT = / #{DECIMAL} (?: #{EXPONENT} | \. #{DECIMAL} #{EXPONENT}? )? /ox
-		FLOAT = / #{DECIMAL} (?: #{EXPONENT} | \. #{DECIMAL} #{EXPONENT}? ) /ox
-		NUMERIC = / #{OCTAL} | #{HEXADECIMAL} | #{BINARY} | #{FLOAT_OR_INT} /ox
+		FLOAT_SUFFIX = / #{EXPONENT} | \. #{DECIMAL} #{EXPONENT}? /ox
+		FLOAT_OR_INT = / #{DECIMAL} (?: #{FLOAT_SUFFIX} () )? /ox
+		NUMERIC = / (?=0) (?: #{OCTAL} | #{HEXADECIMAL} | #{BINARY} ) | #{FLOAT_OR_INT} /ox
 
 		SYMBOL = /
 			:
@@ -103,7 +101,7 @@ module CodeRay module Scanners
 			)
 		/mx
 
-		# NOTE: This is not completel correct, but
+		# NOTE: This is not completely correct, but
 		# nobody needs heredoc delimiters ending with \n.
 		HEREDOC_OPEN = /
 			<< (-)?              # $1 = float
@@ -115,7 +113,7 @@ module CodeRay module Scanners
 			)
 		/mx
 
-		RDOC = /
+		RUBYDOC = /
 			=begin (?!\S)
 			.*?
 			(?: \Z | ^=end (?!\S) [^\n]* )
@@ -126,6 +124,8 @@ module CodeRay module Scanners
 			.*?
 			(?: \Z | (?=^\#CODE) )
 		/mx
+
+		RUBYDOC_OR_DATA = / #{RUBYDOC} | #{DATA} /xo
 
 		RDOC_DATA_START = / ^=begin (?!\S) | ^__END__$ /x
 

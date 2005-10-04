@@ -128,13 +128,14 @@ module CodeRay module Scanners
 							fancy_allowed = regexp_allowed = true
 							state = :initial
 							depth = 1
-							tokens << [match + getch, :escape]
+							tokens << [:open, :escape]
+							tokens << [match + getch, :delimiter]
 						when ?$, ?@
 							tokens << [match, :escape]
 							last_state = state  # scan one token as normal code, then return here
 							state = :initial
 						else
-							raise "else-case # reached; #%p not handled" % peek(1), tokens
+							raise 'else-case # reached; #%p not handled' % peek(1), tokens
 						end
 						
 					when state.paren
@@ -145,7 +146,7 @@ module CodeRay module Scanners
 						tokens << [match, :function]
 						
 					else
-						raise "else-case \" reached; %p not handled, state = %p" % [match, state], tokens
+						raise 'else-case " reached; %p not handled, state = %p' % [match, state], tokens
 						
 					end
 					next
@@ -153,7 +154,7 @@ module CodeRay module Scanners
 				else
 # {{{					
 					if match = scan(/ [ \t\f]+ | \\? \n | \# .* /x) or
-						( bol? and match = scan(/ #{DATA} | #{RDOC} /ox) )
+						( bol? and match = scan(/#{RUBYDOC_OR_DATA}/o) )
 						fancy_allowed = true
 						case m = match[0]
 						when ?\s, ?\t, ?\f
@@ -175,7 +176,7 @@ module CodeRay module Scanners
 							type = :comment
 							regexp_allowed = true
 						else
-							raise "else-case _ reached, because case %p was not handled" % [matched[0].chr], tokens
+							raise 'else-case _ reached, because case %p was not handled' % [matched[0].chr], tokens
 						end
 						tokens << [match, type]
 						next
@@ -195,7 +196,9 @@ module CodeRay module Scanners
 									depth -= 1
 									if depth == 0
 										state, depth, heredocs = states.pop
+										tokens << [match + getch, :delimiter]
 										type = :escape
+										match = :close
 									end
 								end
 							end
@@ -221,7 +224,7 @@ module CodeRay module Scanners
 						elsif match = scan(/#{INSTANCE_VARIABLE}/o)
 							type = :instance_variable
 							
-						elsif regexp_allowed and match = scan(/ \/ /mx)
+						elsif regexp_allowed and match = scan(/\//)
 							tokens << [:open, :regexp]
 							type = :delimiter
 							interpreted = true
@@ -232,7 +235,7 @@ module CodeRay module Scanners
 							end
 							
 						elsif match = scan(/#{NUMERIC}/o)
-							type = if match[/#{FLOAT}/o] then :float else :integer end
+							type = if self[1] then :float else :integer end
 
 						elsif fancy_allowed and match = scan(/#{SYMBOL}/o)
 							case match[1]
@@ -265,7 +268,7 @@ module CodeRay module Scanners
 						elsif fancy_allowed and match = scan(/#{CHARACTER}/o)
 							type = :integer
 
-						elsif match = scan(/ [\/%<?:] /x)
+						elsif match = scan(/ [\/%]=? | <(?:<|=>?)? | [?:] /x)
 							regexp_allowed = fancy_allowed = :set
 							type = :operator
 
@@ -290,25 +293,25 @@ module CodeRay module Scanners
 						end
 						
 					elsif state == :def_expected
-						if match = scan(/ (?: #{VARIABLE} (?: ::#{IDENT} )* \. )? #{METHOD_NAME_EX} /ox)
+						state = :initial
+						if match = scan(/#{METHOD_NAME_EX}/o)
 							type = :method
 						else
-							match = getch
+							next
 						end
-						state = :initial
 
 					elsif state == :module_expected
 						if match = scan(/<</)
 							type = :operator
 						else
+							state = :initial
 							if match = scan(/ (?:#{IDENT}::)* #{IDENT} /ox)
 								type = :class
 							else
-								match = getch
+								next
 							end
 						end
-						state = :initial
-						
+
 					end
 
 					regexp_allowed = regexp_allowed == :set

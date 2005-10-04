@@ -22,17 +22,22 @@ module CodeRay module Encoders
 			super
 		end
 		
-		def token text, type
+		def text_token text, kind
+			@real_token_count += 1 unless kind == :space
+			@type_stats[kind].count += 1
+			@type_stats[kind].size += text.size
+			@type_stats['TOTAL'].size += text.size
+		end
+		
+		# TODO Hierarchy handling
+		def block_token action, kind
+			#@content_type = kind
+			@type_stats['open/close'].count += 1
+		end
+
+		def token text, kind
+			super
 			@type_stats['TOTAL'].count += 1
-			if text.is_a? String
-				@real_token_count += 1 unless type == :space
-				@type_stats[type].count += 1
-				@type_stats[type].size += text.size
-				@type_stats['TOTAL'].size += text.size
-			else
-				@content_type = type
-				@type_stats['open/close'].count += 1
-			end
 		end
 
 		STATS = <<-STATS

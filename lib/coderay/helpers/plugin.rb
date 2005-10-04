@@ -92,8 +92,8 @@ module PluginHost
 				begin
 					$stderr.puts 'Loading plugin: ' + path if $DEBUG
 					require path
-				rescue LoadError
-					raise PluginNotFound, "Plugin #{id.inspect} not found."
+				rescue LoadError => boom
+					raise PluginNotFound, 'Could not load plugin %p: %s' % [id, boom]
 				else
 					# Plugin should have registered by now
 					unless h.has_key? id

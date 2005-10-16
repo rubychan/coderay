@@ -28,6 +28,7 @@ module CodeRay module Encoders
 			:global_variable => 'gv',
 			:hex => 'hx',
 			:include => 'ic',
+			:inline => 'il',
 			:instance_variable => 'iv',
 			:integer => 'i',
 			:interpreted => 'in',

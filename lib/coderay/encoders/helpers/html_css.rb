@@ -102,6 +102,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .hx { color:#058; font-weight:bold; }
 .i  { color:#00D; font-weight:bold; }
 .ic { color:#B44; font-weight:bold; }
+.il { }
 .in { color:#B2B; font-weight:bold; }
 .iv { color:#33B; }
 .la { color:#970; font-weight:bold; }

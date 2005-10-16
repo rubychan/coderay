@@ -13,6 +13,8 @@ module CodeRay
 		# TODO: more doc.
 		module Output
 
+			attr_accessor :wrapped_in
+			
 			class << self
 				
 				# This makes Output look like a class.
@@ -53,11 +55,6 @@ module CodeRay
 
 			wrapper :div, :span, :page
 
-			def wrapped_in
-				@wrapped_in ||= nil
-			end
-			attr_writer :wrapped_in
-			
 			def wrapped_in? element
 				wrapped_in == element
 			end
@@ -100,7 +97,9 @@ module CodeRay
 			def numerize! mode = :table, options = {}
 				return self unless mode
 
-				start = options.fetch :line_number_start, DEFAULT_OPTIONS[:line_number_start]
+				options = DEFAULT_OPTIONS.merge options
+
+				start = options[:line_number_start]
 				unless start.is_a? Integer
 					raise ArgumentError, "Invalid value %p for :line_number_start; Integer expected." % start
 				end
@@ -109,7 +108,7 @@ module CodeRay
 					raise ArgumentError, "Can't numerize, :wrap must be in %p, but is %p" % [NUMERIZABLE_WRAPPINGS, options[:wrap]]
 				end
 				
-				bold_every = options.fetch :bold_every, DEFAULT_OPTIONS[:bold_every]
+				bold_every = options[:bold_every]
 				bolding = 
 					if bold_every == :no_bolding or bold_every == 0
 						proc { |line| line.to_s }

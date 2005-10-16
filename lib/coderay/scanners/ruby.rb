@@ -43,7 +43,6 @@ module CodeRay module Scanners
 
 				if state.instance_of? StringState
 # {{{
-
 					match = scan_until(state.pattern) || scan_until(/\z/)
 					tokens << [match, :content] unless match.empty?
 					break if eos?
@@ -128,7 +127,7 @@ module CodeRay module Scanners
 							fancy_allowed = regexp_allowed = true
 							state = :initial
 							depth = 1
-							tokens << [:open, :escape]
+							tokens << [:open, :inline]
 							tokens << [match + getch, :delimiter]
 						when ?$, ?@
 							tokens << [match, :escape]
@@ -196,8 +195,8 @@ module CodeRay module Scanners
 									depth -= 1
 									if depth == 0
 										state, depth, heredocs = states.pop
-										tokens << [match + getch, :delimiter]
-										type = :escape
+										tokens << [match, :delimiter]
+										type = :inline
 										match = :close
 									end
 								end

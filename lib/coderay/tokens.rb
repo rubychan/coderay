@@ -94,15 +94,14 @@ module CodeRay
 			false
 		end
 
-		alias :orig_each :each
 		# Iterates over all tokens.
 		# 
 		# If a filter is given, only tokens of that kind are yielded.
 		def each kind_filter = nil, &block
 			unless kind_filter
-				orig_each(&block)
+				super(&block)
 			else
-				orig_each do |text, kind|
+				super do |text, kind|
 					next unless kind == kind_filter
 					yield text, kind
 				end
@@ -115,7 +114,7 @@ module CodeRay
 		# Example:
 		#   tokens.each_text_token { |text, kind| text.replace html_escape(text) }
 		def each_text_token
-			orig_each do |text, kind|
+			each do |text, kind|
 				next unless text.respond_to? :to_str
 				yield text, kind
 			end

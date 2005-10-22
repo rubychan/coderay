@@ -213,7 +213,8 @@ module CodeRay module Scanners
 									state = DEF_NEW_STATE[match]
 								end
 							end
-							fancy_allowed = regexp_allowed = REGEXP_ALLOWED[match]
+							## experimental!
+							fancy_allowed = regexp_allowed = :set if REGEXP_ALLOWED[match] or check(/\s+(?:%\S|\/\S)/)
 							
 						elsif match = scan(/ ['"] /mx)
 							tokens << [:open, :string]

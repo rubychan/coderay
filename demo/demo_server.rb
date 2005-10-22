@@ -1,10 +1,24 @@
 # CodeRay dynamic highlighter
-#
-# Usage: start this and your browser.
-# 
-# Go to http://localhost:49374/?<path to the file>
-# (mnemonic: 49374 = Four-Nine-Three-Seven-Four = For No Token Shall Fall)
-# and you should get the highlighted version.
+
+unless ARGV.grep(/-[hv]|--(help|version)/).empty?
+	puts <<-USAGE
+CodeRay Server 0.5
+$Id$
+
+Usage:
+	1) Start this and your browser.
+	2) Go to http://localhost:2468/?<path to the file>
+	   and you should get the highlighted version.
+
+Parameters:
+	-d     Debug mode; reload CodeRay engine for every file.
+	       (prepare for MANY "already initialized" and "method redefined"
+	       messages - ingore it.)
+	
+	...    More to come.
+	USAGE
+	exit
+end
 
 require 'webrick'
 require 'pathname'
@@ -29,7 +43,7 @@ require 'coderay'
 class CodeRayServlet < WEBrick::HTTPServlet::AbstractServlet
 
 	STYLE = 'style="font-family: sans-serif; color: navy;"'
-	BANNER = '<p><img src="http://rd.cYcnus.de/coderay/coderay-banner" style="border: 0" alt="HIghlighted by CodeRay"/></p>'
+	BANNER = '<p><img src="http://rd.cYcnus.de/coderay/coderay-banner" style="border: 0" alt="Highlighted by CodeRay"/></p>'
 
 	def do_GET req, res
 		q = req.query_string || ''
@@ -59,6 +73,10 @@ class CodeRayServlet < WEBrick::HTTPServlet::AbstractServlet
 				page << "#{BANNER}</body></html>"
 			
 			elsif File.exist? path
+				if $DEBUG
+					$".delete_if { |f| f =~ /coderay/ }
+					require 'coderay'
+				end
 				div = CodeRay.scan_file(path).html :tab_width => 8, :wrap => :div
 				div.replace <<-DIV
 	<div #{STYLE}>
@@ -74,7 +92,7 @@ class CodeRayServlet < WEBrick::HTTPServlet::AbstractServlet
 	end
 end
 
-# this is taken by "qip_msgd" - I don't know that.
+# This port is taken by "qip_msgd" - I don't know that. Do you?
 module CodeRay
 	PORT = 0xC0DE / 20
 end

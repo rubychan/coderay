@@ -49,6 +49,16 @@ task :test do
 	system 'ruby -w ./test/suite.rb'
 end
 
+desc 'Test CodeRay with debugging'
+task :debug do
+	system 'ruby -w -d ./test/suite.rb'
+end
+
+desc 'Do a benchmark'
+task :bench do
+	system 'ruby -wIlib \bench\bench.rb ruby html 0'
+end
+
 def gemspec
 	Gem::Specification.new do |s|
 		# Basic Information

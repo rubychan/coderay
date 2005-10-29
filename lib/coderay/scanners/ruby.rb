@@ -185,10 +185,25 @@ module CodeRay module Scanners
 
 					elsif state == :initial
 						
+						# IDENTS #
+						if match = scan(/#{METHOD_NAME}/o)
+							if last_token_dot
+								type = if match[/^[A-Z]/] then :constant else :ident end
+							else
+								type = IDENT_KIND[match]
+								if type == :ident and match[/^[A-Z]/] and not match[/[!?]$/]
+									type = :constant
+								elsif type == :reserved
+									state = DEF_NEW_STATE[match]
+								end
+							end
+							## experimental!
+							fancy_allowed = regexp_allowed = :set if REGEXP_ALLOWED[match] or check(/\s+(?:%\S|\/\S)/)
+							
 						# OPERATORS #
-						if (not last_token_dot and match = scan(/ ==?=? | \.\.?\.? | [-+;,!\(\)\[\]~^] | [*|&>]{1,2} | [\{\}] | :: /x)) or
+						elsif (not last_token_dot and match = scan(/ ==?=? | \.\.?\.? | [\(\)\[\]\{\}] | :: | , /x)) or
 							(last_token_dot and match = scan(/#{METHOD_NAME_OPERATOR}/o))
-							if match !~ / [.\)\]\}] \z/x or match =~ /\.\.\.?/
+							if match !~ / [.\)\]\}] /x or match =~ /\.\.\.?/
 								regexp_allowed = fancy_allowed = :set
 							end
 							last_token_dot = :set if match == '.' or match == '::'
@@ -208,21 +223,6 @@ module CodeRay module Scanners
 								end
 							end
 							
-						# IDENTS #
-						elsif match = scan(/#{METHOD_NAME}/o)
-							if last_token_dot
-								type = if match[/^[A-Z]/] then :constant else :ident end
-							else
-								type = IDENT_KIND[match]
-								if type == :ident and match[/^[A-Z]/] and not match[/[!?]$/]
-									type = :constant
-								elsif type == :reserved
-									state = DEF_NEW_STATE[match]
-								end
-							end
-							## experimental!
-							fancy_allowed = regexp_allowed = :set if REGEXP_ALLOWED[match] or check(/\s+(?:%\S|\/\S)/)
-							
 						elsif match = scan(/ ['"] /mx)
 							tokens << [:open, :string]
 							type = :delimiter
@@ -230,7 +230,7 @@ module CodeRay module Scanners
 							
 						elsif match = scan(/#{INSTANCE_VARIABLE}/o)
 							type = :instance_variable
-							
+
 						elsif regexp_allowed and match = scan(/\//)
 							tokens << [:open, :regexp]
 							type = :delimiter
@@ -256,6 +256,10 @@ module CodeRay module Scanners
 								type = :symbol
 							end
 							
+						elsif match = scan(/ [-+!~^]=? | [*|&]{1,2}=? | >>? /x)
+							regexp_allowed = fancy_allowed = :set
+							type = :operator
+							
 						elsif fancy_allowed and match = scan(/#{HEREDOC_OPEN}/o)
 							indented = self[1] == '-'
 							quote = self[3]
@@ -279,7 +283,7 @@ module CodeRay module Scanners
 						elsif fancy_allowed and match = scan(/#{CHARACTER}/o)
 							type = :integer
 
-						elsif match = scan(/ [\/%]=? | <(?:<|=>?)? | [?:] /x)
+						elsif match = scan(/ [\/%]=? | <(?:<|=>?)? | [?:;] /x)
 							regexp_allowed = fancy_allowed = :set
 							type = :operator
 

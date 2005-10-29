@@ -807,7 +807,7 @@ reserved(for) ident(i) reserved(in) reserved(if) pre_constant(false) reserved(th
 ident(foob12345)operator(;) reserved(else) operator([)integer(44)operator(,)integer(55)operator(,)integer(66)operator(,)integer(77)operator(,)integer(88)operator(]) reserved(end) reserved(do) ident(p) ident(i)operator(**)constant(Math)operator(.)ident(sqrt)operator(()ident(i)operator(\)) reserved(end)
 
 ident(c)operator(=)ident(j)operator(=)integer(0)
-reserved(until) reserved(while) ident(j)operator(<)integer(10) reserved(do) ident(j)operator(+)operator(=)integer(1) reserved(end)operator(.)ident(nil?) reserved(do) ident(p) string<delimiter(')content(pppppppppp)delimiter(')> reserved(end)
+reserved(until) reserved(while) ident(j)operator(<)integer(10) reserved(do) ident(j)operator(+=)integer(1) reserved(end)operator(.)ident(nil?) reserved(do) ident(p) string<delimiter(')content(pppppppppp)delimiter(')> reserved(end)
 reserved(for) ident(i) reserved(in) reserved(if) pre_constant(false) reserved(then) ident(foob12345)operator(;)
 reserved(else) operator([)integer(44)operator(,)integer(55)operator(,)integer(66)operator(,)integer(77)operator(,)integer(88)operator(]) reserved(end) reserved(do) ident(p) ident(i)operator(**)constant(Math)operator(.)ident(sqrt)operator(()ident(i)operator(\)) reserved(end)
 

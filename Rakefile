@@ -56,7 +56,7 @@ end
 
 desc 'Do a benchmark'
 task :bench do
-	system 'ruby -wIlib \bench\bench.rb ruby html 0'
+	system 'ruby -wIlib bench\bench.rb ruby html 0'
 end
 
 def gemspec

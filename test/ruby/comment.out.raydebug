@@ -1,0 +1,17 @@
+comment(=begin test
+=end test)
+
+ident(bla)
+
+ operator(=)reserved(begin)
+
+ ident(__END__)
+
+
+comment(__END__
+)comment(#CODE)
+
+ident(mangawobeegee)
+
+comment(#test\\)
+ident(dasd)

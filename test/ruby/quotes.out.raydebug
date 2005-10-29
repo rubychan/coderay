@@ -1,0 +1,1 @@
+ident(print) string<delimiter(")content(test)char(\\n)char(\\\\)char(\\\\)delimiter(")>operator(.)ident(gsub)operator(()regexp<delimiter(/)content([)char(\\n)char(\\\\)content(])delimiter(/)>operator(,) string<delimiter(')char(\\\\)char(\\\\)content(\\&)delimiter(')>operator(\))

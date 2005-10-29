@@ -1,0 +1,18 @@
+reserved(undef) method(/)
+reserved(undef) operator(,)
+reserved(undef) method(-)operator(-)
+
+reserved(undef)
+comment(# bla)
+method([]=)
+
+reserved(undef) method(undef)
+reserved(undef) method(/)operator(,)method(/)operator(,)symbol(:/)
+
+reserved(undef) method(&)operator(,)method(&)operator(&)
+
+symbol(:simple)
+symbol<symbol(:)delimiter(")content(bla)delimiter(")>
+symbol<symbol(:)delimiter(")inline<delimiter(#{)reserved(undef) symbol(:blubb)delimiter(})>escape(#)class_variable(@@cv)delimiter(")>
+
+reserved(undef) symbol<symbol(:)delimiter(")content(bla)delimiter(")>operator(,) method(/)operator(,) symbol<symbol(:)delimiter(")inline<delimiter(#{)reserved(undef) symbol(:blubb)delimiter(})>escape(#)class_variable(@@cv)delimiter(")>

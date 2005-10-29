@@ -1,0 +1,1123 @@
+ident(p)operator(()constant(String) operator(*)constant(Class)operator(\))
+reserved(class) class(String)
+reserved(class) class(Class)
+reserved(end)
+reserved(end)
+comment(#def String(x\) x.to_s end #it's already built-in. duh!)
+reserved(def) constant(String)operator(.)operator(*)operator(()ident(right)operator(\)) operator([)pre_constant(self)operator(,)ident(right)operator(]) reserved(end)
+reserved(def) constant(String)operator(.)operator(<<)operator(()ident(right)operator(\)) operator([)pre_constant(self)operator(,)symbol(:<<)operator(,)ident(right)operator(]) reserved(end)
+reserved(def) constant(String)operator(.)operator(/)operator(()ident(right)operator(\)) operator([)pre_constant(self)operator(,)symbol(:/)operator(,)ident(right)operator(]) reserved(end)
+reserved(def) constant(String)operator(.)operator([])operator(()ident(right)operator(\)) operator([)pre_constant(self)operator(,)symbol(:[])operator(,)ident(right)operator(]) reserved(end)
+ident(p)operator(()constant(String)operator(::)constant(Class)operator(\))
+ident(p)operator(()constant(String)operator(::) constant(Class)operator(\))
+ident(p)operator(()constant(String) operator(::)constant(Class)operator(\))
+ident(p)operator(()constant(String) operator(::) constant(Class)operator(\))
+ident(p)operator(()constant(String)operator(<<)constant(Class)operator(\))
+ident(p)operator(()constant(String)operator(<<) constant(Class)operator(\))
+ident(p)operator(()constant(String) string<delimiter(<<Class)>operator(\)) string<content(
+sgsdfgf)delimiter(
+Class)>
+ident(p)operator(()constant(String) operator(<<) constant(Class)operator(\))
+ident(p)operator(()constant(String)operator(/)constant(Class)operator(\))
+ident(p)operator(()constant(String)operator(/) constant(Class)operator(\))
+ident(p)operator(()constant(String) regexp<delimiter(/)content(Class)delimiter(/)>operator(\)) 
+ident(p)operator(()constant(String) operator(/) constant(Class)operator(\)) comment(#borken)
+ident(p)operator(()constant(String)operator([)constant(Class)operator(])operator(\))
+ident(p)operator(()constant(String)operator([) constant(Class)operator(])operator(\))
+ident(p)operator(()constant(String) operator([)constant(Class)operator(])operator(\)) 
+ident(p)operator(()constant(String) operator([) constant(Class)operator(])operator(\)) 
+ident(p)operator(()constant(String)operator(*)constant(Class)operator(\))
+ident(p)operator(()constant(String)operator(*) constant(Class)operator(\))
+ident(p)operator(()constant(String) operator(*)constant(Class)operator(\)) 
+ident(p)operator(()constant(String) operator(*) constant(Class)operator(\))
+reserved(class) operator(<<)class(String)
+reserved(undef) symbol(:*)operator(,)method(<<)operator(,)method(/)operator(,)method([])
+reserved(end)
+
+
+
+ident(p)operator(()pre_constant(false)operator(::)ident(to_s)operator(\))
+ident(p)operator(()pre_constant(false) operator(::)ident(to_s)operator(\))
+ident(p)operator(()pre_constant(false)operator(::) ident(to_s)operator(\))
+ident(p)operator(()pre_constant(false) operator(::) ident(to_s)operator(\))
+
+reserved(class) class(C2)
+reserved(class) operator(<<)class(self)
+  reserved(def) pre_constant(self)operator(.)ident(p8)operator(;) ident(p) integer(8) reserved(end)
+  reserved(alias) ident(p?) ident(p)
+  reserved(alias) ident(P?) ident(p)
+  reserved(alias) operator([)operator(]) ident(p)
+  reserved(alias) operator(<=>) ident(p)
+reserved(end)
+
+ident(q)operator(=)integer(9)
+constant(Q)operator(=)integer(99)
+
+ident(p)symbol(:p8)
+pre_constant(false) operator(?) ident(p)operator(:) ident(p8)
+ident(p) symbol(:p8)
+pre_constant(false) operator(?) ident(p) operator(:) ident(p8)
+
+pre_constant(false) operator(?) ident(q)symbol(:p8)
+pre_constant(false) operator(?) ident(q)operator(:) ident(p8)
+pre_constant(false) operator(?) ident(q) symbol(:p8)
+pre_constant(false) operator(?) ident(q) operator(:) ident(p8)
+
+comment(#false ? Q:p8  #gives ruby indigestion)
+pre_constant(false) operator(?) constant(Q)operator(:) ident(p8)
+comment(#false ? Q :p8  #gives ruby indigestion)
+pre_constant(false) operator(?) constant(Q) operator(:) ident(p8)
+
+ident(p?)symbol(:p8)
+pre_constant(false) operator(?) ident(p?)operator(:) ident(p8)
+ident(p?) symbol(:p8)
+pre_constant(false) operator(?) ident(p?) operator(:) ident(p8)
+
+ident(P?)symbol(:p8)
+pre_constant(false) operator(?) ident(P?)operator(:) ident(p8)
+ident(P?) symbol(:p8)
+pre_constant(false) operator(?) ident(P?) operator(:) ident(p8)
+
+pre_constant(self)operator(.)operator([])symbol(:p8)
+pre_constant(false) operator(?) pre_constant(self)operator(.)operator([])operator(:) ident(p8)
+pre_constant(self)operator(.)operator([]) symbol(:p8)
+pre_constant(false) operator(?) pre_constant(self)operator(.)operator([]) operator(:) ident(p8)
+
+pre_constant(self)operator(.)operator(<=>)symbol(:p8)
+pre_constant(false) operator(?) pre_constant(self)operator(.)operator(<=>)operator(:) ident(p8)
+pre_constant(self)operator(.)operator(<=>) symbol(:p8)
+pre_constant(false) operator(?) pre_constant(self)operator(.)operator(<=>) operator(:) ident(p8)
+
+pre_constant(self) operator(<=>)symbol(:p8)
+comment(#false ? self <=>: p8  #gives ruby indigestion)
+pre_constant(self) operator(<=>) symbol(:p8)
+comment(#false ? self <=> : p8  #gives ruby indigestion)
+reserved(end)
+
+ident(p) string<delimiter(<<stuff)>operator(+)string<delimiter(')content(foobar)delimiter(')>operator(.)ident(tr)operator(()string<delimiter(')content(j-l)delimiter(')>operator(,)string<delimiter(')content(d-f)delimiter(')>operator(\))string<content(
+"more stuff"
+12345678
+the quick brown fox jumped over the lazy dog)delimiter(
+stuff)>
+
+
+ident(p) string<delimiter(<<p)>string<content(
+sdfsfdf^^^^@@@)delimiter(
+p)>
+ident(mix)operator(=)pre_constant(nil)
+ident(p) operator(/) integer(5)operator(/)ident(mix)
+
+reserved(module) class(M33)
+  ident(p)operator(=)string<delimiter(")content(var:)delimiter(")>
+  constant(Q)operator(=)string<delimiter(")content(func:)delimiter(")>
+  reserved(def) constant(Q)operator(.)ident(method_missing)operator(()ident(name)operator(,)operator(*)ident(args)operator(\))
+    pre_constant(self)operator(+)ident(name)operator(.)ident(to_s)operator(+)operator(()ident(args)operator(.)ident(join)string<delimiter(')content( )delimiter(')>operator(\))
+  reserved(end)
+  reserved(def) ident(p)operator(.)ident(method_missing)operator(()ident(name)operator(,)operator(*)ident(args)operator(\))
+    pre_constant(self)operator(+)ident(name)operator(.)ident(to_s)operator(+)operator(()ident(args)operator(.)ident(join)string<delimiter(')content( )delimiter(')>operator(\))
+  reserved(end)
+  reserved(def) pre_constant(self)operator(.)ident(p)operator(()operator(*)ident(a)operator(\))operator(;) reserved(super)operator(;) constant(Q) reserved(end)
+  instance_variable(@a)operator(=)integer(1)
+  global_variable($a)operator(=)integer(2)
+  
+  ident(p)operator(()ident(p)operator(~)integer(6)operator(\))
+  ident(p)operator(()ident(p) operator(~)integer(6)operator(\))
+  ident(p)operator(()ident(p)operator(~) integer(6)operator(\))
+  ident(p)operator(()ident(p) operator(~) integer(6)operator(\))
+  ident(p)operator(()ident(p)operator(*)integer(11)operator(\))
+  ident(p)operator(()ident(p) operator(*)integer(11)operator(\))
+  ident(p)operator(()ident(p)operator(*) integer(11)operator(\))
+  ident(p)operator(()ident(p) operator(*) integer(11)operator(\))
+  ident(p)operator(()ident(p)operator(&)ident(proc)operator({)operator(})operator(\))
+  ident(p)operator(()ident(p) operator(&)ident(proc)operator({)operator(})operator(\))
+  ident(p)operator(()ident(p)operator(&) ident(proc)operator({)operator(})operator(\))
+  ident(p)operator(()ident(p) operator(&) ident(proc)operator({)operator(})operator(\))
+  ident(p)operator(()ident(p) operator(!)integer(1)operator(\))
+comment(#  p(p ?1\) #compile error, when p is var)
+  ident(p)operator(()ident(p) operator(!) integer(1)operator(\))
+  ident(p)operator(()ident(p) operator(?) integer(1) operator(:) integer(6)operator(\))
+  ident(p)operator(()ident(p)instance_variable(@a)operator(\))
+  ident(p)operator(()ident(p) instance_variable(@a)operator(\))
+comment(#  p(p@ a\)  #wont)
+comment(#  p(p @ a\) #work )
+  ident(p)operator(()ident(p)comment(#a)
+operator(\))
+  ident(p)operator(()ident(p) comment(#a)
+operator(\))
+  ident(p)operator(()ident(p)comment(# a)
+operator(\))
+  ident(p)operator(()ident(p) comment(# a)
+operator(\))
+  ident(p)operator(()ident(p)global_variable($a)operator(\))
+  ident(p)operator(()ident(p) global_variable($a)operator(\))
+comment(#  p(p$ a\)  #wont)
+comment(#  p(p $ a\) #work)
+  ident(p)operator(()ident(p)operator(%)constant(Q)operator({)symbol(:foo)operator(})operator(\))
+  ident(p)operator(()ident(p) string<delimiter(%Q{)content(:foo)delimiter(})>operator(\))
+  ident(p)operator(()ident(p)operator(%) constant(Q)operator({)symbol(:foo)operator(})operator(\))
+  ident(p)operator(()ident(p) operator(%) constant(Q)operator({)symbol(:foo)operator(})operator(\))
+  ident(p)operator(()ident(p)operator(^)integer(6)operator(\))
+  ident(p)operator(()ident(p) operator(^)integer(6)operator(\))
+  ident(p)operator(()ident(p)operator(^) integer(6)operator(\))
+  ident(p)operator(()ident(p) operator(^) integer(6)operator(\))
+  ident(p)operator(()ident(p)operator(&)integer(7)operator(\))
+  ident(p)operator(()ident(p) operator(&)ident(proc)operator({)integer(7)operator(})operator(\))
+  ident(p)operator(()ident(p)operator(&) integer(7)operator(\))
+  ident(p)operator(()ident(p) operator(&) integer(7)operator(\))
+  ident(p)operator(()ident(p)operator(()integer(2)operator(\))operator(\))
+  ident(p)operator(()ident(p) operator(()integer(2)operator(\))operator(\))
+  ident(p)operator(()ident(p)operator(() integer(2)operator(\))operator(\))
+  ident(p)operator(()ident(p) operator(() integer(2)operator(\))operator(\))
+  ident(p)operator(()ident(p)operator(()ident(p)operator(\))operator(\))
+  ident(p)operator(()ident(p)operator(()operator(\))operator(\))
+  ident(p)operator(()ident(p) operator(()ident(p)operator(\))operator(\))
+  ident(p)operator(()ident(p) operator(()operator(\))operator(\))
+  ident(p)operator(()ident(p) operator(() ident(p)operator(\))operator(\))
+  ident(p)operator(()ident(p) operator(() operator(\))operator(\))
+  ident(p)operator(()ident(p)operator(() ident(p)operator(\))operator(\))
+  ident(p)operator(()ident(p)operator(() operator(\))operator(\))
+  ident(p)operator(()ident(p)operator(\))
+  ident(p)operator(()operator(()ident(p)operator(\))operator(\))
+  ident(p)operator(()ident(p) operator(\))
+  ident(p)operator(()operator(()ident(p) operator(\))operator(\))
+  ident(p)operator(()operator(()ident(p) ident(p)operator(\))operator(\))
+  ident(p)operator(()operator(()ident(p) ident(p)operator(,)ident(p)operator(\))operator(\))
+  ident(p)operator(()operator(()ident(p) ident(p)operator(\))operator(\))
+  ident(p)operator(()operator(()ident(p) ident(p)operator(,)ident(p)operator(\))operator(\))
+  ident(p)operator(()ident(p)operator(-)integer(0)operator(\))
+  ident(p)operator(()ident(p) operator(-)integer(0)operator(\))
+  ident(p)operator(()ident(p)operator(-) integer(0)operator(\))
+  ident(p)operator(()ident(p) operator(-) integer(0)operator(\))
+  ident(p)operator(()ident(p)operator(+)integer(9)operator(\))
+  ident(p)operator(()ident(p) operator(+)integer(9)operator(\))
+  ident(p)operator(()ident(p)operator(+) integer(9)operator(\))
+  ident(p)operator(()ident(p) operator(+) integer(9)operator(\))
+  ident(p)operator(()ident(p)operator([)integer(1)operator(])operator(\))
+  ident(p)operator(()ident(p) operator([)integer(1)operator(])operator(\))
+  ident(p)operator(()ident(p)operator([) integer(1)operator(])operator(\))
+  ident(p)operator(()ident(p) operator([) integer(1)operator(])operator(\))
+  ident(p)operator(()ident(p)operator({)integer(1)operator(})operator(\))
+  ident(p)operator(()ident(p) operator({)integer(1)operator(})operator(\))
+  ident(p)operator(()ident(p)operator({) integer(1)operator(})operator(\))
+  ident(p)operator(()ident(p) operator({) integer(1)operator(})operator(\))
+  ident(p)operator(()ident(p)operator(/)integer(1)operator(\))
+  ident(p)operator(()ident(p) regexp<delimiter(/)content(22\)
+  p(p)delimiter(/)> integer(1)operator(\))
+  ident(p)operator(()ident(p) operator(/) integer(22)operator(\))
+  ident(p)operator(()ident(p)operator(.)ident(_)operator(\))
+  ident(p)operator(()ident(p) operator(.)ident(_)operator(\))
+  ident(p)operator(()ident(p)operator(.) ident(_)operator(\))
+  ident(p)operator(()ident(p) operator(.) ident(_)operator(\))
+  ident(p)operator(()pre_constant(false) operator(?) ident(p)symbol(:f)operator(\))
+  ident(p)operator(()pre_constant(false) operator(?) ident(p) symbol(:f)operator(\))
+  ident(p)operator(()pre_constant(false) operator(?) ident(p)operator(:) ident(f)operator(\))
+  ident(p)operator(()pre_constant(false) operator(?) ident(p) operator(:) ident(f)operator(\))
+  ident(p)operator(()operator(()ident(p)operator(;)integer(1)operator(\))operator(\))
+  ident(p)operator(()operator(()ident(p) operator(;)integer(1)operator(\))operator(\))
+  ident(p)operator(()operator(()ident(p)operator(;) integer(1)operator(\))operator(\))
+  ident(p)operator(()operator(()ident(p) operator(;) integer(1)operator(\))operator(\))
+  ident(p)operator(()ident(p)operator(<)integer(1)operator(\))
+  ident(p)operator(()ident(p) operator(<)integer(1)operator(\))
+  ident(p)operator(()ident(p)operator(<) integer(1)operator(\))
+  ident(p)operator(()ident(p) operator(<) integer(1)operator(\))
+  ident(p)operator(()ident(p)operator(<<)integer(1)operator(\))
+  ident(p)operator(()ident(p) string<delimiter(<<1)>operator(\))string<content(
+  p(p<< 1\)
+  p(p << 1\)
+  p(p'j'\)
+  p(p 'j'\)
+  p(p' j'\)
+  p(p ' j'\)
+  p(p"k"\)
+  p(p "k"\)
+  p(p" k"\)
+  p(p " k"\)
+  p(p|4\)
+  p(p |4\)
+  p(p| 4\)
+  p(p | 4\)
+  p(p>2\)
+  p(p >2\)
+  p(p> 2\)
+  p(p > 2\)
+  
+end
+
+module M34
+  p(p~6\)
+  p(p ~6\)
+  p(p~ 6\)
+  p(p ~ 6\)
+  p(p*[1]\)
+  p(p *[1]\)
+  p(p* [1]\)
+  p(p * [1]\)
+  p(p&proc{}\)
+  p(p &proc{}\)
+  p(p& proc{}\)
+  p(p & proc{}\)
+  p(p !1\)
+  p(p ?1\)
+  p(p ! 1\)
+  p(p ? 1 : 6\)
+  p(p@a\)
+  p(p @a\)
+#  p(p@ a\)  #wont
+#  p(p @ a\) #work 
+
+  p(p#a
+\)
+  p(p #a
+\)
+  p(p# a
+\)
+  p(p # a
+\)
+  p(p$a\)
+  p(p $a\)
+#  p(p$ a\)  #wont
+#  p(p $ a\) #work
+  p(p%Q{:foo}\)
+  p(p %Q{:foo}\)
+  p(p% Q{:foo}\)
+  p(p % Q{:foo}\)
+  p(p^6\)
+  p(p ^6\)
+  p(p^ 6\)
+  p(p ^ 6\)
+  p(p&7\)
+  p(p &proc{7}\)
+  p(p& 7\)
+  p(p & 7\)
+  p(p(2\)\)
+  p(p (2\)\)
+  p(p( 2\)\)
+  p(p ( 2\)\)
+  p(p(p\)\)
+  p(p(\)\)
+  p(p (p\)\)
+  p(p (\)\)
+  p(p ( p\)\)
+  p(p ( \)\)
+  p(p( p\)\)
+  p(p( \)\)
+  p(p\)
+  p((p\)\)
+  p(p \)
+  p((p \)\)
+  p((p p\)\)
+  p((p p,p\)\)
+  p((p p\)\)
+  p((p p,p\)\)
+  p(p-0\)
+  p(p -1\)
+  p(p- 0\)
+  p(p - 0\)
+  p(p+9\)
+  p(p +9\)
+  p(p+ 9\)
+  p(p + 9\)
+  p(p[1]\)
+  p(p [1]\)
+  p(p[ 1]\)
+  p(p [ 1]\)
+  p(p{1}\)
+  p(p {1}\)
+  p(p{ 1}\)
+  p(p { 1}\)
+  p(p/1\)
+  p(p /22/\)
+  p(p/ 1\)
+  p(p / 22\)
+  p(p._\)
+  p(p ._\)
+  p(p. _\)
+  p(p . _\)
+  p(p:f\)
+  p(p :f\)
+  p(false ? p: f\)
+  p(false ? p : f\)
+  p((p;1\)\)
+  p((p ;1\)\)
+  p((p; 1\)\)
+  p((p ; 1\)\)
+  p(p<1\)
+  p(p <1\)
+  p(p< 1\)
+  p(p < 1\)
+  p(p<<1\)
+  p(p <<1\)
+foobar)delimiter(
+1)>
+  ident(p)operator(()ident(p)operator(<<) integer(1)operator(\))
+  ident(p)operator(()ident(p) operator(<<) integer(1)operator(\))
+  ident(p)operator(()ident(p)string<delimiter(')content(j)delimiter(')>operator(\))
+  ident(p)operator(()ident(p) string<delimiter(')content(j)delimiter(')>operator(\))
+  ident(p)operator(()ident(p)string<delimiter(')content( j)delimiter(')>operator(\))
+  ident(p)operator(()ident(p) string<delimiter(')content( j)delimiter(')>operator(\))
+  ident(p)operator(()ident(p)string<delimiter(")content(k)delimiter(")>operator(\))
+  ident(p)operator(()ident(p) string<delimiter(")content(k)delimiter(")>operator(\))
+  ident(p)operator(()ident(p)string<delimiter(")content( k)delimiter(")>operator(\))
+  ident(p)operator(()ident(p) string<delimiter(")content( k)delimiter(")>operator(\))
+  ident(p)operator(()ident(p)operator(|)integer(4)operator(\))
+  ident(p)operator(()ident(p) operator(|)integer(4)operator(\))
+  ident(p)operator(()ident(p)operator(|) integer(4)operator(\))
+  ident(p)operator(()ident(p) operator(|) integer(4)operator(\))
+  ident(p)operator(()ident(p)operator(>)integer(2)operator(\))
+  ident(p)operator(()ident(p) operator(>)integer(2)operator(\))
+  ident(p)operator(()ident(p)operator(>) integer(2)operator(\))
+  ident(p)operator(()ident(p) operator(>) integer(2)operator(\))
+  
+reserved(end)
+
+
+reserved(def) method(bob)operator(()ident(x)operator(\)) ident(x) reserved(end)
+reserved(def) method(bill)operator(()ident(x)operator(\)) ident(x) reserved(end)
+ident(p)operator(()ident(bob) string<delimiter(%()content(22)delimiter(\))>operator(\))
+reserved(for) ident(bob) reserved(in) operator([)integer(100)operator(]) reserved(do) ident(p)operator(()ident(bob) string<delimiter(%()content(22)delimiter(\))>operator(\)) reserved(end)
+ident(p)operator(()ident(bob) string<delimiter(%()content(22)delimiter(\))>operator(\))
+reserved(def) method(%)operator(()ident(n)operator(\)) ident(to_s)operator(+)string<delimiter(")content(%)inline<delimiter(#{)ident(n)delimiter(})>delimiter(")> reserved(end)
+ident(p)operator(()ident(bill) string<delimiter(%()content(22)delimiter(\))>operator(\))
+reserved(begin) ident(sdjkfsjkdfsd)operator(;) reserved(rescue) constant(Object) operator(=)operator(>) ident(bill)operator(;) ident(p)operator(()ident(bill) string<delimiter(%()content(22)delimiter(\))>operator(\)) reserved(end)
+ident(p)operator(()ident(bill) string<delimiter(%()content(22)delimiter(\))>operator(\))
+reserved(undef) method(%)
+
+reserved(class) class(Object)
+
+ident(public) symbol(:`)
+reserved(def) method(`)operator(()ident(s)operator(\))
+  ident(print) string<delimiter(")content(bq: )inline<delimiter(#{)ident(s)delimiter(})>char(\\n)delimiter(")>
+reserved(end)
+reserved(end)
+
+integer(69)operator(.)operator(`)operator(()string<delimiter(')content(what a world)delimiter(')>operator(\))
+
+integer(79)operator(::)operator(`)operator(()string<delimiter(')content(what a word)delimiter(')>operator(\))
+
+ident(p) symbol(:`)
+
+ident(p)operator({)operator(})
+ident(p) operator({)operator(})
+ident(a)operator(=)integer(5)
+ident(p) ident(p) operator(+)integer(5)
+ident(p) ident(a) operator(+)integer(5)
+
+reserved(def) pre_constant(nil)operator(.)operator(+)operator(()ident(x)operator(\)) operator(~)ident(x) reserved(end)
+reserved(def) pre_constant(nil)operator(.)operator([])operator(()operator(*)ident(x)operator(\)) operator([)ident(x)operator(]) reserved(end)
+ident(p)operator(() ident(p) operator(+) integer(5) operator(\))
+ident(p)operator(() ident(p) operator(+)integer(5) operator(\))
+ident(p)operator(() ident(p)operator(+)integer(5) operator(\))
+ident(p)operator(() ident(p)operator([)operator(]) operator(\))
+ident(p)operator(() ident(p) operator([)operator(]) operator(\))
+ident(p)operator(() ident(p) operator([) operator(]) operator(\))
+reserved(class) class(NilClass)operator(;) reserved(undef) method(+)operator(,)method([]) reserved(end)
+
+reserved(class) class(Foou)
+ ident(public)
+ reserved(def) method([]) ident(x)operator(=)operator(-)integer(100)operator(,)operator(&)ident(y)operator(;) ident(p) ident(x)operator(;) integer(100) reserved(end)
+reserved(end)
+ident(a0)operator(=)integer(8)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([])operator(!)pre_constant(false)  comment(#value)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([]) operator(!)pre_constant(false) comment(#value)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([])operator(~)integer(9)      comment(#value)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([]) operator(~)integer(9)     comment(#value)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([])operator(-)integer(9)      comment(#op)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([])operator(+)integer(9)      comment(#op)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([]) operator(-)integer(9)     comment(#value)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([]) operator(+)integer(9)     comment(#value)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([])operator(<<)integer(9)     comment(#op)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([]) string<delimiter(<<9)>    comment(#value)string<content(
+foobar)delimiter(
+9)>
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([])operator(%)integer(9)      comment(#op)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([])operator(/)integer(9)      comment(#op)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([]) string<delimiter(%()content(9)delimiter(\))>   comment(#value)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([]) operator(/)integer(9)operator(/)    comment(#value)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([])global_variable($9)      comment(#value)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([])ident(a0)      comment(#value)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([]) global_variable($9)     comment(#value)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([]) ident(a0)     comment(#value)
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([])operator({)integer(9)operator(})     comment(#lambda (op\))
+ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([]) operator({)integer(9)operator(})    comment(#lambda (op\))
+
+reserved(if) ident(p) reserved(then) ident(p) reserved(end)
+
+ident(p)operator(()operator({)symbol(:foo=)operator(>)symbol(:bar)operator(})operator(\))   comment(#why does this work? i'd think that ':foo=' would be 1 token)
+ident(p)   constant(EMPTY) operator(=) integer(0)
+ident(p)   constant(BLACK) operator(=) integer(1)
+ident(p)   constant(WHITE) operator(=) operator(-) constant(BLACK)
+
+ ident(a)operator(=)ident(b)operator(=)ident(c)operator(=)integer(0)
+  ident(a) operator(?) ident(b)symbol(:c)
+  ident(a) integer(?b)symbol(:c)
+
+  ident(p)operator(()ident(a) operator(?) ident(b)symbol(:c)operator(\))
+  ident(p)operator(()ident(a) integer(?b)symbol(:c)operator(\))
+
+
+ident(p)operator(~)integer(4)
+ident(p)symbol(:f)
+ident(p)operator(()operator(~)integer(4)operator(\))operator({)operator(})
+ident(p)operator(()symbol(:f)operator(\))operator({)operator(})
+ident(h)operator(=)operator({)operator(})
+ident(h)operator(.)ident(default)operator(=)symbol(:foo)
+
+ident(p) reserved(def) operator(()ident(h)operator(=)string<delimiter(")content(foobar)delimiter(")>operator(\))operator(.)ident(default)operator(=) ident(v)operator(;) ident(p) instance_variable(@v)operator(=)ident(v)operator(;)ident(v) reserved(end)
+ident(p) ident(h)
+
+ident(p) ident(h)operator(.)ident(default)operator(=)symbol(:b)
+
+ident(x)operator(,) operator(()operator(*)ident(y)operator(\)) operator(=) operator([)symbol(:x)operator(,) symbol(:y)operator(,) symbol(:z)operator(])
+ident(p) ident(x)
+ident(p) ident(y)
+
+ident(x)operator(,) operator(*)ident(y) operator(=) operator([)symbol(:x)operator(,) symbol(:y)operator(,) symbol(:z)operator(])
+ident(p) ident(x)
+ident(p) ident(y)
+
+ident(x)operator(,) operator(*) operator(=) operator([)symbol(:x)operator(,) symbol(:y)operator(,) symbol(:z)operator(])
+ident(p) ident(x)
+
+
+
+ident(p) constant(Array)operator(()string<delimiter(")content(foo)char(\\n)content(bar)delimiter(")>operator(\))
+
+
+
+ident(p) operator(+)operator(()integer(4)operator(\))
+ident(p) operator(-)operator(()integer(4)operator(\))
+
+ident(p) symbol<symbol(:)delimiter(')char(\\\\)delimiter(')>
+
+reserved(class) class(Foop)
+  reserved(def) constant(Foop)operator(.)ident(bar) ident(a)operator(,)ident(b)
+    ident(p) ident(a)operator(,)ident(b)
+  reserved(end)
+reserved(end)
+constant(Foop)operator(.)ident(bar) integer(1)operator(,)integer(2)
+constant(Foop)operator(::)ident(bar) integer(3)operator(,)integer(4)
+
+
+reserved(class) class(Foop)
+  reserved(def) constant(Foop)operator(::)ident(baz) ident(a)operator(,)ident(b)
+    ident(p) symbol(:baz)operator(,)ident(a)operator(,)ident(b)
+  reserved(end)
+reserved(end)
+constant(Foop)operator(.)ident(baz) integer(5)operator(,)integer(6)
+constant(Foop)operator(::)ident(baz) integer(7)operator(,)integer(8)
+
+
+
+ident(without_creating)operator(=)ident(widgetname)operator(=)pre_constant(nil)
+      reserved(if) ident(without_creating) operator(&&) operator(!)ident(widgetname) comment(#foo)
+        ident(fail) constant(ArgumentError)operator(,)
+             string<delimiter(")content(if set 'without_creating' to true, need to define 'widgetname')delimiter(")>
+      reserved(end)
+
+
+
+comment(=begin disable for now
+
+#class, module, and def should temporarily hide local variables
+def mopsdfjskdf arg; arg*2 end
+mopsdfjskdf=5
+ class C
+ p mopsdfjskdf %(3\)    #calls method
+ end
+
+module M
+ p mopsdfjskdf %(4\)    #calls method
+end
+
+ def d
+ p mopsdfjskdf %(5\)    #calls method
+ end
+p d
+p mopsdfjskdf %(6\)     #reads variable
+p proc{mopsdfjskdf %(7\)}[] #reads variable
+
+#fancy symbols not supported yet
+p %s{symbol}
+=end)
+
+comment(#multiple assignment test)
+ident(proc) operator({)
+  ident(a)operator(,)ident(b)operator(,)ident(c)operator(,)ident(d)operator(,)ident(e)operator(,)ident(f)operator(,)ident(g)operator(,)ident(h)operator(,)ident(i)operator(,)ident(j)operator(,)ident(k)operator(=)integer(1)operator(,)integer(2)operator(,)integer(3)operator(,)integer(4)operator(,)integer(5)operator(,)integer(6)operator(,)integer(7)operator(,)integer(8)operator(,)integer(9)operator(,)integer(10)operator(,)integer(11)
+  ident(p)operator(()ident(b) string<delimiter(%()content(c)delimiter(\))>operator(\))
+  ident(p)operator(()ident(a) string<delimiter(%()content(c)delimiter(\))>operator(\))
+  ident(p)operator(()ident(k) string<delimiter(%()content(c)delimiter(\))>operator(\))
+  ident(p)operator(()ident(p) string<delimiter(%()content(c)delimiter(\))>operator(\))
+operator(})operator(.)ident(call)
+
+
+comment(=begin disable for now
+p "#{<<kekerz}#{"foob"
+zimpler
+kekerz
+}"
+
+
+aaa=<<whatnot; p "#{'uh,yeah'
+gonna take it down, to the nitty-grit
+gonna tell you mother-fuckers why you ain't shit
+cause suckers like you just make me strong
+whatnot
+}"
+p aaa
+
+#test variable creation in string inclusion
+#currently broken because string inclusions
+#are lexed by a separate lexer!
+proc {
+  p "jentawz: #{baz=200}"
+  p( baz %(9\)\)
+}.call
+=end)
+
+comment(=begin ought to work...ruby doesn't like
+class A
+class B
+class C
+end
+end
+end
+def A::B::C::d(\) :abcd end
+def A::B::d(\) :abd end   #this used to work as well... i think
+
+def nil.d=; end #this works
+def (;\).d=; end
+def (\).d=; end
+p def (p h="foobar";\).default= v; p @v=v;v end
+p def (p h="foobar";h\).default= v; p @v=v;v end
+
+p~4{}
+p:f{}
+p ~4{}
+p :f{}
+
+def g a=:g; [a] end
+g g g  #this works
+g *g   #this works
+g *g g #this doesn't
+
+[nil,p 5]
+"foo"+[1].join' '
+
+class Fook
+def foo; end
+
+
+#these work:
+(not true\)
+p(!true\) #etc
+(true if false\) #etc
+(true and false\) #etc
+(undef foo\)
+(alias bar foo\)
+(BEGIN{p :yyy}\)
+
+#these don't:
+p(not true\)
+p(true if false\) #etc
+p(true and false\) #etc
+p(undef foo\)
+p(alias bar foo\)
+p(BEGIN{p :yyy}\)
+end
+
+=end)
+
+ident(proc) operator({)
+operator(})
+
+ident(p) string<delimiter(")inline<delimiter(#{)string<delimiter(<<foobar3)>delimiter(})>delimiter(")>
+ident(bim)
+ident(baz)
+ident(bof)
+ident(foobar3)
+
+reserved(def) method(func)
+  ident(a)operator(,)ident(b)operator(,)operator(*) operator(=) operator([)integer(1)operator(,)integer(2)operator(,)integer(3)operator(,)integer(4)operator(,)integer(5)operator(,)integer(6)operator(,)integer(7)operator(,)integer(8)operator(])
+  ident(p) ident(a)operator(,)ident(b)
+  ident(a)operator(,)ident(b)operator(,) operator(=) operator([)integer(1)operator(,)integer(2)operator(,)integer(3)operator(,)integer(4)operator(,)integer(5)operator(,)integer(6)operator(,)integer(7)operator(,)integer(8)operator(])
+  ident(p) ident(a)operator(,)ident(b)
+
+  ident(a)operator(,)ident(b) operator(=) operator([)integer(1)operator(,)integer(2)operator(,)integer(3)operator(,)integer(4)operator(,)integer(5)operator(,)integer(6)operator(,)integer(7)operator(,)integer(8)operator(])
+  ident(p) ident(a)operator(,)ident(b)
+  ident(a)operator(,)operator(*)ident(b) operator(=) operator([)integer(1)operator(,)integer(2)operator(,)integer(3)operator(,)integer(4)operator(,)integer(5)operator(,)integer(6)operator(,)integer(7)operator(,)integer(8)operator(])
+  ident(p) ident(a)operator(,)ident(b)
+
+  ident(a)operator(,)ident(b)operator(,)operator(*)ident(c)operator(=)operator([)integer(1)operator(,)integer(2)operator(,)integer(3)operator(,)integer(4)operator(,)integer(5)operator(,)integer(6)operator(,)integer(7)operator(,)integer(8)operator(])
+  ident(a)operator(,)ident(b)operator(,)operator(*) ident(c)operator(=)operator([)integer(1)operator(,)integer(2)operator(,)integer(3)operator(,)integer(4)operator(,)integer(5)operator(,)integer(6)operator(,)integer(7)operator(,)integer(8)operator(])
+reserved(end)
+ident(func)
+
+
+ident(p)operator(() regexp<delimiter(%r{)char(\\/)content($)delimiter(})>operator(\))
+ident(p)operator(() regexp<delimiter(%r~)content(<!include:([)char(\\/)char(\\w)char(\\.)char(\\-)content(]+\)>)delimiter(~)modifier(m)>operator(\))
+
+ident(p) string<delimiter(<<end)>string<content(
+)inline<delimiter(#{)ident(compile_body)delimiter(})>char(\\
+)inline<delimiter(#{)ident(outvar)delimiter(})>delimiter(
+end)>
+
+
+
+
+
+ident(proc) operator({)
+  ident(h)operator(=)operator({)symbol(:a=)operator(>)operator(()ident(foo)operator(=)integer(100)operator(\))operator(})
+  ident(p)operator(() ident(foo) string<delimiter(%()content(5)delimiter(\))>operator(\))
+operator(})operator(.)ident(call)
+
+
+ident(p) string<delimiter(")inline<delimiter(#{)string<delimiter(<<foobar3)>delimiter(})>delimiter(")>
+ident(bim)
+ident(baz)
+ident(bof)
+ident(foobar3)
+
+ident(p) string<delimiter(")inline<delimiter(#{)string<delimiter(<<foobar2)>string<content(
+bim
+baz
+bof)delimiter(
+foobar2)>
+delimiter(})>delimiter(")>
+
+ident(p) string<delimiter(<<one)> operator(;) ident(p) string<delimiter(")inline<delimiter(#{)string<delimiter(<<two)>delimiter(})>delimiter(")>string<content(
+1111111111111111
+fdsgdfgdsfffff)delimiter(
+one)>string<content(
+2222222222222222
+sdfasdfasdfads)delimiter(
+two)>
+ident(p) string<delimiter(")inline<delimiter(#{)string<delimiter(<<foobar0)>operator(.)ident(each)operator(()string<delimiter(')content(|)delimiter(')>operator(\))operator({)operator(|)ident(s)operator(|) string<delimiter(')content(\\n)content(thort: )delimiter(')>operator(+)ident(s)operator(}) delimiter(})>delimiter(")>
+ident(jbvd)operator(|)ident(g4543ghb)operator(|)operator(!)instance_variable(@G)global_variable($dfsd)operator(|)ident(fafr)operator(|)ident(e)
+operator(|)ident(s4e5rrwware)operator(|)constant(BBBBB)operator(|*)operator(&)operator(^)operator(()operator(*&)operator(^)operator(>)string<delimiter(")content(PMK:njs;d|
+
+foobar0
+
+p )delimiter(")>comment(#{<<foobar1.each('|'\){|s| '\\nthort: '+s})
+ident(jbvd)operator(|)ident(g4543ghb)operator(|)operator(!)instance_variable(@G)global_variable($dfsd)operator(|)ident(fafr)operator(|)ident(e)
+operator(|)ident(s4e5rrwware)operator(|)constant(BBBBB)operator(|*)operator(&)operator(^)operator(()operator(*&)operator(^)operator(>)string<delimiter(")content(PMK:njs;d|
+
+foobar1
+})delimiter(")>
+
+reserved(def) method(foo)operator(()ident(a)operator(=)string<delimiter(<<a)>operator(,)ident(b)operator(=)string<delimiter(<<b)>operator(,)ident(c)operator(=)string<delimiter(<<c)>operator(\))string<content(
+jfksdkjf
+dkljjkf)delimiter(
+a)>string<content(
+kdljfjkdg
+dfglkdfkgjdf
+dkf)delimiter(
+b)>string<content(
+lkdffdjksadhf
+sdflkdjgsfdkjgsdg
+dsfg;lkdflisgffd
+g)delimiter(
+c)>
+
+   ident(a)operator(+)ident(b)operator(+)ident(c)
+
+reserved(end)
+ident(p) ident(foo)
+
+
+
+global_variable($a)operator(=)integer(1)
+instance_variable(@b)operator(=)integer(2)
+class_variable(@@c)operator(=)integer(3)
+ident(p) string<delimiter(")escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)delimiter(})>delimiter(")>
+ident(p) string<delimiter(")char(\\#)content($a )char(\\#)content(@b )char(\\#)content(@@c )char(\\#)content({$a+@b+@@c})delimiter(")>
+ident(p) string<delimiter(')content(#$a #@b #@@c #{$a+@b+@@c})delimiter(')>
+ident(p) string<delimiter(')content(\\#)content($a )content(\\#)content(@b )content(\\#)content(@@c )content(\\#)content({$a+@b+@@c})delimiter(')>
+ident(p) string<delimiter(%w")content(#$a #@b #@@c #{$a+@b+@@c})delimiter(")>
+ident(p) string<delimiter(%w")content(\\#)content($a )content(\\#)content(@b )content(\\#)content(@@c )content(\\#)content({$a+@b+@@c})delimiter(")>
+ident(p) string<delimiter(%W")escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)delimiter(})>delimiter(")>
+ident(p) string<delimiter(%W")char(\\#)content($a )char(\\#)content(@b )char(\\#)content(@@c )char(\\#)content({$a+@b+@@c})delimiter(")>
+ident(p) string<delimiter(%Q[)escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)delimiter(})>delimiter(])>
+ident(p) string<delimiter(%Q[)char(\\#)content($a )char(\\#)content(@b )char(\\#)content(@@c )char(\\#)content({$a+@b+@@c})delimiter(])>
+ident(p) shell<delimiter(`)content(echo )escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)delimiter(})>delimiter(`)>
+ident(p) shell<delimiter(`)content(echo )char(\\#)content($a )char(\\#)content(@b )char(\\#)content(@@c )char(\\#)content({$a+@b+@@c})delimiter(`)>
+ident(p)operator(()regexp<delimiter(/)escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)delimiter(})>delimiter(/)>operator(\))
+comment(#p(/\\#$a \\#@b \\#@@c \\#{$a+@b+@@c}/\) #moved to w.rb)
+
+reserved(class) class(AA)operator(;) reserved(class) class(BB)operator(;) reserved(class) class(CC)
+constant(FFOO)operator(=)integer(1)
+reserved(end) reserved(end) reserved(end)
+
+ident(p) constant(AA)operator(::)constant(BB)operator(::)constant(CC)operator(::)constant(FFOO)
+
+ident(compile_body)operator(=)ident(outvar)operator(=)string<delimiter(')content(foob)delimiter(')>
+
+reserved(if) pre_constant(false)
+ ident(method_src) operator(=) ident(c)operator(.)ident(compile)operator(()ident(template)operator(,) operator(()constant(HtmlCompiler)operator(::)constant(AnyData)operator(.)ident(new)operator(\))operator(\))operator(.)ident(join)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\)) operator(+)
+    string<delimiter(")char(\\n)content(# generated by PartsTemplate::compile_partstemplate at )inline<delimiter(#{)constant(Time)operator(.)ident(new)delimiter(})>char(\\n)delimiter(")>
+ ident(rescu) operator(-)integer(1)
+reserved(end)
+
+  ident(p)operator(()string<delimiter(')content(rb_out)delimiter(')>operator(,) string<delimiter(')content(args)delimiter(')>operator(,) string<delimiter(<<-'EOL')>operator(\))string<content(
+    regsub -all {!} $args {)char(\\\\)content(!} args
+    regsub -all "{" $args ")char(\\\\)content({" args
+    if {[set st [catch {ruby [format "TkCore.callback %%Q!%s!" $args]} ret]] != 0} {
+        return -code $st $ret
+    } {
+        return $ret
+    })delimiter(
+  EOL)>
+
+reserved(def) method(add)operator(()operator(*)ident(args)operator(\))
+   pre_constant(self)operator(.)operator(<<)operator(()operator(*)ident(args)operator(\))
+reserved(end)
+
+
+
+ident(val)operator(=)string<delimiter(%[)content(13,17,22,"hike", ?)char(\\s)delimiter(])>
+    reserved(if) ident(val)operator(.)ident(include?) integer(?\\s)
+      ident(p) ident(val)operator(.)ident(split)operator(.)ident(collect)operator({)operator(|)ident(v)operator(|) operator(()ident(v)operator(\))operator(})
+    reserved(end)
+ident(p) string<delimiter(")inline<delimiter(#{)delimiter(})>delimiter(")>
+ident(p) string<delimiter(")content(#(1\))delimiter(")>
+reserved(class) class(Hosts)
+reserved(end)
+reserved(class) class(DNS) operator(<) constant(Hosts)
+reserved(end)
+reserved(def) method(intialize)operator(()ident(resolvers)operator(=)operator([)constant(Hosts)operator(.)ident(new)operator(,) constant(DNS)operator(.)ident(new)operator(])operator(\)) reserved(end)
+reserved(def) method(environment)operator(()ident(env) operator(=) constant(File)operator(.)ident(basename)operator(()global_variable($0)operator(,) string<delimiter(')content(.*)delimiter(')>operator(\))operator(\)) reserved(end)
+
+reserved(def) method(ssssss) operator(&)ident(block)
+reserved(end)
+reserved(def) method(params_quoted)operator(()ident(field_name)operator(,) ident(default)operator(\))
+  reserved(if) ident(block_given?) reserved(then) reserved(yield) ident(field_name) reserved(else) ident(default) reserved(end)
+reserved(end)
+reserved(def) method(==)operator(()ident(o)operator(\)) integer(444) reserved(end)
+reserved(def) constant(String)operator(.)ident(ffff4)operator(()operator(\)) pre_constant(self)operator(.)ident(to_s)operator(+)string<delimiter(")content(ffff)delimiter(")> reserved(end)
+
+ident(p) operator(*)operator([)operator(])
+reserved(for) ident(i) reserved(in) \
+operator([)integer(44)operator(,)integer(55)operator(,)integer(66)operator(,)integer(77)operator(,)integer(88)operator(]) reserved(do) ident(p) ident(i)operator(**)constant(Math)operator(.)ident(sqrt)operator(()ident(i)operator(\)) reserved(end)
+
+comment(#()
+reserved(for) ident(i) reserved(in) reserved(if)
+pre_constant(false) reserved(then) ident(foob12345)operator(;) reserved(else) operator([)integer(44)operator(,)integer(55)operator(,)integer(66)operator(,)integer(77)operator(,)integer(88)operator(]) reserved(end) reserved(do) ident(p) ident(i)operator(**)constant(Math)operator(.)ident(sqrt)operator(()ident(i)operator(\)) reserved(end)
+comment(#\))
+operator(()
+reserved(for) ident(i) reserved(in) reserved(if) pre_constant(false) reserved(then)
+ident(foob12345)operator(;) reserved(else) operator([)integer(44)operator(,)integer(55)operator(,)integer(66)operator(,)integer(77)operator(,)integer(88)operator(]) reserved(end) reserved(do) ident(p) ident(i)operator(**)constant(Math)operator(.)ident(sqrt)operator(()ident(i)operator(\)) reserved(end)
+
+ident(c)operator(=)ident(j)operator(=)integer(0)
+reserved(until) reserved(while) ident(j)operator(<)integer(10) reserved(do) ident(j)operator(+)operator(=)integer(1) reserved(end)operator(.)ident(nil?) reserved(do) ident(p) string<delimiter(')content(pppppppppp)delimiter(')> reserved(end)
+reserved(for) ident(i) reserved(in) reserved(if) pre_constant(false) reserved(then) ident(foob12345)operator(;)
+reserved(else) operator([)integer(44)operator(,)integer(55)operator(,)integer(66)operator(,)integer(77)operator(,)integer(88)operator(]) reserved(end) reserved(do) ident(p) ident(i)operator(**)constant(Math)operator(.)ident(sqrt)operator(()ident(i)operator(\)) reserved(end)
+
+reserved(for) ident(i) reserved(in) reserved(if) pre_constant(false) reserved(then) ident(foob12345)operator(;) reserved(else)
+operator([)integer(44)operator(,)integer(55)operator(,)integer(66)operator(,)integer(77)operator(,)integer(88)operator(]) reserved(end) reserved(do) ident(p) ident(i)operator(**)constant(Math)operator(.)ident(sqrt)operator(()ident(i)operator(\)) reserved(end)
+
+
+reserved(for) ident(i) reserved(in) operator(()ident(c)operator(;)
+operator([)integer(44)operator(,)integer(55)operator(,)integer(66)operator(,)integer(77)operator(,)integer(88)operator(])operator(\)) reserved(do) ident(p) ident(i)operator(**)constant(Math)operator(.)ident(sqrt)operator(()ident(i)operator(\)) reserved(end)
+operator(\))
+operator(()
+
+reserved(for) ident(i) reserved(in) operator(()reserved(begin)
+operator([)integer(44)operator(,)integer(55)operator(,)integer(66)operator(,)integer(77)operator(,)integer(88)operator(]) reserved(end)operator(\)) reserved(do) ident(p) ident(i)operator(**)constant(Math)operator(.)ident(sqrt)operator(()ident(i)operator(\)) reserved(end)
+
+reserved(for) ident(i) reserved(in) reserved(if) pre_constant(false) reserved(then) ident(foob12345)operator(;) reserved(else)
+operator([)integer(44)operator(,)integer(55)operator(,)integer(66)operator(,)integer(77)operator(,)integer(88)operator(]) reserved(end) reserved(do) ident(p) ident(i)operator(**)constant(Math)operator(.)ident(sqrt)operator(()ident(i)operator(\)) reserved(end)
+
+reserved(for) ident(i) reserved(in) operator(()
+
+operator([)integer(44)operator(,)integer(55)operator(,)integer(66)operator(,)integer(77)operator(,)integer(88)operator(])operator(\)) reserved(do) ident(p) ident(i)operator(**)constant(Math)operator(.)ident(sqrt)operator(()ident(i)operator(\)) reserved(end)
+
+reserved(for) ident(i) reserved(in) operator(()
+operator([)integer(44)operator(,)integer(55)operator(,)integer(66)operator(,)integer(77)operator(,)integer(88)operator(])operator(\)) reserved(do) ident(p) ident(i)operator(**)constant(Math)operator(.)ident(sqrt)operator(()ident(i)operator(\)) reserved(end)
+
+operator(\))
+
+
+reserved(def) method(yy)operator(;)reserved(yield) reserved(end)
+
+ident(block)operator(=)ident(proc)operator({)ident(p) string<delimiter(")content(blah  blah)delimiter(")>operator(})
+
+ident(yy) operator(&)ident(block)
+ident(p)operator(()integer(1)operator(.)operator(+)integer(1)operator(\))
+ident(p) ident(pppp)
+
+reserved(module) class(M66)
+ident(p)operator(()ident(proc) reserved(do)
+   ident(p)operator(=)integer(123)
+reserved(end)operator(.)ident(call)operator(\))
+
+ident(p) ident(proc) operator({)
+   ident(p)operator(=)integer(123)
+operator(})operator(.)ident(call)
+
+ident(p) reserved(def) method(pppp)
+   ident(p)operator(=)integer(123)
+reserved(end)
+ident(p) reserved(module) class(Ppp)
+   ident(p)operator(=)integer(123)
+reserved(end)
+ident(p) reserved(class) class(Pppp) operator(<) constant(String)
+   ident(p)operator(=)integer(123)
+reserved(end)
+reserved(end)
+
+    reserved(def) method(_make_regex)operator(()ident(str)operator(\)) operator(/)operator(()operator([)comment(#{Regexp.escape(str\)}]\)/n end)
+ident(p) ident(_make_regex)operator(()string<delimiter(")content(8smdf,34rh)char(\\#)content(@)char(\\#)content($%$gfm/[]dD)delimiter(")>operator(\))
+
+
+ident(p) string<delimiter(")escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content(
+
+d e f
+)escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content(
+)delimiter(")>
+
+ident(p) string<delimiter(")char(\\")delimiter(")>
+
+ident(a)operator(=)ident(a)operator(.)ident(to_s)
+reserved(class) operator(<<)class(a)
+  reserved(def) method(foobar)
+     pre_constant(self)operator(*)integer(101)
+  reserved(end)
+  reserved(alias)    ident(eql?)    operator(==)
+reserved(end)
+
+ident(p) ident(a)operator(.)ident(foobar)
+
+ident(p)operator(()regexp<delimiter(/)content(^)char(\\s)content(*(([+-)char(\\/)content(*&)char(\\|)content(^]|<<|>>|)char(\\|)char(\\|)content(|)char(\\&)char(\\&)content(\)=|)char(\\&)char(\\&)content(|)char(\\|)char(\\|)content(\))delimiter(/)>operator(\))
+ident(p)operator(()symbol(:%)operator(\))
+ident(p)operator(() operator({) symbol(:class) operator(=)operator(>) ident(class_)operator(=)integer(0)operator(})operator(\))
+ident(p) ident(cls_name) operator(=) operator({)operator(})operator([)symbol(:class)operator(])
+
+
+ident(p) ident(foo)
+ident(p) string<delimiter(")inline<delimiter(#{)global_variable($!)operator(.)ident(class)delimiter(})>delimiter(")>
+ident(p) symbol(:p)
+ident(p)operator(()symbol(:p)operator(\))
+ident(p)operator(()symbol<symbol(:)delimiter(")content([])delimiter(")>operator(\))
+ident(p) symbol<symbol(:)delimiter(")content([])delimiter(")>
+ident(p)operator(()string<delimiter(")char(\\\\)delimiter(")>operator(\))
+ident(p)operator(()regexp<delimiter(/)char(\\\\)delimiter(/)>operator(\))
+ident(p)operator(()regexp<delimiter(/)content([)char(\\\\)content(])delimiter(/)>operator(\))
+ident(p) integer(0x80)
+ident(p) integer(?p)
+ident(p) float(0.1)
+ident(p) float(0.8)
+ident(p) float(0.9)
+ident(p)operator(()operator(-)integer(1)operator(\))
+ident(p) string<delimiter(%/)content(p)delimiter(/)>
+ident(p) string<delimiter(%Q[)content(<LI>)delimiter(])>
+ident(i)operator(=)integer(99)
+ident(p) string<delimiter(%Q[)content(<LI><A HREF=")inline<delimiter(#{)ident(i)operator([)integer(3)operator(])delimiter(})>content(.html)char(\\#)inline<delimiter(#{)ident(i)operator([)integer(4)operator(])delimiter(})>content(">)inline<delimiter(#{)ident(i)operator([)integer(0)operator(])operator(+)ident(i)operator([)integer(1)operator(])operator(+)operator(()ident(i)operator([)integer(2)operator(])operator(\))delimiter(})>content(</A>)char(\\n)delimiter(])>
+ident(p)operator(()symbol(:side=)operator(>)symbol(:top)operator(\))
+ident(p) string<delimiter(%w[)content(a b c
+     d e f)delimiter(])>
+ident(p) string<delimiter(%w[)content(a b c)content(\\n)content(
+     d e f)delimiter(])>
+ident(p) string<delimiter(%w[)char(\\\\)delimiter(])>
+ident(p) string<delimiter(%w[)char(\\])delimiter(])>
+ident(p) symbol(:+)
+ident(p) integer(99) operator(/) integer(3)
+
+ident(a)operator(=)integer(99)operator(;)ident(b)operator(=)integer(3)
+ident(p) integer(1)operator(+)operator(()ident(a) operator(/) ident(b)operator(\))
+ident(p) string<delimiter(%Q[)char(\\")delimiter(])>
+ident(p) string<delimiter(%Q[)content( some )nesting_delimiter([)content(nested)nesting_delimiter(])content( text)delimiter(])>
+
+reserved(if) pre_constant(false)
+     ident(formatter)operator(.)ident(format_element)operator(()ident(element)operator(\)) reserved(do)
+       ident(amrita_expand_and_format1)operator(()ident(element)operator(,) ident(context)operator(,) ident(formatter)operator(\))
+     reserved(end)
+reserved(end)
+reserved(if) pre_constant(false)
+ ident(ret) operator(=) string<delimiter(<<-END)>string<content(
+ @@parts_template = )inline<delimiter(#{)ident(template)operator(.)ident(to_ruby)delimiter(})>content(
+ def parts_template
+   @@parts_template
+ end
+
+ )inline<delimiter(#{)ident(c)operator(.)ident(const_def_src)operator(.)ident(join)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\))delimiter(})>content(
+ def amrita_expand_and_format(element, context, formatter\)
+   if element.tagname_symbol == :span and element.attrs.size == 0
+     amrita_expand_and_format1(element, context, formatter\)
+   else
+     formatter.format_element(element\) do
+       amrita_expand_and_format1(element, context, formatter\)
+     end
+   end
+ end
+
+ def amrita_expand_and_format1(element, context, formatter\)
+   )inline<delimiter(#{)ident(method_src)delimiter(})>content(
+ end)delimiter(
+ END)>
+ ident(j)operator(=)integer(55)
+reserved(end)
+
+ident(p) string<delimiter(')content(
+)delimiter(')>
+ident(p) string<delimiter(')content(\\n)delimiter(')>
+ident(p) string<delimiter(")content(
+)delimiter(")>
+ident(p) string<delimiter(")char(\\n)delimiter(")>
+ident(p) string<delimiter(%w/)content(
+)delimiter(/)>
+ident(p) string<delimiter(%w/)content(\\n)delimiter(/)>
+
+ident(p) string<delimiter(%W/)content(
+)delimiter(/)>
+ident(p) string<delimiter(%W/)char(\\n)delimiter(/)>
+ident(p)operator(()regexp<delimiter(/)content(
+)delimiter(/)>operator(\))
+ident(p)operator(()regexp<delimiter(/)char(\\n)delimiter(/)>operator(\))
+ident(p) ident(proc) operator({)
+  ident(p) shell<delimiter(`)content(
+  )delimiter(`)>
+  ident(p) shell<delimiter(`)char(\\n)delimiter(`)>
+operator(})
+
+
+
+ident(p)operator(()regexp<delimiter(%r[)content(foo)delimiter(])modifier(i)>operator(\))
+comment(#breakpoint)
+ident(p) string<delimiter(<<stuff)>operator(+)string<delimiter(')content(foobar)delimiter(')>operator(.)ident(tr)operator(()string<delimiter(')content(j-l)delimiter(')>operator(,)string<delimiter(')content(d-f)delimiter(')>operator(\))string<content(
+"more stuff"
+12345678
+the quick brown fox jumped over the lazy dog)delimiter(
+stuff)>
+
+comment(=begin doesn't work
+p <<stuff+'foobar'.tr('j-l','d-f'\)\\
++"more stuff"
+12345678
+the quick brown fox jumped over the lazy dog
+stuff
+=end)
+
+ident(p) constant(ENV)operator([)string<delimiter(")content(AmritaCacheDir)delimiter(")>operator(])
+ident(p) string<delimiter(<<-BEGIN)> operator(+) string<delimiter(<<-END)>string<content(
+          def element_downcase(attributes = {}\))delimiter(
+        BEGIN)>string<content(
+          end)delimiter(
+        END)>
+
+
+
+ident(p) string<delimiter(<<ggg)>operator(;) reserved(def)string<content(
+kleegarts(\) p 'kkkkkkk' end
+dfgdgfdf)delimiter(
+ggg)>
+ident(koomblatz!)operator(()operator(\)) ident(p) string<delimiter(')content(jdkfsk)delimiter(')> reserved(end)
+
+ident(koomblatz!)
+
+ident(p) ident(f) operator(=) float(3.7517675036461267e+17)
+ident(p) global_variable($10)
+ident(p) global_variable($1001)
+ident(p)operator(() string<delimiter(<<end)> operator(\))string<content(
+nine time nine men have stood untold.)delimiter(
+end)>
+
+reserved(def) method(jd_to_wday)operator(()ident(jd)operator(\)) operator(()ident(jd) operator(+) integer(1)operator(\)) operator(%) integer(7) reserved(end)
+ident(p) ident(jd_to_wday)operator(()integer(98)operator(\))
+
+
+ident(p)    ident(pre) operator(=) global_variable($`)
+comment(=begin
+=end)
+
+ident(p) string<delimiter(<<"..end ..")>string<content(
+cbkvjb
+vb;lkxcvkbxc
+vxlc;kblxckvb
+xcvblcvb)delimiter(
+..end ..)>
+
+ident(p) global_variable($-j)operator(=)integer(55)
+
+reserved(def) method(empty)operator(()operator(\)) reserved(end)
+
+ident(p) string<delimiter(<<a)>string<content(
+dkflg
+flk)delimiter(
+a)>
+
+ident(label)operator(=)string<delimiter(')content(label)delimiter(')>operator(;)ident(tab)operator(=)operator([)integer(1)operator(,)integer(2)operator(,)integer(3)operator(])
+      ident(p) string<delimiter(<<S)>string<content(
+)inline<delimiter(#{)ident(label)delimiter(})>content( = arr = Array.new()inline<delimiter(#{)ident(tab)operator(.)ident(size)delimiter(})>content(, nil\)
+str = a = i = nil
+idx = 0
+clist.each do |str|
+  str.split(',', -1\).each do |i|
+    arr[idx] = i.to_i unless i.empty?
+    idx += 1
+  end
+end
+)delimiter(
+S)>
+reserved(def) method(printem1) ident(a)operator(,)ident(b)operator(,)ident(c)
+   ident(p)operator(()ident(a) operator(+)integer(77)operator(\))
+   ident(p)operator(()ident(b) operator(+)integer(77)operator(\))
+   ident(p)operator(()ident(c) operator(+)integer(77)operator(\))
+reserved(end)
+
+reserved(def) method(foobar)operator(()operator(\)) reserved(end)
+reserved(def) method(foobar2)
+reserved(end)
+
+reserved(def) method(printem0)operator(()ident(a)operator(\))
+   ident(p)operator(()ident(a) operator(+)integer(77)operator(\))
+reserved(end)
+reserved(def) method(printem0)operator(()ident(a)operator(,)ident(b)operator(,)ident(c)operator(\))
+   ident(p)operator(()ident(a) operator(+)integer(77)operator(\))
+   ident(p)operator(()ident(b) operator(+)integer(77)operator(\))
+   ident(p)operator(()ident(c) operator(+)integer(77)operator(\))
+reserved(end)
+reserved(def) method(printem2) ident(a)operator(,)ident(b)operator(,)ident(c)operator(;) ident(p)operator(()ident(a) operator(+)integer(77)operator(\))operator(;) ident(p)operator(()ident(b) operator(+)integer(77)operator(\))operator(;) ident(p)operator(()ident(c) operator(+)integer(77)operator(\)) reserved(end)
+reserved(def) method(three)operator(()operator(\)) operator(()integer(1)operator(+)integer(2)operator(\)) reserved(end)
+
+reserved(def) method(d)operator(;)reserved(end)
+reserved(def) method(d)operator(()operator(\))reserved(end)
+reserved(def) method(d)operator(()ident(dd)operator(\))reserved(end)
+
+reserved(def) method(printem) ident(a)operator(,)ident(b)operator(,)ident(c)
+   ident(p) ident(a)operator(;)ident(p) ident(b)operator(;)ident(p) ident(c)
+   ident(p)operator(()ident(a) operator(+)integer(77)operator(\))
+   ident(p)operator(()ident(b) string<delimiter(%()content(0.123)delimiter(\))>operator(\))
+reserved(end)
+ident(printem) integer(1)operator(,)integer(2)operator(,)integer(3)
+
+ident(a)operator(=)integer(1)
+ident(p)operator(()ident(a) operator(+)integer(77)operator(\))
+
+reserved(def) method(hhh)operator(()ident(a)operator(=)operator(()integer(1)operator(+)integer(2)operator(\))operator(\)) ident(a) reserved(end)
+
+
+
+reserved(END) operator({)
+  ident(p) string<delimiter(")content(bye-bye)delimiter(")>
+operator(})
+
+
+ident(p) string<delimiter(<<here)>string<content(
+where?)delimiter(
+here)>
+ident(p) string<delimiter(<<-what)>string<content(
+     ? that's)delimiter(
+  what)>
+ident(p) ident(proc)operator({)operator(||)operator(})
+reserved(for) ident(i) reserved(in) reserved(if) pre_constant(false)
+ident(foob12345)operator(;) reserved(else) operator([)integer(44)operator(,)integer(55)operator(,)integer(66)operator(,)integer(77)operator(,)integer(88)operator(]) reserved(end) reserved(do) ident(p) ident(i)operator(**)constant(Math)operator(.)ident(sqrt)operator(()ident(i)operator(\)) reserved(end)
+ident(p) string<delimiter(")char(\\v)delimiter(")>
+ident(c)operator(=)integer(0)
+      reserved(while) ident(c) operator(==) regexp<delimiter(/)content([ )char(\\t)char(\\f)char(\\r)char(\\13)content(])delimiter(/)>operator(;) reserved(end)
+
+
+
+
+
+
+
+

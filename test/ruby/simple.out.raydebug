@@ -1,0 +1,2 @@
+ident(puts) string<delimiter(")content(Hello, World!)delimiter(")>
+ident(p) integer(2) operator(*) integer(19)

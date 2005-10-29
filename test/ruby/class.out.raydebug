@@ -1,0 +1,83 @@
+global_variable($:) operator(<<) constant(File)operator(.)ident(dirname)operator(()pre_constant(__FILE__)operator(\)) operator(+) string<delimiter(')content(/..)delimiter(')>
+ident(require) string<delimiter(')content(coderay)delimiter(')>
+constant(CodeRay)operator(::)constant(Encoders)operator([)symbol(:tokens)operator(])
+constant(CodeRay)operator(::)constant(Encoders)operator([)symbol(:html)operator(])
+
+ident(require) string<delimiter(')content(test/unit)delimiter(')>
+ident(include) constant(Test)operator(::)constant(Unit)
+
+reserved(class) class(CodeRaySuite) operator(<) constant(TestCase)
+	
+	reserved(def) pre_constant(self)operator(.)ident(dir) operator(&)ident(block)
+		instance_variable(@dir) operator(||)operator(=) constant(File)operator(.)ident(dirname)operator(()instance_variable(@file)operator(\))
+		reserved(if) ident(block)
+			constant(Dir)operator(.)ident(chdir) instance_variable(@dir)operator(,) operator(&)ident(block)
+		reserved(end)
+		instance_variable(@dir)
+	reserved(end)
+	
+	reserved(def) method(dir) operator(&)ident(block)
+		pre_constant(self)operator(.)ident(class)operator(.)ident(dir) operator(&)ident(block)
+	reserved(end)
+	
+	reserved(def) method(extension)
+		string<delimiter(')content(in.)delimiter(')> operator(+) pre_constant(self)operator(.)ident(class)operator(::)constant(EXTENSION)
+	reserved(end)
+
+	reserved(def) method(lang)
+		pre_constant(self)operator(.)ident(class)operator(::)constant(LANG)
+	reserved(end)
+
+	reserved(def) method(test_ALL)
+		constant(CodeRay)operator(::)constant(Scanners)operator(.)ident(load) ident(lang)
+		ident(tokenizer) operator(=) constant(CodeRay)operator(.)ident(tokens)
+		ident(highlighter) operator(=) constant(CodeRay)operator(.)ident(html)
+		
+		ident(dir) reserved(do)
+			reserved(for) ident(input) reserved(in) constant(Dir)operator([)string<delimiter(")content(*.)inline<delimiter(#{)ident(extension)delimiter(})>delimiter(")>operator(])
+				ident(name) operator(=) constant(File)operator(.)ident(basename)operator(()ident(input)operator(,) string<delimiter(")content(.)inline<delimiter(#{)ident(extension)delimiter(})>delimiter(")>operator(\))
+				ident(output) operator(=) ident(name) operator(+) string<delimiter(')content(.out.tok)delimiter(')>
+				ident(code) operator(=) constant(File)operator(.)ident(read)operator(()ident(input)operator(\))
+
+				ident(computed) operator(=) ident(tokenizer)operator(.)ident(encode) ident(code)operator(,) ident(lang)
+				
+				reserved(if) constant(File)operator(.)ident(exist?) ident(output)
+					ident(expected) operator(=) constant(File)operator(.)ident(read) ident(output)
+					ident(assert_equal)operator(()ident(expected)operator(,) ident(computed)operator(\))
+				reserved(else)
+					constant(File)operator(.)ident(open)operator(()ident(output)operator(,) string<delimiter(')content(w)delimiter(')>operator(\)) reserved(do) operator(|)ident(f)operator(|) ident(f)operator(.)ident(write) ident(computed) reserved(end)
+					ident(puts) string<delimiter(")content(New test: )inline<delimiter(#{)ident(output)delimiter(})>delimiter(")>
+				reserved(end)
+
+				ident(highlighted) operator(=) ident(highlighter)operator(.)ident(highlight_page) ident(code)operator(,) ident(lang)
+				constant(File)operator(.)ident(open)operator(()ident(name) operator(+) string<delimiter(')content(.html)delimiter(')>operator(,) string<delimiter(')content(w)delimiter(')>operator(\)) reserved(do) operator(|)ident(f)operator(|) ident(f)operator(.)ident(write) ident(highlighted) reserved(end)	
+			reserved(end)
+		reserved(end)
+	reserved(end)
+
+reserved(end)
+
+ident(require) string<delimiter(')content(test/unit/testsuite)delimiter(')>
+global_variable($suite) operator(=) constant(TestSuite)operator(.)ident(new)
+
+reserved(def) method(load_suite) ident(name)
+	reserved(begin)
+		ident(require) ident(name) operator(+) string<delimiter(')content(/suite.rb)delimiter(')>
+	reserved(rescue) constant(LoadError)
+		global_variable($stderr)operator(.)ident(puts) string<delimiter(<<-ERR)>string<content(
+
+!! Folder )inline<delimiter(#{)constant(File)operator(.)ident(split)operator(()pre_constant(__FILE__)operator(\))operator(.)ident(first) operator(+) string<delimiter(')content(/)delimiter(')> operator(+) ident(name)delimiter(})>content( not found
+		)delimiter(
+		ERR)>
+		pre_constant(false)
+	reserved(end)
+reserved(end)
+
+reserved(if) ident(subsuite) operator(=) pre_constant(ARGV)operator(.)ident(first)
+	ident(load_suite)operator(()ident(subsuite)operator(\)) reserved(or) ident(exit)
+reserved(else)
+	constant(Dir)operator([)string<delimiter(')content(*/)delimiter(')>operator(])operator(.)ident(each) operator({) operator(|)ident(suite)operator(|) ident(load_suite) ident(suite) operator(})
+reserved(end)
+
+ident(require) string<delimiter(')content(test/unit/ui/console/testrunner)delimiter(')>
+constant(UI)operator(::)constant(Console)operator(::)constant(TestRunner)operator(.)ident(run) global_variable($suite)

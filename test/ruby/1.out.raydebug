@@ -1,0 +1,729 @@
+reserved(class) class(String)
+    reserved(def) method(/) ident(regex)
+        ident(scan)operator(()ident(regex)operator(\))operator(.)ident(first)
+    reserved(end)
+reserved(end)
+
+reserved(module) class(Bytes)
+    constant(KILOBYTE)operator(,) constant(MEGABYTE)operator(,) constant(GIGABYTE)operator(,) constant(TERABYTE)operator(,) constant(PETABYTE) operator(=) operator(()integer(1)operator(..)integer(5)operator(\))operator(.)ident(map) operator({) operator(|)ident(x)operator(|) integer(2) operator(**) operator(()integer(10) operator(*) ident(x)operator(\)) operator(})
+    constant(FactorOfSuffix) operator(=) constant(Hash)operator(.)ident(new)operator(()integer(1)operator(\))
+    ident(constants)operator(.)ident(each) reserved(do) operator(|)ident(c)operator(|)
+        constant(FactorOfSuffix)operator([)ident(c)operator([)integer(0)operator(,)integer(1)operator(])operator(]) operator(=) ident(const_get) ident(c)
+    reserved(end)
+   
+    reserved(def) constant(Bytes)operator(.)ident(factor_of_suffix) ident(suff)
+        constant(FactorOfSuffix)operator([)ident(suff)operator(])
+    reserved(end)
+   
+    reserved(def) constant(Bytes)operator(.)operator([]) ident(str)
+        ident(n)operator(,) ident(fac) operator(=) ident(str) operator(/) regexp<delimiter(/)content((.+\)([A-Z]\))delimiter(/)>
+        ident(n) operator(=) ident(n)operator(.)ident(to_i)
+        ident(fac) operator(=) ident(factor_of_suffix) ident(fac)
+        ident(n) operator(*) ident(fac)
+    reserved(end)
+reserved(end)
+
+reserved(class) class(String)
+    reserved(def) method(to_bytes)
+        constant(Bytes)operator([)pre_constant(self)operator(])
+    reserved(end)
+reserved(end)
+
+ident(p) string<delimiter(')content(01K)delimiter(')>operator(.)ident(to_bytes)
+ident(p) string<delimiter(')content(%d - %p)delimiter(')> operator(%) operator([)constant(Bytes)operator(.)ident(constants)operator(.)ident(size)operator(,) pre_constant(self)operator(])
+
+ident(p) string<delimiter(')content(abc)delimiter(')> operator(/) regexp<delimiter(/)content(([ac]\))delimiter(/)>
+
+ident(p) string<delimiter(')content(abc)delimiter(')> operator(+) regexp<delimiter(/)content(([ac]\))delimiter(/)>
+ident(p) string<delimiter(')content(abc)delimiter(')> operator(-) regexp<delimiter(/)content(([ac]\))delimiter(/)>
+ident(p) string<delimiter(')content(abc)delimiter(')> operator(*) regexp<delimiter(/)content(([ac]\))delimiter(/)>
+ident(p) string<delimiter(')content(abc)delimiter(')> operator(**) regexp<delimiter(/)content(([ac]\))delimiter(/)>
+ident(p) string<delimiter(')content(abc)delimiter(')> operator(%) regexp<delimiter(/)content(([ac]\))delimiter(/)>
+ident(p) string<delimiter(')content(abc)delimiter(')> operator(~) regexp<delimiter(/)content(([ac]\))delimiter(/)>
+
+ident(require) string<delimiter(')content(benchmark)delimiter(')>
+constant(S) operator(=) string<delimiter(')content(bla)delimiter(')> operator(*) integer(100) operator(+) string<delimiter(")char(\\n)delimiter(")> operator(+) string<delimiter(")char(\\t)delimiter(")>operator(*)integer(4)
+constant(T) operator(=) integer(200000)
+
+constant(Benchmark)operator(.)ident(bm)operator(()integer(1)operator(\)) reserved(do) operator(|)ident(bm)operator(|)
+    constant(GC)operator(.)ident(sweep)
+    ident(bm)operator(.)ident(report)operator(()string<delimiter(')content(?)delimiter(')>operator(\)) operator({) constant(T)operator(.)ident(times) operator({) constant(S)operator(.)ident(index)operator(()integer(?\\n)operator(\)) operator(}) operator(})
+    constant(GC)operator(.)ident(sweep)
+    ident(bm)operator(.)ident(report)operator(()string<delimiter(')content(")delimiter(')>operator(\)) operator({) constant(T)operator(.)ident(times) operator({) constant(S)operator(.)ident(index)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\)) operator(}) operator(})
+    constant(GC)operator(.)ident(sweep)
+    ident(bm)operator(.)ident(report)operator(()string<delimiter(')content(/)delimiter(')>operator(\)) operator({) constant(T)operator(.)ident(times) operator({) constant(S)operator(.)ident(index)operator(()regexp<delimiter(/)char(\\n)delimiter(/)>operator(\)) operator(}) operator(})
+    constant(GC)operator(.)ident(sweep)
+reserved(end)
+
+  reserved(def) method(next?)operator(()operator(\))
+    operator(!)ident(end?)
+  reserved(end)
+  comment(# Rewinds the generator.)
+  reserved(def) method(rewind)operator(()operator(\))
+    ident(initialize)operator(()pre_constant(nil)operator(,) operator(&)instance_variable(@block)operator(\)) reserved(if) instance_variable(@index)operator(.)ident(nonzero?)
+
+    pre_constant(self)
+  reserved(end)
+
+ident(a) operator(=) operator([)operator(])
+ident(a) operator(<<) ident(a)
+ident(p) ident(a)  comment(#-> [[...]])
+
+comment(# format.rb: Written by Tadayoshi Funaba 1999-2004)
+comment(# $Id: format.rb,v 2.14 2004-11-06 10:58:40+09 tadf Exp $)
+
+ident(require) string<delimiter(')content(rational)delimiter(')>
+
+reserved(class) class(Date)
+
+  constant(MONTHS) operator(=) operator({)
+    string<delimiter(')content(january)delimiter(')>  operator(=)operator(>) integer(1)operator(,) string<delimiter(')content(february)delimiter(')> operator(=)operator(>) integer(2)operator(,) string<delimiter(')content(march)delimiter(')>    operator(=)operator(>) integer(3)operator(,) string<delimiter(')content(april)delimiter(')>    operator(=)operator(>) integer(4)operator(,)
+    string<delimiter(')content(may)delimiter(')>      operator(=)operator(>) integer(5)operator(,) string<delimiter(')content(june)delimiter(')>     operator(=)operator(>) integer(6)operator(,) string<delimiter(')content(july)delimiter(')>     operator(=)operator(>) integer(7)operator(,) string<delimiter(')content(august)delimiter(')>   operator(=)operator(>) integer(8)operator(,)
+    string<delimiter(')content(september)delimiter(')>operator(=)operator(>) integer(9)operator(,) string<delimiter(')content(october)delimiter(')>  operator(=)operator(>)integer(10)operator(,) string<delimiter(')content(november)delimiter(')> operator(=)operator(>)integer(11)operator(,) string<delimiter(')content(december)delimiter(')> operator(=)operator(>)integer(12)
+  operator(})
+
+  constant(DAYS) operator(=) operator({)
+    string<delimiter(')content(sunday)delimiter(')>   operator(=)operator(>) integer(0)operator(,) string<delimiter(')content(monday)delimiter(')>   operator(=)operator(>) integer(1)operator(,) string<delimiter(')content(tuesday)delimiter(')>  operator(=)operator(>) integer(2)operator(,) string<delimiter(')content(wednesday)delimiter(')>operator(=)operator(>) integer(3)operator(,)
+    string<delimiter(')content(thursday)delimiter(')> operator(=)operator(>) integer(4)operator(,) string<delimiter(')content(friday)delimiter(')>   operator(=)operator(>) integer(5)operator(,) string<delimiter(')content(saturday)delimiter(')> operator(=)operator(>) integer(6)
+  operator(})
+
+  constant(ABBR_MONTHS) operator(=) operator({)
+    string<delimiter(')content(jan)delimiter(')>      operator(=)operator(>) integer(1)operator(,) string<delimiter(')content(feb)delimiter(')>      operator(=)operator(>) integer(2)operator(,) string<delimiter(')content(mar)delimiter(')>      operator(=)operator(>) integer(3)operator(,) string<delimiter(')content(apr)delimiter(')>      operator(=)operator(>) integer(4)operator(,)
+    string<delimiter(')content(may)delimiter(')>      operator(=)operator(>) integer(5)operator(,) string<delimiter(')content(jun)delimiter(')>      operator(=)operator(>) integer(6)operator(,) string<delimiter(')content(jul)delimiter(')>      operator(=)operator(>) integer(7)operator(,) string<delimiter(')content(aug)delimiter(')>      operator(=)operator(>) integer(8)operator(,)
+    string<delimiter(')content(sep)delimiter(')>      operator(=)operator(>) integer(9)operator(,) string<delimiter(')content(oct)delimiter(')>      operator(=)operator(>)integer(10)operator(,) string<delimiter(')content(nov)delimiter(')>      operator(=)operator(>)integer(11)operator(,) string<delimiter(')content(dec)delimiter(')>      operator(=)operator(>)integer(12)
+  operator(})
+
+  constant(ABBR_DAYS) operator(=) operator({)
+    string<delimiter(')content(sun)delimiter(')>      operator(=)operator(>) integer(0)operator(,) string<delimiter(')content(mon)delimiter(')>      operator(=)operator(>) integer(1)operator(,) string<delimiter(')content(tue)delimiter(')>      operator(=)operator(>) integer(2)operator(,) string<delimiter(')content(wed)delimiter(')>      operator(=)operator(>) integer(3)operator(,)
+    string<delimiter(')content(thu)delimiter(')>      operator(=)operator(>) integer(4)operator(,) string<delimiter(')content(fri)delimiter(')>      operator(=)operator(>) integer(5)operator(,) string<delimiter(')content(sat)delimiter(')>      operator(=)operator(>) integer(6)
+  operator(})
+
+  constant(ZONES) operator(=) operator({)
+    string<delimiter(')content(ut)delimiter(')>  operator(=)operator(>)  integer(0)operator(*)integer(3600)operator(,) string<delimiter(')content(gmt)delimiter(')> operator(=)operator(>)  integer(0)operator(*)integer(3600)operator(,) string<delimiter(')content(est)delimiter(')> operator(=)operator(>) operator(-)integer(5)operator(*)integer(3600)operator(,) string<delimiter(')content(edt)delimiter(')> operator(=)operator(>) operator(-)integer(4)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(cst)delimiter(')> operator(=)operator(>) operator(-)integer(6)operator(*)integer(3600)operator(,) string<delimiter(')content(cdt)delimiter(')> operator(=)operator(>) operator(-)integer(5)operator(*)integer(3600)operator(,) string<delimiter(')content(mst)delimiter(')> operator(=)operator(>) operator(-)integer(7)operator(*)integer(3600)operator(,) string<delimiter(')content(mdt)delimiter(')> operator(=)operator(>) operator(-)integer(6)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(pst)delimiter(')> operator(=)operator(>) operator(-)integer(8)operator(*)integer(3600)operator(,) string<delimiter(')content(pdt)delimiter(')> operator(=)operator(>) operator(-)integer(7)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(a)delimiter(')>   operator(=)operator(>)  integer(1)operator(*)integer(3600)operator(,) string<delimiter(')content(b)delimiter(')>   operator(=)operator(>)  integer(2)operator(*)integer(3600)operator(,) string<delimiter(')content(c)delimiter(')>   operator(=)operator(>)  integer(3)operator(*)integer(3600)operator(,) string<delimiter(')content(d)delimiter(')>   operator(=)operator(>)  integer(4)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(e)delimiter(')>   operator(=)operator(>)  integer(5)operator(*)integer(3600)operator(,) string<delimiter(')content(f)delimiter(')>   operator(=)operator(>)  integer(6)operator(*)integer(3600)operator(,) string<delimiter(')content(g)delimiter(')>   operator(=)operator(>)  integer(7)operator(*)integer(3600)operator(,) string<delimiter(')content(h)delimiter(')>   operator(=)operator(>)  integer(8)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(i)delimiter(')>   operator(=)operator(>)  integer(9)operator(*)integer(3600)operator(,) string<delimiter(')content(k)delimiter(')>   operator(=)operator(>) integer(10)operator(*)integer(3600)operator(,) string<delimiter(')content(l)delimiter(')>   operator(=)operator(>) integer(11)operator(*)integer(3600)operator(,) string<delimiter(')content(m)delimiter(')>   operator(=)operator(>) integer(12)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(n)delimiter(')>   operator(=)operator(>) operator(-)integer(1)operator(*)integer(3600)operator(,) string<delimiter(')content(o)delimiter(')>   operator(=)operator(>) operator(-)integer(2)operator(*)integer(3600)operator(,) string<delimiter(')content(p)delimiter(')>   operator(=)operator(>) operator(-)integer(3)operator(*)integer(3600)operator(,) string<delimiter(')content(q)delimiter(')>   operator(=)operator(>) operator(-)integer(4)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(r)delimiter(')>   operator(=)operator(>) operator(-)integer(5)operator(*)integer(3600)operator(,) string<delimiter(')content(s)delimiter(')>   operator(=)operator(>) operator(-)integer(6)operator(*)integer(3600)operator(,) string<delimiter(')content(t)delimiter(')>   operator(=)operator(>) operator(-)integer(7)operator(*)integer(3600)operator(,) string<delimiter(')content(u)delimiter(')>   operator(=)operator(>) operator(-)integer(8)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(v)delimiter(')>   operator(=)operator(>) operator(-)integer(9)operator(*)integer(3600)operator(,) string<delimiter(')content(w)delimiter(')>   operator(=)operator(>)operator(-)integer(10)operator(*)integer(3600)operator(,) string<delimiter(')content(x)delimiter(')>   operator(=)operator(>)operator(-)integer(11)operator(*)integer(3600)operator(,) string<delimiter(')content(y)delimiter(')>   operator(=)operator(>)operator(-)integer(12)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(z)delimiter(')>   operator(=)operator(>)  integer(0)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(utc)delimiter(')> operator(=)operator(>)  integer(0)operator(*)integer(3600)operator(,) string<delimiter(')content(wet)delimiter(')> operator(=)operator(>)  integer(0)operator(*)integer(3600)operator(,) string<delimiter(')content(bst)delimiter(')> operator(=)operator(>)  integer(1)operator(*)integer(3600)operator(,) string<delimiter(')content(wat)delimiter(')> operator(=)operator(>) operator(-)integer(1)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(at)delimiter(')>  operator(=)operator(>) operator(-)integer(2)operator(*)integer(3600)operator(,) string<delimiter(')content(ast)delimiter(')> operator(=)operator(>) operator(-)integer(4)operator(*)integer(3600)operator(,) string<delimiter(')content(adt)delimiter(')> operator(=)operator(>) operator(-)integer(3)operator(*)integer(3600)operator(,) string<delimiter(')content(yst)delimiter(')> operator(=)operator(>) operator(-)integer(9)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(ydt)delimiter(')> operator(=)operator(>) operator(-)integer(8)operator(*)integer(3600)operator(,) string<delimiter(')content(hst)delimiter(')> operator(=)operator(>)operator(-)integer(10)operator(*)integer(3600)operator(,) string<delimiter(')content(hdt)delimiter(')> operator(=)operator(>) operator(-)integer(9)operator(*)integer(3600)operator(,) string<delimiter(')content(cat)delimiter(')> operator(=)operator(>)operator(-)integer(10)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(ahst)delimiter(')>operator(=)operator(>)operator(-)integer(10)operator(*)integer(3600)operator(,) string<delimiter(')content(nt)delimiter(')>  operator(=)operator(>)operator(-)integer(11)operator(*)integer(3600)operator(,) string<delimiter(')content(idlw)delimiter(')>operator(=)operator(>)operator(-)integer(12)operator(*)integer(3600)operator(,) string<delimiter(')content(cet)delimiter(')> operator(=)operator(>)  integer(1)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(met)delimiter(')> operator(=)operator(>)  integer(1)operator(*)integer(3600)operator(,) string<delimiter(')content(mewt)delimiter(')>operator(=)operator(>)  integer(1)operator(*)integer(3600)operator(,) string<delimiter(')content(mest)delimiter(')>operator(=)operator(>)  integer(2)operator(*)integer(3600)operator(,) string<delimiter(')content(mesz)delimiter(')>operator(=)operator(>)  integer(2)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(swt)delimiter(')> operator(=)operator(>)  integer(1)operator(*)integer(3600)operator(,) string<delimiter(')content(sst)delimiter(')> operator(=)operator(>)  integer(2)operator(*)integer(3600)operator(,) string<delimiter(')content(fwt)delimiter(')> operator(=)operator(>)  integer(1)operator(*)integer(3600)operator(,) string<delimiter(')content(fst)delimiter(')> operator(=)operator(>)  integer(2)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(eet)delimiter(')> operator(=)operator(>)  integer(2)operator(*)integer(3600)operator(,) string<delimiter(')content(bt)delimiter(')>  operator(=)operator(>)  integer(3)operator(*)integer(3600)operator(,) string<delimiter(')content(zp4)delimiter(')> operator(=)operator(>)  integer(4)operator(*)integer(3600)operator(,) string<delimiter(')content(zp5)delimiter(')> operator(=)operator(>)  integer(5)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(zp6)delimiter(')> operator(=)operator(>)  integer(6)operator(*)integer(3600)operator(,) string<delimiter(')content(wast)delimiter(')>operator(=)operator(>)  integer(7)operator(*)integer(3600)operator(,) string<delimiter(')content(wadt)delimiter(')>operator(=)operator(>)  integer(8)operator(*)integer(3600)operator(,) string<delimiter(')content(cct)delimiter(')> operator(=)operator(>)  integer(8)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(jst)delimiter(')> operator(=)operator(>)  integer(9)operator(*)integer(3600)operator(,) string<delimiter(')content(east)delimiter(')>operator(=)operator(>) integer(10)operator(*)integer(3600)operator(,) string<delimiter(')content(eadt)delimiter(')>operator(=)operator(>) integer(11)operator(*)integer(3600)operator(,) string<delimiter(')content(gst)delimiter(')> operator(=)operator(>) integer(10)operator(*)integer(3600)operator(,)
+    string<delimiter(')content(nzt)delimiter(')> operator(=)operator(>) integer(12)operator(*)integer(3600)operator(,) string<delimiter(')content(nzst)delimiter(')>operator(=)operator(>) integer(12)operator(*)integer(3600)operator(,) string<delimiter(')content(nzdt)delimiter(')>operator(=)operator(>) integer(13)operator(*)integer(3600)operator(,) string<delimiter(')content(idle)delimiter(')>operator(=)operator(>) integer(12)operator(*)integer(3600)
+  operator(})
+
+  reserved(def) pre_constant(self)operator(.)ident(__strptime)operator(()ident(str)operator(,) ident(fmt)operator(,) ident(elem)operator(\))
+    ident(fmt)operator(.)ident(scan)operator(()regexp<delimiter(/)content(%[EO]?.|.)delimiter(/)modifier(o)>operator(\)) reserved(do) operator(|)ident(c)operator(|)
+      ident(cc) operator(=) ident(c)operator(.)ident(sub)operator(()regexp<delimiter(/)char(\\A)content(%[EO]?(.\))char(\\Z)delimiter(/)modifier(o)>operator(,) string<delimiter(')content(%)char(\\\\)content(1)delimiter(')>operator(\))
+      reserved(case) ident(cc)
+      reserved(when) regexp<delimiter(/)char(\\A)char(\\s)delimiter(/)modifier(o)>
+    ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content([)char(\\s)char(\\v)content(]+)delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+      reserved(when) string<delimiter(')content(%A)delimiter(')>operator(,) string<delimiter(')content(%a)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(([a-z]+\))char(\\b)delimiter(/)modifier(io)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) constant(DAYS)operator([)global_variable($1)operator(.)ident(downcase)operator(]) operator(||) constant(ABBR_DAYS)operator([)global_variable($1)operator(.)ident(downcase)operator(])
+    reserved(return) reserved(unless) ident(val)
+    ident(elem)operator([)symbol(:wday)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%B)delimiter(')>operator(,) string<delimiter(')content(%b)delimiter(')>operator(,) string<delimiter(')content(%h)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(([a-z]+\))char(\\b)delimiter(/)modifier(io)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) constant(MONTHS)operator([)global_variable($1)operator(.)ident(downcase)operator(]) operator(||) constant(ABBR_MONTHS)operator([)global_variable($1)operator(.)ident(downcase)operator(])
+    reserved(return) reserved(unless) ident(val)
+    ident(elem)operator([)symbol(:mon)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%C)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    ident(elem)operator([)symbol(:cent)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%c)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content(%a %b %e %H:%M:%S %Y)delimiter(')>operator(,) ident(elem)operator(\))
+      reserved(when) string<delimiter(')content(%D)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content(%m/%d/%y)delimiter(')>operator(,) ident(elem)operator(\))
+      reserved(when) string<delimiter(')content(%d)delimiter(')>operator(,) string<delimiter(')content(%e)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content( ?()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    reserved(return) reserved(unless) operator(()integer(1)operator(..)integer(31)operator(\)) operator(===) ident(val)
+    ident(elem)operator([)symbol(:mday)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%F)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content(%Y-%m-%d)delimiter(')>operator(,) ident(elem)operator(\))
+      reserved(when) string<delimiter(')content(%G)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(([-+]?)char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    ident(elem)operator([)symbol(:cwyear)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%g)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    reserved(return) reserved(unless) operator(()integer(0)operator(..)integer(99)operator(\)) operator(===) ident(val)
+    ident(elem)operator([)symbol(:cwyear)operator(]) operator(=) ident(val)
+    ident(elem)operator([)symbol(:cent)operator(]) operator(||)operator(=) reserved(if) ident(val) operator(>)operator(=) integer(69) reserved(then) integer(19) reserved(else) integer(20) reserved(end)
+      reserved(when) string<delimiter(')content(%H)delimiter(')>operator(,) string<delimiter(')content(%k)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content( ?()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    reserved(return) reserved(unless) operator(()integer(0)operator(..)integer(24)operator(\)) operator(===) ident(val)
+    ident(elem)operator([)symbol(:hour)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%I)delimiter(')>operator(,) string<delimiter(')content(%l)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content( ?()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    reserved(return) reserved(unless) operator(()integer(1)operator(..)integer(12)operator(\)) operator(===) ident(val)
+    ident(elem)operator([)symbol(:hour)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%j)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    reserved(return) reserved(unless) operator(()integer(1)operator(..)integer(366)operator(\)) operator(===) ident(val)
+    ident(elem)operator([)symbol(:yday)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%M)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    reserved(return) reserved(unless) operator(()integer(0)operator(..)integer(59)operator(\)) operator(===) ident(val)
+    ident(elem)operator([)symbol(:min)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%m)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    reserved(return) reserved(unless) operator(()integer(1)operator(..)integer(12)operator(\)) operator(===) ident(val)
+    ident(elem)operator([)symbol(:mon)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%n)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content( )delimiter(')>operator(,) ident(elem)operator(\))
+      reserved(when) string<delimiter(')content(%p)delimiter(')>operator(,) string<delimiter(')content(%P)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(([ap]\)(?:m)char(\\b)content(|)char(\\.)content(m)char(\\.)content(\))delimiter(/)modifier(io)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(elem)operator([)symbol(:merid)operator(]) operator(=) reserved(if) global_variable($1)operator(.)ident(downcase) operator(==) string<delimiter(')content(a)delimiter(')> reserved(then) integer(0) reserved(else) integer(12) reserved(end)
+      reserved(when) string<delimiter(')content(%R)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content(%H:%M)delimiter(')>operator(,) ident(elem)operator(\))
+      reserved(when) string<delimiter(')content(%r)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content(%I:%M:%S %p)delimiter(')>operator(,) ident(elem)operator(\))
+      reserved(when) string<delimiter(')content(%S)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    reserved(return) reserved(unless) operator(()integer(0)operator(..)integer(60)operator(\)) operator(===) ident(val)
+    ident(elem)operator([)symbol(:sec)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%s)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    ident(elem)operator([)symbol(:seconds)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%T)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content(%H:%M:%S)delimiter(')>operator(,) ident(elem)operator(\))
+      reserved(when) string<delimiter(')content(%t)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content( )delimiter(')>operator(,) ident(elem)operator(\))
+      reserved(when) string<delimiter(')content(%U)delimiter(')>operator(,) string<delimiter(')content(%W)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    reserved(return) reserved(unless) operator(()integer(0)operator(..)integer(53)operator(\)) operator(===) ident(val)
+    ident(elem)operator([)reserved(if) ident(c) operator(==) string<delimiter(')content(%U)delimiter(')> reserved(then) symbol(:wnum0) reserved(else) symbol(:wnum1) reserved(end)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%u)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    reserved(return) reserved(unless) operator(()integer(1)operator(..)integer(7)operator(\)) operator(===) ident(val)
+    ident(elem)operator([)symbol(:cwday)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%V)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    reserved(return) reserved(unless) operator(()integer(1)operator(..)integer(53)operator(\)) operator(===) ident(val)
+    ident(elem)operator([)symbol(:cweek)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%v)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content(%e-%b-%Y)delimiter(')>operator(,) ident(elem)operator(\))
+      reserved(when) string<delimiter(')content(%w)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    reserved(return) reserved(unless) operator(()integer(0)operator(..)integer(6)operator(\)) operator(===) ident(val)
+    ident(elem)operator([)symbol(:wday)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%X)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content(%H:%M:%S)delimiter(')>operator(,) ident(elem)operator(\))
+      reserved(when) string<delimiter(')content(%x)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content(%m/%d/%y)delimiter(')>operator(,) ident(elem)operator(\))
+      reserved(when) string<delimiter(')content(%Y)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(([-+]?)char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    ident(elem)operator([)symbol(:year)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%y)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    reserved(return) reserved(unless) operator(()integer(0)operator(..)integer(99)operator(\)) operator(===) ident(val)
+    ident(elem)operator([)symbol(:year)operator(]) operator(=) ident(val)
+    ident(elem)operator([)symbol(:cent)operator(]) operator(||)operator(=) reserved(if) ident(val) operator(>)operator(=) integer(69) reserved(then) integer(19) reserved(else) integer(20) reserved(end)
+      reserved(when) string<delimiter(')content(%Z)delimiter(')>operator(,) string<delimiter(')content(%z)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(([-+:a-z0-9]+(?:)char(\\s)content(+dst)char(\\b)content(\)?\))delimiter(/)modifier(io)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)
+    ident(elem)operator([)symbol(:zone)operator(]) operator(=) ident(val)
+    ident(offset) operator(=) ident(zone_to_diff)operator(()ident(val)operator(\))
+    ident(elem)operator([)symbol(:offset)operator(]) operator(=) ident(offset)
+      reserved(when) string<delimiter(')content(%%)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(%)delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+      reserved(when) string<delimiter(')content(%+)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content(%a %b %e %H:%M:%S %Z %Y)delimiter(')>operator(,) ident(elem)operator(\))
+comment(=begin
+      when '%.'
+    return unless str.sub!(/\\A(\\d+\)/o, ''\)
+    val = $1.to_i.to_r / (10**$1.size\)
+    elem[:sec_fraction] = val
+=end)
+      reserved(when) string<delimiter(')content(%1)delimiter(')>
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\A)content(()char(\\d)content(+\))delimiter(/)modifier(o)>operator(,) string<delimiter(')delimiter(')>operator(\))
+    ident(val) operator(=) global_variable($1)operator(.)ident(to_i)
+    ident(elem)operator([)symbol(:jd)operator(]) operator(=) ident(val)
+      reserved(when) string<delimiter(')content(%2)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content(%Y-%j)delimiter(')>operator(,) ident(elem)operator(\))
+      reserved(when) string<delimiter(')content(%3)delimiter(')>
+    reserved(return) reserved(unless) ident(__strptime)operator(()ident(str)operator(,) string<delimiter(')content(%F)delimiter(')>operator(,) ident(elem)operator(\))
+      reserved(else)
+    reserved(return) reserved(unless) ident(str)operator(.)ident(sub!)operator(()constant(Regexp)operator(.)ident(new)operator(()string<delimiter(')char(\\\\)content(A)delimiter(')> operator(+) constant(Regexp)operator(.)ident(quote)operator(()ident(c)operator(\))operator(\))operator(,) string<delimiter(')delimiter(')>operator(\))
+      reserved(end)
+    reserved(end)
+
+    reserved(if) ident(cent) operator(=) ident(elem)operator(.)ident(delete)operator(()symbol(:cent)operator(\))
+      reserved(if) ident(elem)operator([)symbol(:cwyear)operator(])
+    ident(elem)operator([)symbol(:cwyear)operator(]) operator(+)operator(=) ident(cent) operator(*) integer(100)
+      reserved(end)
+      reserved(if) ident(elem)operator([)symbol(:year)operator(])
+    ident(elem)operator([)symbol(:year)operator(]) operator(+)operator(=) ident(cent) operator(*) integer(100)
+      reserved(end)
+    reserved(end)
+
+    reserved(if) ident(merid) operator(=) ident(elem)operator(.)ident(delete)operator(()symbol(:merid)operator(\))
+      reserved(if) ident(elem)operator([)symbol(:hour)operator(])
+    ident(elem)operator([)symbol(:hour)operator(]) operator(%=) integer(12)
+    ident(elem)operator([)symbol(:hour)operator(]) operator(+)operator(=) ident(merid)
+      reserved(end)
+    reserved(end)
+
+    ident(str)
+  reserved(end)
+
+  ident(private_class_method) symbol(:__strptime)
+
+  reserved(def) pre_constant(self)operator(.)ident(_strptime)operator(()ident(str)operator(,) ident(fmt)operator(=)string<delimiter(')content(%F)delimiter(')>operator(\))
+    ident(elem) operator(=) operator({)operator(})
+    ident(elem) reserved(if) ident(__strptime)operator(()ident(str)operator(.)ident(dup)operator(,) ident(fmt)operator(,) ident(elem)operator(\))
+  reserved(end)
+
+  constant(PARSE_MONTHPAT) operator(=) constant(ABBR_MONTHS)operator(.)ident(keys)operator(.)ident(join)operator(()string<delimiter(')content(|)delimiter(')>operator(\))
+  constant(PARSE_DAYPAT)   operator(=) constant(ABBR_DAYS)operator(.)  ident(keys)operator(.)ident(join)operator(()string<delimiter(')content(|)delimiter(')>operator(\))
+
+  reserved(def) pre_constant(self)operator(.)ident(_parse)operator(()ident(str)operator(,) ident(comp)operator(=)pre_constant(false)operator(\))
+    ident(str) operator(=) ident(str)operator(.)ident(dup)
+
+    ident(str)operator(.)ident(gsub!)operator(()regexp<delimiter(/)content([^-+,.)char(\\/)content(:0-9a-z]+)delimiter(/)modifier(ino)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
+
+    comment(# day)
+    reserved(if) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)content(()inline<delimiter(#{)constant(PARSE_DAYPAT)delimiter(})>content(\))char(\\S)content(*)delimiter(/)modifier(ino)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
+      ident(wday) operator(=) constant(ABBR_DAYS)operator([)global_variable($1)operator(.)ident(downcase)operator(])
+    reserved(end)
+
+    comment(# time)
+    reserved(if) ident(str)operator(.)ident(sub!)operator(()
+        regexp<delimiter(/)content(()char(\\d)content(+\):()char(\\d)content(+\)
+         (?:
+           :()char(\\d)content(+\)(?:[,.]()char(\\d)content(*\)\)?
+         \)?
+         (?:
+           )char(\\s)content(*
+           ([ap]\)(?:m)char(\\b)content(|)char(\\.)content(m)char(\\.)content(\)
+         \)?
+         (?:
+           )char(\\s)content(*
+           (
+             [a-z]+(?:)char(\\s)content(+dst\)?)char(\\b)content(
+           |
+             [-+])char(\\d)content(+(?::?)char(\\d)content(+\)
+           \)
+         \)?
+        )delimiter(/)modifier(inox)>operator(,)
+        string<delimiter(')content( )delimiter(')>operator(\))
+      ident(hour) operator(=) global_variable($1)operator(.)ident(to_i)
+      ident(min) operator(=) global_variable($2)operator(.)ident(to_i)
+      ident(sec) operator(=) global_variable($3)operator(.)ident(to_i) reserved(if) global_variable($3)
+      reserved(if) global_variable($4)
+    ident(sec_fraction) operator(=) global_variable($4)operator(.)ident(to_i)operator(.)ident(to_r) operator(/) operator(()integer(10)operator(**)global_variable($4)operator(.)ident(size)operator(\))
+      reserved(end)
+
+      reserved(if) global_variable($5)
+    ident(hour) operator(%=) integer(12)
+    reserved(if) global_variable($5)operator(.)ident(downcase) operator(==) string<delimiter(')content(p)delimiter(')>
+      ident(hour) operator(+)operator(=) integer(12)
+    reserved(end)
+      reserved(end)
+
+      reserved(if) global_variable($6)
+    ident(zone) operator(=) global_variable($6)
+      reserved(end)
+    reserved(end)
+
+    comment(# eu)
+    reserved(if) ident(str)operator(.)ident(sub!)operator(()
+        regexp<delimiter(/)content(()char(\\d)content(+\))char(\\S)content(*
+         )char(\\s)content(+
+         ()inline<delimiter(#{)constant(PARSE_MONTHPAT)delimiter(})>content(\))char(\\S)content(*
+         (?:
+           )char(\\s)content(+
+           (-?)char(\\d)content(+\)
+         \)?
+        )delimiter(/)modifier(inox)>operator(,)
+        string<delimiter(')content( )delimiter(')>operator(\))
+      ident(mday) operator(=) global_variable($1)operator(.)ident(to_i)
+      ident(mon) operator(=) constant(ABBR_MONTHS)operator([)global_variable($2)operator(.)ident(downcase)operator(])
+
+      reserved(if) global_variable($3)
+    ident(year) operator(=) global_variable($3)operator(.)ident(to_i)
+    reserved(if) global_variable($3)operator(.)ident(size) operator(>) integer(2)
+      ident(comp) operator(=) pre_constant(false)
+    reserved(end)
+      reserved(end)
+
+    comment(# us)
+    reserved(elsif) ident(str)operator(.)ident(sub!)operator(()
+           regexp<delimiter(/)content(()inline<delimiter(#{)constant(PARSE_MONTHPAT)delimiter(})>content(\))char(\\S)content(*
+            )char(\\s)content(+
+            ()char(\\d)content(+\))char(\\S)content(*
+            (?:
+              )char(\\s)content(+
+              (-?)char(\\d)content(+\)
+            \)?
+           )delimiter(/)modifier(inox)>operator(,)
+           string<delimiter(')content( )delimiter(')>operator(\))
+      ident(mon) operator(=) constant(ABBR_MONTHS)operator([)global_variable($1)operator(.)ident(downcase)operator(])
+      ident(mday) operator(=) global_variable($2)operator(.)ident(to_i)
+
+      reserved(if) global_variable($3)
+    ident(year) operator(=) global_variable($3)operator(.)ident(to_i)
+    reserved(if) global_variable($3)operator(.)ident(size) operator(>) integer(2)
+      ident(comp) operator(=) pre_constant(false)
+    reserved(end)
+      reserved(end)
+
+    comment(# iso)
+    reserved(elsif) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)content(([-+]?)char(\\d)content(+\)-()char(\\d)content(+\)-(-?)char(\\d)content(+\))delimiter(/)modifier(no)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
+      ident(year) operator(=) global_variable($1)operator(.)ident(to_i)
+      ident(mon) operator(=) global_variable($2)operator(.)ident(to_i)
+      ident(mday) operator(=) global_variable($3)operator(.)ident(to_i)
+
+      reserved(if) global_variable($1)operator(.)ident(size) operator(>) integer(2)
+    ident(comp) operator(=) pre_constant(false)
+      reserved(elsif) global_variable($3)operator(.)ident(size) operator(>) integer(2)
+    ident(comp) operator(=) pre_constant(false)
+    ident(mday)operator(,) ident(mon)operator(,) ident(year) operator(=) ident(year)operator(,) ident(mon)operator(,) ident(mday)
+      reserved(end)
+
+    comment(# jis)
+    reserved(elsif) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)content(([MTSH]\)()char(\\d)content(+\))char(\\.)content(()char(\\d)content(+\))char(\\.)content(()char(\\d)content(+\))delimiter(/)modifier(ino)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
+      ident(e) operator(=) operator({) string<delimiter(')content(m)delimiter(')>operator(=)operator(>)integer(1867)operator(,)
+        string<delimiter(')content(t)delimiter(')>operator(=)operator(>)integer(1911)operator(,)
+        string<delimiter(')content(s)delimiter(')>operator(=)operator(>)integer(1925)operator(,)
+        string<delimiter(')content(h)delimiter(')>operator(=)operator(>)integer(1988)
+      operator(})operator([)global_variable($1)operator(.)ident(downcase)operator(])
+      ident(year) operator(=) global_variable($2)operator(.)ident(to_i) operator(+) ident(e)
+      ident(mon) operator(=) global_variable($3)operator(.)ident(to_i)
+      ident(mday) operator(=) global_variable($4)operator(.)ident(to_i)
+
+    comment(# vms)
+    reserved(elsif) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)content((-?)char(\\d)content(+\)-()inline<delimiter(#{)constant(PARSE_MONTHPAT)delimiter(})>content(\)[^-]*-(-?)char(\\d)content(+\))delimiter(/)modifier(ino)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
+      ident(mday) operator(=) global_variable($1)operator(.)ident(to_i)
+      ident(mon) operator(=) constant(ABBR_MONTHS)operator([)global_variable($2)operator(.)ident(downcase)operator(])
+      ident(year) operator(=) global_variable($3)operator(.)ident(to_i)
+
+      reserved(if) global_variable($1)operator(.)ident(size) operator(>) integer(2)
+    ident(comp) operator(=) pre_constant(false)
+    ident(year)operator(,) ident(mon)operator(,) ident(mday) operator(=) ident(mday)operator(,) ident(mon)operator(,) ident(year)
+      reserved(elsif) global_variable($3)operator(.)ident(size) operator(>) integer(2)
+    ident(comp) operator(=) pre_constant(false)
+      reserved(end)
+
+    comment(# sla)
+    reserved(elsif) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(%r|)content((-?)char(\\d)content(+\)/()char(\\d)content(+\)(?:/(-?)char(\\d)content(+\)\)?)delimiter(|)modifier(no)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
+      ident(mon) operator(=) global_variable($1)operator(.)ident(to_i)
+      ident(mday) operator(=) global_variable($2)operator(.)ident(to_i)
+
+      reserved(if) global_variable($3)
+    ident(year) operator(=) global_variable($3)operator(.)ident(to_i)
+    reserved(if) global_variable($3)operator(.)ident(size) operator(>) integer(2)
+      ident(comp) operator(=) pre_constant(false)
+    reserved(end)
+      reserved(end)
+
+      reserved(if) global_variable($3) operator(&&) global_variable($1)operator(.)ident(size) operator(>) integer(2)
+    ident(comp) operator(=) pre_constant(false)
+    ident(year)operator(,) ident(mon)operator(,) ident(mday) operator(=) ident(mon)operator(,) ident(mday)operator(,) ident(year)
+      reserved(end)
+
+    comment(# ddd)
+    reserved(elsif) ident(str)operator(.)ident(sub!)operator(()
+           regexp<delimiter(/)content(([-+]?\)()char(\\d)content({4,14}\)
+            (?:
+              )char(\\s)content(*
+              T?
+              )char(\\s)content(*
+              ()char(\\d)content({2,6}\)(?:[,.]()char(\\d)content(*\)\)?
+            \)?
+            (?:
+              )char(\\s)content(*
+              (
+            Z
+              |
+            [-+])char(\\d)content({2,4}
+              \)
+              )char(\\b)content(
+            \)?
+           )delimiter(/)modifier(inox)>operator(,)
+           string<delimiter(')content( )delimiter(')>operator(\))
+      reserved(case) global_variable($2)operator(.)ident(size)
+      reserved(when) integer(4)
+    ident(mon)  operator(=) global_variable($2)operator([) integer(0)operator(,) integer(2)operator(])operator(.)ident(to_i)
+    ident(mday) operator(=) global_variable($2)operator([) integer(2)operator(,) integer(2)operator(])operator(.)ident(to_i)
+      reserved(when) integer(6)
+    ident(year) operator(=) operator(()global_variable($1) operator(+) global_variable($2)operator([) integer(0)operator(,) integer(2)operator(])operator(\))operator(.)ident(to_i)
+    ident(mon)  operator(=) global_variable($2)operator([) integer(2)operator(,) integer(2)operator(])operator(.)ident(to_i)
+    ident(mday) operator(=) global_variable($2)operator([) integer(4)operator(,) integer(2)operator(])operator(.)ident(to_i)
+      reserved(when) integer(8)operator(,) integer(10)operator(,) integer(12)operator(,) integer(14)
+    ident(year) operator(=) operator(()global_variable($1) operator(+) global_variable($2)operator([) integer(0)operator(,) integer(4)operator(])operator(\))operator(.)ident(to_i)
+    ident(mon)  operator(=) global_variable($2)operator([) integer(4)operator(,) integer(2)operator(])operator(.)ident(to_i)
+    ident(mday) operator(=) global_variable($2)operator([) integer(6)operator(,) integer(2)operator(])operator(.)ident(to_i)
+    ident(hour) operator(=) global_variable($2)operator([) integer(8)operator(,) integer(2)operator(])operator(.)ident(to_i) reserved(if) global_variable($2)operator(.)ident(size) operator(>)operator(=) integer(10)
+    ident(min)  operator(=) global_variable($2)operator([)integer(10)operator(,) integer(2)operator(])operator(.)ident(to_i) reserved(if) global_variable($2)operator(.)ident(size) operator(>)operator(=) integer(12)
+    ident(sec)  operator(=) global_variable($2)operator([)integer(12)operator(,) integer(2)operator(])operator(.)ident(to_i) reserved(if) global_variable($2)operator(.)ident(size) operator(>)operator(=) integer(14)
+    ident(comp) operator(=) pre_constant(false)
+      reserved(end)
+      reserved(if) global_variable($3)
+    reserved(case) global_variable($3)operator(.)ident(size)
+    reserved(when) integer(2)operator(,) integer(4)operator(,) integer(6)
+      ident(hour) operator(=) global_variable($3)operator([) integer(0)operator(,) integer(2)operator(])operator(.)ident(to_i)
+      ident(min)  operator(=) global_variable($3)operator([) integer(2)operator(,) integer(2)operator(])operator(.)ident(to_i) reserved(if) global_variable($3)operator(.)ident(size) operator(>)operator(=) integer(4)
+      ident(sec)  operator(=) global_variable($3)operator([) integer(4)operator(,) integer(2)operator(])operator(.)ident(to_i) reserved(if) global_variable($3)operator(.)ident(size) operator(>)operator(=) integer(6)
+    reserved(end)
+      reserved(end)
+      reserved(if) global_variable($4)
+    ident(sec_fraction) operator(=) global_variable($4)operator(.)ident(to_i)operator(.)ident(to_r) operator(/) operator(()integer(10)operator(**)global_variable($4)operator(.)ident(size)operator(\))
+      reserved(end)
+      reserved(if) global_variable($5)
+    ident(zone) operator(=) global_variable($5)
+      reserved(end)
+    reserved(end)
+
+    reserved(if) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)char(\\b)content((bc)char(\\b)content(|bce)char(\\b)content(|b)char(\\.)content(c)char(\\.)content(|b)char(\\.)content(c)char(\\.)content(e)char(\\.)content(\))delimiter(/)modifier(ino)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
+      reserved(if) ident(year)
+    ident(year) operator(=) operator(-)ident(year) operator(+) integer(1)
+      reserved(end)
+    reserved(end)
+
+    reserved(if) ident(comp) reserved(and) ident(year)
+      reserved(if) ident(year) operator(>)operator(=) integer(0) reserved(and) ident(year) operator(<=) integer(99)
+    reserved(if) ident(year) operator(>)operator(=) integer(69)
+      ident(year) operator(+)operator(=) integer(1900)
+    reserved(else)
+      ident(year) operator(+)operator(=) integer(2000)
+    reserved(end)
+      reserved(end)
+    reserved(end)
+
+    ident(elem) operator(=) operator({)operator(})
+    ident(elem)operator([)symbol(:year)operator(]) operator(=) ident(year) reserved(if) ident(year)
+    ident(elem)operator([)symbol(:mon)operator(]) operator(=) ident(mon) reserved(if) ident(mon)
+    ident(elem)operator([)symbol(:mday)operator(]) operator(=) ident(mday) reserved(if) ident(mday)
+    ident(elem)operator([)symbol(:hour)operator(]) operator(=) ident(hour) reserved(if) ident(hour)
+    ident(elem)operator([)symbol(:min)operator(]) operator(=) ident(min) reserved(if) ident(min)
+    ident(elem)operator([)symbol(:sec)operator(]) operator(=) ident(sec) reserved(if) ident(sec)
+    ident(elem)operator([)symbol(:sec_fraction)operator(]) operator(=) ident(sec_fraction) reserved(if) ident(sec_fraction)
+    ident(elem)operator([)symbol(:zone)operator(]) operator(=) ident(zone) reserved(if) ident(zone)
+    ident(offset) operator(=) ident(zone_to_diff)operator(()ident(zone)operator(\)) reserved(if) ident(zone)
+    ident(elem)operator([)symbol(:offset)operator(]) operator(=) ident(offset) reserved(if) ident(offset)
+    ident(elem)operator([)symbol(:wday)operator(]) operator(=) ident(wday) reserved(if) ident(wday)
+    ident(elem)
+  reserved(end)
+
+  reserved(def) pre_constant(self)operator(.)ident(zone_to_diff)operator(()ident(str)operator(\))
+    ident(abb)operator(,) ident(dst) operator(=) ident(str)operator(.)ident(downcase)operator(.)ident(split)operator(()regexp<delimiter(/)char(\\s)content(+)delimiter(/)modifier(o)>operator(,) integer(2)operator(\))
+    reserved(if) constant(ZONES)operator(.)ident(include?)operator(()ident(abb)operator(\))
+      ident(offset)  operator(=) constant(ZONES)operator([)ident(abb)operator(])
+      ident(offset) operator(+)operator(=) integer(3600) reserved(if) ident(dst)
+    reserved(elsif) regexp<delimiter(/)char(\\A)content(([-+]\)()char(\\d)content({2}\):?()char(\\d)content({2}\)?)char(\\Z)delimiter(/)modifier(no)> operator(=)operator(~) ident(str)
+      ident(offset) operator(=) global_variable($2)operator(.)ident(to_i) operator(*) integer(3600) operator(+) global_variable($3)operator(.)ident(to_i) operator(*) integer(60)
+      ident(offset) operator(*)operator(=) operator(-)integer(1) reserved(if) global_variable($1) operator(==) string<delimiter(')content(-)delimiter(')>
+    reserved(end)
+    ident(offset)
+  reserved(end)
+
+  reserved(def) method(strftime)operator(()ident(fmt)operator(=)string<delimiter(')content(%F)delimiter(')>operator(\))
+    ident(o) operator(=) string<delimiter(')delimiter(')>
+    ident(fmt)operator(.)ident(scan)operator(()regexp<delimiter(/)content(%[EO]?.|.)delimiter(/)modifier(o)>operator(\)) reserved(do) operator(|)ident(c)operator(|)
+      ident(cc) operator(=) ident(c)operator(.)ident(sub)operator(()regexp<delimiter(/)content(^%[EO]?(.\)$)delimiter(/)modifier(o)>operator(,) string<delimiter(')content(%)char(\\\\)content(1)delimiter(')>operator(\))
+      reserved(case) ident(cc)
+      reserved(when) string<delimiter(')content(%A)delimiter(')>operator(;) ident(o) operator(<<) constant(DAYNAMES)operator([)ident(wday)operator(])
+      reserved(when) string<delimiter(')content(%a)delimiter(')>operator(;) ident(o) operator(<<) constant(ABBR_DAYNAMES)operator([)ident(wday)operator(])
+      reserved(when) string<delimiter(')content(%B)delimiter(')>operator(;) ident(o) operator(<<) constant(MONTHNAMES)operator([)ident(mon)operator(])
+      reserved(when) string<delimiter(')content(%b)delimiter(')>operator(;) ident(o) operator(<<) constant(ABBR_MONTHNAMES)operator([)ident(mon)operator(])
+      reserved(when) string<delimiter(')content(%C)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%02d)delimiter(')> operator(%) operator(()ident(year) operator(/) float(100.0)operator(\))operator(.)ident(floor)        comment(# P2,ID)
+      reserved(when) string<delimiter(')content(%c)delimiter(')>operator(;) ident(o) operator(<<) ident(strftime)operator(()string<delimiter(')content(%a %b %e %H:%M:%S %Y)delimiter(')>operator(\))
+      reserved(when) string<delimiter(')content(%D)delimiter(')>operator(;) ident(o) operator(<<) ident(strftime)operator(()string<delimiter(')content(%m/%d/%y)delimiter(')>operator(\))            comment(# P2,ID)
+      reserved(when) string<delimiter(')content(%d)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%02d)delimiter(')> operator(%) ident(mday)
+      reserved(when) string<delimiter(')content(%e)delimiter(')>operator(;) ident(o) operator(<<)  string<delimiter(')content(%2d)delimiter(')> operator(%) ident(mday)
+      reserved(when) string<delimiter(')content(%F)delimiter(')>operator(;) ident(o) operator(<<) ident(strftime)operator(()string<delimiter(')content(%Y-%m-%d)delimiter(')>operator(\))            comment(# ID)
+      reserved(when) string<delimiter(')content(%G)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%.4d)delimiter(')> operator(%)  ident(cwyear)                comment(# ID)
+      reserved(when) string<delimiter(')content(%g)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%02d)delimiter(')> operator(%) operator(()ident(cwyear) operator(%) integer(100)operator(\))            comment(# ID)
+      reserved(when) string<delimiter(')content(%H)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%02d)delimiter(')> operator(%)   ident(hour)
+      reserved(when) string<delimiter(')content(%h)delimiter(')>operator(;) ident(o) operator(<<) ident(strftime)operator(()string<delimiter(')content(%b)delimiter(')>operator(\))                comment(# P2,ID)
+      reserved(when) string<delimiter(')content(%I)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%02d)delimiter(')> operator(%) operator(()operator(()ident(hour) operator(%) integer(12)operator(\))operator(.)ident(nonzero?) reserved(or) integer(12)operator(\))
+      reserved(when) string<delimiter(')content(%j)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%03d)delimiter(')> operator(%) ident(yday)
+      reserved(when) string<delimiter(')content(%k)delimiter(')>operator(;) ident(o) operator(<<)  string<delimiter(')content(%2d)delimiter(')> operator(%)   ident(hour)                comment(# AR,TZ,GL)
+      reserved(when) string<delimiter(')content(%l)delimiter(')>operator(;) ident(o) operator(<<)  string<delimiter(')content(%2d)delimiter(')> operator(%) operator(()operator(()ident(hour) operator(%) integer(12)operator(\))operator(.)ident(nonzero?) reserved(or) integer(12)operator(\))    comment(# AR,TZ,GL)
+      reserved(when) string<delimiter(')content(%M)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%02d)delimiter(')> operator(%) ident(min)
+      reserved(when) string<delimiter(')content(%m)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%02d)delimiter(')> operator(%) ident(mon)
+      reserved(when) string<delimiter(')content(%n)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(")char(\\n)delimiter(")>                    comment(# P2,ID)
+      reserved(when) string<delimiter(')content(%P)delimiter(')>operator(;) ident(o) operator(<<) reserved(if) ident(hour) operator(<) integer(12) reserved(then) string<delimiter(')content(am)delimiter(')> reserved(else) string<delimiter(')content(pm)delimiter(')> reserved(end)    comment(# GL)
+      reserved(when) string<delimiter(')content(%p)delimiter(')>operator(;) ident(o) operator(<<) reserved(if) ident(hour) operator(<) integer(12) reserved(then) string<delimiter(')content(AM)delimiter(')> reserved(else) string<delimiter(')content(PM)delimiter(')> reserved(end)
+      reserved(when) string<delimiter(')content(%R)delimiter(')>operator(;) ident(o) operator(<<) ident(strftime)operator(()string<delimiter(')content(%H:%M)delimiter(')>operator(\))                comment(# ID)
+      reserved(when) string<delimiter(')content(%r)delimiter(')>operator(;) ident(o) operator(<<) ident(strftime)operator(()string<delimiter(')content(%I:%M:%S %p)delimiter(')>operator(\))            comment(# P2,ID)
+      reserved(when) string<delimiter(')content(%S)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%02d)delimiter(')> operator(%) ident(sec)
+      reserved(when) string<delimiter(')content(%s)delimiter(')>                            comment(# TZ,GL)
+    ident(d) operator(=) ident(ajd) operator(-) pre_constant(self)operator(.)ident(class)operator(.)ident(jd_to_ajd)operator(()pre_constant(self)operator(.)ident(class)operator(.)ident(civil_to_jd)operator(()integer(1970)operator(,)integer(1)operator(,)integer(1)operator(\))operator(,) integer(0)operator(\))
+    ident(s) operator(=) operator(()ident(d) operator(*) integer(86400)operator(\))operator(.)ident(to_i)
+    ident(o) operator(<<) string<delimiter(')content(%d)delimiter(')> operator(%) ident(s)
+      reserved(when) string<delimiter(')content(%T)delimiter(')>operator(;) ident(o) operator(<<) ident(strftime)operator(()string<delimiter(')content(%H:%M:%S)delimiter(')>operator(\))            comment(# P2,ID)
+      reserved(when) string<delimiter(')content(%t)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(")char(\\t)delimiter(")>                    comment(# P2,ID)
+      reserved(when) string<delimiter(')content(%U)delimiter(')>operator(,) string<delimiter(')content(%W)delimiter(')>
+    ident(a) operator(=) pre_constant(self)operator(.)ident(class)operator(.)ident(civil_to_jd)operator(()ident(year)operator(,) integer(1)operator(,) integer(1)operator(,) ident(ns?)operator(\)) operator(+) integer(6)
+    ident(k) operator(=) reserved(if) ident(c) operator(==) string<delimiter(')content(%U)delimiter(')> reserved(then) integer(0) reserved(else) integer(1) reserved(end)
+    ident(w) operator(=) operator(()ident(jd) operator(-) operator(()ident(a) operator(-) operator(()operator(()ident(a) operator(-) ident(k)operator(\)) operator(+) integer(1)operator(\)) operator(%) integer(7)operator(\)) operator(+) integer(7)operator(\)) operator(/) integer(7)
+    ident(o) operator(<<) string<delimiter(')content(%02d)delimiter(')> operator(%) ident(w)
+      reserved(when) string<delimiter(')content(%u)delimiter(')>operator(;) ident(o) operator(<<)   string<delimiter(')content(%d)delimiter(')> operator(%) ident(cwday)                comment(# P2,ID)
+      reserved(when) string<delimiter(')content(%V)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%02d)delimiter(')> operator(%) ident(cweek)                comment(# P2,ID)
+      reserved(when) string<delimiter(')content(%v)delimiter(')>operator(;) ident(o) operator(<<) ident(strftime)operator(()string<delimiter(')content(%e-%b-%Y)delimiter(')>operator(\))            comment(# AR,TZ)
+      reserved(when) string<delimiter(')content(%w)delimiter(')>operator(;) ident(o) operator(<<)   string<delimiter(')content(%d)delimiter(')> operator(%) ident(wday)
+      reserved(when) string<delimiter(')content(%X)delimiter(')>operator(;) ident(o) operator(<<) ident(strftime)operator(()string<delimiter(')content(%H:%M:%S)delimiter(')>operator(\))
+      reserved(when) string<delimiter(')content(%x)delimiter(')>operator(;) ident(o) operator(<<) ident(strftime)operator(()string<delimiter(')content(%m/%d/%y)delimiter(')>operator(\))
+      reserved(when) string<delimiter(')content(%Y)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%.4d)delimiter(')> operator(%)  ident(year)
+      reserved(when) string<delimiter(')content(%y)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%02d)delimiter(')> operator(%) operator(()ident(year) operator(%) integer(100)operator(\))
+      reserved(when) string<delimiter(')content(%Z)delimiter(')>operator(;) ident(o) operator(<<) operator(()reserved(if) ident(offset)operator(.)ident(zero?) reserved(then) string<delimiter(')content(Z)delimiter(')> reserved(else) ident(strftime)operator(()string<delimiter(')content(%z)delimiter(')>operator(\)) reserved(end)operator(\))
+      reserved(when) string<delimiter(')content(%z)delimiter(')>                            comment(# ID)
+    ident(o) operator(<<) reserved(if) ident(offset) operator(<) integer(0) reserved(then) string<delimiter(')content(-)delimiter(')> reserved(else) string<delimiter(')content(+)delimiter(')> reserved(end)
+    ident(of) operator(=) ident(offset)operator(.)ident(abs)
+    ident(hh)operator(,) ident(fr) operator(=) ident(of)operator(.)ident(divmod)operator(()integer(1)operator(.)ident(to_r)operator(/)integer(24)operator(\))
+    ident(mm) operator(=) ident(fr) operator(/) operator(()integer(1)operator(.)ident(to_r)operator(/)integer(1440)operator(\))
+    ident(o) operator(<<) string<delimiter(')content(%02d)delimiter(')> operator(%) ident(hh)
+    ident(o) operator(<<) string<delimiter(')content(%02d)delimiter(')> operator(%) ident(mm)
+      reserved(when) string<delimiter(')content(%%)delimiter(')>operator(;) ident(o) operator(<<) string<delimiter(')content(%)delimiter(')>
+      reserved(when) string<delimiter(')content(%+)delimiter(')>operator(;) ident(o) operator(<<) ident(strftime)operator(()string<delimiter(')content(%a %b %e %H:%M:%S %Z %Y)delimiter(')>operator(\))    comment(# TZ)
+comment(=begin
+      when '%.'
+    o << '%06d' % (sec_fraction / (1.to_r/86400/(10**6\)\)\)
+=end)
+      reserved(when) string<delimiter(')content(%1)delimiter(')>operator(;) ident(o) operator(<<)   string<delimiter(')content(%d)delimiter(')> operator(%) ident(jd)
+      reserved(when) string<delimiter(')content(%2)delimiter(')>operator(;) ident(o) operator(<<) ident(strftime)operator(()string<delimiter(')content(%Y-%j)delimiter(')>operator(\))
+      reserved(when) string<delimiter(')content(%3)delimiter(')>operator(;) ident(o) operator(<<) ident(strftime)operator(()string<delimiter(')content(%Y-%m-%d)delimiter(')>operator(\))
+      reserved(else)operator(;)      ident(o) operator(<<) ident(c)
+      reserved(end)
+    reserved(end)
+    ident(o)
+  reserved(end)
+
+comment(# alias_method :format, :strftime)
+
+  reserved(def) method(asctime)operator(()operator(\)) ident(strftime)operator(()string<delimiter(')content(%c)delimiter(')>operator(\)) reserved(end)
+
+  ident(alias_method) symbol(:ctime)operator(,) symbol(:asctime)
+
+reserved(end)
+
+reserved(class) class(DateTime) operator(<) constant(Date)
+
+  reserved(def) pre_constant(self)operator(.)ident(_strptime)operator(()ident(str)operator(,) ident(fmt)operator(=)string<delimiter(')content(%FT%T%Z)delimiter(')>operator(\))
+    reserved(super)operator(()ident(str)operator(,) ident(fmt)operator(\))
+  reserved(end)
+
+  reserved(def) method(strftime)operator(()ident(fmt)operator(=)string<delimiter(')content(%FT%T%Z)delimiter(')>operator(\))
+    reserved(super)operator(()ident(fmt)operator(\))
+  reserved(end)
+
+reserved(end)
+
+ident(require) string<delimiter(')content(generator)delimiter(')>
+ident(a) operator(=) operator([)integer(2)operator(,) integer(3)operator(,) integer(5)operator(,) integer(7)operator(,) integer(11)operator(])
+ident(b) operator(=) string<delimiter(%w#)content(h a l l o)delimiter(#)>
+constant(SyncEnumerator)operator(.)ident(new)operator(()ident(a)operator(,) ident(b)operator(\))operator(.)ident(each) operator({) operator(|)ident(i)operator(,) ident(j)operator(|)
+  ident(puts) string<delimiter(")inline<delimiter(#{)ident(i)delimiter(})>content( & )inline<delimiter(#{)ident(j)delimiter(})>delimiter(")>
+operator(})
+
+reserved(class) class(Signature) operator(<) constant(Array)
+    reserved(def) method(===) ident(x)
+        ident(x)operator(.)ident(kind_of?) constant(Array) reserved(and) ident(zip)operator(()ident(x)operator(\))operator(.)ident(all?) operator({) operator(|)ident(me)operator(,) ident(it)operator(|) ident(me) operator(===) ident(it) operator(})
+    reserved(end)
+reserved(end)
+
+reserved(module) class(Chess)
+
+    constant(BOARD_RANGE) operator(=) integer(1)operator(..)integer(8)
+   
+    reserved(class) class(Position)
+       
+        ident(attr_reader) symbol(:x)operator(,) symbol(:y)
+       
+        reserved(def) method(initialize) operator(*)ident(args)
+            instance_variable(@x)operator(,) instance_variable(@y) operator(=) reserved(case) ident(args)
+            reserved(when) constant(Signature)operator([)constant(Fixnum)operator(,) constant(Fixnum)operator(])
+                ident(args)
+            reserved(when) constant(Signature)operator([)constant(String)operator(])
+                constant(Position)operator(.)ident(decode) ident(args)operator(.)ident(first)
+            reserved(else)
+                ident(raise) constant(ArgumentError)operator(,) string<delimiter(')content(wrong number of arguments(one String or two fixnums\))delimiter(')>
+            reserved(end)
+            ident(raise) constant(RuntimeError)operator(,) string<delimiter(')content(%p is out of the chess board)delimiter(')> operator(%) pre_constant(self) reserved(unless) constant(Position)operator(.)ident(valid?) instance_variable(@x)operator(,) instance_variable(@y)
+        reserved(end)
+   
+        reserved(def) method(inspect)
+            string<delimiter(')content(Position(%p, %p\))delimiter(')> operator(%) operator([)ident(x)operator(,) ident(y)operator(])
+        reserved(end)
+       
+        reserved(def) constant(Position)operator(.)ident(decode) ident(pos)
+            ident(x)operator(,) ident(y) operator(=) ident(pos)operator(.)ident(split)operator(()string<delimiter(')delimiter(')>operator(\))
+            reserved(return) ident(x)operator(.)ident(upcase)operator([)integer(0)operator(]) operator(-) integer(?A) operator(+) integer(1)operator(,) instance_variable(@y) operator(=) ident(y)operator([)integer(0)operator(]) operator(-) integer(?0)
+        reserved(end)
+       
+        reserved(def) constant(Position)operator(.)ident(valid?) ident(x)operator(,) ident(y)
+            constant(BOARD_RANGE)operator(.)ident(include?) ident(x) reserved(and) constant(BOARD_RANGE)operator(.)ident(include?) ident(y)
+        reserved(end)
+    reserved(end)
+   
+reserved(end)
+
+ident(p) constant(Chess)operator(::)constant(Position)operator(.)ident(new)operator(()string<delimiter(')content(H3)delimiter(')>operator(\))
+constant(SuperString) operator(=) constant(Class)operator(.)ident(new) constant(String)
+ident(p) constant(Chess)operator(::)constant(Position)operator(.)ident(new)operator(()constant(SuperString)operator(.)ident(new)operator(()string<delimiter(')content(C5)delimiter(')>operator(\))operator(\))
+ident(p) constant(Chess)operator(::)constant(Position)operator(.)ident(new)operator(()integer(3)operator(,) integer(6)operator(\))
+ident(p) constant(Chess)operator(::)constant(Position)operator(.)ident(new)operator(()integer(3)operator(,) integer(9)operator(\))
+
+ident(require) string<delimiter(')content(grammar)delimiter(')>
+
+reserved(def) method(test_grammars)
+    operator([)string<delimiter(<<EOG1)>operator(,) string<delimiter(<<EOG2)>operator(,) string<delimiter(<<EOG3)>operator(,)operator(])operator(.)ident(map) operator({) operator(|)ident(g)operator(|) constant(Grammar)operator(.)ident(new) ident(g) operator(})string<content(
+Z --> S
+S --> Sb
+S --> bAa
+A --> aSc
+A --> a
+A --> aSb)delimiter(
+EOG1)>string<content(
+
+C --> d
+C --> ABC
+B -->
+B --> c
+A --> B
+A --> a)delimiter(
+EOG2)>string<content(
+
+E - TD
+D - pTD
+D -
+T - FS
+S - uFS
+S -
+F - aEz
+F - i)delimiter(
+EOG3)>
+reserved(end)
+
+global_variable($trace) operator(=) pre_constant(false)
+ident(test_grammars)operator(.)ident(each_with_index) reserved(do) operator(|)ident(g)operator(,) ident(i)operator(|)
+    ident(puts) string<delimiter(")content(Grammar )inline<delimiter(#{)ident(i)delimiter(})>content( is )inline<delimiter(#{)string<delimiter(')content(not )delimiter(')> reserved(if) ident(g)operator(.)ident(ll1?)delimiter(})>content(LL(1\).)delimiter(")>
+reserved(end)

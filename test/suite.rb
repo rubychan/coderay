@@ -39,7 +39,7 @@ class CodeRaySuite < TestCase
 			:tab_width => 2,
 			:line_numbers => :table,
 			:wrap => :page,
-			:hint => :info
+			:hint => :debug
 		)
 		
 		dir do

@@ -22,22 +22,42 @@ module Encoders
 	#
 	# == Options
 	#
-	# :tab_width::        Convert \t characters to +n+ spaces (a number.)
-	#                     Default: 8
-	# :css::              How to include the styles; can be :class or :style.
-	#                     Default: :class
-	# :wrap::             Wrap in :page, :div, :span or nil.
-	#                     Default: :page
-	#                     You can also use Encoders::Div and Encoders::Span.
-	# :line_numbers::     Include line numbers in :table, :inline or nil (no line numbers)
-	#                     Default: nil
-	# :line_number_start: Where to start with line number counting.
-	#                     Default: 1
-	# :bold_every::       Make every +n+-th number appear bold.
-	#                     Default: 10
-	# :hint::             Include some information into the output using the title attribute.
-	#                     Can be :info (show token type on mouse-over) or :debug.
-	#                     Default: false
+	# === :tab_width
+	# Convert \t characters to +n+ spaces (a number.)
+	# Default: 8
+	#
+	# === :css
+	# How to include the styles; can be :class or :style.
+	# 
+	# Default: :class
+	#
+	# === :wrap
+	# Wrap in :page, :div, :span or nil.
+	# 
+	# You can also use Encoders::Div and Encoders::Span.
+	# 
+	# Default: :page
+	# 
+	# === :line_numbers
+	# Include line numbers in :table, :inline or nil (no line numbers)
+	# 
+	# Default: nil
+	# 
+	# === :line_number_start
+	# Where to start with line number counting.
+	# 
+	# Default: 1
+	# 
+	# === :bold_every
+	# Make every +n+-th number appear bold.
+	# 
+	# Default: 10
+	# 
+	# === :hint
+	# Include some information into the output using the title attribute.
+	# Can be :info (show token type on mouse-over) or :debug.
+	# 
+	# Default: false
 	class HTML < Encoder
 
 		include Streamable

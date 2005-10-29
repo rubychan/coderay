@@ -35,8 +35,12 @@ module CodeRay
 					warn "The Output module is intended to extend instances of String, not #{o.class}." unless o.respond_to? :to_str
 				end
 
+				def stylesheet
+					CSS::DEFAULT_STYLESHEET
+				end
+
 				def page_template_for_css css = :default
-					css = CSS::DEFAULT_STYLESHEET if css == :default
+					css = stylesheet if css == :default
 					PAGE.apply 'CSS', css
 				end
 
@@ -94,6 +98,12 @@ module CodeRay
 				clone.wrap!(*args)
 			end
 
+			NUMERIZABLE_WRAPPINGS = {
+				:table => [:div, :page],
+				:inline => :all,
+				nil => :all
+			}
+			
 			def numerize! mode = :table, options = {}
 				return self unless mode
 
@@ -104,7 +114,8 @@ module CodeRay
 					raise ArgumentError, "Invalid value %p for :line_number_start; Integer expected." % start
 				end
 				
-				unless NUMERIZABLE_WRAPPINGS.include? options[:wrap]
+				allowed_wrappings = NUMERIZABLE_WRAPPINGS[mode]
+				unless allowed_wrappings == :all or allowed_wrappings.include? options[:wrap]
 					raise ArgumentError, "Can't numerize, :wrap must be in %p, but is %p" % [NUMERIZABLE_WRAPPINGS, options[:wrap]]
 				end
 				
@@ -136,7 +147,7 @@ module CodeRay
 						line += 1
 						"<span class=\"no\">#{ line_number.rjust(max_width) }</span>  "
 					end
-					wrap! :div
+					#wrap! :div
 					
 				when :table
 					# This is really ugly.
@@ -206,9 +217,10 @@ module CodeRay
 			DIV_TABLE = <<-`DIV_TABLE`
 <table class="CodeRay"> <tr>
 	<td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><%LINE_NUMBERS%></pre></td>
-	<td class="code"><pre title="double click to expand" ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><%CONTENT%></pre></td>
+	<td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><%CONTENT%></pre></td>
 </tr> </table>
 			DIV_TABLE
+			# title="double click to expand" 
 
 			PAGE = <<-`PAGE`
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"

@@ -7,7 +7,7 @@ module CodeRay
 			include Streamable
 			register_for :debug
 
-			FILE_EXTENSION = 'debug'
+			FILE_EXTENSION = 'raydebug'
 
 		protected
 			def text_token text, kind

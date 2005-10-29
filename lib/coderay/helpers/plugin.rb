@@ -90,7 +90,7 @@ module PluginHost
 				id = validate_id(plugin_id)
 				path = path_to id
 				begin
-					$stderr.puts 'Loading plugin: ' + path if $DEBUG
+					#$stderr.puts 'Loading plugin: ' + path if $DEBUG
 					require path
 				rescue LoadError => boom
 					raise PluginNotFound, 'Could not load plugin %p: %s' % [id, boom]
@@ -151,7 +151,7 @@ module PluginHost
 	end
 
 	# Alias for +[]+.
-	alias load_plugin []
+	alias load []
 
 	# Returns the Plugin for +id+.
 	# Use it like Hash#fetch.
@@ -239,7 +239,7 @@ def require_plugin path
 	host = PluginHost.host_by_id(host_id)
 	raise PluginHost::HostNotFound,
 		"No host for #{host_id.inspect} found." unless host
-	host.load_plugin plugin_id
+	host.load plugin_id
 end
 
 

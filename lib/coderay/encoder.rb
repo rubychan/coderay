@@ -109,6 +109,11 @@ module CodeRay
 				method(:token).to_proc
 			end
 
+			# Return the default file extension for outputs of this encoder.
+			def file_extension
+				self.class::FILE_EXTENSION
+			end
+
 		protected
 
 			# Called with merged options before encoding starts.

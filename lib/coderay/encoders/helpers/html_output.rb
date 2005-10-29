@@ -35,8 +35,14 @@ module CodeRay
 					warn "The Output module is intended to extend instances of String, not #{o.class}." unless o.respond_to? :to_str
 				end
 
-				def stylesheet
-					CSS::DEFAULT_STYLESHEET
+				def stylesheet in_tag = false
+					ss = CSS::DEFAULT_STYLESHEET
+					ss = <<-CSS if in_tag
+<style type="text/css">
+#{ss}
+</style>
+					CSS
+					ss
 				end
 
 				def page_template_for_css css = :default
@@ -172,6 +178,10 @@ module CodeRay
 
 			def numerize *args
 				clone.numerize!(*args)
+			end
+
+			def stylesheet in_tag = false
+				Output.stylesheet in_tag
 			end
 
 			class Template < String

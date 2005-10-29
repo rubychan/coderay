@@ -176,7 +176,11 @@ def uploader_for ftp
 	proc do |l, *r|
 		r = r.first || l
 		raise 'File %s not found!' % l unless File.exist? l
-		g 'Uploading %s to %s...' % [l, r]
+		if l == r
+			g 'Uploading %s...' % [l]
+		else
+			g 'Uploading %s to %s...' % [l, r]
+		end
 		ftp.putbinaryfile l, r
 		gd
 	end

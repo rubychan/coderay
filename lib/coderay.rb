@@ -128,7 +128,7 @@
 #	The scanning methods provide more flexibility; we recommend to use these.
 module CodeRay
 	
-	Version = '0.4.4'
+	Version = '0.4.6'
 	
 	require 'coderay/tokens'
 	require 'coderay/scanner'
@@ -201,6 +201,16 @@ module CodeRay
 			encoder(format, options).encode code, lang, options
 		end
 		
+		# Highlight a string into a HTML <div>.
+		#
+		# CSS styles use classes, so you have to include a stylesheet
+		# in your output.
+		# 
+		# See encode.
+		def highlight code, lang, options = { :css => :class }, format = :div
+			encode code, lang, format, options
+		end
+		
 		# Encode pre-scanned Tokens.
 		# Use this together with CodeRay.scan:
 		# 
@@ -223,10 +233,20 @@ module CodeRay
 		#  require 'coderay'
 		#  page = CodeRay.encode_file 'some_c_code.c', :html
 		def encode_file filename, format, options = {}
-			tokens = scan_file filename, auto, get_scanner_options(options)
+			tokens = scan_file filename, :auto, get_scanner_options(options)
 			encode_tokens tokens, format, options
 		end
 
+		# Highlight a file into a HTML <div>.
+		#
+		# CSS styles use classes, so you have to include a stylesheet
+		# in your output.
+		# 
+		# See encode.
+		def highlight_file filename, options = { :css => :class }, format = :div
+			encode_file filename, format, options
+		end
+		
 		# Finds the Encoder class for +format+ and creates an instance, passing
 		# +options+ to it.
 		# 

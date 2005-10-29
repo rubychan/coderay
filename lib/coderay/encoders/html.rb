@@ -105,7 +105,7 @@ module Encoders
 		ansi_chars = Array(0x7f..0xff)
 		ansi_chars.each { |i| HTML_ESCAPE[i.chr] = '&#%d;' % i }
 		# \x9 (\t) and \xA (\n) not included
-		HTML_ESCAPE_PATTERN = /[&"><\0-\x8\xB-\x1f\x7f-\xff]/
+		HTML_ESCAPE_PATTERN = /[\t&"><\xB-\x1f\x7f-\xff\0-\x8]/
 
 		def setup options
 			super
@@ -119,7 +119,9 @@ module Encoders
 			@css = CSS.new
 
 			hint = options[:hint]
-			raise ArgumentError if hint and not [:debug, :info].include? hint
+			if hint and not [:debug, :info].include? hint
+				raise ArgumentError, "Unknown value %p for :hint; expected :info, :debug, false or nil." % hint
+			end
 
 			case options[:css]
 			
@@ -137,8 +139,9 @@ module Encoders
 						title = if hint
 							if hint == :debug
 								' title="%p"' % [ k ]
-							elsif hint == :info and k.size == 1
-								" title=\"#{type.to_s.gsub(/_/, " ").capitalize}\""
+							elsif hint == :info
+								path = (k[1..-1] << k.first).map { |kind| kind.to_s.gsub(/_/, ' ').gsub(/\b\w/) { $&.capitalize } }
+								" title=\"#{path.join('/')}\""
 							end
 						else
 							''
@@ -179,7 +182,7 @@ module Encoders
 				end
 				
 			else
-				raise "Unknown value %p for :css." % options[:css]
+				raise ArgumentError, "Unknown value %p for :css." % options[:css]
 				
 			end
 		end

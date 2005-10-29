@@ -1,0 +1,46 @@
+ident(require) string<delimiter(')content(benchmark)delimiter(')>
+ident(require) string<delimiter(')content(fits)delimiter(')>
+
+constant(N) operator(=) integer(100_000)
+
+reserved(def) method(test) ident(s)
+  ident(puts) ident(s)
+  constant(Benchmark)operator(.)ident(bm) integer(10) reserved(do) operator(|)ident(bm)operator(|)
+    ident(bm)operator(.)ident(report) string<delimiter(')content(default)delimiter(')> reserved(do)
+      constant(N)operator(.)ident(times) operator({) ident(s) operator(=)operator(~) regexp<delimiter(/)char(\\A)char(\\w)content(+)char(\\z)delimiter(/)> operator(})
+    reserved(end)
+
+    ident(bm)operator(.)ident(report) string<delimiter(')content(fits?)delimiter(')> reserved(do)
+      constant(N)operator(.)ident(times) operator({) ident(s)operator(.)ident(fits?) regexp<delimiter(/)char(\\w)content(+)delimiter(/)> operator(})
+    reserved(end)
+
+    ident(bm)operator(.)ident(report) string<delimiter(')content(f)delimiter(')> reserved(do)
+      constant(N)operator(.)ident(times) operator({) ident(s) operator(=)operator(~) regexp<delimiter(/)char(\\w)content(+)delimiter(/)>operator(.)ident(f) operator(})
+    reserved(end)
+   
+    ident(re) operator(=) regexp<delimiter(/)char(\\w)content(+)delimiter(/)>operator(.)ident(f)
+
+    ident(bm)operator(.)ident(report) string<delimiter(')content(preparsed)delimiter(')> reserved(do)
+      constant(N)operator(.)ident(times) operator({) ident(s) operator(=)operator(~) ident(re) operator(})
+    reserved(end)
+  reserved(end)
+  ident(puts)
+reserved(end)
+
+ident(a)operator(.)ident(fits?) operator(/) ident(bla) regexp<delimiter(/)content(x
+
+test 'harmlessline'
+
+test <<EOL
+<div style=)char(\\")content(font-size:2px)char(\\")content(>Destroy my HTML!
+harmlessline
+EOL
+
+test <<EOL
+harmlessline
+harmlesslineharmlessline
+<div style=)char(\\")content(font-size:2px)char(\\")content(>Destroy my HTML!
+harmlessline
+EOL
+
+)

@@ -51,7 +51,7 @@ module CodeRay module Scanners
 						match = getch + scan_until(/$/)
 						tokens << [match, :delimiter]
 						tokens << [:close, state.type]
-						state = :initial
+						state = state.next_state
 						next
 					end
 					
@@ -102,7 +102,7 @@ module CodeRay module Scanners
 						end
 						tokens << [:close, state.type]
 						fancy_allowed = regexp_allowed = false
-						state = :initial
+						state = state.next_state
 						
 					when '\\'
 						if state.interpreted
@@ -161,7 +161,10 @@ module CodeRay module Scanners
 							type = :space
 						when ?\n, ?\\
 							type = :space
-							regexp_allowed = m == ?\n
+							if m == ?\n
+								regexp_allowed = true
+								state = :initial if state == :undef_comma_expected
+							end
 							if heredocs
 								unscan  # heredoc scanning needs \n at start
 								state = heredocs.shift
@@ -181,7 +184,10 @@ module CodeRay module Scanners
 						next
 
 					elsif state == :initial
-						if match = scan(/ \.\.?\.? | [-+*=>;,|&!\(\)\[\]~^]+ | [\{\}] | :: /x)
+						
+						# OPERATORS #
+						if (not last_token_dot and match = scan(/ ==?=? | \.\.?\.? | [-+;,!\(\)\[\]~^] | [*|&>]{1,2} | [\{\}] | :: /x)) or
+							(last_token_dot and match = scan(/#{METHOD_NAME_OPERATOR}/o))
 							if match !~ / [.\)\]\}] \z/x or match =~ /\.\.\.?/
 								regexp_allowed = fancy_allowed = :set
 							end
@@ -202,12 +208,13 @@ module CodeRay module Scanners
 								end
 							end
 							
+						# IDENTS #
 						elsif match = scan(/#{METHOD_NAME}/o)
 							if last_token_dot
 								type = if match[/^[A-Z]/] then :constant else :ident end
 							else
 								type = IDENT_KIND[match]
-								if type == :ident and match[/^[A-Z]/]
+								if type == :ident and match[/^[A-Z]/] and not match[/[!?]$/]
 									type = :constant
 								elsif type == :reserved
 									state = DEF_NEW_STATE[match]
@@ -219,7 +226,7 @@ module CodeRay module Scanners
 						elsif match = scan(/ ['"] /mx)
 							tokens << [:open, :string]
 							type = :delimiter
-							state = StringState.new :string, match != '\'', match  # important for streaming
+							state = StringState.new :string, match == '"', match  # important for streaming
 							
 						elsif match = scan(/#{INSTANCE_VARIABLE}/o)
 							type = :instance_variable
@@ -237,13 +244,17 @@ module CodeRay module Scanners
 						elsif match = scan(/#{NUMERIC}/o)
 							type = if self[1] then :float else :integer end
 
-						elsif fancy_allowed and match = scan(/#{SYMBOL}/o)
-							case match[1]
+						elsif match = scan(/#{SYMBOL}/o)
+							case delim = match[1]
 							when ?', ?"
 								tokens << [:open, :symbol]
-								state = StringState.new :symbol, match[1] == ?", match[1,1]
+								tokens << [':', :symbol]
+								match = delim.chr
+								type = :delimiter
+								state = StringState.new :symbol, delim == ?", match
+							else
+								type = :symbol
 							end
-							type = :symbol
 							
 						elsif fancy_allowed and match = scan(/#{HEREDOC_OPEN}/o)
 							indented = self[1] == '-'
@@ -294,9 +305,39 @@ module CodeRay module Scanners
 						
 					elsif state == :def_expected
 						state = :initial
-						if match = scan(/#{METHOD_NAME_EX}/o)
+						if match = scan(/(?>#{METHOD_NAME_EX})(?!\.|::)/o)
 							type = :method
 						else
+							next
+						end
+
+					elsif state == :undef_expected
+						state = :undef_comma_expected
+						if match = scan(/#{METHOD_NAME_EX}/o)
+							type = :method
+						elsif match = scan(/#{SYMBOL}/o)
+							case delim = match[1]
+							when ?', ?"
+								tokens << [:open, :symbol]
+								tokens << [':', :symbol]
+								match = delim.chr
+								type = :delimiter
+								state = StringState.new :symbol, delim == ?", match
+								state.next_state = :undef_comma_expected
+							else
+								type = :symbol
+							end
+						else
+							state = :initial
+							next
+						end
+	
+					elsif state == :undef_comma_expected
+						if match = scan(/,/)
+							type = :operator
+							state = :undef_expected
+						else
+							state = :initial
 							next
 						end
 
@@ -319,7 +360,7 @@ module CodeRay module Scanners
 					last_token_dot = last_token_dot == :set
 
 					if $DEBUG
-						raise_inspect 'error token %p in line %d' % [tokens.last, line], tokens if not type or type == :error
+						raise_inspect 'error token %p in line %d' % [[match, type], line], tokens if not type or type == :error
 					end
 
 					tokens << [match, type]

@@ -12,9 +12,11 @@ module CodeRay module Scanners
 		]
 
 		DEF_KEYWORDS = %w[ def ]
+		UNDEF_KEYWORDS = %w[ undef ]
 		MODULE_KEYWORDS = %w[class module]
 		DEF_NEW_STATE = WordList.new(:initial).
 			add(DEF_KEYWORDS, :def_expected).
+			add(UNDEF_KEYWORDS, :undef_expected).
 			add(MODULE_KEYWORDS, :module_expected)
 
 		IDENTS_ALLOWING_REGEXP = %w[
@@ -32,13 +34,11 @@ module CodeRay module Scanners
 			add(RESERVED_WORDS, :reserved).
 			add(PREDEFINED_CONSTANTS, :pre_constant)
 
-#		IDENT = /[a-zA-Z_][a-zA-Z_0-9]*/
 		IDENT = /[a-z_][\w_]*/i
 
 		METHOD_NAME = / #{IDENT} [?!]? /ox
-		METHOD_NAME_EX = /
-			#{IDENT}[?!=]?  # common methods: split, foo=, empty?, gsub!
-			| \*\*?         # multiplication and power
+		METHOD_NAME_OPERATOR = /
+			\*\*?           # multiplication and power
 			| [-+]@?        # plus, minus
 			| [\/%&|^`~]    # division, modulo or format strings, &and, |or, ^xor, `system`, tilde
 			| \[\]=?        # array getter and setter
@@ -46,10 +46,11 @@ module CodeRay module Scanners
 			| <=?>? | >=?   # comparison, rocket operator
 			| ===?          # simple equality and case equality
 		/ox
+		METHOD_NAME_EX = / #{IDENT} [?!=]? | #{METHOD_NAME_OPERATOR} /ox
 		INSTANCE_VARIABLE = / @ #{IDENT} /ox
 		CLASS_VARIABLE = / @@ #{IDENT} /ox
 		OBJECT_VARIABLE = / @@? #{IDENT} /ox
-		GLOBAL_VARIABLE = / \$ (?: #{IDENT} | [1-9] | 0[a-zA-Z_0-9]* | [~&+`'=\/,;_.<>!@$?*":\\] | -[a-zA-Z_0-9] ) /ox
+		GLOBAL_VARIABLE = / \$ (?: #{IDENT} | [1-9]\d* | 0\w* | [~&+`'=\/,;_.<>!@$?*":\\] | -[a-zA-Z_0-9] ) /ox
 		PREFIX_VARIABLE = / #{GLOBAL_VARIABLE} |#{OBJECT_VARIABLE} /ox
 		VARIABLE = / @?@? #{IDENT} | #{GLOBAL_VARIABLE} /ox
 
@@ -144,7 +145,7 @@ module CodeRay module Scanners
 		FancyStringType['W'] = FancyStringType[''] = FancyStringType['Q']
 			
 		class StringState < Struct.new :type, :interpreted, :delim, :heredoc,
-			:paren, :paren_depth, :pattern
+			:paren, :paren_depth, :pattern, :next_state
 			
 			CLOSING_PAREN = Hash[ *%w[
 				( )
@@ -186,7 +187,7 @@ module CodeRay module Scanners
 				delim_pattern = / \n #{ '(?>[\ \t]*)' if indented } #{ Regexp.new delim_pattern } $ /x
 				h[k] =
 					if interpreted
-						/ (?= #{delim_pattern}() | \\ | \# [{$@] ) /mx
+				/ (?= #{delim_pattern}() | \\ | \# [{$@] ) /mx  # $1 set == end of heredoc
 					else
 						/ (?= #{delim_pattern}() | \\ ) /mx
 					end
@@ -203,7 +204,7 @@ module CodeRay module Scanners
 				else
 					pattern = STRING_PATTERN[ [delim, interpreted] ]
 				end
-				super kind, interpreted, delim, heredoc, paren, paren_depth, pattern
+				super kind, interpreted, delim, heredoc, paren, paren_depth, pattern, :initial
 			end
 		end unless defined? StringState
 	

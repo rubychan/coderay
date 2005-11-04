@@ -101,7 +101,7 @@ module CodeRay
 			unless kind_filter
 				super(&block)
 			else
-				super do |text, kind|
+				super() do |text, kind|
 					next unless kind == kind_filter
 					yield text, kind
 				end

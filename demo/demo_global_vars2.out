@@ -1,0 +1,10 @@
+<html>
+<head>
+<style>span.glob-var { color: green; font-weight: bold; }</style>
+</head>
+<body>
+<span class="glob-var">$ie</span>.text_field(:name, &quot;pAnfrage ohne $gV und mit #{<span class="glob-var">$gv</span>}&quot;).set artikel
+oder
+text = <span class="glob-var">$bla</span>.test(...) 
+</body>
+</html>

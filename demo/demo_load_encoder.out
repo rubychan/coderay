@@ -1,0 +1,5 @@
+CodeRay::Encoders::YAML is not defined; you must load it first.
+Now it is loaded: CodeRay::Encoders::YAML
+See?
+Require is also possible: CodeRay::Encoders::Tokens
+See?

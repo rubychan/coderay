@@ -1,0 +1,21 @@
+YAML: 2690 bytes
+Dump: 1058 bytes
+undumped:
+<div class="CodeRay">
+	<div class="code"><pre>require <span class="s"><span class="dl">'</span><span class="k">coderay</span><span class="dl">'</span></span>
+
+<span class="c"># scan some code</span>
+tokens = <span class="co">CodeRay</span>.scan(<span class="co">File</span>.read(<span class="gv">$0</span>), <span class="sy">:ruby</span>)
+
+<span class="c"># dump using YAML</span>
+yaml = tokens.yaml
+puts <span class="s"><span class="dl">'</span><span class="k">YAML: %4d bytes</span><span class="dl">'</span></span> % yaml.size
+
+<span class="c"># dump using Marshal</span>
+dump = tokens.dump(<span class="i">0</span>)
+puts <span class="s"><span class="dl">'</span><span class="k">Dump: %4d bytes</span><span class="dl">'</span></span> % dump.size
+
+<span class="c"># undump and encode</span>
+puts <span class="s"><span class="dl">'</span><span class="k">undumped:</span><span class="dl">'</span></span>, dump.undump.div(<span class="sy">:css</span> =&gt; <span class="sy">:class</span>)
+</pre></div>	
+</div>

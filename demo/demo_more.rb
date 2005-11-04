@@ -27,7 +27,8 @@ File.open('test.html', 'w') do |f|
 	f.write $output
 end
 puts 'Input: %dB, Output: %dB' % [$input.size, $output.size]
-puts 'Created "test.html" in %0.3f seconds (%d KB/s). Take a look with your browser.' % [time, $input.size / 1024.0 / time]
+#puts 'Created "test.html" in %0.3f seconds (%d KB/s).' % [time, $input.size / 1024.0 / time]
+puts 'Take a look with your browser.'
 
 __END__
 /**********************************************************************

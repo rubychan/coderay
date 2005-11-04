@@ -44,9 +44,24 @@ task :stats => :copy_files do
 	).to_s
 end
 
+desc 'Test CodeRay Demos'
+task :test_demos do
+	system 'ruby -w ./demo/suite.rb'
+end
+
 desc 'Test CodeRay'
 task :test do
 	system 'ruby -w ./test/suite.rb'
+end
+
+desc 'Test CodeRay Demos with Fox'
+task :testf_demos do
+	system 'ruby -w ./demo/suite.rb -f'
+end
+
+desc 'Test CodeRay with Fox'
+task :testf do
+	system 'ruby -w ./test/suite.rb -f'
 end
 
 desc 'Test CodeRay with debugging'

@@ -79,7 +79,7 @@ Benchmark.bm(20) do |bm|
 	time = bm.report('CodeRay') do
 		options = {
 			:tab_width => 2,
-			:line_numbers => :list,
+			:line_numbers => :table,
 			:line_numbers_offset => Offset,
 			:bold_every => BoldEvery,
 			:wrap => :page,

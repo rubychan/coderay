@@ -13,6 +13,8 @@ module CodeRay
 		# TODO: more doc.
 		module Output
 
+			require 'coderay/encoders/helpers/html_numerization.rb'
+
 			attr_accessor :wrapped_in
 			
 			class << self
@@ -104,82 +106,6 @@ module CodeRay
 				clone.wrap!(*args)
 			end
 
-			NUMERIZABLE_WRAPPINGS = {
-				:table => [:div, :page],
-				:inline => :all,
-				nil => :all
-			}
-			
-			def numerize! mode = :table, options = {}
-				return self unless mode
-
-				options = DEFAULT_OPTIONS.merge options
-
-				start = options[:line_number_start]
-				unless start.is_a? Integer
-					raise ArgumentError, "Invalid value %p for :line_number_start; Integer expected." % start
-				end
-				
-				allowed_wrappings = NUMERIZABLE_WRAPPINGS[mode]
-				unless allowed_wrappings == :all or allowed_wrappings.include? options[:wrap]
-					raise ArgumentError, "Can't numerize, :wrap must be in %p, but is %p" % [NUMERIZABLE_WRAPPINGS, options[:wrap]]
-				end
-				
-				bold_every = options[:bold_every]
-				bolding = 
-					if bold_every == :no_bolding or bold_every == 0
-						proc { |line| line.to_s }
-					elsif bold_every.is_a? Integer
-						proc do |line|
-							if line % bold_every == 0
-								"<strong>#{line}</strong>"  # every bold_every-th number in bold
-							else
-								line.to_s
-							end
-						end
-					else
-						raise ArgumentError, "Invalid value %p for :bolding; :no_bolding or Integer expected." % bolding
-					end
-				
-				line_count = count("\n")
-				line_count += 1 if self[-1] != ?\n
-
-				case mode				
-				when :inline
-					max_width = (start + line_count).to_s.size
-					line = start
-					gsub!(/^/) do
-						line_number = bolding.call line
-						line += 1
-						"<span class=\"no\">#{ line_number.rjust(max_width) }</span>  "
-					end
-					#wrap! :div
-					
-				when :table
-					# This is really ugly.
-					# Because even monospace fonts seem to have different heights when bold, 
-					# I make the newline bold, both in the code and the line numbers.
-					# FIXME Still not working perfect for Mr. Internet Exploder
-					line_numbers = (start ... start + line_count).to_a.map(&bolding).join("\n")
-					line_numbers << "\n"  # also for Mr. MS Internet Exploder :-/
-					line_numbers.gsub!(/\n/) { "<tt>\n</tt>" }
-					
-					line_numbers_tpl = DIV_TABLE.apply('LINE_NUMBERS', line_numbers)
-					gsub!(/\n/) { "<tt>\n</tt>" }
-					wrap_in! line_numbers_tpl
-					@wrapped_in = :div
-					
-				else
-					raise ArgumentError, "Unknown value %p for mode: :inline or :table expected" % mode
-				end
-
-				self
-			end
-
-			def numerize *args
-				clone.numerize!(*args)
-			end
-
 			def stylesheet in_tag = false
 				Output.stylesheet in_tag
 			end
@@ -224,13 +150,17 @@ module CodeRay
 </div>
 			DIV
 
-			DIV_TABLE = <<-`DIV_TABLE`
+			TABLE = <<-`TABLE`
 <table class="CodeRay"> <tr>
 	<td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><%LINE_NUMBERS%></pre></td>
 	<td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><%CONTENT%></pre></td>
 </tr> </table>
-			DIV_TABLE
+			TABLE
 			# title="double click to expand" 
+
+			LIST = <<-`LIST`
+<ol class="CodeRay"><%CONTENT%></ol>
+			LIST
 
 			PAGE = <<-`PAGE`
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"

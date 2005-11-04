@@ -12,7 +12,7 @@ module CodeRay module Encoders
 				cl = @classes[styles.first]
 				return '' unless cl
 				style = false
-				1.upto(cl.size + 1) do |offset|
+				1.upto(styles.size) do |offset|
 					break if style = cl[styles[offset .. -1]]
 				end
 				return style
@@ -46,16 +46,14 @@ module CodeRay module Encoders
 	border: 1px solid silver;
 	font-family: 'Courier New', 'Terminal', monospace;
 	color: black;
-	width: 100%;
-	padding: 2px;
 }
 .CodeRay pre { margin: 0px; }
 
 div.CodeRay { }
 
-span.CodeRay { white-space: pre; border: 0; }
+span.CodeRay { white-space: pre; border: 0px; padding: 2px; }
 
-table.CodeRay { border-collapse: collapse; }
+table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px; }
 table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 
 .CodeRay .line_numbers, .CodeRay .no {
@@ -67,8 +65,9 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .CodeRay .no { padding: 0px 4px; }
 .CodeRay .code { width: 100%; }
 
-.CodeRay .code {
-}
+ol.CodeRay { font-size: 10pt; }
+ol.CodeRay li { white-space: pre; }
+
 .CodeRay .code pre { overflow: auto; }
 			MAIN
 

@@ -77,7 +77,14 @@ Benchmark.bm(20) do |bm|
 	end
 
 	time = bm.report('CodeRay') do
-		options = { :tab_width => 2, :line_numbers => :table, :line_numbers_offset => Offset, :bold_every => BoldEvery, :wrap => :page, :css => $style ? :style : :class}
+		options = {
+			:tab_width => 2,
+			:line_numbers => :list,
+			:line_numbers_offset => Offset,
+			:bold_every => BoldEvery,
+			:wrap => :page,
+			:css => $style ? :style : :class,
+		}
 		options[:debug] = $DEBUG
 		$hl = CodeRay.encoder(format, options) unless $dump_output
 		N.times do

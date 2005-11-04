@@ -39,7 +39,7 @@ module Encoders
 	# Default: :page
 	# 
 	# === :line_numbers
-	# Include line numbers in :table, :inline or nil (no line numbers)
+	# Include line numbers in :table, :inline, :list or nil (no line numbers)
 	# 
 	# Default: nil
 	# 

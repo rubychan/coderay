@@ -27,7 +27,7 @@ module CodeRay
 			#  ]
 			#  
 			#  # make a WordList
-			#  IDENT_KIND = Scanner::WordList.new(:ident).
+			#  IDENT_KIND = WordList.new(:ident).
 			#    add(RESERVED_WORDS, :reserved).
 			#    add(PREDEFINED_TYPES, :pre_type).
 			#    add(PREDEFINED_CONSTANTS, :pre_constant)
@@ -37,7 +37,7 @@ module CodeRay
 			#  def scan_tokens tokens, options
 			#    ...
 			#    
-			#    elsif match = scan(/ [A-Za-z_][A-Za-z_0-9]* /x)
+			#    elsif scan(/[A-Za-z_][A-Za-z_0-9]*/)
 			#      # use it
 			#      kind = IDENT_KIND[match]
 			#      ...
@@ -45,56 +45,48 @@ module CodeRay
 			class WordList < Hash
 
 				# Creates a new WordList with +default+ as default value.
-				# case_mode controls how keys are compared;
-				# :case_match is faster.
-				def initialize default = false, case_mode = :case_match
-					@case_ignore =
-						case case_mode
-						when :case_match then false
-						when :case_ignore then true
-						else raise ArgumentError,
-							":case_ignore or :case_match expected, but #{case_mode} given"
-						end
+				def initialize default = false, &block
+					super default, &block
+				end
 
-					if @case_ignore
-						super() do |h, k|
-							h[k] = h.fetch k.downcase, default
-						end
-					else
-						super default
+				# Checks if a word is included.
+				def include? word
+					has_key? word
+				end
+
+				# Add words to the list and associate them with +kind+.
+				def add words, kind = true
+					words.each do |word|
+						self[word] = kind
+					end
+					self
+				end
+
+			end
+			
+
+			class CaseIgnoringWordList < WordList
+
+				# Creates a new WordList with +default+ as default value.
+				#
+				# Text case is ignored.
+				def initialize default = false
+					super() do |h, k|
+						h[k] = h.fetch k.downcase, default
 					end
 				end
 
 				# Checks if a word is included.
 				def include? word
-					self[word] if @case_ignore
-					has_key? word
+					has_key? word.downcase
 				end
 
-				# Add words to the list and associate them with
-				# +kind+.
+				# Add words to the list and associate them with +kind+.
 				def add words, kind = true
 					words.each do |word|
-						self[mind_case(word)] = kind
+						self[word.downcase] = kind
 					end
 					self
-				end
-
-				alias words keys
-
-				# Returns whether key comparing is done case insensitive.
-				def case_ignore?
-					@case_mode
-				end
-
-			private
-				# helper method for key 
-				def mind_case word
-					if @case_ignore
-						word.downcase
-					else
-						word.dup
-					end
 				end
 
 			end		

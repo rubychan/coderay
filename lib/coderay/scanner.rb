@@ -51,7 +51,7 @@ module CodeRay
 			# Raised if a Scanner fails while scanning
 			ScanError = Class.new(Exception)
 
-			require 'coderay/helpers/scanner_helper'
+			require 'coderay/helpers/word_list'
 
 			# The default options for all scanner classes.
 			# 

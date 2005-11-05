@@ -28,7 +28,7 @@ module CodeRay module Scanners
 			'virtual', 'write', 'writeonly'
 		]
 
-		IDENT_KIND = Scanner::WordList.new(:ident, :case_ignore).
+		IDENT_KIND = CaseIgnoringWordList.new(:ident).
 			add(RESERVED_WORDS, :reserved).
 			add(DIRECTIVES, :directive)
 

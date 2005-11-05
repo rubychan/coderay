@@ -25,7 +25,7 @@ module CodeRay module Scanners
 			'true', 'false',  # C99
 		]
 
-		IDENT_KIND = Scanner::WordList.new(:ident).
+		IDENT_KIND = WordList.new(:ident).
 			add(RESERVED_WORDS, :reserved).
 			add(PREDEFINED_TYPES, :pre_type).
 			add(PREDEFINED_CONSTANTS, :pre_constant)

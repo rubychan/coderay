@@ -9,6 +9,8 @@ module CodeRay
 			# WordList is highly optimized to be used in Scanners,
 			# typically to decide whether a given ident is a keyword.
 			#
+			# For case insensitive words use CaseIgnoringWordList.
+			#
 			# Example:
 			# 
 			#  # define word arrays
@@ -65,6 +67,12 @@ module CodeRay
 			end
 			
 
+			# A WordList is a Hash with some additional features.
+			# It is intended to be used for keyword recognition.
+			#
+			# Keys are compared case-insensitively.
+			#
+			# See WordList.
 			class CaseIgnoringWordList < WordList
 
 				# Creates a new WordList with +default+ as default value.

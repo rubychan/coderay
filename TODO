@@ -8,10 +8,12 @@ Category = X (done), / (partly done), T (test), (else)
 Project:
 						Documentation:
 3/4		0	2	Do			Doc the interface
-3/4		0	1	Sa			write examples
+3/4		0	1	Sa2			write examples
 
 		1	2	Mi			Code Cleanup: Indentation, Docu
-		2	2	Mo			Rewrite Tools: coderay, bench.rb, highlight.rb
+		2	2	Mo			Rewrite Tools:
+							coderay, bench.rb, highlight.rb
+		2	1	Di			Cleanup Rakefile
 
 
 

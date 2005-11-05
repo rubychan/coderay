@@ -38,10 +38,16 @@ end
 
 desc 'Report code statistics (LOC) from the application'
 task :stats => :copy_files do
-	require 'code_statistics'
+	require 'rake_helpers/code_statistics'
 	CodeStatistics.new(
-		["Main", "lib"]
-	).to_s
+		['Main', 'lib'],
+		['CodeRay', 'lib/coderay/'],
+		['  Scanners', 'lib/coderay/scanners'],
+		['  Encoders', 'lib/coderay/encoders'],
+		['  Helpers', 'lib/coderay/helpers'],
+		['Test', 'test/**', /\/\w+.rb$/],
+		['Demo Tests', 'demo/**']
+	).print
 end
 
 desc 'Test CodeRay Demos'

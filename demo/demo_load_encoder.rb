@@ -18,4 +18,4 @@ puts 'See?'
 
 puts 'Require all Encoders:'
 CodeRay::Encoders.load_all
-p CodeRay::Encoders.plugin_hash
+p CodeRay::Encoders.plugin_hash.sort_by { |k,v| k.to_s }

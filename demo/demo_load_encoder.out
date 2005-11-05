@@ -4,4 +4,4 @@ See?
 Require is also possible: CodeRay::Encoders::Tokens
 See?
 Require all Encoders:
-{:tokens=>CodeRay::Encoders::Tokens, :statistic=>CodeRay::Encoders::Statistic, :div=>CodeRay::Encoders::Div, :text=>CodeRay::Encoders::Text, :debug=>CodeRay::Encoders::Debug, :xml=>CodeRay::Encoders::XML, :count=>CodeRay::Encoders::Count, :stats=>CodeRay::Encoders::Statistic, :span=>CodeRay::Encoders::Span, :yaml=>CodeRay::Encoders::YAML, :null=>CodeRay::Encoders::Null, :html=>CodeRay::Encoders::HTML}
+[[:count, CodeRay::Encoders::Count], [:debug, CodeRay::Encoders::Debug], [:div, CodeRay::Encoders::Div], [:html, CodeRay::Encoders::HTML], [:null, CodeRay::Encoders::Null], [:span, CodeRay::Encoders::Span], [:statistic, CodeRay::Encoders::Statistic], [:stats, CodeRay::Encoders::Statistic], [:text, CodeRay::Encoders::Text], [:tokens, CodeRay::Encoders::Tokens], [:xml, CodeRay::Encoders::XML], [:yaml, CodeRay::Encoders::YAML]]

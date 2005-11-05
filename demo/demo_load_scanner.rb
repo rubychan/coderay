@@ -18,4 +18,4 @@ puts 'See?'
 
 puts 'Require all Scanners:'
 CodeRay::Scanners.load_all
-p CodeRay::Scanners
+p CodeRay::Scanners.plugin_hash.sort_by { |k,v| k.to_s }

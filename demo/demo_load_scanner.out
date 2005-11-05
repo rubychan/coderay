@@ -4,4 +4,4 @@ See?
 Require is also possible: CodeRay::Scanners::C
 See?
 Require all Scanners:
-{:delphi=>"Delphi", :plaintext=>"Plaintext", :c=>"C", :ruby=>"Ruby", :cpp=>"C", :plain=>"Plaintext"}
+[[:c, CodeRay::Scanners::C], [:delphi, CodeRay::Scanners::Delphi], [:plain, CodeRay::Scanners::Plaintext], [:plaintext, CodeRay::Scanners::Plaintext], [:ruby, CodeRay::Scanners::Ruby]]

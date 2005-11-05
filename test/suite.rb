@@ -1,5 +1,5 @@
-mydir = File.dirname(__FILE__)
-$:.unshift mydir + '/../lib/'
+$mydir = File.dirname(__FILE__)
+$:.unshift $mydir + '/../lib/'
 
 $VERBOSE = true
 
@@ -33,6 +33,9 @@ class CodeRaySuite < TestCase
 	end
 
 	def test_ALL
+		puts
+		puts "    >> Running #{self.class.name} <<"
+		puts
 		CodeRay::Scanners.load lang
 		tokenizer = CodeRay::Encoders[:debug].new
 		highlighter = CodeRay::Encoders[:html].new(
@@ -44,7 +47,7 @@ class CodeRaySuite < TestCase
 		
 		dir do
 			for input in Dir["*.#{extension}"]
-				puts "[ testing #{input}... ]"
+				puts "testing #{input}..."
 				name = File.basename(input, ".#{extension}")
 				output = name + '.out.' + tokenizer.file_extension
 				code = File.open(input, 'rb') { |f| break f.read }
@@ -84,7 +87,7 @@ def load_suite name
 	rescue LoadError
 		$stderr.puts <<-ERR
 
-!! Folder #{File.split(__FILE__).first + '/' + name} not found
+!! Folder #{File.join $mydir, name} not found
 		
 		ERR
 		false
@@ -94,7 +97,7 @@ end
 if subsuite = ARGV.find { |a| break $1 if a[/^([^-].*)/] }
 	load_suite(subsuite) or exit
 else
-	Dir[mydir + '/*/'].each { |suite| load_suite suite }
+	Dir[File.join($mydir, '*', '')].each { |suite| load_suite suite }
 end
 
 if ARGV.include? '-f'

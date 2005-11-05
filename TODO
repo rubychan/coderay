@@ -8,37 +8,30 @@ Project:
 						Documentation:
 3/4		0	2				Doc the interface
 3/4		0	1				write examples
-1/2		0	2				Test demos
 
-
-						Interface:
-						
-						PluginLoading:
-		2	1				Make save (only allow \w+ names or something)
-						
 
 
 Scanners:
 						Ruby:
-		3	2				Regexp comment highlighting
-		3	2				Options: Highlight characters/escapes/inline code
-		2	1				Meta characters
+L		3	2				Regexp comment highlighting
+L		3	2				Options: Highlight characters/escapes/inline code
+L		2	1				Meta characters
 
 
 
 Encoders:
 						HTML:
-1/2		1	2				dynamic CSS creation
+3/4		1	2				dynamic CSS creation
 							=> alternative inline style via <span style="...">
 						Colors:
-		3	2				colorschemes
+		1	2				colorschemes
 						Statistic:
-		2	1				return Statistic object with to_s method instead of String
+L		3	1				return Statistic object with to_s method instead of String
 
 
 
 Tools:
 						testfox:
-		2	3				wxRuby and HTML output
+L		2	3				wxRuby and HTML output
 
 

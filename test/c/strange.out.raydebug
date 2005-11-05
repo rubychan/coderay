@@ -1,0 +1,90 @@
+preprocessor(#include) include("ruby.h")   comment(/*
+       /sLaSh        *
+  oBfUsCaTeD  RuBy   *
+   cOpYrIgHt 2005    *
+bY SiMoN StRaNdGaArD *
+ #{X=320;Y=200;Z=20}  */)
+
+preprocessor(#define) ident(GUN1) integer(42)operator(:)
+preprocessor(#define) ident(GUN2) integer(43)operator(:)
+preprocessor(#define) ident(bo) reserved(do)
+preprocessor(#define) ident(when)operator(()ident(gun)operator(\)) comment(/**/)
+preprocessor(#define) ident(DATA) string<delimiter(")content(p 'Hello embedded world')delimiter(")>
+preprocessor(#define) ident(DIRTY)operator(()ident(argc)operator(,)ident(argv)operator(\))\
+ident(argc)operator(,)ident(argv)operator(,)pre_type(char)operator(=)ident(eval)operator(()\
+string<delimiter(")content(#{DATA.read})char(\\n)content([3,2,1])delimiter(")>\
+operator(\);)ident(sun)operator(=)ident(O)operator(.)ident(new)\
+reserved(if)operator(()integer(0)operator(\))
+
+pre_type(int)
+ident(sun)operator([]={)integer(12)operator(,)integer(9)operator(,)integer(16)operator(,)integer(9)operator(,)integer(2)operator(,)integer(1)operator(,)integer(7)operator(,)integer(1)operator(,)integer(3)operator(,)integer(9)operator(,)integer(27)operator(,)integer(4)operator(,) integer(13)operator(,)integer(2)operator(,)integer(11)operator(,)integer(5)operator(,)integer(4)operator(,)integer(1)operator(,)integer(25)operator(,)
+integer(5)operator(,)integer(0)operator(,)integer(1)operator(,)integer(14)operator(,)integer(9)operator(,)integer(15)operator(,)integer(4)operator(,)integer(26)operator(,)integer(9)operator(,)integer(23)operator(,)integer(2)operator(,)integer(17)operator(,)integer(6)operator(,)integer(31)operator(,) integer(6)operator(,)integer(10)operator(,)integer(8)operator(,)integer(22)operator(,)integer(9)operator(,)integer(21)operator(,)integer(1)operator(,)
+integer(24)operator(,)integer(8)operator(,)integer(20)operator(,)integer(8)operator(,)integer(18)operator(,)integer(9)operator(,)integer(29)operator(,)integer(5)operator(,)integer(9)operator(,)integer(5)operator(,)integer(1)operator(,)integer(1)operator(,)integer(28)operator(,)integer(8)operator(,)integer(8)operator(,)integer(1)operator(,)integer(30)operator(,) integer(9)operator(,)integer(6)operator(,)integer(8)operator(,) integer(5)operator(,)integer(1)operator(,)
+integer(19)operator(,)integer(9)operator(,)integer(36)operator(,)integer(19)operator(,)integer(43)operator(,) integer(9)operator(,)integer(34)operator(,)integer(11)operator(,)integer(50)operator(,)integer(19)operator(,)integer(48)operator(,)integer(18)operator(,)integer(49)operator(,)integer(9)operator(,) integer(35)operator(,)integer(8)operator(,)integer(42)operator(,)integer(18)operator(,)
+integer(51)operator(,)integer(8)operator(,)integer(44)operator(,)integer(11)operator(,)integer(32)operator(,) integer(11)operator(,)integer(47)operator(,)integer(9)operator(,)integer(37)operator(,)integer(1)operator(,)integer(39)operator(,)integer(9)operator(,)integer(38)operator(,)integer(19)operator(,)  integer(45)operator(,)integer(8)operator(,)integer(40)operator(,)integer(12)operator(,)
+integer(41)operator(,)integer(9)operator(,)integer(46)operator(,)integer(12)operator(,)integer(33)operator(,)integer(1)operator(,)integer(57)operator(,)integer(1)operator(,)integer(85)operator(,)integer(5)operator(,)integer(88)operator(,)integer(28)operator(,)integer(83)operator(,)integer(4)operator(,)integer(87)operator(,) integer(6)operator(,)integer(62)operator(,)integer(28)operator(,)integer(89)operator(,)
+integer(9)operator(,)integer(80)operator(,)integer(28)operator(,)integer(60)operator(,)integer(21)operator(,)integer(52)operator(,)integer(21)operator(,)integer(72)operator(,)integer(29)operator(,)integer(54)operator(,)integer(21)operator(,)integer(75)operator(,)integer(8)operator(,)integer(70)operator(,)integer(29)operator(,)integer(58)operator(,)integer(28)operator(,)integer(65)operator(,)
+integer(9)operator(,)integer(91)operator(,)integer(8)operator(,)integer(74)operator(,)integer(29)operator(,)integer(79)operator(,)integer(2)operator(,)integer(77)operator(,)integer(1)operator(,)integer(53)operator(,)integer(1)operator(,)integer(81)operator(,)integer(5)operator(,) integer(69)operator(,)integer(2)operator(,)integer(64)operator(,)integer(21)operator(,) integer(86)operator(,)integer(29)operator(,)
+integer(67)operator(,)integer(9)operator(,)integer(59)operator(,)integer(1)operator(,)integer(61)operator(,)integer(5)operator(,)integer(73)operator(,)integer(6)operator(,)integer(76)operator(,)integer(28)operator(,)integer(56)operator(,)integer(21)operator(,)integer(68)operator(,)integer(29)operator(,)integer(78)operator(,)integer(29)operator(,)integer(63)operator(,)integer(5)operator(,)integer(66)operator(,)
+integer(28)operator(,)integer(90)operator(,)integer(29)operator(,) integer(71)operator(,)integer(4)operator(,)integer(55)operator(,)integer(9)operator(,)integer(84)operator(,)integer(28)operator(,)integer(82)operator(,)integer(29)operator(,)integer(101)operator(,)integer(5)operator(,) integer(103)operator(,)integer(9)operator(,) integer(98)operator(,)integer(35)operator(,)
+integer(97)operator(,)integer(1)operator(,)integer(94)operator(,)integer(35)operator(,)integer(93)operator(,)integer(1)operator(,)integer(100)operator(,)integer(35)operator(,)integer(92)operator(,)integer(31)operator(,)integer(99)operator(,)integer(5)operator(,)integer(96)operator(,)integer(39)operator(,)integer(95)operator(,)integer(5)operator(,)integer(102)operator(,)integer(35)operator(};)
+
+pre_type(void) ident(run)operator(()pre_type(int) ident(gun)operator(=)integer(0)operator(\)) operator({)        comment(// [gun]=[:GUN1,:GUN2])
+        ident(printf)operator(()string<delimiter(")content(run(\) %i)char(\\n)delimiter(")>operator(,) ident(gun)operator(\);)
+        reserved(switch)operator(()ident(gun)operator(\)) operator({)
+        reserved(case) ident(GUN1) ident(when)operator(()integer(2)operator(\))
+                ident(printf)operator(()string<delimiter(")content(when2)char(\\n)delimiter(")>operator(\);)
+                reserved(break)operator(;) comment(// end)
+        reserved(case) ident(GUN2) ident(when)operator(()integer(3)operator(\))
+                ident(printf)operator(()string<delimiter(")content(when3)char(\\n)delimiter(")>operator(\);)
+                reserved(break)operator(;) comment(// end)
+        operator(})
+operator(})
+
+pre_type(int) ident(main)operator(()pre_type(int) ident(argc)operator(,) pre_type(char)operator(**) ident(argv)operator(\)) operator({)
+        ident(printf)operator(()string<delimiter(")content(hello world.   number of arguments=%i)char(\\n)delimiter(")>operator(,) ident(argc)operator(\);)
+        pre_type(int) ident(fun)operator(=)integer(5)operator(;)
+        ident(bo) operator({)
+                ident(fun) operator(-=) integer(1)operator(;) comment(//.id - gun = fun)
+                ident(run)operator(()ident(fun)operator(\);)
+        operator(}) reserved(while)operator(()ident(fun)operator(>)integer(0)operator(\);)
+        ident(ruby_init)operator((\);)
+        ident(rb_eval_string)operator(()ident(DATA)operator(\);)
+        reserved(return) integer(0)operator(;)
+operator(})
+
+comment(# if   0  // nobody reads un-defined code
+def goto*s;$s=[];Y.times{s=[];X.times{s<<[0]*3};$s<< s}end;A=0.5
+include Math;def u g,h,i,j,k,l;f,*m=((j-h\).abs>(k-i\).abs\)?[proc{
+|n,o|      g[o]  [n   ]=l      },[h  ,i   ],[j,k]]:[proc{
+|p,q|  g[   p][  q]   =l}  ,[   i,h  ],   [k,j]];b,a=m.sort
+c,d=a  [1   ]-b  [1   ],a  [0   ]-b  [0   ];d.times{|e|f.
+call(      e+b[  0]   ,c*      e/d+b     [1]\)};end;V=0;def bo&u
+$u||=  V;   ;$u  +=   1+V  ;;   return u.call if$u>1;q=128.0
+;x=(V  ..   255  \).   map  {|   y|f1,z =sin(y.to_f*PI/q\),
+sin((  y.   to_f    + 200      \)*PI/(   q\)\);[(f1*30.0+110.0\).
+to_i,((f1+z\)*10.0+40.0\).to_i,(z*20.0+120.0\).to_i]};Y.times{|i|X.
+times{|j|i1=((i*0.3+150\)*(j*1.1+50\)/50.0\).to_i;i2=((i*0.8+510\)*(
+j*0.9+1060\)/51.0\).to_i;$s[i][j]=x[(i1*i2\)%255].clone}};$a=(0..25\).
+inject([]\){|a,i|a<<(V..3\).inject([]\){|r,j|r<<$c[i*4+j]}};u.call;end
+I=LocalJumpError;def run*a,&b;return if a.size==V;if a[V]==666;$b=b
+elsif$b;$b.call;end;end;def main s,&u;$m=V;u.call rescue I;end
+def rb_eval_string(*a\);end     # you promised not to look here
+def ruby_init;q=2.0;l=((X**q\)*A+(Y**q\)*A\)**A;V.upto(Y-4\){|s|V.
+upto(X-4\){|q|d=((q-X/A\)**q+(s-Y/A\)**q\)**A;e=(cos(d*PI/(l/q\)\)/q
++A\)*3.0+1.0;v=2;f=v/e;a,p,b=$s[s],$s[s+1],$s[s+v];r=a[q][V]*e+
+p[q][V]+a[q+1][V]+b[q][V]+a[q+v][V]+b[q+v/v][V]+p[q+v][V]+b[q+
+v][V]*f;g=[a[q][V],b[q][V],a[q+v][V],b[q+v][V]];h=(g.max-g.min
+\)*f;$s[s][q][V]=[[(r/(e+f+6.0\)+A+(h*0.4\)\).to_i,255].min,V].max
+}};File.open("res.ppm","w+"\){|f|f.write(# secret.greetings :-\)
+"P3\\n# res.ppm\\n#{X} #{Y}\\n255\\n"+$s.map{|a|a.map{|b|b.join' '
+}.join(' '\)+"\\n"}.join\)};end;def switch i,&b;b.call;return unless
+defined?($m\);b=(X*0.01\).to_i;d=1.0/40.0;e=0.09;c=(Y*0.01\).to_i
+a=$a.map{|(f,g,h,j\)|[f*d,g*e,h*d,j*e]};a.each{|(k,l,m,n\)|u($s,(k*X
+\).to_i+b+i,(l*Y\).to_i+c+i,(m*X\).to_i+b+i,(n*Y\).to_i+c+i,[Z]*3\)}
+a.each{|(o,q,r,s\)|u($s,(o*(X-Z\)\).to_i+i,(q*(Y-Z\)\).to_i+i,(r*(X-
+Z\)\).to_i+i,(s*(Y-Z\)\).to_i+i,[(1<<8\)-1]*3\)};end;Q=Object;class
+Regexp;def []=(v,is\);is.each{|s|Q.send(:remove_const,s\)if Q.
+const_defined? s;Q.const_set(s,v\)};end;end;def int*ptr;666
+end;class O;def []=(a,b=nil\);$c=a;end;end;alias:void:goto
+#endif // pretend as if you havn't seen anything)

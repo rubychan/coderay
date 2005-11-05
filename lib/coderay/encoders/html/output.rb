@@ -13,7 +13,7 @@ module CodeRay
 		# TODO: more doc.
 		module Output
 
-			require 'coderay/encoders/helpers/html_numerization.rb'
+			require 'coderay/encoders/html/numerization.rb'
 
 			attr_accessor :wrapped_in
 			

@@ -80,9 +80,9 @@ module Encoders
 			:hint => false,
 		}
 		
-		require 'coderay/encoders/helpers/html_helper'
-		require 'coderay/encoders/helpers/html_output'
-		require 'coderay/encoders/helpers/html_css'
+		require 'coderay/encoders/html/classes'
+		require 'coderay/encoders/html/output'
+		require 'coderay/encoders/html/css'
 
 		def initialize(*)
 			super

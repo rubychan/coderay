@@ -129,13 +129,31 @@ Benchmark.bm(20) do |bm|
 
 	if compare
 		time = bm.report('Syntax') do
-			c = Syntax::Convertors::HTML.for_syntax 'ruby'
+			c = Syntax::Convertors::HTML.for_syntax lang
+			puts 'No Syntax syntax found!' if c.tokenizer.is_a? Syntax::Default
+			begin
+				v = $VERBOSE
+				$VERBOSE = nil
+				raise
+				output = c.convert(data)
+				$VERBOSE = v
+			rescue => boom
+				output = boom.inspect
+			end
 			Dir.chdir(here) do
 				File.open('test.syntax.' + format, 'wb') do |f|
-					f.write '<html><head><style>%s</style></head><body><div class="ruby">%s</div></body></html>' % [DATA.read, c.convert(data)]
+					f.write '<html><head><style>%s</style></head><body><div class="ruby">%s</div></body></html>' % [DATA.read, output]
 				end
 			end
-			$file_created << " and test.syntax.#{format}"
+			$file_created << ", test.syntax.#{format}"
+		end
+		puts "\t%7.2f KB/sec" % ((@size / 1024.0) / time.real)
+
+		time = bm.report('SilverCity') do
+			Dir.chdir(here) do
+				`c:/Python/Scripts/source2html.pyo --generator=#{lang} example.#{lang} > test.silvercity.html`
+			end
+			$file_created << ", test.silvercity.#{format}"
 		end
 		puts "\t%7.2f KB/sec" % ((@size / 1024.0) / time.real)
 	end

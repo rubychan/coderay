@@ -17,7 +17,7 @@ module CodeRay
 	# See PluginHost.
 	module Scanners
 		extend PluginHost
-		plugin_path 'coderay/scanners'
+		plugin_path File.dirname(__FILE__), 'scanners'
 
 		require 'strscan'
 

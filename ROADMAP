@@ -1,0 +1,16 @@
+# vim:ts=4:ft=ruby:
+
+0.6.0
+Plaintext, Ruby, C
+
+0.8.0
+XML, HTML, CSS
+
+1.2
+YAML, eRuby, irb, RHTML, SQL, Python
+
+1.4
+PHP, Perl (*schauder*), Pascal/Delphi, C++, Java
+
+1.6
+Haskell, Prolog, CS, VB, TeX, BBCode, Textile, Makefile

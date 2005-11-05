@@ -105,8 +105,17 @@ module PluginHost
 			end
 	end
 
+	# A Hash of plugion_id => Plugin pairs.
 	def plugin_hash
 		@plugin_hash ||= create_plugin_hash
+	end
+
+	def inspect
+		map = plugin_hash.dup
+		map.each do |id, plugin|
+			map[id] = plugin.name[/(?>[\w_]+)$/]
+		end
+		map.inspect
 	end
 
 
@@ -137,7 +146,7 @@ module PluginHost
 	# Loads all plugins using all_plugin_names and load.
 	def load_all
 		for plugin in all_plugin_names
-			load_plugin plugin
+			load plugin
 		end
 	end
 

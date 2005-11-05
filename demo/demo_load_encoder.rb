@@ -15,3 +15,7 @@ tokens_encoder = require_plugin 'CodeRay::Encoders/tokens'
 print 'Require is also possible: '
 p tokens_encoder
 puts 'See?'
+
+puts 'Require all Encoders:'
+CodeRay::Encoders.load_all
+p CodeRay::Encoders.plugin_hash

@@ -128,7 +128,12 @@
 #	The scanning methods provide more flexibility; we recommend to use these.
 module CodeRay
 	
-	Version = '0.4.6'
+	# Version: Major.Minor.Teeny[.Revision]
+	# Major: 0 for pre-release
+	# Minor: odd for beta, even for stable
+	# Teeny: development state
+	# Revision: Subversion Revision number (generated on rake)
+	Version = '0.6.0'
 	
 	require 'coderay/tokens'
 	require 'coderay/scanner'

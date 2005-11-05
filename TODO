@@ -3,15 +3,25 @@ Category = X (done), / (partly done), T (test), (else)
 	Planned = planned in version 0.x
 		Priority = 3 (low) .. 1 (high), 0 (extrem high)
 			Expense = 0 (trivial), 1 (low) .. 3 (high)
+  				Assigned Day
 
 Project:
 						Documentation:
-3/4		0	2				Doc the interface
-3/4		0	1				write examples
+3/4		0	2	Do			Doc the interface
+3/4		0	1	Sa			write examples
 
+		1	2	Mi			Code Cleanup: Indentation, Docu
+		2	2	Mo			Rewrite Tools: coderay, bench.rb, highlight.rb
+
+
+
+Plugins:
+		1	1	Sa			Plugin mapping (cpp --> Scanners::C etc.)
 
 
 Scanners:
+		1	2				More Languages! (See Roadmap)
+
 						Ruby:
 L		3	2				Regexp comment highlighting
 L		3	2				Options: Highlight characters/escapes/inline code
@@ -21,10 +31,9 @@ L		2	1				Meta characters
 
 Encoders:
 						HTML:
-3/4		1	2				dynamic CSS creation
-							=> alternative inline style via <span style="...">
+L		1	2				dynamic CSS creation: new CSS class
 						Colors:
-		1	2				colorschemes
+		1	2	So			colorschemes
 						Statistic:
 L		3	1				return Statistic object with to_s method instead of String
 
@@ -33,5 +42,3 @@ L		3	1				return Statistic object with to_s method instead of String
 Tools:
 						testfox:
 L		2	3				wxRuby and HTML output
-
-

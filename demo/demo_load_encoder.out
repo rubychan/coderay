@@ -3,3 +3,5 @@ Now it is loaded: CodeRay::Encoders::YAML
 See?
 Require is also possible: CodeRay::Encoders::Tokens
 See?
+Require all Encoders:
+{:tokens=>CodeRay::Encoders::Tokens, :statistic=>CodeRay::Encoders::Statistic, :div=>CodeRay::Encoders::Div, :text=>CodeRay::Encoders::Text, :debug=>CodeRay::Encoders::Debug, :xml=>CodeRay::Encoders::XML, :count=>CodeRay::Encoders::Count, :stats=>CodeRay::Encoders::Statistic, :span=>CodeRay::Encoders::Span, :yaml=>CodeRay::Encoders::YAML, :null=>CodeRay::Encoders::Null, :html=>CodeRay::Encoders::HTML}

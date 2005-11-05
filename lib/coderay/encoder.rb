@@ -9,7 +9,7 @@ module CodeRay
 	# belonging to the given format.
 	module Encoders
 		extend PluginHost
-		plugin_path 'coderay/encoders'
+		plugin_path File.dirname(__FILE__), 'encoders'
 
 		# = Encoder
 		#

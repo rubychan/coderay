@@ -1,0 +1,7 @@
+CodeRay::Encoders::Ruby is not defined; you must load it first.
+Now it is loaded: CodeRay::Scanners::Ruby
+See?
+Require is also possible: CodeRay::Scanners::C
+See?
+Require all Scanners:
+{:delphi=>"Delphi", :plaintext=>"Plaintext", :c=>"C", :ruby=>"Ruby", :cpp=>"C", :plain=>"Plaintext"}

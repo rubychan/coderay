@@ -78,10 +78,11 @@ module CodeRay
 				# Creates a new WordList with +default+ as default value.
 				#
 				# Text case is ignored.
-				def initialize default = false
-					super() do |h, k|
+				def initialize default = false, &block
+					block ||= proc do |h, k|
 						h[k] = h.fetch k.downcase, default
 					end
+					super default 
 				end
 
 				# Checks if a word is included.

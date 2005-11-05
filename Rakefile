@@ -129,7 +129,7 @@ task :make => [:build, :make_gem]
 
 BUILD_FILE = 'build'
 task :build do
-	$version.sub!(/\d+$/) { |minor| minor.to_i - 1 }
+	$version.sub!(/\.(\d+)\./) { minor = $1; ".#{minor.to_i - 1}." }
 	$version << '.' << (`svn info`[/Revision: (\d+)/,1])
 end
 

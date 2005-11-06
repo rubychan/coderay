@@ -8,6 +8,7 @@ Category = X (done), / (partly done), T (test), (else)
 Project:
 						Documentation:
 3/4		0	2	Do			Doc the interface
+		0	2				Cleanup/Read Doc
 3/4		0	1	Sa2			write examples
 
 		1	2	Mi			Code Cleanup: Indentation, Docu
@@ -22,7 +23,7 @@ Plugins:
 
 
 Scanners:
-		1	2				More Languages! (See Roadmap)
+L		1	2				More Languages! (See Roadmap)
 
 						Ruby:
 L		3	2				Regexp comment highlighting

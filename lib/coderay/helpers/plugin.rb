@@ -69,6 +69,7 @@ module PluginHost
 	def plugin_path *args
 		unless args.empty?
 			@plugin_path = File.join(*args)
+			load_map
 		end
 		@plugin_path
 	end
@@ -110,12 +111,39 @@ module PluginHost
 		@plugin_hash ||= create_plugin_hash
 	end
 
+	# Makes a map of all loaded scanners.
 	def inspect
 		map = plugin_hash.dup
 		map.each do |id, plugin|
 			map[id] = plugin.name[/(?>[\w_]+)$/]
 		end
 		map.inspect
+	end
+
+	# Map a plugin_id to another.
+	#
+	# Usage: Put this in a file plugin_path/_map.rb.
+	#
+	#  class MyColorHost < PluginHost
+	#    map :navy => :dark_blue,
+	#      :maroon => :brown,
+	#      :luna => :moon
+	#  end
+
+	def map hash
+		for from, to in hash
+			from = validate_id from
+			to = validate_id to
+			plugin_hash[from] = to unless plugin_hash.has_key? from
+		end
+	end
+
+	def load_map
+		begin
+			require path_to('_map')
+		rescue LoadError
+			warn 'no _map.rb found for %s' % name if $DEBUG
+		end
 	end
 
 
@@ -138,7 +166,9 @@ module PluginHost
 	# 
 	# The extension .rb is not included.
 	def all_plugin_names
-		Dir[path_to('*')].map do |file|
+		Dir[path_to('*')].select do |file|
+			File.basename(file)[/^(?!_)\w+\.rb$/]
+		end.map do |file|
 			File.basename file, '.rb'
 		end
 	end
@@ -156,7 +186,11 @@ module PluginHost
 	# Example:
 	#  yaml_plugin = MyPluginHost[:yaml]
 	def [] id, *args, &blk
-		plugin_hash.[] validate_id(id), *args, &blk
+		plugin = validate_id(id)
+		begin
+			plugin = plugin_hash.[] plugin, *args, &blk
+		end while plugin.is_a? Symbol
+		plugin
 	end
 
 	# Alias for +[]+.

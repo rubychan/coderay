@@ -3,5 +3,6 @@ Now it is loaded: CodeRay::Scanners::Ruby
 See?
 Require is also possible: CodeRay::Scanners::C
 See?
+Now load some mapped scanners: cpp and plain.
 Require all Scanners:
-[[:c, CodeRay::Scanners::C], [:delphi, CodeRay::Scanners::Delphi], [:plain, CodeRay::Scanners::Plaintext], [:plaintext, CodeRay::Scanners::Plaintext], [:ruby, CodeRay::Scanners::Ruby]]
+[[:c, CodeRay::Scanners::C], [:cpp, :c], [:delphi, CodeRay::Scanners::Delphi], [:irb, :ruby], [:pascal, :delphi], [:plain, CodeRay::Scanners::Plaintext], [:plaintext, CodeRay::Scanners::Plaintext], [:ruby, CodeRay::Scanners::Ruby]]

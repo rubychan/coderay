@@ -16,6 +16,10 @@ print 'Require is also possible: '
 p tokens_encoder
 puts 'See?'
 
+puts 'Now load some mapped encoders: stats and plain.'
+require_plugin 'CodeRay::Encoders/stats'
+require_plugin 'CodeRay::Encoders/plain'
+
 puts 'Require all Encoders:'
 CodeRay::Encoders.load_all
 p CodeRay::Encoders.plugin_hash.sort_by { |k,v| k.to_s }

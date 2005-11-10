@@ -208,7 +208,7 @@ def uploader_for ftp
 end
 
 desc 'Upload gemfile to ' + FTP_DOMAIN
-task :up_gem => :copy_gem do
+task :up_gem => [:make, :copy_gem] do
 	gn 'Uploading gem:'
 	Dir.chdir 'gem_server' do
 		cYcnus_ftp do |ftp|

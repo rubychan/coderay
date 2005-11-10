@@ -18,7 +18,7 @@ And with line numbers.
 * is what everybody should have on their website
 * solves all your problems and makes the girls run after you
 
-Version: 0.4.4 (2005.october.1)
+Version: 0.5.0 (2005.november.5)
 Author:: murphy
 Idea:: licenser
 Website:: rd.cYcnus.de/coderay[http://rd.cYcnus.de/coderay]
@@ -101,3 +101,4 @@ Where would we be without all those people?
 * As you can see, CodeRay was created under heavy use of *free* software.
 * So CodeRay is also *free*.
 * If you use CodeRay to create software, think about making this software *free*, too.
+* Thanks :)

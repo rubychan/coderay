@@ -32,12 +32,36 @@ module PluginHost
 	PLUGIN_HOSTS = []
 	PLUGIN_HOSTS_BY_ID = {}  # dummy hash
 
+	# Loads all plugins using all_plugin_names and load.
+	def load_all
+		for plugin in all_plugin_names
+			load plugin
+		end
+	end
+
+	# Returns the Plugin for +id+.
+	# 
+	# Example:
+	#  yaml_plugin = MyPluginHost[:yaml]
+	def [] id, *args, &blk
+		plugin = validate_id(id)
+		begin
+			plugin = plugin_hash.[] plugin, *args, &blk
+		end while plugin.is_a? Symbol
+		plugin
+	end
+
+	# Alias for +[]+.
+	alias load []
+
 	class << self
 
+		# Adds the module/class to the PLUGIN_HOSTS list.
 		def extended mod
 			PLUGIN_HOSTS << mod
 		end
 
+		# Warns you that you should not #include this module.
 		def included mod
 			warn "#{name} should not be included. Use extend."
 		end
@@ -58,13 +82,6 @@ module PluginHost
 
 	end
 	
-	def plugin_host_id host_id
-		if host_id.is_a? String
-			raise ArgumentError,
-				"String or Symbol expected, but #{lang.class} given."
-		end
-	end
-
 	# The path where the plugins can be found.
 	def plugin_path *args
 		unless args.empty?
@@ -85,6 +102,44 @@ module PluginHost
 		end
 	end
 
+	# Map a plugin_id to another.
+	#
+	# Usage: Put this in a file plugin_path/_map.rb.
+	#
+	#  class MyColorHost < PluginHost
+	#    map :navy => :dark_blue,
+	#      :maroon => :brown,
+	#      :luna => :moon
+	#  end
+	def map hash
+		for from, to in hash
+			from = validate_id from
+			to = validate_id to
+			plugin_hash[from] = to unless plugin_hash.has_key? from
+		end
+	end
+	
+	# Every plugin must register itself for one or more
+	# +ids+ by calling register_for, which calls this method.
+	#
+	# See Plugin#register_for.
+	def register plugin, *ids
+		for id in ids
+			unless id.is_a? Symbol
+				raise ArgumentError,
+					"id must be a Symbol, but it was a #{id.class}" 
+			end
+			plugin_hash[validate_id(id)] = plugin
+		end
+	end
+
+	# A Hash of plugion_id => Plugin pairs.
+	def plugin_hash
+		@plugin_hash ||= create_plugin_hash
+	end
+
+protected
+	# Created a new plugin list and stores it to @plugin_hash.
 	def create_plugin_hash
 		@plugin_hash =
 			Hash.new do |h, plugin_id|
@@ -106,11 +161,6 @@ module PluginHost
 			end
 	end
 
-	# A Hash of plugion_id => Plugin pairs.
-	def plugin_hash
-		@plugin_hash ||= create_plugin_hash
-	end
-
 	# Makes a map of all loaded scanners.
 	def inspect
 		map = plugin_hash.dup
@@ -120,24 +170,9 @@ module PluginHost
 		map.inspect
 	end
 
-	# Map a plugin_id to another.
+	# Loads the map file (see map).
 	#
-	# Usage: Put this in a file plugin_path/_map.rb.
-	#
-	#  class MyColorHost < PluginHost
-	#    map :navy => :dark_blue,
-	#      :maroon => :brown,
-	#      :luna => :moon
-	#  end
-
-	def map hash
-		for from, to in hash
-			from = validate_id from
-			to = validate_id to
-			plugin_hash[from] = to unless plugin_hash.has_key? from
-		end
-	end
-
+	# This is done automatically when plaugin_path is called.
 	def load_map
 		begin
 			require path_to('_map')
@@ -145,22 +180,6 @@ module PluginHost
 			warn 'no _map.rb found for %s' % name if $DEBUG
 		end
 	end
-
-
-	# Every plugin must register itself for one or more
-	# +ids+ by calling register_for, which calls this method.
-	#
-	# See Plugin#register_for.
-	def register plugin, *ids
-		for id in ids
-			unless id.is_a? Symbol
-				raise ArgumentError,
-					"id must be a Symbol, but it was a #{id.class}" 
-			end
-			plugin_hash[validate_id(id)] = plugin
-		end
-	end
-
 
 	# Returns an array of all .rb files in the plugin path.
 	# 
@@ -172,29 +191,6 @@ module PluginHost
 			File.basename file, '.rb'
 		end
 	end
-
-	# Loads all plugins using all_plugin_names and load.
-	def load_all
-		for plugin in all_plugin_names
-			load plugin
-		end
-	end
-
-
-	# Returns the Plugin for +id+.
-	# 
-	# Example:
-	#  yaml_plugin = MyPluginHost[:yaml]
-	def [] id, *args, &blk
-		plugin = validate_id(id)
-		begin
-			plugin = plugin_hash.[] plugin, *args, &blk
-		end while plugin.is_a? Symbol
-		plugin
-	end
-
-	# Alias for +[]+.
-	alias load []
 
 	# Returns the Plugin for +id+.
 	# Use it like Hash#fetch.
@@ -285,7 +281,8 @@ def require_plugin path
 	host.load plugin_id
 end
 
-
+__END__
+# this is no good test.
 if $0 == __FILE__
 	$VERBOSE = $DEBUG = true
 	eval DATA.read, nil, $0, __LINE__+4
@@ -299,7 +296,9 @@ class TC_PLUGINS < Test::Unit::TestCase
 
 	class Generators
 		extend PluginHost
-		plugin_path '.'
+		plugin_path File.dirname(__FILE__)
+		map :foo => :bar,
+			:bar => :fancy
 	end
 
 	class Generator
@@ -308,22 +307,30 @@ class TC_PLUGINS < Test::Unit::TestCase
 	end
 
 	class FancyGenerator < Generator
-		register_for :plugin_host
+		register_for :fancy
 	end
 
 	def test_plugin
 		assert_nothing_raised do
-			Generators[:plugin_host]
+			Generators[:fancy]
 		end	
-		assert_equal FancyGenerator, Generators[:plugin_host]
+		assert_equal FancyGenerator, Generators[:fancy]
 	end
 	
 	def test_require
 		assert_nothing_raised do
-			require_plugin('TC_PLUGINS::Generators/plugin_host')
+			require_plugin('TC_PLUGINS::Generators/fancy')
 		end
 		assert_equal FancyGenerator,
-			require_plugin('TC_PLUGINS::Generators/plugin_host')
+			require_plugin('TC_PLUGINS::Generators/fancy')
+	end
+
+	def test_map
+		assert_nothing_raised do
+			require_plugin('TC_PLUGINS::Generators/foo')
+		end
+		assert_equal FancyGenerator,
+			require_plugin('TC_PLUGINS::Generators/foo')
 	end
 
 end

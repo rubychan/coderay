@@ -11,6 +11,7 @@ module CodeRay module Encoders
 			:css => :style,
 			:wrap => :div,
 		})
+
 	end
 
 end end

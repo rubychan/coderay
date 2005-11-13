@@ -15,7 +15,7 @@ module CodeRay
 
 			require 'coderay/encoders/html/numerization.rb'
 
-			attr_accessor :wrapped_in
+			attr_accessor :css
 			
 			class << self
 				
@@ -25,9 +25,10 @@ module CodeRay
 				# 
 				#  a = Output.new '<span class="co">Code</span>'
 				#  a.wrap! :page
-				def new string, element = nil
+				def new string, css, element = nil
 					output = string.clone.extend self
 					output.wrapped_in = element
+					output.css = css
 					output
 				end
 				
@@ -37,19 +38,19 @@ module CodeRay
 					warn "The Output module is intended to extend instances of String, not #{o.class}." unless o.respond_to? :to_str
 				end
 
-				def stylesheet in_tag = false
-					ss = CSS::DEFAULT_STYLESHEET
-					ss = <<-CSS if in_tag
+				def make_stylesheet css, in_tag = false
+					sheet = css.stylesheet
+					sheet = <<-CSS if in_tag
 <style type="text/css">
-#{ss}
+#{sheet}
 </style>
 					CSS
-					ss
+					sheet
 				end
 
-				def page_template_for_css css = :default
-					css = stylesheet if css == :default
-					PAGE.apply 'CSS', css
+				def page_template_for_css css
+					sheet = make_stylesheet css
+					PAGE.apply 'CSS', sheet
 				end
 
 				# Define a new wrapper. This is meta programming.
@@ -63,6 +64,7 @@ module CodeRay
 						end
 					end
 				end
+				
 			end
 
 			wrapper :div, :span, :page
@@ -70,6 +72,11 @@ module CodeRay
 			def wrapped_in? element
 				wrapped_in == element
 			end
+			
+			def wrapped_in
+				@wrapped_in ||= nil
+			end
+			attr_writer :wrapped_in
 			
 			def wrap_in template
 				clone.wrap_in! template
@@ -92,7 +99,7 @@ module CodeRay
 				when :page
 					wrap! :div if wrapped_in? nil
 					raise "Can't wrap %p in %p" % [wrapped_in, element] unless wrapped_in? :div
-					wrap_in! Output.page_template_for_css
+					wrap_in! Output.page_template_for_css(@css)
 				when nil
 					return self
 				else
@@ -107,7 +114,7 @@ module CodeRay
 			end
 
 			def stylesheet in_tag = false
-				Output.stylesheet in_tag
+				Output.make_stylesheet @css, in_tag
 			end
 
 			class Template < String

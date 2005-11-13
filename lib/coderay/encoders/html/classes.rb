@@ -54,6 +54,7 @@ module CodeRay module Encoders
 			:xml_text => 'xt',
 
 			:ident => :NO_HIGHLIGHT, # 'id'
+			#:operator => 'op',			
 			:operator => :NO_HIGHLIGHT,  # 'op'
 			:space => :NO_HIGHLIGHT,  # 'sp'
 			:plain => :NO_HIGHLIGHT,

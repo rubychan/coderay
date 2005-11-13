@@ -2,7 +2,7 @@
 	background-color: #f8f8f8;
 	border: 1px solid silver;
 	font-family: 'Courier New', 'Terminal', monospace;
-	color: black;
+	color: #100;
 }
 .CodeRay pre { margin: 0px; }
 
@@ -26,6 +26,7 @@ ol.CodeRay { font-size: 10pt; }
 ol.CodeRay li { white-space: pre; }
 
 .CodeRay .code pre { overflow: auto; }
+
 .CodeRay .af { color:#00C; }
 .CodeRay .an { color:#007; }
 .CodeRay .av { color:#700; }
@@ -62,6 +63,7 @@ ol.CodeRay li { white-space: pre; }
 .CodeRay .lv { color:#963; }
 .CodeRay .oc { color:#40E; font-weight:bold; }
 .CodeRay .on { color:#000; font-weight:bold; }
+.CodeRay .op { }
 .CodeRay .pc { color:#038; font-weight:bold; }
 .CodeRay .pd { color:#369; font-weight:bold; }
 .CodeRay .pp { color:#579; }

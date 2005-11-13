@@ -71,6 +71,8 @@ module Encoders
 			:level => :xhtml,
 			:css => :class,
 
+			:style => :cYcnus,
+			
 			:wrap => :page,
 
 			:line_numbers => nil,
@@ -83,6 +85,8 @@ module Encoders
 		require 'coderay/encoders/html/classes'
 		require 'coderay/encoders/html/output'
 		require 'coderay/encoders/html/css'
+
+		attr_reader :css
 
 		def initialize(*)
 			super
@@ -116,7 +120,7 @@ module Encoders
 			@HTML_ESCAPE["\t"] = ' ' * options[:tab_width]
 			
 			@opened = [nil]
-			@css = CSS.new
+			@css = CSS.new options[:style]
 
 			hint = options[:hint]
 			if hint and not [:debug, :info].include? hint
@@ -192,6 +196,7 @@ module Encoders
 			@out << '</span>' * @opened.size
 
 			@out.extend Output
+			@out.css = @css
 			@out.numerize! options[:line_numbers], options # if options[:line_numbers]
 			@out.wrap! options[:wrap] # if options[:wrap]
 

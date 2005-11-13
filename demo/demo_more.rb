@@ -17,7 +17,7 @@ time = Benchmark.realtime do
 	body = %w[C Ruby Genereated\ by].zip([c, ruby, me]).map do |title, code|
 		"<h1>#{title}</h1>\n#{code}"
 	end.join
-	body = hl.class::Output.new(body, :div).page!
+	body = hl.class::Output.new(body, hl.css, :div).page!
 
 	# CodeRay also provides a simple page generator
 	$output = body #hl.class.wrap_in_page body

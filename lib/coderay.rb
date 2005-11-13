@@ -138,6 +138,7 @@ module CodeRay
 	require 'coderay/tokens'
 	require 'coderay/scanner'
 	require 'coderay/encoder'
+	require 'coderay/style'
 
 
 	class << self

@@ -1,5 +1,5 @@
 // vim:ts=4:ft=c:
-Category = X (done), / (partly done), T (test), (else)
+Category = X (done), / (partly done), T (test), L (later), (else)
 	Planned = planned in version 0.x
 		Priority = 3 (low) .. 1 (high), 0 (extrem high)
 			Expense = 0 (trivial), 1 (low) .. 3 (high)
@@ -7,14 +7,14 @@ Category = X (done), / (partly done), T (test), (else)
 
 Project:
 						Documentation:
-3/4		0	2	Do			Doc the interface
-		0	2				Cleanup/Read Doc
+3/4		0	2	?			Doc the interface
+		0	2	?			Cleanup/Read Doc
 3/4		0	1	Sa2			write examples
 
-		1	2	Mi			Code Cleanup: Indentation, Docu
-		2	2	Mo			Rewrite Tools:
+		1	2	Mi			Code Cleanup: Indentation
+L		2	2				Rewrite Tools:
 							coderay, bench.rb, highlight.rb
-		2	1	Di			Cleanup Rakefile
+L		2	1				Cleanup Rakefile
 
 
 
@@ -36,7 +36,7 @@ Encoders:
 						HTML:
 L		1	2				dynamic CSS creation: new CSS class
 						Colors:
-		1	2	So			colorschemes
+3/4		1	2	So			colorschemes
 						Statistic:
 L		3	1				return Statistic object with to_s method instead of String
 

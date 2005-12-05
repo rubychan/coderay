@@ -1,0 +1,30 @@
+Website tools:
+- convertor: reads and writes HTML (filter)
+	<code lang="ruby">bla</code>
+	=>
+	<code class="CodeRay">...</code>
+
+- manual highlighter:
+	1. idea:
+		special scanner (simply reading raydebug code should be enough)
+		=> makes it possible, easy to write
+		
+	2. idea:
+		=> cooler, but more advanced
+		=> still easy to implement for all scanners at once
+		preamble function (wrapper for scanners):
+		for example, a method def:
+			def foo
+		shall be shown in the same color as method(foo), but
+		without the def. so write:
+			!def !foo
+		Input is read into def foo and 4 (number of chars in preamble)
+		Ruby scanner outputs some Tokens:
+			reserved(def) method(foo)
+		and chopped by a chop_preamble method giving:
+			method(foo)			
+		PreambleTokens subclass?
+		Tokens instance that takes options?
+	
+	3. idea:
+		Scanner handled solution --> forget it.

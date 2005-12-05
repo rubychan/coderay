@@ -71,7 +71,7 @@ module Encoders
 			:level => :xhtml,
 			:css => :class,
 
-			:style => :cYcnus,
+			:style => :cycnus,
 			
 			:wrap => :page,
 

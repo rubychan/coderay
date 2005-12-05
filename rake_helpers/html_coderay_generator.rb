@@ -1079,8 +1079,10 @@ module Generators
       src
     end
 
-		$: << 'L:/root/trunk/lib'
     require 'coderay'
+    CodeRay::Scanners.load_all
+    CodeRay::Encoders.load_all
+    CodeRay::Styles.load_all
 
     def markup_code(tokens)
       code = tokens.map { |t| t.text }.join

@@ -226,8 +226,8 @@ end
 
 desc 'Upload example to ' + FTP_DOMAIN
 task :up_example do
-	g 'Highlighting self...'
-	system 'ruby -wIlib ../hidden/highlight.rb -1 -L -I lib lib/coderay'
+	gn 'Highlighting self...'
+	system 'ruby -wIlib ../hidden/highlight.rb -1 -L -I lib lib/coderay/**/'
 	gd
 	gn 'Uploading example:'
 	cYcnus_ftp do |ftp|

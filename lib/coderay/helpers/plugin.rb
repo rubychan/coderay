@@ -206,7 +206,7 @@ protected
 		File.join plugin_path, "#{plugin_id}.rb"
 	end
 
-	# Converts +id+ to a downcase Symbol if it is a String,
+	# Converts +id+ to a Symbol if it is a String,
 	# or returns +id+ if it already is a Symbol.
 	#
 	# Raises +ArgumentError+ for all other objects, or if the
@@ -216,7 +216,7 @@ protected
 			id
 		elsif id.is_a? String
 			if id[/\w+/] == id
-				id.downcase.to_sym
+				id.to_sym
 			else
 				raise ArgumentError, "Invalid id: '#{id}' given."
 			end

@@ -3,7 +3,7 @@ module CodeRay module Encoders
 	class HTML
 		class CSS
 
-			DEFAULT_STYLESHEET_ID = :cYcnus
+			DEFAULT_STYLESHEET_ID = :cycnus
 
 			attr :stylesheet
 

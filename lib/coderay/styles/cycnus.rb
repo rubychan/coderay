@@ -3,7 +3,7 @@ module CodeRay
 		
 		class CYcnus < Style
 			
-			register_for :cYcnus
+			register_for :cycnus
 			
 			code_background = '#f8f8f8'
 			numbers_background = '#def'

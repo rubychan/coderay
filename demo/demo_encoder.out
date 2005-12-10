@@ -14,8 +14,8 @@ Token Types (4):
   TOTAL                        8  100.00 %     1.5
   space                        4   50.00 %     1.0
   integer                      2   25.00 %     1.5
-  operator                     1   12.50 %     1.0
   ident                        1   12.50 %     4.0
+  operator                     1   12.50 %     1.0
 
 
 Original text:
@@ -75,6 +75,6 @@ Token Types (4):
   TOTAL                      800  100.00 %     1.5
   space                      400   50.00 %     1.0
   integer                    200   25.00 %     1.5
-  operator                   100   12.50 %     1.0
   ident                      100   12.50 %     4.0
+  operator                   100   12.50 %     1.0
 

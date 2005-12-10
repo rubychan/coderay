@@ -64,7 +64,7 @@ Token Types (%d):
 			@type_stats.each do |type, stat|
 				stat.size /= stat.count.to_f
 			end
-			types_stats = @type_stats.sort_by { |k, v| -v.count }.map do |k, v|
+			types_stats = @type_stats.sort_by { |k, v| [-v.count, k.to_s] }.map do |k, v|
 				TOKEN_TYPES_ROW % [k, v.count, 100.0 * v.count / all_count, v.size]
 			end.join
 			STATS % [

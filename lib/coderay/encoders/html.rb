@@ -82,9 +82,7 @@ module Encoders
 			:hint => false,
 		}
 		
-		require 'coderay/encoders/html/classes'
-		require 'coderay/encoders/html/output'
-		require 'coderay/encoders/html/css'
+		helper :classes, :output, :css
 
 		attr_reader :css
 

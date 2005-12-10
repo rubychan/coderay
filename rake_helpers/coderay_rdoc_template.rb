@@ -28,7 +28,6 @@ Hy.ca <<CA
 >>
 CA
 
-$: << 'lib'
 require 'coderay'
 
 STYLE = Hy.ca <<CSS + CodeRay::Encoders[:html]::CSS.new.stylesheet

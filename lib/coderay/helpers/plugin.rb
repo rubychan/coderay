@@ -54,6 +54,12 @@ module PluginHost
 	# Alias for +[]+.
 	alias load []
 
+	def require_helper plugin_id, helper_name
+		path = path_to File.join(plugin_id, helper_name)
+		#$stderr.puts 'Loading helper: ' + path
+		require path
+	end		
+
 	class << self
 
 		# Adds the module/class to the PLUGIN_HOSTS list.
@@ -85,7 +91,7 @@ module PluginHost
 	# The path where the plugins can be found.
 	def plugin_path *args
 		unless args.empty?
-			@plugin_path = File.join(*args)
+			@plugin_path = File.expand_path File.join(*args)
 			load_map
 		end
 		@plugin_path
@@ -264,6 +270,16 @@ module Plugin
 		self::PLUGIN_HOST
 	end
 
+	def helper *helpers
+		for helper in helpers
+			self::PLUGIN_HOST.require_helper plugin_id, helper.to_s			
+		end
+	end
+
+	def plugin_id
+		name[/[\w_]+$/].downcase
+	end
+
 end
 
 
@@ -279,58 +295,4 @@ def require_plugin path
 	raise PluginHost::HostNotFound,
 		"No host for #{host_id.inspect} found." unless host
 	host.load plugin_id
-end
-
-__END__
-# this is no good test.
-if $0 == __FILE__
-	$VERBOSE = $DEBUG = true
-	eval DATA.read, nil, $0, __LINE__+4
-end
-
-__END__
-
-require 'test/unit'
-
-class TC_PLUGINS < Test::Unit::TestCase
-
-	class Generators
-		extend PluginHost
-		plugin_path File.dirname(__FILE__)
-		map :foo => :bar,
-			:bar => :fancy
-	end
-
-	class Generator
-		extend Plugin
-		plugin_host Generators
-	end
-
-	class FancyGenerator < Generator
-		register_for :fancy
-	end
-
-	def test_plugin
-		assert_nothing_raised do
-			Generators[:fancy]
-		end	
-		assert_equal FancyGenerator, Generators[:fancy]
-	end
-	
-	def test_require
-		assert_nothing_raised do
-			require_plugin('TC_PLUGINS::Generators/fancy')
-		end
-		assert_equal FancyGenerator,
-			require_plugin('TC_PLUGINS::Generators/fancy')
-	end
-
-	def test_map
-		assert_nothing_raised do
-			require_plugin('TC_PLUGINS::Generators/foo')
-		end
-		assert_equal FancyGenerator,
-			require_plugin('TC_PLUGINS::Generators/foo')
-	end
-
 end

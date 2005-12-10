@@ -1,6 +1,7 @@
 module CodeRay module Encoders
 	
-	require 'coderay/encoders/html'
+	load :html
+
 	class Span < HTML
 
 		FILE_EXTENSION = 'span.html'

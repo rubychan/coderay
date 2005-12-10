@@ -1,6 +1,7 @@
 module CodeRay module Encoders
 	
-	require 'coderay/encoders/html'
+	load :html
+
 	class Div < HTML
 
 		FILE_EXTENSION = 'div.html'

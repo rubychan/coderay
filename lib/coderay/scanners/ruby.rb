@@ -18,7 +18,7 @@ module CodeRay module Scanners
 
 		register_for :ruby
 
-		require 'coderay/scanners/ruby/helper'
+		helper :patterns
 		
 		DEFAULT_OPTIONS = {
 			:parse_regexps => true,

@@ -134,7 +134,6 @@ Benchmark.bm(20) do |bm|
 			begin
 				v = $VERBOSE
 				$VERBOSE = nil
-				raise
 				output = c.convert(data)
 				$VERBOSE = v
 			rescue => boom

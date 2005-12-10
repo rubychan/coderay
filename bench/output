@@ -1,0 +1,9 @@
+L:\root\trunk>ruby -rubygems -Ilib bench\bench.rb ruby comp
+                          user     system      total        real
+CodeRay               1.042000   0.010000   1.052000 (  1.092000)
+          91.58 KB/sec (100.0 KB)       21.38 KTok/sec
+Syntax                9.854000   0.110000   9.964000 (  9.984000)
+          10.02 KB/sec
+SilverCity            0.000000   0.000000   0.000000 (  6.209000)
+          16.11 KB/sec
+Files created: test.html, test.syntax.html, test.silvercity.html

@@ -94,7 +94,7 @@ comment(# uses code by murphy extended with iconv conversion)
 reserved(def) method(convert_entity)operator(()ident(text)operator(\))
     ident(text) operator(=) constant(Iconv)operator(.)ident(new)operator(()string<delimiter(')content(iso-8859-15)delimiter(')>operator(,) string<delimiter(')content(utf-8)delimiter(')>operator(\))operator(.)ident(iconv)operator(()ident(text)operator(\)) 
     
-    ident(feed) operator(=) ident(text)operator(.)ident(inspect)operator([)integer(1)operator(...)operator(-)integer(1)operator(])
+    ident(feed) operator(=) ident(text)operator(.)ident(inspect)operator([)integer(1)operator(...)integer(-1)operator(])
 
     ident(feed)operator(.)ident(gsub!)operator(()regexp<delimiter(/)char(\\\\)content(([0-7]+\)|(.\))delimiter(/)modifier(m)>operator(\)) reserved(do)
         reserved(if) global_variable($2)

@@ -66,7 +66,7 @@ class CodeRaySuite < TestCase
 						File.open(computed, 'w') { |f| f.write result }
 						print `gvimdiff #{output} #{computed}` if $DEBUG
 					end
-					assert(ok, "Scan error: #{computed} != #{output}")
+					assert(ok, "Scan error: #{computed} != #{output}") unless $DEBUG
 				else
 					File.open(output, 'w') do |f| f.write result end
 					puts "New test: #{output}"

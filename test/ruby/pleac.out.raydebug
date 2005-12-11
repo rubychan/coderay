@@ -34,10 +34,10 @@ EOF)>
 
 comment(# @@PLEAC@@_1.1)
 ident(value) operator(=) ident(string)operator([)ident(offset)operator(,)ident(count)operator(])
-ident(value) operator(=) ident(string)operator([)ident(offset)operator(..)operator(-)integer(1)operator(])
+ident(value) operator(=) ident(string)operator([)ident(offset)operator(..)integer(-1)operator(])
 
 ident(string)operator([)ident(offset)operator(,)ident(count)operator(]) operator(=) ident(newstring)
-ident(string)operator([)ident(offset)operator(..)operator(-)integer(1)operator(])   operator(=) ident(newtail)
+ident(string)operator([)ident(offset)operator(..)integer(-1)operator(])   operator(=) ident(newtail)
 
 comment(# in Ruby we can also specify intervals by their two offsets)
 ident(value) operator(=) ident(string)operator([)ident(offset)operator(..)ident(offs2)operator(])
@@ -56,24 +56,24 @@ comment(#          note that 0 means 10 or 20, etc. above)
 
 ident(first)  operator(=) ident(string)operator([)integer(0)operator(,) integer(1)operator(])       comment(# "T")
 ident(start)  operator(=) ident(string)operator([)integer(5)operator(,) integer(2)operator(])       comment(# "is")
-ident(rest)   operator(=) ident(string)operator([)integer(13)operator(..)operator(-)integer(1)operator(])     comment(# "you have")
-ident(last)   operator(=) ident(string)operator([)operator(-)integer(1)operator(,) integer(1)operator(])      comment(# "e")
-ident(end_)   operator(=) ident(string)operator([)operator(-)integer(4)operator(..)operator(-)integer(1)operator(])     comment(# "have")
-ident(piece)  operator(=) ident(string)operator([)operator(-)integer(8)operator(,) integer(3)operator(])      comment(# "you")
+ident(rest)   operator(=) ident(string)operator([)integer(13)operator(..)integer(-1)operator(])     comment(# "you have")
+ident(last)   operator(=) ident(string)operator([)integer(-1)operator(,) integer(1)operator(])      comment(# "e")
+ident(end_)   operator(=) ident(string)operator([)integer(-4)operator(..)integer(-1)operator(])     comment(# "have")
+ident(piece)  operator(=) ident(string)operator([)integer(-8)operator(,) integer(3)operator(])      comment(# "you")
 
 ident(string)operator([)integer(5)operator(,) integer(2)operator(]) operator(=) string<delimiter(")content(wasn't)delimiter(")>     comment(# change "is" to "wasn't")
-ident(string)operator([)operator(-)integer(12)operator(..)operator(-)integer(1)operator(]) operator(=) string<delimiter(")content(ondrous)delimiter(")> comment(# "This wasn't wondrous")
+ident(string)operator([)integer(-12)operator(..)integer(-1)operator(]) operator(=) string<delimiter(")content(ondrous)delimiter(")> comment(# "This wasn't wondrous")
 ident(string)operator([)integer(0)operator(,) integer(1)operator(]) operator(=) string<delimiter(")delimiter(")>           comment(# delete first character)
-ident(string)operator([)operator(-)integer(10)operator(..)operator(-)integer(1)operator(])  operator(=) string<delimiter(")delimiter(")>       comment(# delete last 10 characters)
+ident(string)operator([)integer(-10)operator(..)integer(-1)operator(])  operator(=) string<delimiter(")delimiter(")>       comment(# delete last 10 characters)
 
-reserved(if) ident(string)operator([)operator(-)integer(10)operator(..)operator(-)integer(1)operator(]) operator(=)operator(~) regexp<delimiter(/)content(pattern)delimiter(/)>
+reserved(if) ident(string)operator([)integer(-10)operator(..)integer(-1)operator(]) operator(=)operator(~) regexp<delimiter(/)content(pattern)delimiter(/)>
     ident(puts) string<delimiter(")content(Pattern matches in last 10 characters)delimiter(")>
 reserved(end)
 
 ident(string)operator([)integer(0)operator(,) integer(5)operator(])operator(.)ident(gsub!)operator(()regexp<delimiter(/)content(is)delimiter(/)>operator(,) string<delimiter(')content(at)delimiter(')>operator(\))
 
 ident(a) operator(=) string<delimiter(")content(make a hat)delimiter(")>
-ident(a)operator([)integer(0)operator(,) integer(1)operator(])operator(,) ident(a)operator([)operator(-)integer(1)operator(,) integer(1)operator(]) operator(=) ident(a)operator([)operator(-)integer(1)operator(,) integer(1)operator(])operator(,) ident(a)operator([)integer(0)operator(,) integer(1)operator(])
+ident(a)operator([)integer(0)operator(,) integer(1)operator(])operator(,) ident(a)operator([)integer(-1)operator(,) integer(1)operator(]) operator(=) ident(a)operator([)integer(-1)operator(,) integer(1)operator(])operator(,) ident(a)operator([)integer(0)operator(,) integer(1)operator(])
 
 ident(a) operator(=) string<delimiter(")content(To be or not to be)delimiter(")>
 ident(b) operator(=) ident(a)operator(.)ident(unpack)operator(()string<delimiter(")content(x6 A6)delimiter(")>operator(\))
@@ -200,8 +200,8 @@ string<delimiter(")content(thIS is a loNG liNE)delimiter(")>operator(.)ident(gsu
 
 
 comment(# @@PLEAC@@_1.10)
-string<delimiter(")content(I have )inline<delimiter(#{)ident(n)operator(+)integer(1)delimiter(})>content( guanacos.)delimiter(")>
-ident(print) string<delimiter(")content(I have )delimiter(")>operator(,) ident(n)operator(+)integer(1)operator(,) string<delimiter(")content( guanacos.)delimiter(")>
+string<delimiter(")content(I have )inline<delimiter(#{)ident(n)integer(+1)delimiter(})>content( guanacos.)delimiter(")>
+ident(print) string<delimiter(")content(I have )delimiter(")>operator(,) ident(n)integer(+1)operator(,) string<delimiter(")content( guanacos.)delimiter(")>
 
 
 comment(# @@PLEAC@@_1.11)
@@ -255,7 +255,7 @@ ident(string)operator(.)ident(strip!)
 comment(# @@PLEAC@@_1.15)
 reserved(def) method(parse_csv)operator(()ident(text)operator(\))
     ident(new) operator(=) ident(text)operator(.)ident(scan)operator(()regexp<delimiter(/)content("([^)char(\\")char(\\\\)content(]*(?:)char(\\\\)content(.[^)char(\\")char(\\\\)content(]*\)*\)",?|([^,]+\),?|,)delimiter(/)>operator(\))
-    ident(new) operator(<<) pre_constant(nil) reserved(if) ident(text)operator([)operator(-)integer(1)operator(]) operator(==) integer(?,)
+    ident(new) operator(<<) pre_constant(nil) reserved(if) ident(text)operator([)integer(-1)operator(]) operator(==) integer(?,)
     ident(new)operator(.)ident(flatten)operator(.)ident(compact)
 reserved(end)  
 
@@ -363,7 +363,7 @@ ident(print)  string<delimiter(")content(Unrounded: )inline<delimiter(#{)ident(a
 ident(printf) string<delimiter(")content(Unrounded: )inline<delimiter(#{)ident(a)delimiter(})>char(\\n)content(Rounded: %.2f)char(\\n)delimiter(")>operator(,) ident(a)
 
 ident(print) string<delimiter(")content(number)char(\\t)content(int)char(\\t)content(floor)char(\\t)content(ceil)char(\\n)delimiter(")>
-ident(a) operator(=) operator([) float(3.3) operator(,) float(3.5) operator(,) float(3.7)operator(,) operator(-)float(3.3) operator(])
+ident(a) operator(=) operator([) float(3.3) operator(,) float(3.5) operator(,) float(3.7)operator(,) float(-3.3) operator(])
 reserved(for) ident(n) reserved(in) ident(a)
     ident(printf)operator(()string<delimiter(")content(% .1f)char(\\t)content(% .1f)char(\\t)content(% .1f)char(\\t)content(% .1f)char(\\n)delimiter(")>operator(,)  comment(# at least I don't fake my output :\))
            ident(n)operator(,) ident(n)operator(.)ident(to_i)operator(,) ident(n)operator(.)ident(floor)operator(,) ident(n)operator(.)ident(ceil)operator(\))
@@ -376,7 +376,7 @@ reserved(def) method(dec2bin)operator(()ident(n)operator(\))
 reserved(end)
 
 reserved(def) method(bin2dec)operator(()ident(n)operator(\))
-    operator([)operator(()string<delimiter(")content(0)delimiter(")>operator(*)integer(32)operator(+)ident(n)operator(.)ident(to_s)operator(\))operator([)operator(-)integer(32)operator(..)operator(-)integer(1)operator(])operator(])operator(.)ident(pack)operator(()string<delimiter(")content(B32)delimiter(")>operator(\))operator(.)ident(unpack)operator(()string<delimiter(")content(N)delimiter(")>operator(\))operator([)integer(0)operator(])
+    operator([)operator(()string<delimiter(")content(0)delimiter(")>operator(*)integer(32)operator(+)ident(n)operator(.)ident(to_s)operator(\))operator([)integer(-32)operator(..)integer(-1)operator(])operator(])operator(.)ident(pack)operator(()string<delimiter(")content(B32)delimiter(")>operator(\))operator(.)ident(unpack)operator(()string<delimiter(")content(N)delimiter(")>operator(\))operator([)integer(0)operator(])
 reserved(end)
 
 
@@ -459,7 +459,7 @@ reserved(end)
 
 
 comment(# @@PLEAC@@_2.7)
-ident(random) operator(=) ident(rand)operator(()ident(y)operator(-)ident(x)operator(+)integer(1)operator(\))operator(+)ident(x)
+ident(random) operator(=) ident(rand)operator(()ident(y)operator(-)ident(x)integer(+1)operator(\))operator(+)ident(x)
 
 ident(chars) operator(=) operator([)string<delimiter(")content(A)delimiter(")>operator(..)string<delimiter(")content(Z)delimiter(")>operator(,)string<delimiter(")content(a)delimiter(")>operator(..)string<delimiter(")content(z)delimiter(")>operator(,)string<delimiter(")content(0)delimiter(")>operator(..)string<delimiter(")content(9)delimiter(")>operator(])operator(.)ident(collect) operator({) operator(|)ident(r)operator(|) ident(r)operator(.)ident(to_a) operator(})operator(.)ident(join) operator(+) string<delimiter(%q()content(!@$%^&*)delimiter(\))>
 ident(password) operator(=) operator(()integer(1)operator(..)integer(8)operator(\))operator(.)ident(collect) operator({) ident(chars)operator([)ident(rand)operator(()ident(chars)operator(.)ident(size)operator(\))operator(]) operator(})operator(.)ident(pack)operator(()string<delimiter(")content(C*)delimiter(")>operator(\))
@@ -511,7 +511,7 @@ reserved(def) method(gaussian_rand)
         ident(u2) operator(=) integer(2) operator(*) ident(rand)operator(()operator(\)) operator(-) integer(1)
         ident(w) operator(=) ident(u1)operator(*)ident(u1) operator(+) ident(u2)operator(*)ident(u2)
     reserved(end) reserved(while) operator(()ident(w) operator(>)operator(=) integer(1)operator(\))
-    ident(w) operator(=) constant(Math)operator(.)ident(sqrt)operator(()operator(()operator(-)integer(2)operator(*)constant(Math)operator(.)ident(log)operator(()ident(w)operator(\))operator(\))operator(/)ident(w)operator(\))
+    ident(w) operator(=) constant(Math)operator(.)ident(sqrt)operator(()operator(()integer(-2)operator(*)constant(Math)operator(.)ident(log)operator(()ident(w)operator(\))operator(\))operator(/)ident(w)operator(\))
     operator([) ident(u2)operator(*)ident(w)operator(,) ident(u1)operator(*)ident(w) operator(])
 reserved(end)
 
@@ -599,7 +599,7 @@ ident(require) string<delimiter(')content(complex.rb)delimiter(')>
 ident(require) string<delimiter(')content(rational.rb)delimiter(')>
 
 ident(a) operator(=) constant(Complex)operator(()integer(3)operator(,) integer(5)operator(\))              comment(# 3 + 5i)
-ident(b) operator(=) constant(Complex)operator(()integer(2)operator(,) operator(-)integer(2)operator(\))             comment(# 2 - 2i)
+ident(b) operator(=) constant(Complex)operator(()integer(2)operator(,) integer(-2)operator(\))             comment(# 2 - 2i)
 ident(puts) string<delimiter(")content(c = )inline<delimiter(#{)ident(a)operator(*)ident(b)delimiter(})>delimiter(")>
 
 ident(c) operator(=) ident(a) operator(*) ident(b)
@@ -849,7 +849,7 @@ reserved(class) class(MailHopDelta)
     reserved(end)
 
     reserved(def) method(hop_time)operator(()ident(secs)operator(\))
-        ident(sign) operator(=) ident(secs) operator(<) integer(0) operator(?) operator(-)integer(1) operator(:) integer(1)
+        ident(sign) operator(=) ident(secs) operator(<) integer(0) operator(?) integer(-1) operator(:) integer(1)
         ident(days)operator(,) ident(secs) operator(=) ident(secs)operator(.)ident(abs)operator(.)ident(divmod)operator(()integer(60) operator(*) integer(60) operator(*) integer(24)operator(\))
         ident(hours)operator(,)ident(secs) operator(=) ident(secs)operator(.)ident(abs)operator(.)ident(divmod)operator(()integer(60) operator(*) integer(60)operator(\))
         ident(mins)operator(,) ident(secs) operator(=) ident(secs)operator(.)ident(abs)operator(.)ident(divmod)operator(()integer(60)operator(\))
@@ -903,7 +903,7 @@ reserved(def) method(commify_series)operator(()ident(arr)operator(\))
         reserved(when) integer(0) reserved(then) string<delimiter(')delimiter(')>
         reserved(when) integer(1) reserved(then) ident(arr)operator([)integer(0)operator(])
         reserved(when) integer(2) reserved(then) ident(arr)operator(.)ident(join)operator(()string<delimiter(')content( and )delimiter(')>operator(\))
-        reserved(else) ident(arr)operator([)integer(0)operator(..)operator(-)integer(2)operator(])operator(.)ident(join)operator(()string<delimiter(')content(, )delimiter(')>operator(\)) operator(+) string<delimiter(')content(, and )delimiter(')> operator(+) ident(arr)operator([)operator(-)integer(1)operator(])
+        reserved(else) ident(arr)operator([)integer(0)operator(..)integer(-2)operator(])operator(.)ident(join)operator(()string<delimiter(')content(, )delimiter(')>operator(\)) operator(+) string<delimiter(')content(, and )delimiter(')> operator(+) ident(arr)operator([)integer(-1)operator(])
     reserved(end)
 reserved(end)
 
@@ -929,7 +929,7 @@ reserved(def) method(commify_series)operator(()ident(arr)operator(\))
         reserved(when) integer(0) reserved(then) string<delimiter(')delimiter(')>
         reserved(when) integer(1) reserved(then) ident(arr)operator([)integer(0)operator(])
         reserved(when) integer(2) reserved(then) ident(arr)operator(.)ident(join)operator(()string<delimiter(')content( and )delimiter(')>operator(\))
-        reserved(else) ident(arr)operator([)integer(0)operator(..)operator(-)integer(2)operator(])operator(.)ident(join)operator(()ident(sepchar)operator(\)) operator(+) ident(sepchar) operator(+) string<delimiter(')content(and )delimiter(')> operator(+) ident(arr)operator([)operator(-)integer(1)operator(])
+        reserved(else) ident(arr)operator([)integer(0)operator(..)integer(-2)operator(])operator(.)ident(join)operator(()ident(sepchar)operator(\)) operator(+) ident(sepchar) operator(+) string<delimiter(')content(and )delimiter(')> operator(+) ident(arr)operator([)integer(-1)operator(])
     reserved(end)
 reserved(end)
 
@@ -953,9 +953,9 @@ reserved(end)
 comment(# @@PLEAC@@_4.3)
 comment(#   (note: AFAIK Ruby doesn't allow gory change of Array length\))
 comment(# grow the array by assigning nil to past the end of array)
-ident(ary)operator([)ident(new_size)operator(-)integer(1)operator(]) operator(=) pre_constant(nil)
+ident(ary)operator([)ident(new_size)integer(-1)operator(]) operator(=) pre_constant(nil)
 comment(# shrink the array by slicing it down)
-ident(ary)operator(.)ident(slice!)operator(()ident(new_size)operator(..)operator(-)integer(1)operator(\))
+ident(ary)operator(.)ident(slice!)operator(()ident(new_size)operator(..)integer(-1)operator(\))
 comment(# init the array with given size)
 constant(Array)operator(.)ident(new)operator(()ident(number_of_elems)operator(\))
 comment(# assign to an element past the original end enlarges the array)
@@ -1082,7 +1082,7 @@ comment(# remove n elements from front of ary (shift n\))
 ident(front) operator(=) ident(ary)operator(.)ident(slice!)operator(()integer(0)operator(,) ident(n)operator(\))
 
 comment(# remove n elements from the end of ary (pop n\))
-ident(end_) operator(=) ident(ary)operator(.)ident(slice!)operator(()operator(-)ident(n) operator(..) operator(-)integer(1)operator(\))
+ident(end_) operator(=) ident(ary)operator(.)ident(slice!)operator(()operator(-)ident(n) operator(..) integer(-1)operator(\))
 
 comment(# let's extend the Array class, to make that useful)
 reserved(class) class(Array)
@@ -1090,7 +1090,7 @@ reserved(class) class(Array)
         ident(slice!)operator(()integer(0) operator(..) integer(1)operator(\))     comment(# more symetric with pop2...)
     reserved(end)
     reserved(def) method(pop2)operator(()operator(\))
-        ident(slice!)operator(()operator(-)integer(2) operator(..) operator(-)integer(1)operator(\))
+        ident(slice!)operator(()integer(-2) operator(..) integer(-1)operator(\))
     reserved(end)
 reserved(end)
 
@@ -1129,7 +1129,7 @@ comment(# you may specify another sort method:)
 ident(sorted) operator(=) ident(unsorted)operator(.)ident(sort) operator({) operator(|)ident(a)operator(,)ident(b)operator(|) ident(a)operator(.)ident(to_f) operator(<=>) ident(b)operator(.)ident(to_f) operator(})
 
 comment(# let's use the list of my own PID's)
-shell<delimiter(`)content(ps ux)delimiter(`)>operator(.)ident(split)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\))operator([)integer(1)operator(..)operator(-)integer(1)operator(])operator(.)
+shell<delimiter(`)content(ps ux)delimiter(`)>operator(.)ident(split)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\))operator([)integer(1)operator(..)integer(-1)operator(])operator(.)
     ident(select) operator({) operator(|)ident(i)operator(|) ident(i) operator(=)operator(~) regexp<delimiter(/)content(^)inline<delimiter(#{)constant(ENV)operator([)string<delimiter(')content(USER)delimiter(')>operator(])delimiter(})>delimiter(/)> operator(})operator(.)
     ident(collect) operator({) operator(|)ident(i)operator(|) ident(i)operator(.)ident(split)operator([)integer(1)operator(]) operator(})operator(.)
     ident(sort) operator({) operator(|)ident(a)operator(,)ident(b)operator(|) ident(a)operator(.)ident(to_i) operator(<=>) ident(b)operator(.)ident(to_i) operator(})operator(.)ident(each) operator({) operator(|)ident(i)operator(|) ident(puts) ident(i) operator(})
@@ -1207,8 +1207,8 @@ reserved(end)
 
 comment(# @@PLEAC@@_4.17)
 reserved(def) method(fisher_yates_shuffle)operator(()ident(a)operator(\))
-    operator(()ident(a)operator(.)ident(size)operator(-)integer(1)operator(\))operator(.)ident(downto)operator(()integer(1)operator(\)) operator({) operator(|)ident(i)operator(|)
-        ident(j) operator(=) ident(rand)operator(()ident(i)operator(+)integer(1)operator(\))
+    operator(()ident(a)operator(.)ident(size)integer(-1)operator(\))operator(.)ident(downto)operator(()integer(1)operator(\)) operator({) operator(|)ident(i)operator(|)
+        ident(j) operator(=) ident(rand)operator(()ident(i)integer(+1)operator(\))
         ident(a)operator([)ident(i)operator(])operator(,) ident(a)operator([)ident(j)operator(]) operator(=) ident(a)operator([)ident(j)operator(])operator(,) ident(a)operator([)ident(i)operator(]) reserved(if) ident(i) operator(!=) ident(j)
     operator(})
 reserved(end)
@@ -1252,7 +1252,7 @@ reserved(class) class(WordFormatter)
         comment(# now process each item, picking out proper piece for this position)
         integer(0)operator(.)ident(upto)operator(()ident(rows) operator(*) ident(columns) operator(-) integer(1)operator(\)) operator({) operator(|)ident(item)operator(|)
             ident(target) operator(=) operator(()ident(item) operator(%) ident(columns)operator(\)) operator(*) ident(rows) operator(+) operator(()ident(item) operator(/) ident(columns)operator(\))
-            ident(eol) operator(=) operator(()operator(()ident(item)operator(+)integer(1)operator(\)) operator(%) ident(columns) operator(==) integer(0)operator(\))
+            ident(eol) operator(=) operator(()operator(()ident(item)integer(+1)operator(\)) operator(%) ident(columns) operator(==) integer(0)operator(\))
             ident(piece) operator(=) ident(wordlist)operator([)ident(target)operator(]) operator(||) string<delimiter(")delimiter(")>
             ident(piece) operator(=) ident(piece)operator(.)ident(ljust)operator(()ident(collen)operator(\)) reserved(unless) ident(eol)
             ident(print) ident(piece)
@@ -1936,7 +1936,7 @@ ident(fishes)operator(.)ident(gsub)operator(()regexp<delimiter(/)content(
 operator(})
 
 ident(pond) operator(=) string<delimiter(')content(One fish two fish red fish blue fish swim here.)delimiter(')>
-ident(puts) string<delimiter(")content(Last fish is )inline<delimiter(#{)ident(pond)operator(.)ident(scan)operator(()regexp<delimiter(/)char(\\b)content(()char(\\w)content(+\))char(\\s)content(+fish)char(\\b)delimiter(/)modifier(i)>operator(\))operator(.)ident(flatten)operator([)operator(-)integer(1)operator(])delimiter(})>delimiter(")>
+ident(puts) string<delimiter(")content(Last fish is )inline<delimiter(#{)ident(pond)operator(.)ident(scan)operator(()regexp<delimiter(/)char(\\b)content(()char(\\w)content(+\))char(\\s)content(+fish)char(\\b)delimiter(/)modifier(i)>operator(\))operator(.)ident(flatten)operator([)integer(-1)operator(])delimiter(})>delimiter(")>
 
 regexp<delimiter(/)content(
     A               # find some pattern A
@@ -3178,7 +3178,7 @@ ident(puts) string<delimiter(")content(I'm )inline<delimiter(#{)ident(pos)delimi
 comment(#-----------------------------)
 ident(logfile)operator(.)ident(seek)operator(()integer(0)operator(,) constant(IO)operator(::)constant(SEEK_END)operator(\))
 ident(datafile)operator(.)ident(seek)operator(()ident(pos)operator(\))  comment(#  IO::SEEK_SET is the default)
-ident(out)operator(.)ident(seek)operator(()operator(-)integer(20)operator(,) constant(IO)operator(::)constant(SEEK_CUR)operator(\))
+ident(out)operator(.)ident(seek)operator(()integer(-20)operator(,) constant(IO)operator(::)constant(SEEK_CUR)operator(\))
 comment(#-----------------------------)
 ident(written) operator(=) ident(datafile)operator(.)ident(syswrite)operator(()ident(mystring)operator(\))
 ident(raise) constant(RunTimeError) reserved(unless) ident(written) operator(==) ident(mystring)operator(.)ident(length)
@@ -3563,7 +3563,7 @@ ident(puts) string<delimiter(")inline<delimiter(#{)ident(argv)operator(.)ident(j
 
 ident(require) string<delimiter(')content(find)delimiter(')>
 ident(argv) operator(=) pre_constant(ARGV)operator(.)ident(empty?) operator(?) string<delimiter(%w{)content(.)delimiter(})> operator(:) pre_constant(ARGV)
-ident(saved_size)operator(,) ident(saved_name) operator(=) operator(-)integer(1)operator(,) string<delimiter(")delimiter(")>
+ident(saved_size)operator(,) ident(saved_name) operator(=) integer(-1)operator(,) string<delimiter(")delimiter(")>
 constant(Find)operator(.)ident(find)operator(()operator(*)ident(argv)operator(\)) reserved(do) operator(|)ident(file)operator(|)
   ident(size) operator(=) ident(test)operator(()integer(?s)operator(,) ident(file)operator(\)) operator(||) integer(0)
   reserved(next) reserved(unless) ident(test)operator(()integer(?f)operator(,) ident(file)operator(\)) operator(&&) ident(size) operator(>) ident(saved_size)
@@ -4092,7 +4092,7 @@ reserved(class) class(Mailbox) operator(<) constant(Array)
     comment(# reads mails from open file and stores them)
     reserved(def) method(read)operator(()ident(file)operator(\))
         global_variable($INPUT_RECORD_SEPARATOR) operator(=) string<delimiter(')delimiter(')>  comment(# paragraph reads)
-        ident(msgno) operator(=) operator(-)integer(1)
+        ident(msgno) operator(=) integer(-1)
         ident(file)operator(.)ident(each) operator({) operator(|)ident(para)operator(|)
             reserved(if) ident(para) operator(=)operator(~) regexp<delimiter(/)content(^From)delimiter(/)>
                 ident(mail) operator(=) constant(Mail)operator(.)ident(new)
@@ -4819,7 +4819,7 @@ reserved(class) class(Person)
     reserved(def) method(method_missing)operator(()ident(namesymbol)operator(,) operator(*)ident(params)operator(\))
         ident(name) operator(=) ident(namesymbol)operator(.)ident(to_s)
         reserved(return) reserved(if) ident(name) operator(=)operator(~) regexp<delimiter(/)content(^A-Z)delimiter(/)>
-        reserved(if) ident(name)operator(.)ident(to_s)operator([)operator(-)integer(1)operator(]) operator(==) operator(()string<delimiter(')content(=)delimiter(')>operator([)integer(0)operator(])operator(\))       comment(# we have a setter)
+        reserved(if) ident(name)operator(.)ident(to_s)operator([)integer(-1)operator(]) operator(==) operator(()string<delimiter(')content(=)delimiter(')>operator([)integer(0)operator(])operator(\))       comment(# we have a setter)
             ident(isSetter) operator(=) pre_constant(true)
             ident(name)operator(.)ident(sub!)operator(()regexp<delimiter(/)content(=$)delimiter(/)>operator(,) string<delimiter(')delimiter(')>operator(\))
         reserved(end)
@@ -5256,7 +5256,7 @@ ident(lines)operator(.)ident(tie)operator(()ident(filename)operator(,) constant(
     comment(# print the records in order.)
     comment(# Opposed to perl, the tied array behaves exactly as a normal array)
     ident(puts) string<delimiter(")char(\\n)content(Original)delimiter(")>
-    reserved(for) ident(i) reserved(in) integer(0)operator(..)operator(()ident(lines)operator(.)ident(length)operator(-)integer(1)operator(\))
+    reserved(for) ident(i) reserved(in) integer(0)operator(..)operator(()ident(lines)operator(.)ident(length)integer(-1)operator(\))
         ident(puts) string<delimiter(")inline<delimiter(#{)ident(i)delimiter(})>content(: )inline<delimiter(#{)ident(lines)operator([)ident(i)operator(])delimiter(})>delimiter(")>
     reserved(end)
 
@@ -5505,7 +5505,7 @@ ident(values) operator(=) operator(()integer(1)operator(..)integer(5)operator(\)
 reserved(for) ident(i) reserved(in) ident(values)
     ident(max) operator(=) ident(i) reserved(if) ident(max) operator(<) ident(i)
 reserved(end)
-ident(ratio) operator(=) constant(Float)operator(()ident(ws_col)operator(-)integer(12)operator(\))operator(/)ident(max)          comment(# chars per unit)
+ident(ratio) operator(=) constant(Float)operator(()ident(ws_col)integer(-12)operator(\))operator(/)ident(max)          comment(# chars per unit)
 reserved(for) ident(i) reserved(in) ident(values)
     ident(printf) string<delimiter(")content(%8.1f %s)char(\\n)delimiter(")>operator(,) ident(i)operator(,) string<delimiter(")content(*)delimiter(")> operator(*) operator(()ident(ratio)operator(*)ident(i)operator(\))
 reserved(end)
@@ -5812,7 +5812,7 @@ constant(Signal)operator(.)ident(list)operator(.)ident(each) operator({) operato
 
 comment(# @@PLEAC@@_16.14)
 constant(Process)operator(.)ident(kill)operator(()integer(9)operator(,) ident(pid)operator(\))                    comment(# send $pid a signal 9)
-constant(Process)operator(.)ident(kill)operator(()operator(-)integer(1)operator(,) constant(Process)operator(.)ident(getpgrp)operator(()operator(\))operator(\))     comment(# send whole job a signal 1)
+constant(Process)operator(.)ident(kill)operator(()integer(-1)operator(,) constant(Process)operator(.)ident(getpgrp)operator(()operator(\))operator(\))     comment(# send whole job a signal 1)
 constant(Process)operator(.)ident(kill)operator(()string<delimiter(")content(USR1)delimiter(")>operator(,) global_variable($$)operator(\))                comment(# send myself a SIGUSR1)
 constant(Process)operator(.)ident(kill)operator(()string<delimiter(")content(HUP)delimiter(")>operator(,) ident(pid1)operator(,) ident(pid2)operator(,) ident(pid3)operator(\))   comment(# send a SIGHUP to processes in @pids)
 comment(#-----------------------------)

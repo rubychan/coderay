@@ -71,7 +71,7 @@ module CodeRay module Scanners
 		EXPONENT = / [eE] [+-]? #{DECIMAL} /ox
 		FLOAT_SUFFIX = / #{EXPONENT} | \. #{DECIMAL} #{EXPONENT}? /ox
 		FLOAT_OR_INT = / #{DECIMAL} (?: #{FLOAT_SUFFIX} () )? /ox
-		NUMERIC = / (?=0) (?: #{OCTAL} | #{HEXADECIMAL} | #{BINARY} ) | #{FLOAT_OR_INT} /ox
+		NUMERIC = / [-+]? (?: (?=0) (?: #{OCTAL} | #{HEXADECIMAL} | #{BINARY} ) | #{FLOAT_OR_INT} ) /ox
 
 		SYMBOL = /
 			:

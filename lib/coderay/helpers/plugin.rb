@@ -178,7 +178,7 @@ protected
 
 	# Loads the map file (see map).
 	#
-	# This is done automatically when plaugin_path is called.
+	# This is done automatically when plugin_path is called.
 	def load_map
 		begin
 			require path_to('_map')

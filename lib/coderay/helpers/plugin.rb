@@ -270,12 +270,23 @@ module Plugin
 		self::PLUGIN_HOST
 	end
 
+	# Require some helper files.
+	#
+	# Example:
+	# 
+	#  class MyPlugin < PluginHost::BaseClass
+	#     register_for :my_id
+	#     helper :my_helper
+	#
+	# The above example loads the file myplugin/my_helper.rb relative to the
+	# file in which MyPlugin was defined.
 	def helper *helpers
 		for helper in helpers
 			self::PLUGIN_HOST.require_helper plugin_id, helper.to_s			
 		end
 	end
 
+	# Returns the pulgin id used by the engine.
 	def plugin_id
 		name[/[\w_]+$/].downcase
 	end

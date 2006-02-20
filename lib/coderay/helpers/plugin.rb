@@ -180,10 +180,11 @@ protected
 	#
 	# This is done automatically when plugin_path is called.
 	def load_map
-		begin
-			require path_to('_map')
-		rescue LoadError
-			warn 'no _map.rb found for %s' % name if $DEBUG
+		mapfile = path_to '_map'
+		if File.exist? mapfile
+			require mapfile
+		elsif $DEBUG
+			warn 'no _map.rb found for %s' % name
 		end
 	end
 

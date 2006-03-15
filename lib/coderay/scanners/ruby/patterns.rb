@@ -155,13 +155,13 @@ module CodeRay module Scanners
 			] ]
 			
 			CLOSING_PAREN.values.each { |o| o.freeze }  # debug, if I try to change it with <<
-			OPENING_PAREN = CLOSING_PAREN.invert
+			p OPENING_PAREN = CLOSING_PAREN.invert
 
 			STRING_PATTERN = Hash.new { |h, k|
 				delim, interpreted = *k
 				delim_pattern = Regexp.escape(delim.dup)
-				if starter = OPENING_PAREN[delim]
-					delim_pattern << Regexp.escape(starter)
+				if closing_paren = CLOSING_PAREN[delim]
+					delim_pattern << Regexp.escape(closing_paren)
 				end
 
 				
@@ -194,15 +194,15 @@ module CodeRay module Scanners
 			}
 
 			def initialize kind, interpreted, delim, heredoc = false
-				if paren = CLOSING_PAREN[delim]
-					delim, paren = paren, delim
-					paren_depth = 1
-				end
 				if heredoc
 					pattern = HEREDOC_PATTERN[ [delim, interpreted, heredoc == :indented] ]
 					delim	= nil
 				else
 					pattern = STRING_PATTERN[ [delim, interpreted] ]
+					if paren = CLOSING_PAREN[delim]
+						delim, paren = paren, delim
+						paren_depth = 1
+					end
 				end
 				super kind, interpreted, delim, heredoc, paren, paren_depth, pattern, :initial
 			end

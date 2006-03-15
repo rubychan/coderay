@@ -7,7 +7,7 @@ module CodeRay module Encoders
 
 			attr :stylesheet
 
-			def CSS.load_stylesheet style
+			def CSS.load_stylesheet style = :default
 				style = DEFAULT_STYLESHEET_ID if style == :default
 				CodeRay::Styles[style]
 			end

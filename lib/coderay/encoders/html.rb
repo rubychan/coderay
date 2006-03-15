@@ -120,18 +120,17 @@ module Encoders
 		end
 
 		def self.token_path_to_hint hint, classes
-			if hint
-				title = if hint == :debug
-					k.inspect
-				elsif hint == :info_long
-					classes.map { |kind| TOKEN_KIND_TO_INFO[kind] }.join('/')
-				elsif hint == :info
+			return '' unless hint
+			title =
+				case hint
+				when :info
 					TOKEN_KIND_TO_INFO[classes.first]
+				when :info_long
+					classes.map { |kind| TOKEN_KIND_TO_INFO[kind] }.join('/')
+				when :debug
+					k.inspect
 				end
-				" title=\"#{title}\""
-			else
-				''
-			end			
+			" title=\"#{title}\""
 		end
 
 		def setup options
@@ -176,12 +175,12 @@ module Encoders
 						styles = [k]
 					end
 					type = styles.first
-					styles.map! { |c| ClassOfKind[c] }
-					if styles.first == :NO_HIGHLIGHT and not hint
+					classes = styles.map { |c| ClassOfKind[c] }
+					if classes.first == :NO_HIGHLIGHT and not hint
 						h[k] = false
 					else
 						title = HTML.token_path_to_hint hint, styles
-						style = @css[*styles]
+						style = @css[*classes]
 						h[k] =
 							if style
 								'<span%s style="%s">' % [title, style]

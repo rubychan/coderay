@@ -45,7 +45,7 @@ CodeRay needs Ruby 1.8 and the strscan[http://www.ruby-doc.org/stdlib/libdoc/str
 
  require 'coderay'
  
- hl = CodeRay.html :line_numbers => :column
+ hl = CodeRay.html :line_numbers => :table
  puts hl.highlight_page "puts 'Hello, world!'", :ruby
 
 

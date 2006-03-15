@@ -77,7 +77,7 @@ class CodeRayServlet < WEBrick::HTTPServlet::AbstractServlet
 					$".delete_if { |f| f =~ /coderay/ }
 					require 'coderay'
 				end
-				div = CodeRay.scan_file(path).html :tab_width => 8, :wrap => :div
+				div = CodeRay.scan_file(path).html :tab_width => 8, :wrap => :div, :hint => :info
 				div.replace <<-DIV
 	<div #{STYLE}>
 		#{backlinks}

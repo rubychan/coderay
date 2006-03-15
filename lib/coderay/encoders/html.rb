@@ -55,7 +55,7 @@ module Encoders
 	# 
 	# === :hint
 	# Include some information into the output using the title attribute.
-	# Can be :info (show token type on mouse-over) or :debug.
+	# Can be :info (show token type on mouse-over), :info_long (with full path) or :debug (via inspect).
 	# 
 	# Default: false
 	class HTML < Encoder
@@ -109,6 +109,31 @@ module Encoders
 		# \x9 (\t) and \xA (\n) not included
 		HTML_ESCAPE_PATTERN = /[\t&"><\xB-\x1f\x7f-\xff\0-\x8]/
 
+		TOKEN_KIND_TO_INFO = Hash.new do |h, kind|
+			h[kind] =
+				case kind
+				when :pre_constant
+					'Predefined constant'
+				else
+					kind.to_s.gsub(/_/, ' ').gsub(/\b\w/) { $&.capitalize }
+				end
+		end
+
+		def self.token_path_to_hint hint, classes
+			if hint
+				title = if hint == :debug
+					k.inspect
+				elsif hint == :info_long
+					classes.map { |kind| TOKEN_KIND_TO_INFO[kind] }.join('/')
+				elsif hint == :info
+					TOKEN_KIND_TO_INFO[classes.first]
+				end
+				" title=\"#{title}\""
+			else
+				''
+			end			
+		end
+
 		def setup options
 			super
 			return if options == @last_options
@@ -138,16 +163,7 @@ module Encoders
 					if c == :NO_HIGHLIGHT and not hint
 						h[k] = false
 					else
-						title = if hint
-							if hint == :debug
-								' title="%p"' % [ k ]
-							elsif hint == :info
-								path = (k[1..-1] << k.first).map { |kind| kind.to_s.gsub(/_/, ' ').gsub(/\b\w/) { $&.capitalize } }
-								" title=\"#{path.join('/')}\""
-							end
-						else
-							''
-						end
+						title = HTML.token_path_to_hint hint, (k[1..-1] << k.first)
 						h[k] = '<span%s class="%s">' % [title, c]
 					end
 				end
@@ -164,15 +180,7 @@ module Encoders
 					if styles.first == :NO_HIGHLIGHT and not hint
 						h[k] = false
 					else
-						title = if hint
-							if hint == :debug
-								' title="%p"' % [ styles ]
-							elsif hint == :info and styles.size == 1
-								" title=\"#{type.to_s.gsub(/_/, " ").capitalize}\""
-							end
-						else
-							''
-						end
+						title = HTML.token_path_to_hint hint, styles
 						style = @css[*styles]
 						h[k] =
 							if style

@@ -12,9 +12,9 @@ module CodeRay
 			NUMERIZABLE_WRAPPINGS = {
 				:table => [:div, :page],
 				:inline => :all,
-				:list => [:div, :page],
-				nil => :all
+				:list => [:div, :page]
 			}
+			NUMERIZABLE_WRAPPINGS.default = :all
 			
 			def numerize! mode = :table, options = {}
 				return self unless mode

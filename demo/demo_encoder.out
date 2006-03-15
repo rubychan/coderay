@@ -31,30 +31,23 @@ space	\
 
 YAML:
 --- 
-- 
-  - puts
+- - puts
   - :ident
-- 
-  - " "
+- - " "
   - :space
-- 
-  - "17"
+- - "17"
   - :integer
-- 
-  - " "
+- - " "
   - :space
-- 
-  - "+"
+- - +
   - :operator
-- 
-  - " "
+- - " "
   - :space
-- 
-  - "4"
+- - "4"
   - :integer
-- 
-  - "
-    "
+- - |
+    
+
   - :space
 
 Dump:

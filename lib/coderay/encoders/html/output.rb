@@ -25,7 +25,7 @@ module CodeRay
 				# 
 				#  a = Output.new '<span class="co">Code</span>'
 				#  a.wrap! :page
-				def new string, css, element = nil
+				def new string, css = CSS.new, element = nil
 					output = string.clone.extend self
 					output.wrapped_in = element
 					output.css = css

@@ -134,7 +134,7 @@ module CodeRay module Scanners
 							last_state = state  # scan one token as normal code, then return here
 							state = :initial
 						else
-							raise 'else-case # reached; #%p not handled' % peek(1), tokens
+							raise_inspect 'else-case # reached; #%p not handled' % peek(1), tokens
 						end
 						
 					when state.paren
@@ -145,7 +145,7 @@ module CodeRay module Scanners
 						tokens << [match, :function]
 						
 					else
-						raise 'else-case " reached; %p not handled, state = %p' % [match, state], tokens
+						raise_inspect 'else-case " reached; %p not handled, state = %p' % [match, state], tokens
 						
 					end
 					next
@@ -178,7 +178,7 @@ module CodeRay module Scanners
 							type = :comment
 							regexp_allowed = true
 						else
-							raise 'else-case _ reached, because case %p was not handled' % [matched[0].chr], tokens
+							raise_inspect 'else-case _ reached, because case %p was not handled' % [matched[0].chr], tokens
 						end
 						tokens << [match, type]
 						next
@@ -274,7 +274,7 @@ module CodeRay module Scanners
 							
 						elsif fancy_allowed and match = scan(/#{FANCY_START}/o)
 							type, interpreted = *FancyStringType.fetch(self[1]) do
-								raise 'Unknown fancy string: %%%p' % k, tokens
+								raise_inspect 'Unknown fancy string: %%%p' % k, tokens
 							end
 							tokens << [:open, type]
 							state = StringState.new type, interpreted, self[2]

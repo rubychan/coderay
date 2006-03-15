@@ -155,7 +155,7 @@ module CodeRay module Scanners
 			] ]
 			
 			CLOSING_PAREN.values.each { |o| o.freeze }  # debug, if I try to change it with <<
-			p OPENING_PAREN = CLOSING_PAREN.invert
+			OPENING_PAREN = CLOSING_PAREN.invert
 
 			STRING_PATTERN = Hash.new { |h, k|
 				delim, interpreted = *k

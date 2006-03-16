@@ -100,14 +100,15 @@ module Encoders
 			'<' => '&lt;',
 		}
 
-		# This is to prevent illegal HTML.
+		# This was to prevent illegal HTML.
 		# Strange chars should still be avoided in codes.
-		evil_chars = Array(0x00...0x20) - [?n, ?t]
+		evil_chars = Array(0x00...0x20) - [?\n, ?\t, ?\s]
 		evil_chars.each { |i| HTML_ESCAPE[i.chr] = ' ' }
-		ansi_chars = Array(0x7f..0xff)
-		ansi_chars.each { |i| HTML_ESCAPE[i.chr] = '&#%d;' % i }
+		#ansi_chars = Array(0x7f..0xff)
+		#ansi_chars.each { |i| HTML_ESCAPE[i.chr] = '&#%d;' % i }
 		# \x9 (\t) and \xA (\n) not included
-		HTML_ESCAPE_PATTERN = /[\t&"><\xB-\x1f\x7f-\xff\0-\x8]/
+		#HTML_ESCAPE_PATTERN = /[\t&"><\0-\x8\xB-\x1f\x7f-\xff]/
+		HTML_ESCAPE_PATTERN = /[\t"&><\0-\x8\xB-\x1f]/
 
 		TOKEN_KIND_TO_INFO = Hash.new { |h, kind|
 			h[kind] =

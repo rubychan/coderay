@@ -161,12 +161,11 @@ module CodeRay
 		# This can not be undone, but should yield the same output
 		# in most Encoders.  It basically makes the output smaller.
 		#
-		# Combined with dump, it saves space for the cost
-		# calculating time.
+		# Combined with dump, it saves space for the cost of time.
 		#
 		# If the scanner is written carefully, this is not required - 
-		# for example, consecutive //-comment lines can already be 
-		# joined in one token by the Scanner.
+		# for example, consecutive //-comment lines could already be 
+		# joined in one comment token by the Scanner.
 		def optimize
 			print ' Tokens#optimize: before: %d - ' % size if $DEBUG
 			last_kind = last_text = nil
@@ -219,7 +218,7 @@ module CodeRay
 			dump.extend Undumping
 		end
 
-		# The total size of the tokens;
+		# The total size of the tokens.
 		# Should be equal to the input size before
 		# scanning.
 		def text_size

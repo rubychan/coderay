@@ -69,10 +69,10 @@
 # * Input and language are always sorted in this order: +code+, +lang+.
 # 	(This is in alphabetical order, if you need a mnemonic ;)
 # 
-# You should be able to highlight everything you want just using this methods;
+# You should be able to highlight everything you want just using these methods;
 # so there is no need to dive into CodeRay's deep class hierarchy.
 #
-# The exmaples in the demo/ directory demonstrate common cases using this interface.
+# The examples in the demo directory demonstrate common cases using this interface.
 #	
 # = Basic Access Ways
 #
@@ -84,7 +84,7 @@
 #	Each Token knows about what type it is: string, comment, class name, etc.
 #
 #	Each +lang+ (language) has its own Scanner; for example, <tt>:ruby</tt> code is
-#	handled by CodeRay::Scanners::RubyScanner.
+#	handled by CodeRay::Scanners::Ruby.
 # 
 # CodeRay.scan:: Scan a string in a given language into Tokens.
 #                This is the most common method to use.

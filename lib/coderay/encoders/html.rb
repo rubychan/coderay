@@ -109,7 +109,7 @@ module Encoders
 		# \x9 (\t) and \xA (\n) not included
 		HTML_ESCAPE_PATTERN = /[\t&"><\xB-\x1f\x7f-\xff\0-\x8]/
 
-		TOKEN_KIND_TO_INFO = Hash.new do |h, kind|
+		TOKEN_KIND_TO_INFO = Hash.new { |h, kind|
 			h[kind] =
 				case kind
 				when :pre_constant
@@ -117,8 +117,11 @@ module Encoders
 				else
 					kind.to_s.gsub(/_/, ' ').gsub(/\b\w/) { $&.capitalize }
 				end
-		end
+		}
 
+		# Generate a hint about the given +classes+ in a +hint+ style.
+		# 
+		# +hint+ may be :info, :info_long or :debug.
 		def self.token_path_to_hint hint, classes
 			return '' unless hint
 			title =
@@ -126,7 +129,7 @@ module Encoders
 				when :info
 					TOKEN_KIND_TO_INFO[classes.first]
 				when :info_long
-					classes.map { |kind| TOKEN_KIND_TO_INFO[kind] }.join('/')
+					classes.reverse.map { |kind| TOKEN_KIND_TO_INFO[kind] }.join('/')
 				when :debug
 					classes.inspect
 				end
@@ -145,7 +148,7 @@ module Encoders
 			@css = CSS.new options[:style]
 
 			hint = options[:hint]
-			if hint and not [:debug, :info].include? hint
+			if hint and not [:debug, :info, :info_long].include? hint
 				raise ArgumentError, "Unknown value %p for :hint; expected :info, :debug, false or nil." % hint
 			end
 
@@ -179,7 +182,9 @@ module Encoders
 					if classes.first == :NO_HIGHLIGHT and not hint
 						h[k] = false
 					else
+						styles.shift if [:delimiter, :modifier, :content, :escape].include? styles.first
 						title = HTML.token_path_to_hint hint, styles
+						classes.delete 'il'
 						style = @css[*classes]
 						h[k] =
 							if style

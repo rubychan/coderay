@@ -1,0 +1,371 @@
+
+ident(print) string<delimiter(')content(,rekcah ybuR rehtona tsuJ)delimiter(')>operator(.)ident(reverse)
+
+ident(print) string<delimiter(%q/)content(92G5S="!A;F]T:&5R(%\)U8GD@:&%C:V5R+```)delimiter(/)>operator(.)ident(unpack)operator(()string<delimiter(')content(u)delimiter(')>operator(\))
+
+ident(print) string<delimiter(%q/)content(SnVzdCBhbm90aGVyIFJ1YnkgaGFja2VyLA==)delimiter(/)>operator(.)ident(unpack)operator(()string<delimiter(')content(m)delimiter(')>operator(\))
+
+ident(print) string<delimiter(')content(Whfg nabgure Ehol unpxre,)delimiter(')>operator(.)ident(tr)operator(()string<delimiter(')content(A-Za-z)delimiter(')>operator(,) string<delimiter(')content(N-ZA-Mn-za-m)delimiter(')>operator(\))
+
+ident(print)operator(()operator({)string<delimiter(')content(ruby)delimiter(')> operator(=)operator(>) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(})operator([)string<delimiter(')content(ruby)delimiter(')>operator(])operator(\))
+
+ident(print) string<delimiter(')content(jUsT aNoThEr )delimiter(')>operator(.)ident(capitalize)operator(,) string<delimiter(')content(RuBy HaCkEr,)delimiter(')>operator(.)ident(capitalize)
+
+ident(print) operator([)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(])operator([)integer(0)operator(])
+
+ident(print) operator([)string<delimiter(')content(hacker,)delimiter(')>operator(,) string<delimiter(')content(Ruby )delimiter(')>operator(,) string<delimiter(')content(another )delimiter(')>operator(,) string<delimiter(')content(Just )delimiter(')>operator(])operator(.)ident(reverse)
+
+ident(proc) operator({)ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(})operator(.)ident(call)
+
+reserved(def) method(pri)operator(()operator(\)) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end)operator(;) ident(pri)
+
+reserved(for) ident(i) reserved(in) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(do) ident(print) ident(i) reserved(end)
+
+ident(print) shell<delimiter(`)content(echo -n Just another Ruby hacker,)delimiter(`)>
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(split)operator(()string<delimiter(')delimiter(')>operator(\))
+
+ident(print) string<delimiter(')content(JQust aQnotQher RQuby hQackQer,)delimiter(')>operator(.)ident(delete)operator(()string<delimiter(')content(Q)delimiter(')>operator(\))
+
+string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content((.\))delimiter(/)>operator(\)) operator({)ident(print) global_variable($1)operator(})
+
+ident(print) string<delimiter(')content(Just )delimiter(')> operator(+) string<delimiter(')content(another )delimiter(')> operator(+) string<delimiter(')content(Ruby )delimiter(')> operator(+) string<delimiter(')content(hacker,)delimiter(')>
+
+ident(print) operator([)string<delimiter(')content(4a75737420616e6f746865722052756279206861636b65722c)delimiter(')>operator(])operator(.)ident(pack)operator(()string<delimiter(')content(H*)delimiter(')>operator(\))
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(split)operator(()regexp<delimiter(/)content((.\))delimiter(/)>operator(\))
+
+ident(print) string<delimiter(%w()content(Just another Ruby hacker,)delimiter(\))>operator(.)ident(join)operator(()string<delimiter(')content( )delimiter(')>operator(\))
+
+ident(print)operator(()operator({)string<delimiter(')content(another )delimiter(')>operator(=)operator(>)string<delimiter(')content(Just )delimiter(')>operator(,) string<delimiter(')content(hacker,)delimiter(')>operator(=)operator(>)string<delimiter(')content(Ruby )delimiter(')>operator(})operator(.)ident(invert)operator(.)ident(sort)operator(\))
+
+ident(print) ident(eval)operator(()string<delimiter(%-)content(eval %: %|Just another Ruby hacker,| :)delimiter(-)>operator(\))
+
+comment(#;eval %qPprint eval %-eval %:'Just another Ruby hacker,' :-P)
+
+ident(print) constant(Hash)operator(.)ident(new)operator(()string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))operator([)symbol(:Ruby)operator(])
+
+ident(print) operator([)string<delimiter(')content(Just )delimiter(')>operator(,) operator([)string<delimiter(')content(another )delimiter(')>operator(,) operator([)string<delimiter(')content(Ruby )delimiter(')>operator(,) operator([)string<delimiter(')content(hacker,)delimiter(')>operator(])operator(])operator(])operator(])operator(.)ident(flatten)
+
+ident(print) constant(Struct)operator(.)ident(new)operator(()operator(*)string<delimiter(%w|)content(Ruby Just another Ruby hacker,)delimiter(|)>operator(\))operator([)operator(*)operator([)integer(0)operator(])operator(*)integer(4)operator(])operator(.)ident(members)operator(.)ident(join)operator(()string<delimiter(')content( )delimiter(')>operator(\))
+
+ident(print) constant(Time)operator(.)ident(now)operator(.)ident(strftime)operator(()string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))
+
+ident(print) string<delimiter(")content(   Just another Ruby hacker,    )char(\\r)char(\\n)delimiter(")>operator(.)ident(strip)
+
+ident(print) operator([)string<delimiter(')content(Just )delimiter(')>operator(,) pre_constant(nil)operator(,) string<delimiter(')content(another )delimiter(')>operator(,) pre_constant(nil)operator(,) string<delimiter(')content(Ruby )delimiter(')>operator(,) pre_constant(nil)operator(,) string<delimiter(')content(hacker,)delimiter(')>operator(])operator(.)ident(compact)
+
+operator([)string<delimiter(')content(hacker,)delimiter(')>operator(,) string<delimiter(')content(Ruby )delimiter(')>operator(,) string<delimiter(')content(another )delimiter(')>operator(,) string<delimiter(')content(Just )delimiter(')>operator(])operator(.)ident(reverse_each) reserved(do) operator(|)ident(x)operator(|) ident(print) ident(x) reserved(end)
+
+regexp<delimiter(/)content(Just another Ruby hacker,)delimiter(/)>operator(.)ident(source)operator(.)ident(display)
+
+ident(send) symbol(:print)operator(,) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>
+
+ident(print) operator([)string<delimiter(')content(Just )delimiter(')>operator(,) string<delimiter(')content(another )delimiter(')>operator(,) string<delimiter(')content(Ruby )delimiter(')>operator(]) operator(|) operator([)string<delimiter(')content(another )delimiter(')>operator(,) string<delimiter(')content(Ruby )delimiter(')>operator(,) string<delimiter(')content(hacker,)delimiter(')>operator(])
+
+ident(print) operator([)string<delimiter(')content(Just )delimiter(')>operator(,) string<delimiter(')content(another )delimiter(')>operator(,) string<delimiter(')content(Perl)delimiter(')>operator(,) string<delimiter(')content(Ruby )delimiter(')>operator(,) string<delimiter(')content(hacker,)delimiter(')>operator(]) operator(-) operator([)string<delimiter(')content(Perl)delimiter(')>operator(])
+
+ident(print) operator([)operator([)string<delimiter(')delimiter(')>operator(,) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(])operator(])operator(.)ident(assoc)operator(()string<delimiter(')delimiter(')>operator(\))
+
+ident(print) operator([)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(])operator(.)ident(pack)operator(()string<delimiter(')content(a*)delimiter(')>operator(\))
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(unpack)operator(()string<delimiter(')content(a*)delimiter(')>operator(\))
+
+ident(print) operator([)operator([)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(])operator(.)ident(pop)operator(])operator(.)ident(sort)operator(.)ident(shift)
+
+ident(print) operator([)operator([)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(,) string<delimiter(')delimiter(')>operator(])operator(])operator(.)ident(rassoc)operator(()string<delimiter(')delimiter(')>operator(\))
+
+operator({)string<delimiter(')content(Just another )delimiter(')> operator(=)operator(>) string<delimiter(')content(Ruby hacker,)delimiter(')>operator(})operator(.)ident(to_a)operator(.)ident(display)
+
+ident(print) string<delimiter(')content(Just another Ruby hackeq,)delimiter(')>operator(.)ident(succ)
+
+ident(print) string<delimiter(')content(jUST ANOTHER rUBY HACKER,)delimiter(')>operator(.)ident(swapcase)
+
+ident(print) operator([)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(])operator(.)ident(find) operator({)operator(|)ident(x)operator(|) ident(x)operator(})
+
+ident(print) string<delimiter(%w()content(Just another Ruby hacker,)delimiter(\))>operator(.)ident(find_all) operator({)operator(|)ident(x)operator(|) ident(x)operator(})operator(.)ident(join)operator(()string<delimiter(')content( )delimiter(')>operator(\))
+
+ident(print) string<delimiter(%w()content(Just another Ruby hacker,)delimiter(\))>operator(.)ident(grep)operator(()regexp<delimiter(/)content(.)delimiter(/)>operator(\))operator(.)ident(join)operator(()string<delimiter(')content( )delimiter(')>operator(\))
+
+constant(Ruby) operator(=) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(and) ident(print) constant(Object)operator(.)ident(const_get)operator(()symbol(:Ruby)operator(\))
+
+constant(Proc)operator(.)ident(new) operator({)ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(})operator([)operator(])
+
+ident(print) string<delimiter(')content(JJuusstt  aannootthheerr  RRuubbyy  hhaacckkeerr,,)delimiter(')>operator(.)ident(squeeze)
+
+ident(print) operator([)integer(1249211252)operator(,) integer(543256175)operator(,) integer(1952998770)operator(,) integer(542274914)operator(,) integer(2032167009)operator(,) integer(1667982706)operator(])operator(.)ident(pack)operator(()string<delimiter(')content(N*)delimiter(')>operator(\))operator(,) string<delimiter(')content(,)delimiter(')>
+
+global_variable($>) operator(<<) string<delimiter(')content(Just )delimiter(')> operator(<<) string<delimiter(')content(another )delimiter(')> operator(<<) string<delimiter(')content(Ruby )delimiter(')> operator(<<) string<delimiter(')content(hacker,)delimiter(')>
+
+integer(5)operator(.)ident(times) reserved(do)operator(|)ident(i)operator(|)string<delimiter(')content(Jaebcunrykso  ettRhr hua,)delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content(.{5})delimiter(/)>operator(\)) reserved(do) ident(print) global_variable($&)operator([)ident(i)operator(,)integer(1)operator(]) reserved(end) reserved(end)
+
+ident(a)operator(=)string<delimiter(')content(,rekcah ybuR rehtona tsuJ)delimiter(')>operator(.)ident(split)operator(()string<delimiter(')delimiter(')>operator(\))operator(;)ident(print) ident(a)operator(.)ident(pop) reserved(while) reserved(not) ident(a)operator(.)ident(empty?)
+
+ident(print) string<delimiter(')content(,Pr-eok,c"a$h! kypbquuRA %roeqhbtaoon;ab rtesbujJ&)delimiter(')>operator(.)ident(gsub)operator(()regexp<delimiter(/)content((.\).)delimiter(/)>operator(,) string<delimiter(')content(\\1)delimiter(')>operator(\))operator(.)ident(reverse)
+
+ident(print) regexp<delimiter(/)content(.*)delimiter(/)>operator(.)ident(match)operator(()string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))
+
+ident(print) global_variable($&) reserved(if) regexp<delimiter(/)content(.*)delimiter(/)> operator(===) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>
+
+reserved(case) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(when) regexp<delimiter(/)content(.*)delimiter(/)>operator(;) ident(print) global_variable($~)operator([)integer(0)operator(]) reserved(end)
+
+ident(print) constant(Marshal)operator(.)ident(load)operator(()constant(Marshal)operator(.)ident(dump)operator(()string<delimiter(")content(Just another Ruby hacker,)delimiter(")>operator(\))operator(\))
+
+string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(each_byte) reserved(do) operator(|)ident(x)operator(|) ident(print) ident(x)operator(.)ident(chr) reserved(end)
+
+ident(print) string<delimiter(')content(/hacker,/another /Ruby /Just )delimiter(')>operator(.)ident(split)operator(()string<delimiter(')content(/)delimiter(')>operator(\))operator(.)ident(sort)operator(.)ident(values_at)operator(()integer(1)operator(,)integer(3)operator(,)integer(2)operator(,)integer(4)operator(\))
+
+ident(print) string<delimiter(')content(Just another Perl hacker,)delimiter(')>operator(.)ident(sub)operator(()string<delimiter(')content(Perl)delimiter(')>operator(,) string<delimiter(')content(Ruby)delimiter(')>operator(\))
+
+comment(#$><<'RbyckJust another,'.split(''\).values_at(5..16,9,0,6,1,2,9,14,10,3,4,15..17\))
+
+operator(()string<delimiter(')content(a)delimiter(')>operator(..)string<delimiter(')content(y)delimiter(')>operator(\))operator(.)ident(to_a)operator(.)ident(join)operator(.)ident(tr)operator(()string<delimiter(')content(a-y)delimiter(')>operator(,)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))operator(.)ident(display)
+
+reserved(begin) ident(print) string<delimiter(')content(Just another )delimiter(')> reserved(ensure) ident(print) string<delimiter(')content(Ruby hacker,)delimiter(')> reserved(end)
+
+string<delimiter(')content(J,ursetk caanho tyhbeurR  Rruebhyt ohnaac ktesru,J)delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content(.(.\))delimiter(/)>operator(\))operator(.)ident(reverse)operator(.)ident(display)
+
+string<delimiter(')content(J,ursetk caanho tyhbeurR  Rruebhyt ohnaac ktesru,J)delimiter(')>operator(.)ident(gsub)operator(()regexp<delimiter(/)content((.\).)delimiter(/)>operator(,)string<delimiter(')content(\\1)delimiter(')>operator(\))operator(.)ident(display)
+
+ident(a)operator(=)string<delimiter(')content(J,ursetk caanho tyhbeurR )delimiter(')>operator(;)integer(0)operator(.)ident(step)operator(()integer(24)operator(,)integer(2)operator(\))operator({)operator(|)ident(i)operator(|)ident(print) ident(a)operator([)ident(i)operator(,)integer(1)operator(])operator(})operator(;)integer(23)operator(.)ident(step)operator(()integer(1)operator(,)integer(-2)operator(\))operator({)operator(|)ident(i)operator(|)ident(print) ident(a)operator([)ident(i)operator(,)integer(1)operator(])operator(})
+
+ident(a)operator(=)string<delimiter(')content(Js nte uyhce,rka bRrhoatu)delimiter(')>operator(.)ident(split)operator(()string<delimiter(')delimiter(')>operator(\))operator(;)integer(12)operator(.)ident(times)operator({)ident(print) ident(a)operator(.)ident(shift)operator(,)ident(a)operator(.)ident(pop)operator(})operator(;)ident(print) ident(a)
+
+ident(a)operator(=)string<delimiter(')content(Js nte uyhce,rka bRrhoatu)delimiter(')>operator(;)reserved(begin) ident(a)operator(.)ident(sub!)operator(()regexp<delimiter(/)content(^(.\)(.*\)(.\)$)delimiter(/)>operator(\))operator({)ident(print) global_variable($1)operator(,)global_variable($3)operator(;)global_variable($2)operator(})reserved(end) reserved(while)global_variable($1)operator(;)ident(print) ident(a)
+
+ident(a)operator(=)string<delimiter(')content(J Ruby hacker,ust another)delimiter(')>operator(;)integer(11)operator(.)ident(times)operator({)ident(a)operator(.)ident(sub!)operator(()regexp<delimiter(/)content(^(.\)(.*\)(.\)$)delimiter(/)>operator(,)string<delimiter(')content(\\1)content(\\3)content(\\2)delimiter(')>operator(\))operator(})operator(;)ident(print) ident(a)
+
+ident(print) string<delimiter(')content(Just. another! -Ruby? $hacker,)delimiter(')>operator(.)ident(tr_s)operator(()string<delimiter(')content(-.!?$ )delimiter(')>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
+
+string<delimiter(')content( e m r,yJaRnafatbpcuekewhjhskvngohrlrxsctdtiubuoyq)delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content((.\)(.\))delimiter(/)>operator(\))operator(.)ident(collect!)operator({)operator(|)ident(x)operator(|)operator([)ident(x)operator([)integer(1)operator(])operator(,)ident(x)operator([)integer(0)operator(])operator(])operator(})operator(.)ident(sort)operator(.)ident(collect!)operator({)operator(|)ident(x)operator(|)ident(x)operator([)integer(1)operator(])operator(})operator(.)ident(display)
+
+string<delimiter(')content(e m r y,aJnRfatapbuckewejhshvkgnholrxrcsdtitbuouqy)delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content(..)delimiter(/)>operator(\))operator(.)ident(sort)operator(.)ident(collect!)operator({)operator(|)ident(x)operator(|)ident(x)operator([)integer(1)operator(,)integer(1)operator(])operator(})operator(.)ident(display)
+
+string<delimiter(')content(4a75737420616e6f746865722052756279206861636b65722c)delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content(..)delimiter(/)>operator(\))operator({)ident(print) global_variable($&)operator(.)ident(hex)operator(.)ident(chr)operator(})
+
+ident(print) operator([)string<delimiter(')content(Just another Perl hacker,)delimiter(')>operator(])operator(.)ident(fill)operator(()string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))
+
+global_variable($>)operator(<<)operator({)integer(1)operator(=)operator(>)string<delimiter(')content(Just )delimiter(')>operator(,)integer(2)operator(=)operator(>)string<delimiter(')content(another )delimiter(')>operator(,)integer(3)operator(=)operator(>)string<delimiter(')content(Ruby )delimiter(')>operator(,)integer(4)operator(=)operator(>)string<delimiter(')content(hacker,)delimiter(')>operator(})operator(.)ident(sort)operator(.)ident(to_s)operator(.)ident(delete)operator(()string<delimiter(')content(1-4)delimiter(')>operator(\))
+
+constant(Kernel)operator(.)ident(print) string<delimiter(%q<)content(Just another Ruby hacker,)delimiter(>)>
+
+reserved(class) class(Just_another_Ruby_hackerq)operator(;)reserved(end)operator(;)ident(print) constant(Just_another_Ruby_hackerq)operator(.)ident(to_s)operator(.)ident(tr)operator(()string<delimiter(')content(_q)delimiter(')>operator(,)string<delimiter(')content( ,)delimiter(')>operator(\))
+
+constant(Kust_another_Ruby_hacker)operator(=)integer(0)operator(;)ident(print) constant(Module)operator(.)ident(constants)operator(.)ident(grep)operator(()regexp<delimiter(/)content(Kust)delimiter(/)>operator(\))operator([)integer(0)operator(])operator(.)ident(tr)operator(()string<delimiter(')content(K_)delimiter(')>operator(,)string<delimiter(')content(J )delimiter(')>operator(\))operator(,) string<delimiter(')content(,)delimiter(')>
+
+reserved(module) class(Lust_another_Ruby_hackerq)operator(;) ident(print) ident(name)operator(.)ident(tr)operator(()string<delimiter(')content(L_q)delimiter(')>operator(,) string<delimiter(')content(J ,)delimiter(')>operator(\)) reserved(end)
+
+reserved(class) class(Bar)operator(;) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end)
+
+reserved(class) class(Baz)operator(;) reserved(def) method(initialize)operator(()operator(\)) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end) reserved(end)operator(;) constant(Baz)operator(.)ident(new)
+
+ident(eval) string<delimiter(")content(A<'\)I;G0@\)TIU<W0@86YO=&AE<B!2=6\)Y(&AA8VME<BPG)delimiter(")>operator(.)ident(unpack)operator(()string<delimiter(')content(u)delimiter(')>operator(\))operator([)integer(0)operator(])
+
+ident(eval) string<delimiter(")content(cHJpbnQgJ0p1c3QgYW5vdGhlciBSdWJ5IGhhY2tlciwn)delimiter(")>operator(.)ident(unpack)operator(()string<delimiter(')content(m)delimiter(')>operator(\))operator([)integer(0)operator(])
+
+global_variable($stdout)operator(.)ident(write) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>
+
+string<delimiter(")content(Just )char(\\n)content(another )char(\\n)content(Ruby )char(\\n)content(hacker,)char(\\n)delimiter(")>operator(.)ident(each) reserved(do) operator(|)ident(x)operator(|) ident(print) ident(x)operator(.)ident(chomp) reserved(end)
+
+ident(print) global_variable($') reserved(if) regexp<delimiter(/)char(\\n)delimiter(/)modifier(x)> operator(===) string<delimiter(")char(\\n)content(Just another Ruby hacker,)delimiter(")>
+
+ident(raise) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(rescue) ident(print) global_variable($!)
+
+ident(print) constant(File)operator(.)ident(basename)operator(()string<delimiter(')content(~/Just another Ruby hacker,.rb)delimiter(')>operator(,)string<delimiter(')content(.*)delimiter(')>operator(\))
+
+ident(proc)operator({)operator(|)ident(x)operator(|)ident(x)operator([)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(])operator(})operator([)ident(proc)operator({)operator(|)ident(x)operator(|)ident(print) ident(x)operator(})operator(])
+
+ident(method)operator(()symbol(:print)operator(\))operator([)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(])
+
+string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(method)operator(()symbol(:display)operator(\))operator([)operator(])
+
+ident(print) string<delimiter(')delimiter(')>operator(.)ident(replace)operator(()string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))
+
+ident(instance_eval) reserved(do) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end)
+
+constant(Kernel)operator(.)ident(module_eval) reserved(do) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end)
+
+ident(print) string<delimiter(%%)char(\\%)content(s)delimiter(%)>operator(%)string<delimiter(%%)content(Just another Ruby hacker,)delimiter(%)>operator(%)string<delimiter(%%)delimiter(%)>operator(%)string<delimiter(%%)delimiter(%)>
+
+ident(print) operator(!)integer(??)operator(?)integer(??)operator(:)integer(??)operator(?)string<delimiter(%?)content(Just another Ruby hacker,)delimiter(?)>operator(:)integer(??)
+
+comment(#({}.default='Just another Ruby hacker,'\)[0].display)
+
+ident(print) constant(Hash)operator([)string<delimiter(')content(Just another )delimiter(')>operator(,) string<delimiter(')content(Ruby hacker,)delimiter(')>operator(])
+
+ident(print) string<delimiter(')content(Just )delimiter(')> string<delimiter(')content(another )delimiter(')> string<delimiter(')content(Ruby )delimiter(')> string<delimiter(')content(hacker,)delimiter(')>
+
+ident(print) constant(File)operator(.)ident(dirname)operator(()string<delimiter(')content(Just another Ruby hacker,/Just another Ruby porter,)delimiter(')>operator(\))
+
+reserved(def) global_variable($_)operator(.)ident(singleton_method_added)operator(()operator(*)operator(\)) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end)
+
+ident(print) operator([)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(])operator(.)ident(delete_at)operator(()integer(0)operator(\))
+
+ident(print) string<delimiter(')content(%s %s %s %s)delimiter(')> operator(%) string<delimiter(%w[)content(Just another Ruby hacker,)delimiter(])>
+
+string<delimiter(')content(cker,by haer RuanothJust )delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content(.{5})delimiter(/)>operator(\))operator(.)ident(reverse)operator(.)ident(display)
+
+operator(()integer(97)operator(..)integer(121)operator(\))operator(.)ident(to_a)operator(.)ident(pack)operator(()string<delimiter(')content(c*)delimiter(')>operator(\))operator(.)ident(tr)operator(()string<delimiter(')content(a-y)delimiter(')>operator(,)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))operator(.)ident(display)
+
+string<delimiter(')content(abcdefghijklmnopqrstuvwxy)delimiter(')>operator(.)ident(tr)operator(()string<delimiter(')content(a-y)delimiter(')>operator(,)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))operator(.)ident(display)
+
+string<delimiter(')content(,rekcah ybuR rehtona tsuJ)delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content(.{1})delimiter(/)>operator(\))operator(.)ident(reverse)operator(.)ident(display)
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(%)string<delimiter(%;)content( (^_^)delimiter(;)>operator(;)operator(;)
+
+ident(print)operator(()string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(%) string<delimiter(%-)content( ;)delimiter(-)>operator(\))
+
+string<delimiter(')content(r,keac hbyRur heotant usJ)delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content(.{1,2})delimiter(/)>operator(\))operator(.)ident(reverse)operator(.)ident(display)
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> operator(*) operator(()string<delimiter(')content(Just another Ruby hacker,)delimiter(')> operator(=)operator(~) regexp<delimiter(/)content(u)delimiter(/)>operator(\))
+
+ident(print) string<delimiter(')content(uJtsa onhtreR bu yahkcre,)delimiter(')>operator(.)ident(unpack)operator(()string<delimiter(')content(v12c)delimiter(')>operator(\))operator(.)ident(pack)operator(()string<delimiter(')content(n12c)delimiter(')>operator(\))
+
+ident(print) string<delimiter(')content(uJtsa onhtreR bu yahkcre,)delimiter(')>operator(.)ident(gsub)operator(()regexp<delimiter(/)content((.\)(.?\))delimiter(/)>operator(,) string<delimiter(')content(\\2)content(\\1)delimiter(')>operator(\))
+
+string<delimiter(')content(uJtsa onhtreR bu yahkcre,)delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content((.\)(.?\))delimiter(/)>operator(\))operator({)operator(|)ident(x)operator(,)ident(y)operator(|) ident(print) ident(y)operator(+)ident(x)operator(})
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator([)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(])
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator([)regexp<delimiter(/)content(.*)delimiter(/)>operator(])
+
+ident(print) operator([)operator(])operator(.)ident(push)operator(()string<delimiter(')content(Just )delimiter(')>operator(,) string<delimiter(')content(another )delimiter(')>operator(,) string<delimiter(')content(Ruby )delimiter(')>operator(,) string<delimiter(')content(hacker,)delimiter(')>operator(\))
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator([)integer(0)operator(..)integer(-1)operator(])
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(instance_eval)operator({)pre_constant(self)operator(})
+
+reserved(class) class(String)operator(;) reserved(def) method(+@)operator(()operator(\)) ident(print) pre_constant(self) reserved(end)operator(;) operator(+)string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end)
+
+ident(print) string<delimiter(')content(1J2u3s4t5 6a7n8o9t0h1e2r3 4R5u6b7y8 9h0a1c2k3e4r5,)delimiter(')>operator(.)ident(delete)operator(()string<delimiter(')content(0-9)delimiter(')>operator(\))
+
+string<delimiter(')content(Jaubsctd eafngohtihjekrl mRnuobpyq rhsatcukvewrx,y)delimiter(')>operator(.)ident(gsub)operator(()regexp<delimiter(/)content((.\).)delimiter(/)>operator(,) string<delimiter(')content(\\1)delimiter(')>operator(\))operator(.)ident(display)
+
+comment(#$><<{'Just another Ruby hacker,'=>''}.default=0)
+
+ident(print) ident(eval)operator(()string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(dump)operator(\))
+
+ident(print) string<delimiter(')content(Just another Ruby hacker)delimiter(')>operator(.)ident(concat)operator(()integer(?,)operator(\))
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(intern)operator(.)ident(to_s)
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(dump)operator([)integer(1)operator(..)integer(-2)operator(])
+
+string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(each_line) reserved(do) operator(|)ident(x)operator(|) ident(print) ident(x) reserved(end)
+
+operator([)string<delimiter(')content(JUST ANOTHER )delimiter(')>operator(,) string<delimiter(')content(RUBY HACKER,)delimiter(')>operator(])operator(.)ident(each) reserved(do) operator(|)ident(x)operator(|) ident(print) ident(x)operator(.)ident(capitalize) reserved(end)
+
+ident(printf) string<delimiter(')content(%.25s)delimiter(')>operator(,) string<delimiter(')content(Just another Ruby hacker,JARH)delimiter(')>
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(split)operator(()regexp<delimiter(/)content(Z)delimiter(/)>operator(\))operator([)integer(0)operator(])
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(split)operator(()regexp<delimiter(/)delimiter(/)>operator(\))
+
+ident(print) string<delimiter(%w.)content(J u s t )content(\\ )content(a n o t h e r )content(\\ )content(R u b y )content(\\ )content(h a c k e r ,)delimiter(.)>
+
+ident(print) constant(String)operator(()operator([)string<delimiter(%[)content(Just another Ruby hacker,)delimiter(])>operator(])operator(\))
+
+ident(print) ident(catch)operator(()symbol(:x)operator(\))operator({)ident(throw) symbol(:x)operator(,) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(})
+
+ident(r)operator(,)ident(w) operator(=) constant(IO)operator(::)ident(pipe)operator(;)ident(w)operator(.)ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(;)ident(w)operator(.)ident(close)operator(;)ident(print) ident(r)operator(.)ident(gets)
+
+ident(print) ident(sprintf)operator(()string<delimiter(')content(%s)delimiter(')>operator(,) ident(format)operator(()string<delimiter(')content(%s)delimiter(')> operator(%) string<delimiter(')content(%s)delimiter(')>operator(,) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))operator(\))
+
+ident(print) ident(eval)operator(()string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(inspect)operator(\))
+
+regexp<delimiter(/)inline<delimiter(#{)ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>delimiter(})>delimiter(/)>
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content(.)delimiter(/)>operator(\))operator(.)ident(collect)operator({)operator(|)ident(x)operator(|)ident(x)operator([)integer(0)operator(])operator(})operator(.)ident(pack)operator(()string<delimiter(')content(U*)delimiter(')>operator(\))
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content(.)delimiter(/)>operator(\))operator(.)ident(pack)operator(()string<delimiter(')content(a)delimiter(')>operator(*)integer(25)operator(\))
+
+string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(send) string<delimiter(')content(yalpsid)delimiter(')>operator(.)ident(reverse)operator(.)ident(intern)
+
+ident(print) string<delimiter(%w.)content(Just another Ruby Ruby Ruby hacker,)delimiter(.)>operator(.)ident(uniq)operator(.)ident(join)operator(()string<delimiter(')content( )delimiter(')>operator(\))
+
+operator({)operator(})operator(.)ident(fetch)operator(()symbol(:x)operator(\))operator({)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(})operator(.)ident(display)
+
+operator({)operator(})operator(.)ident(delete)operator(()symbol(:x)operator(\))operator({)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(})operator(.)ident(display)
+
+ident(print) operator([)symbol(:x)operator(])operator(.)ident(map)operator({)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(})
+
+operator({)string<delimiter(')content(Ruby hacker,)delimiter(')>operator(=)operator(>)string<delimiter(')content(Just another)delimiter(')>operator(})operator(.)ident(each)operator({)operator(|*)ident(x)operator(|)ident(print) ident(x)operator(.)ident(reverse)operator(.)ident(join)operator(()string<delimiter(')content( )delimiter(')>operator(\))operator(})
+
+ident(print) operator([)operator(])operator(.)ident(unshift)operator(()string<delimiter(')content(Ruby hacker,)delimiter(')>operator(\))operator(.)ident(unshift)operator(()string<delimiter(')content(Just another)delimiter(')>operator(\))operator(.)ident(join)operator(()string<delimiter(')content( )delimiter(')>operator(\))
+
+operator({)integer(3)operator(=)operator(>)string<delimiter(')content(Ruby )delimiter(')>operator(,)integer(2)operator(=)operator(>)string<delimiter(')content(another )delimiter(')>operator(,)integer(4)operator(=)operator(>)string<delimiter(')content(hacker,)delimiter(')>operator(,)integer(1)operator(=)operator(>)string<delimiter(')content(Just )delimiter(')>operator(})operator(.)ident(values_at)operator(()integer(1)operator(,)integer(2)operator(,)integer(3)operator(,)integer(4)operator(\))operator(.)ident(display)
+
+ident(print) operator([)operator([)integer(0)operator(,)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(])operator(,)integer(1)operator(])operator(.)ident(first)operator(.)ident(last)
+
+operator({)string<delimiter(')delimiter(')>operator(=)operator(>)string<delimiter(')content(JARH)delimiter(')>operator(})operator(.)ident(update)operator(()string<delimiter(')delimiter(')>operator(=)operator(>)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))operator(.)ident(display)
+
+operator({)symbol(:JARH) operator(=)operator(>) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(})operator(.)ident(values)operator(.)ident(display)
+
+operator({)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(=)operator(>)symbol(:JARH)operator(})operator(.)ident(invert)operator([)symbol(:JARH)operator(])operator(.)ident(display)
+
+ident(print) operator([)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(=)operator(>)symbol(:JARH)operator(])operator([)integer(0)operator(])operator(.)ident(keys)
+
+ident(print) operator([)operator({)operator(})operator(])operator(.)ident(slice)operator(()integer(0)operator(..)integer(0)operator(\))operator([)integer(0)operator(])operator(.)ident(store)operator(()string<delimiter(')delimiter(')>operator(,) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))
+
+ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(split)operator(.)ident(join)operator(()string<delimiter(')content( )delimiter(')>operator(\))
+
+reserved(begin) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end) reserved(while) pre_constant(false)
+
+reserved(begin) reserved(rescue) reserved(then) reserved(else) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end)
+
+ident(print) regexp<delimiter(/)delimiter(/)>operator(.)ident(match)operator(()string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))operator(.)ident(string)
+
+ident(callcc)operator({)ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(})
+
+constant(Thread)operator(.)ident(start)operator({)ident(print)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(})operator(.)ident(join)
+
+operator(()string<delimiter(')content(JARH)delimiter(')>operator(..)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))operator(.)ident(end)operator(.)ident(display)
+
+operator(()string<delimiter(')content(Just another)delimiter(')>operator(..)string<delimiter(')content(Ruby hacker,)delimiter(')>operator(\))operator(.)ident(to_s)operator(.)ident(tr_s)operator(()string<delimiter(')content(.)delimiter(')>operator(,) string<delimiter(')content( )delimiter(')>operator(\))operator(.)ident(display)
+
+reserved(unless) pre_constant(true) reserved(then) reserved(else) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end)operator(.)ident(display)
+
+ident(loop) reserved(do) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(;) reserved(break) reserved(end) 
+
+integer(1)operator(.)ident(times) reserved(do) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end)
+
+integer(0)operator(.)ident(upto)operator(()integer(0)operator(\)) reserved(do) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end)
+
+integer(0)operator(.)ident(downto)operator(()integer(0)operator(\)) reserved(do) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end)
+
+ident(print) constant(Struct)operator(.)ident(new)operator(()string<delimiter(')content(Just_another_Ruby_hacker)delimiter(')>operator(\))operator(.)ident(to_s)operator(.)ident(split)operator(()string<delimiter(')content(:)delimiter(')>operator(\))operator([)integer(2)operator(])operator(.)ident(tr)operator(()string<delimiter(')content(_)delimiter(')>operator(,)string<delimiter(')content( )delimiter(')>operator(\))operator(,)string<delimiter(')content(,)delimiter(')>
+
+reserved(def) operator(()ident(x)operator(=)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))operator(.)ident(foo)operator(()operator(\)) ident(print) pre_constant(self) reserved(end)operator(;) ident(x)operator(.)ident(foo)
+
+reserved(begin) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end) reserved(until) pre_constant(true)
+
+reserved(for) ident(i) reserved(in) string<delimiter(%w[)content(Just)content(\\ )content( another)content(\\ )content( Ruby)content(\\ )content( hacker,)delimiter(])> reserved(do) ident(print) ident(i) reserved(end)
+
+string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(each_byte) reserved(do) operator(|)ident(x)operator(|) ident(putc) ident(x) reserved(end)
+
+string<delimiter(')content(,rekcah ybuR rehtona tsuJ)delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content(.)delimiter(/)>operator(\))operator(.)ident(reverse_each) reserved(do) operator(|)ident(x)operator(|) ident(putc) ident(x) reserved(end)
+
+ident(print) constant(Regexp)operator(.)ident(quote)operator(()string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(\))operator(.)ident(delete)operator(()string<delimiter(')char(\\\\)delimiter(')>operator(\))
+
+ident(print) pre_constant(true) operator(?) string<delimiter(")content(Just another Ruby hacker,)delimiter(")> symbol(:-)constant(P)
+
+ident(print) pre_constant(true) operator(?) string<delimiter(")content(Just another Ruby hacker,)delimiter(")> symbol(:-)constant(D)
+
+ident(print) operator(*)operator(()string<delimiter(")content(Just another Ruby hacker,)delimiter(")>operator(..)string<delimiter(")content(Just another Ruby hacker,)delimiter(")>operator(\))operator(.)ident(to_a)
+
+ident(print) ident(eval)operator(()string<delimiter(%<)content(%%Just another Ruby hacker,%)delimiter(>)>operator(\))
+
+ident(print) reserved(case) reserved(when) pre_constant(true) reserved(then) string<delimiter(")content(Just another Ruby hacker,)delimiter(")> reserved(end)
+
+ident(print) string<delimiter(%w[)content(Just another Ruby hacker,)delimiter(])> operator(*) string<delimiter(")content( )delimiter(")>
+
+reserved(begin) reserved(end) reserved(if) ident(print) string<delimiter(")content(Just another Ruby hacker,)delimiter(")>
+
+ident(print) reserved(begin) string<delimiter(")content(Just another Ruby hacker,)delimiter(")> reserved(end)
+
+ident(print) string<delimiter(")content(Just another Ruby hacker,)delimiter(")>operator(.)ident(center)operator(()integer(10000)operator(\))operator(.)ident(strip)
+
+ident(print) string<delimiter(")content(Just )delimiter(")> reserved(or) ident(print) string<delimiter(")content(another )delimiter(")> reserved(or) ident(print) string<delimiter(")content(Ruby )delimiter(")> reserved(or) ident(print) string<delimiter(")content(hacker,)delimiter(")>
+
+ident(print) symbol<symbol(:)delimiter(")content(Just another Ruby hacker,)delimiter(")> 
+

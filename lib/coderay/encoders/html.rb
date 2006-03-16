@@ -128,7 +128,7 @@ module Encoders
 				when :info_long
 					classes.map { |kind| TOKEN_KIND_TO_INFO[kind] }.join('/')
 				when :debug
-					k.inspect
+					classes.inspect
 				end
 			" title=\"#{title}\""
 		end

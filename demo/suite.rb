@@ -22,7 +22,7 @@ class CodeRaySuite < TestCase
 	
 	def test_ALL
 		dir do
-			for input in Dir["demo_*.rb"] - ['demo_server.rb', 'demo_stream.rb']
+			for input in Dir["demo_*.rb"] - %w(demo_server.rb demo_stream.rb)
 				puts "[ testing #{input}... ]"
 				name = File.basename(input, ".rb")
 				output = name + '.out'

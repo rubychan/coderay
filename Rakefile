@@ -255,3 +255,16 @@ task :up_doc => :rdoc do
 	end
 	gn 'Documentation uploaded.'
 end
+
+RUBYFORGE_TRUNK_DIR = 'L:/rubyforge/trunk/coderay/trunk'
+desc 'Export trunk to Rubyforge working copy vis SVN'
+task :export do
+	system 'svn st'
+	puts 'Exporting changelog.'
+	system 'svn log > ../changelog.txt'
+	system "svn export #{`svn info`[/URL: (.*)/,1]}/ #{RUBYFORGE_TRUNK_DIR} --force"
+	cp '../changelog.txt', "#{RUBYFORGE_TRUNK_DIR}/.."
+	Dir.chdir RUBYFORGE_TRUNK_DIR do
+		system "svn st"
+	end
+end

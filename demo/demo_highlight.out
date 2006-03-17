@@ -130,9 +130,9 @@ ol.CodeRay li { white-space: pre; }
 </tt>puts <span style="background-color:#fff0f0;"><span style="color:#710;">&lt;&lt;HTML</span></span><span style="background-color:#fff0f0;"><span style="color:#D20;"><tt>
 </tt>&lt;html&gt;<tt>
 </tt>&lt;head&gt;<tt>
-</tt></span><span style=""><span style="color:black;">#{</span>output.stylesheet <span style="color:#038; font-weight:bold;">true</span><span style="color:black;">}</span></span><span style="color:#D20;"><tt>
+</tt></span><span style="background-color:#fff0f0;"><span style="color:#710;">#{</span>output.stylesheet <span style="color:#038; font-weight:bold;">true</span><span style="color:#710;">}</span></span><span style="color:#D20;"><tt>
 </tt>&lt;body&gt;<tt>
-</tt></span><span style=""><span style="color:black;">#{</span>output<span style="color:black;">}</span></span><span style="color:#D20;"><tt>
+</tt></span><span style="background-color:#fff0f0;"><span style="color:#710;">#{</span>output<span style="color:#710;">}</span></span><span style="color:#D20;"><tt>
 </tt>&lt;/body&gt;<tt>
 </tt>&lt;/html&gt;</span><span style="color:#710;"><tt>
 </tt>HTML</span></span><tt>

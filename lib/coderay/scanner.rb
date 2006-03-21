@@ -115,6 +115,16 @@ module CodeRay
 			# More mnemonic accessor name for the input string.
 			alias code string
 
+			def reset
+				super
+				reset_tokens
+			end
+
+			def string= str
+				super
+				reset_tokens
+			end
+
 			# Scans the code and returns all tokens in a Tokens object.
 			def tokenize options = {}
 				options = @options.merge({}) #options
@@ -157,6 +167,11 @@ module CodeRay
 				raise NotImplementedError,
 					"#{self.class}#scan_tokens not implemented."
 			end
+
+			def reset_tokens
+				@tokens.clear
+				@cached_tokens = nil
+			end				
 
 			# Scanner error with additional status information
 			def raise_inspect msg, tokens, ambit = 30

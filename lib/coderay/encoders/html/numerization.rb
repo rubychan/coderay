@@ -1,5 +1,5 @@
 module CodeRay
-	module Encoders
+module Encoders
 
 	class HTML
 		
@@ -9,13 +9,13 @@ module CodeRay
 				clone.numerize!(*args)
 			end
 
-			NUMERIZABLE_WRAPPINGS = {
-				:table => [:div, :page],
+=begin			NUMERIZABLE_WRAPPINGS = {
+				:table => [:div, :page, nil],
 				:inline => :all,
-				:list => [:div, :page]
+				:list => [:div, :page, nil]
 			}
 			NUMERIZABLE_WRAPPINGS.default = :all
-			
+=end			
 			def numerize! mode = :table, options = {}
 				return self unless mode
 
@@ -26,16 +26,17 @@ module CodeRay
 					raise ArgumentError, "Invalid value %p for :line_number_start; Integer expected." % start
 				end
 				
-				allowed_wrappings = NUMERIZABLE_WRAPPINGS[mode]
-				unless allowed_wrappings == :all or allowed_wrappings.include? options[:wrap]
-					raise ArgumentError, "Can't numerize, :wrap must be in %p, but is %p" % [NUMERIZABLE_WRAPPINGS, options[:wrap]]
-				end
+				#allowed_wrappings = NUMERIZABLE_WRAPPINGS[mode]
+				#unless allowed_wrappings == :all or allowed_wrappings.include? options[:wrap]
+				#	raise ArgumentError, "Can't numerize, :wrap must be in %p, but is %p" % [NUMERIZABLE_WRAPPINGS, options[:wrap]]
+				#end
 				
 				bold_every = options[:bold_every]
 				bolding = 
-					if bold_every == :no_bolding or bold_every == 0
+					if bold_every == false
 						proc { |line| line.to_s }
 					elsif bold_every.is_a? Integer
+						raise ArgumentError, ":bolding can't be 0." if bold_every == 0
 						proc do |line|
 							if line % bold_every == 0
 								"<strong>#{line}</strong>"  # every bold_every-th number in bold
@@ -44,11 +45,11 @@ module CodeRay
 							end
 						end
 					else
-						raise ArgumentError, "Invalid value %p for :bolding; :no_bolding or Integer expected." % bolding
+						raise ArgumentError, 'Invalid value %p for :bolding; false or Integer expected.' % bold_every
 					end
 				
 				line_count = count("\n")
-				line_count += 1 if self[-1] != ?\n
+				line_count += 1 unless self[-1] == ?\n
 
 				case mode				
 				when :inline
@@ -59,7 +60,6 @@ module CodeRay
 						line += 1
 						"<span class=\"no\">#{ line_number.rjust(max_width) }</span>  "
 					end
-					#wrap! :div
 					
 				when :table
 					# This is really ugly.
@@ -97,8 +97,8 @@ module CodeRay
 					@wrapped_in = :div
 					
 				else
-					raise ArgumentError, "Unknown value %p for mode: expected one of %p" %
-						[mode, NUMERIZABLE_WRAPPINGS.keys - [:all]]
+					raise ArgumentError, 'Unknown value %p for mode: expected one of %p' %
+						[mode, [:table, :list, :inline]]
 				end
 
 				self

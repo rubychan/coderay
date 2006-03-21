@@ -158,10 +158,10 @@ module CodeRay
 			DIV
 
 			TABLE = <<-`TABLE`
-<table class="CodeRay"> <tr>
+<table class="CodeRay"><tr>
 	<td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><%LINE_NUMBERS%></pre></td>
 	<td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><%CONTENT%></pre></td>
-</tr> </table>
+</tr></table>
 			TABLE
 			# title="double click to expand" 
 

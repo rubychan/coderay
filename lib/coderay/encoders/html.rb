@@ -36,7 +36,7 @@ module Encoders
 	# 
 	# You can also use Encoders::Div and Encoders::Span.
 	# 
-	# Default: :page
+	# Default: nil
 	# 
 	# === :line_numbers
 	# Include line numbers in :table, :inline, :list or nil (no line numbers)
@@ -73,7 +73,7 @@ module Encoders
 
 			:style => :cycnus,
 			
-			:wrap => :page,
+			:wrap => nil,
 
 			:line_numbers => nil,
 			:line_number_start => 1,
@@ -208,17 +208,14 @@ module Encoders
 
 			@out.extend Output
 			@out.css = @css
-			@out.numerize! options[:line_numbers], options # if options[:line_numbers]
-			@out.wrap! options[:wrap] # if options[:wrap]
-
-			#require 'pp'
-			#pp @css_style, @css_style.size
+			@out.numerize! options[:line_numbers], options
+			@out.wrap! options[:wrap]
 
 			super
 		end
 
 		def token text, type
-			if text.is_a? String
+			if text.is_a? ::String
 				if text =~ /#{HTML_ESCAPE_PATTERN}/o
 					text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
 				end

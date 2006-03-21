@@ -138,6 +138,7 @@ module CodeRay
 	require 'coderay/tokens'
 	require 'coderay/scanner'
 	require 'coderay/encoder'
+	require 'coderay/duo'
 	require 'coderay/style'
 
 
@@ -269,6 +270,14 @@ module CodeRay
 		#  #-> 2 out of 4 tokens have the kind :integer.
 		def encoder format, options = {}
 			Encoders[format].new options
+		end
+
+		# Finds the Scanner class for +lang+ and creates an instance, passing
+		# +options+ to it.
+		#
+		# See Scanner.new.
+		def scanner lang, options = {}
+			Scanners[lang].new '', options
 		end
 
 		# Extract the options for the scanner from the +options+ hash.

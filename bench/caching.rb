@@ -1,8 +1,8 @@
 require 'coderay'
 require 'benchmark'
 
-N = 10
-$code = 'foo(Foo[:foo, /foo/m]); ' * 500
+N = 1000
+$code = 'snoo Snoo ' * 10
 Benchmark.bm 15 do |bm|
 	bm.report 'loading' do
 		CodeRay::Scanners.load :ruby

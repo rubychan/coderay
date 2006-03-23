@@ -57,8 +57,10 @@ module Encoders
 					line = start
 					gsub!(/^/) do
 						line_number = bolding.call line
+						indent = ' ' * (max_width - line.to_s.size)
+						res = "<span class=\"no\">#{indent}#{line_number}</span> "
 						line += 1
-						"<span class=\"no\">#{ line_number.rjust(max_width) }</span>  "
+						res
 					end
 					
 				when :table

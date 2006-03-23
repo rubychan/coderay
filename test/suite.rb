@@ -36,7 +36,7 @@ class CodeRaySuite < TestCase
 		puts
 		puts "    >> Running #{self.class.name} <<"
 		puts
-		CodeRay::Scanners.load lang
+		scanner = CodeRay::Scanners[lang].new
 		tokenizer = CodeRay::Encoders[:debug].new
 		highlighter = CodeRay::Encoders[:html].new(
 			:tab_width => 2,
@@ -52,7 +52,8 @@ class CodeRaySuite < TestCase
 				output = name + '.out.' + tokenizer.file_extension
 				code = File.open(input, 'rb') { |f| break f.read }
 
-				tokens = CodeRay.scan code, lang
+				scanner.string = code
+				tokens = scanner.tokens
 				result = tokenizer.encode_tokens tokens
 				highlighted = highlighter.encode_tokens tokens
 				

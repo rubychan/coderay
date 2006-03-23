@@ -108,7 +108,7 @@ ol.CodeRay li { white-space: pre; }
 </head>
 <body style="background-color: white;">
 
-<table class="CodeRay"> <tr>
+<table class="CodeRay"><tr>
 	<td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
 </tt>2<tt>
 </tt>3<tt>
@@ -881,7 +881,7 @@ ol.CodeRay li { white-space: pre; }
 </tt><tt>
 </tt><span class="r">end</span><tt>
 </tt></pre></td>
-</tr> </table>
+</tr></table>
 
 </body>
 </html>

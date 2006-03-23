@@ -52,7 +52,7 @@ end
 
 desc 'Test CodeRay Demos'
 task :test_demos do
-	system 'ruby -w ./demo/suite.rb'
+	system 'ruby -wd ./demo/suite.rb'
 end
 
 desc 'Test CodeRay'

@@ -110,7 +110,7 @@ module CodeRay module Scanners
 						kind = :error
 						state = :initial
 					else
-						raise "else case \" reached; %p not handled." % peek(1), tokens
+						raise_inspect "else case \" reached; %p not handled." % peek(1), tokens
 					end
 					
 				elsif state == :include_expected
@@ -128,12 +128,12 @@ module CodeRay module Scanners
 					end
 					
 				else
-					raise 'else-case reached', tokens
+					raise_inspect 'else-case reached', tokens
 					
 				end
 				
 				match ||= matched
-				raise [match, kind], tokens if kind == :error
+				raise_inspect [match, kind], tokens if kind == :error
 
 				tokens << [match, kind]
 				

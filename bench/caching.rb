@@ -4,7 +4,7 @@ require 'benchmark'
 N = 1000
 $code = 'snoo Snoo ' * 10
 Benchmark.bm 15 do |bm|
-	bm.report 'loading' do
+	bm.report 'Loading parts' do
 		CodeRay::Scanners.load :ruby
 		CodeRay::Encoders.load :div
 	end
@@ -16,7 +16,7 @@ Benchmark.bm 15 do |bm|
 			CodeRay::Scanners::Ruby.new($code).tokenize
 		)
 	end end
-	bm.report 'Semi-cached' do
+	bm.report 'Encoder cached' do
 		encoder = CodeRay::Encoders::Div.new
 		N.times do
 			encoder.encode $code, :ruby
@@ -30,7 +30,7 @@ Benchmark.bm 15 do |bm|
 			encoder.encode_tokens scanner.tokens
 		end
 	end
-	bm.report 'Duo cached' do
+	bm.report 'CodeRay::Duo' do
 		duo = CodeRay::Duo[:ruby, :div]
 		N.times do
 			duo.encode $code

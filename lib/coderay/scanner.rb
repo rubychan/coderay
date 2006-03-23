@@ -91,14 +91,15 @@ module CodeRay
 			# TokenStream with the +block+ as callback to handle the tokens.
 			#
 			# Else, a Tokens object is used.
-			def initialize code, options = {}, &block
+			def initialize code='', options = {}, &block
 				@options = self.class::DEFAULT_OPTIONS.merge options
 				raise "I am only the basic Scanner class. I can't scan "\
 					"anything. :( Use my subclasses." if self.class == Scanner
 
 				# I love this hack. It seems to silence
 				# all dos/unix/mac newline problems.
-				super code.gsub(/\r\n?/, "\n")
+				code = code.gsub(/\r\n?/, "\n") if code.index ?\r
+				super code
 
 				if @options[:stream]
 					warn "warning in CodeRay::Scanner.new: :stream is set, "\
@@ -117,12 +118,13 @@ module CodeRay
 
 			def reset
 				super
-				reset_tokens
+				reset_instance
 			end
 
-			def string= str
-				super
-				reset_tokens
+			def string= code
+				code = code.gsub(/\r\n?/, "\n") if code.index ?\r
+				super code
+				reset_instance
 			end
 
 			# Scans the code and returns all tokens in a Tokens object.
@@ -168,10 +170,10 @@ module CodeRay
 					"#{self.class}#scan_tokens not implemented."
 			end
 
-			def reset_tokens
+			def reset_instance
 				@tokens.clear
 				@cached_tokens = nil
-			end				
+			end
 
 			# Scanner error with additional status information
 			def raise_inspect msg, tokens, ambit = 30

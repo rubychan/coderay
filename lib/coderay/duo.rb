@@ -1,5 +1,10 @@
 module CodeRay
 	
+	# = Duo
+	# 
+	# $Id: scanner.rb 123 2006-03-21 14:46:34Z murphy $
+	# 
+	# TODO: Doc.
 	class Duo
 		
 		attr_accessor :scanner, :encoder

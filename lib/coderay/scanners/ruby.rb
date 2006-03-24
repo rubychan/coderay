@@ -188,10 +188,10 @@ module CodeRay module Scanners
 						# IDENTS #
 						if match = scan(/#{METHOD_NAME}/o)
 							if last_token_dot
-								type = if match[/^[A-Z]/] then :constant else :ident end
+								type = if match[/^[A-Z]/] and not match?(/\(/) then :constant else :ident end
 							else
 								type = IDENT_KIND[match]
-								if type == :ident and match[/^[A-Z]/] and not match[/[!?]$/]
+								if type == :ident and match[/^[A-Z]/] and not match[/[!?]$/] and not match?(/\(/)
 									type = :constant
 								elsif type == :reserved
 									state = DEF_NEW_STATE[match]

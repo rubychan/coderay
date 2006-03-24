@@ -480,7 +480,7 @@ ident(p) ident(x)
 
 
 
-ident(p) constant(Array)operator(()string<delimiter(")content(foo)char(\\n)content(bar)delimiter(")>operator(\))
+ident(p) ident(Array)operator(()string<delimiter(")content(foo)char(\\n)content(bar)delimiter(")>operator(\))
 
 
 

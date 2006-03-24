@@ -263,7 +263,7 @@ ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>o
 
 ident(print) string<delimiter(%w.)content(J u s t )content(\\ )content(a n o t h e r )content(\\ )content(R u b y )content(\\ )content(h a c k e r ,)delimiter(.)>
 
-ident(print) constant(String)operator(()operator([)string<delimiter(%[)content(Just another Ruby hacker,)delimiter(])>operator(])operator(\))
+ident(print) ident(String)operator(()operator([)string<delimiter(%[)content(Just another Ruby hacker,)delimiter(])>operator(])operator(\))
 
 ident(print) ident(catch)operator(()symbol(:x)operator(\))operator({)ident(throw) symbol(:x)operator(,) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(})
 

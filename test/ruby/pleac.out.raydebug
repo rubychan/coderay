@@ -317,15 +317,15 @@ comment(# @@INCLUDE@@ include/ruby/psgrep.rb)
 
 comment(# @@PLEAC@@_2.1)
 comment(# Matz tells that you can use Integer(\) for strict checked conversion.)
-constant(Integer)operator(()string<delimiter(")content(abc)delimiter(")>operator(\))
+ident(Integer)operator(()string<delimiter(")content(abc)delimiter(")>operator(\))
 comment(#=> `Integer': invalid value for Integer: "abc" (ArgumentError\))
-constant(Integer)operator(()string<delimiter(")content(567)delimiter(")>operator(\))
+ident(Integer)operator(()string<delimiter(")content(567)delimiter(")>operator(\))
 comment(#=> 567)
 
 comment(# You may use Float(\) for floating point stuff)
-constant(Integer)operator(()string<delimiter(")content(56.7)delimiter(")>operator(\))
+ident(Integer)operator(()string<delimiter(")content(56.7)delimiter(")>operator(\))
 comment(#=> `Integer': invalid value for Integer: "56.7" (ArgumentError\))
-constant(Float)operator(()string<delimiter(")content(56.7)delimiter(")>operator(\))
+ident(Float)operator(()string<delimiter(")content(56.7)delimiter(")>operator(\))
 comment(#=> 56.7)
 
 comment(# You may also use a regexp for that)
@@ -598,8 +598,8 @@ comment(# @@PLEAC@@_2.15)
 ident(require) string<delimiter(')content(complex.rb)delimiter(')>
 ident(require) string<delimiter(')content(rational.rb)delimiter(')>
 
-ident(a) operator(=) constant(Complex)operator(()integer(3)operator(,) integer(5)operator(\))              comment(# 3 + 5i)
-ident(b) operator(=) constant(Complex)operator(()integer(2)operator(,) integer(-2)operator(\))             comment(# 2 - 2i)
+ident(a) operator(=) ident(Complex)operator(()integer(3)operator(,) integer(5)operator(\))              comment(# 3 + 5i)
+ident(b) operator(=) ident(Complex)operator(()integer(2)operator(,) integer(-2)operator(\))             comment(# 2 - 2i)
 ident(puts) string<delimiter(")content(c = )inline<delimiter(#{)ident(a)operator(*)ident(b)delimiter(})>delimiter(")>
 
 ident(c) operator(=) ident(a) operator(*) ident(b)
@@ -799,7 +799,7 @@ ident(number_of_times)operator(.)ident(times) operator({)
     ident(total_time) operator(+=) ident(time)
 operator(})
 ident(printf) string<delimiter(")content(On average, sorting %d random numbers takes %.5f seconds)char(\\n)delimiter(")>operator(,)
-    ident(size)operator(,) operator(()ident(total_time)operator(/)constant(Float)operator(()ident(number_of_times)operator(\))operator(\))
+    ident(size)operator(,) operator(()ident(total_time)operator(/)ident(Float)operator(()ident(number_of_times)operator(\))operator(\))
 
 
 comment(# @@PLEAC@@_3.10)
@@ -5505,7 +5505,7 @@ ident(values) operator(=) operator(()integer(1)operator(..)integer(5)operator(\)
 reserved(for) ident(i) reserved(in) ident(values)
     ident(max) operator(=) ident(i) reserved(if) ident(max) operator(<) ident(i)
 reserved(end)
-ident(ratio) operator(=) constant(Float)operator(()ident(ws_col)integer(-12)operator(\))operator(/)ident(max)          comment(# chars per unit)
+ident(ratio) operator(=) ident(Float)operator(()ident(ws_col)integer(-12)operator(\))operator(/)ident(max)          comment(# chars per unit)
 reserved(for) ident(i) reserved(in) ident(values)
     ident(printf) string<delimiter(")content(%8.1f %s)char(\\n)delimiter(")>operator(,) ident(i)operator(,) string<delimiter(")content(*)delimiter(")> operator(*) operator(()ident(ratio)operator(*)ident(i)operator(\))
 reserved(end)

@@ -1,0 +1,169 @@
+preprocessor(<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">)
+tag(<html) attribute_name(xmlns)operator(=)string<delimiter(")content(http://www.w3.org/1999/xhtml)delimiter(")> attribute_name(xml:lang)operator(=)string<delimiter(")content(de)delimiter(")> attribute_name(lang)operator(=)string<delimiter(")content(de)delimiter(")>tag(>)
+tag(<head>)tag(<title>)plain(Faszination Tolkien - Herr der Ringe )char(&amp;) plain(Co.)tag(</title>)
+tag(<meta) attribute_name(name)operator(=)string<delimiter(")content(description)delimiter(")> attribute_name(content)operator(=)string<delimiter(")content(J.R.R. Tolkien und seine Werke (Schwerpunkt: Der Herr der Ringe\). Anf)char(&auml;)content(ngerfreundlich gestaltet. Gro)char(&szlig;)content(e kommentierte Galerie, Downloads, Forum, Postkarten, etc.)delimiter(")> tag(/>)
+tag(<meta) attribute_name(name)operator(=)string<delimiter(")content(Author)delimiter(")> attribute_name(content)operator(=)string<delimiter(")content(Vladimir Simovic aka Perun)delimiter(")> tag(/>)
+tag(<meta) attribute_name(name)operator(=)string<delimiter(")content(Keywords)delimiter(")> attribute_name(content)operator(=)string<delimiter(")content(J.R.R. Tolkien, Tolkien, Herr der Ringe, Der Herr der Ringe, HdR, hdr, herr ringe, Perun, Vladimir Simovic, Herr der Ringe Motive, Herr der Ringe Postkarten, kleiner hobbit, ringcon, ring*con)delimiter(")> tag(/>)
+tag(<meta) attribute_name(name)operator(=)string<delimiter(")content(page-topic)delimiter(")> attribute_name(content)operator(=)string<delimiter(")content(J.R.R. Tolkien und seine Werke. Speziell Der Herr der Ringe)delimiter(")> tag(/>)
+tag(<meta) attribute_name(http-equiv)operator(=)string<delimiter(")content(content-type)delimiter(")> attribute_name(content)operator(=)string<delimiter(")content(text/html; charset=iso-8859-1)delimiter(")> tag(/>)
+tag(<meta) attribute_name(name)operator(=)string<delimiter(")content(language)delimiter(")> attribute_name(content)operator(=)string<delimiter(")content(de)delimiter(")> tag(/>)
+tag(<meta) attribute_name(name)operator(=)string<delimiter(")content(robots)delimiter(")> attribute_name(content)operator(=)string<delimiter(")content(index,follow)delimiter(")> tag(/>)
+tag(<meta) attribute_name(name)operator(=)string<delimiter(")content(revisit-after)delimiter(")> attribute_name(content)operator(=)string<delimiter(")content(7 days)delimiter(")> tag(/>)
+tag(<meta) attribute_name(http-equiv)operator(=)string<delimiter(")content(imagetoolbar)delimiter(")> attribute_name(content)operator(=)string<delimiter(")content(no)delimiter(")> tag(/>)
+tag(<style) attribute_name(type)operator(=)string<delimiter(")content(text/css)delimiter(")>tag(>)
+comment(<!--
+@import url("/css/perun.css"\);
+-->)
+tag(</style>)
+tag(<link) attribute_name(rel)operator(=)string<delimiter(")content(shortcut icon)delimiter(")> attribute_name(href)operator(=)string<delimiter(")content(http://www.faszination-tolkien.de/favicon.ico)delimiter(")> tag(/>)
+tag(<link) attribute_name(rel)operator(=)string<delimiter(")content(home)delimiter(")> attribute_name(href)operator(=)string<delimiter(")content(/)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Startseite)delimiter(")> tag(/>)
+tag(<link) attribute_name(rel)operator(=)string<delimiter(")content(author)delimiter(")> attribute_name(href)operator(=)string<delimiter(")content(mailto:perun@faszination-tolkien.de,faszination-tolkien@web.de)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Mail)delimiter(")> tag(/>)
+tag(<link) attribute_name(rel)operator(=)string<delimiter(")content(copyright)delimiter(")> attribute_name(href)operator(=)string<delimiter(")content(/kontakte/impressum)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Impressum)delimiter(")> tag(/>)
+tag(<link) attribute_name(rel)operator(=)string<delimiter(")content(index)delimiter(")> attribute_name(href)operator(=)string<delimiter(")content(/hilfe/sitemap)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Inhaltsverzeichnis)delimiter(")> tag(/>)
+tag(<link) attribute_name(rel)operator(=)string<delimiter(")content(help)delimiter(")> attribute_name(href)operator(=)string<delimiter(")content(/hilfe/faq)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(FAQ)delimiter(")> tag(/>)
+tag(<link) attribute_name(rel)operator(=)string<delimiter(")content(search)delimiter(")> attribute_name(href)operator(=)string<delimiter(")content(/hilfe/suchen)delimiter(")> tag(/>)
+tag(<link) attribute_name(rel)operator(=)string<delimiter(")content(download)delimiter(")> attribute_name(href)operator(=)string<delimiter(")content(/goodies/downloads)delimiter(")> tag(/>)
+tag(<link) attribute_name(rel)operator(=)string<delimiter(")content(bookmark)delimiter(")> attribute_name(href)operator(=)string<delimiter(")content(http://www.faszination-tolkien.de)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Faszination Tolkien)delimiter(")> tag(/>)
+tag(<script) attribute_name(type)operator(=)string<delimiter(")content(text/javascript)delimiter(")>tag(>)
+comment(<!--
+if(top.frames.length > 0\)
+top.location.href=self.location;
+//-->)
+tag(</script>)
+tag(</head>)
+tag(<body>)
+tag(<div) attribute_name(id)operator(=)string<delimiter(")content(kopf)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Anmerkungen zu den Bildern und )char(&copy;) content(in dem Styleswitch-Bereich)delimiter(")>tag(>)
+tag(</div>)
+tag(<div) attribute_name(id)operator(=)string<delimiter(")content(inhalt)delimiter(")>tag(>)
+tag(<div) attribute_name(style)operator(=)string<delimiter(")content(font:11px verdana, sans-serif; margin:3px 0 0 0;)delimiter(")>tag(>)
+tag(<script) attribute_name(type)operator(=)string<delimiter(")content(text/javascript)delimiter(")>tag(>)
+comment(<!-- start js_paths.js???
+var path = "";
+var href = document.location.href;
+var s = href.split("/"\);
+for (var i=2;i<(s.length-1\);i++\) {
+path+="<a href=\\""+href.substring(0,href.indexOf(s[i]\)+s[i].length\)+"/\\">"+s[i]+"</a> / ";
+}
+i=s.length-1;
+path+="<a href=\\""+href.substring(0,href.indexOf(s[i]\)+s[i].length\)+"\\">"+s[i]+"</a>";
+var url = /* window.location.protocol + "//" + */ path;
+document.writeln(url\);
+// ende -->)
+tag(</script>)
+
+tag(</div>)
+tag(<h1>)plain(Faszination Tolkien - Herr der Ringe )char(&amp;) plain(Co.)tag(</h1>)
+
+tag(<p>)plain(Diese Seite besch)char(&auml;)plain(ftigt sich mit den )char(&quot;)plain(Hauptwerken)char(&quot;) plain(von J. R. R. Tolkien. Im Mittelpunkt steht )tag(<strong>)plain(Der Herr der Ringe)tag(</strong>)plain(, aber nach und nach werden immer mehr Details aus )tag(<strong>)plain(Der kleine Hobbit)tag(</strong>) plain(bzw. )tag(<strong>)plain(Der Hobbit)tag(</strong>) plain(und )tag(<strong>)plain(Silmarillion)tag(</strong>) plain(einflie)char(&szlig;)plain(en.)tag(</p>)
+tag(<p>)plain(Auf der Seite gibt es, neben vielen selbstverfassten Infos, eine gro)char(&szlig;)plain(e )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/galerie)delimiter(")>tag(>)plain(Galerie)tag(</a>) plain(mit 'Herr der Ringe' Bildern (273 Bilder\), eine )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(goodies/downloads)delimiter(")>tag(>)plain(Download)tag(</a>) plain(Sektion mit 13 )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(goodies/downloads/winamp-skins)delimiter(")>tag(>)plain(Winampskins)tag(</a>) plain(und einen )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(http://www.guweb.com/cgi-bin/postcard?id=PERUN)delimiter(")>tag(>)plain(eCard Versand)tag(</a>) plain((digitale Postkarten\) mit 'Herr der Ringe' Motiven.)tag(</p>)
+tag(<p>)tag(<b>)plain(Anmerkung:)tag(</b>) plain(die Unterpunkte in der Navigation, einige Links im Text und viele Bilder haben Informationen (Titel\), daher lohnt es sich den Cursor, )char(&uuml;)plain(ber den Link ruhen zu lassen. Einige h)char(&auml;)plain(ufige Fragen wurden schon in dem Bereich )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/hilfe/faq)delimiter(")>tag(>)plain(FAQ)tag(</a>) plain(beantwortet.)tag(</p>)
+
+tag(<p>)plain(Immer auf dem laufenden bleiben? Mit )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(goodies/newsletter)delimiter(")>tag(>)plain(Newsletter)tag(</a>)plain(, )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(javascript:sidebar.addPanel('Faszination-Tolkien','http://www.faszination-tolkien.de/goodies/sidebar/index.php',''\))delimiter(")>tag(>)plain(Sidebar)tag(</a>) plain((Mozilla und Netscape ab 6.x\) oder mit )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(goodies/rss/index.xml)delimiter(")>tag(>)plain(RSS)tag(</a>)plain(.)tag(</p>)
+
+tag(<p>)tag(<strong>)tag(<a) attribute_name(href)operator(=)string<delimiter(")content(goodies/styleswitcher)delimiter(")>tag(>)plain(Styleswitcher)tag(</a>)tag(</strong>) plain(- )char(&auml;)plain(ndere das Aussehen dieser Seite.)tag(</p>)
+
+tag(<p>)tag(<strong>)plain(Diese Website wird aus Zeitgründen nicht mehr aktualisiert.)tag(</strong>)tag(</p>)
+
+
+tag(<div) attribute_name(style)operator(=)string<delimiter(")content(text-align:center; padding:5px;)delimiter(")>tag(>)
+comment(<!-- Anfang Banner -->)
+
+tag(<img) attribute_name(src)operator(=)string<delimiter(")content(http://www.die-gefaehrten.net/banner.php?banner=minitolkien)char(&amp;)content(id=68)delimiter(")> attribute_name(width)operator(=)string<delimiter(")content(100)delimiter(")> attribute_name(height)operator(=)string<delimiter(")content(50)delimiter(")> attribute_name(alt)operator(=)string<delimiter(")content(Webring Banner (minitolkien\))delimiter(")> attribute_name(border)operator(=)string<delimiter(")content(0)delimiter(")> attribute_name(usemap)operator(=)string<delimiter(")content(#gef_banner_minitolkien)delimiter(")> tag(/>)
+tag(<map) attribute_name(name)operator(=)string<delimiter(")content(gef_banner_minitolkien)delimiter(")> attribute_name(id)operator(=)string<delimiter(")content(gef_banner_minitolkien)delimiter(")> attribute_name(style)operator(=)string<delimiter(")content(display:inline;)delimiter(")>tag(>)
+    tag(<area) attribute_name(shape)operator(=)string<delimiter(")content(rect)delimiter(")> attribute_name(href)operator(=)string<delimiter(")content(http://www.die-gefaehrten.net/jump.php?action=next)char(&amp;)content(id=68)delimiter(")> attribute_name(alt)operator(=)string<delimiter(")content(N)char(&auml;)content(chste Seite)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(N)char(&auml;)content(chste Seite)delimiter(")> attribute_name(coords)operator(=)string<delimiter(")content(70,30,100,50)delimiter(")> tag(/>)
+    tag(<area) attribute_name(shape)operator(=)string<delimiter(")content(rect)delimiter(")> attribute_name(href)operator(=)string<delimiter(")content(http://www.die-gefaehrten.net/jump.php?action=prev)char(&amp;)content(id=68)delimiter(")> attribute_name(alt)operator(=)string<delimiter(")content(Vorherige Seite)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Vorherige Seite)delimiter(")> attribute_name(coords)operator(=)string<delimiter(")content(0,30,30,50)delimiter(")> tag(/>)
+    tag(<area) attribute_name(shape)operator(=)string<delimiter(")content(rect)delimiter(")> attribute_name(href)operator(=)string<delimiter(")content(http://www.die-gefaehrten.net/jump.php?action=home)char(&amp;)content(id=68)delimiter(")> attribute_name(alt)operator(=)string<delimiter(")content(Die Gef)char(&auml;)content(hrten Homepage)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Die Gef)char(&auml;)content(hrten Homepage)delimiter(")> attribute_name(coords)operator(=)string<delimiter(")content(0,0,100,25)delimiter(")> tag(/>)
+tag(</map>)
+
+comment(<!--<img src="links/fremde-banner/minitolkien.jpg" width="100" height="50" alt="Webring &quot;Die Gef&auml;hrten&quot;" ismap="ismap" usemap="#minitolkien" />
+<map name="minitolkien" id="minitolkien" style="display:inline;"><area shape="rect" alt="N&auml;chste Seite" href="http://www.die-gefaehrten.net/jump.php?action=next&amp;id=Vladimir" coords="73,29,96,46" /><area shape="rect" alt="Vorherige Seite" href="http://www.die-gefaehrten.net/jump.php?action=prev&amp;id=Vladimir" coords="4,30,26,46" /><area shape="rect" alt="Die Gef&auml;hrten" href="http://www.die-gefaehrten.net/jump.php?action=home&amp;id=Vladimir" coords="5,5,95,23" /></map>-->)
+comment(<!-- Ende Banner -->)
+
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(http://pl15994.macbay.de/mozilla/bestviewedwithmozilla.htm)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Best viewed with Mozilla or any other Browser)delimiter(")>tag(>)tag(<img) attribute_name(src)operator(=)string<delimiter(")content(links/fremde-banner/bestviewedwithmozill.gif)delimiter(")> attribute_name(width)operator(=)string<delimiter(")content(169)delimiter(")> attribute_name(height)operator(=)string<delimiter(")content(29)delimiter(")> attribute_name(alt)operator(=)string<delimiter(")content(Best viewed with Mozilla or any other Browser)delimiter(")> tag(/>)tag(</a>)
+
+comment(<!-- Anfang des Topsites Codes der Listinus-Toppages -->)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(http://click.listinus.de/topsite.php?id=34908)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Top 50 Herr der Ringe - stimme f)char(&uuml;)content(r diese Seite ab.)delimiter(")>tag(>)tag(<img) attribute_name(src)operator(=)string<delimiter(")content(http://icon.listinus.de/topicon.php?id=34908)delimiter(")> attribute_name(alt)operator(=)string<delimiter(")content(Top 50 Herr der Ringe - stimme f)char(&uuml;)content(r diese Seite ab.)delimiter(")> tag(/>)tag(</a>)
+comment(<!-- Ende des Topsites Codes der Listinus-Toppages -->)
+tag(</div>)
+
+tag(<div) attribute_name(style)operator(=)string<delimiter(")content(text-align:center; padding:5px;)delimiter(")>tag(>)
+tag(<form) attribute_name(method)operator(=)string<delimiter(")content(post)delimiter(")> attribute_name(action)operator(=)string<delimiter(")content(http://www.drachenritter.de/webring.php3)delimiter(")> attribute_name(style)operator(=)string<delimiter(")content(display:inline;)delimiter(")>tag(>)
+tag(<input) attribute_name(type)operator(=)string<delimiter(")content(hidden)delimiter(")> attribute_name(name)operator(=)string<delimiter(")content(id)delimiter(")> attribute_name(value)operator(=)string<delimiter(")content(585)delimiter(")> tag(/>)
+tag(<input) attribute_name(type)operator(=)string<delimiter(")content(hidden)delimiter(")> attribute_name(name)operator(=)string<delimiter(")content(mini)delimiter(")> attribute_name(value)operator(=)string<delimiter(")content(on)delimiter(")> tag(/>)
+tag(<input) attribute_name(type)operator(=)string<delimiter(")content(image)delimiter(")> attribute_name(src)operator(=)string<delimiter(")content(/links/fremde-banner/minidrachenritter.jpg)delimiter(")> attribute_name(name)operator(=)string<delimiter(")content(click)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Webring der Drachenritter)delimiter(")> tag(/>)
+tag(</form>)
+
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(http://www.schatzwaechter.de)delimiter(")>tag(>)tag(<img) attribute_name(src)operator(=)string<delimiter(")content(links/fremde-banner/faszinationtolkien.gif)delimiter(")> attribute_name(width)operator(=)string<delimiter(")content(128)delimiter(")> attribute_name(height)operator(=)string<delimiter(")content(56)delimiter(")> attribute_name(alt)operator(=)string<delimiter(")content(Schatzw)char(&auml;)content(chter)delimiter(")> tag(/>)tag(</a>)
+tag(</div>)
+
+tag(<p>)
+plain(Faszination Tolkien ist zudem noch bei folgenden gro)char(&szlig;)plain(en )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/die-seite/awards#wichtige-linklisten)delimiter(")>tag(>)plain(Linklisten)tag(</a>) plain(aufgenommen.
+)tag(</p>)
+
+tag(<p) attribute_name(class)operator(=)string<delimiter(")content(fussanker)delimiter(")>tag(>)tag(<a) attribute_name(href)operator(=)string<delimiter(")content(#)delimiter(")>tag(>)plain(nach oben)tag(</a>)tag(</p>)
+tag(</div>)
+
+tag(<div) attribute_name(id)operator(=)string<delimiter(")content(linkenavi)delimiter(")>tag(>)comment(<!--linke seite-->)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/kurzfassungen/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Kurzfassungen )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Tolkiens Welt:)tag(</b>) plain(Die Zusammenfassung von Herr der Ringe und Der Hobbit. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/ringe/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Die Ringe )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Tolkiens Welt:)tag(</b>) plain(Die Ringe der Macht. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/geschichte/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Die Geschichte )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Tolkiens Welt:)tag(</b>) plain(Die Geschichte von Arda bzw. Mittelerde. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/landeskunde/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Landeskunde )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Tolkiens Welt:)tag(</b>) plain(Geopolitische Informationen )char(&uuml;)plain(ber Mittelerde. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/personen/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Personen )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Tolkiens Welt:)tag(</b>) plain(Wichtige Personen. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/volk/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")> attribute_name(style)operator(=)string<delimiter(")content(margin-bottom:10px;)delimiter(")>tag(>)plain(V)char(&ouml;)plain(lker/Wesen )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Tolkiens Welt:)tag(</b>) plain(Verschiedene V)char(&ouml;)plain(lker und Wesen von Arda bzw. Mittelerde. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+comment(<!---->)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/jrr-tolkien/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(J. R. R. Tolkien )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Person Tolkien:)tag(</b>) plain(Eine kurze Biographie )char(&uuml;)plain(ber Tolkien; B)char(&uuml;)plain(cherliste mit Werken von Tolkien und Sekund)char(&auml;)plain(rliteratur. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/galerie/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Galerie )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Bilder)tag(</b>)  plain(von K)char(&uuml;)plain(nstlern, die von Tolkiens Werken Inspiriert wurden. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+comment(<!---->)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/ueberlegungen/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")> attribute_name(style)operator(=)string<delimiter(")content(margin-bottom:10px;)delimiter(")>tag(>)char(&Uuml;)plain(berlegungen )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Spekulation)tag(</b>)plain(, Gedanken zu diversen Ereignissen in Mittelerde. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/filme/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>) plain(Film/e )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Tolkien und Medien:)tag(</b>) plain(Infos zu den beiden Verfilmungen von Herr der Ringe. )char(&laquo;)tag(</span>)
+tag(<br) tag(/>)tag(</a>)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/spiele/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Spiele )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Tolkien und Medien:)tag(</b>) plain(Versch. Spiele rund um Tolkiens Werke: Brett- und Kartenspiele, PC Spiele, Online Spiele etc. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/fans/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Fans )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Fans und Ihre Aktivit)char(&auml;)plain(ten:)tag(</b>) plain(Interviews, )char(&quot;)plain(Dein erstes Mal)char(&quot;) plain(etc. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+tag(</div>)comment(<!--ende linker seite-->)
+
+tag(<div) attribute_name(id)operator(=)string<delimiter(")content(rechtenavi)delimiter(")>tag(>)comment(<!--rechte seite-->)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/news/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(News )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide2)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Neuigkeiten:)tag(</b>) char(&uuml;)plain(ber Tolkiens Werke, den Film, )char(&uuml;)plain(ber die Seite etc. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/termine/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")> attribute_name(style)operator(=)string<delimiter(")content(margin-bottom:10px;)delimiter(")>tag(>)plain(Termine )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide2)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Anstehende Veranstaltungen)tag(</b>) plain(zum Thema J. R. R. Tolkien und seine Werke. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+comment(<!---->)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/kontakte)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Kontakte )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide2)delimiter(")>tag(>)char(&raquo;) plain(Impressum, Kontaktformular, Presseinfos )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/interaktiv)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Interaktiv )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide2)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Forum, G)char(&auml;)plain(stebuch,)tag(</b>) plain(Umfragen, Chat. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/hilfe)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Hilfe )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide2)delimiter(")>tag(>)char(&raquo;) plain(Suche, FAQ, Sitemap. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/goodies)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Goodies )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide2)delimiter(")>tag(>)char(&raquo;) plain(Newsletter, Sidebar, Styleswitcher, eCards, Winampskins, Downloads, Weiterempfehlen. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/die-seite)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")> attribute_name(style)operator(=)string<delimiter(")content(margin-bottom:10px;)delimiter(")>tag(>)plain(Die Seite )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide2)delimiter(")>tag(>)char(&raquo;) plain(Ruhmeshalle bzw. Awards, Warum? etc. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+
+comment(<!---->)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/links/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Links )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide2)delimiter(")>tag(>)char(&raquo;) plain(Links zu anderen Tolkien Seiten und zu Webringen. Banner zum Bannertausch. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/empfehlungen/)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Empfehlungen )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide2)delimiter(")>tag(>)char(&raquo;) tag(<b>)plain(Meine Empfehlungen:)tag(</b>) plain(B)char(&uuml;)plain(cher, Spiele etc. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/wettbewerbe)delimiter(")> attribute_name(class)operator(=)string<delimiter(")content(navilinks)delimiter(")>tag(>)plain(Wettbewerbe )tag(<span) attribute_name(class)operator(=)string<delimiter(")content(hide2)delimiter(")>tag(>)char(&raquo;) plain(Wettbewerbe und Gewinnspiele. )char(&laquo;)tag(</span>)tag(<br) tag(/>)tag(</a>)
+tag(</div>)comment(<!--ende rechter seite-->)
+
+tag(<div) attribute_name(id)operator(=)string<delimiter(")content(fuss)delimiter(")>tag(>)
+tag(<div) attribute_name(class)operator(=)string<delimiter(")content(center)delimiter(")>tag(>)
+plain(G)char(&uuml;)plain(ltiges )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(http://validator.w3.org/check/referer)delimiter(")>
+
+ attribute_name(title)operator(=)string<delimiter(")content(Diese Seite h)char(&auml;)content(lt sich an die Webstandards)delimiter(")>tag(>)plain(XHTML 1.0)tag(</a>) plain(und g)char(&uuml;)plain(ltiges )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(http://jigsaw.w3.org/css-validator/validator?uri=http://www.faszination-tolkien.de/css/perun.css)delimiter(")>
+
+ attribute_name(title)operator(=)string<delimiter(")content(Diese Seite h)char(&auml;)content(lt sich an die Webstandards)delimiter(")>tag(>)plain(CSS)tag(</a>)
+tag(<br) tag(/>)
+plain(2002-2006 by )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/kontakte/impressum/)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Kontakt mit dem Webmaster)delimiter(")>tag(>)plain(Perun)tag(</a>) plain(- Letzte )char(&Auml;)plain(nderung: 04.03.2006 01:56:23)tag(<br) tag(/>)
+tag(<a) attribute_name(href)operator(=)string<delimiter(")content(http://www.faszination-tolkien.de)delimiter(")>tag(>)plain(www.faszination-tolkien.de)tag(</a>) plain(|| )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(http://www.herr-der-ringe.ws)delimiter(")>tag(>)plain(www.herr-der-ringe.ws)tag(</a>) plain(|| )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(http://www.perun.net)delimiter(")>tag(>)plain(www.perun.net)tag(</a>)
+tag(<br) tag(/>)
+tag(<span) attribute_name(class)operator(=)string<delimiter(")content(sehrklein)delimiter(")>tag(>)plain(Webdesign by: )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(http://www.vlad-design.de)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Vlad-Design: Webdesign von Vladimir Simovic)delimiter(")>tag(>)plain(Vlad-Design)tag(</a>) plain(|| hosted by: )tag(<a) attribute_name(href)operator(=)string<delimiter(")content(http://www.all-inkl.com/index.php?partner=14435)delimiter(")> attribute_name(title)operator(=)string<delimiter(")content(Sehr gute und g)char(&uuml;)content(nstige Webhosting-Angebote)delimiter(")>tag(>)plain(www.all-inkl.com)tag(</a>)tag(</span>)
+tag(</div>)
+tag(<p) attribute_name(class)operator(=)string<delimiter(")content(unsichtbar)delimiter(")>tag(>)char(&rarr;)plain(Hinweis: Schon mal dar)char(&uuml;)plain(ber nachgedacht deinen Browser upzudaten?)tag(<br) tag(/>)plain(Auf z. B. Mozilla, oder Netscape 7.x, oder Opera 7.x oder zumindest auf Internet Explorer 6.)tag(</p>)
+tag(</div>)
+comment(<!-- PowerPhlogger Code START -->)
+tag(<script) attribute_name(language)operator(=)string<delimiter(")content(JavaScript)delimiter(")> attribute_name(type)operator(=)string<delimiter(")content(text/javascript)delimiter(")> attribute_name(src)operator(=)string<delimiter(")content(/pphlogger.js)delimiter(")>tag(>)tag(</script>)
+tag(<noscript>)tag(<img) attribute_name(alt)operator(=)string<delimiter(")delimiter(")> attribute_name(src)operator(=)string<delimiter(")content(http://www.faszination-tolkien.de/statistik/pphlogger.php?id=Perun)char(&amp;)content(st=img)delimiter(")> tag(/>)tag(</noscript>)
+comment(<!-- PowerPhlogger Code END -->)
+tag(</body>)
+tag(</html>)

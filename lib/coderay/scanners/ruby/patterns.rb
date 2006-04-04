@@ -130,16 +130,17 @@ module CodeRay module Scanners
 
 		RDOC_DATA_START = / ^=begin (?!\S) | ^__END__$ /x
 
-		FANCY_START = / % ( [qQwWxsr] | (?![\w\s=]) ) (.) /mox
+		# FIXME: \s and = are only a workaround, they are still allowed
+		# as delimiters.
+		FANCY_START_SAVE = / % ( [qQwWxsr] | (?![\w\s=]) ) (.) /mx
+		FANCY_START_CORRECT = / % ( [qQwWxsr] | (?!\w) ) (.) /mx
 
 		FancyStringType = {
 			'q' => [:string, false],
 			'Q' => [:string, true],
 			'r' => [:regexp, true],
 			's' => [:symbol, false],
-			'x' => [:shell, true],
-			'w' => [:string, :word],
-			'W' => [:string, :word],
+			'x' => [:shell, true]
 		}
 		FancyStringType['w'] = FancyStringType['q']
 		FancyStringType['W'] = FancyStringType[''] = FancyStringType['Q']

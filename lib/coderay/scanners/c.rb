@@ -42,7 +42,9 @@ module CodeRay module Scanners
 				kind = :error
 				match = nil
 
-				if state == :initial
+				case state
+
+				when :initial
 					
 					if scan(/ \s+ | \\\n /x)
 						kind = :space
@@ -96,7 +98,7 @@ module CodeRay module Scanners
 						getch
 					end
 					
-				elsif state == :string
+				when :string
 					if scan(/[^\\"]+/)
 						kind = :content
 					elsif scan(/"/)
@@ -113,7 +115,7 @@ module CodeRay module Scanners
 						raise_inspect "else case \" reached; %p not handled." % peek(1), tokens
 					end
 					
-				elsif state == :include_expected
+				when :include_expected
 					if scan(/<[^>\n]+>?|"[^"\n\\]*(?:\\.[^"\n\\]*)*"?/)
 						kind = :include
 						state = :initial
@@ -128,7 +130,7 @@ module CodeRay module Scanners
 					end
 					
 				else
-					raise_inspect 'else-case reached', tokens
+					raise_inspect 'Unknown state', tokens
 					
 				end
 				

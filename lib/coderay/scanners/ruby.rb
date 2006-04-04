@@ -272,7 +272,7 @@ module CodeRay module Scanners
 							heredocs ||= []  # create heredocs if empty
 							heredocs << heredoc
 							
-						elsif fancy_allowed and match = scan(/#{FANCY_START}/o)
+						elsif fancy_allowed and match = scan(/#{FANCY_START_SAVE}/o)
 							type, interpreted = *FancyStringType.fetch(self[1]) do
 								raise_inspect 'Unknown fancy string: %%%p' % k, tokens
 							end
@@ -358,6 +358,7 @@ module CodeRay module Scanners
 						end
 
 					end
+# }}}
 
 					regexp_allowed = regexp_allowed == :set
 					fancy_allowed = fancy_allowed == :set
@@ -373,7 +374,6 @@ module CodeRay module Scanners
 						state = last_state
 						last_state = nil
 					end
-# }}}
 				end
 			end
 

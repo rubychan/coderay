@@ -4,7 +4,9 @@ module CodeRay
 		map :cpp => :c,
 			:plain => :plaintext,
 			:pascal => :delphi,
-			:irb => :ruby
+			:irb => :ruby,
+			:xml => :html,
+			:xhtml => :html
 		
 	end
 end

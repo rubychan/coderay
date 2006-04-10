@@ -10,6 +10,15 @@ while x<10000
 g=%w{}
 x=0
 
+=begin
+class Hello
+  @hi   #class-instance-variable
+  self <<class
+    attr_accessor :hi
+  end
+end
+=end
+
 while x<100
  puts"#{g[x]}"
  x+=1

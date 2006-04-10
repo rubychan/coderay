@@ -20,6 +20,7 @@ module CodeRay module Encoders
 			:directive => 'di',
 			:doc => 'do',
 			:doc_string => 'ds',
+			:entity => 'en',
 			:error => 'er',
 			:escape => 'e',
 			:exception => 'ex',

@@ -36,12 +36,14 @@ module CodeRay module Scanners
 			depth = nil
 			states = []
 
+			c = self.class
+
 			until eos?
 				type = :error
 				match = nil
 				kind = nil
 
-				if state.instance_of? StringState
+				if state.instance_of? c::StringState
 # {{{
 					match = scan_until(state.pattern) || scan_until(/\z/)
 					tokens << [match, :content] unless match.empty?
@@ -74,7 +76,7 @@ module CodeRay module Scanners
 								tokens = saved_tokens
 								regexp = tokens
 								for text, type in regexp
-									if text.is_a? String
+									if text.is_a? ::String
 										case type
 										when :content
 											text.scan(/([^#]+)|(#.*)/) do |plain, comment|
@@ -141,7 +143,7 @@ module CodeRay module Scanners
 						state.paren_depth += 1
 						tokens << [match, :nesting_delimiter]
 
-					when REGEXP_SYMBOLS
+					when /#{REGEXP_SYMBOLS}/ox
 						tokens << [match, :function]
 						
 					else
@@ -190,15 +192,15 @@ module CodeRay module Scanners
 							if last_token_dot
 								type = if match[/^[A-Z]/] and not match?(/\(/) then :constant else :ident end
 							else
-								type = IDENT_KIND[match]
+								type = c::IDENT_KIND[match]
 								if type == :ident and match[/^[A-Z]/] and not match[/[!?]$/] and not match?(/\(/)
 									type = :constant
 								elsif type == :reserved
-									state = DEF_NEW_STATE[match]
+									state = c::DEF_NEW_STATE[match]
 								end
 							end
 							## experimental!
-							fancy_allowed = regexp_allowed = :set if REGEXP_ALLOWED[match] or check(/\s+(?:%\S|\/\S)/)
+							fancy_allowed = regexp_allowed = :set if c::REGEXP_ALLOWED[match] or check(/\s+(?:%\S|\/\S)/)
 							
 						# OPERATORS #
 						elsif (not last_token_dot and match = scan(/ ==?=? | \.\.?\.? | [\(\)\[\]\{\}] | :: | , /x)) or
@@ -226,7 +228,7 @@ module CodeRay module Scanners
 						elsif match = scan(/ ['"] /mx)
 							tokens << [:open, :string]
 							type = :delimiter
-							state = StringState.new :string, match == '"', match  # important for streaming
+							state = c::StringState.new :string, match == '"', match  # important for streaming
 							
 						elsif match = scan(/#{INSTANCE_VARIABLE}/o)
 							type = :instance_variable
@@ -235,7 +237,7 @@ module CodeRay module Scanners
 							tokens << [:open, :regexp]
 							type = :delimiter
 							interpreted = true
-							state = StringState.new :regexp, interpreted, match
+							state = c::StringState.new :regexp, interpreted, match
 							if parse_regexp
 								tokens = []
 								saved_tokens = tokens
@@ -251,7 +253,7 @@ module CodeRay module Scanners
 								tokens << [':', :symbol]
 								match = delim.chr
 								type = :delimiter
-								state = StringState.new :symbol, delim == ?", match
+								state = c::StringState.new :symbol, delim == ?", match
 							else
 								type = :symbol
 							end
@@ -264,11 +266,11 @@ module CodeRay module Scanners
 							indented = self[1] == '-'
 							quote = self[3]
 							delim = self[quote ? 4 : 2]
-							type = QUOTE_TO_TYPE[quote]
+							type = c::QUOTE_TO_TYPE[quote]
 							tokens << [:open, type]
 							tokens << [match, :delimiter]
 							match = :close
-							heredoc = StringState.new type, quote != '\'', delim, (indented ? :indented : :linestart )
+							heredoc = c::StringState.new type, quote != '\'', delim, (indented ? :indented : :linestart )
 							heredocs ||= []  # create heredocs if empty
 							heredocs << heredoc
 							
@@ -277,7 +279,7 @@ module CodeRay module Scanners
 								raise_inspect 'Unknown fancy string: %%%p' % k, tokens
 							end
 							tokens << [:open, type]
-							state = StringState.new type, interpreted, self[2]
+							state = c::StringState.new type, interpreted, self[2]
 							type = :delimiter
 
 						elsif fancy_allowed and match = scan(/#{CHARACTER}/o)
@@ -293,7 +295,7 @@ module CodeRay module Scanners
 							else
 								tokens << [:open, :shell]
 								type = :delimiter
-								state = StringState.new :shell, true, match
+								state = c::StringState.new :shell, true, match
 							end
 							
 						elsif match = scan(/#{GLOBAL_VARIABLE}/o)
@@ -326,7 +328,7 @@ module CodeRay module Scanners
 								tokens << [':', :symbol]
 								match = delim.chr
 								type = :delimiter
-								state = StringState.new :symbol, delim == ?", match
+								state = c::StringState.new :symbol, delim == ?", match
 								state.next_state = :undef_comma_expected
 							else
 								type = :symbol
@@ -375,6 +377,11 @@ module CodeRay module Scanners
 						last_state = nil
 					end
 				end
+			end
+
+			states << state if state.is_a? c::StringState
+			until states.empty?
+				tokens << [:close, states.pop.type]
 			end
 
 			tokens

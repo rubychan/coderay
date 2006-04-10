@@ -6,7 +6,9 @@ module CodeRay
 			:pascal => :delphi,
 			:irb => :ruby,
 			:xml => :html,
-			:xhtml => :html
+			:xhtml => :nitro_html
+
+		default :plain
 		
 	end
 end

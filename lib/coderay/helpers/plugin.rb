@@ -56,7 +56,6 @@ module PluginHost
 
 	def require_helper plugin_id, helper_name
 		path = path_to File.join(plugin_id, helper_name)
-		#$stderr.puts 'Loading helper: ' + path
 		require path
 	end		
 
@@ -125,6 +124,20 @@ module PluginHost
 		end
 	end
 	
+	# Define the default plugin to use when no plugin is found
+	# for a given id.
+	#
+	# See also map.
+	# 
+	#  class MyColorHost < PluginHost
+	#    map :navy => :dark_blue
+	#    default :gray
+	#  end
+	def default id
+		id = validate_id id
+		plugin_hash[nil] = id
+	end
+	
 	# Every plugin must register itself for one or more
 	# +ids+ by calling register_for, which calls this method.
 	#
@@ -152,10 +165,13 @@ protected
 				id = validate_id(plugin_id)
 				path = path_to id
 				begin
-					#$stderr.puts 'Loading plugin: ' + path if $DEBUG
 					require path
 				rescue LoadError => boom
-					raise PluginNotFound, 'Could not load plugin %p: %s' % [id, boom]
+					if h.has_key? nil  # default plugin
+						h[id] = h[nil]
+					else
+						raise PluginNotFound, 'Could not load plugin %p: %s' % [id, boom]
+					end
 				else
 					# Plugin should have registered by now
 					unless h.has_key? id

@@ -205,6 +205,7 @@ module Encoders
 		def finish options
 			not_needed = @opened.shift
 			@out << '</span>' * @opened.size
+			warn '%d tokens still open' % @opened.size unless @opened.empty?
 
 			@out.extend Output
 			@out.css = @css
@@ -230,11 +231,11 @@ module Encoders
 				case text
 				when :open
 					@opened[0] = type
-					@out << @css_style[@opened]
+					@out << (@css_style[@opened] || '<span>')
 					@opened << type
 				when :close
 					unless @opened.empty?
-						raise 'Not Token to be closed.' unless @opened.size > 1
+						raise 'Malformed token stream: Trying to close a token that was never opened.' unless @opened.size > 1
 						@out << '</span>'
 						@opened.pop
 					end

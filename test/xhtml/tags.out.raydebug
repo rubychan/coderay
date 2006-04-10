@@ -1,0 +1,87 @@
+tag(<Page) attribute_name(title)operator(=)string<delimiter(")content(Questions and Tips by Tags)delimiter(")>tag(>)
+  tag(<div) attribute_name(id)operator(=)string<delimiter(")content(left)delimiter(")>tag(>)
+    inline<delimiter(<?r) reserved(if) instance_variable(@tags) delimiter(?>)>
+    tag(<h1>)plain(Questions with Tags: )inline<delimiter(#{)instance_variable(@tags)operator(.)ident(join)operator(()string<delimiter(")content( )delimiter(")>operator(\))delimiter(})>tag(</h1>)
+
+    inline<delimiter(<?r) reserved(if) instance_variable(@questions) operator(&&) instance_variable(@questions)operator(.)ident(size) operator(>) integer(0) delimiter(?>)>
+      inline<delimiter(<?r) reserved(if) instance_variable(@qtags) delimiter(?>)>
+        plain(Too many results for that Tag, please reduce the number by using one of the following Tags:
+        )inline<delimiter(#{)ident(cloud_of)operator(()instance_variable(@qtags)operator(\))delimiter(})>
+      inline<delimiter(<?r) reserved(end) delimiter(?>)>
+    tag(<div) attribute_name(class)operator(=)string<delimiter(")content(results)delimiter(")>tag(>)
+      inline<delimiter(<?r) instance_variable(@questions)operator(.)ident(each) reserved(do) operator(|)ident(q)operator(|) delimiter(?>)>
+        tag(<h2>)tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/question/)inline<delimiter(#{)ident(q)operator(.)ident(oid)delimiter(})>delimiter(")>tag(>)inline<delimiter(#{)ident(q)operator(.)ident(question)delimiter(})>tag(</a>)tag(</h2>)
+        tag(<p>)
+          inline<delimiter(<?r) ident(excerpt) operator(=) ident(excerpt_with_words)operator(()ident(q)operator(.)ident(text)operator(,) instance_variable(@tags)operator(\)) delimiter(?>)>
+          inline<delimiter(#{)ident(excerpt)delimiter(})>
+        tag(</p>)
+        tag(<p) attribute_name(style)operator(=)string<delimiter(")content(float:right;)delimiter(")>tag(>)inline<delimiter(#{)ident(q)operator(.)ident(answers)operator(.)ident(size)operator(.)ident(to_i)delimiter(})> plain(answers)tag(</p>)
+      inline<delimiter(<?r) reserved(end) delimiter(?>)>
+    tag(</div>)
+    tag(<div) attribute_name(class)operator(=)string<delimiter(")content(pager)delimiter(")>tag(>)
+      inline<delimiter(#{)instance_variable(@qpager)operator(.)ident(navigation)delimiter(})>
+    tag(</div>)
+    inline<delimiter(<?r) reserved(else) delimiter(?>)>
+    tag(<div) attribute_name(class)operator(=)string<delimiter(")content(results_none)delimiter(")>tag(>)
+      tag(<h2>)plain(no question with this/these tag(s\) found)tag(</h2>)
+      tag(<p>)tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/ask)delimiter(")>tag(>)plain(Ask a question here.)tag(</a>)tag(</p>)
+    tag(</div>)
+    inline<delimiter(<?r) reserved(end) delimiter(?>)>
+    
+    inline<delimiter(<?r) reserved(if) instance_variable(@tips) operator(&&) instance_variable(@tips)operator(.)ident(size) operator(>) integer(0) delimiter(?>)>
+    tag(<h1>)plain(Tips with Tags: )inline<delimiter(#{)instance_variable(@tags)operator(.)ident(join)operator(()string<delimiter(")content( )delimiter(")>operator(\))delimiter(})>tag(</h1>)
+    inline<delimiter(<?r) reserved(if) instance_variable(@ttags) delimiter(?>)>
+      plain(Too many results for that Tag, please reduce the number by using one of the following Tags:
+      )inline<delimiter(#{)ident(cloud_of)operator(()instance_variable(@ttags)operator(\))delimiter(})>
+    inline<delimiter(<?r) reserved(end) delimiter(?>)>
+    tag(<div) attribute_name(class)operator(=)string<delimiter(")content(results)delimiter(")>tag(>)
+      inline<delimiter(<?r) instance_variable(@tips)operator(.)ident(each) reserved(do) operator(|)ident(t)operator(|) delimiter(?>)>
+        tag(<h2>)tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/tip/)inline<delimiter(#{)ident(t)operator(.)ident(oid)delimiter(})>delimiter(")>tag(>)inline<delimiter(#{)ident(t)operator(.)ident(title)delimiter(})>tag(</a>)tag(</h2>)
+        tag(<p>)
+          inline<delimiter(<?r) ident(excerpt) operator(=) ident(excerpt_with_words)operator(()ident(t)operator(.)ident(text)operator(,) instance_variable(@tags)operator(\)) delimiter(?>)>
+          inline<delimiter(#{)ident(excerpt)delimiter(})>
+        tag(</p>)
+      inline<delimiter(<?r) reserved(end) delimiter(?>)>
+    tag(</div>)
+    tag(<div) attribute_name(class)operator(=)string<delimiter(")content(pager)delimiter(")>tag(>)
+      inline<delimiter(#{)instance_variable(@tpager)operator(.)ident(navigation)delimiter(})>
+    tag(</div>)
+    inline<delimiter(<?r) reserved(end) delimiter(?>)>
+    
+    inline<delimiter(<?r) reserved(if) instance_variable(@tutorials) operator(&&) instance_variable(@tutorials)operator(.)ident(size) operator(>) integer(0) delimiter(?>)>
+    tag(<h1>)plain(Tutorials with Tags: )inline<delimiter(#{)instance_variable(@tags)operator(.)ident(join)operator(()string<delimiter(")content( )delimiter(")>operator(\))delimiter(})>tag(</h1>)
+    inline<delimiter(<?r) reserved(if) instance_variable(@tuttags) delimiter(?>)>
+      plain(Too many results for that Tag, please reduce the number by using one of the following Tags:
+      )inline<delimiter(#{)ident(cloud_of)operator(()instance_variable(@tuttags)operator(\))delimiter(})>
+    inline<delimiter(<?r) reserved(end) delimiter(?>)>
+    tag(<div) attribute_name(class)operator(=)string<delimiter(")content(results)delimiter(")>tag(>)
+      inline<delimiter(<?r) instance_variable(@tutorials)operator(.)ident(each) reserved(do) operator(|)ident(t)operator(|) delimiter(?>)>
+        tag(<h2>)tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/tutorial/)inline<delimiter(#{)ident(t)operator(.)ident(oid)delimiter(})>delimiter(")>tag(>)inline<delimiter(#{)ident(t)operator(.)ident(title)delimiter(})>tag(</a>)tag(</h2>)
+        tag(<p>)
+          inline<delimiter(<?r) ident(excerpt) operator(=) ident(excerpt_with_words)operator(()ident(t)operator(.)ident(text)operator(,) instance_variable(@tags)operator(\)) delimiter(?>)>
+          inline<delimiter(#{)ident(excerpt)delimiter(})>
+        tag(</p>)
+      inline<delimiter(<?r) reserved(end) delimiter(?>)>
+    tag(</div>)
+    tag(<div) attribute_name(class)operator(=)string<delimiter(")content(pager)delimiter(")>tag(>)
+      inline<delimiter(#{)instance_variable(@tpager)operator(.)ident(navigation)delimiter(})>
+    tag(</div>)
+    inline<delimiter(<?r) reserved(end) delimiter(?>)>
+    
+    
+    inline<delimiter(<?r) reserved(else) delimiter(?>)>
+      tag(<div) attribute_name(class)operator(=)string<delimiter(")content(cloud)delimiter(")>tag(>)
+        inline<delimiter(<?r)
+          ident(sum) operator(=) ident(all_tags)operator(.)ident(inject)operator(()integer(0)operator(\)) operator({) operator(|)ident(sum)operator(,) ident(t)operator(|) ident(sum) operator(+) ident(t)operator(.)ident(popularity)operator(.)ident(to_i) operator(})
+        delimiter(?>)>
+        inline<delimiter(<?r) ident(all_tags)operator(.)ident(each) reserved(do) operator(|)ident(t)operator(|) delimiter(?>)>
+          tag(<a) attribute_name(href)operator(=)string<delimiter(")content(/tags/)inline<delimiter(#{)ident(t)operator(.)ident(name)delimiter(})>delimiter(")> attribute_name(style)operator(=)string<delimiter(")content(font-size:)inline<delimiter(#{)operator(()integer(1)operator(+)operator(()operator(()ident(t)operator(.)ident(popularity)operator(.)ident(to_i)operator(/)ident(sum)operator(.)ident(to_f)operator(\))operator(*)integer(2)operator(\))operator(\))operator(.)ident(to_s)operator([)integer(0)operator(..)integer(3)operator(])delimiter(})>content(em;)delimiter(")>tag(>)inline<delimiter(#{)ident(t)operator(.)ident(name)delimiter(})>tag(</a>)
+        inline<delimiter(<?r) reserved(end) delimiter(?>)>
+      tag(</div>) comment(<!-- #cloud -->)
+    inline<delimiter(<?r) reserved(end) delimiter(?>)>
+  tag(</div>) comment(<!-- #left -->)
+  
+  tag(<render) attribute_name(href)operator(=)string<delimiter(")content(/right)delimiter(")> tag(/>)
+tag(</Page>)
+
+comment(<!-- Copyright © 2006 Kashia Buch (kashia@vfemail.net\), Fabian Buch (fabian@fabian-buch.de\). All rights reserved. -->)

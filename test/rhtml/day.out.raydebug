@@ -1,0 +1,26 @@
+inline<delimiter(<%) ident(day)operator(,) ident(auftritte) operator(=) operator(*)ident(day) operator(-)delimiter(%>)>
+inline<delimiter(<%)
+	reserved(for) ident(auftritt) reserved(in) ident(auftritte) 
+operator(-)delimiter(%>)>
+
+tag(<tr>)
+	tag(<td) attribute_name(class)operator(=)string<delimiter(")content(pplan_datum)delimiter(")>tag(>)
+		inline<delimiter(<%=) ident(colorize) ident(day)operator(.)ident(to_s)operator(()symbol(:dots)operator(\)) reserved(if) ident(day) delimiter(%>)>
+		inline<delimiter(<%) reserved(if) ident(day) reserved(and) ident(day)operator(.)ident(wday) operator(==) integer(6) delimiter(%>)>tag(<br) tag(/>)tag(<em>)plain(Samstag)tag(</em>)inline<delimiter(<%) reserved(end) delimiter(%>)>
+	tag(</td>)
+	tag(<td) attribute_name(class)operator(=)string<delimiter(")content(pplan_zeit)delimiter(")>tag(>)
+		inline<delimiter(<%=) ident(colorize) ident(auftritt)operator(.)ident(time) delimiter(%>)>
+	tag(</td>)
+	tag(<td) attribute_name(class)operator(=)string<delimiter(")content(pplan_stueck)delimiter(")>tag(>)
+		inline<delimiter(<%=) ident(colorize) ident(auftritt)operator(.)ident(program) delimiter(%>)>
+		inline<delimiter(<%=) ident(link_to) string<delimiter(')content(E)delimiter(')>operator(,) symbol(:controller) operator(=)operator(>) string<delimiter(')content(admin/auftritte)delimiter(')>operator(,) symbol(:action) operator(=)operator(>) symbol(:edit)operator(,) symbol(:id) operator(=)operator(>) ident(auftritt) delimiter(%>)>
+	tag(</td>)
+	tag(<td) attribute_name(class)operator(=)string<delimiter(")content(pplan_besetzung)delimiter(")>tag(>)
+		inline<delimiter(<%=) ident(colorize)operator(()ident(auftritt)operator(.)ident(place)operator(,) string<delimiter(')content(Ort: )delimiter(')>operator(\)) operator(+) string<delimiter(')content(<br />)delimiter(')> reserved(unless) ident(auftritt)operator(.)ident(place)operator(.)ident(blank?) delimiter(%>)>
+	tag(</td>)
+tag(</tr>)
+
+inline<delimiter(<%)
+	ident(day) operator(=) pre_constant(nil)
+	reserved(end) 
+operator(-)delimiter(%>)>

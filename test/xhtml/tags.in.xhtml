@@ -1,0 +1,87 @@
+<Page title="Questions and Tips by Tags">
+  <div id="left">
+    <?r if @tags ?>
+    <h1>Questions with Tags: #{@tags.join(" ")}</h1>
+
+    <?r if @questions && @questions.size > 0 ?>
+      <?r if @qtags ?>
+        Too many results for that Tag, please reduce the number by using one of the following Tags:
+        #{cloud_of(@qtags)}
+      <?r end ?>
+    <div class="results">
+      <?r @questions.each do |q| ?>
+        <h2><a href="/question/#{q.oid}">#{q.question}</a></h2>
+        <p>
+          <?r excerpt = excerpt_with_words(q.text, @tags) ?>
+          #{excerpt}
+        </p>
+        <p style="float:right;">#{q.answers.size.to_i} answers</p>
+      <?r end ?>
+    </div>
+    <div class="pager">
+      #{@qpager.navigation}
+    </div>
+    <?r else ?>
+    <div class="results_none">
+      <h2>no question with this/these tag(s) found</h2>
+      <p><a href="/ask">Ask a question here.</a></p>
+    </div>
+    <?r end ?>
+    
+    <?r if @tips && @tips.size > 0 ?>
+    <h1>Tips with Tags: #{@tags.join(" ")}</h1>
+    <?r if @ttags ?>
+      Too many results for that Tag, please reduce the number by using one of the following Tags:
+      #{cloud_of(@ttags)}
+    <?r end ?>
+    <div class="results">
+      <?r @tips.each do |t| ?>
+        <h2><a href="/tip/#{t.oid}">#{t.title}</a></h2>
+        <p>
+          <?r excerpt = excerpt_with_words(t.text, @tags) ?>
+          #{excerpt}
+        </p>
+      <?r end ?>
+    </div>
+    <div class="pager">
+      #{@tpager.navigation}
+    </div>
+    <?r end ?>
+    
+    <?r if @tutorials && @tutorials.size > 0 ?>
+    <h1>Tutorials with Tags: #{@tags.join(" ")}</h1>
+    <?r if @tuttags ?>
+      Too many results for that Tag, please reduce the number by using one of the following Tags:
+      #{cloud_of(@tuttags)}
+    <?r end ?>
+    <div class="results">
+      <?r @tutorials.each do |t| ?>
+        <h2><a href="/tutorial/#{t.oid}">#{t.title}</a></h2>
+        <p>
+          <?r excerpt = excerpt_with_words(t.text, @tags) ?>
+          #{excerpt}
+        </p>
+      <?r end ?>
+    </div>
+    <div class="pager">
+      #{@tpager.navigation}
+    </div>
+    <?r end ?>
+    
+    
+    <?r else ?>
+      <div class="cloud">
+        <?r
+          sum = all_tags.inject(0) { |sum, t| sum + t.popularity.to_i }
+        ?>
+        <?r all_tags.each do |t| ?>
+          <a href="/tags/#{t.name}" style="font-size:#{(1+((t.popularity.to_i/sum.to_f)*2)).to_s[0..3]}em;">#{t.name}</a>
+        <?r end ?>
+      </div> <!-- #cloud -->
+    <?r end ?>
+  </div> <!-- #left -->
+  
+  <render href="/right" />
+</Page>
+
+<!-- Copyright © 2006 Kashia Buch (kashia@vfemail.net), Fabian Buch (fabian@fabian-buch.de). All rights reserved. -->

@@ -46,7 +46,7 @@ module CodeRay module Scanners
 			| <=?>? | >=?   # comparison, rocket operator
 			| ===?          # simple equality and case equality
 		/ox
-		METHOD_NAME_EX = / #{IDENT} [?!=]? | #{METHOD_NAME_OPERATOR} /ox
+		METHOD_NAME_EX = / #{IDENT} (?:[?!]|=(?!>))? | #{METHOD_NAME_OPERATOR} /ox
 		INSTANCE_VARIABLE = / @ #{IDENT} /ox
 		CLASS_VARIABLE = / @@ #{IDENT} /ox
 		OBJECT_VARIABLE = / @@? #{IDENT} /ox

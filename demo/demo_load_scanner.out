@@ -5,4 +5,4 @@ Require is also possible: CodeRay::Scanners::C
 See?
 Now load some mapped scanners: cpp and plain.
 Require all Scanners:
-[[:c, CodeRay::Scanners::C], [:cpp, :c], [:delphi, CodeRay::Scanners::Delphi], [:irb, :ruby], [:pascal, :delphi], [:plain, CodeRay::Scanners::Plaintext], [:plaintext, CodeRay::Scanners::Plaintext], [:ruby, CodeRay::Scanners::Ruby]]
+[[nil, :plain], [:c, CodeRay::Scanners::C], [:cpp, :c], [:delphi, CodeRay::Scanners::Delphi], [:html, CodeRay::Scanners::HTML], [:irb, :ruby], [:nitro_html, CodeRay::Scanners::NitroHTML], [:pascal, :delphi], [:plain, CodeRay::Scanners::Plaintext], [:plaintext, CodeRay::Scanners::Plaintext], [:rhtml, CodeRay::Scanners::RHTML], [:ruby, CodeRay::Scanners::Ruby], [:xhtml, :nitro_html], [:xml, :html]]

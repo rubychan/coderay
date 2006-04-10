@@ -10,6 +10,15 @@ comment(#und die Ausgabe folgt)
 ident(g)operator(=)string<delimiter(%w{)delimiter(})>
 ident(x)operator(=)integer(0)
 
+comment(=begin
+class Hello
+  @hi   #class-instance-variable
+  self <<class
+    attr_accessor :hi
+  end
+end
+=end)
+
 reserved(while) ident(x)operator(<)integer(100)
  ident(puts)string<delimiter(")inline<delimiter(#{)ident(g)operator([)ident(x)operator(])delimiter(})>delimiter(")>
  ident(x)operator(+=)integer(1)

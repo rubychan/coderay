@@ -1,8 +1,8 @@
-#require 'coderay/common_patterns'
-
 module CodeRay module Scanners
 
 	# HTML Scanner
+	#
+	# $Id$
 	class HTML < Scanner
 
 		include Streamable
@@ -27,10 +27,21 @@ module CodeRay module Scanners
 			;
 		/ox
 
+		PLAIN_STRING_CONTENT = {
+			"'" => /[^&'>\n]+/,
+			'"' => /[^&">\n]+/,
+		}
+
 	private
+		def setup
+			@state = :initial
+			@plain_string_content = nil
+		end
+		
 		def scan_tokens tokens, options
-			
-			state = :initial
+
+			state = @state
+			plain_string_content = @plain_string_content
 			
 			until eos?
 				
@@ -55,17 +66,13 @@ module CodeRay module Scanners
 							kind = :comment
 						elsif scan(/<\/[-\w_.:]*>/m)
 							kind = :tag
-						elsif match = scan(/<[-\w_.:]*/m)
+						elsif match = scan(/<[-\w_.:]*>?/m)
 							kind = :tag
-							if match?(/>/)
-								match << getch
-							else
-								state = :attribute
-							end
+							state = :attribute unless match[-1] == ?>
 						elsif scan(/[^<>&]+/)
 							kind = :plain
 						elsif scan(/#{ENTITY}/ox)
-							kind = :char
+							kind = :entity
 						elsif scan(/>/)
 							kind = :error
 						else
@@ -79,6 +86,8 @@ module CodeRay module Scanners
 						elsif scan(/#{ATTR_NAME}/o)
 							kind = :attribute_name
 							state = :attribute_equal
+						else
+							getch
 						end
 
 					when :attribute_equal
@@ -98,29 +107,32 @@ module CodeRay module Scanners
 						if scan(/#{ATTR_VALUE_UNQUOTED}/o)
 							kind = :attribute_value
 							state = :attribute
-						elsif scan(/"/)
+						elsif match = scan(/["']/)
 							tokens << [:open, :string]
 							state = :attribute_value_string
+							plain_string_content = PLAIN_STRING_CONTENT[match]
 							kind = :delimiter
 						elsif scan(/#{TAG_END}/o)
 							kind = :tag
 							state = :initial
+						else
+							getch
 						end
 
 					when :attribute_value_string
-						if scan(/[^"&\n]+/)
+						if scan(plain_string_content)
 							kind = :content
-						elsif scan(/"/)
-							tokens << ['"', :delimiter]
+						elsif scan(/['"]/)
+							tokens << [matched, :delimiter]
 							tokens << [:close, :string]
 							state = :attribute
 							next
 						elsif scan(/#{ENTITY}/ox)
-							kind = :char
-						elsif match(/\n/)
+							kind = :entity
+						elsif match(/[\n>]/)
 							tokens << [:close, :string]
-							state = :attribute
-							next
+							kind = error
+							state = :initial
 						end
 
 					else
@@ -136,8 +148,13 @@ module CodeRay module Scanners
 					[[match, kind], line], tokens
 				end
 				raise_inspect 'Empty token', tokens unless match
-
+				
 				tokens << [match, kind]
+			end
+
+			if options[:keep_state]
+				@state = state
+				@plain_string_content = plain_string_content
 			end
 
 			tokens

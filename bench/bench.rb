@@ -69,6 +69,7 @@ Benchmark.bm(20) do |bm|
 	if $dump_input
 		@size = CodeRay::Tokens.load(data).text_size
 	else
+		raise 'Example file is empty.' if data.empty?
 		unless @size.zero?
 			data += data until data.size >= @size
 			data = data[0, @size]

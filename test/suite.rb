@@ -42,7 +42,8 @@ class CodeRaySuite < TestCase
 			:tab_width => 2,
 			:line_numbers => :table,
 			:wrap => :page,
-			:hint => :debug
+			:hint => :debug,
+			:css => :class
 		)
 		
 		dir do
@@ -88,7 +89,7 @@ def load_suite name
 	rescue LoadError
 		$stderr.puts <<-ERR
 
-!! Folder #{File.join $mydir, name} not found
+!! Suite #{name + '/suite.rb'} not found
 		
 		ERR
 		false

@@ -1,0 +1,26 @@
+<% day, auftritte = *day -%>
+<%
+	for auftritt in auftritte 
+-%>
+
+<tr>
+	<td class="pplan_datum">
+		<%= colorize day.to_s(:dots) if day %>
+		<% if day and day.wday == 6 %><br /><em>Samstag</em><% end %>
+	</td>
+	<td class="pplan_zeit">
+		<%= colorize auftritt.time %>
+	</td>
+	<td class="pplan_stueck">
+		<%= colorize auftritt.program %>
+		<%= link_to 'E', :controller => 'admin/auftritte', :action => :edit, :id => auftritt %>
+	</td>
+	<td class="pplan_besetzung">
+		<%= colorize(auftritt.place, 'Ort: ') + '<br />' unless auftritt.place.blank? %>
+	</td>
+</tr>
+
+<%
+	day = nil
+	end 
+-%>

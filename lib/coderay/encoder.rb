@@ -130,10 +130,12 @@ module CodeRay
 			# By default, it calls text_token or block_token, depending on
 			# whether +text+ is a String.
 			def token text, kind
-				if text.is_a? String
+				if text.is_a? ::String
 					text_token text, kind
-				else
+				elsif text.is_a? ::Symbol
 					block_token text, kind
+				else
+					raise 'Unknown token text type: %p' % text
 				end
 			end
 

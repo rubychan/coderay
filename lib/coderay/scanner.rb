@@ -96,21 +96,21 @@ module CodeRay
 				raise "I am only the basic Scanner class. I can't scan "\
 					"anything. :( Use my subclasses." if self.class == Scanner
 
-				# I love this hack. It seems to silence
-				# all dos/unix/mac newline problems.
-				code = code.gsub(/\r\n?/, "\n") if code.index ?\r
-				super code
+				super code.to_s.to_unix
 
+				@tokens = options[:tokens]
 				if @options[:stream]
 					warn "warning in CodeRay::Scanner.new: :stream is set, "\
 						"but no block was given" unless block_given?
 					raise NotStreamableError, self unless kind_of? Streamable
-					@tokens = TokenStream.new(&block)
+					@tokens ||= TokenStream.new(&block)
 				else
 					warn "warning in CodeRay::Scanner.new: Block given, "\
 						"but :stream is #{@options[:stream]}" if block_given?
-					@tokens = Tokens.new
+					@tokens ||= Tokens.new
 				end
+
+				setup
 			end
 
 			# More mnemonic accessor name for the input string.
@@ -122,25 +122,28 @@ module CodeRay
 			end
 
 			def string= code
-				code = code.gsub(/\r\n?/, "\n") if code.index ?\r
+				code = code.to_s.to_unix
 				super code
 				reset_instance
 			end
 
 			# Scans the code and returns all tokens in a Tokens object.
-			def tokenize options = {}
-				options = @options.merge({}) #options
-				if @options[:stream]  # :stream must have been set already
-					reset ## what is this for?
-					scan_tokens @tokens, options
-					@tokens
-				else
-					@cached_tokens ||= scan_tokens @tokens, options
-				end
+			def tokenize new_string=nil, options = {}
+				options = @options.merge(options)
+				self.string = new_string if new_string
+				@cached_tokens = 
+					if @options[:stream]  # :stream must have been set already
+						reset unless new_string
+						scan_tokens @tokens, options
+						@tokens
+					else
+						scan_tokens @tokens, options
+					end
 			end
 
-			# You can also see tokenize as a read-only attribute
-			alias tokens tokenize
+			def tokens
+				@cached_tokens ||= tokenize
+			end
 
 			# Traverses the tokens.
 			def each &block
@@ -160,6 +163,14 @@ module CodeRay
 
 		protected
 
+			# Can be implemented by subclasses to do some initialization
+			# that has to be done once per instance.
+			# 
+			# Use reset for initialization that has to be done once per
+			# scan.
+			def setup
+			end
+
 			# This is the central method, and commonly the only one a
 			# subclass implements.
 			# 
@@ -171,7 +182,7 @@ module CodeRay
 			end
 
 			def reset_instance
-				@tokens.clear
+				@tokens.clear unless @options[:keep_tokens]
 				@cached_tokens = nil
 			end
 
@@ -211,4 +222,14 @@ surrounding code:
 	end
 end
 
+class String
+	# I love this hack. It seems to silence all dos/unix/mac newline problems.
+	def to_unix
+		if index ?\r
+			gsub(/\r\n?/, "\n")
+		else
+			self
+		end
+	end
+end
 # vim:sw=2:ts=2:noet:tw=78

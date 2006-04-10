@@ -442,7 +442,7 @@ ident(p) constant(Foou)operator(.)ident(new)operator(.)operator([]) operator({)i
 
 reserved(if) ident(p) reserved(then) ident(p) reserved(end)
 
-ident(p)operator(()operator({)symbol(:foo=)operator(>)symbol(:bar)operator(})operator(\))   comment(#why does this work? i'd think that ':foo=' would be 1 token)
+ident(p)operator(()operator({)symbol(:foo)operator(=)operator(>)symbol(:bar)operator(})operator(\))   comment(#why does this work? i'd think that ':foo=' would be 1 token)
 ident(p)   constant(EMPTY) operator(=) integer(0)
 ident(p)   constant(BLACK) operator(=) integer(1)
 ident(p)   constant(WHITE) operator(=) operator(-) constant(BLACK)
@@ -666,7 +666,7 @@ end)>
 
 
 ident(proc) operator({)
-  ident(h)operator(=)operator({)symbol(:a=)operator(>)operator(()ident(foo)operator(=)integer(100)operator(\))operator(})
+  ident(h)operator(=)operator({)symbol(:a)operator(=)operator(>)operator(()ident(foo)operator(=)integer(100)operator(\))operator(})
   ident(p)operator(() ident(foo) string<delimiter(%()content(5)delimiter(\))>operator(\))
 operator(})operator(.)ident(call)
 
@@ -911,7 +911,7 @@ ident(p) string<delimiter(%/)content(p)delimiter(/)>
 ident(p) string<delimiter(%Q[)content(<LI>)delimiter(])>
 ident(i)operator(=)integer(99)
 ident(p) string<delimiter(%Q[)content(<LI><A HREF=")inline<delimiter(#{)ident(i)operator([)integer(3)operator(])delimiter(})>content(.html)char(\\#)inline<delimiter(#{)ident(i)operator([)integer(4)operator(])delimiter(})>content(">)inline<delimiter(#{)ident(i)operator([)integer(0)operator(])operator(+)ident(i)operator([)integer(1)operator(])operator(+)operator(()ident(i)operator([)integer(2)operator(])operator(\))delimiter(})>content(</A>)char(\\n)delimiter(])>
-ident(p)operator(()symbol(:side=)operator(>)symbol(:top)operator(\))
+ident(p)operator(()symbol(:side)operator(=)operator(>)symbol(:top)operator(\))
 ident(p) string<delimiter(%w[)content(a b c
      d e f)delimiter(])>
 ident(p) string<delimiter(%w[)content(a b c)content(\\n)content(

@@ -47,6 +47,10 @@ puts 30.send(:/, 5) # prints 6
 
 #%W[ but #@0illegal_values look strange.]
 
+%Quark dazu
+
+% abc   # FIXME
+
 %s#ruby allows strange#{constructs}
 %s#ruby allows strange#$constructs
 %s#ruby allows strange#@@constructs

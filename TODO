@@ -9,9 +9,9 @@ Project:
 						Documentation:
 3/4		0	2	?			Doc the interface
 		0	2	?			Cleanup/Read Doc
-3/4		0	1	Sa2			write examples
+3/4		0	1				write examples
 
-		1	2	Mi			Code Cleanup: Indentation
+		1	2				Code Cleanup: Indentation
 L		2	2				Rewrite Tools:
 							coderay, bench.rb, highlight.rb
 L		2	1				Cleanup Rakefile

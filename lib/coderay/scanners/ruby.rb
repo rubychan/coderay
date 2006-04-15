@@ -36,14 +36,14 @@ module CodeRay module Scanners
 			depth = nil
 			states = []
 
-			c = self.class
+			patterns = Patterns  # avoid constant lookup
 
 			until eos?
 				type = :error
 				match = nil
 				kind = nil
 
-				if state.instance_of? c::StringState
+				if state.instance_of? patterns::StringState
 # {{{
 					match = scan_until(state.pattern) || scan_until(/\z/)
 					tokens << [match, :content] unless match.empty?
@@ -69,7 +69,7 @@ module CodeRay module Scanners
 						end
 						tokens << [match, :delimiter]
 						if state.type == :regexp and not eos?
-							modifiers = scan(/#{REGEXP_MODIFIERS}/ox)
+							modifiers = scan(/#{patterns::REGEXP_MODIFIERS}/ox)
 							tokens << [modifiers, :modifier] unless modifiers.empty?
 							if parse_regexp
 								extended = modifiers.index ?x
@@ -108,7 +108,7 @@ module CodeRay module Scanners
 						
 					when '\\'
 						if state.interpreted
-							if esc = scan(/ #{ESCAPE} /ox)
+							if esc = scan(/ #{patterns::ESCAPE} /ox)
 								tokens << [match + esc, :char]
 							else
 								tokens << [match, :error]
@@ -143,7 +143,7 @@ module CodeRay module Scanners
 						state.paren_depth += 1
 						tokens << [match, :nesting_delimiter]
 
-					when /#{REGEXP_SYMBOLS}/ox
+					when /#{patterns::REGEXP_SYMBOLS}/ox
 						tokens << [match, :function]
 						
 					else
@@ -155,7 +155,7 @@ module CodeRay module Scanners
 				else
 # {{{					
 					if match = scan(/ [ \t\f]+ | \\? \n | \# .* /x) or
-						( bol? and match = scan(/#{RUBYDOC_OR_DATA}/o) )
+						( bol? and match = scan(/#{patterns::RUBYDOC_OR_DATA}/o) )
 						fancy_allowed = true
 						case m = match[0]
 						when ?\s, ?\t, ?\f
@@ -188,23 +188,23 @@ module CodeRay module Scanners
 					elsif state == :initial
 						
 						# IDENTS #
-						if match = scan(/#{METHOD_NAME}/o)
+						if match = scan(/#{patterns::METHOD_NAME}/o)
 							if last_token_dot
 								type = if match[/^[A-Z]/] and not match?(/\(/) then :constant else :ident end
 							else
-								type = c::IDENT_KIND[match]
+								type = patterns::IDENT_KIND[match]
 								if type == :ident and match[/^[A-Z]/] and not match[/[!?]$/] and not match?(/\(/)
 									type = :constant
 								elsif type == :reserved
-									state = c::DEF_NEW_STATE[match]
+									state = patterns::DEF_NEW_STATE[match]
 								end
 							end
 							## experimental!
-							fancy_allowed = regexp_allowed = :set if c::REGEXP_ALLOWED[match] or check(/\s+(?:%\S|\/\S)/)
+							fancy_allowed = regexp_allowed = :set if patterns::REGEXP_ALLOWED[match] or check(/\s+(?:%\S|\/\S)/)
 							
 						# OPERATORS #
 						elsif (not last_token_dot and match = scan(/ ==?=? | \.\.?\.? | [\(\)\[\]\{\}] | :: | , /x)) or
-							(last_token_dot and match = scan(/#{METHOD_NAME_OPERATOR}/o))
+							(last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}/o))
 							if match !~ / [.\)\]\}] /x or match =~ /\.\.\.?/
 								regexp_allowed = fancy_allowed = :set
 							end
@@ -228,32 +228,32 @@ module CodeRay module Scanners
 						elsif match = scan(/ ['"] /mx)
 							tokens << [:open, :string]
 							type = :delimiter
-							state = c::StringState.new :string, match == '"', match  # important for streaming
+							state = patterns::StringState.new :string, match == '"', match  # important for streaming
 							
-						elsif match = scan(/#{INSTANCE_VARIABLE}/o)
+						elsif match = scan(/#{patterns::INSTANCE_VARIABLE}/o)
 							type = :instance_variable
 
 						elsif regexp_allowed and match = scan(/\//)
 							tokens << [:open, :regexp]
 							type = :delimiter
 							interpreted = true
-							state = c::StringState.new :regexp, interpreted, match
+							state = patterns::StringState.new :regexp, interpreted, match
 							if parse_regexp
 								tokens = []
 								saved_tokens = tokens
 							end
 							
-						elsif match = scan(/#{NUMERIC}/o)
+						elsif match = scan(/#{patterns::NUMERIC}/o)
 							type = if self[1] then :float else :integer end
 
-						elsif match = scan(/#{SYMBOL}/o)
+						elsif match = scan(/#{patterns::SYMBOL}/o)
 							case delim = match[1]
 							when ?', ?"
 								tokens << [:open, :symbol]
 								tokens << [':', :symbol]
 								match = delim.chr
 								type = :delimiter
-								state = c::StringState.new :symbol, delim == ?", match
+								state = patterns::StringState.new :symbol, delim == ?", match
 							else
 								type = :symbol
 							end
@@ -262,27 +262,27 @@ module CodeRay module Scanners
 							regexp_allowed = fancy_allowed = :set
 							type = :operator
 							
-						elsif fancy_allowed and match = scan(/#{HEREDOC_OPEN}/o)
+						elsif fancy_allowed and match = scan(/#{patterns::HEREDOC_OPEN}/o)
 							indented = self[1] == '-'
 							quote = self[3]
 							delim = self[quote ? 4 : 2]
-							type = c::QUOTE_TO_TYPE[quote]
+							type = patterns::QUOTE_TO_TYPE[quote]
 							tokens << [:open, type]
 							tokens << [match, :delimiter]
 							match = :close
-							heredoc = c::StringState.new type, quote != '\'', delim, (indented ? :indented : :linestart )
+							heredoc = patterns::StringState.new type, quote != '\'', delim, (indented ? :indented : :linestart )
 							heredocs ||= []  # create heredocs if empty
 							heredocs << heredoc
 							
-						elsif fancy_allowed and match = scan(/#{FANCY_START_SAVE}/o)
-							type, interpreted = *FancyStringType.fetch(self[1]) do
+						elsif fancy_allowed and match = scan(/#{patterns::FANCY_START_SAVE}/o)
+							type, interpreted = *patterns::FancyStringType.fetch(self[1]) do
 								raise_inspect 'Unknown fancy string: %%%p' % k, tokens
 							end
 							tokens << [:open, type]
-							state = c::StringState.new type, interpreted, self[2]
+							state = patterns::StringState.new type, interpreted, self[2]
 							type = :delimiter
 
-						elsif fancy_allowed and match = scan(/#{CHARACTER}/o)
+						elsif fancy_allowed and match = scan(/#{patterns::CHARACTER}/o)
 							type = :integer
 
 						elsif match = scan(/ [\/%]=? | <(?:<|=>?)? | [?:;] /x)
@@ -295,13 +295,13 @@ module CodeRay module Scanners
 							else
 								tokens << [:open, :shell]
 								type = :delimiter
-								state = c::StringState.new :shell, true, match
+								state = patterns::StringState.new :shell, true, match
 							end
 							
-						elsif match = scan(/#{GLOBAL_VARIABLE}/o)
+						elsif match = scan(/#{patterns::GLOBAL_VARIABLE}/o)
 							type = :global_variable
 							
-						elsif match = scan(/#{CLASS_VARIABLE}/o)
+						elsif match = scan(/#{patterns::CLASS_VARIABLE}/o)
 							type = :class_variable
 							
 						else
@@ -311,7 +311,7 @@ module CodeRay module Scanners
 						
 					elsif state == :def_expected
 						state = :initial
-						if match = scan(/(?>#{METHOD_NAME_EX})(?!\.|::)/o)
+						if match = scan(/(?>#{patterns::METHOD_NAME_EX})(?!\.|::)/o)
 							type = :method
 						else
 							next
@@ -319,16 +319,16 @@ module CodeRay module Scanners
 
 					elsif state == :undef_expected
 						state = :undef_comma_expected
-						if match = scan(/#{METHOD_NAME_EX}/o)
+						if match = scan(/#{patterns::METHOD_NAME_EX}/o)
 							type = :method
-						elsif match = scan(/#{SYMBOL}/o)
+						elsif match = scan(/#{patterns::SYMBOL}/o)
 							case delim = match[1]
 							when ?', ?"
 								tokens << [:open, :symbol]
 								tokens << [':', :symbol]
 								match = delim.chr
 								type = :delimiter
-								state = c::StringState.new :symbol, delim == ?", match
+								state = patterns::StringState.new :symbol, delim == ?", match
 								state.next_state = :undef_comma_expected
 							else
 								type = :symbol
@@ -352,7 +352,7 @@ module CodeRay module Scanners
 							type = :operator
 						else
 							state = :initial
-							if match = scan(/ (?:#{IDENT}::)* #{IDENT} /ox)
+							if match = scan(/ (?:#{patterns::IDENT}::)* #{patterns::IDENT} /ox)
 								type = :class
 							else
 								next
@@ -379,7 +379,7 @@ module CodeRay module Scanners
 				end
 			end
 
-			states << state if state.is_a? c::StringState
+			states << state if state.is_a? patterns::StringState
 			until states.empty?
 				tokens << [:close, states.pop.type]
 			end

@@ -1,6 +1,8 @@
 module CodeRay module Scanners
 
-	class Ruby
+class Ruby
+
+	module Patterns  # :nodoc:
 
 		RESERVED_WORDS = %w[
 			and def end in or unless begin
@@ -132,8 +134,8 @@ module CodeRay module Scanners
 
 		# FIXME: \s and = are only a workaround, they are still allowed
 		# as delimiters.
-		FANCY_START_SAVE = / % ( [qQwWxsr] | (?![\w\s=]) ) (.) /mx
-		FANCY_START_CORRECT = / % ( [qQwWxsr] | (?!\w) ) (.) /mx
+		FANCY_START_SAVE = / % ( [qQwWxsr] | (?![a-zA-Z0-9\s=]) ) ([^a-zA-Z0-9]) /mx
+		FANCY_START_CORRECT = / % ( [qQwWxsr] | (?![a-zA-Z0-9]) ) ([^a-zA-Z0-9]) /mx
 
 		FancyStringType = {
 			'q' => [:string, false],
@@ -210,5 +212,7 @@ module CodeRay module Scanners
 		end unless defined? StringState
 	
 	end
+
+end
 
 end end

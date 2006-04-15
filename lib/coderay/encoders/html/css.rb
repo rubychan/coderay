@@ -3,12 +3,9 @@ module CodeRay module Encoders
 	class HTML
 		class CSS
 
-			DEFAULT_STYLESHEET_ID = :cycnus
-
 			attr :stylesheet
 
-			def CSS.load_stylesheet style = :default
-				style = DEFAULT_STYLESHEET_ID if style == :default
+			def CSS.load_stylesheet style = nil
 				CodeRay::Styles[style]
 			end
 			

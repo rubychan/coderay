@@ -3,8 +3,8 @@ require 'rake'
 require 'rake_helpers/rdoctask2'
 require 'rake/gempackagetask.rb'
 
-ROOT = ''
-LIB_ROOT = ROOT + 'lib/'
+ROOT = '.'
+LIB_ROOT = File.join(ROOT, 'lib')
 
 task :default => :make
 
@@ -14,16 +14,23 @@ task :default => :make
 #	rm_r 'doc' if File.directory? 'doc'
 #end
 
+EXTRA_FILES = %w(README FOLDERS)
+def EXTRA_FILES.in folder
+	map do |file_name|
+		File.join folder, file_name
+	end
+end
+
 def set_rdoc_info rd, small = false
 #	rd.rdoc_dir = 'doc'
-	rd.main = ROOT + 'README'
+	rd.main = File.join(ROOT, 'README')
 	rd.title = "CodeRay Documentation"
 	rd.options << '--line-numbers' << '--inline-source' << '--tab-width' << '2'
 	rd.options << '--fmt' << 'html_coderay'
 	rd.options << '--all'
 	rd.template = 'rake_helpers/coderay_rdoc_template.rb'
-	rd.rdoc_files.add ROOT + 'README'
-	rd.rdoc_files.add *Dir[LIB_ROOT + "#{'**/' unless small}*.rb"]
+	rd.rdoc_files.add *EXTRA_FILES.in(ROOT)
+	rd.rdoc_files.add *Dir[File.join(LIB_ROOT, "#{'**/' unless small}*.rb")]
 end
 
 desc 'Generate documentation for CodeRay'
@@ -91,7 +98,7 @@ def gemspec
 		s.date = Time.now.strftime '%Y-%m-%d'
 		s.has_rdoc = true
 		s.rdoc_options = '-SNw2', '-mREADME', '-a', '-t CodeRay Documentation'
-		s.extra_rdoc_files = %w(./README)
+		s.extra_rdoc_files = EXTRA_FILES.in('./')
 
 		# Description
 		s.summary = <<-EOF

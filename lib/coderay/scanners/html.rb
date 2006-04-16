@@ -1,4 +1,5 @@
-module CodeRay module Scanners
+module CodeRay
+module Scanners
 
 	# HTML Scanner
 	#
@@ -162,4 +163,5 @@ module CodeRay module Scanners
 
 	end
 
-end end
+end
+end

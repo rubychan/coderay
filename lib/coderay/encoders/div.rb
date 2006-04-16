@@ -1,4 +1,5 @@
-module CodeRay module Encoders
+module CodeRay
+module Encoders
 	
 	load :html
 
@@ -15,4 +16,5 @@ module CodeRay module Encoders
 
 	end
 
-end end
+end
+end

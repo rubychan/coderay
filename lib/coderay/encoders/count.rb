@@ -6,12 +6,12 @@ module Encoders
 		include Streamable
 		register_for :count
 
-	protected		
-		
+		protected		
+
 		def setup options
 			@out = 0
 		end
-		
+
 		def token text, kind
 			@out += 1
 		end

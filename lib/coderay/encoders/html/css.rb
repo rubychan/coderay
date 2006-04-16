@@ -1,4 +1,5 @@
-module CodeRay module Encoders
+module CodeRay
+module Encoders
 
 	class HTML
 		class CSS
@@ -55,7 +56,8 @@ module CodeRay module Encoders
 		end
 	end
 	
-end end
+end
+end
 
 if $0 == __FILE__
 	require 'pp'

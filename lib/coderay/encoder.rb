@@ -171,5 +171,3 @@ module CodeRay
 
 	end
 end
-
-# vim:sw=2:ts=2:noet:tw=78

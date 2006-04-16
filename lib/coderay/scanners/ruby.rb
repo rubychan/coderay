@@ -1,4 +1,5 @@
-module CodeRay module Scanners
+module CodeRay
+module Scanners
 
 	# This scanner is really complex, since Ruby _is_ a complex language!
 	#
@@ -390,5 +391,7 @@ module CodeRay module Scanners
 		end
 	end
 
-end end
+end
+end
+
 # vim:fdm=marker

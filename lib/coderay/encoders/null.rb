@@ -1,26 +1,26 @@
 module CodeRay
-	module Encoders
+module Encoders
 
-		# = Null Encoder
-		#
-		# Does nothing and returns an empty string.
-		class Null < Encoder
+	# = Null Encoder
+	#
+	# Does nothing and returns an empty string.
+	class Null < Encoder
 
-			include Streamable
-			register_for :null
+		include Streamable
+		register_for :null
 
-			# Defined for faster processing
-			def to_proc
-				proc {}
-			end
+		# Defined for faster processing
+		def to_proc
+			proc {}
+		end
 
-		protected
+	protected
 
-			def token(*)
-				# do nothing
-			end
-
+		def token(*)
+			# do nothing
 		end
 
 	end
+
+end
 end

@@ -1,4 +1,5 @@
-module CodeRay module Scanners
+module CodeRay
+module Scanners
 
 	load :html
 	load :ruby
@@ -120,4 +121,5 @@ module CodeRay module Scanners
 
 	end
 
-end end
+end
+end

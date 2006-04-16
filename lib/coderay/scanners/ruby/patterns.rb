@@ -1,8 +1,7 @@
-module CodeRay module Scanners
+module CodeRay
+module Scanners
 
-class Ruby
-
-	module Patterns  # :nodoc:
+	module Ruby::Patterns  # :nodoc:
 
 		RESERVED_WORDS = %w[
 			and def end in or unless begin
@@ -210,9 +209,8 @@ class Ruby
 				super kind, interpreted, delim, heredoc, paren, paren_depth, pattern, :initial
 			end
 		end unless defined? StringState
-	
+
 	end
 
 end
-
-end end
+end

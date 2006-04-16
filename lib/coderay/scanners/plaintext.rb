@@ -1,4 +1,5 @@
-module CodeRay module Scanners
+module CodeRay
+module Scanners
 
 	class Plaintext < Scanner
 		
@@ -10,4 +11,5 @@ module CodeRay module Scanners
 
 	end
 
-end end
+end
+end

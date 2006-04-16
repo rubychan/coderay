@@ -1,16 +1,16 @@
 module CodeRay
-	module Styles
-		
-		class CYcnus < Style
-			
-			register_for :cycnus
-			
-			code_background = '#f8f8f8'
-			numbers_background = '#def'
-			border_color = 'silver'
-			normal_color = '#100'
-			
-			CSS_MAIN_STYLES = <<-MAIN
+module Styles
+
+	class Cycnus < Style
+
+		register_for :cycnus
+
+		code_background = '#f8f8f8'
+		numbers_background = '#def'
+		border_color = 'silver'
+		normal_color = '#100'
+
+		CSS_MAIN_STYLES = <<-MAIN
 .CodeRay {
 	background-color: #{code_background};
 	border: 1px solid #{border_color};
@@ -39,9 +39,9 @@ ol.CodeRay { font-size: 10pt }
 ol.CodeRay li { white-space: pre }
 
 .CodeRay .code pre { overflow: auto }
-			MAIN
+		MAIN
 
-			TOKEN_COLORS = <<-'TOKENS'
+		TOKEN_COLORS = <<-'TOKENS'
 .af { color:#00C }
 .an { color:#007 }
 .av { color:#700 }
@@ -117,9 +117,9 @@ ol.CodeRay li { white-space: pre }
 .ty { color:#339; font-weight:bold }
 .v  { color:#036 }
 .xt { color:#444 }
-			TOKENS
-			
-		end
-		
+		TOKENS
+
 	end
+
+end
 end

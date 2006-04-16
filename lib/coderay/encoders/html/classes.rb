@@ -1,4 +1,5 @@
-module CodeRay module Encoders
+module CodeRay
+module Encoders
 
 	class HTML
 
@@ -68,4 +69,5 @@ module CodeRay module Encoders
 
 	end
 
-end end
+end
+end

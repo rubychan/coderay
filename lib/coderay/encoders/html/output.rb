@@ -1,5 +1,5 @@
 module CodeRay
-	module Encoders
+module Encoders
 
 	class HTML
 		

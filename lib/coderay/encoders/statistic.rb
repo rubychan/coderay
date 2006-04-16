@@ -1,4 +1,5 @@
-module CodeRay module Encoders
+module CodeRay
+module Encoders
 
 	# Makes a statistic for the given tokens.
 	class Statistic < Encoder
@@ -76,4 +77,5 @@ Token Types (%d):
 		
 	end
 
-end end
+end
+end

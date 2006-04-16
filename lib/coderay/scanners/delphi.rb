@@ -1,4 +1,5 @@
-module CodeRay module Scanners
+module CodeRay
+module Scanners
 	
 	class Delphi < Scanner
 
@@ -124,4 +125,5 @@ module CodeRay module Scanners
 
 	end
 
-end end
+end
+end

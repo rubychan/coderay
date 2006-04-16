@@ -1,5 +1,6 @@
-module CodeRay module Encoders
-	
+module CodeRay
+module Encoders
+
 	load :html
 
 	class Span < HTML
@@ -12,6 +13,8 @@ module CodeRay module Encoders
 			:css => :style,
 			:wrap => :span,
 		})
+
 	end
 
-end end
+end
+end

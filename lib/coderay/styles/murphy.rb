@@ -1,16 +1,16 @@
 module CodeRay
-	module Styles
-		
-		class Murphy < Style
-			
-			register_for :murphy
-			
-			code_background = '#001129'
-			numbers_background = code_background
-			border_color = 'silver'
-			normal_color = '#C0C0C0'
-			
-			CSS_MAIN_STYLES = <<-MAIN
+module Styles
+
+	class Murphy < Style
+
+		register_for :murphy
+
+		code_background = '#001129'
+		numbers_background = code_background
+		border_color = 'silver'
+		normal_color = '#C0C0C0'
+
+		CSS_MAIN_STYLES = <<-MAIN
 .CodeRay {
 	background-color: #{code_background};
 	border: 1px solid #{border_color};
@@ -39,9 +39,9 @@ ol.CodeRay { font-size: 10pt; }
 ol.CodeRay li { white-space: pre; }
 
 .CodeRay .code pre { overflow: auto; }
-			MAIN
+		MAIN
 
-			TOKEN_COLORS = <<-'TOKENS'
+		TOKEN_COLORS = <<-'TOKENS'
 .af { color:#00C; }
 .an { color:#007; }
 .av { color:#700; }
@@ -111,9 +111,9 @@ ol.CodeRay li { white-space: pre; }
 .ty { color:#339; font-weight:bold; }
 .v  { color:#036; }
 .xt { color:#444; }
-			TOKENS
-			
-		end
-		
+		TOKENS
+
 	end
+
+end
 end

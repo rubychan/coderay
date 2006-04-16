@@ -1,7 +1,7 @@
 module CodeRay
-	module Styles
-		
-		default :cycnus
-		
-	end
+module Styles
+	
+	default :cycnus
+	
+end
 end

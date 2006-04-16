@@ -145,7 +145,7 @@ module CodeRay module Scanners
 				match ||= matched
 				if $DEBUG and (not kind or kind == :error)
 					raise_inspect 'Error token %p in line %d' %
-					[[match, kind], line], tokens
+						[[match, kind], line], tokens
 				end
 				raise_inspect 'Empty token', tokens unless match
 				

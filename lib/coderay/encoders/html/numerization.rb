@@ -48,9 +48,6 @@ module Encoders
 						raise ArgumentError, 'Invalid value %p for :bolding; false or Integer expected.' % bold_every
 					end
 				
-				line_count = count("\n")
-				line_count += 1 unless self[-1] == ?\n
-
 				case mode				
 				when :inline
 					max_width = (start + line_count).to_s.size
@@ -104,6 +101,17 @@ module Encoders
 				end
 
 				self
+			end
+
+			def line_count
+				line_count = count("\n")
+				position_of_last_newline = rindex(?\n)
+				if position_of_last_newline
+					after_last_newline = self[position_of_last_newline + 1 .. -1]
+					ends_with_newline = after_last_newline[/\A(?:<\/span>)*\z/]
+					line_count += 1 if not ends_with_newline
+				end
+				line_count
 			end
 
 		end

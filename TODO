@@ -14,12 +14,10 @@ Project:
 		1	2				Code Cleanup: Indentation
 L		2	2				Rewrite Tools:
 							coderay, bench.rb, highlight.rb
-L		2	1				Cleanup Rakefile
 
 
 
 Plugins:
-X		1	1	Sa			Plugin mapping (:cpp --> Scanners::C etc.)
 
 
 Scanners:

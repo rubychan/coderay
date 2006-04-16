@@ -60,25 +60,28 @@ private
 			p "Scanning #{file_name}..." if $DEBUG
 			next unless file_name =~ pattern
 
-			lines = codelines = classes = methods = 0
+			lines = codelines = classes = modules = methods = 0
 			empty_lines = comment_lines = 0
-			comment_block = nil
+			in_comment_block = false
 			
 			File.readlines(file_name).each do |line|
 				lines += 1
 				case line
-				when /^=end\s/
+				when /^=end\b/
 					comment_lines += 1
-					comment_block = nil
-				when comment_block
+					in_comment_block = false
+				when in_comment_block
 					comment_lines += 1
 				when /^\s*class\b/: classes += 1
+				when /^\s*module\b/: modules += 1
 				when /^\s*def\b/: methods += 1
 				when /^\s*#/: comment_lines += 1
 				when /^\s*$/: empty_lines += 1
-				when /^=begin\s/
-					comment_block = lines
+				when /^=begin\b/
+					in_comment_block = false
 					comment_lines += 1
+				when /^__END__$/
+					in_comment_block = true
 				end
 			end
 
@@ -87,6 +90,7 @@ private
 			stats[:lines] += lines
 			stats[:codelines] += codelines
 			stats[:classes] += classes
+			stats[:modules] += modules
 			stats[:methods] += methods
 			stats[:files] += 1
 		end
@@ -114,16 +118,16 @@ private
 
 	def print_header
 		print_splitter
-		puts "| T=Test  Name              | Files | Lines |   LOC | Classes | Methods | M/C | LOC/M |"
+		puts "| T=Test  Name              | Files | Lines |   LOC | Classes | Modules | Methods | M/C | LOC/M |"
 		print_splitter
 	end
 
 	def print_splitter
-		puts "+---------------------------+-------+-------+-------+---------+---------+-----+-------+"
+		puts "+---------------------------+-------+-------+-------+---------+---------+---------+-----+-------+"
 	end
 
 	def print_line name, statistics
-		m_over_c = (statistics[:methods] / statistics[:classes]) rescue m_over_c = 0
+		m_over_c = (statistics[:methods] / (statistics[:classes] + statistics[:modules])) rescue m_over_c = 0
 		loc_over_m = (statistics[:codelines] / statistics[:methods]) - 2 rescue loc_over_m = 0
 
 		if name[TEST_TYPES]
@@ -132,8 +136,8 @@ private
 			name = "  #{name}" 
 		end
 
-		line = "| %-25s | %5d | %5d | %5d | %7d | %7d | %3d | %5d |" % (
-			[name, *statistics.values_at(:files, :lines, :codelines, :classes, :methods)] +
+		line = "| %-25s | %5d | %5d | %5d | %7d | %7d | %7d | %3d | %5d |" % (
+			[name, *statistics.values_at(:files, :lines, :codelines, :classes, :modules, :methods)] +
 			[m_over_c, loc_over_m] )
 
 		puts line

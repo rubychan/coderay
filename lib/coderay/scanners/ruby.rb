@@ -366,9 +366,11 @@ module CodeRay module Scanners
 					fancy_allowed = fancy_allowed == :set
 					last_token_dot = last_token_dot == :set
 
-					if $DEBUG
-						raise_inspect 'error token %p in line %d' % [[match, type], line], tokens if not type or type == :error
+					if $DEBUG and (not kind or kind == :error)
+						raise_inspect 'Error token %p in line %d' %
+							[[match, kind], line], tokens
 					end
+					raise_inspect 'Empty token', tokens unless match
 
 					tokens << [match, type]
 					

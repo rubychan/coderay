@@ -11,17 +11,18 @@ Keywords, strings, floats, comments - all in different colors.
 And with line numbers.
 
 *Syntax* *Highlighting*...
-* makes code easier to read
-* lets you detect errors faster
+* makes code easier to read and maintain
+* lets you detect syntax errors faster
 * helps you to understand the syntax of a language
 * looks nice
 * is what everybody should have on their website
 * solves all your problems and makes the girls run after you
 
-Version: 0.5.0 (2006.march.16)
-Author:: murphy
-Idea:: licenser
-Website:: rd.cYcnus.de/coderay[http://rd.cYcnus.de/coderay]
+Version: 0.5.0 (2006.april.16)
+Author:: murphy (Kornelius Kalnbach)
+Contact:: murphy rubychan de
+Website:: coderay.rubychan.de[http://coderay.rubychan.de]
+Old Website:: rd.cYcnus.de/coderay[http://rd.cYcnus.de/coderay]
 Copyright:: (c) 2006 by cYcnus
 License:: GNU LGPL; see LICENSE file in the main directory.
 Subversion:: $Id$
@@ -34,10 +35,15 @@ You need RubyGems[http://rubyforge.org/frs/?group_id=126].
 
  % gem install coderay
 
+Since CodeRay is still in beta stage, nightly buildy may be useful:
+
+ % gem install coderay -rs rd.cYcnus.de/coderay
+
 
 === Dependencies
 
-CodeRay needs Ruby 1.8 and the strscan[http://www.ruby-doc.org/stdlib/libdoc/strscan/rdoc/index.htm] library included.
+CodeRay needs Ruby 1.8 and the strscan[http://www.ruby-doc.org/stdlib/libdoc/strscan/rdoc/index.htm] library
+(part of the standard library.)
 
 
 == Example Usage
@@ -45,8 +51,9 @@ CodeRay needs Ruby 1.8 and the strscan[http://www.ruby-doc.org/stdlib/libdoc/str
 
  require 'coderay'
  
- hl = CodeRay.html :line_numbers => :table
- puts hl.highlight_page "puts 'Hello, world!'", :ruby
+ tokens = CodeRay.scan "puts 'Hello, world!'", :ruby
+ page = tokens.html :line_numbers => :inline, :wrap => :page
+ puts page
 
 
 == Documentation
@@ -75,8 +82,9 @@ Please report errors in this documentation to <coderay cycnus de>.
   but also gave me a wonderful target to reach for the Ruby scanner.
 * everyone who used CodeRay on http://www.rubyforen.de and http://www.infhu.de/mx
 * iGEL, magichisoka, manveru, WoN·Do and everyone I forgot from rubyforen.de
+* Daniel and Dethix from ruby-mine.de
 * Dookie (who is no longer with us...) and Leonidas from http://www.python-forum.de
-* matz, nobu, why, dave, dhh, etc... you know, those Ruby gods and gurus
+* matz and all Ruby gods and gurus
 * The inventors of: the computer, the internet, the true color display, HTML & CSS, VIM, RUBY,
   pizza, microwaves, guitars, scouting, programming, anime, manga, coke and green ice tea.
 

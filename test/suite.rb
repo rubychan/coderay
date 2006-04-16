@@ -66,9 +66,9 @@ class CodeRaySuite < TestCase
 					computed = output.sub('.out.', '.computed.')
 					unless ok
 						File.open(computed, 'w') { |f| f.write result }
-						print `gvimdiff #{output} #{computed}` if $DEBUG
+						print `gvimdiff #{output} #{computed}` if ENV['diff']
 					end
-					assert(ok, "Scan error: #{computed} != #{output}") unless $DEBUG
+					assert(ok, "Scan error: #{computed} != #{output}") unless ENV['diff']
 				else
 					File.open(output, 'w') do |f| f.write result end
 					puts "New test: #{output}"
@@ -85,21 +85,22 @@ $suite = TestSuite.new
 
 def load_suite name
 	begin
-		require name + '/suite.rb'
+		suite = File.join($mydir, name, 'suite.rb')
+		require suite
 	rescue LoadError
 		$stderr.puts <<-ERR
 
-!! Suite #{name + '/suite.rb'} not found
+!! Suite #{suite} not found
 		
 		ERR
 		false
 	end
 end
 
-if subsuite = ARGV.find { |a| break $1 if a[/^([^-].*)/] }
+if subsuite = ARGV.find { |a| break $1 if a[/^([^-].*)/] } || ENV['lang']
 	load_suite(subsuite) or exit
 else
-	Dir[File.join($mydir, '*', '')].each { |suite| load_suite suite }
+	Dir[File.join($mydir, '*', '')].each { |suite| load_suite File.basename(suite) }
 end
 
 if ARGV.include? '-f'

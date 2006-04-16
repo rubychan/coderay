@@ -15,3 +15,5 @@ for task_file in Dir['rake_tasks/*.rake']
 end
 
 task :default => 'gem:make'
+
+task :upload => %w( gem:upload doc:upload example:upload )

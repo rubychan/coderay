@@ -84,10 +84,10 @@ namespace :gem do
 	end
 	
 	desc 'Upload gemfile to ' + FTP_DOMAIN
-	task :up_gem => :make do
+	task :upload => :make do
 		gn 'Uploading gem:'
-		Dir.chdir 'gem_server' do
-			cYcnus_ftp do |ftp|
+		cYcnus_ftp do |ftp|
+			Dir.chdir 'gem_server' do
 				uploader = uploader_for ftp
 				ftp.chdir FTP_CODERAY_DIR
 				%w(yaml yaml.Z).each &uploader

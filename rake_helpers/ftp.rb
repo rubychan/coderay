@@ -1,18 +1,20 @@
-def prepare_ftp
-	require 'net/ftp'
-	require 'yaml'
-	$username = File.exist?(FTP_YAML) ? YAML.load_file(FTP_YAML)[:username] : 'anonymous'
-end
-
 FTP_YAML = 'ftp.yaml'
 FTP_DOMAIN = 'cycnus.de'
 FTP_CODERAY_DIR = 'public_html/raindark/coderay'
 
+def prepare_ftp
+	require 'net/ftp'
+	require 'yaml'
+	$username = File.exist?(FTP_YAML) ? YAML.load_file(FTP_YAML)[:username] : 'anonymous'
+	g "ftp login, password for #$username needed: "
+	$password = $stdin.gets.chomp
+end
+
 def cYcnus_ftp
-	prepare_ftp
+	prepare_ftp unless $password
 	Net::FTP.open(FTP_DOMAIN) do |ftp|
-		g 'ftp login, password needed: '
-		ftp.login $username, $stdin.gets
+		g "login for #$username..."
+		ftp.login $username, $password
 		gn 'logged in.'
 		yield ftp
 	end

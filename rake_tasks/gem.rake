@@ -59,7 +59,7 @@ namespace :gem do
 			$version = CodeRay::Version
 		end
 		puts 'Current Version: %s' % $version
-		$version.sub!(/\.(\d+)\./) { minor = $1; ".#{minor.to_i - 1}." }
+		#$version.sub!(/\.(\d+)\./) { minor = $1; ".#{minor.to_i}." }
 		$version << '.' << (`svn info`[/Revision: (\d+)/,1])
 	end
 

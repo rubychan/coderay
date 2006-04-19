@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language name="Eiffel" version="1.02" kateversion="2.1" section="Sources" extensions="*.e" mimetype="text/x-eiffel-src">
+        <highlighting>
+                <list name="keywords">
+                        <item> indexing </item>
+                        <item> class </item>
+                        <item> inherit </item>
+                        <item> creation </item>
+                        <item> feature </item>
+                        <item> rename </item>
+                        <item> redefine </item>
+                        <item> undefine </item>
+                        <item> select </item>
+                        <item> export </item>
+                        <item> local </item>
+                        <item> deferred </item>
+                        <item> do </item>
+                        <item> is </item>
+                        <item> once </item>
+                        <item> alias </item>
+                        <item> external </item>
+                        <item> rescue </item>
+                        <item> debug </item>
+                        <item> if </item>
+                        <item> inspect </item>
+                        <item> from </item>
+                        <item> else </item>
+                        <item> elseif </item>
+                        <item> when </item>
+                        <item> until </item>
+                        <item> loop </item>
+                        <item> then </item>
+                        <item> obsolete </item>
+                        <item> end </item>
+                </list>
+                <list name="assertions">
+                        <item> check </item>
+                        <item> ensure </item>
+                        <item> require </item>
+                        <item> variant </item>
+                        <item> invariant </item>
+                </list>
+                <contexts>
+                        <context attribute="Normal Text" lineEndContext="#stay" name="Normal">
+                                <keyword attribute="Keyword" context="#stay" String="keywords"/>
+                                <Float attribute="Float" context="#stay"/>
+                                <Int attribute="Decimal" context="#stay"/>
+                                <RegExpr attribute="Char" context="#stay" String="'.'"/>
+                                <DetectChar attribute="String" context="String" char="&quot;"/>
+                                <Detect2Chars attribute="Comment" context="Comment" char="-" char1="-"/>
+                                <keyword attribute="Assertions" context="#stay" String="assertions"/>
+                        </context>
+                        <context attribute="String" lineEndContext="#pop" name="String">
+                                <DetectChar attribute="String" context="#pop" char="&quot;"/>
+                        </context>
+                        <context attribute="Comment" name="Comment" lineEndContext="#pop"/>
+                </contexts>
+                <itemDatas>
+                        <itemData name="Normal Text" defStyleNum="dsNormal" />
+                        <itemData name="Keyword"     defStyleNum="dsKeyword" />
+                        <itemData name="Decimal"     defStyleNum="dsDecVal" />
+                        <itemData name="Float"       defStyleNum="dsFloat" />
+                        <itemData name="Char"        defStyleNum="dsChar" />
+                        <itemData name="String"      defStyleNum="dsString" />
+                        <itemData name="Comment"     defStyleNum="dsComment" />
+                        <itemData name="Assertions"  defStyleNum="dsOthers" />
+                </itemDatas>
+  </highlighting>
+  <general>
+    <comments>
+      <comment name="singleLine" start="--" />
+    </comments>
+    <keywords casesensitive="1" />
+  </general>
+</language>

@@ -135,7 +135,9 @@ Benchmark.bm(20) do |bm|
 			begin
 				v = $VERBOSE
 				$VERBOSE = nil
-				output = c.convert(data)
+				N.times do
+					output = c.convert(data)
+				end
 				$VERBOSE = v
 			rescue => boom
 				output = boom.inspect
@@ -151,7 +153,10 @@ Benchmark.bm(20) do |bm|
 
 		time = bm.report('SilverCity') do
 			Dir.chdir(here) do
-				`c:/Python/Scripts/source2html.pyo --generator=#{lang} example.#{lang} > test.silvercity.html`
+				File.open('input-data', 'w') { |f| f.write data }
+				N.times do
+					`c:/Python/Scripts/source2html.pyo --generator=#{lang} input-data > test.silvercity.html`
+				end
 			end
 			$file_created << ", test.silvercity.#{format}"
 		end
@@ -182,3 +187,25 @@ __END__
 .ruby .global { color: #7FB; }
 .ruby .expr { color: #227; }
 .ruby .escape { color: #277; }
+
+.xml .normal {}
+.xml .namespace { color: #B66; font-weight: bold; }
+.xml .tag { color: #F88; }
+.xml .comment { color: #005; font-style: italic; }
+.xml .punct { color: #447; font-weight: bold; }
+.xml .string { color: #944; }
+.xml .number { color: #F99; }
+.xml .attribute { color: #BB7; }
+
+.yaml .normal {}
+.yaml .document { font-weight: bold; color: #07F; }
+.yaml .type { font-weight: bold; color: #05C; }
+.yaml .key { color: #F88; }
+.yaml .comment { color: #005; font-style: italic; }
+.yaml .punct { color: #447; font-weight: bold; }
+.yaml .string { color: #944; }
+.yaml .number { color: #F99; }
+.yaml .time { color: #F99; }
+.yaml .date { color: #F99; }
+.yaml .ref { color: #944; }
+.yaml .anchor { color: #944; }

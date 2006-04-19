@@ -6,16 +6,29 @@
 #
 # Version: 0.1 (2005.september.1)
 #
-# ==Documentation
+# == Documentation
 #
-# TODO
-#
+#  # determine the type of the given
+#	 lang = FileType[ARGV.first]
+#  
+#	 # return :plaintext if the file type is unknown
+#	 lang = FileType.fetch ARGV.first, :plaintext
+#  
+#	 # try the shebang line, too
+#	 lang = FileType.fetch ARGV.first, :plaintext, true
+#	 
 module FileType
 	
 	UnknownFileType = Class.new Exception
 
 	class << self
 
+		# Try to determine the file type of the file.
+		#
+		# +filename+ is a relative or absolute path to a file.
+		#
+		# The file itself is only accessed when +read_shebang+ is set to true.
+		# That means you can get filetypes from files that don't exist.
 		def [] filename, read_shebang = false
 			name = File.basename filename
 			ext = File.extname name
@@ -43,6 +56,9 @@ module FileType
 		end
 		
 		# This works like Hash#fetch.
+		#
+		# If the filetype cannot be found, the +default+ value
+		# is returned.
 		def fetch filename, default = nil, read_shebang = false
 			if default and block_given?
 				warn 'block supersedes default value argument'
@@ -61,12 +77,17 @@ module FileType
 	TypeFromExt = {
 		'rb' => :ruby,
 		'rbw' => :ruby,
-		'cpp' => :cpp,
+		'rake' => :ruby,
+		'cpp' => :c,
 		'c' => :c,
 		'h' => :c,
 		'xml' => :xml,
 		'htm' => :html,
 		'html' => :html,
+		'xhtml' => :xhtml,
+		'rhtml' => :rhtml,
+		'yaml' => :yaml,
+		'yml' => :yaml,
 	}
 
 	TypeFromShebang = /\b(?:ruby|perl|python|sh)\b/
@@ -118,6 +139,7 @@ class TC_FileType < Test::Unit::TestCase
 		assert_equal :ruby, FileType['C:\\Program Files\\x\\y\\c\\test.rbw']
 		assert_equal :ruby, FileType['/usr/bin/something/Rakefile']
 		assert_equal :ruby, FileType['~/myapp/gem/Rantfile']
+		assert_equal :ruby, FileType['./lib/tasks\repository.rake']
 		assert_not_equal :ruby, FileType['test_rb']
 		assert_not_equal :ruby, FileType['Makefile']
 		assert_not_equal :ruby, FileType['set.rb/set']
@@ -131,6 +153,20 @@ class TC_FileType < Test::Unit::TestCase
 		assert_not_equal :c, FileType['Makefile']
 		assert_not_equal :c, FileType['set.h/set']
 		assert_not_equal :c, FileType['~/projects/blabla/c']
+	end
+
+	def test_html
+		assert_equal :html, FileType['test.htm']
+		assert_equal :xhtml, FileType['test.xhtml']
+		assert_equal :xhtml, FileType['test.html.xhtml']
+		assert_equal :rhtml, FileType['_form.rhtml']
+	end
+
+	def test_yaml
+		assert_equal :yaml, FileType['test.yml']
+		assert_equal :yaml, FileType['test.yaml']
+		assert_equal :yaml, FileType['my.html.yaml']
+		assert_not_equal :yaml, FileType['YAML']
 	end
 
 	def test_shebang

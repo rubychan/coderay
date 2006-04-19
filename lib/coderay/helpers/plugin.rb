@@ -157,6 +157,17 @@ module PluginHost
 		@plugin_hash ||= create_plugin_hash
 	end
 
+	# Returns an array of all .rb files in the plugin path.
+	# 
+	# The extension .rb is not included.
+	def all_plugin_names
+		Dir[path_to('*')].select do |file|
+			File.basename(file)[/^(?!_)\w+\.rb$/]
+		end.map do |file|
+			File.basename file, '.rb'
+		end
+	end
+
 protected
 	# Created a new plugin list and stores it to @plugin_hash.
 	def create_plugin_hash
@@ -201,17 +212,6 @@ protected
 			require mapfile
 		elsif $DEBUG
 			warn 'no _map.rb found for %s' % name
-		end
-	end
-
-	# Returns an array of all .rb files in the plugin path.
-	# 
-	# The extension .rb is not included.
-	def all_plugin_names
-		Dir[path_to('*')].select do |file|
-			File.basename(file)[/^(?!_)\w+\.rb$/]
-		end.map do |file|
-			File.basename file, '.rb'
 		end
 	end
 

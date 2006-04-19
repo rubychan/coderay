@@ -1,3 +1,5 @@
+public :<<
+
 class String
     def / regex
         scan(regex).first

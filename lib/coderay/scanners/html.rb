@@ -130,9 +130,9 @@ module Scanners
 							next
 						elsif scan(/#{ENTITY}/ox)
 							kind = :entity
-						elsif match(/[\n>]/)
+						elsif scan(/[\n>]/)
 							tokens << [:close, :string]
-							kind = error
+							kind = :error
 							state = :initial
 						end
 

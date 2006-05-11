@@ -22,6 +22,7 @@ module CodeRay
 			@scanner.string = code
 			@encoder.encode_tokens(scanner.tokenize)
 		end
+		alias highlight encode
 		
 	end
 	

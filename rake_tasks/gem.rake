@@ -31,6 +31,7 @@ def gemspec
 		# Files
 		s.require_path = 'lib'
 		s.autorequire = 'coderay'
+		s.executables = [ 'coderay' ]
 
 		s.files = nil  # defined later		
 
@@ -49,8 +50,13 @@ namespace :gem do
 	end
 
 	desc 'Create the gem again'
-	task :make => [:make_gemspec, :gem, :prepare_server]
+	task :make => [:make_gemspec, :clean, :gem, :prepare_server]
 
+	desc 'Delete previously created Gems'
+	task :clean do
+		Dir['pkg/*.gem'].each { |g| rm g }
+	end
+		
 	desc 'Find out the current CodeRay version'
 	task :get_version do
 		unless $version
@@ -98,6 +104,11 @@ namespace :gem do
 			end
 		end
 		gn 'Gem successfully uploaded.'
+	end
+
+	desc 'Build the Gem and install it locally'
+	task :install => :make do
+		system "ruby -S gem install --no-rdoc pkg/#{$gemfile}"
 	end
 
 end

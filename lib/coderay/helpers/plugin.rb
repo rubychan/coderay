@@ -235,7 +235,7 @@ protected
 	# Raises +ArgumentError+ for all other objects, or if the
 	# given String includes non-alphanumeric characters (\W).
 	def validate_id id
-		if id.is_a? Symbol
+		if id.is_a? Symbol or id.nil?
 			id
 		elsif id.is_a? String
 			if id[/\w+/] == id

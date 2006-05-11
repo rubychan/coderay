@@ -1,3 +1,5 @@
+ident(public) symbol(:<<)
+
 reserved(class) class(String)
     reserved(def) method(/) ident(regex)
         ident(scan)operator(()ident(regex)operator(\))operator(.)ident(first)

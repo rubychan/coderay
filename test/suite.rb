@@ -97,7 +97,7 @@ def load_suite name
 	end
 end
 
-if subsuite = ARGV.find { |a| break $1 if a[/^([^-].*)/] } || ENV['lang']
+if subsuite = ARGV.find { |a| break $1 if a[/^([^-].*)/] } || ENV['scannerlang']
 	load_suite(subsuite) or exit
 else
 	Dir[File.join($mydir, '*', '')].each { |suite| load_suite File.basename(suite) }

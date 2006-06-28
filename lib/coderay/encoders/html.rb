@@ -86,11 +86,6 @@ module Encoders
 
 		attr_reader :css
 
-		def initialize(*)
-			super
-			@last_options = nil
-		end
-
 	protected
 		
 		HTML_ESCAPE = {  #:nodoc:
@@ -139,8 +134,6 @@ module Encoders
 
 		def setup options
 			super
-			return if options == @last_options
-			@last_options = options
 
 			@HTML_ESCAPE = HTML_ESCAPE.dup
 			@HTML_ESCAPE["\t"] = ' ' * options[:tab_width]
@@ -221,8 +214,7 @@ module Encoders
 					text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
 				end
 				@opened[0] = type
-				style = @css_style[@opened]
-				if style
+				if style = @css_style[@opened]
 					@out << style << text << '</span>'
 				else
 					@out << text

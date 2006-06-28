@@ -1,13 +1,13 @@
-FTP_YAML = 'ftp.yaml'
+FTP_YAML = File.expand_path(File.join(File.dirname(__FILE__), '..', 'ftp.yaml'))
 FTP_DOMAIN = 'cycnus.de'
 FTP_CODERAY_DIR = 'public_html/raindark/coderay'
 
 def prepare_ftp
-	require 'net/ftp'
-	require 'yaml'
-	$username = File.exist?(FTP_YAML) ? YAML.load_file(FTP_YAML)[:username] : 'anonymous'
-	g "ftp login, password for #$username needed: "
-	$password = $stdin.gets.chomp
+  require 'net/ftp'
+  require 'yaml'
+  $username = File.exist?(FTP_YAML) ? YAML.load_file(FTP_YAML)[:username] : 'anonymous'
+  g "ftp login, password for #$username needed: "
+  $password = $stdin.gets.chomp
 end
 
 def cYcnus_ftp

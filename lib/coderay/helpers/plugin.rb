@@ -224,7 +224,7 @@ protected
 		plugin_hash.fetch validate_id(id), *args, &blk
 	end
 
-	# Returns the path to the encoder for format.
+	# Returns the expected path to the plugin file for the given id.
 	def path_to plugin_id
 		File.join plugin_path, "#{plugin_id}.rb"
 	end

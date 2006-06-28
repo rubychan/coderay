@@ -65,6 +65,10 @@ module CodeRay
 					is_a? Streamable
 				end
 
+        def normify code
+          code = code.to_s.to_unix
+        end
+
 			end
 
 =begin
@@ -96,7 +100,7 @@ module CodeRay
 				raise "I am only the basic Scanner class. I can't scan "\
 					"anything. :( Use my subclasses." if self.class == Scanner
 
-				super code.to_s.to_unix
+				super Scanner.normify(code)
 
 				@tokens = options[:tokens]
 				if @options[:stream]
@@ -122,7 +126,7 @@ module CodeRay
 			end
 
 			def string= code
-				code = code.to_s.to_unix
+				code = Scanner.normify(code)
 				super code
 				reset_instance
 			end

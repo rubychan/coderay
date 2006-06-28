@@ -3,12 +3,13 @@ task :stats do
 	require 'rake_helpers/code_statistics'
 	CodeStatistics.new(
 		['Main', 'lib'],
-		['CodeRay', 'lib/coderay/'],
+		['CodeRay', 'lib/{.,coderay}/'],
 		['  Scanners', 'lib/coderay/scanners/**'],
 		['  Encoders', 'lib/coderay/encoders/**'],
 		['  Helpers', 'lib/coderay/helpers/**'],
 		['  Styles', 'lib/coderay/styles/**'],
-		['Test', 'test/**', /\/\w+.rb$/],
+		['Test', 'test'],
+		['  Test Data', 'test/*/**', /\.in\./, false],
 		['Demo Tests', 'demo/**']
 	).print
 end

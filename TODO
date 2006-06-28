@@ -34,7 +34,7 @@ Encoders:
 						HTML:
 L		1	2				dynamic CSS creation: new CSS class
 						Colors:
-3/4		1	2	So			colorschemes
+3/4		1	2				colorschemes
 						Statistic:
 L		3	1				return Statistic object with to_s method instead of String
 

@@ -74,7 +74,7 @@ module Scanners
 							kind = :plain
 						elsif scan(/#{ENTITY}/ox)
 							kind = :entity
-						elsif scan(/>/)
+						elsif scan(/[>&]/)
 							kind = :error
 						else
 							raise_inspect '[BUG] else-case reached with state %p' % [state], tokens

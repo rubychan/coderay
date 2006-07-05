@@ -38,7 +38,7 @@ def gemspec
 		# Credits
 		s.author = 'murphy'
 		s.email = 'murphy@cYcnus.de'
-		s.homepage = 'http://rd.cycnus.de/coderay'
+		s.homepage = 'http://coderay.rubychan.de'
 	end
 end
 

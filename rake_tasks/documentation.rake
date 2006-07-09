@@ -28,7 +28,7 @@ namespace :doc do
 	desc 'Upload rdoc to ' + FTP_DOMAIN
 	task :upload => :all do
 		gn 'Uploading documentation:'
-		Dir.chdir 'rdoc' do
+		Dir.chdir 'doc/all' do
 			cYcnus_ftp do |ftp|
 				uploader = uploader_for ftp
 				ftp.chdir FTP_CODERAY_DIR

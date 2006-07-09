@@ -118,6 +118,8 @@ module Scanners
 							case m = getch
 							when state.delim, '\\'
 								tokens << [match + m, :char]
+              when nil
+                tokens << [match, :error]
 							else
 								tokens << [match + m, :content]
 							end

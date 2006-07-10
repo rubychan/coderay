@@ -1,15 +1,15 @@
 module CodeRay
 module Scanners
 
-	class Plaintext < Scanner
-		
-		register_for :plaintext, :plain
+  class Plaintext < Scanner
 
-		def scan_tokens tokens, options
-			tokens << [scan_until(/\z/), :plain]
-		end
+    register_for :plaintext, :plain
 
-	end
+    def scan_tokens tokens, options
+      tokens << [scan_until(/\z/), :plain]
+    end
+
+  end
 
 end
 end

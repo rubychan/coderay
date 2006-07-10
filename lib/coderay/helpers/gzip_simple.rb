@@ -11,40 +11,39 @@
 # See +GZip+ module and the +String+ extensions.
 #
 module GZip
-	
-	require 'zlib'
 
-	# The default zipping level. 7 zips good and fast.
-	DEFAULT_GZIP_LEVEL = 7
-	
-	# Unzips the given string +s+.
-	#
-	# Example:
-	#   require 'gzip_simple'
-	#   print GZip.gunzip(File.read('adresses.gz'))
-	# 
-	def GZip.gunzip s
-		Zlib::Inflate.inflate s
-	end
-	
-	# Zips the given string +s+.
-	#
-	# Example:
-	#   require 'gzip_simple'
-	#   File.open('adresses.gz', 'w') do |file
-	#     file.write GZip.gzip('Mum: 0123 456 789', 9)
-	#   end
-	# 
-	# If you provide a +level+, you can control how strong
-	# the string is compressed:
-	# - 0: no compression, only convert to gzip format
-	# - 1: compress fast
-	# - 7: compress more, but still fast (default)
-	# - 8: compress more, slower
-	# - 9: compress best, very slow
-	def GZip.gzip s, level = DEFAULT_GZIP_LEVEL
-		Zlib::Deflate.new(level).deflate s, Zlib::FINISH
-	end
+  require 'zlib'
+
+  # The default zipping level. 7 zips good and fast.
+  DEFAULT_GZIP_LEVEL = 7
+
+  # Unzips the given string +s+.
+  #
+  # Example:
+  #   require 'gzip_simple'
+  #   print GZip.gunzip(File.read('adresses.gz'))
+  def GZip.gunzip s
+    Zlib::Inflate.inflate s
+  end
+
+  # Zips the given string +s+.
+  #
+  # Example:
+  #   require 'gzip_simple'
+  #   File.open('adresses.gz', 'w') do |file
+  #     file.write GZip.gzip('Mum: 0123 456 789', 9)
+  #   end
+  #
+  # If you provide a +level+, you can control how strong
+  # the string is compressed:
+  # - 0: no compression, only convert to gzip format
+  # - 1: compress fast
+  # - 7: compress more, but still fast (default)
+  # - 8: compress more, slower
+  # - 9: compress best, very slow
+  def GZip.gzip s, level = DEFAULT_GZIP_LEVEL
+    Zlib::Deflate.new(level).deflate s, Zlib::FINISH
+  end
 end
 
 # String extensions to use the GZip module.
@@ -65,31 +64,31 @@ end
 #   # unzipping works
 #   p x_gz.gunzip == x  #-> true
 class String
-	# Returns the string, unzipped.
-	# See GZip.gunzip
-	def gunzip
-		GZip.gunzip self
-	end
-	# Replaces the string with its unzipped value.
-	# See GZip.gunzip
-	def gunzip!
-		replace gunzip
-	end
-	
-	# Returns the string, zipped.
-	# +level+ is the gzip compression level, see GZip.gzip.
-	def gzip level = GZip::DEFAULT_GZIP_LEVEL
-		GZip.gzip self, level
-	end
-	# Replaces the string with its zipped value.
-	# See GZip.gzip.
-	def gzip!(*args)
-		replace gzip(*args)
-	end
+  # Returns the string, unzipped.
+  # See GZip.gunzip
+  def gunzip
+    GZip.gunzip self
+  end
+  # Replaces the string with its unzipped value.
+  # See GZip.gunzip
+  def gunzip!
+    replace gunzip
+  end
+
+  # Returns the string, zipped.
+  # +level+ is the gzip compression level, see GZip.gzip.
+  def gzip level = GZip::DEFAULT_GZIP_LEVEL
+    GZip.gzip self, level
+  end
+  # Replaces the string with its zipped value.
+  # See GZip.gzip.
+  def gzip!(*args)
+    replace gzip(*args)
+  end
 end
 
 if $0 == __FILE__
-	eval DATA.read, nil, $0, __LINE__+4
+  eval DATA.read, nil, $0, __LINE__+4
 end
 
 __END__
@@ -107,17 +106,17 @@ INFO = 'packed to %0.3f%%'  # :nodoc:
 
 x = Array.new(100000) { rand(255).chr + 'aaaaaaaaa' + rand(255).chr }.join
 Benchmark.bm(10) do |bm|
-	for level in 0..9
-		bm.report "zip #{level}" do
-			$x = x.gzip level
-		end
-		puts INFO % [100.0 * $x.size / x.size]
-	end
-	bm.report 'zip' do
-		$x = x.gzip
-	end
-	puts INFO % [100.0 * $x.size / x.size]
-	bm.report 'unzip' do
-		$x.gunzip
-	end
+  for level in 0..9
+    bm.report "zip #{level}" do
+      $x = x.gzip level
+    end
+    puts INFO % [100.0 * $x.size / x.size]
+  end
+  bm.report 'zip' do
+    $x = x.gzip
+  end
+  puts INFO % [100.0 * $x.size / x.size]
+  bm.report 'unzip' do
+    $x.gunzip
+  end
 end

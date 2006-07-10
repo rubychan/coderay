@@ -1,21 +1,21 @@
 module CodeRay
 module Encoders
-	
-	load :html
 
-	class Page < HTML
+  load :html
 
-		FILE_EXTENSION = 'html'
+  class Page < HTML
 
-		register_for :page
+    FILE_EXTENSION = 'html'
 
-		DEFAULT_OPTIONS = HTML::DEFAULT_OPTIONS.merge({
-			:css => :class,
-			:wrap => :page,
-			:line_numbers => :table
-		})
+    register_for :page
 
-	end
+    DEFAULT_OPTIONS = HTML::DEFAULT_OPTIONS.merge({
+      :css => :class,
+      :wrap => :page,
+      :line_numbers => :table
+    })
+
+  end
 
 end
 end

@@ -8,7 +8,7 @@ require 'rake_helpers/ca.rb'
 Hy.ca <<CA
 <<
 	BACKGROUND = '#322'
-	
+
 	GOLD = '#e92'
 	DARK_GOLD = '#630'
 	FIRE = '#fc3'
@@ -23,7 +23,7 @@ Hy.ca <<CA
 	LINK = LIGHT_BLUE
 	VISITED = '#ccc'
 	HOVER = '#f44'
-	
+
 	BORDER = '3px double gray'
 >>
 CA
@@ -560,7 +560,7 @@ FILE_INDEX = XHTML_PREAMBLE + <<HTML
 #{ Hy.ca <<CA
   body {
     background-color: $DARK_PURPLE;
-    font-family: #{FONTS}; 
+    font-family: #{FONTS};
     color: white;
     margin: 0px;
   }

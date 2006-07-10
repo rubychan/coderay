@@ -11,37 +11,37 @@ def prepare_ftp
 end
 
 def cYcnus_ftp
-	prepare_ftp unless $password
-	Net::FTP.open(FTP_DOMAIN) do |ftp|
-		g "login for #$username..."
-		ftp.login $username, $password
-		gn 'logged in.'
-		yield ftp
-	end
+  prepare_ftp unless $password
+  Net::FTP.open(FTP_DOMAIN) do |ftp|
+    g "login for #$username..."
+    ftp.login $username, $password
+    gn 'logged in.'
+    yield ftp
+  end
 end
 
 def uploader_for ftp
-	proc do |l, *r|
-		r = r.first || l
-		raise 'File %s not found!' % l unless File.exist? l
-		if l == r
-			g 'Uploading %s...' % [l]
-		else
-			g 'Uploading %s to %s...' % [l, r]
-		end
-		ftp.putbinaryfile l, r
-		gd
-	end
+  proc do |l, *r|
+    r = r.first || l
+    raise 'File %s not found!' % l unless File.exist? l
+    if l == r
+      g 'Uploading %s...' % [l]
+    else
+      g 'Uploading %s to %s...' % [l, r]
+    end
+    ftp.putbinaryfile l, r
+    gd
+  end
 end
 
 def g msg
-	$stderr.print msg
+  $stderr.print msg
 end
 
 def gn msg = ''
-	$stderr.puts msg
+  $stderr.puts msg
 end
 
 def gd
-	gn 'done.'
+  gn 'done.'
 end

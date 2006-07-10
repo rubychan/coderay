@@ -25,7 +25,7 @@ module Scanners
     ]
     REGEXP_ALLOWED = WordList.new(false).
       add(IDENTS_ALLOWING_REGEXP, :set)
-    
+
     PREDEFINED_CONSTANTS = %w[
       nil true false self
       DATA ARGV ARGF __FILE__ __LINE__
@@ -60,7 +60,7 @@ module Scanners
       '/'=> :regexp,
     }
     QUOTE_TO_TYPE.default = :string
-    
+
     REGEXP_MODIFIERS = /[mixounse]*/
     REGEXP_SYMBOLS = /[|?*+?(){}\[\].^$]/
 
@@ -145,17 +145,17 @@ module Scanners
     }
     FancyStringType['w'] = FancyStringType['q']
     FancyStringType['W'] = FancyStringType[''] = FancyStringType['Q']
-      
+
     class StringState < Struct.new :type, :interpreted, :delim, :heredoc,
       :paren, :paren_depth, :pattern, :next_state
-      
+
       CLOSING_PAREN = Hash[ *%w[
         ( )
         [ ]
         < >
         { }
       ] ]
-      
+
       CLOSING_PAREN.values.each { |o| o.freeze }  # debug, if I try to change it with <<
       OPENING_PAREN = CLOSING_PAREN.invert
 
@@ -166,8 +166,8 @@ module Scanners
           delim_pattern << Regexp.escape(closing_paren)
         end
 
-        
-        special_escapes = 
+
+        special_escapes =
           case interpreted
           when :regexp_symbols
             '| ' + REGEXP_SYMBOLS.source

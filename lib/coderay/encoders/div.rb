@@ -1,20 +1,20 @@
 module CodeRay
 module Encoders
-	
-	load :html
 
-	class Div < HTML
+  load :html
 
-		FILE_EXTENSION = 'div.html'
+  class Div < HTML
 
-		register_for :div
+    FILE_EXTENSION = 'div.html'
 
-		DEFAULT_OPTIONS = HTML::DEFAULT_OPTIONS.merge({
-			:css => :style,
-			:wrap => :div,
-		})
+    register_for :div
 
-	end
+    DEFAULT_OPTIONS = HTML::DEFAULT_OPTIONS.merge({
+      :css => :style,
+      :wrap => :div,
+    })
+
+  end
 
 end
 end

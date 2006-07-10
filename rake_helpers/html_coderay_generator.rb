@@ -325,7 +325,7 @@ module Generators
       meths = @methods.sort
       res = []
       meths.each do |meth|
-	res << {
+        res << {
           "name" => CGI.escapeHTML(meth.name),
           "aref" => "#{path_prefix}\##{meth.aref}" 
         }
@@ -713,19 +713,19 @@ module Generators
       parent_class = @context.superclass
 
       if parent_class
-	@values["parent"] = CGI.escapeHTML(parent_class)
+        @values["parent"] = CGI.escapeHTML(parent_class)
 
-	if parent_name
-	  lookup = parent_name + "::" + parent_class
-	else
-	  lookup = parent_class
-	end
+        if parent_name
+          lookup = parent_name + "::" + parent_class
+        else
+          lookup = parent_class
+        end
 
-	parent_url = AllReferences[lookup] || AllReferences[parent_class]
+        parent_url = AllReferences[lookup] || AllReferences[parent_class]
 
-	if parent_url and parent_url.document_self
-	  @values["par_url"] = aref_to(parent_url.path)
-	end
+        if parent_url and parent_url.document_self
+          @values["par_url"] = aref_to(parent_url.path)
+        end
       end
 
       files = []
@@ -963,9 +963,9 @@ module Generators
 
     def path
       if @options.all_one_file
-	aref
+        aref
       else
-	@html_class.path + "#" + aref
+        @html_class.path + "#" + aref
       end
     end
 
@@ -1087,9 +1087,9 @@ module Generators
     def markup_code(tokens)
       code = tokens.map { |t| t.text }.join
       options = {
-      	:css => :class,
-      	:line_numbers_start => code[/\A.*?, line (\d+)/,1].to_i - 1,
-      	:bold_every => :no_bolding,
+              :css => :class,
+              :line_numbers_start => code[/\A.*?, line (\d+)/,1].to_i - 1,
+              :bold_every => :no_bolding,
       }
       options[:line_numbers] = nil unless Options.instance.include_line_numbers
       out = CodeRay.scan(code, :ruby).div(options)
@@ -1134,7 +1134,7 @@ module Generators
   end
 
   #####################################################################
-	
+        
   class HTMLGenerator
 
     include MarkUp

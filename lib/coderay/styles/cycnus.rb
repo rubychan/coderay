@@ -1,21 +1,21 @@
 module CodeRay
 module Styles
 
-	class Cycnus < Style
+  class Cycnus < Style
 
-		register_for :cycnus
+    register_for :cycnus
 
-		code_background = '#f8f8f8'
-		numbers_background = '#def'
-		border_color = 'silver'
-		normal_color = '#100'
+    code_background = '#f8f8f8'
+    numbers_background = '#def'
+    border_color = 'silver'
+    normal_color = '#100'
 
-		CSS_MAIN_STYLES = <<-MAIN
+    CSS_MAIN_STYLES = <<-MAIN
 .CodeRay {
-	background-color: #{code_background};
-	border: 1px solid #{border_color};
-	font-family: 'Courier New', 'Terminal', monospace;
-	color: #{normal_color};
+  background-color: #{code_background};
+  border: 1px solid #{border_color};
+  font-family: 'Courier New', 'Terminal', monospace;
+  color: #{normal_color};
 }
 .CodeRay pre { margin: 0px }
 
@@ -27,9 +27,9 @@ table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px }
 table.CodeRay td { padding: 2px 4px; vertical-align: top }
 
 .CodeRay .line_numbers, .CodeRay .no {
-	background-color: #{numbers_background};
-	color: gray;
-	text-align: right;
+  background-color: #{numbers_background};
+  color: gray;
+  text-align: right;
 }
 .CodeRay .line_numbers tt { font-weight: bold }
 .CodeRay .no { padding: 0px 4px }
@@ -39,9 +39,9 @@ ol.CodeRay { font-size: 10pt }
 ol.CodeRay li { white-space: pre }
 
 .CodeRay .code pre { overflow: auto }
-		MAIN
+    MAIN
 
-		TOKEN_COLORS = <<-'TOKENS'
+    TOKEN_COLORS = <<-'TOKENS'
 .af { color:#00C }
 .an { color:#007 }
 .av { color:#700 }
@@ -117,9 +117,9 @@ ol.CodeRay li { white-space: pre }
 .ty { color:#339; font-weight:bold }
 .v  { color:#036 }
 .xt { color:#444 }
-		TOKENS
+    TOKENS
 
-	end
+  end
 
 end
 end

@@ -1,21 +1,21 @@
 module CodeRay
 module Styles
 
-	class Murphy < Style
+  class Murphy < Style
 
-		register_for :murphy
+    register_for :murphy
 
-		code_background = '#001129'
-		numbers_background = code_background
-		border_color = 'silver'
-		normal_color = '#C0C0C0'
+    code_background = '#001129'
+    numbers_background = code_background
+    border_color = 'silver'
+    normal_color = '#C0C0C0'
 
-		CSS_MAIN_STYLES = <<-MAIN
+    CSS_MAIN_STYLES = <<-MAIN
 .CodeRay {
-	background-color: #{code_background};
-	border: 1px solid #{border_color};
-	font-family: 'Courier New', 'Terminal', monospace;
-	color: #{normal_color};
+  background-color: #{code_background};
+  border: 1px solid #{border_color};
+  font-family: 'Courier New', 'Terminal', monospace;
+  color: #{normal_color};
 }
 .CodeRay pre { margin: 0px; }
 
@@ -27,9 +27,9 @@ table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px; }
 table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 
 .CodeRay .line_numbers, .CodeRay .no {
-	background-color: #{numbers_background};
-	color: gray;
-	text-align: right;
+  background-color: #{numbers_background};
+  color: gray;
+  text-align: right;
 }
 .CodeRay .line_numbers tt { font-weight: bold; }
 .CodeRay .no { padding: 0px 4px; }
@@ -39,9 +39,9 @@ ol.CodeRay { font-size: 10pt; }
 ol.CodeRay li { white-space: pre; }
 
 .CodeRay .code pre { overflow: auto; }
-		MAIN
+    MAIN
 
-		TOKEN_COLORS = <<-'TOKENS'
+    TOKEN_COLORS = <<-'TOKENS'
 .af { color:#00C; }
 .an { color:#007; }
 .av { color:#700; }
@@ -111,9 +111,9 @@ ol.CodeRay li { white-space: pre; }
 .ty { color:#339; font-weight:bold; }
 .v  { color:#036; }
 .xt { color:#444; }
-		TOKENS
+    TOKENS
 
-	end
+  end
 
 end
 end

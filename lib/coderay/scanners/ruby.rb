@@ -157,7 +157,7 @@ module Scanners
           next
 # }}}
         else
-# {{{          
+# {{{
           if match = scan(/ [ \t\f]+ | \\? \n | \# .* /x) or
             ( bol? and match = scan(/#{patterns::RUBYDOC_OR_DATA}/o) )
             fancy_allowed = true
@@ -190,7 +190,7 @@ module Scanners
             next
 
           elsif state == :initial
-            
+
             # IDENTS #
             if match = scan(/#{patterns::METHOD_NAME}/o)
               if last_token_dot
@@ -205,7 +205,7 @@ module Scanners
               end
               ## experimental!
               fancy_allowed = regexp_allowed = :set if patterns::REGEXP_ALLOWED[match] or check(/\s+(?:%\S|\/\S)/)
-              
+
             # OPERATORS #
             elsif (not last_token_dot and match = scan(/ ==?=? | \.\.?\.? | [\(\)\[\]\{\}] | :: | , /x)) or
               (last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}/o))
@@ -228,12 +228,12 @@ module Scanners
                   end
                 end
               end
-              
+
             elsif match = scan(/ ['"] /mx)
               tokens << [:open, :string]
               type = :delimiter
               state = patterns::StringState.new :string, match == '"', match  # important for streaming
-              
+
             elsif match = scan(/#{patterns::INSTANCE_VARIABLE}/o)
               type = :instance_variable
 
@@ -246,7 +246,7 @@ module Scanners
                 tokens = []
                 saved_tokens = tokens
               end
-              
+
             elsif match = scan(/#{patterns::NUMERIC}/o)
               type = if self[1] then :float else :integer end
 
@@ -261,11 +261,11 @@ module Scanners
               else
                 type = :symbol
               end
-              
+
             elsif match = scan(/ [-+!~^]=? | [*|&]{1,2}=? | >>? /x)
               regexp_allowed = fancy_allowed = :set
               type = :operator
-              
+
             elsif fancy_allowed and match = scan(/#{patterns::HEREDOC_OPEN}/o)
               indented = self[1] == '-'
               quote = self[3]
@@ -277,7 +277,7 @@ module Scanners
               heredoc = patterns::StringState.new type, quote != '\'', delim, (indented ? :indented : :linestart )
               heredocs ||= []  # create heredocs if empty
               heredocs << heredoc
-              
+
             elsif fancy_allowed and match = scan(/#{patterns::FANCY_START_SAVE}/o)
               type, interpreted = *patterns::FancyStringType.fetch(self[1]) do
                 raise_inspect 'Unknown fancy string: %%%p' % k, tokens
@@ -301,18 +301,18 @@ module Scanners
                 type = :delimiter
                 state = patterns::StringState.new :shell, true, match
               end
-              
+
             elsif match = scan(/#{patterns::GLOBAL_VARIABLE}/o)
               type = :global_variable
-              
+
             elsif match = scan(/#{patterns::CLASS_VARIABLE}/o)
               type = :class_variable
-              
+
             else
               match = getch
-              
+
             end
-            
+
           elsif state == :def_expected
             state = :initial
             if match = scan(/(?>#{patterns::METHOD_NAME_EX})(?!\.|::)/o)
@@ -341,7 +341,7 @@ module Scanners
               state = :initial
               next
             end
-  
+
           elsif state == :undef_comma_expected
             if match = scan(/,/)
               type = :operator
@@ -377,7 +377,7 @@ module Scanners
           raise_inspect 'Empty token', tokens unless match
 
           tokens << [match, type]
-          
+
           if last_state
             state = last_state
             last_state = nil

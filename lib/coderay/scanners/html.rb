@@ -33,6 +33,11 @@ module Scanners
       '"' => /[^&">\n]+/,
     }
 
+    def reset
+      super
+      @state = :initial
+    end
+
   private
     def setup
       @state = :initial
@@ -46,7 +51,7 @@ module Scanners
 
       until eos?
 
-        kind = :error
+        kind = nil
         match = nil
 
         if scan(/\s+/m)
@@ -67,14 +72,14 @@ module Scanners
               kind = :comment
             elsif scan(/<\/[-\w_.:]*>/m)
               kind = :tag
-            elsif match = scan(/<[-\w_.:]*>?/m)
+            elsif match = scan(/<[-\w_.:]+>?/m)
               kind = :tag
               state = :attribute unless match[-1] == ?>
             elsif scan(/[^<>&]+/)
               kind = :plain
             elsif scan(/#{ENTITY}/ox)
               kind = :entity
-            elsif scan(/[>&]/)
+            elsif scan(/[<>&]/)
               kind = :error
             else
               raise_inspect '[BUG] else-case reached with state %p' % [state], tokens
@@ -88,6 +93,7 @@ module Scanners
               kind = :attribute_name
               state = :attribute_equal
             else
+              kind = :error
               getch
             end
 
@@ -117,6 +123,7 @@ module Scanners
               kind = :tag
               state = :initial
             else
+              kind = :error
               getch
             end
 
@@ -144,9 +151,9 @@ module Scanners
         end
 
         match ||= matched
-        if $DEBUG and (not kind or kind == :error)
+        if $DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens
+            [[match, kind], line], tokens, state
         end
         raise_inspect 'Empty token', tokens unless match
 

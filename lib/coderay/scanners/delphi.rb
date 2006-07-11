@@ -39,7 +39,7 @@ module Scanners
 
       until eos?
 
-        kind = :error
+        kind = nil
         match = nil
 
         if state == :initial
@@ -85,7 +85,9 @@ module Scanners
             kind = :float
 
           else
+            kind = :error
             getch
+
           end
           
         elsif state == :string
@@ -110,7 +112,7 @@ module Scanners
         end
         
         match ||= matched
-        if $DEBUG and (not kind or kind == :error)
+        if $DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens
         end

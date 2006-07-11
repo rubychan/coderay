@@ -20,7 +20,7 @@ module Scanners
     register_for :ruby
 
     helper :patterns
-    
+
     DEFAULT_OPTIONS = {
       :parse_regexps => true,
     }
@@ -35,12 +35,11 @@ module Scanners
       last_state = nil
       state = :initial
       depth = nil
-      states = []
+      inline_block_stack = []
 
       patterns = Patterns  # avoid constant lookup
 
       until eos?
-        type = :error
         match = nil
         kind = nil
 
@@ -49,7 +48,7 @@ module Scanners
           match = scan_until(state.pattern) || scan_until(/\z/)
           tokens << [match, :content] unless match.empty?
           break if eos?
-          
+
           if state.heredoc and self[1]  # end of heredoc
             match = getch.to_s
             match << scan_until(/$/) unless eos?
@@ -58,12 +57,12 @@ module Scanners
             state = state.next_state
             next
           end
-          
+
           case match = getch
-          
+
           when state.delim
             if state.paren
-              state.paren_depth -= 1 
+              state.paren_depth -= 1
               if state.paren_depth > 0
                 tokens << [match, :nesting_delimiter]
                 next
@@ -77,9 +76,9 @@ module Scanners
                 extended = modifiers.index ?x
                 tokens = saved_tokens
                 regexp = tokens
-                for text, type in regexp
+                for text, kind in regexp
                   if text.is_a? ::String
-                    case type
+                    case kind
                     when :content
                       text.scan(/([^#]+)|(#.*)/) do |plain, comment|
                         if plain
@@ -92,14 +91,14 @@ module Scanners
                       if text[/\\(?:[swdSWDAzZbB]|\d+)/]
                         tokens << [text, :modifier]
                       else
-                        tokens << [text, type]
+                        tokens << [text, kind]
                       end
                     else
-                      tokens << [text, type]
+                      tokens << [text, kind]
                     end
                   else
-                    tokens << [text, type]
-                  end                    
+                    tokens << [text, kind]
+                  end
                 end
                 first_bake = saved_tokens = nil
               end
@@ -107,7 +106,7 @@ module Scanners
             tokens << [:close, state.type]
             fancy_allowed = regexp_allowed = false
             state = state.next_state
-            
+
           when '\\'
             if state.interpreted
               if esc = scan(/ #{patterns::ESCAPE} /ox)
@@ -125,11 +124,11 @@ module Scanners
                 tokens << [match + m, :content]
               end
             end
-            
+
           when '#'
             case peek(1)[0]
             when ?{
-              states.push [state, depth, heredocs]
+              inline_block_stack << [state, depth, heredocs]
               fancy_allowed = regexp_allowed = true
               state = :initial
               depth = 1
@@ -142,17 +141,17 @@ module Scanners
             else
               raise_inspect 'else-case # reached; #%p not handled' % peek(1), tokens
             end
-            
+
           when state.paren
             state.paren_depth += 1
             tokens << [match, :nesting_delimiter]
 
           when /#{patterns::REGEXP_SYMBOLS}/ox
             tokens << [match, :function]
-            
+
           else
             raise_inspect 'else-case " reached; %p not handled, state = %p' % [match, state], tokens
-            
+
           end
           next
 # }}}
@@ -164,9 +163,9 @@ module Scanners
             case m = match[0]
             when ?\s, ?\t, ?\f
               match << scan(/\s*/) unless eos? or heredocs
-              type = :space
+              kind = :space
             when ?\n, ?\\
-              type = :space
+              kind = :space
               if m == ?\n
                 regexp_allowed = true
                 state = :initial if state == :undef_comma_expected
@@ -181,12 +180,12 @@ module Scanners
                 match << scan(/\s*/) unless eos?
               end
             when ?#, ?=, ?_
-              type = :comment
+              kind = :comment
               regexp_allowed = true
             else
               raise_inspect 'else-case _ reached, because case %p was not handled' % [matched[0].chr], tokens
             end
-            tokens << [match, type]
+            tokens << [match, kind]
             next
 
           elsif state == :initial
@@ -194,12 +193,12 @@ module Scanners
             # IDENTS #
             if match = scan(/#{patterns::METHOD_NAME}/o)
               if last_token_dot
-                type = if match[/^[A-Z]/] and not match?(/\(/) then :constant else :ident end
+                kind = if match[/^[A-Z]/] and not match?(/\(/) then :constant else :ident end
               else
-                type = patterns::IDENT_KIND[match]
-                if type == :ident and match[/^[A-Z]/] and not match[/[!?]$/] and not match?(/\(/)
-                  type = :constant
-                elsif type == :reserved
+                kind = patterns::IDENT_KIND[match]
+                if kind == :ident and match[/^[A-Z]/] and not match[/[!?]$/] and not match?(/\(/)
+                  kind = :constant
+                elsif kind == :reserved
                   state = patterns::DEF_NEW_STATE[match]
                 end
               end
@@ -213,17 +212,17 @@ module Scanners
                 regexp_allowed = fancy_allowed = :set
               end
               last_token_dot = :set if match == '.' or match == '::'
-              type = :operator
-              unless states.empty?
+              kind = :operator
+              unless inline_block_stack.empty?
                 case match
                 when '{'
                   depth += 1
                 when '}'
                   depth -= 1
-                  if depth == 0
-                    state, depth, heredocs = states.pop
+                  if depth == 0  # closing brace of inline block reached
+                    state, depth, heredocs = inline_block_stack.pop
                     tokens << [match, :delimiter]
-                    type = :inline
+                    kind = :inline
                     match = :close
                   end
                 end
@@ -231,15 +230,15 @@ module Scanners
 
             elsif match = scan(/ ['"] /mx)
               tokens << [:open, :string]
-              type = :delimiter
+              kind = :delimiter
               state = patterns::StringState.new :string, match == '"', match  # important for streaming
 
             elsif match = scan(/#{patterns::INSTANCE_VARIABLE}/o)
-              type = :instance_variable
+              kind = :instance_variable
 
             elsif regexp_allowed and match = scan(/\//)
               tokens << [:open, :regexp]
-              type = :delimiter
+              kind = :delimiter
               interpreted = true
               state = patterns::StringState.new :regexp, interpreted, match
               if parse_regexp
@@ -248,7 +247,7 @@ module Scanners
               end
 
             elsif match = scan(/#{patterns::NUMERIC}/o)
-              type = if self[1] then :float else :integer end
+              kind = if self[1] then :float else :integer end
 
             elsif match = scan(/#{patterns::SYMBOL}/o)
               case delim = match[1]
@@ -256,59 +255,60 @@ module Scanners
                 tokens << [:open, :symbol]
                 tokens << [':', :symbol]
                 match = delim.chr
-                type = :delimiter
+                kind = :delimiter
                 state = patterns::StringState.new :symbol, delim == ?", match
               else
-                type = :symbol
+                kind = :symbol
               end
 
             elsif match = scan(/ [-+!~^]=? | [*|&]{1,2}=? | >>? /x)
               regexp_allowed = fancy_allowed = :set
-              type = :operator
+              kind = :operator
 
             elsif fancy_allowed and match = scan(/#{patterns::HEREDOC_OPEN}/o)
               indented = self[1] == '-'
               quote = self[3]
               delim = self[quote ? 4 : 2]
-              type = patterns::QUOTE_TO_TYPE[quote]
-              tokens << [:open, type]
+              kind = patterns::QUOTE_TO_TYPE[quote]
+              tokens << [:open, kind]
               tokens << [match, :delimiter]
               match = :close
-              heredoc = patterns::StringState.new type, quote != '\'', delim, (indented ? :indented : :linestart )
+              heredoc = patterns::StringState.new kind, quote != '\'', delim, (indented ? :indented : :linestart )
               heredocs ||= []  # create heredocs if empty
               heredocs << heredoc
 
             elsif fancy_allowed and match = scan(/#{patterns::FANCY_START_SAVE}/o)
-              type, interpreted = *patterns::FancyStringType.fetch(self[1]) do
+              kind, interpreted = *patterns::FancyStringType.fetch(self[1]) do
                 raise_inspect 'Unknown fancy string: %%%p' % k, tokens
               end
-              tokens << [:open, type]
-              state = patterns::StringState.new type, interpreted, self[2]
-              type = :delimiter
+              tokens << [:open, kind]
+              state = patterns::StringState.new kind, interpreted, self[2]
+              kind = :delimiter
 
             elsif fancy_allowed and match = scan(/#{patterns::CHARACTER}/o)
-              type = :integer
+              kind = :integer
 
             elsif match = scan(/ [\/%]=? | <(?:<|=>?)? | [?:;] /x)
               regexp_allowed = fancy_allowed = :set
-              type = :operator
+              kind = :operator
 
             elsif match = scan(/`/)
               if last_token_dot
-                type = :operator
+                kind = :operator
               else
                 tokens << [:open, :shell]
-                type = :delimiter
+                kind = :delimiter
                 state = patterns::StringState.new :shell, true, match
               end
 
             elsif match = scan(/#{patterns::GLOBAL_VARIABLE}/o)
-              type = :global_variable
+              kind = :global_variable
 
             elsif match = scan(/#{patterns::CLASS_VARIABLE}/o)
-              type = :class_variable
+              kind = :class_variable
 
             else
+              kind = :error
               match = getch
 
             end
@@ -316,7 +316,7 @@ module Scanners
           elsif state == :def_expected
             state = :initial
             if match = scan(/(?>#{patterns::METHOD_NAME_EX})(?!\.|::)/o)
-              type = :method
+              kind = :method
             else
               next
             end
@@ -324,18 +324,18 @@ module Scanners
           elsif state == :undef_expected
             state = :undef_comma_expected
             if match = scan(/#{patterns::METHOD_NAME_EX}/o)
-              type = :method
+              kind = :method
             elsif match = scan(/#{patterns::SYMBOL}/o)
               case delim = match[1]
               when ?', ?"
                 tokens << [:open, :symbol]
                 tokens << [':', :symbol]
                 match = delim.chr
-                type = :delimiter
+                kind = :delimiter
                 state = patterns::StringState.new :symbol, delim == ?", match
                 state.next_state = :undef_comma_expected
               else
-                type = :symbol
+                kind = :symbol
               end
             else
               state = :initial
@@ -344,7 +344,7 @@ module Scanners
 
           elsif state == :undef_comma_expected
             if match = scan(/,/)
-              type = :operator
+              kind = :operator
               state = :undef_expected
             else
               state = :initial
@@ -353,11 +353,11 @@ module Scanners
 
           elsif state == :module_expected
             if match = scan(/<</)
-              type = :operator
+              kind = :operator
             else
               state = :initial
               if match = scan(/ (?:#{patterns::IDENT}::)* #{patterns::IDENT} /ox)
-                type = :class
+                kind = :class
               else
                 next
               end
@@ -370,13 +370,13 @@ module Scanners
           fancy_allowed = fancy_allowed == :set
           last_token_dot = last_token_dot == :set
 
-          if $DEBUG and (not kind or kind == :error)
+          if $DEBUG and not kind
             raise_inspect 'Error token %p in line %d' %
-              [[match, kind], line], tokens
+              [[match, kind], line], tokens, state
           end
           raise_inspect 'Empty token', tokens unless match
 
-          tokens << [match, type]
+          tokens << [match, kind]
 
           if last_state
             state = last_state
@@ -385,13 +385,17 @@ module Scanners
         end
       end
 
-      states << state if state.is_a? patterns::StringState
-      until states.empty?
-        tokens << [:close, states.pop.type]
+      inline_block_stack << [state] if state.is_a? patterns::StringState
+      until inline_block_stack.empty?
+        this_block = inline_block_stack.pop
+        tokens << [:close, :inline] if this_block.size > 1
+        state = this_block.first
+        tokens << [:close, state.type]
       end
 
       tokens
     end
+
   end
 
 end

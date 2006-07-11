@@ -6,7 +6,8 @@ module Scanners
     :pascal => :delphi,
     :irb => :ruby,
     :xml => :html,
-    :xhtml => :nitro_html
+    :xhtml => :nitro_xhtml,
+    :nitro => :nitro_xhtml
 
   default :plain
 

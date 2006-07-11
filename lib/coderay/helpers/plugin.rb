@@ -168,6 +168,15 @@ module PluginHost
     end
   end
 
+  # Makes a map of all loaded plugins.
+  def inspect
+    map = plugin_hash.dup
+    map.each do |id, plugin|
+      map[id] = plugin.to_s[/(?>[\w_]+)$/]
+    end
+    "#{name}[#{host_id}]#{map.inspect}"
+  end
+
 protected
   # Created a new plugin list and stores it to @plugin_hash.
   def create_plugin_hash
@@ -192,15 +201,6 @@ protected
         end
         h[id]
       end
-  end
-
-  # Makes a map of all loaded scanners.
-  def inspect
-    map = plugin_hash.dup
-    map.each do |id, plugin|
-      map[id] = plugin.name[/(?>[\w_]+)$/]
-    end
-    map.inspect
   end
 
   # Loads the map file (see map).

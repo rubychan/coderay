@@ -15,10 +15,13 @@ module Scanners
     ERB_RUBY_BLOCK = /
       <%(?!%)[=-]?
       (?>
-        [^%]*
-        (?> %(?!>) [^%]* )*
+        [^\-%]*    # normal*
+        (?>        # special
+          (?: %(?!>) | -(?!%>) )
+          [^\-%]*  # normal*
+        )*
       )
-      (?: %> )?
+      (?: -?%> )?
     /x
 
     START_OF_ERB = /
@@ -32,6 +35,11 @@ module Scanners
       @html_scanner = CodeRay.scanner :html, :tokens => @tokens, :keep_tokens => true, :keep_state => true
     end
 
+    def reset_instance
+      super
+      @html_scanner.reset
+    end
+
     def scan_tokens tokens, options
 
       until eos?
@@ -41,7 +49,7 @@ module Scanners
 
         elsif match = scan(/#{ERB_RUBY_BLOCK}/o)
           start_tag = match[/\A<%[-=]?/]
-          end_tag = match[/%?>?\z/]
+          end_tag = match[/-?%?>?\z/]
           tokens << [:open, :inline]
           tokens << [start_tag, :delimiter]
           code = match[start_tag.size .. -1 - end_tag.size]

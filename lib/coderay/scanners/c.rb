@@ -40,7 +40,7 @@ module Scanners
 
       until eos?
 
-        kind = :error
+        kind = nil
         match = nil
 
         case state
@@ -97,10 +97,12 @@ module Scanners
 
           else
             getch
+            kind = :error
+
           end
 
         when :string
-          if scan(/[^\\"]+/)
+          if scan(/[^\\\n"]+/)
             kind = :content
           elsif scan(/"/)
             tokens << ['"', :delimiter]
@@ -110,6 +112,7 @@ module Scanners
           elsif scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
             kind = :char
           elsif scan(/ \\ | $ /x)
+            tokens << [:close, :string]
             kind = :error
             state = :initial
           else
@@ -127,6 +130,7 @@ module Scanners
 
           else
             getch
+            kind = :error
 
           end
 
@@ -136,7 +140,7 @@ module Scanners
         end
 
         match ||= matched
-        if $DEBUG and (not kind or kind == :error)
+        if $DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens
         end
@@ -144,6 +148,10 @@ module Scanners
 
         tokens << [match, kind]
 
+      end
+
+      if state == :string
+        tokens << [:close, :string]
       end
 
       tokens

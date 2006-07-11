@@ -191,7 +191,7 @@ module CodeRay
       end
 
       # Scanner error with additional status information
-      def raise_inspect msg, tokens, ambit = 30
+      def raise_inspect msg, tokens, state = nil, ambit = 30
         raise ScanError, <<-EOE % [
 
 
@@ -201,7 +201,7 @@ tokens:
 %s
 
 current line: %d  pos = %d
-matched: %p
+matched: %p  state: %p
 bol? = %p,  eos? = %p
 
 surrounding code:
@@ -215,7 +215,7 @@ surrounding code:
         msg,
         tokens.last(10).map { |t| t.inspect }.join("\n"),
         line, pos,
-        matched, bol?, eos?,
+        matched, state, bol?, eos?,
         string[pos-ambit,ambit],
         string[pos,ambit],
         ]

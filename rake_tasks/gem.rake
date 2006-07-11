@@ -87,7 +87,7 @@ namespace :gem do
     $gemfile = "coderay-#$version.gem"
     Dir[GEMDIR + '/*.gem'].each { |g| rm g }
     cp "pkg/#$gemfile", GEMDIR
-    system 'ruby -S index_gem_repository.rb -d gem_server'
+    system 'ruby -S index_gem_repository.rb -d gem_server --no-quick'
   end
 
   desc 'Upload gemfile to ' + FTP_DOMAIN
@@ -97,7 +97,7 @@ namespace :gem do
       Dir.chdir 'gem_server' do
         uploader = uploader_for ftp
         ftp.chdir FTP_CODERAY_DIR
-        %w(yaml yaml.Z).each &uploader
+        %w(yaml).each &uploader
         Dir.chdir 'gems' do
           ftp.chdir 'gems'
           uploader.call $gemfile

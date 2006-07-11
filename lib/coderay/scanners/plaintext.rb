@@ -6,7 +6,8 @@ module Scanners
     register_for :plaintext, :plain
 
     def scan_tokens tokens, options
-      tokens << [scan_until(/\z/), :plain]
+      text = (scan_until(/\z/) || '')
+      tokens << [text, :plain]
     end
 
   end

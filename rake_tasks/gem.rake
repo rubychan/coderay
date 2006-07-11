@@ -32,7 +32,7 @@ def gemspec
     # Files
     s.require_path = 'lib'
     s.autorequire = 'coderay'
-    s.executables = [ 'coderay' ]
+    s.executables = [ 'coderay', 'coderay_stylesheet' ]
 
     s.files = nil  # defined later
 

@@ -6,7 +6,7 @@ namespace :test do
 
   desc 'Test CodeRay'
   task :scanners do
-    system 'ruby -w ./test/suite.rb'
+    system 'ruby -wd ./test/suite.rb'
   end
 end
 

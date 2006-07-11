@@ -1,9 +1,3 @@
-class RubyTest < CodeRaySuite
-
-  @file = __FILE__
-  LANG = :ruby
-  EXTENSION = 'rb'
-
+class Ruby < CodeRay::TestCase
+  extension :rb
 end
-
-$suite << RubyTest.suite if $suite

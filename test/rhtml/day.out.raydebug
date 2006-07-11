@@ -1,7 +1,7 @@
-inline<delimiter(<%) ident(day)operator(,) ident(auftritte) operator(=) operator(*)ident(day) operator(-)delimiter(%>)>
+inline<delimiter(<%) ident(day)operator(,) ident(auftritte) operator(=) operator(*)ident(day) delimiter(-%>)>
 inline<delimiter(<%)
 	reserved(for) ident(auftritt) reserved(in) ident(auftritte) 
-operator(-)delimiter(%>)>
+delimiter(-%>)>
 
 tag(<tr>)
 	tag(<td) attribute_name(class)operator(=)string<delimiter(")content(pplan_datum)delimiter(")>tag(>)
@@ -23,4 +23,4 @@ tag(</tr>)
 inline<delimiter(<%)
 	ident(day) operator(=) pre_constant(nil)
 	reserved(end) 
-operator(-)delimiter(%>)>
+delimiter(-%>)>

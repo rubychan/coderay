@@ -1,9 +1,2 @@
-class HTMLTest < CodeRaySuite
-
-  @file = __FILE__
-  LANG = :html
-  EXTENSION = 'html'
-
+class HTML < CodeRay::TestCase
 end
-
-$suite << HTMLTest.suite if $suite

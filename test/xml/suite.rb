@@ -1,9 +1,2 @@
-class XMLTest < CodeRaySuite
-
-  @file = __FILE__
-  LANG = :xml
-  EXTENSION = 'xml'
-
+class XML < CodeRay::TestCase
 end
-
-$suite << XMLTest.suite if $suite

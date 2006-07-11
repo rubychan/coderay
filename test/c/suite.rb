@@ -1,9 +1,2 @@
-class CTest < CodeRaySuite
-
-  @file = __FILE__
-  LANG = :c
-  EXTENSION = 'c'
-
+class C < CodeRay::TestCase
 end
-
-$suite << CTest.suite if $suite

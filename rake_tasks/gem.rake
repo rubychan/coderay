@@ -7,6 +7,7 @@ def gemspec
     s.version = '0'
 
     s.platform = Gem::Platform::RUBY
+    s.required_ruby_version = '> 1.8.2'
     s.requirements = ['strscan']
     s.date = Time.now.strftime '%Y-%m-%d'
     s.has_rdoc = true

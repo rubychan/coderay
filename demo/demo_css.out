@@ -1,8 +1,8 @@
 .CodeRay {
-	background-color: #f8f8f8;
-	border: 1px solid silver;
-	font-family: 'Courier New', 'Terminal', monospace;
-	color: #100;
+  background-color: #f8f8f8;
+  border: 1px solid silver;
+  font-family: 'Courier New', 'Terminal', monospace;
+  color: #100;
 }
 .CodeRay pre { margin: 0px }
 
@@ -14,9 +14,9 @@ table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px }
 table.CodeRay td { padding: 2px 4px; vertical-align: top }
 
 .CodeRay .line_numbers, .CodeRay .no {
-	background-color: #def;
-	color: gray;
-	text-align: right;
+  background-color: #def;
+  color: gray;
+  text-align: right;
 }
 .CodeRay .line_numbers tt { font-weight: bold }
 .CodeRay .no { padding: 0px 4px }

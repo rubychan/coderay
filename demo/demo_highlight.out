@@ -1,14 +1,14 @@
 <div class="CodeRay">
-	<div class="code"><pre>puts <span class="s"><span class="dl">&quot;</span><span class="k">Hello, World!</span><span class="dl">&quot;</span></span></pre></div>	
+  <div class="code"><pre>puts <span class="s"><span class="dl">&quot;</span><span class="k">Hello, World!</span><span class="dl">&quot;</span></span></pre></div>
 </div>
 <html>
 <head>
 <style type="text/css">
 .CodeRay {
-	background-color: #f8f8f8;
-	border: 1px solid silver;
-	font-family: 'Courier New', 'Terminal', monospace;
-	color: #100;
+  background-color: #f8f8f8;
+  border: 1px solid silver;
+  font-family: 'Courier New', 'Terminal', monospace;
+  color: #100;
 }
 .CodeRay pre { margin: 0px }
 
@@ -20,9 +20,9 @@ table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px }
 table.CodeRay td { padding: 2px 4px; vertical-align: top }
 
 .CodeRay .line_numbers, .CodeRay .no {
-	background-color: #def;
-	color: gray;
-	text-align: right;
+  background-color: #def;
+  color: gray;
+  text-align: right;
 }
 .CodeRay .line_numbers tt { font-weight: bold }
 .CodeRay .no { padding: 0px 4px }
@@ -113,7 +113,7 @@ ol.CodeRay li { white-space: pre }
 
 <body>
 <table class="CodeRay"><tr>
-	<td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
 </tt>2<tt>
 </tt>3<tt>
 </tt>4<tt>
@@ -128,7 +128,7 @@ ol.CodeRay li { white-space: pre }
 </tt>13<tt>
 </tt>14<tt>
 </tt></pre></td>
-	<td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }">require <span style="background-color:#fff0f0"><span style="color:#710">'</span><span style="color:#D20">coderay</span><span style="color:#710">'</span></span><tt>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }">require <span style="background-color:#fff0f0"><span style="color:#710">'</span><span style="color:#D20">coderay</span><span style="color:#710">'</span></span><tt>
 </tt><tt>
 </tt>puts <span style="color:#036; font-weight:bold">CodeRay</span>.highlight(<span style="background-color:#fff0f0"><span style="color:#710">'</span><span style="color:#D20">puts &quot;Hello, World!&quot;</span><span style="color:#710">'</span></span>, <span style="color:#A60">:ruby</span>)<tt>
 </tt><tt>

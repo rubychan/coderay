@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="de">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>CodeRay HTML Encoder Example</title>
-	<style type="text/css">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>CodeRay HTML Encoder Example</title>
+  <style type="text/css">
 .CodeRay {
-	background-color: #f8f8f8;
-	border: 1px solid silver;
-	font-family: 'Courier New', 'Terminal', monospace;
-	color: #100;
+  background-color: #f8f8f8;
+  border: 1px solid silver;
+  font-family: 'Courier New', 'Terminal', monospace;
+  color: #100;
 }
 .CodeRay pre { margin: 0px }
 
@@ -21,9 +21,9 @@ table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px }
 table.CodeRay td { padding: 2px 4px; vertical-align: top }
 
 .CodeRay .line_numbers, .CodeRay .no {
-	background-color: #def;
-	color: gray;
-	text-align: right;
+  background-color: #def;
+  color: gray;
+  text-align: right;
 }
 .CodeRay .line_numbers tt { font-weight: bold }
 .CodeRay .no { padding: 0px 4px }
@@ -110,12 +110,12 @@ ol.CodeRay li { white-space: pre }
 .CodeRay .v  { color:#036 }
 .CodeRay .xt { color:#444 }
 
-	</style>
+  </style>
 </head>
 <body style="background-color: white;">
 
 <table class="CodeRay"><tr>
-	<td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
 </tt>2<tt>
 </tt>3<tt>
 </tt>4<tt>
@@ -127,7 +127,7 @@ ol.CodeRay li { white-space: pre }
 </tt><strong>10</strong><tt>
 </tt>11<tt>
 </tt></pre></td>
-	<td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }">require <span style="background-color:#fff0f0"><span style="color:#710">'</span><span style="color:#D20">coderay</span><span style="color:#710">'</span></span><tt>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }">require <span style="background-color:#fff0f0"><span style="color:#710">'</span><span style="color:#D20">coderay</span><span style="color:#710">'</span></span><tt>
 </tt><tt>
 </tt><span style="color:#888"># scan this file</span><tt>
 </tt>tokens = <span style="color:#036; font-weight:bold">CodeRay</span>.scan(<span style="color:#036; font-weight:bold">File</span>.read(<span style="color:#d70; font-weight:bold">$0</span>) * <span style="color:#00D; font-weight:bold">1</span>, <span style="color:#A60">:ruby</span>)<tt>
@@ -141,7 +141,7 @@ ol.CodeRay li { white-space: pre }
 </tt></pre></td>
 </tr></table>
 <hr /><div class="CodeRay">
-	<div class="code"><pre><span class="no"> 8</span> require <span style="background-color:#fff0f0"><span style="color:#710">'</span><span style="color:#D20">coderay</span><span style="color:#710">'</span></span>
+  <div class="code"><pre><span class="no"> 8</span> require <span style="background-color:#fff0f0"><span style="color:#710">'</span><span style="color:#D20">coderay</span><span style="color:#710">'</span></span>
 <span class="no"> 9</span> 
 <span class="no"><strong>10</strong></span> <span style="color:#888"># scan this file</span>
 <span class="no">11</span> tokens = <span style="color:#036; font-weight:bold">CodeRay</span>.scan(<span style="color:#036; font-weight:bold">File</span>.read(<span style="color:#d70; font-weight:bold">$0</span>) * <span style="color:#00D; font-weight:bold">1</span>, <span style="color:#A60">:ruby</span>)
@@ -152,7 +152,7 @@ ol.CodeRay li { white-space: pre }
 <span class="no">16</span> out &lt;&lt; tokens.div(<span style="color:#A60">:line_numbers</span> =&gt; <span style="color:#A60">:inline</span>, <span style="color:#A60">:line_number_start</span> =&gt; <span style="color:#00D; font-weight:bold">8</span>)
 <span class="no">17</span> 
 <span class="no">18</span> puts out.page
-</pre></div>	
+</pre></div>
 </div>
 
 </body>

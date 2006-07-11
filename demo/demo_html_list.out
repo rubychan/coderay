@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="de">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>CodeRay HTML Encoder Example</title>
-	<style type="text/css">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>CodeRay HTML Encoder Example</title>
+  <style type="text/css">
 .CodeRay {
-	background-color: #f8f8f8;
-	border: 1px solid silver;
-	font-family: 'Courier New', 'Terminal', monospace;
-	color: #100;
+  background-color: #f8f8f8;
+  border: 1px solid silver;
+  font-family: 'Courier New', 'Terminal', monospace;
+  color: #100;
 }
 .CodeRay pre { margin: 0px }
 
@@ -21,9 +21,9 @@ table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px }
 table.CodeRay td { padding: 2px 4px; vertical-align: top }
 
 .CodeRay .line_numbers, .CodeRay .no {
-	background-color: #def;
-	color: gray;
-	text-align: right;
+  background-color: #def;
+  color: gray;
+  text-align: right;
 }
 .CodeRay .line_numbers tt { font-weight: bold }
 .CodeRay .no { padding: 0px 4px }
@@ -110,12 +110,12 @@ ol.CodeRay li { white-space: pre }
 .CodeRay .v  { color:#036 }
 .CodeRay .xt { color:#444 }
 
-	</style>
+  </style>
 </head>
 <body style="background-color: white;">
 
 <div class="CodeRay">
-	<div class="code"><pre><span class="no">-1</span> <span class="gv">$:</span> &lt;&lt; <span class="s"><span class="dl">'</span><span class="k">..</span><span class="dl">'</span></span>
+  <div class="code"><pre><span class="no">-1</span> <span class="gv">$:</span> &lt;&lt; <span class="s"><span class="dl">'</span><span class="k">..</span><span class="dl">'</span></span>
 <span class="no"> <strong>0</strong></span> require <span class="s"><span class="dl">'</span><span class="k">coderay</span><span class="dl">'</span></span>
 <span class="no"> 1</span> 
 <span class="no"> 2</span> tokens = <span class="co">CodeRay</span>.scan <span class="co">File</span>.read(<span class="pc">__FILE__</span>), <span class="sy">:ruby</span>
@@ -127,7 +127,7 @@ ol.CodeRay li { white-space: pre }
 <span class="no"> 8</span> This code must be &gt; 10 lines
 <span class="no"> 9</span> because I want to test the correct adjustment of the line numbers.</span><span class="dl">
 <span class="no"><strong>10</strong></span> _</span></span>
-</pre></div>	
+</pre></div>
 </div>
 
 </body>

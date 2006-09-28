@@ -3,7 +3,10 @@ module Encoders
 
   class HTML
 
-    ClassOfKind = {
+    ClassOfKind = Hash.new do |h, k|
+      h[k] = k.to_s
+    end
+    ClassOfKind.update with = {
       :attribute_name => 'an',
       :attribute_name_fat => 'af',
       :attribute_value => 'av',
@@ -65,7 +68,7 @@ module Encoders
     ClassOfKind[:open] = ClassOfKind[:close] = ClassOfKind[:delimiter]
     ClassOfKind[:nesting_delimiter] = ClassOfKind[:delimiter]
     ClassOfKind[:escape] = ClassOfKind[:delimiter]
-    ClassOfKind.default = ClassOfKind[:error] or raise 'no class found for :error!'
+    #ClassOfKind.default = ClassOfKind[:error] or raise 'no class found for :error!'
 
   end
 

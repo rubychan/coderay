@@ -1,0 +1,30 @@
+comment(## example diff [diff])
+constant(Index)operator(:) regexp<delimiter(/)content(Users)delimiter(/)>ident(jgoebel)operator(/)ident(rails)operator(/)ident(pastie)operator(/)ident(app)operator(/)ident(controllers)operator(/)ident(pastes_controller)operator(.)ident(rb)
+operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(=)
+operator(-)operator(-)operator(-) regexp<delimiter(/)content(Users)delimiter(/)>ident(jgoebel)operator(/)ident(rails)operator(/)ident(pastie)operator(/)ident(app)operator(/)ident(controllers)operator(/)ident(pastes_controller)operator(.)ident(rb)  operator(()ident(revision) integer(1431)operator(\))
+operator(+)operator(+)operator(+) regexp<delimiter(/)content(Users)delimiter(/)>ident(jgoebel)operator(/)ident(rails)operator(/)ident(pastie)operator(/)ident(app)operator(/)ident(controllers)operator(/)ident(pastes_controller)operator(.)ident(rb)  operator(()ident(revision) integer(1437)operator(\))
+error(@)error(@) integer(-1)operator(,)integer(6) integer(+1)operator(,)integer(10) error(@)error(@)
+operator(+)ident(require) string<delimiter(')content(login_system)delimiter(')>
+ ident(require) string<delimiter(')content(coderay)delimiter(')>
+ 
+ reserved(class) class(PastesController) operator(<) constant(ApplicationController)
+operator(+)  ident(include) constant(LoginSystem)
+operator(+)
+operator(+)  ident(before_filter) symbol(:attempt_cookie_login)
+ 
+ comment(#  caches_action :recent)
+ 
+error(@)error(@) integer(-10)operator(,)integer(11) integer(+14)operator(,)integer(7) error(@)error(@)
+ 
+   reserved(def) method(show)
+     instance_variable(@paste) operator(=) constant(Paste)operator(.)ident(find)operator(()ident(params)operator([)symbol(:id)operator(])operator(\))
+operator(-)    reserved(if) ident(params)operator([)symbol(:key)operator(]) reserved(and) ident(params)operator([)symbol(:key)operator(])operator(==)constant(User)operator(.)ident(new)operator(()instance_variable(@paste)operator(.)ident(nick)operator(\))operator(.)ident(magic_mojo)
+operator(-)        ident(session)operator([)symbol(:login)operator(])operator(=)instance_variable(@paste)operator(.)ident(nick)
+operator(-)        reserved(return) ident(redirect_to)operator(()symbol(:action) operator(=)operator(>) string<delimiter(')content(show)delimiter(')>operator(,) symbol(:id) operator(=)operator(>) instance_variable(@paste)operator(.)ident(id)operator(\))
+operator(-)    reserved(end)
+operator(-)    
+operator(+)    ident(attempt_key_login) reserved(if) reserved(not) ident(logged_in?)
+     reserved(unless) instance_variable(@paste)operator(.)ident(asset) reserved(or) reserved(not) instance_variable(@paste)operator(.)ident(body)operator(.)ident(blank?)
+       ident(render) symbol(:action) operator(=)operator(>) string<delimiter(")content(edit)delimiter(")>
+     reserved(end)
+

@@ -84,7 +84,7 @@ module CodeRay
               File.open(computed, 'wb') { |f| f.write result }
               print `gvimdiff #{output} #{computed}` if ENV['diff']
             end
-            assert(ok, "Scan error: #{computed} != #{output}") unless ENV['diff']
+            assert(ok, "Scan error: #{computed} != #{output}") unless ENV['diff'] or ENV['noassert']
           else
             File.open(output, 'wb') do |f| f.write result end
             puts "New test: #{output}"

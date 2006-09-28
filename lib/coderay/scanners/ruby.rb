@@ -21,14 +21,8 @@ module Scanners
 
     helper :patterns
 
-    DEFAULT_OPTIONS = {
-      :parse_regexps => true,
-    }
-
   private
     def scan_tokens tokens, options
-      parse_regexp = false # options[:parse_regexps]
-      first_bake = saved_tokens = nil
       last_token_dot = false
       fancy_allowed = regexp_allowed = true
       heredocs = nil
@@ -72,36 +66,6 @@ module Scanners
             if state.type == :regexp and not eos?
               modifiers = scan(/#{patterns::REGEXP_MODIFIERS}/ox)
               tokens << [modifiers, :modifier] unless modifiers.empty?
-              if parse_regexp
-                extended = modifiers.index ?x
-                tokens = saved_tokens
-                regexp = tokens
-                for text, kind in regexp
-                  if text.is_a? ::String
-                    case kind
-                    when :content
-                      text.scan(/([^#]+)|(#.*)/) do |plain, comment|
-                        if plain
-                          tokens << [plain, :content]
-                        else
-                          tokens << [comment, :comment]
-                        end
-                      end
-                    when :character
-                      if text[/\\(?:[swdSWDAzZbB]|\d+)/]
-                        tokens << [text, :modifier]
-                      else
-                        tokens << [text, kind]
-                      end
-                    else
-                      tokens << [text, kind]
-                    end
-                  else
-                    tokens << [text, kind]
-                  end
-                end
-                first_bake = saved_tokens = nil
-              end
             end
             tokens << [:close, state.type]
             fancy_allowed = regexp_allowed = false
@@ -241,10 +205,6 @@ module Scanners
               kind = :delimiter
               interpreted = true
               state = patterns::StringState.new :regexp, interpreted, match
-              if parse_regexp
-                tokens = []
-                saved_tokens = tokens
-              end
 
             elsif match = scan(/#{patterns::NUMERIC}/o)
               kind = if self[1] then :float else :integer end

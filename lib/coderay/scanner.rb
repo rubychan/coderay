@@ -191,7 +191,7 @@ module CodeRay
       end
 
       # Scanner error with additional status information
-      def raise_inspect msg, tokens, state = nil, ambit = 30
+      def raise_inspect msg, tokens, state = 'No state given!', ambit = 30
         raise ScanError, <<-EOE % [
 
 

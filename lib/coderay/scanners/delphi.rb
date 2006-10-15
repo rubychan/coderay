@@ -101,6 +101,7 @@ module Scanners
             state = :initial
             next
           elsif scan(/\n/)
+            kind = :error
             state = :initial
           else
             raise "else case \' reached; %p not handled." % peek(1), tokens
@@ -114,7 +115,7 @@ module Scanners
         match ||= matched
         if $DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens
+            [[match, kind], line], tokens, state
         end
         raise_inspect 'Empty token', tokens unless match
 

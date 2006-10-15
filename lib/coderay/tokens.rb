@@ -170,7 +170,7 @@ module CodeRay
       print ' Tokens#optimize: before: %d - ' % size if $DEBUG
       last_kind = last_text = nil
       new = self.class.new
-      each do |text, kind|
+      for text, kind in self
         if text.is_a? String
           if kind == last_kind
             last_text << text
@@ -194,6 +194,51 @@ module CodeRay
     # Compact the object itself; see optimize.
     def optimize!
       replace optimize
+    end
+    
+    # Ensure that all :open tokens have a correspondent :close one.
+    #
+    # TODO: Test this!
+    def fix
+      # Check token nesting using a stack of kinds.
+      opened = []
+      for token, kind in self
+        if token == :open
+          opened.push kind
+        elsif token == :close
+          expected = opened.pop
+          if kind != expected
+            # Unexpected :close; decide what to do based on the kind:
+            # - token was opened earlier: also close tokens in between
+            # - token was never opened: delete the :close (skip with next)
+            next unless opened.rindex expected
+            tokens << [:close, kind] until (kind = opened.pop) == expected
+          end
+        end
+        tokens << [token, kind]
+      end
+      # Close remaining opened tokens
+      tokens << [:close, kind] while kind = opened.pop
+      tokens
+    end
+    
+    def fix!
+      replace fix
+    end
+    
+    # Makes sure that:
+    # - newlines are single tokens
+    #   (which means all other token are single-line)
+    # - there are no open tokens at the end the line
+    #
+    # This makes it simple for encoders that work line-oriented,
+    # like HTML with list-style numeration.
+    def split_into_lines
+      raise NotImplementedError
+    end
+
+    def split_into_lines!
+      replace split_into_lines
     end
 
     # Dumps the object into a String that can be saved
@@ -304,7 +349,8 @@ module CodeRay
 
     # This method is not implemented due to speed reasons. Use Tokens.
     def text_size
-      raise NotImplementedError, 'This method is not implemented due to speed reasons.'
+      raise NotImplementedError,
+        'This method is not implemented due to speed reasons.'
     end
 
     # A TokenStream cannot be dumped. Use Tokens.

@@ -3,6 +3,20 @@ $:.unshift File.join($mydir, '..', 'lib')
 
 require 'coderay'
 
+$stdout.sync = true
+
+# from Ruby Facets (http://facets.rubyforge.org/)
+class Array
+  def shuffle!
+    s = size
+    each_index do |j|
+      i = ::Kernel.rand(s-j)
+      self[j], self[j+i] = at(j+i), at(j) unless i.zero?
+    end
+    self
+  end
+end
+
 module CodeRay
 
   require 'test/unit'
@@ -53,6 +67,26 @@ module CodeRay
         :hint => :debug,
         :css => :class
       )
+      
+      max = ENV.fetch('max', 500).to_i
+      unless ENV['norandom']
+        print "Random test"
+        if ENV['showprogress']
+          print ': '
+          progress = ''
+        end
+        for size in 0..max
+          if ENV['showprogress']
+            print "\b" * progress.size
+            progress = '(%d)' % size
+            print progress
+          end
+          srand size + 17
+          scanner.string = Array.new(size) { rand 256 }.pack 'c*'
+          scanner.tokenize
+        end
+        puts ', finished.'
+      end
 
       self.class.dir do
         for input in Dir["*.#{extension}"]
@@ -61,14 +95,48 @@ module CodeRay
           name = File.basename(input, ".#{extension}")
           output = name + '.out.' + tokenizer.file_extension
           code = File.open(input, 'rb') { |f| break f.read }
-
+          
           unless ENV['noincremental']
-            print 'incremental, '
-            for size in 0..[code.size, 300].min
-              print size, '.' if ENV['showprogress']
+            print 'incremental'
+            if ENV['showprogress']
+              print ': ' 
+              progress = ''
+            end
+            for size in 0..max
+              break if size > code.size
+              if ENV['showprogress']
+                print "\b" * progress.size
+                progress = '(%d)' % size
+                print progress
+              end
               scanner.string = code[0,size]
               scanner.tokenize
             end
+            print ', '
+          end
+
+          unless ENV['noshuffled'] or code.size < [0].pack('Q').size
+            print 'shuffled'
+            if ENV['showprogress']
+              print ': ' 
+              progress = ''
+            end
+            code_bits = code[0,max].unpack('Q*')     # split into quadwords...
+            (max / 4).times do |i|
+              if ENV['showprogress']
+                print "\b" * progress.size
+                progress = '(%d)' % i
+                print progress
+              end
+              srand i
+              code_bits.shuffle!                     # ...mix...
+              scanner.string = code_bits.pack('Q*')  # ...and join again
+              scanner.tokenize
+            end
+            
+            # highlighted = highlighter.encode_tokens scanner.tokenize
+            # File.open(name + '.shuffled.html', 'w') { |f| f.write highlighted }
+            print ', '
           end
 
           print 'complete, '
@@ -92,11 +160,11 @@ module CodeRay
 
           print 'highlighting, '
           highlighted = highlighter.encode_tokens tokens
-          File.open(name + '.html', 'w') { |f| f.write highlighted }
+          File.open(name + '.actual.html', 'w') { |f| f.write highlighted }
 
           puts 'finished.'
         end
-      end
+      end unless ENV['noexamples']
     end
 
   end
@@ -126,10 +194,10 @@ module CodeRay
       end
 
       def load
-        if subsuite = ARGV.find { |a| break $1 if a[/^([^-].*)/] } || ENV['scannerlang']
+        if subsuite = ARGV.find { |a| break $1 if a[/^([^-].*)/] } || ENV['lang']
           load_suite(subsuite) or exit
         else
-          Dir[File.join($mydir, '*', '')].each { |suite| load_suite File.basename(suite) }
+          Dir[File.join($mydir, '*', '')].sort.each { |suite| load_suite File.basename(suite) }
         end
       end
 

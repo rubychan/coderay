@@ -107,6 +107,7 @@ module Scanners
               kind = :tag
               state = :initial
             elsif scan(/./)
+              kind = :error
               state = :attribute
             end
 
@@ -137,6 +138,8 @@ module Scanners
               next
             elsif scan(/#{ENTITY}/ox)
               kind = :entity
+            elsif scan(/&/)
+              kind = :content
             elsif scan(/[\n>]/)
               tokens << [:close, :string]
               kind = :error

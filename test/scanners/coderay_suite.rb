@@ -1,5 +1,5 @@
-$mydir = File.dirname __FILE__
-$:.unshift File.join($mydir, '..', 'lib')
+$mydir = File.dirname(__FILE__)
+$:.unshift File.join($mydir, '..', '..', 'lib')
 
 require 'coderay'
 

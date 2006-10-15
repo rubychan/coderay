@@ -46,7 +46,7 @@ Some files to enhance Rake, including the Autumnal Rdoc template and some script
 
 == test - Tests
 
-Test for the scanners.
+Tests for the scanners.
 
 Each language has its own subfolder and sub-suite.
 

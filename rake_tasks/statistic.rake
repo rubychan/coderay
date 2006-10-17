@@ -8,8 +8,9 @@ task :stats do
     ['  Encoders', 'lib/coderay/encoders/**'],
     ['  Helpers', 'lib/coderay/helpers/**'],
     ['  Styles', 'lib/coderay/styles/**'],
-    ['Test', 'test'],
-    ['  Test Data', 'test/*/**', /\.in\./, false],
-    ['Demo Tests', 'demo/**']
+    ['Functional Tests', 'test/functional/**'],
+    ['Scanner Tests', 'test/scanners/**', /suite\.rb$/],
+    #['  Test Data', 'test/scanners/**', /\.in\./, false],
+    ['Demo Tests', 'sample/**']
   ).print
 end

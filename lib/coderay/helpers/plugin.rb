@@ -32,9 +32,9 @@ module PluginHost
   PLUGIN_HOSTS = []
   PLUGIN_HOSTS_BY_ID = {}  # dummy hash
 
-  # Loads all plugins using all_plugin_names and load.
+  # Loads all plugins using list and load.
   def load_all
-    for plugin in all_plugin_names
+    for plugin in list
       load plugin
     end
   end
@@ -160,7 +160,7 @@ module PluginHost
   # Returns an array of all .rb files in the plugin path.
   #
   # The extension .rb is not included.
-  def all_plugin_names
+  def list
     Dir[path_to('*')].select do |file|
       File.basename(file)[/^(?!_)\w+\.rb$/]
     end.map do |file|

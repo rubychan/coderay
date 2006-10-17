@@ -33,7 +33,7 @@ class CodeRaySuite < TestCase
         if File.exist? output
           expected = File.read output
           ok = expected == result
-          computed = output.sub('.out', '.computed')
+          computed = output.sub('.expected', '.computed')
           unless ok
             File.open(computed, 'w') { |f| f.write result }
             print `diff #{output} #{computed}` if $DEBUG

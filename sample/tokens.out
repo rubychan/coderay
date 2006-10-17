@@ -1,0 +1,14 @@
+ident	puts
+space	 
+integer	3
+space	 
+operator	+
+space	 
+integer	4
+operator	,
+space	 
+:open	string	
+delimiter	'
+content	3 + 4
+delimiter	'
+:close	string	

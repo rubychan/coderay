@@ -32,13 +32,13 @@ class Basic < Test::Unit::TestCase
     count debug div html null page span statistic text tokens xml yaml
   )
   def test_list_of_encoders
-    assert_equal(ENCODERS_LIST, CodeRay::Encoders.list)
+    assert_equal(ENCODERS_LIST, CodeRay::Encoders.list.sort)
   end
 
   SCANNERS_LIST = %w(
     c delphi html nitro_xhtml plaintext rhtml ruby xml
   )
   def test_list_of_encoders
-    assert_equal(SCANNERS_LIST, CodeRay::Scanners.list)
+    assert_equal(SCANNERS_LIST, CodeRay::Scanners.list.sort)
   end
 end

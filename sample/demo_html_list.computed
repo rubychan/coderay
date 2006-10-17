@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="de">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>CodeRay HTML Encoder Example</title>
+  <style type="text/css">
+.CodeRay {
+  background-color: #f8f8f8;
+  border: 1px solid silver;
+  font-family: 'Courier New', 'Terminal', monospace;
+  color: #100;
+}
+.CodeRay pre { margin: 0px }
+
+div.CodeRay { }
+
+span.CodeRay { white-space: pre; border: 0px; padding: 2px }
+
+table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px }
+table.CodeRay td { padding: 2px 4px; vertical-align: top }
+
+.CodeRay .line_numbers, .CodeRay .no {
+  background-color: #def;
+  color: gray;
+  text-align: right;
+}
+.CodeRay .line_numbers tt { font-weight: bold }
+.CodeRay .no { padding: 0px 4px }
+.CodeRay .code { width: 100% }
+
+ol.CodeRay { font-size: 10pt }
+ol.CodeRay li { white-space: pre }
+
+.CodeRay .code pre { overflow: auto }
+
+.CodeRay .af { color:#00C }
+.CodeRay .an { color:#007 }
+.CodeRay .av { color:#700 }
+.CodeRay .aw { color:#C00 }
+.CodeRay .bi { color:#509; font-weight:bold }
+.CodeRay .c  { color:#888 }
+
+.CodeRay .ch { color:#04D }
+.CodeRay .ch .k { color:#04D }
+.CodeRay .ch .dl { color:#039 }
+
+.CodeRay .cl { color:#B06; font-weight:bold }
+.CodeRay .co { color:#036; font-weight:bold }
+.CodeRay .cr { color:#0A0 }
+.CodeRay .cv { color:#369 }
+.CodeRay .df { color:#099; font-weight:bold }
+.CodeRay .di { color:#088; font-weight:bold }
+.CodeRay .dl { color:black }
+.CodeRay .do { color:#970 }
+.CodeRay .ds { color:#D42; font-weight:bold }
+.CodeRay .e  { color:#666; font-weight:bold }
+.CodeRay .en { color:#800; font-weight:bold }
+.CodeRay .er { color:#F00; background-color:#FAA }
+.CodeRay .ex { color:#F00; font-weight:bold }
+.CodeRay .fl { color:#60E; font-weight:bold }
+.CodeRay .fu { color:#06B; font-weight:bold }
+.CodeRay .gv { color:#d70; font-weight:bold }
+.CodeRay .hx { color:#058; font-weight:bold }
+.CodeRay .i  { color:#00D; font-weight:bold }
+.CodeRay .ic { color:#B44; font-weight:bold }
+
+.CodeRay .il { background: #eee }
+.CodeRay .il .il { background: #ddd }
+.CodeRay .il .il .il { background: #ccc }
+.CodeRay .il .dl { font-weight: bold ! important; color: #888 ! important }
+
+.CodeRay .in { color:#B2B; font-weight:bold }
+.CodeRay .iv { color:#33B }
+.CodeRay .la { color:#970; font-weight:bold }
+.CodeRay .lv { color:#963 }
+.CodeRay .oc { color:#40E; font-weight:bold }
+.CodeRay .on { color:#000; font-weight:bold }
+.CodeRay .op { }
+.CodeRay .pc { color:#038; font-weight:bold }
+.CodeRay .pd { color:#369; font-weight:bold }
+.CodeRay .pp { color:#579 }
+.CodeRay .pt { color:#339; font-weight:bold }
+.CodeRay .r  { color:#080; font-weight:bold }
+
+.CodeRay .rx { background-color:#fff0ff }
+.CodeRay .rx .k { color:#808 }
+.CodeRay .rx .dl { color:#404 }
+.CodeRay .rx .mod { color:#C2C }
+.CodeRay .rx .fu  { color:#404; font-weight: bold }
+
+.CodeRay .s  { background-color:#fff0f0 }
+.CodeRay .s  .s { background-color:#ffe0e0 }
+.CodeRay .s  .s  .s { background-color:#ffd0d0 }
+.CodeRay .s  .k { color:#D20 }
+.CodeRay .s  .dl { color:#710 }
+
+.CodeRay .sh { background-color:#f0fff0 }
+.CodeRay .sh .k { color:#2B2 }
+.CodeRay .sh .dl { color:#161 }
+
+.CodeRay .sy { color:#A60 }
+.CodeRay .sy .k { color:#A60 }
+.CodeRay .sy .dl { color:#630 }
+
+.CodeRay .ta { color:#070 }
+.CodeRay .tf { color:#070; font-weight:bold }
+.CodeRay .ts { color:#D70; font-weight:bold }
+.CodeRay .ty { color:#339; font-weight:bold }
+.CodeRay .v  { color:#036 }
+.CodeRay .xt { color:#444 }
+
+  </style>
+</head>
+<body style="background-color: white;">
+
+<div class="CodeRay">
+  <div class="code"><pre><span class="no">-1</span> <span class="gv">$:</span> &lt;&lt; <span class="s"><span class="dl">'</span><span class="k">..</span><span class="dl">'</span></span>
+<span class="no"> <strong>0</strong></span> require <span class="s"><span class="dl">'</span><span class="k">coderay</span><span class="dl">'</span></span>
+<span class="no"> 1</span> 
+<span class="no"> 2</span> tokens = <span class="co">CodeRay</span>.scan <span class="co">File</span>.read(<span class="pc">__FILE__</span>), <span class="sy">:ruby</span>
+<span class="no"> 3</span> html = tokens.html(<span class="sy">:tab_width</span> =&gt; <span class="i">2</span>, <span class="sy">:line_numbers</span> =&gt; <span class="sy">:inline</span>, <span class="sy">:line_number_start</span> =&gt; <span class="i">-1</span>)
+<span class="no"> 4</span> 
+<span class="no"> 5</span> puts html.page
+<span class="no"> 6</span> 
+<span class="no"> 7</span> commment = <span class="s"><span class="dl">&lt;&lt;_</span></span><span class="s"><span class="k">
+<span class="no"> 8</span> This code must be &gt; 10 lines
+<span class="no"> 9</span> because I want to test the correct adjustment of the line numbers.</span><span class="dl">
+<span class="no"><strong>10</strong></span> _</span></span>
+</pre></div>
+</div>
+
+</body>
+</html>

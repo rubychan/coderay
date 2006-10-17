@@ -36,7 +36,7 @@ class CodeRaySuite < TestCase
           computed = output.sub('.out', '.computed')
           unless ok
             File.open(computed, 'w') { |f| f.write result }
-            print `gvimdiff #{output} #{computed}` if $DEBUG
+            print `diff #{output} #{computed}` if $DEBUG
           end
           assert(ok, "Output error: #{computed} != #{output}") unless $DEBUG
         else

@@ -1,0 +1,543 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="de">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>CodeRay HTML Encoder Example</title>
+  <style type="text/css">
+.CodeRay {
+  background-color: #f8f8f8;
+  border: 1px solid silver;
+  font-family: 'Courier New', 'Terminal', monospace;
+  color: #100;
+}
+.CodeRay pre { margin: 0px }
+
+div.CodeRay { }
+
+span.CodeRay { white-space: pre; border: 0px; padding: 2px }
+
+table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px }
+table.CodeRay td { padding: 2px 4px; vertical-align: top }
+
+.CodeRay .line_numbers, .CodeRay .no {
+  background-color: #def;
+  color: gray;
+  text-align: right;
+}
+.CodeRay .line_numbers tt { font-weight: bold }
+.CodeRay .no { padding: 0px 4px }
+.CodeRay .code { width: 100% }
+
+ol.CodeRay { font-size: 10pt }
+ol.CodeRay li { white-space: pre }
+
+.CodeRay .code pre { overflow: auto }
+
+.CodeRay .af { color:#00C }
+.CodeRay .an { color:#007 }
+.CodeRay .av { color:#700 }
+.CodeRay .aw { color:#C00 }
+.CodeRay .bi { color:#509; font-weight:bold }
+.CodeRay .c  { color:#888 }
+
+.CodeRay .ch { color:#04D }
+.CodeRay .ch .k { color:#04D }
+.CodeRay .ch .dl { color:#039 }
+
+.CodeRay .cl { color:#B06; font-weight:bold }
+.CodeRay .co { color:#036; font-weight:bold }
+.CodeRay .cr { color:#0A0 }
+.CodeRay .cv { color:#369 }
+.CodeRay .df { color:#099; font-weight:bold }
+.CodeRay .di { color:#088; font-weight:bold }
+.CodeRay .dl { color:black }
+.CodeRay .do { color:#970 }
+.CodeRay .ds { color:#D42; font-weight:bold }
+.CodeRay .e  { color:#666; font-weight:bold }
+.CodeRay .en { color:#800; font-weight:bold }
+.CodeRay .er { color:#F00; background-color:#FAA }
+.CodeRay .ex { color:#F00; font-weight:bold }
+.CodeRay .fl { color:#60E; font-weight:bold }
+.CodeRay .fu { color:#06B; font-weight:bold }
+.CodeRay .gv { color:#d70; font-weight:bold }
+.CodeRay .hx { color:#058; font-weight:bold }
+.CodeRay .i  { color:#00D; font-weight:bold }
+.CodeRay .ic { color:#B44; font-weight:bold }
+
+.CodeRay .il { background: #eee }
+.CodeRay .il .il { background: #ddd }
+.CodeRay .il .il .il { background: #ccc }
+.CodeRay .il .dl { font-weight: bold ! important; color: #888 ! important }
+
+.CodeRay .in { color:#B2B; font-weight:bold }
+.CodeRay .iv { color:#33B }
+.CodeRay .la { color:#970; font-weight:bold }
+.CodeRay .lv { color:#963 }
+.CodeRay .oc { color:#40E; font-weight:bold }
+.CodeRay .on { color:#000; font-weight:bold }
+.CodeRay .op { }
+.CodeRay .pc { color:#038; font-weight:bold }
+.CodeRay .pd { color:#369; font-weight:bold }
+.CodeRay .pp { color:#579 }
+.CodeRay .pt { color:#339; font-weight:bold }
+.CodeRay .r  { color:#080; font-weight:bold }
+
+.CodeRay .rx { background-color:#fff0ff }
+.CodeRay .rx .k { color:#808 }
+.CodeRay .rx .dl { color:#404 }
+.CodeRay .rx .mod { color:#C2C }
+.CodeRay .rx .fu  { color:#404; font-weight: bold }
+
+.CodeRay .s  { background-color:#fff0f0 }
+.CodeRay .s  .s { background-color:#ffe0e0 }
+.CodeRay .s  .s  .s { background-color:#ffd0d0 }
+.CodeRay .s  .k { color:#D20 }
+.CodeRay .s  .dl { color:#710 }
+
+.CodeRay .sh { background-color:#f0fff0 }
+.CodeRay .sh .k { color:#2B2 }
+.CodeRay .sh .dl { color:#161 }
+
+.CodeRay .sy { color:#A60 }
+.CodeRay .sy .k { color:#A60 }
+.CodeRay .sy .dl { color:#630 }
+
+.CodeRay .ta { color:#070 }
+.CodeRay .tf { color:#070; font-weight:bold }
+.CodeRay .ts { color:#D70; font-weight:bold }
+.CodeRay .ty { color:#339; font-weight:bold }
+.CodeRay .v  { color:#036 }
+.CodeRay .xt { color:#444 }
+
+  </style>
+</head>
+<body style="background-color: white;">
+
+<h1>C</h1>
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt>5<tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt>9<tt>
+</tt><strong>10</strong><tt>
+</tt>11<tt>
+</tt>12<tt>
+</tt>13<tt>
+</tt>14<tt>
+</tt>15<tt>
+</tt>16<tt>
+</tt>17<tt>
+</tt>18<tt>
+</tt>19<tt>
+</tt><strong>20</strong><tt>
+</tt>21<tt>
+</tt>22<tt>
+</tt>23<tt>
+</tt>24<tt>
+</tt>25<tt>
+</tt>26<tt>
+</tt>27<tt>
+</tt>28<tt>
+</tt>29<tt>
+</tt><strong>30</strong><tt>
+</tt>31<tt>
+</tt>32<tt>
+</tt>33<tt>
+</tt>34<tt>
+</tt>35<tt>
+</tt>36<tt>
+</tt>37<tt>
+</tt>38<tt>
+</tt>39<tt>
+</tt><strong>40</strong><tt>
+</tt>41<tt>
+</tt>42<tt>
+</tt>43<tt>
+</tt>44<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><span class="c">/**********************************************************************<tt>
+</tt><tt>
+</tt>  version.c -<tt>
+</tt><tt>
+</tt>  $Author: nobu $<tt>
+</tt>  $Date: 2004/03/25 12:01:40 $<tt>
+</tt>  created at: Thu Sep 30 20:08:01 JST 1993<tt>
+</tt><tt>
+</tt>  Copyright (C) 1993-2003 Yukihiro Matsumoto<tt>
+</tt><tt>
+</tt>**********************************************************************/</span><tt>
+</tt><tt>
+</tt><span class="pp">#include</span> <span class="ic">&quot;ruby.h&quot;</span><tt>
+</tt><span class="pp">#include</span> <span class="ic">&quot;version.h&quot;</span><tt>
+</tt><span class="pp">#include</span> <span class="ic">&lt;stdio.h&gt;</span><tt>
+</tt><tt>
+</tt><span class="r">const</span> <span class="pt">char</span> ruby_version[] = RUBY_VERSION;<tt>
+</tt><span class="r">const</span> <span class="pt">char</span> ruby_release_date[] = RUBY_RELEASE_DATE;<tt>
+</tt><span class="r">const</span> <span class="pt">char</span> ruby_platform[] = RUBY_PLATFORM;<tt>
+</tt><tt>
+</tt><span class="pt">void</span><tt>
+</tt>Init_version()<tt>
+</tt>{<tt>
+</tt>    VALUE v = rb_obj_freeze(rb_str_new2(ruby_version));<tt>
+</tt>    VALUE d = rb_obj_freeze(rb_str_new2(ruby_release_date));<tt>
+</tt>    VALUE p = rb_obj_freeze(rb_str_new2(ruby_platform));<tt>
+</tt><tt>
+</tt>    rb_define_global_const(<span class="s"><span class="dl">&quot;</span><span class="k">RUBY_VERSION</span><span class="dl">&quot;</span></span>, v);<tt>
+</tt>    rb_define_global_const(<span class="s"><span class="dl">&quot;</span><span class="k">RUBY_RELEASE_DATE</span><span class="dl">&quot;</span></span>, d);<tt>
+</tt>    rb_define_global_const(<span class="s"><span class="dl">&quot;</span><span class="k">RUBY_PLATFORM</span><span class="dl">&quot;</span></span>, p);<tt>
+</tt>}<tt>
+</tt><tt>
+</tt><span class="pt">void</span><tt>
+</tt>ruby_show_version()<tt>
+</tt>{<tt>
+</tt>    printf(<span class="s"><span class="dl">&quot;</span><span class="k">ruby %s (%s) [%s]</span><span class="ch">\n</span><span class="dl">&quot;</span></span>, RUBY_VERSION, RUBY_RELEASE_DATE, RUBY_PLATFORM);<tt>
+</tt>}<tt>
+</tt><tt>
+</tt><span class="pt">void</span><tt>
+</tt>ruby_show_copyright()<tt>
+</tt>{<tt>
+</tt>    printf(<span class="s"><span class="dl">&quot;</span><span class="k">ruby - Copyright (C) 1993-%d Yukihiro Matsumoto</span><span class="ch">\n</span><span class="dl">&quot;</span></span>, RUBY_RELEASE_YEAR);<tt>
+</tt>    exit(<span class="i">0</span>);<tt>
+</tt>}<tt>
+</tt></pre></td>
+</tr></table>
+<h1>Ruby</h1>
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt>5<tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt>9<tt>
+</tt><strong>10</strong><tt>
+</tt>11<tt>
+</tt>12<tt>
+</tt>13<tt>
+</tt>14<tt>
+</tt>15<tt>
+</tt>16<tt>
+</tt>17<tt>
+</tt>18<tt>
+</tt>19<tt>
+</tt><strong>20</strong><tt>
+</tt>21<tt>
+</tt>22<tt>
+</tt>23<tt>
+</tt>24<tt>
+</tt>25<tt>
+</tt>26<tt>
+</tt>27<tt>
+</tt>28<tt>
+</tt>29<tt>
+</tt><strong>30</strong><tt>
+</tt>31<tt>
+</tt>32<tt>
+</tt>33<tt>
+</tt>34<tt>
+</tt>35<tt>
+</tt>36<tt>
+</tt>37<tt>
+</tt>38<tt>
+</tt>39<tt>
+</tt><strong>40</strong><tt>
+</tt>41<tt>
+</tt>42<tt>
+</tt>43<tt>
+</tt>44<tt>
+</tt>45<tt>
+</tt>46<tt>
+</tt>47<tt>
+</tt>48<tt>
+</tt>49<tt>
+</tt><strong>50</strong><tt>
+</tt>51<tt>
+</tt>52<tt>
+</tt>53<tt>
+</tt>54<tt>
+</tt>55<tt>
+</tt>56<tt>
+</tt>57<tt>
+</tt>58<tt>
+</tt>59<tt>
+</tt><strong>60</strong><tt>
+</tt>61<tt>
+</tt>62<tt>
+</tt>63<tt>
+</tt>64<tt>
+</tt>65<tt>
+</tt>66<tt>
+</tt>67<tt>
+</tt>68<tt>
+</tt>69<tt>
+</tt><strong>70</strong><tt>
+</tt>71<tt>
+</tt>72<tt>
+</tt>73<tt>
+</tt>74<tt>
+</tt>75<tt>
+</tt>76<tt>
+</tt>77<tt>
+</tt>78<tt>
+</tt>79<tt>
+</tt><strong>80</strong><tt>
+</tt>81<tt>
+</tt>82<tt>
+</tt>83<tt>
+</tt>84<tt>
+</tt>85<tt>
+</tt>86<tt>
+</tt>87<tt>
+</tt>88<tt>
+</tt>89<tt>
+</tt><strong>90</strong><tt>
+</tt>91<tt>
+</tt>92<tt>
+</tt>93<tt>
+</tt>94<tt>
+</tt>95<tt>
+</tt>96<tt>
+</tt>97<tt>
+</tt>98<tt>
+</tt>99<tt>
+</tt><strong>100</strong><tt>
+</tt>101<tt>
+</tt>102<tt>
+</tt>103<tt>
+</tt>104<tt>
+</tt>105<tt>
+</tt>106<tt>
+</tt>107<tt>
+</tt>108<tt>
+</tt>109<tt>
+</tt><strong>110</strong><tt>
+</tt>111<tt>
+</tt>112<tt>
+</tt>113<tt>
+</tt>114<tt>
+</tt>115<tt>
+</tt>116<tt>
+</tt>117<tt>
+</tt>118<tt>
+</tt>119<tt>
+</tt><strong>120</strong><tt>
+</tt>121<tt>
+</tt>122<tt>
+</tt>123<tt>
+</tt>124<tt>
+</tt>125<tt>
+</tt>126<tt>
+</tt>127<tt>
+</tt>128<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><tt>
+</tt><span class="c">#</span><tt>
+</tt><span class="c"># = ostruct.rb: OpenStruct implementation</span><tt>
+</tt><span class="c">#</span><tt>
+</tt><span class="c"># Author:: Yukihiro Matsumoto</span><tt>
+</tt><span class="c"># Documentation:: Gavin Sinclair</span><tt>
+</tt><span class="c">#</span><tt>
+</tt><span class="c"># OpenStruct allows the creation of data objects with arbitrary attributes.</span><tt>
+</tt><span class="c"># See OpenStruct for an example.</span><tt>
+</tt><span class="c">#</span><tt>
+</tt><tt>
+</tt><span class="c">#</span><tt>
+</tt><span class="c"># OpenStruct allows you to create data objects and set arbitrary attributes.</span><tt>
+</tt><span class="c"># For example:</span><tt>
+</tt><span class="c">#</span><tt>
+</tt><span class="c">#   require 'ostruct' </span><tt>
+</tt><span class="c">#</span><tt>
+</tt><span class="c">#   record = OpenStruct.new</span><tt>
+</tt><span class="c">#   record.name    = &quot;John Smith&quot;</span><tt>
+</tt><span class="c">#   record.age     = 70</span><tt>
+</tt><span class="c">#   record.pension = 300</span><tt>
+</tt><span class="c">#   </span><tt>
+</tt><span class="c">#   puts record.name     # -&gt; &quot;John Smith&quot;</span><tt>
+</tt><span class="c">#   puts record.address  # -&gt; nil</span><tt>
+</tt><span class="c">#</span><tt>
+</tt><span class="c"># It is like a hash with a different way to access the data.  In fact, it is</span><tt>
+</tt><span class="c"># implemented with a hash, and you can initialize it with one.</span><tt>
+</tt><span class="c">#</span><tt>
+</tt><span class="c">#   hash = { &quot;country&quot; =&gt; &quot;Australia&quot;, :population =&gt; 20_000_000 }</span><tt>
+</tt><span class="c">#   data = OpenStruct.new(hash)</span><tt>
+</tt><span class="c">#</span><tt>
+</tt><span class="c">#   p data        # -&gt; &lt;OpenStruct country=&quot;Australia&quot; population=20000000&gt;</span><tt>
+</tt><span class="c">#</span><tt>
+</tt><span class="r">class</span> <span class="cl">OpenStruct</span><tt>
+</tt>  <span class="c">#</span><tt>
+</tt>  <span class="c"># Create a new OpenStruct object.  The optional +hash+, if given, will</span><tt>
+</tt>  <span class="c"># generate attributes and values.  For example.</span><tt>
+</tt>  <span class="c">#</span><tt>
+</tt>  <span class="c">#   require 'ostruct'</span><tt>
+</tt>  <span class="c">#   hash = { &quot;country&quot; =&gt; &quot;Australia&quot;, :population =&gt; 20_000_000 }</span><tt>
+</tt>  <span class="c">#   data = OpenStruct.new(hash)</span><tt>
+</tt>  <span class="c">#</span><tt>
+</tt>  <span class="c">#   p data        # -&gt; &lt;OpenStruct country=&quot;Australia&quot; population=20000000&gt;</span><tt>
+</tt>  <span class="c">#</span><tt>
+</tt>  <span class="c"># By default, the resulting OpenStruct object will have no attributes. </span><tt>
+</tt>  <span class="c">#</span><tt>
+</tt>  <span class="r">def</span> <span class="fu">initialize</span>(hash=<span class="pc">nil</span>)<tt>
+</tt>    <span class="iv">@table</span> = {}<tt>
+</tt>    <span class="r">if</span> hash<tt>
+</tt>      <span class="r">for</span> k,v <span class="r">in</span> hash<tt>
+</tt>  <span class="iv">@table</span>[k.to_sym] = v<tt>
+</tt>        new_ostruct_member(k)<tt>
+</tt>      <span class="r">end</span><tt>
+</tt>    <span class="r">end</span><tt>
+</tt>  <span class="r">end</span><tt>
+</tt><tt>
+</tt>  <span class="c"># Duplicate an OpenStruct object members. </span><tt>
+</tt>  <span class="r">def</span> <span class="fu">initialize_copy</span>(orig)<tt>
+</tt>    <span class="r">super</span><tt>
+</tt>    <span class="iv">@table</span> = <span class="iv">@table</span>.dup<tt>
+</tt>  <span class="r">end</span><tt>
+</tt><tt>
+</tt>  <span class="r">def</span> <span class="fu">marshal_dump</span><tt>
+</tt>    <span class="iv">@table</span><tt>
+</tt>  <span class="r">end</span><tt>
+</tt>  <span class="r">def</span> <span class="fu">marshal_load</span>(x)<tt>
+</tt>    <span class="iv">@table</span> = x<tt>
+</tt>    <span class="iv">@table</span>.each_key{|key| new_ostruct_member(key)}<tt>
+</tt>  <span class="r">end</span><tt>
+</tt><tt>
+</tt>  <span class="r">def</span> <span class="fu">new_ostruct_member</span>(name)<tt>
+</tt>    <span class="r">unless</span> <span class="pc">self</span>.respond_to?(name)<tt>
+</tt>      <span class="pc">self</span>.instance_eval <span class="s"><span class="dl">%{</span><span class="k"><tt>
+</tt>        def </span><span class="il"><span class="dl">#{</span>name<span class="dl">}</span></span><span class="k">; @table[:</span><span class="il"><span class="dl">#{</span>name<span class="dl">}</span></span><span class="k">]; end<tt>
+</tt>        def </span><span class="il"><span class="dl">#{</span>name<span class="dl">}</span></span><span class="k">=(x); @table[:</span><span class="il"><span class="dl">#{</span>name<span class="dl">}</span></span><span class="k">] = x; end<tt>
+</tt>      </span><span class="dl">}</span></span><tt>
+</tt>    <span class="r">end</span><tt>
+</tt>  <span class="r">end</span><tt>
+</tt><tt>
+</tt>  <span class="r">def</span> <span class="fu">method_missing</span>(mid, *args) <span class="c"># :nodoc:</span><tt>
+</tt>    mname = mid.id2name<tt>
+</tt>    len = args.length<tt>
+</tt>    <span class="r">if</span> mname =~ <span class="rx"><span class="dl">/</span><span class="k">=$</span><span class="dl">/</span></span><tt>
+</tt>      <span class="r">if</span> len != <span class="i">1</span><tt>
+</tt>  raise <span class="co">ArgumentError</span>, <span class="s"><span class="dl">&quot;</span><span class="k">wrong number of arguments (</span><span class="il"><span class="dl">#{</span>len<span class="dl">}</span></span><span class="k"> for 1)</span><span class="dl">&quot;</span></span>, caller(<span class="i">1</span>)<tt>
+</tt>      <span class="r">end</span><tt>
+</tt>      <span class="r">if</span> <span class="pc">self</span>.frozen?<tt>
+</tt>  raise <span class="co">TypeError</span>, <span class="s"><span class="dl">&quot;</span><span class="k">can't modify frozen </span><span class="il"><span class="dl">#{</span><span class="pc">self</span>.class<span class="dl">}</span></span><span class="dl">&quot;</span></span>, caller(<span class="i">1</span>)<tt>
+</tt>      <span class="r">end</span><tt>
+</tt>      mname.chop!<tt>
+</tt>      <span class="iv">@table</span>[mname.intern] = args[<span class="i">0</span>]<tt>
+</tt>      <span class="pc">self</span>.new_ostruct_member(mname)<tt>
+</tt>    <span class="r">elsif</span> len == <span class="i">0</span><tt>
+</tt>      <span class="iv">@table</span>[mid]<tt>
+</tt>    <span class="r">else</span><tt>
+</tt>      raise <span class="co">NoMethodError</span>, <span class="s"><span class="dl">&quot;</span><span class="k">undefined method `</span><span class="il"><span class="dl">#{</span>mname<span class="dl">}</span></span><span class="k">' for </span><span class="il"><span class="dl">#{</span><span class="pc">self</span><span class="dl">}</span></span><span class="dl">&quot;</span></span>, caller(<span class="i">1</span>)<tt>
+</tt>    <span class="r">end</span><tt>
+</tt>  <span class="r">end</span><tt>
+</tt><tt>
+</tt>  <span class="c">#</span><tt>
+</tt>  <span class="c"># Remove the named field from the object.</span><tt>
+</tt>  <span class="c">#</span><tt>
+</tt>  <span class="r">def</span> <span class="fu">delete_field</span>(name)<tt>
+</tt>    <span class="iv">@table</span>.delete name.to_sym<tt>
+</tt>  <span class="r">end</span><tt>
+</tt><tt>
+</tt>  <span class="c">#</span><tt>
+</tt>  <span class="c"># Returns a string containing a detailed summary of the keys and values.</span><tt>
+</tt>  <span class="c">#</span><tt>
+</tt>  <span class="r">def</span> <span class="fu">inspect</span><tt>
+</tt>    str = <span class="s"><span class="dl">&quot;</span><span class="k">&lt;</span><span class="il"><span class="dl">#{</span><span class="pc">self</span>.class<span class="dl">}</span></span><span class="dl">&quot;</span></span><tt>
+</tt>    <span class="r">for</span> k,v <span class="r">in</span> <span class="iv">@table</span><tt>
+</tt>      str &lt;&lt; <span class="s"><span class="dl">&quot;</span><span class="k"> </span><span class="il"><span class="dl">#{</span>k<span class="dl">}</span></span><span class="k">=</span><span class="il"><span class="dl">#{</span>v.inspect<span class="dl">}</span></span><span class="dl">&quot;</span></span><tt>
+</tt>    <span class="r">end</span><tt>
+</tt>    str &lt;&lt; <span class="s"><span class="dl">&quot;</span><span class="k">&gt;</span><span class="dl">&quot;</span></span><tt>
+</tt>  <span class="r">end</span><tt>
+</tt><tt>
+</tt>  attr_reader <span class="sy">:table</span> <span class="c"># :nodoc:</span><tt>
+</tt>  protected <span class="sy">:table</span><tt>
+</tt><tt>
+</tt>  <span class="c">#</span><tt>
+</tt>  <span class="c"># Compare this object and +other+ for equality.</span><tt>
+</tt>  <span class="c">#</span><tt>
+</tt>  <span class="r">def</span> <span class="fu">==</span>(other)<tt>
+</tt>    <span class="r">return</span> <span class="pc">false</span> <span class="r">unless</span>(other.kind_of?(<span class="co">OpenStruct</span>))<tt>
+</tt>    <span class="r">return</span> <span class="iv">@table</span> == other.table<tt>
+</tt>  <span class="r">end</span><tt>
+</tt><span class="r">end</span><tt>
+</tt></pre></td>
+</tr></table>
+<h1>Genereated by</h1>
+<table class="CodeRay"><tr>
+  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>1<tt>
+</tt>2<tt>
+</tt>3<tt>
+</tt>4<tt>
+</tt>5<tt>
+</tt>6<tt>
+</tt>7<tt>
+</tt>8<tt>
+</tt>9<tt>
+</tt><strong>10</strong><tt>
+</tt>11<tt>
+</tt>12<tt>
+</tt>13<tt>
+</tt>14<tt>
+</tt>15<tt>
+</tt>16<tt>
+</tt>17<tt>
+</tt>18<tt>
+</tt>19<tt>
+</tt><strong>20</strong><tt>
+</tt>21<tt>
+</tt>22<tt>
+</tt>23<tt>
+</tt>24<tt>
+</tt>25<tt>
+</tt>26<tt>
+</tt>27<tt>
+</tt>28<tt>
+</tt>29<tt>
+</tt><strong>30</strong><tt>
+</tt>31<tt>
+</tt>32<tt>
+</tt>33<tt>
+</tt></pre></td>
+  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }">require <span class="s"><span class="dl">'</span><span class="k">coderay</span><span class="dl">'</span></span><tt>
+</tt><tt>
+</tt>c, ruby = <span class="pc">DATA</span>.read.split(<span class="rx"><span class="dl">/</span><span class="k">^---$</span><span class="dl">/</span></span>)<tt>
+</tt><span class="pc">DATA</span>.rewind<tt>
+</tt>me = <span class="pc">DATA</span>.read[<span class="rx"><span class="dl">/</span><span class="k">.*^__END__$</span><span class="dl">/</span><span class="mod">m</span></span>]<tt>
+</tt><span class="gv">$input</span> = c + ruby + me<tt>
+</tt><tt>
+</tt>require <span class="s"><span class="dl">'</span><span class="k">benchmark</span><span class="dl">'</span></span><tt>
+</tt>time = <span class="co">Benchmark</span>.realtime <span class="r">do</span><tt>
+</tt><tt>
+</tt>  <span class="c"># here CodeRay comes to play</span><tt>
+</tt>  hl = <span class="co">CodeRay</span>.encoder(<span class="sy">:html</span>, <span class="sy">:tab_width</span> =&gt; <span class="i">2</span>, <span class="sy">:line_numbers</span> =&gt; <span class="sy">:table</span>, <span class="sy">:wrap</span> =&gt; <span class="sy">:div</span>)<tt>
+</tt>  c = hl.highlight c, <span class="sy">:c</span><tt>
+</tt>  ruby = hl.highlight ruby, <span class="sy">:ruby</span><tt>
+</tt>  me = hl.highlight me, <span class="sy">:ruby</span><tt>
+</tt><tt>
+</tt>  body = <span class="s"><span class="dl">%w[</span><span class="k">C Ruby Genereated</span><span class="k">\ </span><span class="k">by</span><span class="dl">]</span></span>.zip([c, ruby, me]).map <span class="r">do</span> |title, code|<tt>
+</tt>    <span class="s"><span class="dl">&quot;</span><span class="k">&lt;h1&gt;</span><span class="il"><span class="dl">#{</span>title<span class="dl">}</span></span><span class="k">&lt;/h1&gt;</span><span class="ch">\n</span><span class="il"><span class="dl">#{</span>code<span class="dl">}</span></span><span class="dl">&quot;</span></span><tt>
+</tt>  <span class="r">end</span>.join<tt>
+</tt>  body = hl.class::<span class="co">Output</span>.new(body, hl.css, <span class="sy">:div</span>).page!<tt>
+</tt><tt>
+</tt>  <span class="c"># CodeRay also provides a simple page generator</span><tt>
+</tt>  <span class="gv">$output</span> = body <span class="c">#hl.class.wrap_in_page body</span><tt>
+</tt><span class="r">end</span><tt>
+</tt><tt>
+</tt><span class="co">File</span>.open(<span class="s"><span class="dl">'</span><span class="k">test.html</span><span class="dl">'</span></span>, <span class="s"><span class="dl">'</span><span class="k">w</span><span class="dl">'</span></span>) <span class="r">do</span> |f|<tt>
+</tt>  f.write <span class="gv">$output</span><tt>
+</tt><span class="r">end</span><tt>
+</tt>puts <span class="s"><span class="dl">'</span><span class="k">Input: %dB, Output: %dB</span><span class="dl">'</span></span> % [<span class="gv">$input</span>.size, <span class="gv">$output</span>.size]<tt>
+</tt><span class="c">#puts 'Created &quot;test.html&quot; in %0.3f seconds (%d KB/s).' % [time, $input.size / 1024.0 / time]</span><tt>
+</tt>puts <span class="s"><span class="dl">'</span><span class="k">Take a look with your browser.</span><span class="dl">'</span></span><tt>
+</tt><tt>
+</tt><span class="c">__END__</span></pre></td>
+</tr></table>
+
+</body>
+</html>

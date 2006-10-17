@@ -1,7 +1,7 @@
 namespace :test do
   desc 'Test CodeRay Demos'
-  task :demos do
-    system 'ruby -wd ./demo/suite.rb'
+  task :samples do
+    system 'ruby -wd ./sample/suite.rb'
   end
   
   desc 'Test CodeRay'
@@ -18,4 +18,4 @@ namespace :test do
 end
 
 task :test => %w( test:scanners )
-task :demos => 'test:demos'
+task :samples => 'test:samples'

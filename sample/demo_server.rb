@@ -3,7 +3,7 @@
 unless ARGV.grep(/-[hv]|--(help|version)/).empty?
 	puts <<-USAGE
 CodeRay Server 0.5
-$Id$
+$Id: demo_server.rb 113 2006-03-15 23:24:37Z murphy $
 
 Usage:
 	1) Start this and your browser.

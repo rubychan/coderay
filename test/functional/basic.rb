@@ -9,20 +9,6 @@ class Basic < Test::Unit::TestCase
     end
   end
   
-  def test_classes_exist
-    assert_nothing_raised do
-      CodeRay
-      CodeRay::Encoders::Encoder
-      CodeRay::Encoders
-      CodeRay::Scanners::Scanner
-      CodeRay::Scanners
-      CodeRay::Tokens
-      CodeRay::TokenStream
-      Plugin
-      WordList
-    end
-  end
-  
   RUBY_TEST_CODE = 'puts "Hello, World!"'
   
   def test_simple_scan

@@ -63,7 +63,7 @@ namespace :gem do
     unless $version
       $: << './lib'
       require 'coderay'
-      $version = CodeRay::Version
+      $version = CodeRay::VERSION
     end
     puts 'Current Version: %s' % $version
     #$version.sub!(/\.(\d+)\./) { minor = $1; ".#{minor.to_i}." }

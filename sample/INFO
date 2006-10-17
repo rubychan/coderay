@@ -1,0 +1,1 @@
+These demos rely on Ruby 1.8.5, so the tests might fail on other versions.

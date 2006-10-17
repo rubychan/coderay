@@ -25,7 +25,7 @@ class CodeRaySuite < TestCase
       for input in Dir["*.rb"] - %w(server.rb stream.rb suite.rb)
         puts "[ testing #{input}... ]"
         name = File.basename(input, ".rb")
-        output = name + '.out'
+        output = name + '.expected'
         code = File.open(input, 'rb') { |f| break f.read }
 
         result = `ruby -wI../lib #{input}`
@@ -33,7 +33,7 @@ class CodeRaySuite < TestCase
         if File.exist? output
           expected = File.read output
           ok = expected == result
-          computed = output.sub('.expected', '.computed')
+          computed = output.sub('.expected', '.actual')
           unless ok
             File.open(computed, 'w') { |f| f.write result }
             print `diff #{output} #{computed}` if $DEBUG

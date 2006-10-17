@@ -15,7 +15,7 @@ class Array
     end
     self
   end
-end
+end unless [].respond_to? :shuffle!
 
 module CodeRay
 

@@ -130,7 +130,7 @@ module CodeRay
       # By default, it calls text_token or block_token, depending on
       # whether +text+ is a String.
       def token text, kind
-        if text.is_a? ::String
+        if text.instance_of? ::String  # Ruby 1.9: :open.is_a? String
           text_token text, kind
         elsif text.is_a? ::Symbol
           block_token text, kind

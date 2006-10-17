@@ -93,7 +93,7 @@ module CodeRay
           next if ENV['testonly'] and ENV['testonly'] != File.basename(input, ".#{extension}")
           print "testing #{input}: "
           name = File.basename(input, ".#{extension}")
-          output = name + '.out.' + tokenizer.file_extension
+          expected_filename = name + '.expected.' + tokenizer.file_extension
           code = File.open(input, 'rb') { |f| break f.read }
           
           unless ENV['noincremental']
@@ -144,18 +144,22 @@ module CodeRay
           tokens = scanner.tokens
           result = tokenizer.encode_tokens tokens
 
-          if File.exist? output
-            expected = File.open(output, 'rb') { |f| break f.read }
+          if File.exist? expected_filename
+            expected = File.open(expected_filename, 'rb') { |f| break f.read }
             ok = expected == result
-            computed = output.sub('.out.', '.computed.')
+            actual_filename = expected_filename.sub('.expected.', '.actual.')
             unless ok
-              File.open(computed, 'wb') { |f| f.write result }
-              print `gvimdiff #{output} #{computed}` if ENV['diff']
+              File.open(actual_filename, 'wb') { |f| f.write result }
+              if ENV['diff']
+                print `gvimdiff #{expected_filename} #{actual_filename}`
+              end
             end
-            assert(ok, "Scan error: #{computed} != #{output}") unless ENV['diff'] or ENV['noassert']
+            unless ENV['diff'] or ENV['noassert']
+              assert(ok, "Scan error: unexpected output")
+            end
           else
-            File.open(output, 'wb') do |f| f.write result end
-            puts "New test: #{output}"
+            File.open(expected_filename, 'wb') { |f| f.write result }
+            puts "New test: #{expected_filename}"
           end
 
           print 'highlighting, '

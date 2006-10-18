@@ -152,11 +152,11 @@ module CodeRay
               File.open(actual_filename, 'wb') { |f| f.write result }
               if ENV['diff']
                 diff = expected_filename.sub(/\.expected\..*/, '.debug.diff')
-                system "diff #{expected_filename} #{actual_filename} > #{diff}"
-                system "EDITOR #{diff}"
+                system "diff --text #{expected_filename} #{actual_filename} > #{diff}"
+                system "EDITOR #{diff}" if ENV['diffed']
               end
             end
-            unless ENV['diff'] or ENV['noassert']
+            unless ENV['noassert']
               assert(ok, "Scan error: unexpected output")
             end
           else

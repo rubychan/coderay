@@ -24,7 +24,7 @@ module Scanners
   private
     def scan_tokens tokens, options
       last_token_dot = false
-      fancy_allowed = regexp_allowed = true
+      value_expected = true
       heredocs = nil
       last_state = nil
       state = :initial
@@ -68,7 +68,7 @@ module Scanners
               tokens << [modifiers, :modifier] unless modifiers.empty?
             end
             tokens << [:close, state.type]
-            fancy_allowed = regexp_allowed = false
+            value_expected = false
             state = state.next_state
 
           when '\\'
@@ -93,7 +93,7 @@ module Scanners
             case peek(1)[0]
             when ?{
               inline_block_stack << [state, depth, heredocs]
-              fancy_allowed = regexp_allowed = true
+              value_expected = true
               state = :initial
               depth = 1
               tokens << [:open, :inline]
@@ -123,7 +123,6 @@ module Scanners
 # {{{
           if match = scan(/ [ \t\f]+ | \\? \n | \# .* /x) or
             ( bol? and match = scan(/#{patterns::RUBYDOC_OR_DATA}/o) )
-            fancy_allowed = true
             case m = match[0]
             when ?\s, ?\t, ?\f
               match << scan(/\s*/) unless eos? or heredocs
@@ -131,7 +130,7 @@ module Scanners
             when ?\n, ?\\
               kind = :space
               if m == ?\n
-                regexp_allowed = true
+                value_expected = true  # FIXME not quite true
                 state = :initial if state == :undef_comma_expected
               end
               if heredocs
@@ -145,9 +144,10 @@ module Scanners
               end
             when ?#, ?=, ?_
               kind = :comment
-              regexp_allowed = true
+              value_expected = true
             else
-              raise_inspect 'else-case _ reached, because case %p was not handled' % [matched[0].chr], tokens
+              raise_inspect 'else-case _ reached, because case %p was
+                not handled' % [matched[0].chr], tokens
             end
             tokens << [match, kind]
             next
@@ -167,13 +167,17 @@ module Scanners
                 end
               end
               ## experimental!
-              fancy_allowed = regexp_allowed = :set if patterns::REGEXP_ALLOWED[match] or check(/\s+[%\/][^\s=]/)
+              value_expected = :set if
+                patterns::REGEXP_ALLOWED[match] or check(/#{patterns::VALUE_FOLLOWS}/o)
+            
+            elsif last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}/o)
+              kind = :ident
+              value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
 
             # OPERATORS #
-            elsif (not last_token_dot and match = scan(/ ==?=? | \.\.?\.? | [\(\)\[\]\{\}] | :: | , /x)) or
-              (last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}/o))
+            elsif not last_token_dot and match = scan(/ ==?=? | \.\.?\.? | [\(\)\[\]\{\}] | :: | , /x)
               if match !~ / [.\)\]\}] /x or match =~ /\.\.\.?/
-                regexp_allowed = fancy_allowed = :set
+                value_expected = :set
               end
               last_token_dot = :set if match == '.' or match == '::'
               kind = :operator
@@ -200,7 +204,7 @@ module Scanners
             elsif match = scan(/#{patterns::INSTANCE_VARIABLE}/o)
               kind = :instance_variable
 
-            elsif regexp_allowed and match = scan(/\//)
+            elsif value_expected and match = scan(/\//)
               tokens << [:open, :regexp]
               kind = :delimiter
               interpreted = true
@@ -222,10 +226,10 @@ module Scanners
               end
 
             elsif match = scan(/ [-+!~^]=? | [*|&]{1,2}=? | >>? /x)
-              regexp_allowed = fancy_allowed = :set
+              value_expected = :set
               kind = :operator
 
-            elsif fancy_allowed and match = scan(/#{patterns::HEREDOC_OPEN}/o)
+            elsif value_expected and match = scan(/#{patterns::HEREDOC_OPEN}/o)
               indented = self[1] == '-'
               quote = self[3]
               delim = self[quote ? 4 : 2]
@@ -237,7 +241,7 @@ module Scanners
               heredocs ||= []  # create heredocs if empty
               heredocs << heredoc
 
-            elsif fancy_allowed and match = scan(/#{patterns::FANCY_START_SAVE}/o)
+            elsif value_expected and match = scan(/#{patterns::FANCY_START_CORRECT}/o)
               kind, interpreted = *patterns::FancyStringType.fetch(self[1]) do
                 raise_inspect 'Unknown fancy string: %%%p' % k, tokens
               end
@@ -245,11 +249,11 @@ module Scanners
               state = patterns::StringState.new kind, interpreted, self[2]
               kind = :delimiter
 
-            elsif fancy_allowed and match = scan(/#{patterns::CHARACTER}/o)
+            elsif value_expected and match = scan(/#{patterns::CHARACTER}/o)
               kind = :integer
 
             elsif match = scan(/ [\/%]=? | <(?:<|=>?)? | [?:;] /x)
-              regexp_allowed = fancy_allowed = :set
+              value_expected = :set
               kind = :operator
 
             elsif match = scan(/`/)
@@ -326,8 +330,7 @@ module Scanners
           end
 # }}}
 
-          regexp_allowed = regexp_allowed == :set
-          fancy_allowed = fancy_allowed == :set
+          value_expected = value_expected == :set
           last_token_dot = last_token_dot == :set
 
           if $DEBUG and not kind

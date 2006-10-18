@@ -53,7 +53,6 @@ $dump_input = lang == 'dump'
 $dump_output = format == 'dump'
 require 'coderay/helpers/gzip_simple.rb' if $dump_input
 
-MYDIR = File.dirname __FILE__
 def here fn = nil
   return MYDIR unless fn
   File.join here, fn

@@ -51,6 +51,13 @@ operator(%)constant(Quark) ident(dazu)
 
 operator(%) ident(abc)   comment(# FIXME)
 
+comment(# And here some special string cases)
+ident(foo) operator(=) operator(%) ident(blah)            comment(# comment here to ensure whitespace)
+ident(foo)operator(()operator(%) ident(blah) operator(\))
+ident(foo) operator(<<) operator(%) ident(blah)           comment(# stupid but has to work)
+ident(foo) operator(=) operator(%) ident(blah) operator(+) operator(%) ident(blub)   comment(# wicked)
+ident(foo) operator(=) string<delimiter(%q )content(wicked)delimiter( )>        comment(# works too)
+
 symbol<delimiter(%s#)content(ruby allows strange)delimiter(#)>operator({)ident(constructs)operator(})
 symbol<delimiter(%s#)content(ruby allows strange)delimiter(#)>global_variable($constructs)
 symbol<delimiter(%s#)content(ruby allows strange)delimiter(#)>class_variable(@@constructs)

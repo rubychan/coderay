@@ -187,7 +187,7 @@ reserved(class) class(Set)
   ident(include) constant(Enumerable)
 
   comment(# Creates a new set containing the given objects.)
-  reserved(def) pre_constant(self)operator(.)operator([])operator(()operator(*)ident(ary)operator(\))
+  reserved(def) pre_constant(self)operator(.)ident([])operator(()operator(*)ident(ary)operator(\))
     ident(new)operator(()ident(ary)operator(\))
   reserved(end)
 

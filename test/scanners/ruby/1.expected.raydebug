@@ -17,7 +17,7 @@ reserved(module) class(Bytes)
         constant(FactorOfSuffix)operator([)ident(suff)operator(])
     reserved(end)
    
-    reserved(def) constant(Bytes)operator(.)operator([]) ident(str)
+    reserved(def) constant(Bytes)operator(.)ident([]) ident(str)
         ident(n)operator(,) ident(fac) operator(=) ident(str) operator(/) regexp<delimiter(/)content((.+\)([A-Z]\))delimiter(/)>
         ident(n) operator(=) ident(n)operator(.)ident(to_i)
         ident(fac) operator(=) ident(factor_of_suffix) ident(fac)

@@ -127,6 +127,19 @@ module Scanners
       .*?
       (?: \Z | (?=^\#CODE) )
     /mx
+    
+    # Checks for a valid value to follow. This enables
+    # fancy_allowed in method calls.
+    VALUE_FOLLOWS = /
+      \s+
+      (?:
+        [%\/][^\s=]
+      |
+        <<-?\S
+      |
+        #{CHARACTER}
+      )
+    /x
 
     RUBYDOC_OR_DATA = / #{RUBYDOC} | #{DATA} /xo
 

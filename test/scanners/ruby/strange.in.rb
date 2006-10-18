@@ -51,6 +51,13 @@ puts 30.send(:/, 5) # prints 6
 
 % abc   # FIXME
 
+# And here some special string cases
+foo = % blah            # comment here to ensure whitespace
+foo(% blah )
+foo << % blah           # stupid but has to work
+foo = % blah + % blub   # wicked
+foo = %q wicked         # works too
+
 %s#ruby allows strange#{constructs}
 %s#ruby allows strange#$constructs
 %s#ruby allows strange#@@constructs

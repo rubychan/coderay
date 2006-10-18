@@ -151,7 +151,9 @@ module CodeRay
             unless ok
               File.open(actual_filename, 'wb') { |f| f.write result }
               if ENV['diff']
-                print `gvimdiff #{expected_filename} #{actual_filename}`
+                diff = expected_filename.sub(/\.expected\..*/, '.diff')
+                system "diff #{expected_filename} #{actual_filename} > #{diff}"
+                system "EDITOR #{diff}"
               end
             end
             unless ENV['diff'] or ENV['noassert']

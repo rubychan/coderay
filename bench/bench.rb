@@ -1,7 +1,12 @@
 # The most ugly test script I've ever written!
 # Shame on me!
 
+require 'pathname'
 require 'profile' if ARGV.include? '-p'
+
+MYDIR = File.dirname(__FILE__)
+LIBDIR = Pathname.new(MYDIR).join('..', 'lib').cleanpath
+$LOAD_PATH.unshift MYDIR, LIBDIR
 require 'coderay'
 
 @size = ARGV.fetch(2, 100).to_i * 2**10  # 2**10 = 1 Ki

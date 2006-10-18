@@ -21,7 +21,8 @@ module Scanners
       add(MODULE_KEYWORDS, :module_expected)
 
     IDENTS_ALLOWING_REGEXP = %w[
-      and or not while until unless if then elsif when sub sub! gsub gsub! scan slice slice! split
+      and or not while until unless if then elsif when sub sub! gsub gsub!
+      scan slice slice! split
     ]
     REGEXP_ALLOWED = WordList.new(false).
       add(IDENTS_ALLOWING_REGEXP, :set)

@@ -167,7 +167,7 @@ module Scanners
                 end
               end
               ## experimental!
-              fancy_allowed = regexp_allowed = :set if patterns::REGEXP_ALLOWED[match] or check(/\s+(?:%\S|\/\S)/)
+              fancy_allowed = regexp_allowed = :set if patterns::REGEXP_ALLOWED[match] or check(/\s+[%\/][^\s=]/)
 
             # OPERATORS #
             elsif (not last_token_dot and match = scan(/ ==?=? | \.\.?\.? | [\(\)\[\]\{\}] | :: | , /x)) or

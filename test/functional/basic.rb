@@ -38,7 +38,7 @@ class Basic < Test::Unit::TestCase
   SCANNERS_LIST = %w(
     c delphi html nitro_xhtml plaintext rhtml ruby xml
   )
-  def test_list_of_encoders
+  def test_list_of_scanners
     assert_equal(SCANNERS_LIST, CodeRay::Scanners.list.sort)
   end
 end

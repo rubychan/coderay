@@ -652,87 +652,87 @@ reserved(def) method(factorize)operator(()ident(orig)operator(\))
     ident(sqi) operator(=) integer(4)                 comment(# square of i)
     reserved(while) ident(sqi) operator(<=) ident(n) reserved(do)
         reserved(while) ident(n)operator(.)ident(modulo)operator(()ident(i)operator(\)) operator(==) integer(0) reserved(do)
-            ident(n) regexp<delimiter(/)content(= i
-            factors[i] += 1
-            # puts "Found factor )inline<delimiter(#{)ident(i)delimiter(})>content("
-        end
-        # we take advantage of the fact that (i +1\)**2 = i**2 + 2*i +1
-        sqi += 2 * i + 1
-        i += 1
-    end
+            ident(n) operator(/=) ident(i)
+            ident(factors)operator([)ident(i)operator(]) operator(+=) integer(1)
+            comment(# puts "Found factor #{i}")
+        reserved(end)
+        comment(# we take advantage of the fact that (i +1\)**2 = i**2 + 2*i +1)
+        ident(sqi) operator(+=) integer(2) operator(*) ident(i) operator(+) integer(1)
+        ident(i) operator(+=) integer(1)
+    reserved(end)
     
-    if (n != 1\) && (n != orig\)
-        factors[n] += 1
-    end
-    factors
-end
+    reserved(if) operator(()ident(n) operator(!=) integer(1)operator(\)) operator(&&) operator(()ident(n) operator(!=) ident(orig)operator(\))
+        ident(factors)operator([)ident(n)operator(]) operator(+=) integer(1)
+    reserved(end)
+    ident(factors)
+reserved(end)
 
-def printfactorhash(orig, factorcount\)
-    print format("%-10d ", orig\)
-    if factorcount.length == 0
-        print "PRIME"
-    else
-        # sorts after number, because the hash keys are numbers
-        factorcount.sort.each { |factor,exponent|
-            print factor
-            if exponent > 1
-                print "**", exponent
-            end
-            print " "
-        }
-    end
-    puts
-end
+reserved(def) method(printfactorhash)operator(()ident(orig)operator(,) ident(factorcount)operator(\))
+    ident(print) ident(format)operator(()string<delimiter(")content(%-10d )delimiter(")>operator(,) ident(orig)operator(\))
+    reserved(if) ident(factorcount)operator(.)ident(length) operator(==) integer(0)
+        ident(print) string<delimiter(")content(PRIME)delimiter(")>
+    reserved(else)
+        comment(# sorts after number, because the hash keys are numbers)
+        ident(factorcount)operator(.)ident(sort)operator(.)ident(each) operator({) operator(|)ident(factor)operator(,)ident(exponent)operator(|)
+            ident(print) ident(factor)
+            reserved(if) ident(exponent) operator(>) integer(1)
+                ident(print) string<delimiter(")content(**)delimiter(")>operator(,) ident(exponent)
+            reserved(end)
+            ident(print) string<delimiter(")content( )delimiter(")>
+        operator(})
+    reserved(end)
+    ident(puts)
+reserved(end)
 
-for arg in ARGV
-    n = arg.to_i
-    mfactors = factorize(n\)
-    printfactorhash(n, mfactors\)
-end
-#-----------------------------
-
-
-# @@PLEAC@@_3.0
-puts Time.now
-
-print "Today is day ", Time.now.yday, " of the current year.)char(\\n)content("
-print "Today is day ", Time.now.day, " of the current month.)char(\\n)content("
+reserved(for) ident(arg) reserved(in) pre_constant(ARGV)
+    ident(n) operator(=) ident(arg)operator(.)ident(to_i)
+    ident(mfactors) operator(=) ident(factorize)operator(()ident(n)operator(\))
+    ident(printfactorhash)operator(()ident(n)operator(,) ident(mfactors)operator(\))
+reserved(end)
+comment(#-----------------------------)
 
 
-# @@PLEAC@@_3.1
-day, month, year = Time.now.day, Time.now.month, Time.now.year
-# or
-day, month, year = Time.now.to_a[3..5]
+comment(# @@PLEAC@@_3.0)
+ident(puts) constant(Time)operator(.)ident(now)
 
-tl = Time.now.localtime
-printf("The current date is %04d %02d %02d)char(\\n)content(", tl.year, tl.month, tl.day\)
-
-Time.now.localtime.strftime("%Y-%m-%d"\)
+ident(print) string<delimiter(")content(Today is day )delimiter(")>operator(,) constant(Time)operator(.)ident(now)operator(.)ident(yday)operator(,) string<delimiter(")content( of the current year.)char(\\n)delimiter(")>
+ident(print) string<delimiter(")content(Today is day )delimiter(")>operator(,) constant(Time)operator(.)ident(now)operator(.)ident(day)operator(,) string<delimiter(")content( of the current month.)char(\\n)delimiter(")>
 
 
-# @@PLEAC@@_3.2
-Time.local(year, month, day, hour, minute, second\).tv_sec
-Time.gm(year, month, day, hour, minute, second\).tv_sec
+comment(# @@PLEAC@@_3.1)
+ident(day)operator(,) ident(month)operator(,) ident(year) operator(=) constant(Time)operator(.)ident(now)operator(.)ident(day)operator(,) constant(Time)operator(.)ident(now)operator(.)ident(month)operator(,) constant(Time)operator(.)ident(now)operator(.)ident(year)
+comment(# or)
+ident(day)operator(,) ident(month)operator(,) ident(year) operator(=) constant(Time)operator(.)ident(now)operator(.)ident(to_a)operator([)integer(3)operator(..)integer(5)operator(])
+
+ident(tl) operator(=) constant(Time)operator(.)ident(now)operator(.)ident(localtime)
+ident(printf)operator(()string<delimiter(")content(The current date is %04d %02d %02d)char(\\n)delimiter(")>operator(,) ident(tl)operator(.)ident(year)operator(,) ident(tl)operator(.)ident(month)operator(,) ident(tl)operator(.)ident(day)operator(\))
+
+constant(Time)operator(.)ident(now)operator(.)ident(localtime)operator(.)ident(strftime)operator(()string<delimiter(")content(%Y-%m-%d)delimiter(")>operator(\))
 
 
-# @@PLEAC@@_3.3
-sec, min, hour, day, month, year, wday, yday, isdst, zone = Time.at(epoch_secs\).to_a
+comment(# @@PLEAC@@_3.2)
+constant(Time)operator(.)ident(local)operator(()ident(year)operator(,) ident(month)operator(,) ident(day)operator(,) ident(hour)operator(,) ident(minute)operator(,) ident(second)operator(\))operator(.)ident(tv_sec)
+constant(Time)operator(.)ident(gm)operator(()ident(year)operator(,) ident(month)operator(,) ident(day)operator(,) ident(hour)operator(,) ident(minute)operator(,) ident(second)operator(\))operator(.)ident(tv_sec)
 
 
-# @@PLEAC@@_3.4
-when_ = now + difference         # now -> Time ; difference -> Numeric (delta in seconds\)
-then_ = now - difference
+comment(# @@PLEAC@@_3.3)
+ident(sec)operator(,) ident(min)operator(,) ident(hour)operator(,) ident(day)operator(,) ident(month)operator(,) ident(year)operator(,) ident(wday)operator(,) ident(yday)operator(,) ident(isdst)operator(,) ident(zone) operator(=) constant(Time)operator(.)ident(at)operator(()ident(epoch_secs)operator(\))operator(.)ident(to_a)
 
 
-# @@PLEAC@@_3.5
-bree = 361535725
-nat  =  96201950
+comment(# @@PLEAC@@_3.4)
+ident(when_) operator(=) ident(now) operator(+) ident(difference)         comment(# now -> Time ; difference -> Numeric (delta in seconds\))
+ident(then_) operator(=) ident(now) operator(-) ident(difference)
 
-difference = bree - nat
-puts "There were )inline<delimiter(#{)ident(difference)delimiter(})>content( seconds between Nat and Bree"
 
-seconds    =  difference % 60
-difference = (difference - seconds\) )delimiter(/)> integer(60)
+comment(# @@PLEAC@@_3.5)
+ident(bree) operator(=) integer(361535725)
+ident(nat)  operator(=)  integer(96201950)
+
+ident(difference) operator(=) ident(bree) operator(-) ident(nat)
+ident(puts) string<delimiter(")content(There were )inline<delimiter(#{)ident(difference)delimiter(})>content( seconds between Nat and Bree)delimiter(")>
+
+ident(seconds)    operator(=)  ident(difference) operator(%) integer(60)
+ident(difference) operator(=) operator(()ident(difference) operator(-) ident(seconds)operator(\)) operator(/) integer(60)
 ident(minutes)    operator(=)  ident(difference) operator(%) integer(60)
 ident(difference) operator(=) operator(()ident(difference) operator(-) ident(minutes)operator(\)) operator(/) integer(60)
 ident(hours)      operator(=)  ident(difference) operator(%) integer(24)
@@ -1353,135 +1353,135 @@ reserved(def) method(n2pat)operator(()ident(n)operator(,) ident(length)operator(
     ident(i) operator(=) integer(1)
     reserved(while) ident(i) operator(<=) ident(length)
         ident(pat)operator(.)ident(push)operator(()ident(n) operator(%) ident(i)operator(\))
-        ident(n) regexp<delimiter(/)content(= i
-        i += 1
-    end
-    pat
-end
+        ident(n) operator(/=) ident(i)
+        ident(i) operator(+=) integer(1)
+    reserved(end)
+    ident(pat)
+reserved(end)
 
-# pat2perm(pat\): turn pattern returned by n2pat(\) into
-# permutation of integers.
-def pat2perm(pat\)
-    source = (0 .. pat.length - 1\).to_a
-    perm = []
-    perm.push(source.slice!(pat.pop\)\) while pat.length > 0
-    perm
-end
+comment(# pat2perm(pat\): turn pattern returned by n2pat(\) into)
+comment(# permutation of integers.)
+reserved(def) method(pat2perm)operator(()ident(pat)operator(\))
+    ident(source) operator(=) operator(()integer(0) operator(..) ident(pat)operator(.)ident(length) operator(-) integer(1)operator(\))operator(.)ident(to_a)
+    ident(perm) operator(=) operator([)operator(])
+    ident(perm)operator(.)ident(push)operator(()ident(source)operator(.)ident(slice!)operator(()ident(pat)operator(.)ident(pop)operator(\))operator(\)) reserved(while) ident(pat)operator(.)ident(length) operator(>) integer(0)
+    ident(perm)
+reserved(end)
 
-def n2perm(n, len\)
-    pat2perm(n2pat(n,len\)\)
-end
+reserved(def) method(n2perm)operator(()ident(n)operator(,) ident(len)operator(\))
+    ident(pat2perm)operator(()ident(n2pat)operator(()ident(n)operator(,)ident(len)operator(\))operator(\))
+reserved(end)
 
-# In ruby the main program must be after all definitions
-while gets
-    data = split
-    # the perl solution has used $#data, which is length-1
-    num_permutations = Factorial.compute(data.length(\)\)
-    0.upto(num_permutations - 1\) do |i|
-        # in ruby we can not use an array as selector for an array
-        # but by exchanging the two arrays, we can use the collect method
-        # which returns an array with the result of all block invocations
-        permutation = n2perm(i, data.length\).collect {
-            |j| data[j]
-        }
-        puts permutation.join(" "\)
-    end
-end
-
-
-# @@PLEAC@@_5.0
-age = { "Nat",   24,
-        "Jules", 25,
-        "Josh",  17  }
-
-age["Nat"]   = 24
-age["Jules"] = 25
-age["Josh"]  = 17
-
-food_color = {
-    "Apple"  => "red",
-    "Banana" => "yellow",
-    "Lemon"  => "yellow",
-    "Carrot" => "orange"
-             }
-
-# In Ruby, you cannot avoid the double or simple quoting
-# while manipulatin hashes
+comment(# In ruby the main program must be after all definitions)
+reserved(while) ident(gets)
+    ident(data) operator(=) ident(split)
+    comment(# the perl solution has used $#data, which is length-1)
+    ident(num_permutations) operator(=) constant(Factorial)operator(.)ident(compute)operator(()ident(data)operator(.)ident(length)operator(()operator(\))operator(\))
+    integer(0)operator(.)ident(upto)operator(()ident(num_permutations) operator(-) integer(1)operator(\)) reserved(do) operator(|)ident(i)operator(|)
+        comment(# in ruby we can not use an array as selector for an array)
+        comment(# but by exchanging the two arrays, we can use the collect method)
+        comment(# which returns an array with the result of all block invocations)
+        ident(permutation) operator(=) ident(n2perm)operator(()ident(i)operator(,) ident(data)operator(.)ident(length)operator(\))operator(.)ident(collect) operator({)
+            operator(|)ident(j)operator(|) ident(data)operator([)ident(j)operator(])
+        operator(})
+        ident(puts) ident(permutation)operator(.)ident(join)operator(()string<delimiter(")content( )delimiter(")>operator(\))
+    reserved(end)
+reserved(end)
 
 
-# @@PLEAC@@_5.1
-hash[key] = value
+comment(# @@PLEAC@@_5.0)
+ident(age) operator(=) operator({) string<delimiter(")content(Nat)delimiter(")>operator(,)   integer(24)operator(,)
+        string<delimiter(")content(Jules)delimiter(")>operator(,) integer(25)operator(,)
+        string<delimiter(")content(Josh)delimiter(")>operator(,)  integer(17)  operator(})
 
-food_color["Raspberry"] = "pink"
-puts "Known foods:", food_color.keys
+ident(age)operator([)string<delimiter(")content(Nat)delimiter(")>operator(])   operator(=) integer(24)
+ident(age)operator([)string<delimiter(")content(Jules)delimiter(")>operator(]) operator(=) integer(25)
+ident(age)operator([)string<delimiter(")content(Josh)delimiter(")>operator(])  operator(=) integer(17)
 
+ident(food_color) operator(=) operator({)
+    string<delimiter(")content(Apple)delimiter(")>  operator(=)operator(>) string<delimiter(")content(red)delimiter(")>operator(,)
+    string<delimiter(")content(Banana)delimiter(")> operator(=)operator(>) string<delimiter(")content(yellow)delimiter(")>operator(,)
+    string<delimiter(")content(Lemon)delimiter(")>  operator(=)operator(>) string<delimiter(")content(yellow)delimiter(")>operator(,)
+    string<delimiter(")content(Carrot)delimiter(")> operator(=)operator(>) string<delimiter(")content(orange)delimiter(")>
+             operator(})
 
-# @@PLEAC@@_5.2
-# does hash have a value for key ?
-if (hash.has_key?(key\)\)
-    # it exists
-else
-    # it doesn't
-end
-
-[ "Banana", "Martini" ].each { |name|
-    print name, " is a ", food_color.has_key?(name\) ? "food" : "drink", ")char(\\n)content("
-}
-
-age = {}
-age['Toddler'] = 3
-age['Unborn'] = 0
-age['Phantasm'] = nil
-
-for thing in ['Toddler', 'Unborn', 'Phantasm', 'Relic']
-    print ")inline<delimiter(#{)ident(thing)delimiter(})>content(: "
-    print "Has-key " if age.has_key?(thing\)
-    print "True " if age[thing]
-    print "Nonzero " if age[thing] && age[thing].nonzero?
-    print ")char(\\n)content("
-end
-
-#=>
-# Toddler: Has-key True Nonzero 
-# Unborn: Has-key True 
-# Phantasm: Has-key 
-# Relic: 
-
-# You use Hash#has_key? when you use Perl's exists -> it checks
-# for existence of a key in a hash.
-# All Numeric are "True" in ruby, so the test doesn't have the
-# same semantics as in Perl; you would use Numeric#nonzero? to
-# achieve the same semantics (false if 0, true otherwise\).
+comment(# In Ruby, you cannot avoid the double or simple quoting)
+comment(# while manipulatin hashes)
 
 
-# @@PLEAC@@_5.3
-food_color.delete("Banana"\)
+comment(# @@PLEAC@@_5.1)
+ident(hash)operator([)ident(key)operator(]) operator(=) ident(value)
+
+ident(food_color)operator([)string<delimiter(")content(Raspberry)delimiter(")>operator(]) operator(=) string<delimiter(")content(pink)delimiter(")>
+ident(puts) string<delimiter(")content(Known foods:)delimiter(")>operator(,) ident(food_color)operator(.)ident(keys)
 
 
-# @@PLEAC@@_5.4
-hash.each { |key, value|
-    # do something with key and value
-}
+comment(# @@PLEAC@@_5.2)
+comment(# does hash have a value for key ?)
+reserved(if) operator(()ident(hash)operator(.)ident(has_key?)operator(()ident(key)operator(\))operator(\))
+    comment(# it exists)
+reserved(else)
+    comment(# it doesn't)
+reserved(end)
 
-hash.each_key { |key|
-    # do something with key
-}
+operator([) string<delimiter(")content(Banana)delimiter(")>operator(,) string<delimiter(")content(Martini)delimiter(")> operator(])operator(.)ident(each) operator({) operator(|)ident(name)operator(|)
+    ident(print) ident(name)operator(,) string<delimiter(")content( is a )delimiter(")>operator(,) ident(food_color)operator(.)ident(has_key?)operator(()ident(name)operator(\)) operator(?) string<delimiter(")content(food)delimiter(")> operator(:) string<delimiter(")content(drink)delimiter(")>operator(,) string<delimiter(")char(\\n)delimiter(")>
+operator(})
 
-food_color.each { |food, color|
-    puts ")inline<delimiter(#{)ident(food)delimiter(})>content( is )inline<delimiter(#{)ident(color)delimiter(})>content("
-}
+ident(age) operator(=) operator({)operator(})
+ident(age)operator([)string<delimiter(')content(Toddler)delimiter(')>operator(]) operator(=) integer(3)
+ident(age)operator([)string<delimiter(')content(Unborn)delimiter(')>operator(]) operator(=) integer(0)
+ident(age)operator([)string<delimiter(')content(Phantasm)delimiter(')>operator(]) operator(=) pre_constant(nil)
 
-food_color.each_key { |food|
-    puts ")inline<delimiter(#{)ident(food)delimiter(})>content( is )inline<delimiter(#{)ident(food_color)operator([)ident(food)operator(])delimiter(})>content("
-}
+reserved(for) ident(thing) reserved(in) operator([)string<delimiter(')content(Toddler)delimiter(')>operator(,) string<delimiter(')content(Unborn)delimiter(')>operator(,) string<delimiter(')content(Phantasm)delimiter(')>operator(,) string<delimiter(')content(Relic)delimiter(')>operator(])
+    ident(print) string<delimiter(")inline<delimiter(#{)ident(thing)delimiter(})>content(: )delimiter(")>
+    ident(print) string<delimiter(")content(Has-key )delimiter(")> reserved(if) ident(age)operator(.)ident(has_key?)operator(()ident(thing)operator(\))
+    ident(print) string<delimiter(")content(True )delimiter(")> reserved(if) ident(age)operator([)ident(thing)operator(])
+    ident(print) string<delimiter(")content(Nonzero )delimiter(")> reserved(if) ident(age)operator([)ident(thing)operator(]) operator(&&) ident(age)operator([)ident(thing)operator(])operator(.)ident(nonzero?)
+    ident(print) string<delimiter(")char(\\n)delimiter(")>
+reserved(end)
 
-# IMO this demonstrates that OO style is by far more readable
-food_color.keys.sort.each { |food|
-    puts ")inline<delimiter(#{)ident(food)delimiter(})>content( is )inline<delimiter(#{)ident(food_color)operator([)ident(food)operator(])delimiter(})>content(."
-}
+comment(#=>)
+comment(# Toddler: Has-key True Nonzero )
+comment(# Unborn: Has-key True )
+comment(# Phantasm: Has-key )
+comment(# Relic: )
 
-#-----------------------------
-#!)delimiter(/)modifier(us)>ident(r)operator(/)ident(bin)operator(/)ident(ruby)
+comment(# You use Hash#has_key? when you use Perl's exists -> it checks)
+comment(# for existence of a key in a hash.)
+comment(# All Numeric are "True" in ruby, so the test doesn't have the)
+comment(# same semantics as in Perl; you would use Numeric#nonzero? to)
+comment(# achieve the same semantics (false if 0, true otherwise\).)
+
+
+comment(# @@PLEAC@@_5.3)
+ident(food_color)operator(.)ident(delete)operator(()string<delimiter(")content(Banana)delimiter(")>operator(\))
+
+
+comment(# @@PLEAC@@_5.4)
+ident(hash)operator(.)ident(each) operator({) operator(|)ident(key)operator(,) ident(value)operator(|)
+    comment(# do something with key and value)
+operator(})
+
+ident(hash)operator(.)ident(each_key) operator({) operator(|)ident(key)operator(|)
+    comment(# do something with key)
+operator(})
+
+ident(food_color)operator(.)ident(each) operator({) operator(|)ident(food)operator(,) ident(color)operator(|)
+    ident(puts) string<delimiter(")inline<delimiter(#{)ident(food)delimiter(})>content( is )inline<delimiter(#{)ident(color)delimiter(})>delimiter(")>
+operator(})
+
+ident(food_color)operator(.)ident(each_key) operator({) operator(|)ident(food)operator(|)
+    ident(puts) string<delimiter(")inline<delimiter(#{)ident(food)delimiter(})>content( is )inline<delimiter(#{)ident(food_color)operator([)ident(food)operator(])delimiter(})>delimiter(")>
+operator(})
+
+comment(# IMO this demonstrates that OO style is by far more readable)
+ident(food_color)operator(.)ident(keys)operator(.)ident(sort)operator(.)ident(each) operator({) operator(|)ident(food)operator(|)
+    ident(puts) string<delimiter(")inline<delimiter(#{)ident(food)delimiter(})>content( is )inline<delimiter(#{)ident(food_color)operator([)ident(food)operator(])delimiter(})>content(.)delimiter(")>
+operator(})
+
+comment(#-----------------------------)
+comment(#!/usr/bin/ruby)
 comment(# countfrom - count number of messages from each sender)
 
 comment(# Default value is 0)

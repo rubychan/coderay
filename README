@@ -73,19 +73,26 @@ Please report errors in this documentation to <coderay cycnus de>.
 
 === Thanks to
 
-* Caleb Clausen for writing RubyLexer (see http://rubyforge.org/projects/rubylexer) and lots
-  of very interesting mails traffic
+* Caleb Clausen for writing RubyLexer (see
+  http://rubyforge.org/projects/rubylexer) and lots of very interesting mail
+  traffic
+* birkenfeld (Georg Brandl) and mitsuhiku (Arnim Ronacher) for PyKleur. You
+  guys rock!
 * Jamis Buck for writing Syntax (see http://rubyforge.org/projects/syntax)
   I got some useful ideas from it.
-* Doug Kearns and everyone else who worked on ruby.vim - it not only helped me coding CodeRay,
-  but also gave me a wonderful target to reach for the Ruby scanner.
-* everyone who used CodeRay on http://www.rubyforen.de and http://www.infhu.de/mx
+* Doug Kearns and everyone else who worked on ruby.vim - it not only helped me
+  coding CodeRay, but also gave me a wonderful target to reach for the Ruby
+  scanner.
+* everyone who used CodeBB on http://www.rubyforen.de and
+  http://www.infhu.de/mx
 * iGEL, magichisoka, manveru, WoN·Do and everyone I forgot from rubyforen.de
 * Daniel and Dethix from ruby-mine.de
-* Dookie (who is no longer with us...) and Leonidas from http://www.python-forum.de
+* Dookie (who is no longer with us...) and Leonidas from
+  http://www.python-forum.de
 * matz and all Ruby gods and gurus
-* The inventors of: the computer, the internet, the true color display, HTML & CSS, VIM, RUBY,
-  pizza, microwaves, guitars, scouting, programming, anime, manga, coke and green ice tea.
+* The inventors of: the computer, the internet, the true color display, HTML &
+  CSS, VIM, RUBY, pizza, microwaves, guitars, scouting, programming, anime, 
+  manga, coke and green ice tea.
 
 Where would we be without all those people?
 

@@ -33,9 +33,9 @@ reserved(class) class(Ruby) operator(<) constant(Scanner)
 		ident(add)operator(()constant(RESERVED_WORDS)operator(,) symbol(:reserved)operator(\))operator(.)
 		ident(add)operator(()constant(PREDEFINED_CONSTANTS)operator(,) symbol(:pre_constant)operator(\))
 
-	constant(METHOD_NAME) operator(=) regexp<delimiter(/)content( )inline<delimiter(#{)constant(IDENT)delimiter(})>content( [?!]? )delimiter(/)modifier(xo)>
+	constant(METHOD_NAME) operator(=) regexp<delimiter(/)content( )inline<inline_delimiter(#{)constant(IDENT)inline_delimiter(})>content( [?!]? )delimiter(/)modifier(xo)>
 	constant(METHOD_NAME_EX) operator(=) regexp<delimiter(/)content(
-	 )inline<delimiter(#{)constant(METHOD_NAME)delimiter(})>content(  # common methods: split, foo=, empty?, gsub!
+	 )inline<inline_delimiter(#{)constant(METHOD_NAME)inline_delimiter(})>content(  # common methods: split, foo=, empty?, gsub!
 	 | )char(\\*)char(\\*)content(?         # multiplication and power
 	 | [-+~]@?       # plus, minus
 	 | [)char(\\/)content(%&|^`]     # division, modulo or format strings, &and, |or, ^xor, `system`
@@ -44,11 +44,11 @@ reserved(class) class(Ruby) operator(<) constant(Scanner)
 	 | << | >>       # append or shift left, shift right
 	 | ===?          # simple equality and case equality
 	)delimiter(/)modifier(ox)>
-	constant(GLOBAL_VARIABLE) operator(=) regexp<delimiter(/)content( )char(\\$)content( (?: )inline<delimiter(#{)constant(IDENT)delimiter(})>content( | )char(\\d)content(+ | [~&+`'=)char(\\/)content(,;_.<>!@0$?*":F)char(\\\\)content(] | -[a-zA-Z_0-9] \) )delimiter(/)modifier(ox)>
+	constant(GLOBAL_VARIABLE) operator(=) regexp<delimiter(/)content( )char(\\$)content( (?: )inline<inline_delimiter(#{)constant(IDENT)inline_delimiter(})>content( | )char(\\d)content(+ | [~&+`'=)char(\\/)content(,;_.<>!@0$?*":F)char(\\\\)content(] | -[a-zA-Z_0-9] \) )delimiter(/)modifier(ox)>
 
 	constant(DOUBLEQ) operator(=) regexp<delimiter(/)content( "  [^")char(\\#)char(\\\\)content(]*  (?: (?: )char(\\#)char(\\{)content(.*?)char(\\})content( | )char(\\#)content((?:$"\)?  | )char(\\\\)content(. \) [^")char(\\#)char(\\\\)content(]*  \)* "?  )delimiter(/)modifier(ox)>
 	constant(SINGLEQ) operator(=) regexp<delimiter(/)content( '  [^')char(\\\\)content(]*    (?:                              )char(\\\\)content(.   [^')char(\\\\)content(]*    \)* '?  )delimiter(/)modifier(ox)>
-	constant(STRING)  operator(=) regexp<delimiter(/)content( )inline<delimiter(#{)constant(SINGLEQ)delimiter(})>content( | )inline<delimiter(#{)constant(DOUBLEQ)delimiter(})>content( )delimiter(/)modifier(ox)>
+	constant(STRING)  operator(=) regexp<delimiter(/)content( )inline<inline_delimiter(#{)constant(SINGLEQ)inline_delimiter(})>content( | )inline<inline_delimiter(#{)constant(DOUBLEQ)inline_delimiter(})>content( )delimiter(/)modifier(ox)>
 	constant(SHELL)   operator(=) regexp<delimiter(/)content( `  [^`)char(\\#)char(\\\\)content(]*  (?: (?: )char(\\#)char(\\{)content(.*?)char(\\})content( | )char(\\#)content((?:$`\)?  | )char(\\\\)content(. \) [^`)char(\\#)char(\\\\)content(]*  \)* `?  )delimiter(/)modifier(ox)>
 	constant(REGEXP)  operator(=) regexp<delimiter(/)content( )char(\\/)content( [^)char(\\/)char(\\#)char(\\\\)content(]* (?: (?: )char(\\#)char(\\{)content(.*?)char(\\})content( | )char(\\#)content((?:$)char(\\/)content(\)? | )char(\\\\)content(. \) [^)char(\\/)char(\\#)char(\\\\)content(]* \)* )char(\\/)content(? )delimiter(/)modifier(ox)>
 
@@ -57,9 +57,9 @@ reserved(class) class(Ruby) operator(<) constant(Scanner)
 	constant(HEXADECIMAL) operator(=) regexp<delimiter(/)content(0x[0-9A-Fa-f]+(?:_[0-9A-Fa-f]+\)*)delimiter(/)>
 	constant(BINARY) operator(=) regexp<delimiter(/)content(0b[01]+(?:_[01]+\)*)delimiter(/)>
 
-	constant(EXPONENT) operator(=) regexp<delimiter(/)content( [eE] [+-]? )inline<delimiter(#{)constant(DECIMAL)delimiter(})>content( )delimiter(/)modifier(ox)>
-	constant(FLOAT) operator(=) regexp<delimiter(/)content( )inline<delimiter(#{)constant(DECIMAL)delimiter(})>content( (?: )inline<delimiter(#{)constant(EXPONENT)delimiter(})>content( | )char(\\.)content( )inline<delimiter(#{)constant(DECIMAL)delimiter(})>content( )inline<delimiter(#{)constant(EXPONENT)delimiter(})>content(? \) )delimiter(/)>
-	constant(INTEGER) operator(=) regexp<delimiter(/)inline<delimiter(#{)constant(OCTAL)delimiter(})>content(|)inline<delimiter(#{)constant(HEXADECIMAL)delimiter(})>content(|)inline<delimiter(#{)constant(BINARY)delimiter(})>content(|)inline<delimiter(#{)constant(DECIMAL)delimiter(})>delimiter(/)>
+	constant(EXPONENT) operator(=) regexp<delimiter(/)content( [eE] [+-]? )inline<inline_delimiter(#{)constant(DECIMAL)inline_delimiter(})>content( )delimiter(/)modifier(ox)>
+	constant(FLOAT) operator(=) regexp<delimiter(/)content( )inline<inline_delimiter(#{)constant(DECIMAL)inline_delimiter(})>content( (?: )inline<inline_delimiter(#{)constant(EXPONENT)inline_delimiter(})>content( | )char(\\.)content( )inline<inline_delimiter(#{)constant(DECIMAL)inline_delimiter(})>content( )inline<inline_delimiter(#{)constant(EXPONENT)inline_delimiter(})>content(? \) )delimiter(/)>
+	constant(INTEGER) operator(=) regexp<delimiter(/)inline<inline_delimiter(#{)constant(OCTAL)inline_delimiter(})>content(|)inline<inline_delimiter(#{)constant(HEXADECIMAL)inline_delimiter(})>content(|)inline<inline_delimiter(#{)constant(BINARY)inline_delimiter(})>content(|)inline<inline_delimiter(#{)constant(DECIMAL)inline_delimiter(})>delimiter(/)>
 
 	reserved(def) method(reset)
 		reserved(super)
@@ -75,7 +75,7 @@ reserved(class) class(Ruby) operator(<) constant(Scanner)
 			instance_variable(@regexp_allowed) operator(=) symbol(:set) reserved(if) instance_variable(@regexp_allowed) reserved(or) instance_variable(@scanner)operator(.)ident(matched)operator(.)ident(index)operator(()integer(?\\n)operator(\))  comment(# delayed flag setting)
 
 		reserved(elsif) instance_variable(@state) operator(==) symbol(:def_expected)
-			reserved(if) instance_variable(@scanner)operator(.)ident(scan)operator(()regexp<delimiter(/)content( (?: (?:)inline<delimiter(#{)constant(IDENT)delimiter(})>content((?:)char(\\.)content(|::\)\)* | (?:@@?|$\)? )inline<delimiter(#{)constant(IDENT)delimiter(})>content((?:)char(\\.)content(|::\) \) )inline<delimiter(#{)constant(METHOD_NAME_EX)delimiter(})>content( )delimiter(/)modifier(ox)>operator(\))
+			reserved(if) instance_variable(@scanner)operator(.)ident(scan)operator(()regexp<delimiter(/)content( (?: (?:)inline<inline_delimiter(#{)constant(IDENT)inline_delimiter(})>content((?:)char(\\.)content(|::\)\)* | (?:@@?|$\)? )inline<inline_delimiter(#{)constant(IDENT)inline_delimiter(})>content((?:)char(\\.)content(|::\) \) )inline<inline_delimiter(#{)constant(METHOD_NAME_EX)inline_delimiter(})>content( )delimiter(/)modifier(ox)>operator(\))
 				ident(kind) operator(=) symbol(:method)
 				instance_variable(@state) operator(=) symbol(:initial)
 			reserved(else)
@@ -87,7 +87,7 @@ reserved(class) class(Ruby) operator(<) constant(Scanner)
 			reserved(if) instance_variable(@scanner)operator(.)ident(scan)operator(()regexp<delimiter(/)content(<<)delimiter(/)>operator(\))
 				ident(kind) operator(=) symbol(:operator)
 			reserved(else)
-				reserved(if) instance_variable(@scanner)operator(.)ident(scan)operator(()regexp<delimiter(/)content( (?: )inline<delimiter(#{)constant(IDENT)delimiter(})>content( (?:)char(\\.)content(|::\)\)* )inline<delimiter(#{)constant(IDENT)delimiter(})>content( )delimiter(/)modifier(ox)>operator(\))
+				reserved(if) instance_variable(@scanner)operator(.)ident(scan)operator(()regexp<delimiter(/)content( (?: )inline<inline_delimiter(#{)constant(IDENT)inline_delimiter(})>content( (?:)char(\\.)content(|::\)\)* )inline<inline_delimiter(#{)constant(IDENT)inline_delimiter(})>content( )delimiter(/)modifier(ox)>operator(\))
 					ident(kind) operator(=) symbol(:method)
 				reserved(else)
 					instance_variable(@scanner)operator(.)ident(getch)
@@ -99,9 +99,9 @@ reserved(class) class(Ruby) operator(<) constant(Scanner)
 			comment(# IDENTIFIERS, KEYWORDS)
 			reserved(if) instance_variable(@scanner)operator(.)ident(scan)operator(()constant(GLOBAL_VARIABLE)operator(\))
 				ident(kind) operator(=) symbol(:global_variable)
-			reserved(elsif) instance_variable(@scanner)operator(.)ident(scan)operator(()regexp<delimiter(/)content( @@ )inline<delimiter(#{)constant(IDENT)delimiter(})>content( )delimiter(/)modifier(ox)>operator(\))
+			reserved(elsif) instance_variable(@scanner)operator(.)ident(scan)operator(()regexp<delimiter(/)content( @@ )inline<inline_delimiter(#{)constant(IDENT)inline_delimiter(})>content( )delimiter(/)modifier(ox)>operator(\))
 				ident(kind) operator(=) symbol(:class_variable)
-			reserved(elsif) instance_variable(@scanner)operator(.)ident(scan)operator(()regexp<delimiter(/)content( @ )inline<delimiter(#{)constant(IDENT)delimiter(})>content( )delimiter(/)modifier(ox)>operator(\))
+			reserved(elsif) instance_variable(@scanner)operator(.)ident(scan)operator(()regexp<delimiter(/)content( @ )inline<inline_delimiter(#{)constant(IDENT)inline_delimiter(})>content( )delimiter(/)modifier(ox)>operator(\))
 				ident(kind) operator(=) symbol(:instance_variable)
 			reserved(elsif) instance_variable(@scanner)operator(.)ident(scan)operator(()regexp<delimiter(/)content( __END__)char(\\n)content( ( (?!)char(\\#)content(CODE)char(\\#)content(\) .* \)? | )char(\\#)content([^)char(\\n)content(]* | =begin(?=)char(\\s)content(\).*? )char(\\n)content(=end(?=)char(\\s)content(|)char(\\z)content(\)(?:[^)char(\\n)content(]*\)? )delimiter(/)modifier(mx)>operator(\))
 				ident(kind) operator(=) symbol(:comment)
@@ -144,7 +144,7 @@ reserved(class) class(Ruby) operator(<) constant(Scanner)
 				instance_variable(@scanner)operator(.)ident(scan)operator(()constant(REGEXP)operator(\))
 				ident(kind) operator(=) symbol(:regexp)
 regexp<delimiter(/)content(%(?:[Qqxrw](?:)char(\\()content([^\)#)char(\\\\)char(\\\\)content(]*(?:(?:#)char(\\{)content(.*?)char(\\})content(|#|)char(\\\\)char(\\\\)content(.\)[^\)#)char(\\\\)char(\\\\)content(]*\)*)char(\\\))content(?|)char(\\[)content([^)char(\\])content(#)char(\\\\)char(\\\\)content(]*(?:(?:#)char(\\{)content(.*?)char(\\})content(|#|)char(\\\\)char(\\\\)content(.\)[^)char(\\])content(#)char(\\\\)char(\\\\)content(]*\)*)char(\\])content(?|)char(\\{)content([^}#)char(\\\\)char(\\\\)content(]*(?:(?:#)char(\\{)content(.*?)char(\\})content(|#|)char(\\\\)char(\\\\)content(.\)[^}#)char(\\\\)char(\\\\)content(]*\)*)char(\\})content(?|<[^>#)char(\\\\)char(\\\\)content(]*(?:(?:#)char(\\{)content(.*?)char(\\})content(|#|)char(\\\\)char(\\\\)content(.\)[^>#)char(\\\\)char(\\\\)content(]*\)*>?|([^a-zA-Z)char(\\\\)char(\\\\)content(]\)(?:(?!)char(\\1)content(\)[^#)char(\\\\)char(\\\\)content(]\)*(?:(?:#)char(\\{)content(.*?)char(\\})content(|#|)char(\\\\)char(\\\\)content(.\)(?:(?!)char(\\1)content(\)[^#)char(\\\\)char(\\\\)content(]\)*\)*)char(\\1)content(?\)|)char(\\()content([^\)#)char(\\\\)char(\\\\)content(]*(?:(?:#)char(\\{)content(.*?)char(\\})content(|#|)char(\\\\)char(\\\\)content(.\)[^\)#)char(\\\\)char(\\\\)content(]*\)*)char(\\\))content(?|)char(\\[)content([^)char(\\])content(#)char(\\\\)char(\\\\)content(]*(?:(?:#)char(\\{)content(.*?)char(\\})content(|#|)char(\\\\)char(\\\\)content(.\)[^)char(\\])content(#)char(\\\\)char(\\\\)content(]*\)*)char(\\])content(?|)char(\\{)content([^}#)char(\\\\)char(\\\\)content(]*(?:(?:#)char(\\{)content(.*?)char(\\})content(|#|)char(\\\\)char(\\\\)content(.\)[^}#)char(\\\\)char(\\\\)content(]*\)*)char(\\})content(?|<[^>#)char(\\\\)char(\\\\)content(]*(?:(?:#)char(\\{)content(.*?)char(\\})content(|#|)char(\\\\)char(\\\\)content(.\)[^>#)char(\\\\)char(\\\\)content(]*\)*>?|([^a-zA-Z)char(\\s)char(\\\\)char(\\\\)content(]\)(?:(?!)char(\\2)content(\)[^#)char(\\\\)char(\\\\)content(]\)*(?:(?:#)char(\\{)content(.*?)char(\\})content(|#|)char(\\\\)char(\\\\)content(.\)(?:(?!)char(\\2)content(\)[^#)char(\\\\)char(\\\\)content(]\)*\)*)char(\\2)content(?|)char(\\\\)char(\\\\)content([^#)char(\\\\)char(\\\\)content(]*(?:(?:#)char(\\{)content(.*?)char(\\})content(|#\)[^#)char(\\\\)char(\\\\)content(]*\)*)char(\\\\)char(\\\\)content(?\))delimiter(/)>
-			reserved(elsif) instance_variable(@scanner)operator(.)ident(scan)operator(()regexp<delimiter(/)content(:(?:)inline<delimiter(#{)constant(GLOBAL_VARIABLE)delimiter(})>content(|)inline<delimiter(#{)constant(METHOD_NAME_EX)delimiter(})>content(|)inline<delimiter(#{)constant(STRING)delimiter(})>content(\))delimiter(/)modifier(ox)>operator(\))
+			reserved(elsif) instance_variable(@scanner)operator(.)ident(scan)operator(()regexp<delimiter(/)content(:(?:)inline<inline_delimiter(#{)constant(GLOBAL_VARIABLE)inline_delimiter(})>content(|)inline<inline_delimiter(#{)constant(METHOD_NAME_EX)inline_delimiter(})>content(|)inline<inline_delimiter(#{)constant(STRING)inline_delimiter(})>content(\))delimiter(/)modifier(ox)>operator(\))
 				ident(kind) operator(=) symbol(:symbol)
 			reserved(elsif) instance_variable(@scanner)operator(.)ident(scan)operator(()regexp<delimiter(/)content(
 				)char(\\?)content( (?:
@@ -832,7 +832,7 @@ comment(# 		web.puts "The post parameter 'test['x']' is #{web.post['test']['x']}
 comment(# 	end)
 
 constant(RWEB_VERSION) operator(=) string<delimiter(")content(0.1.0)delimiter(")>
-constant(RWEB) operator(=) string<delimiter(")content(rweb/)inline<delimiter(#{)constant(RWEB_VERSION)delimiter(})>delimiter(")>
+constant(RWEB) operator(=) string<delimiter(")content(rweb/)inline<inline_delimiter(#{)constant(RWEB_VERSION)inline_delimiter(})>delimiter(")>
 
 comment(#require 'rwebcookie' -> edit by bunny :-\))
 
@@ -1246,7 +1246,7 @@ reserved(class) class(Rweb)
         reserved(begin)
             reserved(yield)
         reserved(rescue) constant(Exception) operator(=)operator(>) ident(exception)
-            global_variable($stderr)operator(.)ident(puts) string<delimiter(")content(Ruby exception rescued ()inline<delimiter(#{)ident(exception)operator(.)ident(class)delimiter(})>content(\): )inline<delimiter(#{)ident(exception)operator(.)ident(message)delimiter(})>delimiter(")>
+            global_variable($stderr)operator(.)ident(puts) string<delimiter(")content(Ruby exception rescued ()inline<inline_delimiter(#{)ident(exception)operator(.)ident(class)inline_delimiter(})>content(\): )inline<inline_delimiter(#{)ident(exception)operator(.)ident(message)inline_delimiter(})>delimiter(")>
             global_variable($stderr)operator(.)ident(puts) ident(exception)operator(.)ident(backtrace)operator(.)ident(join)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\))
 
             reserved(unless) instance_variable(@output_started)
@@ -1268,15 +1268,15 @@ reserved(class) class(Rweb)
                     pre_constant(self)operator(.)ident(puts) string<delimiter(")content(<h1>Internal Server Error</h1>)delimiter(")>
                     pre_constant(self)operator(.)ident(puts) string<delimiter(")content(<p>The server encountered an exception and was unable to complete your request.</p>)delimiter(")>
                     pre_constant(self)operator(.)ident(puts) string<delimiter(")content(<p>The exception has provided the following information:</p>)delimiter(")>
-                    pre_constant(self)operator(.)ident(puts) string<delimiter(")content(<pre style=)char(\\")content(background: #FFCCCC; border: black solid 2px; margin-left: 2cm; margin-right: 2cm; padding: 2mm;)char(\\")content(><b>)inline<delimiter(#{)ident(exception)operator(.)ident(class)delimiter(})>content(</b>: )inline<delimiter(#{)ident(exception)operator(.)ident(message)delimiter(})>content( <b>on</b>)delimiter(")>
+                    pre_constant(self)operator(.)ident(puts) string<delimiter(")content(<pre style=)char(\\")content(background: #FFCCCC; border: black solid 2px; margin-left: 2cm; margin-right: 2cm; padding: 2mm;)char(\\")content(><b>)inline<inline_delimiter(#{)ident(exception)operator(.)ident(class)inline_delimiter(})>content(</b>: )inline<inline_delimiter(#{)ident(exception)operator(.)ident(message)inline_delimiter(})>content( <b>on</b>)delimiter(")>
                     pre_constant(self)operator(.)ident(puts)
-                    pre_constant(self)operator(.)ident(puts) string<delimiter(")inline<delimiter(#{)ident(exception)operator(.)ident(backtrace)operator(.)ident(join)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\))delimiter(})>content(</pre>)delimiter(")>
+                    pre_constant(self)operator(.)ident(puts) string<delimiter(")inline<inline_delimiter(#{)ident(exception)operator(.)ident(backtrace)operator(.)ident(join)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\))inline_delimiter(})>content(</pre>)delimiter(")>
                     pre_constant(self)operator(.)ident(puts) string<delimiter(")content(</body>)delimiter(")>
                     pre_constant(self)operator(.)ident(puts) string<delimiter(")content(</html>)delimiter(")>
                 reserved(else)
                     pre_constant(self)operator(.)ident(puts) string<delimiter(")content(The server encountered an exception and was unable to complete your request)delimiter(")>
                     pre_constant(self)operator(.)ident(puts) string<delimiter(")content(The exception has provided the following information:)delimiter(")>
-                    pre_constant(self)operator(.)ident(puts) string<delimiter(")inline<delimiter(#{)ident(exception)operator(.)ident(class)delimiter(})>content(: )inline<delimiter(#{)ident(exception)operator(.)ident(message)delimiter(})>delimiter(")>
+                    pre_constant(self)operator(.)ident(puts) string<delimiter(")inline<inline_delimiter(#{)ident(exception)operator(.)ident(class)inline_delimiter(})>content(: )inline<inline_delimiter(#{)ident(exception)operator(.)ident(message)inline_delimiter(})>delimiter(")>
                     pre_constant(self)operator(.)ident(puts)
                     pre_constant(self)operator(.)ident(puts) ident(exception)operator(.)ident(backtrace)operator(.)ident(join)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\))
                 reserved(end)
@@ -1288,7 +1288,7 @@ reserved(class) class(Rweb)
 
             reserved(unless) instance_variable(@output_started)
                 reserved(unless) instance_variable(@header)operator(.)ident(has_key?)operator(()string<delimiter(")content(content-length)delimiter(")>operator(\))
-                    pre_constant(self)operator(.)ident(header)operator(()string<delimiter(")content(content-length: )inline<delimiter(#{)ident(buffer)operator(.)ident(length)delimiter(})>delimiter(")>operator(\))
+                    pre_constant(self)operator(.)ident(header)operator(()string<delimiter(")content(content-length: )inline<inline_delimiter(#{)ident(buffer)operator(.)ident(length)inline_delimiter(})>delimiter(")>operator(\))
                 reserved(end)
 
                 ident(sendHeaders)
@@ -1320,9 +1320,9 @@ reserved(class) class(Rweb)
         constant(Cookie)operator(.)ident(disallow) comment(# no more cookies can be set or modified)
         reserved(if) operator(!)operator(()instance_variable(@settings)operator(.)ident(has_key?)operator(()string<delimiter(")content(silent)delimiter(")>operator(\)) reserved(and) instance_variable(@settings)operator([)string<delimiter(")content(silent)delimiter(")>operator(]) operator(==) pre_constant(true)operator(\)) reserved(and) operator(!)instance_variable(@header)operator(.)ident(has_key?)operator(()string<delimiter(")content(x-powered-by)delimiter(")>operator(\))
             reserved(if) instance_variable(@mod_ruby)
-                ident(header)operator(()string<delimiter(")content(x-powered-by: )inline<delimiter(#{)constant(RWEB)delimiter(})>content( (Ruby/)inline<delimiter(#{)constant(RUBY_VERSION)delimiter(})>content(, )inline<delimiter(#{)constant(MOD_RUBY)delimiter(})>content(\))delimiter(")>operator(\))operator(;)
+                ident(header)operator(()string<delimiter(")content(x-powered-by: )inline<inline_delimiter(#{)constant(RWEB)inline_delimiter(})>content( (Ruby/)inline<inline_delimiter(#{)constant(RUBY_VERSION)inline_delimiter(})>content(, )inline<inline_delimiter(#{)constant(MOD_RUBY)inline_delimiter(})>content(\))delimiter(")>operator(\))operator(;)
             reserved(else)
-                ident(header)operator(()string<delimiter(")content(x-powered-by: )inline<delimiter(#{)constant(RWEB)delimiter(})>content( (Ruby/)inline<delimiter(#{)constant(RUBY_VERSION)delimiter(})>content(\))delimiter(")>operator(\))operator(;)
+                ident(header)operator(()string<delimiter(")content(x-powered-by: )inline<inline_delimiter(#{)constant(RWEB)inline_delimiter(})>content( (Ruby/)inline<inline_delimiter(#{)constant(RUBY_VERSION)inline_delimiter(})>content(\))delimiter(")>operator(\))operator(;)
             reserved(end)
         reserved(end)
 
@@ -1332,7 +1332,7 @@ reserved(class) class(Rweb)
             reserved(end)
 
             reserved(if) instance_variable(@status) operator(!=) pre_constant(nil)
-                global_variable($stdout)operator(.)ident(print) string<delimiter(")content(Status: )inline<delimiter(#{)instance_variable(@status)delimiter(})>content( )inline<delimiter(#{)instance_variable(@reasonPhrase)delimiter(})>char(\\r)char(\\n)delimiter(")>
+                global_variable($stdout)operator(.)ident(print) string<delimiter(")content(Status: )inline<inline_delimiter(#{)instance_variable(@status)inline_delimiter(})>content( )inline<inline_delimiter(#{)instance_variable(@reasonPhrase)inline_delimiter(})>char(\\r)char(\\n)delimiter(")>
             reserved(end)
 
             instance_variable(@header)operator(.)ident(each) reserved(do) operator(|)ident(key)operator(,) ident(value)operator(|)
@@ -1343,7 +1343,7 @@ reserved(class) class(Rweb)
                     string<delimiter(")content(-)delimiter(")> operator(+) ident(char)operator([)integer(1)operator(,)integer(1)operator(])operator(.)ident(upcase)
                 reserved(end)
 
-                global_variable($stdout)operator(.)ident(print) string<delimiter(")inline<delimiter(#{)ident(key)delimiter(})>content(: )inline<delimiter(#{)ident(value)delimiter(})>char(\\r)char(\\n)delimiter(")>
+                global_variable($stdout)operator(.)ident(print) string<delimiter(")inline<inline_delimiter(#{)ident(key)inline_delimiter(})>content(: )inline<inline_delimiter(#{)ident(value)inline_delimiter(})>char(\\r)char(\\n)delimiter(")>
             reserved(end)
             ident(cookies) operator(=) constant(Cookie)operator(.)ident(getHttpHeader) comment(# Get all cookies as an HTTP Header)
             reserved(if) ident(cookies)
@@ -1361,7 +1361,7 @@ reserved(class) class(Rweb)
             reserved(end)
 
             reserved(if) instance_variable(@status) operator(!=) pre_constant(nil)
-                ident(r)operator(.)ident(status_line) operator(=) string<delimiter(")inline<delimiter(#{)instance_variable(@status)delimiter(})>content( )inline<delimiter(#{)instance_variable(@reasonPhrase)delimiter(})>delimiter(")>
+                ident(r)operator(.)ident(status_line) operator(=) string<delimiter(")inline<inline_delimiter(#{)instance_variable(@status)inline_delimiter(})>content( )inline<inline_delimiter(#{)instance_variable(@reasonPhrase)inline_delimiter(})>delimiter(")>
             reserved(end)
 
             ident(r)operator(.)ident(send_http_header)
@@ -1372,7 +1372,7 @@ reserved(class) class(Rweb)
                 ident(key) operator(=) ident(key)operator(.)ident(gsub)operator(()regexp<delimiter(/)content(-[a-z])delimiter(/)>operator(\)) reserved(do) operator(|)ident(char)operator(|)
                     string<delimiter(")content(-)delimiter(")> operator(+) ident(char)operator([)integer(1)operator(,)integer(1)operator(])operator(.)ident(upcase)
                 reserved(end)
-                ident(puts) string<delimiter(")inline<delimiter(#{)ident(key)delimiter(})>content(: )inline<delimiter(#{)ident(value)operator(.)ident(class)delimiter(})>delimiter(")>
+                ident(puts) string<delimiter(")inline<inline_delimiter(#{)ident(key)inline_delimiter(})>content(: )inline<inline_delimiter(#{)ident(value)operator(.)ident(class)inline_delimiter(})>delimiter(")>
                 comment(#r.headers_out[key] = value)
             reserved(end)
         reserved(end)
@@ -1644,17 +1644,17 @@ reserved(class) class(Cookie)
 						ident(cookie)operator(.)ident(value) operator(=) string<delimiter(")delimiter(")>
 					reserved(end)
 					comment(# TODO: Name and value should be escaped!)
-					ident(str) operator(+=) string<delimiter(")content(Set-Cookie: )inline<delimiter(#{)ident(cookie)operator(.)ident(name)delimiter(})>content(=)inline<delimiter(#{)ident(cookie)operator(.)ident(value)delimiter(})>delimiter(")>
+					ident(str) operator(+=) string<delimiter(")content(Set-Cookie: )inline<inline_delimiter(#{)ident(cookie)operator(.)ident(name)inline_delimiter(})>content(=)inline<inline_delimiter(#{)ident(cookie)operator(.)ident(value)inline_delimiter(})>delimiter(")>
 					reserved(unless) ident(cookie)operator(.)ident(maxage) operator(==) pre_constant(nil)
 						ident(expire) operator(=) constant(Time)operator(.)ident(now) operator(+) ident(cookie)operator(.)ident(maxage)
 						ident(expire)operator(.)ident(gmtime)
-						ident(str) operator(+=) string<delimiter(")content(; Expire=)inline<delimiter(#{)ident(expire)operator(.)ident(strftime)operator(()string<delimiter(")content(%a, %d-%b-%Y %H:%M:%S %Z)delimiter(")>operator(\))delimiter(})>delimiter(")>
+						ident(str) operator(+=) string<delimiter(")content(; Expire=)inline<inline_delimiter(#{)ident(expire)operator(.)ident(strftime)operator(()string<delimiter(")content(%a, %d-%b-%Y %H:%M:%S %Z)delimiter(")>operator(\))inline_delimiter(})>delimiter(")>
 					reserved(end)
 					reserved(unless) ident(cookie)operator(.)ident(domain) operator(==) pre_constant(nil)
-						ident(str) operator(+=) string<delimiter(")content(; Domain=)inline<delimiter(#{)ident(cookie)operator(.)ident(domain)delimiter(})>delimiter(")>
+						ident(str) operator(+=) string<delimiter(")content(; Domain=)inline<inline_delimiter(#{)ident(cookie)operator(.)ident(domain)inline_delimiter(})>delimiter(")>
 					reserved(end)
 					reserved(unless) ident(cookie)operator(.)ident(path) operator(==) pre_constant(nil)
-						ident(str) operator(+=) string<delimiter(")content(; Path=)inline<delimiter(#{)ident(cookie)operator(.)ident(path)delimiter(})>delimiter(")>
+						ident(str) operator(+=) string<delimiter(")content(; Path=)inline<inline_delimiter(#{)ident(cookie)operator(.)ident(path)inline_delimiter(})>delimiter(")>
 					reserved(end)
 					reserved(if) ident(cookie)operator(.)ident(secure)
 						ident(str) operator(+=) string<delimiter(")content(; Secure)delimiter(")>
@@ -1676,21 +1676,21 @@ reserved(class) class(Cookie)
 					reserved(end)
 					ident(comma) operator(=) pre_constant(true)
 
-					ident(str) operator(+=) string<delimiter(")inline<delimiter(#{)ident(cookie)operator(.)ident(name)delimiter(})>content(=)char(\\")inline<delimiter(#{)ident(cookie)operator(.)ident(value)delimiter(})>char(\\")delimiter(")>
+					ident(str) operator(+=) string<delimiter(")inline<inline_delimiter(#{)ident(cookie)operator(.)ident(name)inline_delimiter(})>content(=)char(\\")inline<inline_delimiter(#{)ident(cookie)operator(.)ident(value)inline_delimiter(})>char(\\")delimiter(")>
 					reserved(unless) ident(cookie)operator(.)ident(maxage) operator(==) pre_constant(nil)
-						ident(str) operator(+=) string<delimiter(")content(; Max-Age=)char(\\")inline<delimiter(#{)ident(cookie)operator(.)ident(maxage)delimiter(})>char(\\")delimiter(")>
+						ident(str) operator(+=) string<delimiter(")content(; Max-Age=)char(\\")inline<inline_delimiter(#{)ident(cookie)operator(.)ident(maxage)inline_delimiter(})>char(\\")delimiter(")>
 					reserved(end)
 					reserved(unless) ident(cookie)operator(.)ident(domain) operator(==) pre_constant(nil)
-						ident(str) operator(+=) string<delimiter(")content(; Domain=)char(\\")inline<delimiter(#{)ident(cookie)operator(.)ident(domain)delimiter(})>char(\\")delimiter(")>
+						ident(str) operator(+=) string<delimiter(")content(; Domain=)char(\\")inline<inline_delimiter(#{)ident(cookie)operator(.)ident(domain)inline_delimiter(})>char(\\")delimiter(")>
 					reserved(end)
 					reserved(unless) ident(cookie)operator(.)ident(path) operator(==) pre_constant(nil)
-						ident(str) operator(+=) string<delimiter(")content(; Path=)char(\\")inline<delimiter(#{)ident(cookie)operator(.)ident(path)delimiter(})>char(\\")delimiter(")>
+						ident(str) operator(+=) string<delimiter(")content(; Path=)char(\\")inline<inline_delimiter(#{)ident(cookie)operator(.)ident(path)inline_delimiter(})>char(\\")delimiter(")>
 					reserved(end)
 					reserved(if) ident(cookie)operator(.)ident(secure)
 						ident(str) operator(+=) string<delimiter(")content(; Secure)delimiter(")>
 					reserved(end)
 					reserved(unless) ident(cookie)operator(.)ident(comment) operator(==) pre_constant(nil)
-						ident(str) operator(+=) string<delimiter(")content(; Comment=)char(\\")inline<delimiter(#{)ident(cookie)operator(.)ident(comment)delimiter(})>char(\\")delimiter(")>
+						ident(str) operator(+=) string<delimiter(")content(; Comment=)char(\\")inline<inline_delimiter(#{)ident(cookie)operator(.)ident(comment)inline_delimiter(})>char(\\")delimiter(")>
 					reserved(end)
 					ident(str) operator(+=) string<delimiter(")content(; Version=)char(\\")content(1)char(\\")delimiter(")>
 				reserved(end)
@@ -2181,7 +2181,7 @@ comment(=begin
 		constant(URL_PATTERN) operator(=) regexp<delimiter(/)content((?:(?:www|ftp\))char(\\.)content(|(?>)char(\\w)content({3,}\):)char(\\/)char(\\/)content(\))char(\\S)content(+)delimiter(/)>
 		constant(EMAIL_PATTERN) operator(=) regexp<delimiter(/)content((?>[)char(\\w)char(\\-)content(_.]+\)@[)char(\\w)char(\\-)char(\\.)content(]+)char(\\.)char(\\w)content(+)delimiter(/)>
 
-		constant(HAS_MAGIC) operator(=) regexp<delimiter(/)content([&@)inline<delimiter(#{)constant(Smileys)operator(::)constant(SMILEY_START_CHARS)delimiter(})>content(]|(?i:www|ftp\))delimiter(/)>
+		constant(HAS_MAGIC) operator(=) regexp<delimiter(/)content([&@)inline<inline_delimiter(#{)constant(Smileys)operator(::)constant(SMILEY_START_CHARS)inline_delimiter(})>content(]|(?i:www|ftp\))delimiter(/)>
 
 		constant(MAGIC_PATTERN) operator(=) constant(Regexp)operator(.)ident(new)operator(()string<delimiter(')content(()content(\\W)content(|^\)(%s\))delimiter(')> operator(%)
 			operator([)constant(Smileys)operator(::)constant(MAGIC_SMILEY_PATTERN)operator(,) constant(URL_PATTERN)operator(,) constant(EMAIL_PATTERN)operator(])operator(.)ident(map) operator({) operator(|)ident(pattern)operator(|)
@@ -2766,7 +2766,7 @@ reserved(module) class(WhyTheLuckyStiff)
 			symbol(:chapters)operator(,) symbol(:expansion_paks)operator(,) symbol(:encoding)operator(,) symbol(:credits)
 		reserved(def) method([]) ident(x)
 			instance_variable(@lang)operator(.)ident(fetch)operator(()ident(x)operator(\)) reserved(do)
-				ident(warn) ident(warning) operator(=) string<delimiter(")content([not translated: ')inline<delimiter(#{)ident(x)delimiter(})>content('!])delimiter(")>
+				ident(warn) ident(warning) operator(=) string<delimiter(")content([not translated: ')inline<inline_delimiter(#{)ident(x)inline_delimiter(})>content('!])delimiter(")>
 				ident(warning)
 			reserved(end)
 		reserved(end)
@@ -2836,7 +2836,7 @@ comment(# Convert the book to HTML)
 comment(#)
 reserved(if) pre_constant(__FILE__) operator(==) global_variable($0)
 	reserved(unless) pre_constant(ARGV)operator([)integer(0)operator(])
-		ident(puts) string<delimiter(")content(Usage: )inline<delimiter(#{)global_variable($0)delimiter(})>content( [/path/to/save/html])delimiter(")>
+		ident(puts) string<delimiter(")content(Usage: )inline<inline_delimiter(#{)global_variable($0)inline_delimiter(})>content( [/path/to/save/html])delimiter(")>
 		ident(exit)
 	reserved(end)
 
@@ -2855,7 +2855,7 @@ reserved(if) pre_constant(__FILE__) operator(==) global_variable($0)
 	comment(# Write chapter pages)
 	ident(chapter_tpl) operator(=) constant(ERB)operator(::)ident(new)operator(() constant(File)operator(.)ident(open)operator(() string<delimiter(')content(chapter.erb)delimiter(')> operator(\))operator(.)ident(read) operator(\))
 	ident(book)operator(.)ident(chapters)operator(.)ident(each) reserved(do) operator(|)ident(chapter)operator(|)
-		constant(File)operator(.)ident(open)operator(() constant(File)operator(.)ident(join)operator(() ident(site_path)operator(,) string<delimiter(")content(chapter-)inline<delimiter(#{) ident(chapter)operator(.)ident(index) delimiter(})>content(.html)delimiter(")> operator(\))operator(,) string<delimiter(')content(w)delimiter(')> operator(\)) reserved(do) operator(|)ident(out)operator(|)
+		constant(File)operator(.)ident(open)operator(() constant(File)operator(.)ident(join)operator(() ident(site_path)operator(,) string<delimiter(")content(chapter-)inline<inline_delimiter(#{) ident(chapter)operator(.)ident(index) inline_delimiter(})>content(.html)delimiter(")> operator(\))operator(,) string<delimiter(')content(w)delimiter(')> operator(\)) reserved(do) operator(|)ident(out)operator(|)
 			ident(out) operator(<<) ident(chapter_tpl)operator(.)ident(result)
 		reserved(end)
 	reserved(end)
@@ -2864,7 +2864,7 @@ reserved(if) pre_constant(__FILE__) operator(==) global_variable($0)
 	comment(# Write expansion pak pages)
 	ident(expak_tpl) operator(=) constant(ERB)operator(::)ident(new)operator(() constant(File)operator(.)ident(open)operator(() string<delimiter(')content(expansion-pak.erb)delimiter(')> operator(\))operator(.)ident(read) operator(\))
 	ident(book)operator(.)ident(expansion_paks)operator(.)ident(each) reserved(do) operator(|)ident(pak)operator(|)
-		constant(File)operator(.)ident(open)operator(() constant(File)operator(.)ident(join)operator(() ident(site_path)operator(,) string<delimiter(")content(expansion-pak-)inline<delimiter(#{) ident(pak)operator(.)ident(index) delimiter(})>content(.html)delimiter(")> operator(\))operator(,) string<delimiter(')content(w)delimiter(')> operator(\)) reserved(do) operator(|)ident(out)operator(|)
+		constant(File)operator(.)ident(open)operator(() constant(File)operator(.)ident(join)operator(() ident(site_path)operator(,) string<delimiter(")content(expansion-pak-)inline<inline_delimiter(#{) ident(pak)operator(.)ident(index) inline_delimiter(})>content(.html)delimiter(")> operator(\))operator(,) string<delimiter(')content(w)delimiter(')> operator(\)) reserved(do) operator(|)ident(out)operator(|)
 			ident(out) operator(<<) ident(expak_tpl)operator(.)ident(result)operator(() ident(binding) operator(\))
 		reserved(end)
 	reserved(end)
@@ -3320,7 +3320,7 @@ reserved(class) class(Cube)
   reserved(def) method(initialize)
     instance_variable(@sides) operator(=) operator([)operator(])
     string<delimiter(%w()content(left front right back top bottom)delimiter(\))>operator(.)ident(each_with_index) operator({) operator(|)ident(side)operator(,) ident(i)operator(|)
-      ident(eval)operator(()string<delimiter(")content(@sides[)inline<delimiter(#{)ident(i)delimiter(})>content(] = @)inline<delimiter(#{)ident(side)delimiter(})>content( = Side.new()inline<delimiter(#{)ident(i)delimiter(})>content(\))delimiter(")>operator(\))
+      ident(eval)operator(()string<delimiter(")content(@sides[)inline<inline_delimiter(#{)ident(i)inline_delimiter(})>content(] = @)inline<inline_delimiter(#{)ident(side)inline_delimiter(})>content( = Side.new()inline<inline_delimiter(#{)ident(i)inline_delimiter(})>content(\))delimiter(")>operator(\))
     operator(})
     instance_variable(@left)operator(.)ident(sides) operator(=) operator([)instance_variable(@top)operator(,) instance_variable(@front)operator(,) instance_variable(@bottom)operator(,) instance_variable(@back)operator(])
     instance_variable(@front)operator(.)ident(sides) operator(=) operator([)instance_variable(@top)operator(,) instance_variable(@right)operator(,) instance_variable(@bottom)operator(,) instance_variable(@left)operator(])
@@ -3381,7 +3381,7 @@ reserved(end)
 comment(#$stdin = DATA)
 
 ident(gets)operator(.)ident(to_i)operator(.)ident(times) reserved(do) operator(|)ident(i)operator(|)
-  ident(puts) string<delimiter(")content(Scenario #)inline<delimiter(#{)ident(i)integer(+1)delimiter(})>content(:)delimiter(")>
+  ident(puts) string<delimiter(")content(Scenario #)inline<inline_delimiter(#{)ident(i)integer(+1)inline_delimiter(})>content(:)delimiter(")>
   ident(fs) operator(=) string<delimiter(')delimiter(')>
   integer(9)operator(.)ident(times) operator({) ident(fs) operator(<<) ident(gets) operator(})
   ident(cube) operator(=) constant(Cube)operator(.)ident(new)

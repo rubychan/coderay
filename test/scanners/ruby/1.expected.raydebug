@@ -311,7 +311,7 @@ comment(=begin
     ident(str)operator(.)ident(gsub!)operator(()regexp<delimiter(/)content([^-+,.)char(\\/)content(:0-9a-z]+)delimiter(/)modifier(ino)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
 
     comment(# day)
-    reserved(if) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)content(()inline<delimiter(#{)constant(PARSE_DAYPAT)delimiter(})>content(\))char(\\S)content(*)delimiter(/)modifier(ino)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
+    reserved(if) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)content(()inline<inline_delimiter(#{)constant(PARSE_DAYPAT)inline_delimiter(})>content(\))char(\\S)content(*)delimiter(/)modifier(ino)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
       ident(wday) operator(=) constant(ABBR_DAYS)operator([)global_variable($1)operator(.)ident(downcase)operator(])
     reserved(end)
 
@@ -358,7 +358,7 @@ comment(=begin
     reserved(if) ident(str)operator(.)ident(sub!)operator(()
         regexp<delimiter(/)content(()char(\\d)content(+\))char(\\S)content(*
          )char(\\s)content(+
-         ()inline<delimiter(#{)constant(PARSE_MONTHPAT)delimiter(})>content(\))char(\\S)content(*
+         ()inline<inline_delimiter(#{)constant(PARSE_MONTHPAT)inline_delimiter(})>content(\))char(\\S)content(*
          (?:
            )char(\\s)content(+
            (-?)char(\\d)content(+\)
@@ -377,7 +377,7 @@ comment(=begin
 
     comment(# us)
     reserved(elsif) ident(str)operator(.)ident(sub!)operator(()
-           regexp<delimiter(/)content(()inline<delimiter(#{)constant(PARSE_MONTHPAT)delimiter(})>content(\))char(\\S)content(*
+           regexp<delimiter(/)content(()inline<inline_delimiter(#{)constant(PARSE_MONTHPAT)inline_delimiter(})>content(\))char(\\S)content(*
             )char(\\s)content(+
             ()char(\\d)content(+\))char(\\S)content(*
             (?:
@@ -421,7 +421,7 @@ comment(=begin
       ident(mday) operator(=) global_variable($4)operator(.)ident(to_i)
 
     comment(# vms)
-    reserved(elsif) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)content((-?)char(\\d)content(+\)-()inline<delimiter(#{)constant(PARSE_MONTHPAT)delimiter(})>content(\)[^-]*-(-?)char(\\d)content(+\))delimiter(/)modifier(ino)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
+    reserved(elsif) ident(str)operator(.)ident(sub!)operator(()regexp<delimiter(/)content((-?)char(\\d)content(+\)-()inline<inline_delimiter(#{)constant(PARSE_MONTHPAT)inline_delimiter(})>content(\)[^-]*-(-?)char(\\d)content(+\))delimiter(/)modifier(ino)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
       ident(mday) operator(=) global_variable($1)operator(.)ident(to_i)
       ident(mon) operator(=) constant(ABBR_MONTHS)operator([)global_variable($2)operator(.)ident(downcase)operator(])
       ident(year) operator(=) global_variable($3)operator(.)ident(to_i)
@@ -643,7 +643,7 @@ ident(require) string<delimiter(')content(generator)delimiter(')>
 ident(a) operator(=) operator([)integer(2)operator(,) integer(3)operator(,) integer(5)operator(,) integer(7)operator(,) integer(11)operator(])
 ident(b) operator(=) string<delimiter(%w#)content(h a l l o)delimiter(#)>
 constant(SyncEnumerator)operator(.)ident(new)operator(()ident(a)operator(,) ident(b)operator(\))operator(.)ident(each) operator({) operator(|)ident(i)operator(,) ident(j)operator(|)
-  ident(puts) string<delimiter(")inline<delimiter(#{)ident(i)delimiter(})>content( & )inline<delimiter(#{)ident(j)delimiter(})>delimiter(")>
+  ident(puts) string<delimiter(")inline<inline_delimiter(#{)ident(i)inline_delimiter(})>content( & )inline<inline_delimiter(#{)ident(j)inline_delimiter(})>delimiter(")>
 operator(})
 
 reserved(class) class(Signature) operator(<) constant(Array)
@@ -727,5 +727,5 @@ reserved(end)
 
 global_variable($trace) operator(=) pre_constant(false)
 ident(test_grammars)operator(.)ident(each_with_index) reserved(do) operator(|)ident(g)operator(,) ident(i)operator(|)
-    ident(puts) string<delimiter(")content(Grammar )inline<delimiter(#{)ident(i)delimiter(})>content( is )inline<delimiter(#{)string<delimiter(')content(not )delimiter(')> reserved(if) ident(g)operator(.)ident(ll1?)delimiter(})>content(LL(1\).)delimiter(")>
+    ident(puts) string<delimiter(")content(Grammar )inline<inline_delimiter(#{)ident(i)inline_delimiter(})>content( is )inline<inline_delimiter(#{)string<delimiter(')content(not )delimiter(')> reserved(if) ident(g)operator(.)ident(ll1?)inline_delimiter(})>content(LL(1\).)delimiter(")>
 reserved(end)

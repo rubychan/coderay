@@ -376,7 +376,7 @@ reserved(def) method(bill)operator(()ident(x)operator(\)) ident(x) reserved(end)
 ident(p)operator(()ident(bob) string<delimiter(%()content(22)delimiter(\))>operator(\))
 reserved(for) ident(bob) reserved(in) operator([)integer(100)operator(]) reserved(do) ident(p)operator(()ident(bob) string<delimiter(%()content(22)delimiter(\))>operator(\)) reserved(end)
 ident(p)operator(()ident(bob) string<delimiter(%()content(22)delimiter(\))>operator(\))
-reserved(def) method(%)operator(()ident(n)operator(\)) ident(to_s)operator(+)string<delimiter(")content(%)inline<delimiter(#{)ident(n)delimiter(})>delimiter(")> reserved(end)
+reserved(def) method(%)operator(()ident(n)operator(\)) ident(to_s)operator(+)string<delimiter(")content(%)inline<inline_delimiter(#{)ident(n)inline_delimiter(})>delimiter(")> reserved(end)
 ident(p)operator(()ident(bill) string<delimiter(%()content(22)delimiter(\))>operator(\))
 reserved(begin) ident(sdjkfsjkdfsd)operator(;) reserved(rescue) constant(Object) operator(=)operator(>) ident(bill)operator(;) ident(p)operator(()ident(bill) string<delimiter(%()content(22)delimiter(\))>operator(\)) reserved(end)
 ident(p)operator(()ident(bill) string<delimiter(%()content(22)delimiter(\))>operator(\))
@@ -386,7 +386,7 @@ reserved(class) class(Object)
 
 ident(public) symbol(:`)
 reserved(def) method(`)operator(()ident(s)operator(\))
-  ident(print) string<delimiter(")content(bq: )inline<delimiter(#{)ident(s)delimiter(})>char(\\n)delimiter(")>
+  ident(print) string<delimiter(")content(bq: )inline<inline_delimiter(#{)ident(s)inline_delimiter(})>char(\\n)delimiter(")>
 reserved(end)
 reserved(end)
 
@@ -630,7 +630,7 @@ end
 ident(proc) operator({)
 operator(})
 
-ident(p) string<delimiter(")inline<delimiter(#{)string<delimiter(<<foobar3)>delimiter(})>delimiter(")>
+ident(p) string<delimiter(")inline<inline_delimiter(#{)string<delimiter(<<foobar3)>inline_delimiter(})>delimiter(")>
 ident(bim)
 ident(baz)
 ident(bof)
@@ -657,8 +657,8 @@ ident(p)operator(() regexp<delimiter(%r{)char(\\/)content($)delimiter(})>operato
 ident(p)operator(() regexp<delimiter(%r~)content(<!include:([)char(\\/)char(\\w)char(\\.)char(\\-)content(]+\)>)delimiter(~)modifier(m)>operator(\))
 
 ident(p) string<delimiter(<<end)>string<content(
-)inline<delimiter(#{)ident(compile_body)delimiter(})>char(\\
-)inline<delimiter(#{)ident(outvar)delimiter(})>delimiter(
+)inline<inline_delimiter(#{)ident(compile_body)inline_delimiter(})>char(\\
+)inline<inline_delimiter(#{)ident(outvar)inline_delimiter(})>delimiter(
 end)>
 
 
@@ -671,27 +671,27 @@ ident(proc) operator({)
 operator(})operator(.)ident(call)
 
 
-ident(p) string<delimiter(")inline<delimiter(#{)string<delimiter(<<foobar3)>delimiter(})>delimiter(")>
+ident(p) string<delimiter(")inline<inline_delimiter(#{)string<delimiter(<<foobar3)>inline_delimiter(})>delimiter(")>
 ident(bim)
 ident(baz)
 ident(bof)
 ident(foobar3)
 
-ident(p) string<delimiter(")inline<delimiter(#{)string<delimiter(<<foobar2)>string<content(
+ident(p) string<delimiter(")inline<inline_delimiter(#{)string<delimiter(<<foobar2)>string<content(
 bim
 baz
 bof)delimiter(
 foobar2)>
-delimiter(})>delimiter(")>
+inline_delimiter(})>delimiter(")>
 
-ident(p) string<delimiter(<<one)> operator(;) ident(p) string<delimiter(")inline<delimiter(#{)string<delimiter(<<two)>delimiter(})>delimiter(")>string<content(
+ident(p) string<delimiter(<<one)> operator(;) ident(p) string<delimiter(")inline<inline_delimiter(#{)string<delimiter(<<two)>inline_delimiter(})>delimiter(")>string<content(
 1111111111111111
 fdsgdfgdsfffff)delimiter(
 one)>string<content(
 2222222222222222
 sdfasdfasdfads)delimiter(
 two)>
-ident(p) string<delimiter(")inline<delimiter(#{)string<delimiter(<<foobar0)>operator(.)ident(each)operator(()string<delimiter(')content(|)delimiter(')>operator(\))operator({)operator(|)ident(s)operator(|) string<delimiter(')content(\\n)content(thort: )delimiter(')>operator(+)ident(s)operator(}) delimiter(})>delimiter(")>
+ident(p) string<delimiter(")inline<inline_delimiter(#{)string<delimiter(<<foobar0)>operator(.)ident(each)operator(()string<delimiter(')content(|)delimiter(')>operator(\))operator({)operator(|)ident(s)operator(|) string<delimiter(')content(\\n)content(thort: )delimiter(')>operator(+)ident(s)operator(}) inline_delimiter(})>delimiter(")>
 ident(jbvd)operator(|)ident(g4543ghb)operator(|)operator(!)instance_variable(@G)global_variable($dfsd)operator(|)ident(fafr)operator(|)ident(e)
 operator(|)ident(s4e5rrwware)operator(|)constant(BBBBB)operator(|*)operator(&)operator(^)operator(()operator(*&)operator(^)operator(>)string<delimiter(")content(PMK:njs;d|
 
@@ -728,19 +728,19 @@ ident(p) ident(foo)
 global_variable($a)operator(=)integer(1)
 instance_variable(@b)operator(=)integer(2)
 class_variable(@@c)operator(=)integer(3)
-ident(p) string<delimiter(")escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)delimiter(})>delimiter(")>
+ident(p) string<delimiter(")escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<inline_delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)inline_delimiter(})>delimiter(")>
 ident(p) string<delimiter(")char(\\#)content($a )char(\\#)content(@b )char(\\#)content(@@c )char(\\#)content({$a+@b+@@c})delimiter(")>
 ident(p) string<delimiter(')content(#$a #@b #@@c #{$a+@b+@@c})delimiter(')>
 ident(p) string<delimiter(')content(\\#)content($a )content(\\#)content(@b )content(\\#)content(@@c )content(\\#)content({$a+@b+@@c})delimiter(')>
 ident(p) string<delimiter(%w")content(#$a #@b #@@c #{$a+@b+@@c})delimiter(")>
 ident(p) string<delimiter(%w")content(\\#)content($a )content(\\#)content(@b )content(\\#)content(@@c )content(\\#)content({$a+@b+@@c})delimiter(")>
-ident(p) string<delimiter(%W")escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)delimiter(})>delimiter(")>
+ident(p) string<delimiter(%W")escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<inline_delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)inline_delimiter(})>delimiter(")>
 ident(p) string<delimiter(%W")char(\\#)content($a )char(\\#)content(@b )char(\\#)content(@@c )char(\\#)content({$a+@b+@@c})delimiter(")>
-ident(p) string<delimiter(%Q[)escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)delimiter(})>delimiter(])>
+ident(p) string<delimiter(%Q[)escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<inline_delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)inline_delimiter(})>delimiter(])>
 ident(p) string<delimiter(%Q[)char(\\#)content($a )char(\\#)content(@b )char(\\#)content(@@c )char(\\#)content({$a+@b+@@c})delimiter(])>
-ident(p) shell<delimiter(`)content(echo )escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)delimiter(})>delimiter(`)>
+ident(p) shell<delimiter(`)content(echo )escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<inline_delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)inline_delimiter(})>delimiter(`)>
 ident(p) shell<delimiter(`)content(echo )char(\\#)content($a )char(\\#)content(@b )char(\\#)content(@@c )char(\\#)content({$a+@b+@@c})delimiter(`)>
-ident(p)operator(()regexp<delimiter(/)escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)delimiter(})>delimiter(/)>operator(\))
+ident(p)operator(()regexp<delimiter(/)escape(#)global_variable($a)content( )escape(#)instance_variable(@b)content( )escape(#)class_variable(@@c)content( )inline<inline_delimiter(#{)global_variable($a)operator(+)instance_variable(@b)operator(+)class_variable(@@c)inline_delimiter(})>delimiter(/)>operator(\))
 comment(#p(/\\#$a \\#@b \\#@@c \\#{$a+@b+@@c}/\) #moved to w.rb)
 
 reserved(class) class(AA)operator(;) reserved(class) class(BB)operator(;) reserved(class) class(CC)
@@ -753,7 +753,7 @@ ident(compile_body)operator(=)ident(outvar)operator(=)string<delimiter(')content
 
 reserved(if) pre_constant(false)
  ident(method_src) operator(=) ident(c)operator(.)ident(compile)operator(()ident(template)operator(,) operator(()constant(HtmlCompiler)operator(::)constant(AnyData)operator(.)ident(new)operator(\))operator(\))operator(.)ident(join)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\)) operator(+)
-    string<delimiter(")char(\\n)content(# generated by PartsTemplate::compile_partstemplate at )inline<delimiter(#{)constant(Time)operator(.)ident(new)delimiter(})>char(\\n)delimiter(")>
+    string<delimiter(")char(\\n)content(# generated by PartsTemplate::compile_partstemplate at )inline<inline_delimiter(#{)constant(Time)operator(.)ident(new)inline_delimiter(})>char(\\n)delimiter(")>
  ident(rescu) integer(-1)
 reserved(end)
 
@@ -777,7 +777,7 @@ ident(val)operator(=)string<delimiter(%[)content(13,17,22,"hike", ?)char(\\s)del
     reserved(if) ident(val)operator(.)ident(include?) integer(?\\s)
       ident(p) ident(val)operator(.)ident(split)operator(.)ident(collect)operator({)operator(|)ident(v)operator(|) operator(()ident(v)operator(\))operator(})
     reserved(end)
-ident(p) string<delimiter(")inline<delimiter(#{)delimiter(})>delimiter(")>
+ident(p) string<delimiter(")inline<inline_delimiter(#{)inline_delimiter(})>delimiter(")>
 ident(p) string<delimiter(")content(#(1\))delimiter(")>
 reserved(class) class(Hosts)
 reserved(end)
@@ -893,7 +893,7 @@ ident(p) ident(cls_name) operator(=) operator({)operator(})operator([)symbol(:cl
 
 
 ident(p) ident(foo)
-ident(p) string<delimiter(")inline<delimiter(#{)global_variable($!)operator(.)ident(class)delimiter(})>delimiter(")>
+ident(p) string<delimiter(")inline<inline_delimiter(#{)global_variable($!)operator(.)ident(class)inline_delimiter(})>delimiter(")>
 ident(p) symbol(:p)
 ident(p)operator(()symbol(:p)operator(\))
 ident(p)operator(()symbol<symbol(:)delimiter(")content([])delimiter(")>operator(\))
@@ -910,7 +910,7 @@ ident(p)operator(()integer(-1)operator(\))
 ident(p) string<delimiter(%/)content(p)delimiter(/)>
 ident(p) string<delimiter(%Q[)content(<LI>)delimiter(])>
 ident(i)operator(=)integer(99)
-ident(p) string<delimiter(%Q[)content(<LI><A HREF=")inline<delimiter(#{)ident(i)operator([)integer(3)operator(])delimiter(})>content(.html)char(\\#)inline<delimiter(#{)ident(i)operator([)integer(4)operator(])delimiter(})>content(">)inline<delimiter(#{)ident(i)operator([)integer(0)operator(])operator(+)ident(i)operator([)integer(1)operator(])operator(+)operator(()ident(i)operator([)integer(2)operator(])operator(\))delimiter(})>content(</A>)char(\\n)delimiter(])>
+ident(p) string<delimiter(%Q[)content(<LI><A HREF=")inline<inline_delimiter(#{)ident(i)operator([)integer(3)operator(])inline_delimiter(})>content(.html)char(\\#)inline<inline_delimiter(#{)ident(i)operator([)integer(4)operator(])inline_delimiter(})>content(">)inline<inline_delimiter(#{)ident(i)operator([)integer(0)operator(])operator(+)ident(i)operator([)integer(1)operator(])operator(+)operator(()ident(i)operator([)integer(2)operator(])operator(\))inline_delimiter(})>content(</A>)char(\\n)delimiter(])>
 ident(p)operator(()symbol(:side)operator(=)operator(>)symbol(:top)operator(\))
 ident(p) string<delimiter(%w[)content(a b c
      d e f)delimiter(])>
@@ -933,12 +933,12 @@ reserved(if) pre_constant(false)
 reserved(end)
 reserved(if) pre_constant(false)
  ident(ret) operator(=) string<delimiter(<<-END)>string<content(
- @@parts_template = )inline<delimiter(#{)ident(template)operator(.)ident(to_ruby)delimiter(})>content(
+ @@parts_template = )inline<inline_delimiter(#{)ident(template)operator(.)ident(to_ruby)inline_delimiter(})>content(
  def parts_template
    @@parts_template
  end
 
- )inline<delimiter(#{)ident(c)operator(.)ident(const_def_src)operator(.)ident(join)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\))delimiter(})>content(
+ )inline<inline_delimiter(#{)ident(c)operator(.)ident(const_def_src)operator(.)ident(join)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\))inline_delimiter(})>content(
  def amrita_expand_and_format(element, context, formatter\)
    if element.tagname_symbol == :span and element.attrs.size == 0
      amrita_expand_and_format1(element, context, formatter\)
@@ -950,7 +950,7 @@ reserved(if) pre_constant(false)
  end
 
  def amrita_expand_and_format1(element, context, formatter\)
-   )inline<delimiter(#{)ident(method_src)delimiter(})>content(
+   )inline<inline_delimiter(#{)ident(method_src)inline_delimiter(})>content(
  end)delimiter(
  END)>
  ident(j)operator(=)integer(55)
@@ -1046,7 +1046,7 @@ a)>
 
 ident(label)operator(=)string<delimiter(')content(label)delimiter(')>operator(;)ident(tab)operator(=)operator([)integer(1)operator(,)integer(2)operator(,)integer(3)operator(])
       ident(p) string<delimiter(<<S)>string<content(
-)inline<delimiter(#{)ident(label)delimiter(})>content( = arr = Array.new()inline<delimiter(#{)ident(tab)operator(.)ident(size)delimiter(})>content(, nil\)
+)inline<inline_delimiter(#{)ident(label)inline_delimiter(})>content( = arr = Array.new()inline<inline_delimiter(#{)ident(tab)operator(.)ident(size)inline_delimiter(})>content(, nil\)
 str = a = i = nil
 idx = 0
 clist.each do |str|

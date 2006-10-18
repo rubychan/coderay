@@ -13,6 +13,6 @@ reserved(undef) method(&)operator(,)method(&)operator(&)
 
 symbol(:simple)
 symbol<symbol(:)delimiter(")content(bla)delimiter(")>
-symbol<symbol(:)delimiter(")inline<delimiter(#{)reserved(undef) symbol(:blubb)delimiter(})>escape(#)class_variable(@@cv)delimiter(")>
+symbol<symbol(:)delimiter(")inline<inline_delimiter(#{)reserved(undef) symbol(:blubb)inline_delimiter(})>escape(#)class_variable(@@cv)delimiter(")>
 
-reserved(undef) symbol<symbol(:)delimiter(")content(bla)delimiter(")>operator(,) method(/)operator(,) symbol<symbol(:)delimiter(")inline<delimiter(#{)reserved(undef) symbol(:blubb)delimiter(})>escape(#)class_variable(@@cv)delimiter(")>
+reserved(undef) symbol<symbol(:)delimiter(")content(bla)delimiter(")>operator(,) method(/)operator(,) symbol<symbol(:)delimiter(")inline<inline_delimiter(#{)reserved(undef) symbol(:blubb)inline_delimiter(})>escape(#)class_variable(@@cv)delimiter(")>

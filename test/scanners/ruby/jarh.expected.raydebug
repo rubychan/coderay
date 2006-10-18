@@ -273,7 +273,7 @@ ident(print) ident(sprintf)operator(()string<delimiter(')content(%s)delimiter(')
 
 ident(print) ident(eval)operator(()string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(inspect)operator(\))
 
-regexp<delimiter(/)inline<delimiter(#{)ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>delimiter(})>delimiter(/)>
+regexp<delimiter(/)inline<inline_delimiter(#{)ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>inline_delimiter(})>delimiter(/)>
 
 ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(.)ident(scan)operator(()regexp<delimiter(/)content(.)delimiter(/)>operator(\))operator(.)ident(collect)operator({)operator(|)ident(x)operator(|)ident(x)operator([)integer(0)operator(])operator(})operator(.)ident(pack)operator(()string<delimiter(')content(U*)delimiter(')>operator(\))
 

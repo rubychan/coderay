@@ -34,8 +34,8 @@ reserved(class) class(CodeRaySuite) operator(<) constant(TestCase)
 		ident(highlighter) operator(=) constant(CodeRay)operator(.)ident(html)
 		
 		ident(dir) reserved(do)
-			reserved(for) ident(input) reserved(in) constant(Dir)operator([)string<delimiter(")content(*.)inline<delimiter(#{)ident(extension)delimiter(})>delimiter(")>operator(])
-				ident(name) operator(=) constant(File)operator(.)ident(basename)operator(()ident(input)operator(,) string<delimiter(")content(.)inline<delimiter(#{)ident(extension)delimiter(})>delimiter(")>operator(\))
+			reserved(for) ident(input) reserved(in) constant(Dir)operator([)string<delimiter(")content(*.)inline<inline_delimiter(#{)ident(extension)inline_delimiter(})>delimiter(")>operator(])
+				ident(name) operator(=) constant(File)operator(.)ident(basename)operator(()ident(input)operator(,) string<delimiter(")content(.)inline<inline_delimiter(#{)ident(extension)inline_delimiter(})>delimiter(")>operator(\))
 				ident(output) operator(=) ident(name) operator(+) string<delimiter(')content(.out.tok)delimiter(')>
 				ident(code) operator(=) constant(File)operator(.)ident(read)operator(()ident(input)operator(\))
 
@@ -46,7 +46,7 @@ reserved(class) class(CodeRaySuite) operator(<) constant(TestCase)
 					ident(assert_equal)operator(()ident(expected)operator(,) ident(computed)operator(\))
 				reserved(else)
 					constant(File)operator(.)ident(open)operator(()ident(output)operator(,) string<delimiter(')content(w)delimiter(')>operator(\)) reserved(do) operator(|)ident(f)operator(|) ident(f)operator(.)ident(write) ident(computed) reserved(end)
-					ident(puts) string<delimiter(")content(New test: )inline<delimiter(#{)ident(output)delimiter(})>delimiter(")>
+					ident(puts) string<delimiter(")content(New test: )inline<inline_delimiter(#{)ident(output)inline_delimiter(})>delimiter(")>
 				reserved(end)
 
 				ident(highlighted) operator(=) ident(highlighter)operator(.)ident(highlight_page) ident(code)operator(,) ident(lang)
@@ -66,7 +66,7 @@ reserved(def) method(load_suite) ident(name)
 	reserved(rescue) constant(LoadError)
 		global_variable($stderr)operator(.)ident(puts) string<delimiter(<<-ERR)>string<content(
 
-!! Folder )inline<delimiter(#{)constant(File)operator(.)ident(split)operator(()pre_constant(__FILE__)operator(\))operator(.)ident(first) operator(+) string<delimiter(')content(/)delimiter(')> operator(+) ident(name)delimiter(})>content( not found
+!! Folder )inline<inline_delimiter(#{)constant(File)operator(.)ident(split)operator(()pre_constant(__FILE__)operator(\))operator(.)ident(first) operator(+) string<delimiter(')content(/)delimiter(')> operator(+) ident(name)inline_delimiter(})>content( not found
 		)delimiter(
 		ERR)>
 		pre_constant(false)

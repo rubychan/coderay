@@ -97,7 +97,7 @@ module Scanners
               state = :initial
               depth = 1
               tokens << [:open, :inline]
-              tokens << [match + getch, :delimiter]
+              tokens << [match + getch, :inline_delimiter]
             when ?$, ?@
               tokens << [match, :escape]
               last_state = state  # scan one token as normal code, then return here
@@ -189,7 +189,7 @@ module Scanners
                   depth -= 1
                   if depth == 0  # closing brace of inline block reached
                     state, depth, heredocs = inline_block_stack.pop
-                    tokens << [match, :delimiter]
+                    tokens << [match, :inline_delimiter]
                     kind = :inline
                     match = :close
                   end

@@ -1,9 +1,33 @@
+require 'benchmark'
+
 $mydir = File.dirname(__FILE__)
 $:.unshift File.join($mydir, '..', '..', 'lib')
 
 require 'coderay'
 
-$stdout.sync = true
+# Try to load Term::ANSIColor...
+begin
+  require 'term-ansicolor'
+rescue LoadError
+  begin
+    require 'rubygems'
+    require_gem 'term-ansicolor'
+    class String
+      include Term::ANSIColor
+    end
+  rescue LoadError
+    class String
+      def method_missing meth, *args
+        self
+      end
+    end
+  end
+end
+
+unless defined? Term::ANSIColor
+  puts 'You should gem install term-ansicolor.'
+  sleep 2
+end
 
 # from Ruby Facets (http://facets.rubyforge.org/)
 class Array
@@ -14,15 +38,64 @@ class Array
       self[j], self[j+i] = at(j+i), at(j) unless i.zero?
     end
     self
+  end unless [].respond_to? :shuffle!
+end
+
+# Wraps around an enumerable and prints the current element when iterated.
+class ProgressPrinter
+  
+  attr_accessor :enum, :template
+  attr_reader :progress
+  
+  def initialize enum, template = '(%p)'
+    @enum = enum
+    @template = template
+    if ENV['showprogress']
+      @progress = ''
+    else
+      @progress = nil
+    end
   end
-end unless [].respond_to? :shuffle!
+  
+  def each
+    for elem in @enum
+      if @progress
+        print "\b" * @progress.size
+        @progress = @template % elem
+        print @progress
+      end
+      yield elem
+    end
+  ensure
+    print "\b" * progress.size if @progress
+  end
+  
+  include Enumerable
+  
+end
+
+module Enumerable
+  def progress
+    ProgressPrinter.new self
+  end
+end
 
 module CodeRay
 
   require 'test/unit'
 
   class TestCase < Test::Unit::TestCase
-
+    
+    if ENV['deluxe']
+      MAX_CODE_SIZE_TO_HIGHLIGHT = 200_000
+      MAX_CODE_SIZE_TO_TEST = 3_000_000
+      DEFAULT_MAX = 1024
+    else
+      MAX_CODE_SIZE_TO_HIGHLIGHT = 1024
+      MAX_CODE_SIZE_TO_TEST = 200_000
+      DEFAULT_MAX = 256
+    end
+    
     class << self
       def inherited child
         CodeRay::TestSuite << child.suite
@@ -49,132 +122,156 @@ module CodeRay
         end
       end
     end
-
-    def extension
-      @extension ||= 'in.' + self.class.extension
-    end
-
+    
+    # Create only once, for speed
+    Tokenizer = CodeRay::Encoders[:debug].new
+    Highlighter = CodeRay::Encoders[:html].new(
+      :tab_width => 2,
+      :line_numbers => :inline,
+      :wrap => :page,
+      :hint => :debug,
+      :css => :class
+    )
+    
     def test_ALL
       puts
-      puts "    >> Running #{self.class.name} <<"
+      puts '    >> Testing '.magenta + self.class.name.green +
+        ' scanner <<'.magenta
       puts
-      scanner = CodeRay::Scanners[self.class.lang].new
-      tokenizer = CodeRay::Encoders[:debug].new
-      highlighter = CodeRay::Encoders[:html].new(
-        :tab_width => 2,
-        :line_numbers => :inline,
-        :wrap => :page,
-        :hint => :debug,
-        :css => :class
-      )
       
-      max = ENV.fetch('max', 500).to_i
-      unless ENV['norandom']
-        print "Random test"
-        if ENV['showprogress']
-          print ': '
-          progress = ''
+      time_for_lang = Benchmark.realtime do
+        scanner = CodeRay::Scanners[self.class.lang].new
+        max = ENV.fetch('max', DEFAULT_MAX).to_i
+        
+        random_test scanner, max unless ENV['norandom']
+        
+        unless ENV['noexamples']
+          examples_test scanner, max
         end
-        for size in 0..max
-          if ENV['showprogress']
-            print "\b" * progress.size
-            progress = '(%d)' % size
-            print progress
+      end
+      
+      puts 'Finished in '.green + '%0.2fs'.blue % time_for_lang + '.'.green
+    end
+
+    def examples_test scanner, max
+      self.class.dir do
+        extension = 'in.' + self.class.extension
+        for example_filename in Dir["*.#{extension}"]
+          name = File.basename(example_filename, ".#{extension}")
+          next if ENV['example'] and ENV['example'] != name
+          print "%20s: ".cyan % example_filename
+          time_for_file = Benchmark.realtime do
+            example_test example_filename, name, scanner, max
           end
-          srand size + 17
-          scanner.string = Array.new(size) { rand 256 }.pack 'c*'
-          scanner.tokenize
+          print 'finished.'.green
+          puts '  [%0.2fs]'.blue % time_for_file
         end
-        puts ', finished.'
+      end
+    end
+    
+    def example_test example_filename, name, scanner, max
+      if File.size(example_filename) > MAX_CODE_SIZE_TO_TEST
+        print 'too big. '
+        return
+      end
+      code = File.open(example_filename, 'rb') { |f| break f.read }
+    
+      incremental_test scanner, code, max unless ENV['noincremental']
+
+      unless ENV['noshuffled'] or code.size < [0].pack('Q').size
+        shuffled_test scanner, code, max
+      else
+        print '-skipped- '.concealed
       end
 
-      self.class.dir do
-        for input in Dir["*.#{extension}"]
-          next if ENV['testonly'] and ENV['testonly'] != File.basename(input, ".#{extension}")
-          print "testing #{input}: "
-          name = File.basename(input, ".#{extension}")
-          expected_filename = name + '.expected.' + tokenizer.file_extension
-          code = File.open(input, 'rb') { |f| break f.read }
-          
-          unless ENV['noincremental']
-            print 'incremental'
-            if ENV['showprogress']
-              print ': ' 
-              progress = ''
-            end
-            for size in 0..max
-              break if size > code.size
-              if ENV['showprogress']
-                print "\b" * progress.size
-                progress = '(%d)' % size
-                print progress
-              end
-              scanner.string = code[0,size]
-              scanner.tokenize
-            end
-            print ', '
+      tokens = compare_test scanner, code, name
+
+      unless ENV['nohl'] or code.size > MAX_CODE_SIZE_TO_HIGHLIGHT
+        highlight_test tokens, name
+      else
+        print '-- skipped -- '.concealed
+      end
+    end
+    
+    def random_test scanner, max
+      print "Random test...".red
+      for size in (0..max).progress
+        srand size + 17
+        scanner.string = Array.new(size) { rand 256 }.pack 'c*'
+        scanner.tokenize
+      end
+      print "\b\b\b"
+      puts ' - finished'.green
+    end
+    
+    def incremental_test scanner, code, max
+      print 'incremental...'.red
+      for size in (0..max).progress
+        break if size > code.size
+        scanner.string = code[0,size]
+        scanner.tokenize
+      end
+      print "\b\b\b"
+      print ', '.red
+    end
+
+    def shuffled_test scanner, code, max
+      print 'shuffled...'.red
+      code_bits = code[0,max].unpack('Q*')  # split into quadwords...
+      for i in (0..max / 4).progress
+        srand i
+        code_bits.shuffle!                     # ...mix...
+        scanner.string = code_bits.pack('Q*')  # ...and join again
+        scanner.tokenize
+      end
+
+      # highlighted = highlighter.encode_tokens scanner.tokenize
+      # File.open(name + '.shuffled.html', 'w') { |f| f.write highlighted }
+      print "\b\b\b"
+      print ', '.red
+    end
+    
+    def compare_test scanner, code, name
+      print 'complete...'.red
+      expected_filename = name + '.expected.' + Tokenizer.file_extension
+      scanner.string = code
+      tokens = scanner.tokens
+      result = Tokenizer.encode_tokens tokens
+
+      if File.exist? expected_filename
+        expected = File.open(expected_filename, 'rb') { |f| break f.read }
+        ok = expected == result
+        actual_filename = expected_filename.sub('.expected.', '.actual.')
+        unless ok
+          File.open(actual_filename, 'wb') { |f| f.write result }
+          if ENV['diff']
+            diff = expected_filename.sub(/\.expected\..*/, '.debug.diff')
+            system "diff --text #{expected_filename} #{actual_filename} > #{diff}"
+            system "EDITOR #{diff}" if ENV['diffed']
           end
-
-          unless ENV['noshuffled'] or code.size < [0].pack('Q').size
-            print 'shuffled'
-            if ENV['showprogress']
-              print ': ' 
-              progress = ''
-            end
-            code_bits = code[0,max].unpack('Q*')     # split into quadwords...
-            (max / 4).times do |i|
-              if ENV['showprogress']
-                print "\b" * progress.size
-                progress = '(%d)' % i
-                print progress
-              end
-              srand i
-              code_bits.shuffle!                     # ...mix...
-              scanner.string = code_bits.pack('Q*')  # ...and join again
-              scanner.tokenize
-            end
-            
-            # highlighted = highlighter.encode_tokens scanner.tokenize
-            # File.open(name + '.shuffled.html', 'w') { |f| f.write highlighted }
-            print ', '
-          end
-
-          print 'complete, '
-          scanner.string = code
-          tokens = scanner.tokens
-          result = tokenizer.encode_tokens tokens
-
-          if File.exist? expected_filename
-            expected = File.open(expected_filename, 'rb') { |f| break f.read }
-            ok = expected == result
-            actual_filename = expected_filename.sub('.expected.', '.actual.')
-            unless ok
-              File.open(actual_filename, 'wb') { |f| f.write result }
-              if ENV['diff']
-                diff = expected_filename.sub(/\.expected\..*/, '.debug.diff')
-                system "diff --text #{expected_filename} #{actual_filename} > #{diff}"
-                system "EDITOR #{diff}" if ENV['diffed']
-              end
-            end
-            unless ENV['noassert']
-              assert(ok, "Scan error: unexpected output")
-            end
-          else
-            File.open(expected_filename, 'wb') { |f| f.write result }
-            puts "New test: #{expected_filename}"
-          end
-
-          print 'highlighting, '
-          highlighted = highlighter.encode_tokens tokens
-          File.open(name + '.actual.html', 'w') { |f| f.write highlighted }
-
-          puts 'finished.'
         end
-      end unless ENV['noexamples']
+        unless ENV['noassert']
+          assert(ok, "Scan error: unexpected output")
+        end
+      else
+        File.open(expected_filename, 'wb') { |f| f.write result }
+        puts "New test: #{expected_filename}"
+      end
+      
+      print "\b\b\b"
+      print ', '.red
+      
+      tokens
+    end
+    
+    def highlight_test tokens, name
+      print 'highlighting, '.red
+      highlighted = Highlighter.encode_tokens tokens
+      File.open(name + '.actual.html', 'w') { |f| f.write highlighted }      
     end
 
   end
-
+  
   require 'test/unit/testsuite'
 
   class TestSuite
@@ -210,13 +307,9 @@ module CodeRay
       def run
         load
         $VERBOSE = true
-        if ARGV.include? '-f'
-          require 'test/unit/ui/fox/testrunner'
-          Test::Unit::UI::Fox::TestRunner
-        else
-          require 'test/unit/ui/console/testrunner'
-          Test::Unit::UI::Console::TestRunner
-        end.run @suite
+        $stdout.sync = true
+        require 'test/unit/ui/console/testrunner'
+        Test::Unit::UI::Console::TestRunner.run @suite
       end
     end
   end

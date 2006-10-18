@@ -34,6 +34,7 @@ module Encoders
       :hex => 'hx',
       :include => 'ic',
       :inline => 'il',
+      :inline_delimiter => 'idl',
       :instance_variable => 'iv',
       :integer => 'i',
       :interpreted => 'in',

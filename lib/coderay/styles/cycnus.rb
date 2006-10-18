@@ -76,7 +76,7 @@ ol.CodeRay li { white-space: pre }
 .il { background: #eee }
 .il .il { background: #ddd }
 .il .il .il { background: #ccc }
-.il .dl { font-weight: bold ! important; color: #888 ! important }
+.il .idl { font-weight: bold; color: #888 }
 
 .in { color:#B2B; font-weight:bold }
 .iv { color:#33B }

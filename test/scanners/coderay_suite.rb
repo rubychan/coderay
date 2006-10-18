@@ -151,7 +151,7 @@ module CodeRay
             unless ok
               File.open(actual_filename, 'wb') { |f| f.write result }
               if ENV['diff']
-                diff = expected_filename.sub(/\.expected\..*/, '.diff')
+                diff = expected_filename.sub(/\.expected\..*/, '.debug.diff')
                 system "diff #{expected_filename} #{actual_filename} > #{diff}"
                 system "EDITOR #{diff}"
               end

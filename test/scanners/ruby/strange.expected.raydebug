@@ -49,13 +49,13 @@ comment(#%W[ but #@0illegal_values look strange.])
 
 operator(%)constant(Quark) ident(dazu)
 
-operator(%) ident(abc)   comment(# FIXME)
+string<delimiter(% )content(abc)delimiter( )>  comment(# FIXME)
 
 comment(# And here some special string cases)
-ident(foo) operator(=) operator(%) ident(blah)            comment(# comment here to ensure whitespace)
-ident(foo)operator(()operator(%) ident(blah) operator(\))
-ident(foo) operator(<<) operator(%) ident(blah)           comment(# stupid but has to work)
-ident(foo) operator(=) operator(%) ident(blah) operator(+) operator(%) ident(blub)   comment(# wicked)
+ident(foo) operator(=) string<delimiter(% )content(blah)delimiter( )>           comment(# comment here to ensure whitespace)
+ident(foo)operator(()string<delimiter(% )content(blah)delimiter( )>operator(\))
+ident(foo) operator(<<) string<delimiter(% )content(blah)delimiter( )>          comment(# stupid but has to work)
+ident(foo) operator(=) string<delimiter(% )content(blah)delimiter( )>operator(+) string<delimiter(% )content(blub)delimiter( )>  comment(# wicked)
 ident(foo) operator(=) string<delimiter(%q )content(wicked)delimiter( )>        comment(# works too)
 
 symbol<delimiter(%s#)content(ruby allows strange)delimiter(#)>operator({)ident(constructs)operator(})

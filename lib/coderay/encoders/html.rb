@@ -1,3 +1,5 @@
+require "set"
+
 module CodeRay
 module Encoders
 
@@ -10,7 +12,8 @@ module Encoders
   #
   #  require 'coderay'
   #  puts CodeRay.scan('Some /code/', :ruby).html  #-> a HTML page
-  #  puts CodeRay.scan('Some /code/', :ruby).html(:wrap => :span) #-> <span class="CodeRay"><span class="co">Some</span> /code/</span>
+  #  puts CodeRay.scan('Some /code/', :ruby).html(:wrap => :span)
+  #  #-> <span class="CodeRay"><span class="co">Some</span> /code/</span>
   #  puts CodeRay.scan('Some /code/', :ruby).span  #-> the same
   #  
   #  puts CodeRay.scan('Some code', :ruby).html(
@@ -55,7 +58,8 @@ module Encoders
   #
   # === :hint
   # Include some information into the output using the title attribute.
-  # Can be :info (show token type on mouse-over), :info_long (with full path) or :debug (via inspect).
+  # Can be :info (show token type on mouse-over), :info_long (with full path)
+  # or :debug (via inspect).
   #
   # Default: false
   class HTML < Encoder
@@ -115,6 +119,10 @@ module Encoders
         end
     }
 
+    TRANSPARENT_TOKEN_KINDS = Set[
+      :delimiter, :modifier, :content, :escape, :inline_delimiter,
+    ]
+
     # Generate a hint about the given +classes+ in a +hint+ style.
     #
     # +hint+ may be :info, :info_long or :debug.
@@ -143,7 +151,8 @@ module Encoders
 
       hint = options[:hint]
       if hint and not [:debug, :info, :info_long].include? hint
-        raise ArgumentError, "Unknown value %p for :hint; expected :info, :debug, false or nil." % hint
+        raise ArgumentError, "Unknown value %p for :hint; \
+          expected :info, :debug, false, or nil." % hint
       end
 
       case options[:css]
@@ -176,9 +185,8 @@ module Encoders
           if classes.first == :NO_HIGHLIGHT and not hint
             h[k] = false
           else
-            styles.shift if [:delimiter, :modifier, :content, :escape].include? styles.first
+            styles.shift if TRANSPARENT_TOKEN_KINDS.include? styles.first
             title = HTML.token_path_to_hint hint, styles
-            classes.delete 'il'
             style = @css[*classes]
             h[k] =
               if style
@@ -198,7 +206,9 @@ module Encoders
     def finish options
       not_needed = @opened.shift
       @out << '</span>' * @opened.size
-      warn '%d tokens still open: %p' % [@opened.size, @opened] unless @opened.empty?
+      unless @opened.empty?
+        warn '%d tokens still open: %p' % [@opened.size, @opened]
+      end
 
       @out.extend Output
       @out.css = @css
@@ -229,8 +239,9 @@ module Encoders
           if @opened.empty?
             # nothing to close
           else
-            if @opened.size == 1 or @opened.last != type
-              raise 'Malformed token stream: Trying to close a token (%p) that is not open. Open are: %p.' % [type, @opened[1..-1]] if $DEBUG
+            if $DEBUG and (@opened.size == 1 or @opened.last != type)
+              raise 'Malformed token stream: Trying to close a token (%p) \
+                that is not open. Open are: %p.' % [type, @opened[1..-1]]
             end
             @out << '</span>'
             @opened.pop

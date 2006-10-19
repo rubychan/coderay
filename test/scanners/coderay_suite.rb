@@ -17,7 +17,7 @@ rescue LoadError
     end
   rescue LoadError
     class String
-      for meth in %w(green red blue cyan magenta yellow concealed)
+      for meth in %w(green red blue cyan magenta yellow concealed white)
         class_eval <<-END
           def #{meth}
             self
@@ -154,7 +154,7 @@ module CodeRay
         end
       end
       
-      puts 'Finished in '.green + '%0.2fs'.blue % time_for_lang + '.'.green
+      puts 'Finished in '.green + '%0.2fs'.white % time_for_lang + '.'.green
     end
 
     def examples_test scanner, max
@@ -168,7 +168,7 @@ module CodeRay
             example_test example_filename, name, scanner, max
           end
           print 'finished.'.green
-          puts '  [%0.2fs]'.blue % time_for_file
+          puts '  [%0.2fs]'.white % time_for_file
         end
       end
     end

@@ -17,8 +17,12 @@ rescue LoadError
     end
   rescue LoadError
     class String
-      def method_missing meth, *args
-        self
+      for meth in %w(green red blue cyan magenta yellow concealed)
+        class_eval <<-END
+          def #{meth}
+            self
+          end
+        END
       end
     end
   end

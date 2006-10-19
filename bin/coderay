@@ -13,7 +13,7 @@ begin
 
   if ARGV.empty?
     puts <<-USAGE
-CodeRay #{CodeRay::Version} (http://rd.cYcnus.de/coderay)
+CodeRay #{CodeRay::VERSION} (http://rd.cYcnus.de/coderay)
 Usage:
   coderay -<lang> [-<format>] < file > output
   coderay file [-<format>]
@@ -72,6 +72,6 @@ rescue => boom
   err "Error: #{boom.message}\n"
   err boom.backtrace
   err '-' * 50
-  err ARGV.options
+  err ARGV
   exit 1
 end

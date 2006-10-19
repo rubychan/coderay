@@ -18,11 +18,10 @@ And with line numbers.
 * is what everybody should have on their website
 * solves all your problems and makes the girls run after you
 
-Version: 0.7.2 (2006.july.11)
+Version: 0.7.4 (2006.october.20)
 Author:: murphy (Kornelius Kalnbach)
 Contact:: murphy rubychan de
 Website:: coderay.rubychan.de[http://coderay.rubychan.de]
-Old Website:: rd.cYcnus.de/coderay[http://rd.cYcnus.de/coderay]
 License:: GNU LGPL; see LICENSE file in the main directory.
 Subversion:: $Id$
 
@@ -42,7 +41,7 @@ Since CodeRay is still in beta stage, nightly buildy may be useful:
 === Dependencies
 
 CodeRay needs Ruby 1.8 and the strscan[http://www.ruby-doc.org/stdlib/libdoc/strscan/rdoc/index.htm] library
-(part of the standard library.)
+(part of the standard library.)  It should also run with Ruby 1.9 and yarv.
 
 
 == Example Usage

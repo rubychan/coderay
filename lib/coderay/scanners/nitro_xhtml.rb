@@ -95,20 +95,20 @@ module Scanners
           delimiter = CLOSING_PAREN[start_tag[1,1]]
           end_tag = match[-1,1] == delimiter ? delimiter : ''
           tokens << [:open, :inline]
-          tokens << [start_tag, :delimiter]
+          tokens << [start_tag, :inline_delimiter]
           code = match[start_tag.size .. -1 - end_tag.size]
           @ruby_scanner.tokenize code
-          tokens << [end_tag, :delimiter] unless end_tag.empty?
+          tokens << [end_tag, :inline_delimiter] unless end_tag.empty?
           tokens << [:close, :inline]
 
         elsif match = scan(/#{NITRO_RUBY_BLOCK}/o)
           start_tag = '<?r'
           end_tag = match[-2,2] == '?>' ? '?>' : ''
           tokens << [:open, :inline]
-          tokens << [start_tag, :delimiter]
+          tokens << [start_tag, :inline_delimiter]
           code = match[start_tag.size .. -(end_tag.size)-1]
           @ruby_scanner.tokenize code
-          tokens << [end_tag, :delimiter] unless end_tag.empty?
+          tokens << [end_tag, :inline_delimiter] unless end_tag.empty?
           tokens << [:close, :inline]
 
         elsif entity = scan(/#{NITRO_ENTITY}/o)

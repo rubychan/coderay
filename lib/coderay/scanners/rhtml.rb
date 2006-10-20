@@ -51,10 +51,10 @@ module Scanners
           start_tag = match[/\A<%[-=]?/]
           end_tag = match[/-?%?>?\z/]
           tokens << [:open, :inline]
-          tokens << [start_tag, :delimiter]
+          tokens << [start_tag, :inline_delimiter]
           code = match[start_tag.size .. -1 - end_tag.size]
           @ruby_scanner.tokenize code
-          tokens << [end_tag, :delimiter] unless end_tag.empty?
+          tokens << [end_tag, :inline_delimiter] unless end_tag.empty?
           tokens << [:close, :inline]
 
         else

@@ -29,13 +29,18 @@ module Scanners
       'virtual', 'write', 'writeonly'
     ]
 
-    IDENT_KIND = CaseIgnoringWordList.new(:ident).
+    IDENT_KIND = CaseIgnoringWordList.new(:ident, caching=true).
       add(RESERVED_WORDS, :reserved).
       add(DIRECTIVES, :directive)
+    
+    NAME_FOLLOWS = CaseIgnoringWordList.new(false, caching=true).
+      add(%w(procedure function .))
 
+  private
     def scan_tokens tokens, options
 
       state = :initial
+      last_token = ''
 
       until eos?
 
@@ -45,19 +50,29 @@ module Scanners
         if state == :initial
           
           if scan(/ \s+ /x)
-            kind = :space
+            tokens << [matched, :space]
+            next
             
           elsif scan(%r! \{ \$ [^}]* \}? | \(\* \$ (?: .*? \*\) | .* ) !mx)
-            kind = :preprocessor
+            tokens << [matched, :preprocessor]
+            next
             
           elsif scan(%r! // [^\n]* | \{ [^}]* \}? | \(\* (?: .*? \*\) | .* ) !mx)
-            kind = :comment
+            tokens << [matched, :comment]
+            next
             
-          elsif scan(/ [-+*\/=<>:;,.@\^|\(\)\[\]]+ /x)
+          elsif match = scan(/ <[>=]? | >=? | :=? | [-+=*\/;,@\^|\(\)\[\]] | \.\. /x)
             kind = :operator
+          
+          elsif match = scan(/\./)
+            kind = :operator
+            if last_token == 'end'
+              tokens << [match, kind]
+              next
+            end
             
           elsif match = scan(/ [A-Za-z_][A-Za-z_0-9]* /x)
-            kind = IDENT_KIND[match]
+            kind = NAME_FOLLOWS[last_token] ? :ident : IDENT_KIND[match]
             
           elsif match = scan(/ ' ( [^\n']|'' ) (?:'|$) /x)
             tokens << [:open, :char]
@@ -101,6 +116,7 @@ module Scanners
             state = :initial
             next
           elsif scan(/\n/)
+            tokens << [:close, :string]
             kind = :error
             state = :initial
           else
@@ -119,6 +135,7 @@ module Scanners
         end
         raise_inspect 'Empty token', tokens unless match
 
+        last_token = match
         tokens << [match, kind]
         
       end

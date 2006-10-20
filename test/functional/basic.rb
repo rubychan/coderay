@@ -1,8 +1,7 @@
 require "test/unit"
-
 require "coderay"
 
-class Basic < Test::Unit::TestCase
+class BasicTest < Test::Unit::TestCase
   def test_version
     assert_nothing_raised do
       CodeRay::VERSION
@@ -36,9 +35,10 @@ class Basic < Test::Unit::TestCase
   end
 
   SCANNERS_LIST = %w(
-    c delphi html nitro_xhtml plaintext rhtml ruby xml
+    c debug delphi html nitro_xhtml plaintext rhtml ruby xml
   )
   def test_list_of_scanners
     assert_equal(SCANNERS_LIST, CodeRay::Scanners.list.sort)
   end
+
 end

@@ -1,15 +1,17 @@
 # = WordList
-#
-# Copyright (c) 2006 by murphy (Kornelius Kalnbach) <murphy cYcnus de>
+# 
+# <b>A Hash subclass designed for mapping word lists to token types.</b>
+# 
+# Copyright (c) 2006 by murphy (Kornelius Kalnbach) <murphy rubychan de>
 #
 # License:: LGPL / ask the author
-# Version:: 1.0 (2006-Feb-3)
+# Version:: 1.1 (2006-Oct-19)
 #
 # A WordList is a Hash with some additional features.
 # It is intended to be used for keyword recognition.
 #
 # WordList is highly optimized to be used in Scanners,
-# typically to decide whether a given ident is a keyword.
+# typically to decide whether a given ident is a special token.
 #
 # For case insensitive words use CaseIgnoringWordList.
 #
@@ -47,25 +49,30 @@
 #      ...
 class WordList < Hash
 
-  # Create a WordList for the given +words+.
-  #
-  # This WordList responds to [] with +true+, if the word is
-  # in +words+, and with +false+ otherwise.
-  def self.for words
-    new.add words
-  end
-
   # Creates a new WordList with +default+ as default value.
-  def initialize default = false, &block
-    super default, &block
-  end
-
-  # Checks if a word is included.
-  def include? word
-    has_key? word
+  # 
+  # You can activate +caching+ to store the results for every [] request.
+  # 
+  # With caching, methods like +include?+ or +delete+ may no longer behave
+  # as you expect. Therefore, it is recommended to use the [] method only.
+  def initialize default = false, caching = false, &block
+    if block
+      raise ArgumentError, 'Can\'t combine block with caching.' if caching
+      super(&block)
+    else
+      if caching
+        super() do |h, k|
+          h[k] = h.fetch k, default
+        end
+      else
+        super default
+      end
+    end
   end
 
   # Add words to the list and associate them with +kind+.
+  # 
+  # Returns +self+, so you can concat add calls.
   def add words, kind = true
     words.each do |word|
       self[word] = kind
@@ -78,24 +85,30 @@ end
 
 # A CaseIgnoringWordList is like a WordList, only that
 # keys are compared case-insensitively.
+# 
+# Ignoring the text case is realized by sending the +downcase+ message to
+# all keys.
+# 
+# Caching usually makes a CaseIgnoringWordList faster, but it has to be
+# activated explicitely.
 class CaseIgnoringWordList < WordList
 
-  # Creates a new WordList with +default+ as default value.
-  #
-  # Text case is ignored.
-  def initialize default = false, &block
-    block ||= proc do |h, k|
-      h[k] = h.fetch k.downcase, default
+  # Creates a new case-insensitive WordList with +default+ as default value.
+  # 
+  # You can activate caching to store the results for every [] request.
+  def initialize default = false, caching = false
+    if caching
+      super(default, false) do |h, k|
+        h[k] = h.fetch k.downcase, default
+      end
+    else
+      def self.[] key  # :nodoc:
+        super(key.downcase)
+      end
     end
-    super default
   end
 
-  # Checks if a word is included.
-  def include? word
-    has_key? word.downcase
-  end
-
-  # Add words to the list and associate them with +kind+.
+  # Add +words+ to the list and associate them with +kind+.
   def add words, kind = true
     words.each do |word|
       self[word.downcase] = kind

@@ -1,10 +1,11 @@
-# =FileType
+# = FileType
 #
-# A simple filetype recognizer
+# A simple filetype recognizer.
 #
-# Author: murphy (mail to murphy cYcnus de)
+# Copyright (c) 2006 by murphy (Kornelius Kalnbach) <murphy rubychan de>
 #
-# Version: 0.1 (2005.september.1)
+# License:: LGPL / ask the author
+# Version:: 0.1 (2005-09-01)
 #
 # == Documentation
 #
@@ -84,6 +85,7 @@ module FileType
     'htm' => :html,
     'html' => :html,
     'xhtml' => :xhtml,
+    'raydebug' => :debug,
     'rhtml' => :rhtml,
     'yaml' => :yaml,
     'yml' => :yaml,

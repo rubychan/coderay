@@ -5,6 +5,7 @@ $:.unshift File.join($mydir, '..', '..', 'lib')
 
 require 'coderay'
 
+debug, $DEBUG = $DEBUG, false
 # Try to load Term::ANSIColor...
 begin
   require 'term-ansicolor'
@@ -12,21 +13,25 @@ rescue LoadError
   begin
     require 'rubygems'
     require_gem 'term-ansicolor'
-    class String
-      include Term::ANSIColor
-    end
-  rescue LoadError
-    class String
-      for meth in %w(green red blue cyan magenta yellow concealed white)
-        class_eval <<-END
-          def #{meth}
-            self
-          end
-        END
-      end
+  end
+end
+
+if defined? Term::ANSIColor
+  class String
+    include Term::ANSIColor
+  end
+else
+  class String
+    for meth in %w(green red blue cyan magenta yellow concealed white)
+      class_eval <<-END
+        def #{meth}
+          self
+        end
+      END
     end
   end
 end
+$DEBUG = debug
 
 unless defined? Term::ANSIColor
   puts 'You should gem install term-ansicolor.'
@@ -139,7 +144,7 @@ module CodeRay
     
     def test_ALL
       puts
-      puts '    >> Testing '.magenta + self.class.name.green +
+      puts '    >> Testing '.magenta + self.class.name.cyan +
         ' scanner <<'.magenta
       puts
       
@@ -163,7 +168,8 @@ module CodeRay
         for example_filename in Dir["*.#{extension}"]
           name = File.basename(example_filename, ".#{extension}")
           next if ENV['example'] and ENV['example'] != name
-          print "%20s: ".cyan % example_filename
+          print ('%15s'.cyan + ' %4.0fK: '.yellow) %
+            [ name, File.size(example_filename) / 1024.0 ]
           time_for_file = Benchmark.realtime do
             example_test example_filename, name, scanner, max
           end
@@ -174,7 +180,7 @@ module CodeRay
     end
     
     def example_test example_filename, name, scanner, max
-      if File.size(example_filename) > MAX_CODE_SIZE_TO_TEST
+      if File.size(example_filename) > MAX_CODE_SIZE_TO_TEST and not ENV['example']
         print 'too big. '
         return
       end
@@ -248,18 +254,18 @@ module CodeRay
         actual_filename = expected_filename.sub('.expected.', '.actual.')
         unless ok
           File.open(actual_filename, 'wb') { |f| f.write result }
-          if ENV['diff']
+          if ENV['diff'] or ENV['diffed']
             diff = expected_filename.sub(/\.expected\..*/, '.debug.diff')
-            system "diff --text #{expected_filename} #{actual_filename} > #{diff}"
+            system "diff --unified=0 --text #{expected_filename} #{actual_filename} > #{diff}"
             system "EDITOR #{diff}" if ENV['diffed']
           end
         end
         unless ENV['noassert']
-          assert(ok, "Scan error: unexpected output")
+          assert(ok, "Scan error: unexpected output".red)
         end
       else
+        print "\b" * 'complete...'.size, "new test..."
         File.open(expected_filename, 'wb') { |f| f.write result }
-        puts "New test: #{expected_filename}"
       end
       
       print "\b\b\b"

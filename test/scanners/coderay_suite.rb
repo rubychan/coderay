@@ -97,12 +97,12 @@ module CodeRay
     
     if ENV['deluxe']
       MAX_CODE_SIZE_TO_HIGHLIGHT = 200_000
-      MAX_CODE_SIZE_TO_TEST = 3_000_000
-      DEFAULT_MAX = 1024
+      MAX_CODE_SIZE_TO_TEST = 1_000_000
+      DEFAULT_MAX = 512
     else
-      MAX_CODE_SIZE_TO_HIGHLIGHT = 1024
-      MAX_CODE_SIZE_TO_TEST = 200_000
-      DEFAULT_MAX = 256
+      MAX_CODE_SIZE_TO_HIGHLIGHT = 20_000
+      MAX_CODE_SIZE_TO_TEST = 100_000
+      DEFAULT_MAX = 128
     end
     
     class << self
@@ -173,8 +173,8 @@ module CodeRay
           time_for_file = Benchmark.realtime do
             example_test example_filename, name, scanner, max
           end
-          print 'finished.'.green
-          puts '  [%0.2fs]'.white % time_for_file
+          print 'finished in '.green + '%0.2fs'.white % time_for_file
+          puts '.'.green
         end
       end
     end

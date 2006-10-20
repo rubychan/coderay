@@ -1,26 +1,26 @@
-inline<delimiter(<%) ident(day)operator(,) ident(auftritte) operator(=) operator(*)ident(day) delimiter(-%>)>
-inline<delimiter(<%)
+inline<inline_delimiter(<%) ident(day)operator(,) ident(auftritte) operator(=) operator(*)ident(day) inline_delimiter(-%>)>
+inline<inline_delimiter(<%)
 	reserved(for) ident(auftritt) reserved(in) ident(auftritte) 
-delimiter(-%>)>
+inline_delimiter(-%>)>
 
 tag(<tr>)
 	tag(<td) attribute_name(class)operator(=)string<delimiter(")content(pplan_datum)delimiter(")>tag(>)
-		inline<delimiter(<%=) ident(colorize) ident(day)operator(.)ident(to_s)operator(()symbol(:dots)operator(\)) reserved(if) ident(day) delimiter(%>)>
-		inline<delimiter(<%) reserved(if) ident(day) reserved(and) ident(day)operator(.)ident(wday) operator(==) integer(6) delimiter(%>)>tag(<br) tag(/>)tag(<em>)plain(Samstag)tag(</em>)inline<delimiter(<%) reserved(end) delimiter(%>)>
+		inline<inline_delimiter(<%=) ident(colorize) ident(day)operator(.)ident(to_s)operator(()symbol(:dots)operator(\)) reserved(if) ident(day) inline_delimiter(%>)>
+		inline<inline_delimiter(<%) reserved(if) ident(day) reserved(and) ident(day)operator(.)ident(wday) operator(==) integer(6) inline_delimiter(%>)>tag(<br) tag(/>)tag(<em>)plain(Samstag)tag(</em>)inline<inline_delimiter(<%) reserved(end) inline_delimiter(%>)>
 	tag(</td>)
 	tag(<td) attribute_name(class)operator(=)string<delimiter(")content(pplan_zeit)delimiter(")>tag(>)
-		inline<delimiter(<%=) ident(colorize) ident(auftritt)operator(.)ident(time) delimiter(%>)>
+		inline<inline_delimiter(<%=) ident(colorize) ident(auftritt)operator(.)ident(time) inline_delimiter(%>)>
 	tag(</td>)
 	tag(<td) attribute_name(class)operator(=)string<delimiter(")content(pplan_stueck)delimiter(")>tag(>)
-		inline<delimiter(<%=) ident(colorize) ident(auftritt)operator(.)ident(program) delimiter(%>)>
-		inline<delimiter(<%=) ident(link_to) string<delimiter(')content(E)delimiter(')>operator(,) symbol(:controller) operator(=)operator(>) string<delimiter(')content(admin/auftritte)delimiter(')>operator(,) symbol(:action) operator(=)operator(>) symbol(:edit)operator(,) symbol(:id) operator(=)operator(>) ident(auftritt) delimiter(%>)>
+		inline<inline_delimiter(<%=) ident(colorize) ident(auftritt)operator(.)ident(program) inline_delimiter(%>)>
+		inline<inline_delimiter(<%=) ident(link_to) string<delimiter(')content(E)delimiter(')>operator(,) symbol(:controller) operator(=)operator(>) string<delimiter(')content(admin/auftritte)delimiter(')>operator(,) symbol(:action) operator(=)operator(>) symbol(:edit)operator(,) symbol(:id) operator(=)operator(>) ident(auftritt) inline_delimiter(%>)>
 	tag(</td>)
 	tag(<td) attribute_name(class)operator(=)string<delimiter(")content(pplan_besetzung)delimiter(")>tag(>)
-		inline<delimiter(<%=) ident(colorize)operator(()ident(auftritt)operator(.)ident(place)operator(,) string<delimiter(')content(Ort: )delimiter(')>operator(\)) operator(+) string<delimiter(')content(<br />)delimiter(')> reserved(unless) ident(auftritt)operator(.)ident(place)operator(.)ident(blank?) delimiter(%>)>
+		inline<inline_delimiter(<%=) ident(colorize)operator(()ident(auftritt)operator(.)ident(place)operator(,) string<delimiter(')content(Ort: )delimiter(')>operator(\)) operator(+) string<delimiter(')content(<br />)delimiter(')> reserved(unless) ident(auftritt)operator(.)ident(place)operator(.)ident(blank?) inline_delimiter(%>)>
 	tag(</td>)
 tag(</tr>)
 
-inline<delimiter(<%)
+inline<inline_delimiter(<%)
 	ident(day) operator(=) pre_constant(nil)
 	reserved(end) 
-delimiter(-%>)>
+inline_delimiter(-%>)>

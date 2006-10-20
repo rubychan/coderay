@@ -170,7 +170,7 @@ module CodeRay
     def scan_file filename, lang = :auto, options = {}, &block
       file = IO.read filename
       if lang == :auto
-        require 'coderay/helpers/filetype'
+        require 'coderay/helpers/file_type'
         lang = FileType.fetch filename, :plaintext, true
       end
       scan file, lang, options = {}, &block

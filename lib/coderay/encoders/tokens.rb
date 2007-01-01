@@ -33,9 +33,9 @@ module Encoders
 
     FILE_EXTENSION = 'tok'
 
-    protected
-    def token *args
-      @out << CodeRay::Tokens.write_token(*args)
+  protected
+    def token text, kind
+      @out << CodeRay::Tokens.write_token(text, kind)
     end
 
   end

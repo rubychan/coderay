@@ -117,9 +117,8 @@ Benchmark.bm(20) do |bm|
         end
       end
     end
-    $file_created = 'test.' + format
-    file = here($file_created)
-    File.open(file, 'wb') do |f|
+    $file_created = here('test.' + $hl.file_extension)
+    File.open($file_created, 'wb') do |f|
       f.write $o
     end
   end

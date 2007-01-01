@@ -1,17 +1,17 @@
 namespace :test do
   desc 'run all sample tests'
   task :samples do
-    system 'ruby -w ./sample/suite.rb'
+    system "#{RUBY} -w ./sample/suite.rb"
   end
   
   desc 'run functional tests'
   task :functional do
-    system 'ruby -w ./test/functional/suite.rb'
+    system "#{RUBY} -w ./test/functional/suite.rb"
   end
   
   desc 'run all scanner tests'
   task :scanners do
-    system 'ruby -w ./test/scanners/suite.rb'
+    system "#{RUBY} -w ./test/scanners/suite.rb"
   end
   
   desc 'clean test output files'

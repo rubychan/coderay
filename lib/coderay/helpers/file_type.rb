@@ -1,3 +1,5 @@
+module CodeRay
+
 # = FileType
 #
 # A simple filetype recognizer.
@@ -97,6 +99,8 @@ module FileType
     'Rakefile' => :ruby,
     'Rantfile' => :ruby,
   }
+
+end
 
 end
 

@@ -1,3 +1,5 @@
+module CodeRay
+
 # = WordList
 # 
 # <b>A Hash subclass designed for mapping word lists to token types.</b>
@@ -115,5 +117,7 @@ class CaseIgnoringWordList < WordList
     end
     self
   end
+
+end
 
 end

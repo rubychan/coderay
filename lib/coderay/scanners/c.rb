@@ -4,6 +4,8 @@ module Scanners
   class C < Scanner
 
     register_for :c
+    
+    include Streamable
 
     RESERVED_WORDS = [
       'asm', 'break', 'case', 'continue', 'default', 'do', 'else',

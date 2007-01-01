@@ -1,3 +1,5 @@
+Fix the docu after moving to CodeRay namespace.
+
 // vim:ts=4:ft=c:
 Category = X (done), / (partly done), T (test), L (later), (else)
 	Planned = planned in version 0.x

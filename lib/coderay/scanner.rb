@@ -117,9 +117,6 @@ module CodeRay
         setup
       end
 
-      # More mnemonic accessor name for the input string.
-      alias code string
-
       def reset
         super
         reset_instance
@@ -130,6 +127,10 @@ module CodeRay
         super code
         reset_instance
       end
+
+      # More mnemonic accessor name for the input string.
+      alias code string
+      alias code= string=
 
       # Scans the code and returns all tokens in a Tokens object.
       def tokenize new_string=nil, options = {}
@@ -147,6 +148,11 @@ module CodeRay
 
       def tokens
         @cached_tokens ||= tokenize
+      end
+      
+      # Whether the scanner is in streaming mode.
+      def streaming?
+        !!@options[:stream]
       end
 
       # Traverses the tokens.
@@ -195,7 +201,7 @@ module CodeRay
         raise ScanError, <<-EOE % [
 
 
-***ERROR in %s: %s
+***ERROR in %s: %s (after %d tokens)
 
 tokens:
 %s
@@ -211,13 +217,14 @@ surrounding code:
 ***ERROR***
 
         EOE
-        File.basename(caller[0]),
-        msg,
-        tokens.last(10).map { |t| t.inspect }.join("\n"),
-        line, pos,
-        matched, state, bol?, eos?,
-        string[pos-ambit,ambit],
-        string[pos,ambit],
+          File.basename(caller[0]),
+          msg,
+          tokens.size,
+          tokens.last(10).map { |t| t.inspect }.join("\n"),
+          line, pos,
+          matched, state, bol?, eos?,
+          string[pos-ambit,ambit],
+          string[pos,ambit],
         ]
       end
 

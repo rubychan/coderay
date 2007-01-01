@@ -25,19 +25,26 @@ class BasicTest < Test::Unit::TestCase
   def test_duo
     assert_equal(RUBY_TEST_CODE,
       CodeRay::Duo[:plain, :plain].highlight(RUBY_TEST_CODE))
+    assert_equal(RUBY_TEST_CODE,
+      CodeRay::Duo[:plain => :plain].highlight(RUBY_TEST_CODE))
+  end
+  
+  def test_duo_stream
+    assert_equal(RUBY_TEST_CODE,
+      CodeRay::Duo[:plain, :plain].highlight(RUBY_TEST_CODE, :stream => true))
   end
   
   ENCODERS_LIST = %w(
     count debug div html null page span statistic text tokens xml yaml
   )
-  def test_list_of_encoders
+  def _test_list_of_encoders
     assert_equal(ENCODERS_LIST, CodeRay::Encoders.list.sort)
   end
 
   SCANNERS_LIST = %w(
     c debug delphi html nitro_xhtml plaintext rhtml ruby xml
   )
-  def test_list_of_scanners
+  def _test_list_of_scanners
     assert_equal(SCANNERS_LIST, CodeRay::Scanners.list.sort)
   end
 

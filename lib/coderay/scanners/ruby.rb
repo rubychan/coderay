@@ -90,15 +90,15 @@ module Scanners
             end
 
           when '#'
-            case peek(1)[0]
-            when ?{
+            case peek(1)
+            when '{'
               inline_block_stack << [state, depth, heredocs]
               value_expected = true
               state = :initial
               depth = 1
               tokens << [:open, :inline]
               tokens << [match + getch, :inline_delimiter]
-            when ?$, ?@
+            when '$', '@'
               tokens << [match, :escape]
               last_state = state  # scan one token as normal code, then return here
               state = :initial
@@ -121,36 +121,36 @@ module Scanners
 # }}}
         else
 # {{{
-          if match = scan(/ [ \t\f]+ | \\? \n | \# .* /x) or
-            ( bol? and match = scan(/#{patterns::RUBYDOC_OR_DATA}/o) )
-            case m = match[0]
-            when ?\s, ?\t, ?\f
-              match << scan(/\s*/) unless eos? or heredocs
-              kind = :space
-            when ?\n, ?\\
-              kind = :space
-              if m == ?\n
-                value_expected = true  # FIXME not quite true
-                state = :initial if state == :undef_comma_expected
-              end
-              if heredocs
-                unscan  # heredoc scanning needs \n at start
-                state = heredocs.shift
-                tokens << [:open, state.type]
-                heredocs = nil if heredocs.empty?
-                next
-              else
-                match << scan(/\s*/) unless eos?
-              end
-            when ?#, ?=, ?_
-              kind = :comment
-              value_expected = true
+          if match = scan(/[ \t\f]+/)
+            kind = :space
+            match << scan(/\s*/) unless eos? or heredocs
+            tokens << [match, kind]
+            next
+            
+          elsif match = scan(/\\?\n/)
+            kind = :space
+            if match == "\n"
+              value_expected = true  # FIXME not quite true
+              state = :initial if state == :undef_comma_expected
+            end
+            if heredocs
+              unscan  # heredoc scanning needs \n at start
+              state = heredocs.shift
+              tokens << [:open, state.type]
+              heredocs = nil if heredocs.empty?
+              next
             else
-              raise_inspect 'else-case _ reached, because case %p was
-                not handled' % [matched[0].chr], tokens
+              match << scan(/\s*/) unless eos?
             end
             tokens << [match, kind]
             next
+          
+          elsif match = scan(/\#.*/) or
+            ( bol? and match = scan(/#{patterns::RUBYDOC_OR_DATA}/o) )
+              kind = :comment
+              value_expected = true
+              tokens << [match, kind]
+              next
 
           elsif state == :initial
 
@@ -175,11 +175,11 @@ module Scanners
               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
 
             # OPERATORS #
-            elsif not last_token_dot and match = scan(/ ==?=? | \.\.?\.? | [\(\)\[\]\{\}] | :: | , /x)
+            elsif not last_token_dot and match = scan(/ \.\.\.? | (?:\.|::)() | [,\(\)\[\]\{\}] | ==?=? /x)
               if match !~ / [.\)\]\}] /x or match =~ /\.\.\.?/
                 value_expected = :set
               end
-              last_token_dot = :set if match == '.' or match == '::'
+              last_token_dot = :set if self[1]
               kind = :operator
               unless inline_block_stack.empty?
                 case match

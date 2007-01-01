@@ -29,11 +29,11 @@ Example:
     if first[/-(\w+)/] == first
       lang = $1.to_sym
       input = $stdin.read
-      tokens = CodeRay.scan input, lang
+      tokens = :scan
     elsif first == '-'
       lang = $1.to_sym
       input = $stdin.read
-      tokens = CodeRay.scan input, lang
+      tokens = :scan
     else
       file = first
       tokens = CodeRay.scan_file file
@@ -54,8 +54,13 @@ Example:
     $stderr.puts 'No format given; setting to default (HTML Page)'
     format = :page
   end
-
-  output = tokens.encode format
+  
+  # TODO: allow streaming
+  if tokens == :scan
+    output = CodeRay::Duo[lang => format].highlight input  #, :stream => true
+  else
+    output = tokens.encode format
+  end
   out = $stdout
   if output_filename
     output_filename += '.' + CodeRay::Encoders[format]::FILE_EXTENSION

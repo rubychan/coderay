@@ -86,7 +86,7 @@ module Encoders
       :hint => false,
     }
 
-    helper :classes, :output, :css
+    helper :output, :css
 
     attr_reader :css
 
@@ -119,15 +119,14 @@ module Encoders
         end
     }
 
-    TRANSPARENT_TOKEN_KINDS = Set[
+    TRANSPARENT_TOKEN_KINDS = [
       :delimiter, :modifier, :content, :escape, :inline_delimiter,
-    ]
+    ].to_set
 
     # Generate a hint about the given +classes+ in a +hint+ style.
     #
     # +hint+ may be :info, :info_long or :debug.
     def self.token_path_to_hint hint, classes
-      return '' unless hint
       title =
         case hint
         when :info
@@ -159,29 +158,28 @@ module Encoders
 
       when :class
         @css_style = Hash.new do |h, k|
-          if k.is_a? Array
-            type = k.first
-          else
-            type = k
-          end
-          c = ClassOfKind[type]
+          c = Tokens::ClassOfKind[k.first]
           if c == :NO_HIGHLIGHT and not hint
-            h[k] = false
+            h[k.dup] = false
           else
-            title = HTML.token_path_to_hint hint, (k[1..-1] << k.first)
-            h[k] = '<span%s class="%s">' % [title, c]
+            title = if hint
+              HTML.token_path_to_hint(hint, k[1..-1] << k.first)
+            else
+              ''
+            end
+            h[k.dup] = '<span%s class="%s">' % [title, c]
           end
         end
 
       when :style
         @css_style = Hash.new do |h, k|
-          if k.is_a? Array
+          if k.is_a? ::Array
             styles = k.dup
           else
             styles = [k]
           end
           type = styles.first
-          classes = styles.map { |c| ClassOfKind[c] }
+          classes = styles.map { |c| Tokens::ClassOfKind[c] }
           if classes.first == :NO_HIGHLIGHT and not hint
             h[k] = false
           else

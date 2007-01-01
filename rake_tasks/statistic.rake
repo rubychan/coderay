@@ -11,6 +11,6 @@ task :stats do
     ['Functional Tests', 'test/functional/**'],
     ['Scanner Tests', 'test/scanners/**', /suite\.rb$/],
     #['  Test Data', 'test/scanners/**', /\.in\./, false],
-    ['Demo Tests', 'sample/**']
+    ['Demos', 'sample/**']
   ).print
 end

@@ -19,17 +19,12 @@ module Encoders
 
   protected
     def text_token text, kind
-      @out <<
-        if kind == :space
-          text
-        else
-          text = text.gsub(/[)\\]/, '\\\\\0')
-          "#{kind}(#{text})"
-        end
-    end
-
-    def block_token action, kind
-      @out << super
+      if kind == :space
+        text
+      else
+        text = text.gsub(/[)\\]/, '\\\\\0')
+        "#{kind}(#{text})"
+      end
     end
 
     def open_token kind

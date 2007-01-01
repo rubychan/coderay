@@ -126,6 +126,11 @@
 # on creation; you can't re-use them with another string.
 #
 #  The scanning methods provide more flexibility; we recommend to use these.
+# 
+# == Reusing Scanners and Encoders
+# 
+# If you want to re-use scanners and encoders (because that is faster), see
+# CodeRay::Duo for the most convenient (and recommended) interface.
 module CodeRay
 
   # Version: Major.Minor.Teeny[.Revision]
@@ -133,7 +138,7 @@ module CodeRay
   # Minor: odd for beta, even for stable
   # Teeny: development state
   # Revision: Subversion Revision number (generated on rake)
-  VERSION = '0.7.4'
+  VERSION = '0.7.6'
 
   require 'coderay/tokens'
   require 'coderay/scanner'

@@ -28,17 +28,13 @@ module Encoders
       @type_stats[kind].count += 1
       @type_stats[kind].size += text.size
       @type_stats['TOTAL'].size += text.size
+      @type_stats['TOTAL'].count += 1
     end
 
     # TODO Hierarchy handling
     def block_token action, kind
-      #@content_type = kind
-      @type_stats['open/close'].count += 1
-    end
-
-    def token text, kind
-      super
       @type_stats['TOTAL'].count += 1
+      @type_stats['open/close'].count += 1
     end
 
     STATS = <<-STATS

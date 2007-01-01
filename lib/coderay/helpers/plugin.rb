@@ -1,3 +1,5 @@
+module CodeRay
+  
 # = PluginHost
 #
 # $Id$
@@ -310,11 +312,10 @@ module Plugin
 
 end
 
-
 # Convenience method for plugin loading.
 # The syntax used is:
 #
-#  require_plugin '<Host ID>/<Plugin ID>'
+#  CodeRay.require_plugin '<Host ID>/<Plugin ID>'
 #
 # Returns the loaded plugin.
 def require_plugin path
@@ -323,4 +324,6 @@ def require_plugin path
   raise PluginHost::HostNotFound,
     "No host for #{host_id.inspect} found." unless host
   host.load plugin_id
+end
+
 end

@@ -2,7 +2,7 @@ namespace :example do
 
   desc 'Generate an example output'
   task :make do
-    system 'ruby -wIlib ../hidden/highlight.rb -1 -L -I lib lib/coderay/**/'
+    system "#{RUBY} -wIlib ../hidden/highlight.rb -1 -L -I lib lib/coderay/**/"
   end
 
   desc 'Upload example to ' + FTP_DOMAIN

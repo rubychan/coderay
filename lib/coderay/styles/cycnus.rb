@@ -42,6 +42,8 @@ ol.CodeRay li { white-space: pre }
     MAIN
 
     TOKEN_COLORS = <<-'TOKENS'
+.debug { color:white ! important; background:blue ! important; }
+
 .af { color:#00C }
 .an { color:#007 }
 .av { color:#700 }

@@ -2,6 +2,8 @@ require "test/unit"
 require "coderay"
 
 class WordListTest < Test::Unit::TestCase
+  
+  include CodeRay
 
   # define word arrays
   RESERVED_WORDS = %w[

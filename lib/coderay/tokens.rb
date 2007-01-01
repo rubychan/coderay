@@ -115,7 +115,7 @@ module CodeRay
     #   tokens.each_text_token { |text, kind| text.replace html_escape(text) }
     def each_text_token
       each do |text, kind|
-        next unless text.respond_to? :to_str
+        next unless text.is_a? ::String
         yield text, kind
       end
     end
@@ -252,7 +252,7 @@ module CodeRay
     #
     # You can configure the level of compression,
     # but the default value 7 should be what you want
-    # in most cases as it is a good comprimise between
+    # in most cases as it is a good compromise between
     # speed and compression rate.
     #
     # See GZip module.
@@ -267,7 +267,14 @@ module CodeRay
     # Should be equal to the input size before
     # scanning.
     def text_size
-      map { |t, k| t }.join.size
+      inject(0) { |size, (t, k)| t.is_a?(::String) ? size : size + t.size }
+    end
+
+    # The total size of the tokens.
+    # Should be equal to the input size before
+    # scanning.
+    def text
+      map { |t, k| t if t.is_a? ::String }.join
     end
 
     # Include this module to give an object an #undump
@@ -364,5 +371,9 @@ module CodeRay
     end
 
   end
+
+  
+  # Token name abbreviations
+  require 'coderay/token_classes'
 
 end

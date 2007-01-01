@@ -1,3 +1,5 @@
+require "stringio"
+
 module CodeRay
 
   # This module holds the Encoder class and its subclasses.
@@ -130,13 +132,14 @@ module CodeRay
       # By default, it calls text_token or block_token, depending on
       # whether +text+ is a String.
       def token text, kind
-        if text.instance_of? ::String  # Ruby 1.9: :open.is_a? String
+        out = if text.instance_of? ::String  # Ruby 1.9: :open.is_a? String
           text_token text, kind
         elsif text.is_a? ::Symbol
           block_token text, kind
         else
           raise 'Unknown token text type: %p' % text
         end
+        @out << out if @out
       end
 
       def text_token text, kind

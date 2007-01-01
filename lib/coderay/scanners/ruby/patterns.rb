@@ -111,7 +111,7 @@ module Scanners
       (?:
         ( [A-Za-z_0-9]+ )  # $2 = delim
       |
-        ( ["'`] )          # $3 = quote, type
+        ( ["'`\/] )        # $3 = quote, type
         ( [^\n]*? ) \3     # $4 = delim
       )
     /mx

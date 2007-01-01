@@ -1,8 +1,5 @@
 module CodeRay
-module Encoders
-
-  class HTML
-
+  class Tokens
     ClassOfKind = Hash.new do |h, k|
       h[k] = k.to_s
     end
@@ -70,8 +67,5 @@ module Encoders
     ClassOfKind[:nesting_delimiter] = ClassOfKind[:delimiter]
     ClassOfKind[:escape] = ClassOfKind[:delimiter]
     #ClassOfKind.default = ClassOfKind[:error] or raise 'no class found for :error!'
-
   end
-
-end
 end

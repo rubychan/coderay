@@ -13,8 +13,10 @@ rescue LoadError
   begin
     require 'rubygems'
     require_gem 'term-ansicolor'
+  rescue LoadError
+    # ignore
   end
-end
+end unless ENV['nocolor']
 
 if defined? Term::ANSIColor
   class String
@@ -35,7 +37,6 @@ $DEBUG = debug
 
 unless defined? Term::ANSIColor
   puts 'You should gem install term-ansicolor.'
-  sleep 2
 end
 
 # from Ruby Facets (http://facets.rubyforge.org/)
@@ -168,7 +169,7 @@ module CodeRay
         for example_filename in Dir["*.#{extension}"]
           name = File.basename(example_filename, ".#{extension}")
           next if ENV['example'] and ENV['example'] != name
-          print ('%15s'.cyan + ' %4.0fK: '.yellow) %
+          print name_and_size = ('%15s'.cyan + ' %4.0fK: '.yellow) %
             [ name, File.size(example_filename) / 1024.0 ]
           time_for_file = Benchmark.realtime do
             example_test example_filename, name, scanner, max
@@ -195,7 +196,9 @@ module CodeRay
       end
 
       tokens = compare_test scanner, code, name
-
+      
+      identity_test scanner, tokens
+      
       unless ENV['nohl'] or code.size > MAX_CODE_SIZE_TO_HIGHLIGHT
         highlight_test tokens, name
       else
@@ -274,6 +277,15 @@ module CodeRay
       tokens
     end
     
+    def identity_test scanner, tokens
+      print 'identity...'.red
+      unless scanner.instance_of? CodeRay::Scanners[:debug]
+        assert_equal scanner.code, tokens.text
+      end
+      print "\b\b\b"
+      print ', '.red
+    end
+    
     def highlight_test tokens, name
       print 'highlighting, '.red
       highlighted = Highlighter.encode_tokens tokens
@@ -307,10 +319,13 @@ module CodeRay
       end
 
       def load
-        if subsuite = ARGV.find { |a| break $1 if a[/^([^-].*)/] } || ENV['lang']
+        subsuite = ARGV.find { |a| break $& if a[/^[^-].*/] } || ENV['lang']
+        if subsuite
           load_suite(subsuite) or exit
         else
-          Dir[File.join($mydir, '*', '')].sort.each { |suite| load_suite File.basename(suite) }
+          Dir[File.join($mydir, '*', '')].sort.each do |suite|
+            load_suite File.basename(suite)
+          end
         end
       end
 

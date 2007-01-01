@@ -18,9 +18,8 @@ module Encoders
       @sep = options[:separator]
     end
 
-    def token text, kind
-      return unless text.respond_to? :to_str
-      @out << text + @sep
+    def text_token text, kind
+      text + @sep
     end
 
     def finish options

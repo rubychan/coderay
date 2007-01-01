@@ -1,0 +1,34 @@
+h1. CodeRay Missing Outputs Report
+
+This is a list of output formats for highlighters, comparing Pygments with
+CodeRay.
+
+h2. Formatters / Encoders
+
+h3. Supported by both
+
+* HTML
+* Tokens (named raw in Pygments, raydebug or debug in CodeRay)
+* Text
+
+h3. Only in CodeRay
+
+* Statistic and Counter
+* Span, Div, Page (HTML variants)
+* XML
+* YAML
+
+h3. Only in Pygments, but soon in CodeRay
+
+h3. Soon only in CodeRay
+
+h3. Only in Pygments
+
+* LaTeX
+* ANSI Console (very useful!)
+* BBCode
+
+h3. Missing totally
+
+* PDF
+* RTF (do we need this?)

@@ -1,0 +1,59 @@
+h1. CodeRay Missing Languages Report
+
+This is a list of input formats for highlighters, comparing Pygments with
+CodeRay. 
+
+h2. Lexers / Scanners
+
+h3. Supported by both
+
+* C
+* Delphi/Pascal
+* HTML
+* RHTML
+* Ruby
+* XML
+
+h3. Only in CodeRay
+
+* Raydebug
+* Nitro-XHTML
+
+h3. Only in Pygments, but soon in CodeRay
+
+* JavaScript
+* CSS
+* PHP
+* Diff
+* SQL
+
+h3. Soon only in CodeRay
+
+* IO
+* YAML
+
+h3. Only in Pygments
+
+* Boo
+* Brainfuck
+* C++
+* C#
+* Smarty
+* Django
+* Ini
+* IRC
+* Lua
+* Makefile
+* Perl
+* Python
+* VisualBasic
+* TeX
+* Python Console (pycon)
+* Ruby Console (irb)
+
+h3. Missing totally
+
+* Haskell
+* BBCode
+* Wikicode
+* JSON

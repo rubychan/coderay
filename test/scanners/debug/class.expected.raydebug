@@ -1,0 +1,14 @@
+error(3)error(7)error(,)error(3)error(8)error(c)error(3)error(7)error(,)error(3)error(8)
+error(<) 			reserved(for) ident(input) reserved(in) constant(Dir)operator([)string<delimiter(")content(*.)inline<delimiter(#{)ident(extension)delimiter(})>delimiter(")>operator(])
+error(<) 				ident(name) operator(=) constant(File)operator(.)ident(basename)operator(()ident(input)operator(,) string<delimiter(")content(.)inline<delimiter(#{)ident(extension)delimiter(})>delimiter(")>operator(\))
+error(-)error(-)error(-)
+> 			reserved(for) ident(input) reserved(in) constant(Dir)operator([)string<delimiter(")content(*.)inline<inline_delimiter(#{)ident(extension)inline_delimiter(})>delimiter(")>operator(])
+> 				ident(name) operator(=) constant(File)operator(.)ident(basename)operator(()ident(input)operator(,) string<delimiter(")content(.)inline<inline_delimiter(#{)ident(extension)inline_delimiter(})>delimiter(")>operator(\))
+error(4)error(9)error(c)error(4)error(9)
+error(<) 					ident(puts) string<delimiter(")content(New test: )inline<delimiter(#{)ident(output)delimiter(})>delimiter(")>
+error(-)error(-)error(-)
+> 					ident(puts) string<delimiter(")content(New test: )inline<inline_delimiter(#{)ident(output)inline_delimiter(})>delimiter(")>
+error(6)error(9)error(c)error(6)error(9)
+error(<) error(!)error(!) error(F)error(o)error(l)error(d)error(e)error(r) error(\))inline<delimiter(#{)constant(File)operator(.)ident(split)operator(()pre_constant(__FILE__)operator(\))operator(.)ident(first) operator(+) string<delimiter(')content(/)delimiter(')> operator(+) ident(name)delimiter(})>content( not found
+---
+> !! Folder )inline<inline_delimiter(#{)constant(File)operator(.)ident(split)operator(()pre_constant(__FILE__)operator(\))operator(.)ident(first) operator(+) string<delimiter(')content(/)delimiter(')> operator(+) ident(name)inline_delimiter(})>error(c)error(o)error(n)error(t)error(e)error(n)error(t)error(() error(n)error(o)error(t) error(f)error(o)error(u)error(n)error(d)

@@ -1,0 +1,14 @@
+37,38c37,38
+< 			reserved(for) ident(input) reserved(in) constant(Dir)operator([)string<delimiter(")content(*.)inline<delimiter(#{)ident(extension)delimiter(})>delimiter(")>operator(])
+< 				ident(name) operator(=) constant(File)operator(.)ident(basename)operator(()ident(input)operator(,) string<delimiter(")content(.)inline<delimiter(#{)ident(extension)delimiter(})>delimiter(")>operator(\))
+---
+> 			reserved(for) ident(input) reserved(in) constant(Dir)operator([)string<delimiter(")content(*.)inline<inline_delimiter(#{)ident(extension)inline_delimiter(})>delimiter(")>operator(])
+> 				ident(name) operator(=) constant(File)operator(.)ident(basename)operator(()ident(input)operator(,) string<delimiter(")content(.)inline<inline_delimiter(#{)ident(extension)inline_delimiter(})>delimiter(")>operator(\))
+49c49
+< 					ident(puts) string<delimiter(")content(New test: )inline<delimiter(#{)ident(output)delimiter(})>delimiter(")>
+---
+> 					ident(puts) string<delimiter(")content(New test: )inline<inline_delimiter(#{)ident(output)inline_delimiter(})>delimiter(")>
+69c69
+< !! Folder )inline<delimiter(#{)constant(File)operator(.)ident(split)operator(()pre_constant(__FILE__)operator(\))operator(.)ident(first) operator(+) string<delimiter(')content(/)delimiter(')> operator(+) ident(name)delimiter(})>content( not found
+---
+> !! Folder )inline<inline_delimiter(#{)constant(File)operator(.)ident(split)operator(()pre_constant(__FILE__)operator(\))operator(.)ident(first) operator(+) string<delimiter(')content(/)delimiter(')> operator(+) ident(name)inline_delimiter(})>content( not found

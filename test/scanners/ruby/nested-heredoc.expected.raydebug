@@ -1,0 +1,27 @@
+ident(p) string<delimiter(")inline<inline_delimiter(#{)string<delimiter(<<'END')>operator(.)ident(strip)operator(.)ident(reverse)inline_delimiter(})>char(\\
+)content(First
+END
+Second)delimiter(")>
+
+ident(p) shell<delimiter(<<`one`)> operator(;) ident(p) string<delimiter(")inline<inline_delimiter(#{)string<delimiter(<<two)>inline_delimiter(})>delimiter(")>shell<content(
+1)delimiter(
+one)>string<content(
+2)delimiter(
+two)>
+
+ident(this)operator(.)ident(should)operator(.)ident(be)operator(.)ident(plain)
+
+comment(# from Rails)
+reserved(unless) ident(new_record?)
+  ident(connection)operator(.)ident(delete) string<delimiter(<<-end_sql)>operator(,) string<delimiter(")inline<inline_delimiter(#{)pre_constant(self)operator(.)ident(class)operator(.)ident(name)inline_delimiter(})>content( Destroy)delimiter(")>string<content(
+    DELETE FROM )inline<inline_delimiter(#{)pre_constant(self)operator(.)ident(class)operator(.)ident(table_name)inline_delimiter(})>content(
+    WHERE )inline<inline_delimiter(#{)pre_constant(self)operator(.)ident(class)operator(.)ident(primary_key)inline_delimiter(})>content( = )inline<inline_delimiter(#{)ident(quoted_id)inline_delimiter(})>delimiter(
+  end_sql)>
+reserved(end)
+
+ident(p) string<delimiter(<<this)>string<content(
+but it may break )inline<inline_delimiter(#{)string<delimiter(<<that)>inline_delimiter(})>content(
+code.
+that)delimiter(
+this)>
+ident(that)operator(.)ident(should)operator(.)ident(be)operator(.)ident(plain)

@@ -49,7 +49,7 @@ ol.CodeRay li { white-space: pre }
 .av { color:#700 }
 .aw { color:#C00 }
 .bi { color:#509; font-weight:bold }
-.c  { color:#888 }
+.c  { color:#666; }
 
 .ch { color:#04D }
 .ch .k { color:#04D }
@@ -85,7 +85,7 @@ ol.CodeRay li { white-space: pre }
 .la { color:#970; font-weight:bold }
 .lv { color:#963 }
 .oc { color:#40E; font-weight:bold }
-.on { color:#000; font-weight:bold }
+.of { color:#000; font-weight:bold }
 .op { }
 .pc { color:#038; font-weight:bold }
 .pd { color:#369; font-weight:bold }

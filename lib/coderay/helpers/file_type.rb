@@ -80,6 +80,7 @@ module FileType
     'rb' => :ruby,
     'rbw' => :ruby,
     'rake' => :ruby,
+    'mab' => :ruby,
     'cpp' => :c,
     'c' => :c,
     'h' => :c,
@@ -89,6 +90,8 @@ module FileType
     'xhtml' => :xhtml,
     'raydebug' => :debug,
     'rhtml' => :rhtml,
+    'ss' => :scheme,
+    'sch' => :scheme,
     'yaml' => :yaml,
     'yml' => :yaml,
   }

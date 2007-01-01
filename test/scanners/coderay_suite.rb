@@ -128,20 +128,13 @@ module CodeRay
         if extension
           @extension = extension.to_s
         else
-          @extension ||= lang.to_s
+          @extension ||= CodeRay::Scanners[lang].file_extension.to_s
         end
       end
     end
     
     # Create only once, for speed
     Tokenizer = CodeRay::Encoders[:debug].new
-    Highlighter = CodeRay::Encoders[:html].new(
-      :tab_width => 2,
-      :line_numbers => :inline,
-      :wrap => :page,
-      :hint => :debug,
-      :css => :class
-    )
     
     def test_ALL
       puts
@@ -168,7 +161,7 @@ module CodeRay
         extension = 'in.' + self.class.extension
         for example_filename in Dir["*.#{extension}"]
           name = File.basename(example_filename, ".#{extension}")
-          next if ENV['example'] and ENV['example'] != name
+          next if ENV['only'] and ENV['only'] != name
           print name_and_size = ('%15s'.cyan + ' %4.0fK: '.yellow) %
             [ name, File.size(example_filename) / 1024.0 ]
           time_for_file = Benchmark.realtime do
@@ -181,7 +174,7 @@ module CodeRay
     end
     
     def example_test example_filename, name, scanner, max
-      if File.size(example_filename) > MAX_CODE_SIZE_TO_TEST and not ENV['example']
+      if File.size(example_filename) > MAX_CODE_SIZE_TO_TEST and not ENV['only']
         print 'too big. '
         return
       end
@@ -199,7 +192,7 @@ module CodeRay
       
       identity_test scanner, tokens
       
-      unless ENV['nohl'] or code.size > MAX_CODE_SIZE_TO_HIGHLIGHT
+      unless ENV['nohl'] or (code.size > MAX_CODE_SIZE_TO_HIGHLIGHT and not ENV['only'])
         highlight_test tokens, name
       else
         print '-- skipped -- '.concealed
@@ -286,6 +279,14 @@ module CodeRay
       print ', '.red
     end
     
+    Highlighter = CodeRay::Encoders[:html].new(
+      :tab_width => 2,
+      :line_numbers => :inline,
+      :wrap => :page,
+      :hint => :debug,
+      :css => :class
+    )
+
     def highlight_test tokens, name
       print 'highlighting, '.red
       highlighted = Highlighter.encode_tokens tokens

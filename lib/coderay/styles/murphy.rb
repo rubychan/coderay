@@ -47,7 +47,7 @@ ol.CodeRay li { white-space: pre; }
 .av { color:#700; }
 .aw { color:#C00; }
 .bi { color:#509; font-weight:bold; }
-.c  { color:#666; }
+.c  { color:#555; background-color: black; }
 
 .ch { color:#88F; }
 .ch .k { color:#04D; }
@@ -77,7 +77,7 @@ ol.CodeRay li { white-space: pre; }
 .la { color:#970; font-weight:bold; }
 .lv { color:#963; }
 .oc { color:#40E; font-weight:bold; }
-.on { color:#000; font-weight:bold; }
+.of { color:#000; font-weight:bold; }
 .op { }
 .pc { color:#08f; font-weight:bold; }
 .pd { color:#369; font-weight:bold; }

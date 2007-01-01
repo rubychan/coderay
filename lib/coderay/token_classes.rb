@@ -39,7 +39,7 @@ module CodeRay
       :local_variable => 'lv',
       :modifier => 'mod',
       :oct => 'oc',
-      :operator_name => 'on',
+      :operator_fat => 'of',
       :pre_constant => 'pc',
       :pre_type => 'pt',
       :predefined => 'pd',

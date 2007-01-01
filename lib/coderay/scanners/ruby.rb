@@ -18,6 +18,7 @@ module Scanners
     include Streamable
 
     register_for :ruby
+    file_extension 'rb'
 
     helper :patterns
 

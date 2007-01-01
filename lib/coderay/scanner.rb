@@ -68,6 +68,14 @@ module CodeRay
         def normify code
           code = code.to_s.to_unix
         end
+        
+        def file_extension extension = nil
+          if extension
+            @file_extension = extension.to_s
+          else
+            @file_extension ||= plugin_id.to_s
+          end
+        end        
 
       end
 

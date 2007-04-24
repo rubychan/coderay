@@ -35,7 +35,7 @@ module CodeRay
     #   CodeRay::Duo[:ruby => :statistic].encode 'class << self; end'
     # 
     # alternative syntax with options:
-    #   CodeRay::Duo[(:ruby => :statistic), :do => :something].encode 'abc'
+    #   CodeRay::Duo[{ :ruby => :statistic }, :do => :something].encode 'abc'
     # 
     # The options are forwarded to scanner and encoder
     # (see CodeRay.get_scanner_options).

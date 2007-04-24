@@ -42,7 +42,7 @@ module CodeRay
         # downcase class name instead.
         def const_missing sym
           if sym == :FILE_EXTENSION
-            sym.to_s.downcase
+            plugin_id
           else
             super
           end
@@ -132,13 +132,14 @@ module CodeRay
       # By default, it calls text_token or block_token, depending on
       # whether +text+ is a String.
       def token text, kind
-        out = if text.instance_of? ::String  # Ruby 1.9: :open.is_a? String
-          text_token text, kind
-        elsif text.is_a? ::Symbol
-          block_token text, kind
-        else
-          raise 'Unknown token text type: %p' % text
-        end
+        out =
+          if text.is_a? ::String  # Ruby 1.9: :open.is_a? String
+            text_token text, kind
+          elsif text.is_a? ::Symbol
+            block_token text, kind
+          else
+            raise 'Unknown token text type: %p' % text
+          end
         @out << out if @out
       end
 

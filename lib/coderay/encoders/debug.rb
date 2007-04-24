@@ -22,7 +22,7 @@ module Encoders
       if kind == :space
         text
       else
-        text = text.gsub(/[)\\]/, '\\\\\0')
+        text = text.gsub(/[)\\]/, '\\\\\0')  # escape ) and \
         "#{kind}(#{text})"
       end
     end

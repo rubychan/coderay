@@ -267,7 +267,11 @@ module CodeRay
     # Should be equal to the input size before
     # scanning.
     def text_size
-      inject(0) { |size, (t, k)| t.is_a?(::String) ? size : size + t.size }
+      size = 0
+      each_text_token do |t, k|
+        size + t.size
+      end
+      size
     end
 
     # The total size of the tokens.

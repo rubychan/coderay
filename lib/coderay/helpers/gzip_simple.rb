@@ -1,5 +1,3 @@
-module CodeRay
-
 # =GZip Simple
 #
 # A simplified interface to the gzip library +zlib+ (from the Ruby Standard Library.)
@@ -48,6 +46,7 @@ module GZip
   end
 end
 
+
 # String extensions to use the GZip module.
 #
 # The methods gzip and gunzip provide an even more simple
@@ -91,8 +90,6 @@ end
 
 if $0 == __FILE__
   eval DATA.read, nil, $0, __LINE__+4
-end
-
 end
 
 __END__

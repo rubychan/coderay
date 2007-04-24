@@ -44,7 +44,7 @@ module Scanners
 
         kind = nil
         match = nil
-
+        
         case state
 
         when :initial

@@ -23,13 +23,13 @@ Plugins:
 
 
 Scanners:
-L		1	2				More Languages! (See Roadmap)
+		2	1			Unicode support
+L		1	2			More Languages! (See Roadmap)
 
 						Ruby:
 L		3	2				Regexp comment highlighting
 L		3	2				Options: Highlight characters/escapes/inline code
 L		2	1				Meta characters
-
 
 
 Encoders:

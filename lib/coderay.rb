@@ -24,8 +24,8 @@
 #
 # == Usage
 #
-# Remember you need RubyGems to use CodeRay. Run Ruby with -rubygems option
-# if required.
+# Remember you need RubyGems to use CodeRay, unless you have it in your load path. Run Ruby with
+# -rubygems option if required.
 #
 # === Highlight Ruby code in a string as html
 # 
@@ -44,19 +44,15 @@
 # 
 # You can include this div in your page. The used CSS styles can be printed with
 # 
-#   % ruby -rcoderay -e "print CodeRay::Encoders[:html]::CSS"
+#   % coderay_stylesheet
 # 
 # === Highlight without typing too much
-#
+# 
 # If you are one of the hasty (or lazy, or extremely curious) people, just run this file:
-#
-#   % ruby -rubygems coderay.rb
 # 
-# If the output was to fast for you, try
+#   % ruby -rubygems /path/to/coderay/coderay.rb > example.html
 # 
-#   % ruby -rubygems coderay.rb > example.html
-#
-# and look at the file it created.
+# and look at the file it created in your browser.
 # 
 # = CodeRay Module
 #
@@ -121,11 +117,11 @@
 # for this Encoder must only be done once.
 #
 # CodeRay.encoder:: Create an Encoder instance with format and options.
+# CodeRay.scanner:: Create an Scanner instance for lang, with '' as default code.
 #
-# There is no CodeRay.scanner method because Scanners are bound to an input string
-# on creation; you can't re-use them with another string.
+# To make use of CodeRay.scanner, use CodeRay::Scanner::code=.
 #
-#  The scanning methods provide more flexibility; we recommend to use these.
+# The scanning methods provide more flexibility; we recommend to use these.
 # 
 # == Reusing Scanners and Encoders
 # 
@@ -319,6 +315,6 @@ end
 # Run a test script.
 if $0 == __FILE__
   $stderr.print 'Press key to print demo.'; gets
-  code = File.read($0)[/module CodeRay.*/m]
+  code = File.read(__FILE__)[/module CodeRay.*/m]
   print CodeRay.scan(code, :ruby).html
 end

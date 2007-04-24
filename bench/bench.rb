@@ -117,7 +117,8 @@ Benchmark.bm(20) do |bm|
         end
       end
     end
-    $file_created = here('test.' + $hl.file_extension)
+    $file_created = here('test.' +
+      ($dump_output ? 'dump' : $hl.file_extension))
     File.open($file_created, 'wb') do |f|
       f.write $o
     end
@@ -154,6 +155,7 @@ Benchmark.bm(20) do |bm|
     end
     puts "\t%7.2f KB/sec" % ((@size / 1024.0) / time.real)
 
+=begin
     time = bm.report('SilverCity') do
       Dir.chdir(here) do
         File.open('input-data', 'w') { |f| f.write data }
@@ -162,6 +164,19 @@ Benchmark.bm(20) do |bm|
         end
       end
       $file_created << ", test.silvercity.#{format}"
+    end
+    puts "\t%7.2f KB/sec" % ((@size / 1024.0) / time.real)
+=end
+    time = bm.report('Pygments') do
+      Dir.chdir(here) do
+        Dir.chdir File.expand_path('~/Python/pygments') do
+          File.open('input-data', 'w') { |f| f.write data }
+          N.times do
+            `python pygmentize -l#{lang} -fhtml input-data > /dev/null`
+          end
+        end
+      end
+      #$file_created << ", test.silvercity.#{format}"
     end
     puts "\t%7.2f KB/sec" % ((@size / 1024.0) / time.real)
   end

@@ -167,7 +167,11 @@ module Encoders
             else
               ''
             end
-            h[k.dup] = '<span%s class="%s">' % [title, c]
+            if c == :NO_HIGHLIGHT
+              h[k.dup] = '<span%s>' % [title]
+            else
+              h[k.dup] = '<span%s class="%s">' % [title, c]
+            end
           end
         end
 

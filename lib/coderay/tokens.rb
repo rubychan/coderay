@@ -353,7 +353,7 @@ module CodeRay
     #
     # Returns self.
     def << token
-      @callback.call token
+      @callback.call(*token)
       @size += 1
       self
     end

@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 module CodeRay
 
 # = FileType
@@ -49,8 +50,11 @@ module FileType
     def shebang filename
       begin
         File.open filename, 'r' do |f|
-          first_line = f.gets
-          first_line[TypeFromShebang]
+          if first_line = f.gets
+            if type = first_line[TypeFromShebang]
+              type.to_sym
+            end
+          end
         end
       rescue IOError
         nil
@@ -113,11 +117,12 @@ if $0 == __FILE__
 end
 
 __END__
-
 require 'test/unit'
 
 class TC_FileType < Test::Unit::TestCase
-
+  
+  include CodeRay
+  
   def test_fetch
     assert_raise FileType::UnknownFileType do
       FileType.fetch ''
@@ -177,13 +182,27 @@ class TC_FileType < Test::Unit::TestCase
     assert_not_equal :yaml, FileType['YAML']
   end
 
-  def test_shebang
+  def test_no_shebang
     dir = './test'
     if File.directory? dir
       Dir.chdir dir do
         assert_equal :c, FileType['test.c']
       end
     end
+  end
+  
+  def test_shebang_empty_file
+    require 'tmpdir'
+    tmpfile = File.join(Dir.tmpdir, 'bla')
+    File.open(tmpfile, 'w') { }  # touch
+    assert_equal nil, FileType[tmpfile]
+  end
+  
+  def test_shebang
+    require 'tmpdir'
+    tmpfile = File.join(Dir.tmpdir, 'bla')
+    File.open(tmpfile, 'w') { |f| f.puts '#!/usr/bin/env ruby' }
+    assert_equal :ruby, FileType[tmpfile, true]
   end
 
 end

@@ -158,7 +158,7 @@ module Encoders
 
       when :class
         @css_style = Hash.new do |h, k|
-          c = Tokens::ClassOfKind[k.first]
+          c = CodeRay::Tokens::ClassOfKind[k.first]
           if c == :NO_HIGHLIGHT and not hint
             h[k.dup] = false
           else

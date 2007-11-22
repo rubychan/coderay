@@ -168,7 +168,8 @@ module CodeRay
       # The already created +tokens+ object must be used; it can be a
       # TokenStream or a Tokens object.
       def compile tokens, options
-        tokens.each(&self)
+        tokens.each { |text, kind| token text, kind }  # FIXME for Ruby 1.9?
+        #tokens.each(&self)
       end
 
     end

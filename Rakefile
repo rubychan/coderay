@@ -31,6 +31,14 @@ task 'yarv' do
   RUBY.replace 'ruby-yarv'
 end
 
+task 'jruby' do
+  RUBY.replace 'jruby'
+end
+
+task 'rubinius' do
+  RUBY.replace 'rbx'
+end
+
 if ruby = ENV['ruby']
   RUBY.replace ruby
 end

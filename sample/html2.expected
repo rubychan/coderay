@@ -34,12 +34,14 @@ ol.CodeRay li { white-space: pre }
 
 .CodeRay .code pre { overflow: auto }
 
+.CodeRay .debug { color:white ! important; background:blue ! important; }
+
 .CodeRay .af { color:#00C }
 .CodeRay .an { color:#007 }
 .CodeRay .av { color:#700 }
 .CodeRay .aw { color:#C00 }
 .CodeRay .bi { color:#509; font-weight:bold }
-.CodeRay .c  { color:#888 }
+.CodeRay .c  { color:#666; }
 
 .CodeRay .ch { color:#04D }
 .CodeRay .ch .k { color:#04D }
@@ -68,14 +70,14 @@ ol.CodeRay li { white-space: pre }
 .CodeRay .il { background: #eee }
 .CodeRay .il .il { background: #ddd }
 .CodeRay .il .il .il { background: #ccc }
-.CodeRay .il .dl { font-weight: bold ! important; color: #888 ! important }
+.CodeRay .il .idl { font-weight: bold; color: #888 }
 
 .CodeRay .in { color:#B2B; font-weight:bold }
 .CodeRay .iv { color:#33B }
 .CodeRay .la { color:#970; font-weight:bold }
 .CodeRay .lv { color:#963 }
 .CodeRay .oc { color:#40E; font-weight:bold }
-.CodeRay .on { color:#000; font-weight:bold }
+.CodeRay .of { color:#000; font-weight:bold }
 .CodeRay .op { }
 .CodeRay .pc { color:#038; font-weight:bold }
 .CodeRay .pd { color:#369; font-weight:bold }
@@ -129,10 +131,10 @@ ol.CodeRay li { white-space: pre }
 </tt></pre></td>
   <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }">require <span style="background-color:#fff0f0"><span style="color:#710">'</span><span style="color:#D20">coderay</span><span style="color:#710">'</span></span><tt>
 </tt><tt>
-</tt><span style="color:#888"># scan this file</span><tt>
+</tt><span style="color:#666;"># scan this file</span><tt>
 </tt>tokens = <span style="color:#036; font-weight:bold">CodeRay</span>.scan(<span style="color:#036; font-weight:bold">File</span>.read(<span style="color:#d70; font-weight:bold">$0</span>) * <span style="color:#00D; font-weight:bold">1</span>, <span style="color:#A60">:ruby</span>)<tt>
 </tt><tt>
-</tt><span style="color:#888"># output it with two styles of line numbers</span><tt>
+</tt><span style="color:#666;"># output it with two styles of line numbers</span><tt>
 </tt>out = tokens.div(<span style="color:#A60">:line_numbers</span> =&gt; <span style="color:#A60">:table</span>)<tt>
 </tt>out &lt;&lt; <span style="background-color:#fff0f0"><span style="color:#710">'</span><span style="color:#D20">&lt;hr /&gt;</span><span style="color:#710">'</span></span><tt>
 </tt>out &lt;&lt; tokens.div(<span style="color:#A60">:line_numbers</span> =&gt; <span style="color:#A60">:inline</span>, <span style="color:#A60">:line_number_start</span> =&gt; <span style="color:#00D; font-weight:bold">8</span>)<tt>
@@ -143,10 +145,10 @@ ol.CodeRay li { white-space: pre }
 <hr /><div class="CodeRay">
   <div class="code"><pre><span class="no"> 8</span> require <span style="background-color:#fff0f0"><span style="color:#710">'</span><span style="color:#D20">coderay</span><span style="color:#710">'</span></span>
 <span class="no"> 9</span> 
-<span class="no"><strong>10</strong></span> <span style="color:#888"># scan this file</span>
+<span class="no"><strong>10</strong></span> <span style="color:#666;"># scan this file</span>
 <span class="no">11</span> tokens = <span style="color:#036; font-weight:bold">CodeRay</span>.scan(<span style="color:#036; font-weight:bold">File</span>.read(<span style="color:#d70; font-weight:bold">$0</span>) * <span style="color:#00D; font-weight:bold">1</span>, <span style="color:#A60">:ruby</span>)
 <span class="no">12</span> 
-<span class="no">13</span> <span style="color:#888"># output it with two styles of line numbers</span>
+<span class="no">13</span> <span style="color:#666;"># output it with two styles of line numbers</span>
 <span class="no">14</span> out = tokens.div(<span style="color:#A60">:line_numbers</span> =&gt; <span style="color:#A60">:table</span>)
 <span class="no">15</span> out &lt;&lt; <span style="background-color:#fff0f0"><span style="color:#710">'</span><span style="color:#D20">&lt;hr /&gt;</span><span style="color:#710">'</span></span>
 <span class="no">16</span> out &lt;&lt; tokens.div(<span style="color:#A60">:line_numbers</span> =&gt; <span style="color:#A60">:inline</span>, <span style="color:#A60">:line_number_start</span> =&gt; <span style="color:#00D; font-weight:bold">8</span>)

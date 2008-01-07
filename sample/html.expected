@@ -34,12 +34,14 @@ ol.CodeRay li { white-space: pre }
 
 .CodeRay .code pre { overflow: auto }
 
+.CodeRay .debug { color:white ! important; background:blue ! important; }
+
 .CodeRay .af { color:#00C }
 .CodeRay .an { color:#007 }
 .CodeRay .av { color:#700 }
 .CodeRay .aw { color:#C00 }
 .CodeRay .bi { color:#509; font-weight:bold }
-.CodeRay .c  { color:#888 }
+.CodeRay .c  { color:#666; }
 
 .CodeRay .ch { color:#04D }
 .CodeRay .ch .k { color:#04D }
@@ -68,14 +70,14 @@ ol.CodeRay li { white-space: pre }
 .CodeRay .il { background: #eee }
 .CodeRay .il .il { background: #ddd }
 .CodeRay .il .il .il { background: #ccc }
-.CodeRay .il .dl { font-weight: bold ! important; color: #888 ! important }
+.CodeRay .il .idl { font-weight: bold; color: #888 }
 
 .CodeRay .in { color:#B2B; font-weight:bold }
 .CodeRay .iv { color:#33B }
 .CodeRay .la { color:#970; font-weight:bold }
 .CodeRay .lv { color:#963 }
 .CodeRay .oc { color:#40E; font-weight:bold }
-.CodeRay .on { color:#000; font-weight:bold }
+.CodeRay .of { color:#000; font-weight:bold }
 .CodeRay .op { }
 .CodeRay .pc { color:#038; font-weight:bold }
 .CodeRay .pd { color:#369; font-weight:bold }
@@ -537,9 +539,9 @@ ol.CodeRay li { white-space: pre }
 </tt>      add(<span class="co">RESERVED_WORDS</span>, <span class="sy">:reserved</span>).<tt>
 </tt>      add(<span class="co">PREDEFINED_CONSTANTS</span>, <span class="sy">:pre_constant</span>)<tt>
 </tt><tt>
-</tt>    <span class="co">METHOD_NAME</span> = <span class="rx"><span class="dl">/</span><span class="k"> </span><span class="il"><span class="dl">#{</span><span class="co">IDENT</span><span class="dl">}</span></span><span class="k"> [?!]? </span><span class="dl">/</span><span class="mod">xo</span></span><tt>
+</tt>    <span class="co">METHOD_NAME</span> = <span class="rx"><span class="dl">/</span><span class="k"> </span><span class="il"><span class="idl">#{</span><span class="co">IDENT</span><span class="idl">}</span></span><span class="k"> [?!]? </span><span class="dl">/</span><span class="mod">xo</span></span><tt>
 </tt>    <span class="co">METHOD_NAME_EX</span> = <span class="rx"><span class="dl">/</span><span class="k"><tt>
-</tt>     </span><span class="il"><span class="dl">#{</span><span class="co">METHOD_NAME</span><span class="dl">}</span></span><span class="k">  # common methods: split, foo=, empty?, gsub!<tt>
+</tt>     </span><span class="il"><span class="idl">#{</span><span class="co">METHOD_NAME</span><span class="idl">}</span></span><span class="k">  # common methods: split, foo=, empty?, gsub!<tt>
 </tt>     | </span><span class="ch">\*</span><span class="ch">\*</span><span class="k">?         # multiplication and power<tt>
 </tt>     | [-+~]@?       # plus, minus<tt>
 </tt>     | [</span><span class="ch">\/</span><span class="k">%&amp;|^`]     # division, modulo or format strings, &amp;and, |or, ^xor, `system`<tt>
@@ -548,11 +550,11 @@ ol.CodeRay li { white-space: pre }
 </tt>     | &lt;&lt; | &gt;&gt;       # append or shift left, shift right<tt>
 </tt>     | ===?          # simple equality and case equality<tt>
 </tt>    </span><span class="dl">/</span><span class="mod">ox</span></span><tt>
-</tt>    <span class="co">GLOBAL_VARIABLE</span> = <span class="rx"><span class="dl">/</span><span class="k"> </span><span class="ch">\$</span><span class="k"> (?: </span><span class="il"><span class="dl">#{</span><span class="co">IDENT</span><span class="dl">}</span></span><span class="k"> | </span><span class="ch">\d</span><span class="k">+ | [~&amp;+`'=</span><span class="ch">\/</span><span class="k">,;_.&lt;&gt;!@0$?*&quot;:F</span><span class="ch">\\</span><span class="k">] | -[a-zA-Z_0-9] ) </span><span class="dl">/</span><span class="mod">ox</span></span><tt>
+</tt>    <span class="co">GLOBAL_VARIABLE</span> = <span class="rx"><span class="dl">/</span><span class="k"> </span><span class="ch">\$</span><span class="k"> (?: </span><span class="il"><span class="idl">#{</span><span class="co">IDENT</span><span class="idl">}</span></span><span class="k"> | </span><span class="ch">\d</span><span class="k">+ | [~&amp;+`'=</span><span class="ch">\/</span><span class="k">,;_.&lt;&gt;!@0$?*&quot;:F</span><span class="ch">\\</span><span class="k">] | -[a-zA-Z_0-9] ) </span><span class="dl">/</span><span class="mod">ox</span></span><tt>
 </tt><tt>
 </tt>    <span class="co">DOUBLEQ</span> = <span class="rx"><span class="dl">/</span><span class="k"> &quot;  [^&quot;</span><span class="ch">\#</span><span class="ch">\\</span><span class="k">]*  (?: (?: </span><span class="ch">\#</span><span class="ch">\{</span><span class="k">.*?</span><span class="ch">\}</span><span class="k"> | </span><span class="ch">\#</span><span class="k">(?:$&quot;)?  | </span><span class="ch">\\</span><span class="k">. ) [^&quot;</span><span class="ch">\#</span><span class="ch">\\</span><span class="k">]*  )* &quot;?  </span><span class="dl">/</span><span class="mod">ox</span></span><tt>
 </tt>    <span class="co">SINGLEQ</span> = <span class="rx"><span class="dl">/</span><span class="k"> '  [^'</span><span class="ch">\\</span><span class="k">]*    (?:                              </span><span class="ch">\\</span><span class="k">.   [^'</span><span class="ch">\\</span><span class="k">]*    )* '?  </span><span class="dl">/</span><span class="mod">ox</span></span><tt>
-</tt>    <span class="co">STRING</span>  = <span class="rx"><span class="dl">/</span><span class="k"> </span><span class="il"><span class="dl">#{</span><span class="co">SINGLEQ</span><span class="dl">}</span></span><span class="k"> | </span><span class="il"><span class="dl">#{</span><span class="co">DOUBLEQ</span><span class="dl">}</span></span><span class="k"> </span><span class="dl">/</span><span class="mod">ox</span></span><tt>
+</tt>    <span class="co">STRING</span>  = <span class="rx"><span class="dl">/</span><span class="k"> </span><span class="il"><span class="idl">#{</span><span class="co">SINGLEQ</span><span class="idl">}</span></span><span class="k"> | </span><span class="il"><span class="idl">#{</span><span class="co">DOUBLEQ</span><span class="idl">}</span></span><span class="k"> </span><span class="dl">/</span><span class="mod">ox</span></span><tt>
 </tt>    <span class="co">SHELL</span>   = <span class="rx"><span class="dl">/</span><span class="k"> `  [^`</span><span class="ch">\#</span><span class="ch">\\</span><span class="k">]*  (?: (?: </span><span class="ch">\#</span><span class="ch">\{</span><span class="k">.*?</span><span class="ch">\}</span><span class="k"> | </span><span class="ch">\#</span><span class="k">(?:$`)?  | </span><span class="ch">\\</span><span class="k">. ) [^`</span><span class="ch">\#</span><span class="ch">\\</span><span class="k">]*  )* `?  </span><span class="dl">/</span><span class="mod">ox</span></span><tt>
 </tt>    <span class="co">REGEXP</span>  = <span class="rx"><span class="dl">/</span><span class="k"> </span><span class="ch">\/</span><span class="k"> [^</span><span class="ch">\/</span><span class="ch">\#</span><span class="ch">\\</span><span class="k">]* (?: (?: </span><span class="ch">\#</span><span class="ch">\{</span><span class="k">.*?</span><span class="ch">\}</span><span class="k"> | </span><span class="ch">\#</span><span class="k">(?:$</span><span class="ch">\/</span><span class="k">)? | </span><span class="ch">\\</span><span class="k">. ) [^</span><span class="ch">\/</span><span class="ch">\#</span><span class="ch">\\</span><span class="k">]* )* </span><span class="ch">\/</span><span class="k">? </span><span class="dl">/</span><span class="mod">ox</span></span><tt>
 </tt>    <tt>
@@ -561,9 +563,9 @@ ol.CodeRay li { white-space: pre }
 </tt>    <span class="co">HEXADECIMAL</span> = <span class="rx"><span class="dl">/</span><span class="k">0x[0-9A-Fa-f]+(?:_[0-9A-Fa-f]+)*</span><span class="dl">/</span></span><tt>
 </tt>    <span class="co">BINARY</span> = <span class="rx"><span class="dl">/</span><span class="k">0b[01]+(?:_[01]+)*</span><span class="dl">/</span></span><tt>
 </tt><tt>
-</tt>    <span class="co">EXPONENT</span> = <span class="rx"><span class="dl">/</span><span class="k"> [eE] [+-]? </span><span class="il"><span class="dl">#{</span><span class="co">DECIMAL</span><span class="dl">}</span></span><span class="k"> </span><span class="dl">/</span><span class="mod">ox</span></span><tt>
-</tt>    <span class="co">FLOAT</span> = <span class="rx"><span class="dl">/</span><span class="k"> </span><span class="il"><span class="dl">#{</span><span class="co">DECIMAL</span><span class="dl">}</span></span><span class="k"> (?: </span><span class="il"><span class="dl">#{</span><span class="co">EXPONENT</span><span class="dl">}</span></span><span class="k"> | </span><span class="ch">\.</span><span class="k"> </span><span class="il"><span class="dl">#{</span><span class="co">DECIMAL</span><span class="dl">}</span></span><span class="k"> </span><span class="il"><span class="dl">#{</span><span class="co">EXPONENT</span><span class="dl">}</span></span><span class="k">? ) </span><span class="dl">/</span></span><tt>
-</tt>    <span class="co">INTEGER</span> = <span class="rx"><span class="dl">/</span><span class="il"><span class="dl">#{</span><span class="co">OCTAL</span><span class="dl">}</span></span><span class="k">|</span><span class="il"><span class="dl">#{</span><span class="co">HEXADECIMAL</span><span class="dl">}</span></span><span class="k">|</span><span class="il"><span class="dl">#{</span><span class="co">BINARY</span><span class="dl">}</span></span><span class="k">|</span><span class="il"><span class="dl">#{</span><span class="co">DECIMAL</span><span class="dl">}</span></span><span class="dl">/</span></span><tt>
+</tt>    <span class="co">EXPONENT</span> = <span class="rx"><span class="dl">/</span><span class="k"> [eE] [+-]? </span><span class="il"><span class="idl">#{</span><span class="co">DECIMAL</span><span class="idl">}</span></span><span class="k"> </span><span class="dl">/</span><span class="mod">ox</span></span><tt>
+</tt>    <span class="co">FLOAT</span> = <span class="rx"><span class="dl">/</span><span class="k"> </span><span class="il"><span class="idl">#{</span><span class="co">DECIMAL</span><span class="idl">}</span></span><span class="k"> (?: </span><span class="il"><span class="idl">#{</span><span class="co">EXPONENT</span><span class="idl">}</span></span><span class="k"> | </span><span class="ch">\.</span><span class="k"> </span><span class="il"><span class="idl">#{</span><span class="co">DECIMAL</span><span class="idl">}</span></span><span class="k"> </span><span class="il"><span class="idl">#{</span><span class="co">EXPONENT</span><span class="idl">}</span></span><span class="k">? ) </span><span class="dl">/</span></span><tt>
+</tt>    <span class="co">INTEGER</span> = <span class="rx"><span class="dl">/</span><span class="il"><span class="idl">#{</span><span class="co">OCTAL</span><span class="idl">}</span></span><span class="k">|</span><span class="il"><span class="idl">#{</span><span class="co">HEXADECIMAL</span><span class="idl">}</span></span><span class="k">|</span><span class="il"><span class="idl">#{</span><span class="co">BINARY</span><span class="idl">}</span></span><span class="k">|</span><span class="il"><span class="idl">#{</span><span class="co">DECIMAL</span><span class="idl">}</span></span><span class="dl">/</span></span><tt>
 </tt>    <tt>
 </tt>    <span class="r">def</span> <span class="fu">reset</span><tt>
 </tt>      <span class="r">super</span><tt>
@@ -579,7 +581,7 @@ ol.CodeRay li { white-space: pre }
 </tt>        <span class="iv">@regexp_allowed</span> = <span class="sy">:set</span> <span class="r">if</span> <span class="iv">@regexp_allowed</span> <span class="r">or</span> <span class="iv">@scanner</span>.matched.index(<span class="i">?\n</span>)  <span class="c"># delayed flag setting</span><tt>
 </tt><tt>
 </tt>      <span class="r">elsif</span> <span class="iv">@state</span> == <span class="sy">:def_expected</span><tt>
-</tt>        <span class="r">if</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k"> (?: (?:</span><span class="il"><span class="dl">#{</span><span class="co">IDENT</span><span class="dl">}</span></span><span class="k">(?:</span><span class="ch">\.</span><span class="k">|::))* | (?:@@?|$)? </span><span class="il"><span class="dl">#{</span><span class="co">IDENT</span><span class="dl">}</span></span><span class="k">(?:</span><span class="ch">\.</span><span class="k">|::) ) </span><span class="il"><span class="dl">#{</span><span class="co">METHOD_NAME_EX</span><span class="dl">}</span></span><span class="k"> </span><span class="dl">/</span><span class="mod">ox</span></span>)<tt>
+</tt>        <span class="r">if</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k"> (?: (?:</span><span class="il"><span class="idl">#{</span><span class="co">IDENT</span><span class="idl">}</span></span><span class="k">(?:</span><span class="ch">\.</span><span class="k">|::))* | (?:@@?|$)? </span><span class="il"><span class="idl">#{</span><span class="co">IDENT</span><span class="idl">}</span></span><span class="k">(?:</span><span class="ch">\.</span><span class="k">|::) ) </span><span class="il"><span class="idl">#{</span><span class="co">METHOD_NAME_EX</span><span class="idl">}</span></span><span class="k"> </span><span class="dl">/</span><span class="mod">ox</span></span>)<tt>
 </tt>          kind = <span class="sy">:method</span><tt>
 </tt>          <span class="iv">@state</span> = <span class="sy">:initial</span><tt>
 </tt>        <span class="r">else</span><tt>
@@ -592,7 +594,7 @@ ol.CodeRay li { white-space: pre }
 </tt>        <span class="r">if</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k">&lt;&lt;</span><span class="dl">/</span></span>)<tt>
 </tt>          kind = <span class="sy">:operator</span><tt>
 </tt>        <span class="r">else</span><tt>
-</tt>          <span class="r">if</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k"> (?: </span><span class="il"><span class="dl">#{</span><span class="co">IDENT</span><span class="dl">}</span></span><span class="k"> (?:</span><span class="ch">\.</span><span class="k">|::))* </span><span class="il"><span class="dl">#{</span><span class="co">IDENT</span><span class="dl">}</span></span><span class="k"> </span><span class="dl">/</span><span class="mod">ox</span></span>)<tt>
+</tt>          <span class="r">if</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k"> (?: </span><span class="il"><span class="idl">#{</span><span class="co">IDENT</span><span class="idl">}</span></span><span class="k"> (?:</span><span class="ch">\.</span><span class="k">|::))* </span><span class="il"><span class="idl">#{</span><span class="co">IDENT</span><span class="idl">}</span></span><span class="k"> </span><span class="dl">/</span><span class="mod">ox</span></span>)<tt>
 </tt>            kind = <span class="sy">:method</span><tt>
 </tt>          <span class="r">else</span><tt>
 </tt>            <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k">.</span><span class="dl">/</span></span>)<tt>
@@ -605,9 +607,9 @@ ol.CodeRay li { white-space: pre }
 </tt>        <span class="c"># IDENTIFIERS, KEYWORDS</span><tt>
 </tt>        <span class="r">if</span> <span class="iv">@scanner</span>.scan(<span class="co">GLOBAL_VARIABLE</span>)<tt>
 </tt>          kind = <span class="sy">:global_variable</span><tt>
-</tt>        <span class="r">elsif</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k"> @@ </span><span class="il"><span class="dl">#{</span><span class="co">IDENT</span><span class="dl">}</span></span><span class="k"> </span><span class="dl">/</span><span class="mod">ox</span></span>)<tt>
+</tt>        <span class="r">elsif</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k"> @@ </span><span class="il"><span class="idl">#{</span><span class="co">IDENT</span><span class="idl">}</span></span><span class="k"> </span><span class="dl">/</span><span class="mod">ox</span></span>)<tt>
 </tt>          kind = <span class="sy">:class_variable</span><tt>
-</tt>        <span class="r">elsif</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k"> @ </span><span class="il"><span class="dl">#{</span><span class="co">IDENT</span><span class="dl">}</span></span><span class="k"> </span><span class="dl">/</span><span class="mod">ox</span></span>)<tt>
+</tt>        <span class="r">elsif</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k"> @ </span><span class="il"><span class="idl">#{</span><span class="co">IDENT</span><span class="idl">}</span></span><span class="k"> </span><span class="dl">/</span><span class="mod">ox</span></span>)<tt>
 </tt>          kind = <span class="sy">:instance_variable</span><tt>
 </tt>        <span class="r">elsif</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k"> __END__</span><span class="ch">\n</span><span class="k"> ( (?!</span><span class="ch">\#</span><span class="k">CODE</span><span class="ch">\#</span><span class="k">) .* )? | </span><span class="ch">\#</span><span class="k">[^</span><span class="ch">\n</span><span class="k">]* | =begin(?=</span><span class="ch">\s</span><span class="k">).*? </span><span class="ch">\n</span><span class="k">=end(?=</span><span class="ch">\s</span><span class="k">|</span><span class="ch">\z</span><span class="k">)(?:[^</span><span class="ch">\n</span><span class="k">]*)? </span><span class="dl">/</span><span class="mod">x</span></span>)<tt>
 </tt>          kind = <span class="sy">:comment</span><tt>
@@ -635,7 +637,7 @@ ol.CodeRay li { white-space: pre }
 </tt>           <span class="iv">@scanner</span>.scan(<span class="co">REGEXP</span>)<tt>
 </tt>          kind = <span class="sy">:regexp</span><tt>
 </tt>        <span class="c">## %strings</span><tt>
-</tt>        <span class="r">elsif</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k">:(?:</span><span class="il"><span class="dl">#{</span><span class="co">GLOBAL_VARIABLE</span><span class="dl">}</span></span><span class="k">|</span><span class="il"><span class="dl">#{</span><span class="co">METHOD_NAME_EX</span><span class="dl">}</span></span><span class="k">|</span><span class="il"><span class="dl">#{</span><span class="co">STRING</span><span class="dl">}</span></span><span class="k">)</span><span class="dl">/</span><span class="mod">ox</span></span>)<tt>
+</tt>        <span class="r">elsif</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k">:(?:</span><span class="il"><span class="idl">#{</span><span class="co">GLOBAL_VARIABLE</span><span class="idl">}</span></span><span class="k">|</span><span class="il"><span class="idl">#{</span><span class="co">METHOD_NAME_EX</span><span class="idl">}</span></span><span class="k">|</span><span class="il"><span class="idl">#{</span><span class="co">STRING</span><span class="idl">}</span></span><span class="k">)</span><span class="dl">/</span><span class="mod">ox</span></span>)<tt>
 </tt>          kind = <span class="sy">:global_variable</span><tt>
 </tt>        <span class="r">elsif</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k"><tt>
 </tt>          </span><span class="ch">\?</span><span class="k"> (?:<tt>
@@ -653,7 +655,7 @@ ol.CodeRay li { white-space: pre }
 </tt>          kind = <span class="sy">:float</span><tt>
 </tt>        <span class="r">elsif</span> <span class="iv">@scanner</span>.scan(<span class="co">INTEGER</span>)<tt>
 </tt>          kind = <span class="sy">:integer</span><tt>
-</tt>        <span class="r">elsif</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k">:(?:</span><span class="il"><span class="dl">#{</span><span class="co">GLOBAL_VARIABLE</span><span class="dl">}</span></span><span class="k">|</span><span class="il"><span class="dl">#{</span><span class="co">METHOD_NAME_EX</span><span class="dl">}</span></span><span class="k">|</span><span class="il"><span class="dl">#{</span><span class="co">STRING</span><span class="dl">}</span></span><span class="k">)</span><span class="dl">/</span><span class="mod">ox</span></span>)<tt>
+</tt>        <span class="r">elsif</span> <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k">:(?:</span><span class="il"><span class="idl">#{</span><span class="co">GLOBAL_VARIABLE</span><span class="idl">}</span></span><span class="k">|</span><span class="il"><span class="idl">#{</span><span class="co">METHOD_NAME_EX</span><span class="idl">}</span></span><span class="k">|</span><span class="il"><span class="idl">#{</span><span class="co">STRING</span><span class="idl">}</span></span><span class="k">)</span><span class="dl">/</span><span class="mod">ox</span></span>)<tt>
 </tt>          kind = <span class="sy">:global_variable</span><tt>
 </tt>        <span class="r">else</span><tt>
 </tt>          <span class="iv">@scanner</span>.scan(<span class="rx"><span class="dl">/</span><span class="k">.</span><span class="dl">/</span><span class="mod">m</span></span>)<tt>
@@ -757,7 +759,7 @@ ol.CodeRay li { white-space: pre }
 </tt>        <span class="r">when</span> <span class="s"><span class="dl">'</span><span class="k">xhtml</span><span class="dl">'</span></span><tt>
 </tt>          <span class="iv">@HTML_BR</span> = <span class="s"><span class="dl">&quot;</span><span class="k">&lt;br /&gt;</span><span class="ch">\n</span><span class="dl">&quot;</span></span><tt>
 </tt>      <span class="r">else</span><tt>
-</tt>        raise <span class="s"><span class="dl">&quot;</span><span class="k">Unknown HTML level: </span><span class="il"><span class="dl">#{</span>level<span class="dl">}</span></span><span class="dl">&quot;</span></span><tt>
+</tt>        raise <span class="s"><span class="dl">&quot;</span><span class="k">Unknown HTML level: </span><span class="il"><span class="idl">#{</span>level<span class="idl">}</span></span><span class="dl">&quot;</span></span><tt>
 </tt>      <span class="r">end</span><tt>
 </tt>    <span class="r">end</span><tt>
 </tt><tt>
@@ -777,14 +779,14 @@ ol.CodeRay li { white-space: pre }
 </tt>    <span class="r">def</span> <span class="fu">to_html</span> token<tt>
 </tt>      css_class = <span class="co">ClassOfKind</span>[token.kind]<tt>
 </tt>      <span class="r">if</span> <span class="r">defined?</span> ::<span class="co">DEBUG</span> <span class="r">and</span> <span class="r">not</span> <span class="co">ClassOfKind</span>.has_key? token.kind<tt>
-</tt>        warn <span class="s"><span class="dl">&quot;</span><span class="k">no token class found for :</span><span class="il"><span class="dl">#{</span>token.kind<span class="dl">}</span></span><span class="dl">&quot;</span></span><tt>
+</tt>        warn <span class="s"><span class="dl">&quot;</span><span class="k">no token class found for :</span><span class="il"><span class="idl">#{</span>token.kind<span class="idl">}</span></span><span class="dl">&quot;</span></span><tt>
 </tt>      <span class="r">end</span><tt>
 </tt>        <tt>
 </tt>      text = text_to_html token.text<tt>
 </tt>      <span class="r">if</span> css_class == <span class="sy">:NO_HIGHLIGHT</span><tt>
 </tt>        text<tt>
 </tt>      <span class="r">else</span><tt>
-</tt>        <span class="s"><span class="dl">&quot;</span><span class="k">&lt;span class=</span><span class="ch">\&quot;</span><span class="il"><span class="dl">#{</span>css_class<span class="dl">}</span></span><span class="ch">\&quot;</span><span class="k">&gt;</span><span class="il"><span class="dl">#{</span>text<span class="dl">}</span></span><span class="k">&lt;/span&gt;</span><span class="dl">&quot;</span></span><tt>
+</tt>        <span class="s"><span class="dl">&quot;</span><span class="k">&lt;span class=</span><span class="ch">\&quot;</span><span class="il"><span class="idl">#{</span>css_class<span class="idl">}</span></span><span class="ch">\&quot;</span><span class="k">&gt;</span><span class="il"><span class="idl">#{</span>text<span class="idl">}</span></span><span class="k">&lt;/span&gt;</span><span class="dl">&quot;</span></span><tt>
 </tt>      <span class="r">end</span><tt>
 </tt>    <span class="r">end</span><tt>
 </tt>    <tt>

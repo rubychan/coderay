@@ -168,8 +168,7 @@ module Scanners
                 end
               end
               ## experimental!
-              value_expected = :set if
-                patterns::REGEXP_ALLOWED[match] or check(/#{patterns::VALUE_FOLLOWS}/o)
+              value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
             
             elsif last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}/o)
               kind = :ident
@@ -286,6 +285,18 @@ module Scanners
               next
             end
 
+          elsif state == :module_expected
+            if match = scan(/<</)
+              kind = :operator
+            else
+              state = :initial
+              if match = scan(/ (?:#{patterns::IDENT}::)* #{patterns::IDENT} /ox)
+                kind = :class
+              else
+                next
+              end
+            end
+
           elsif state == :undef_expected
             state = :undef_comma_expected
             if match = scan(/#{patterns::METHOD_NAME_EX}/o)
@@ -307,6 +318,15 @@ module Scanners
               next
             end
 
+          elsif state == :alias_expected
+            if match = scan(/(#{patterns::METHOD_NAME_OR_SYMBOL})([ \t]+)(#{patterns::METHOD_NAME_OR_SYMBOL})/o)
+              tokens << [self[1], (self[1][0] == ?: ? :symbol : :method)]
+              tokens << [self[2], :space]
+              tokens << [self[3], (self[3][0] == ?: ? :symbol : :method)]
+            end
+            state = :initial
+            next
+
           elsif state == :undef_comma_expected
             if match = scan(/,/)
               kind = :operator
@@ -314,18 +334,6 @@ module Scanners
             else
               state = :initial
               next
-            end
-
-          elsif state == :module_expected
-            if match = scan(/<</)
-              kind = :operator
-            else
-              state = :initial
-              if match = scan(/ (?:#{patterns::IDENT}::)* #{patterns::IDENT} /ox)
-                kind = :class
-              else
-                next
-              end
             end
 
           end

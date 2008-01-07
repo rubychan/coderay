@@ -22,7 +22,7 @@ module CodeRay
 #
 #    Generators[:fancy]  #-> FancyGenerator
 #    # or
-#    require_plugin 'Generators/fancy'
+#    CodeRay.require_plugin 'Generators/fancy'
 module PluginHost
 
   # Raised if Encoders::[] fails because:
@@ -318,7 +318,7 @@ end
 #  CodeRay.require_plugin '<Host ID>/<Plugin ID>'
 #
 # Returns the loaded plugin.
-def require_plugin path
+def self.require_plugin path
   host_id, plugin_id = path.split '/', 2
   host = PluginHost.host_by_id(host_id)
   raise PluginHost::HostNotFound,

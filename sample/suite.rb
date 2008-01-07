@@ -23,6 +23,7 @@ class CodeRaySuite < TestCase
   def test_ALL
     dir do
       for input in Dir["*.rb"] - %w(server.rb stream.rb suite.rb)
+        next if input[/^load_/]
         puts "[ testing #{input}... ]"
         name = File.basename(input, ".rb")
         output = name + '.expected'

@@ -1,2 +1,2 @@
-class Scheme < CodeRay::TestCase
+class Ruby < CodeRay::TestCase
 end

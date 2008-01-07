@@ -87,7 +87,7 @@ namespace :gem do
     $gemfile = "coderay-#$version.gem"
     Dir[GEMDIR + '/*.gem'].each { |g| rm g }
     cp "pkg/#$gemfile", GEMDIR
-    system 'ruby -S index_gem_repository.rb -d gem_server --no-quick'
+    system 'gem generate_index -d gem_server'
   end
 
   desc 'Upload gemfile to ' + FTP_DOMAIN
@@ -109,7 +109,7 @@ namespace :gem do
 
   desc 'Build the Gem and install it locally'
   task :install => :make do
-    system "ruby -S gem install --no-rdoc pkg/#{$gemfile}"
+    system "gem install --no-rdoc pkg/#{$gemfile}"
   end
 
 end

@@ -1,0 +1,5 @@
+comment(# Regexp or division?)
+ident(some_string)operator(.)ident(to_i) regexp<delimiter(/)char(\\s)content(+)delimiter(/)>
+ident(some_string)operator(.)ident(split) operator(/) operator(+)regexp<delimiter(/)content(  this is a regexp after a division )delimiter(/)>
+ident(some_string)operator(.)ident(split) operator(/) operator(+) regexp<delimiter(/)content(  this one, too )delimiter(/)>
+ident(some_string)operator(.)ident(split) regexp<delimiter(/)content(- )delimiter(/)>  comment(# and this one is a regexp without division)

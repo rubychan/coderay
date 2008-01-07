@@ -136,7 +136,7 @@ module Encoders
         when :debug
           classes.inspect
         end
-      " title=\"#{title}\""
+      title ? " title=\"#{title}\"" : ''
     end
 
     def setup options

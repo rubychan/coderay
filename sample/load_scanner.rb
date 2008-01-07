@@ -11,14 +11,14 @@ print 'Now it is loaded: '
 p ruby_scanner
 puts 'See?'
 
-c_scanner = require_plugin 'CodeRay::Scanners/c'
+c_scanner = CodeRay.require_plugin 'CodeRay::Scanners/c'
 print 'Require is also possible: '
 p c_scanner
 puts 'See?'
 
 puts 'Now load some mapped scanners: cpp and plain.'
-require_plugin 'CodeRay::Scanners/cpp'
-require_plugin 'CodeRay::Scanners/plain'
+CodeRay.require_plugin 'CodeRay::Scanners/cpp'
+CodeRay.require_plugin 'CodeRay::Scanners/plain'
 
 puts 'Require all Scanners:'
 CodeRay::Scanners.load_all

@@ -14,18 +14,13 @@ module Scanners
 
     DEF_KEYWORDS = %w[ def ]
     UNDEF_KEYWORDS = %w[ undef ]
+    ALIAS_KEYWORDS = %w[ alias ]
     MODULE_KEYWORDS = %w[class module]
     DEF_NEW_STATE = WordList.new(:initial).
       add(DEF_KEYWORDS, :def_expected).
       add(UNDEF_KEYWORDS, :undef_expected).
+      add(ALIAS_KEYWORDS, :alias_expected).
       add(MODULE_KEYWORDS, :module_expected)
-
-    IDENTS_ALLOWING_REGEXP = %w[
-      and or not while until unless if then elsif when sub sub! gsub gsub!
-      scan slice slice! split
-    ]
-    REGEXP_ALLOWED = WordList.new(false).
-      add(IDENTS_ALLOWING_REGEXP, :set)
 
     PREDEFINED_CONSTANTS = %w[
       nil true false self
@@ -41,12 +36,13 @@ module Scanners
     METHOD_NAME = / #{IDENT} [?!]? /ox
     METHOD_NAME_OPERATOR = /
       \*\*?           # multiplication and power
-      | [-+]@?        # plus, minus
-      | [\/%&|^`~]    # division, modulo or format strings, &and, |or, ^xor, `system`, tilde
+      | [-+~]@?       # plus, minus, tilde with and without @
+      | [\/%&|^`]     # division, modulo or format strings, &and, |or, ^xor, `system`
       | \[\]=?        # array getter and setter
       | << | >>       # append or shift left, shift right
       | <=?>? | >=?   # comparison, rocket operator
-      | ===?          # simple equality and case equality
+      | ===? | =~     # simple equality, case equality, match
+      | ![~=@]?       # negation with and without @, not-equal and not-match
     /ox
     METHOD_NAME_EX = / #{IDENT} (?:[?!]|=(?!>))? | #{METHOD_NAME_OPERATOR} /ox
     INSTANCE_VARIABLE = / @ #{IDENT} /ox
@@ -83,6 +79,7 @@ module Scanners
       | ['"]
       )
     /ox
+    METHOD_NAME_OR_SYMBOL = / #{METHOD_NAME_EX} | #{SYMBOL} /ox
 
     # TODO investigste \M, \c and \C escape sequences
     # (?: M-\\C-|C-\\M-|M-\\c|c\\M-|c|C-|M-)? (?: \\ (?: [0-7]{3} | x[0-9A-Fa-f]{2} | . ) )

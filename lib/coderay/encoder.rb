@@ -140,7 +140,7 @@ module CodeRay
           else
             raise 'Unknown token text type: %p' % text
           end
-        @out << out if @out
+        @out << out if defined?(@out) && @out
       end
 
       def text_token text, kind

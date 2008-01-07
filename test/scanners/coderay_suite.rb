@@ -12,7 +12,8 @@ begin
 rescue LoadError
   begin
     require 'rubygems'
-    require_gem 'term-ansicolor'
+    gem 'term-ansicolor'
+    require 'term/ansicolor'
   rescue LoadError
     # ignore
   end
@@ -21,6 +22,9 @@ end unless ENV['nocolor']
 if defined? Term::ANSIColor
   class String
     include Term::ANSIColor
+    def green_or_red result
+      result ? green : red
+    end
   end
 else
   class String
@@ -30,6 +34,9 @@ else
           self
         end
       END
+    end
+    def green_or_red result
+      result ? upcase : downcase
     end
   end
 end
@@ -91,15 +98,15 @@ module Enumerable
 end
 
 module CodeRay
-
+  
   require 'test/unit'
-
+  
   class TestCase < Test::Unit::TestCase
     
     if ENV['deluxe']
-      MAX_CODE_SIZE_TO_HIGHLIGHT = 200_000
-      MAX_CODE_SIZE_TO_TEST = 1_000_000
-      DEFAULT_MAX = 512
+      MAX_CODE_SIZE_TO_HIGHLIGHT = 5_000_000
+      MAX_CODE_SIZE_TO_TEST = 5_000_000
+      DEFAULT_MAX = 1024
     else
       MAX_CODE_SIZE_TO_HIGHLIGHT = 20_000
       MAX_CODE_SIZE_TO_TEST = 100_000
@@ -110,7 +117,7 @@ module CodeRay
       def inherited child
         CodeRay::TestSuite << child.suite
       end
-
+      
       # Calls its block with the working directory set to the examples
       # for this test case.
       def dir
@@ -119,11 +126,11 @@ module CodeRay
           yield
         end
       end
-
+      
       def lang
         @lang ||= name.downcase.to_sym
       end
-
+      
       def extension extension = nil
         if extension
           @extension = extension.to_s
@@ -155,13 +162,13 @@ module CodeRay
       
       puts 'Finished in '.green + '%0.2fs'.white % time_for_lang + '.'.green
     end
-
+    
     def examples_test scanner, max
       self.class.dir do
         extension = 'in.' + self.class.extension
         for example_filename in Dir["*.#{extension}"]
           name = File.basename(example_filename, ".#{extension}")
-          next if ENV['only'] and ENV['only'] != name
+          next if ENV['lang'] && ENV['only'] && ENV['only'] != name
           print name_and_size = ('%15s'.cyan + ' %4.0fK: '.yellow) %
             [ name, File.size(example_filename) / 1024.0 ]
           time_for_file = Benchmark.realtime do
@@ -179,16 +186,16 @@ module CodeRay
         return
       end
       code = File.open(example_filename, 'rb') { |f| break f.read }
-    
+      
       incremental_test scanner, code, max unless ENV['noincremental']
-
+      
       unless ENV['noshuffled'] or code.size < [0].pack('Q').size
         shuffled_test scanner, code, max
       else
         print '-skipped- '.concealed
       end
-
-      tokens = compare_test scanner, code, name
+      
+      tokens = complete_test scanner, code, name
       
       identity_test scanner, tokens
       
@@ -200,51 +207,73 @@ module CodeRay
     end
     
     def random_test scanner, max
-      print "Random test...".red
+      print "Random test...".yellow
+      ok = true
       for size in (0..max).progress
         srand size + 17
         scanner.string = Array.new(size) { rand 256 }.pack 'c*'
-        scanner.tokenize
+        begin
+          scanner.tokenize
+        rescue
+          flunk "Random test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}!" unless ENV['noassert']
+          ok = false
+          break
+        end
       end
-      print "\b\b\b"
+      print "\b" * 'Random test...'.size
+      print 'Random test'.green_or_red(ok)
       puts ' - finished'.green
     end
     
     def incremental_test scanner, code, max
-      print 'incremental...'.red
+      print 'incremental...'.yellow
+      ok = true
       for size in (0..max).progress
         break if size > code.size
         scanner.string = code[0,size]
-        scanner.tokenize
+        begin
+          scanner.tokenize
+        rescue
+          flunk "Incremental test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}!" unless ENV['noassert']
+          ok = false
+          break
+        end
       end
-      print "\b\b\b"
-      print ', '.red
+      print "\b" * 'incremental...'.size
+      print 'incremental, '.green_or_red(ok)
     end
-
+    
     def shuffled_test scanner, code, max
-      print 'shuffled...'.red
+      print 'shuffled...'.yellow
       code_bits = code[0,max].unpack('Q*')  # split into quadwords...
+      ok = true
       for i in (0..max / 4).progress
         srand i
         code_bits.shuffle!                     # ...mix...
         scanner.string = code_bits.pack('Q*')  # ...and join again
-        scanner.tokenize
+        begin
+          scanner.tokenize
+        rescue
+          flunk 'shuffle test failed!' unless ENV['noassert']
+          ok = false
+          break
+        end
       end
-
+      
       # highlighted = highlighter.encode_tokens scanner.tokenize
       # File.open(name + '.shuffled.html', 'w') { |f| f.write highlighted }
-      print "\b\b\b"
-      print ', '.red
+      print "\b" * 'shuffled...'.size
+      print 'shuffled, '.green_or_red(ok)
     end
     
-    def compare_test scanner, code, name
-      print 'complete...'.red
+    def complete_test scanner, code, name
+      print 'complete...'.yellow
       expected_filename = name + '.expected.' + Tokenizer.file_extension
       scanner.string = code
       tokens = scanner.tokens
       result = Tokenizer.encode_tokens tokens
-
-      if File.exist? expected_filename
+      
+      if File.exist?(expected_filename) && !(ENV['lang'] && ENV['new'] && name == ENV['new'])
         expected = File.open(expected_filename, 'rb') { |f| break f.read }
         ok = expected == result
         actual_filename = expected_filename.sub('.expected.', '.actual.')
@@ -259,67 +288,91 @@ module CodeRay
         unless ENV['noassert']
           assert(ok, "Scan error: unexpected output".red)
         end
+        print "\b" * 'complete...'.size
+        print 'complete, '.green_or_red(ok)
       else
-        print "\b" * 'complete...'.size, "new test..."
         File.open(expected_filename, 'wb') { |f| f.write result }
+        print "\b" * 'complete...'.size, "new test, ".blue
       end
-      
-      print "\b\b\b"
-      print ', '.red
       
       tokens
     end
     
     def identity_test scanner, tokens
-      print 'identity...'.red
-      unless scanner.instance_of? CodeRay::Scanners[:debug]
-        assert_equal scanner.code, tokens.text
+      print 'identity...'.yellow
+      if scanner.instance_of? CodeRay::Scanners[:debug]
+        ok = true
+      else
+        ok = scanner.code == tokens.text
+        unless ok
+          flunk 'identity test failed!' unless ENV['noassert']
+        end
       end
-      print "\b\b\b"
-      print ', '.red
+      print "\b" * 'identity...'.size
+      print 'identity, '.green_or_red(ok)
     end
     
     Highlighter = CodeRay::Encoders[:html].new(
       :tab_width => 2,
-      :line_numbers => :inline,
+      :line_numbers => :table,
       :wrap => :page,
       :hint => :debug,
       :css => :class
     )
-
+    
     def highlight_test tokens, name
-      print 'highlighting, '.red
-      highlighted = Highlighter.encode_tokens tokens
-      File.open(name + '.actual.html', 'w') { |f| f.write highlighted }      
+      print 'highlighting...'.yellow
+      ok = true
+      begin
+        highlighted = Highlighter.encode_tokens tokens
+      rescue
+        flunk 'highlighting test failed!' unless ENV['noassert']
+        ok = false
+        break
+      end
+      File.open(name + '.actual.html', 'w') { |f| f.write highlighted }
+      print "\b" * 'highlighting...'.size
+      print 'highlighting, '.green_or_red(ok)
     end
-
+    
   end
   
   require 'test/unit/testsuite'
-
+  
   class TestSuite
     @suite = Test::Unit::TestSuite.new 'CodeRay::Scanners'
     class << self
-
+      
       def << sub_suite
         @suite << sub_suite
       end
-
+      
       def load_suite name
         begin
           suite = File.join($mydir, name, 'suite.rb')
           require suite
         rescue LoadError
           $stderr.puts <<-ERR
-
+          
       !! Suite #{suite} not found
-
+          
           ERR
           false
         end
       end
-
+      
+      def check_env_lang
+        for key in %w(only new)
+          if ENV[key] && ENV[key][/^(\w+)\.([\w_]+)$/]
+            ENV['lang'] = $1
+            ENV[key] = $2
+          end
+        end
+      end
+      
       def load
+        ENV['only'] = ENV['new'] if ENV['new']
+        check_env_lang
         subsuite = ARGV.find { |a| break $& if a[/^[^-].*/] } || ENV['lang']
         if subsuite
           load_suite(subsuite) or exit
@@ -329,7 +382,7 @@ module CodeRay
           end
         end
       end
-
+      
       def run
         load
         $VERBOSE = true
@@ -339,5 +392,5 @@ module CodeRay
       end
     end
   end
-
+  
 end

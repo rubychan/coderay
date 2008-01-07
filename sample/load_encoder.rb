@@ -11,14 +11,14 @@ print 'Now it is loaded: '
 p yaml_encoder
 puts 'See?'
 
-tokens_encoder = require_plugin 'CodeRay::Encoders/tokens'
+tokens_encoder = CodeRay.require_plugin 'CodeRay::Encoders/tokens'
 print 'Require is also possible: '
 p tokens_encoder
 puts 'See?'
 
 puts 'Now load some mapped encoders: stats and plain.'
-require_plugin 'CodeRay::Encoders/stats'
-require_plugin 'CodeRay::Encoders/plain'
+CodeRay.require_plugin 'CodeRay::Encoders/stats'
+CodeRay.require_plugin 'CodeRay::Encoders/plain'
 
 puts 'Require all Encoders:'
 CodeRay::Encoders.load_all

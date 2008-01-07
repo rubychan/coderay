@@ -1,0 +1,17 @@
+[First version
+zoso@foton.es**20060923203447] [Add :wrap option to the LaTeX encoder
+zoso@foton.es**20060924125211] 
+[Remove all non-alphanumeric characters from LaTeX commands
+zoso@foton.es**20060924143810] 
+[Use \synbs instead of $\backslash$, seems to work better in verbatim
+zoso@foton.es**20060924143837] 
+[Add a very basic Javascript scanner (adapted Ruby scanner)
+zoso@foton.es**20060924154208] 
+[Improve LaTeX special character escaping
+zoso@foton.es**20060927233750
+ * Rewrite Latex#escape_latex method, so it uses only one pass (avoids some
+   escape-the-already-escaped-characters problems and it's probably faster)
+ * Now backslashes are substituted by "\synbs{}", to avoid problems with letters
+   that could be just after the \synbs, turning it into another, undefined
+   command like "\synbsn" or something
+] 

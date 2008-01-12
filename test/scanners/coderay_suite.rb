@@ -6,18 +6,8 @@ $:.unshift File.join($mydir, '..', '..', 'lib')
 require 'coderay'
 
 debug, $DEBUG = $DEBUG, false
-# Try to load Term::ANSIColor...
-begin
-  require 'term-ansicolor'
-rescue LoadError
-  begin
-    require 'rubygems'
-    gem 'term-ansicolor'
-    require 'term/ansicolor'
-  rescue LoadError
-    # ignore
-  end
-end unless ENV['nocolor']
+
+require 'term/ansicolor' unless ENV['nocolor']
 
 if defined? Term::ANSIColor
   class String
@@ -328,7 +318,7 @@ module CodeRay
       rescue
         flunk 'highlighting test failed!' unless ENV['noassert']
         ok = false
-        break
+        return
       end
       File.open(name + '.actual.html', 'w') { |f| f.write highlighted }
       print "\b" * 'highlighting...'.size

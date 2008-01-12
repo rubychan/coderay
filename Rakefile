@@ -11,20 +11,28 @@ def EXTRA_FILES.in folder
   end
 end
 
-for task_file in Dir['rake_tasks/*.rake']
-  load task_file
-end
-
-task :default => 'gem:make'
+task :default => :test
 
 task :upload => %w( gem:upload doc:upload example:upload )
+
+def ruby command
+  params =
+    if RUBY == 'rbx'
+      '-I/usr/local/lib/ruby/1.8'
+    else
+      '-w'
+    end
+  cmd = "#{RUBY} #{params} #{command}"
+  puts cmd
+  system cmd
+end
 
 task '19' do
   RUBY.replace 'ruby19'
 end
 
 task '18' do
-  RUBY.replace '18ruby'
+  RUBY.replace 'ruby'
 end
 
 task 'yarv' do
@@ -39,6 +47,7 @@ task 'rubinius' do
   RUBY.replace 'rbx'
 end
 
-if ruby = ENV['ruby']
-  RUBY.replace ruby
+for task_file in Dir['rake_tasks/*.rake']
+  load task_file
 end
+

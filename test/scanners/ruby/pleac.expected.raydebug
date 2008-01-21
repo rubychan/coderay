@@ -200,8 +200,8 @@ string<delimiter(")content(thIS is a loNG liNE)delimiter(")>operator(.)ident(gsu
 
 
 comment(# @@PLEAC@@_1.10)
-string<delimiter(")content(I have )inline<inline_delimiter(#{)ident(n)integer(+1)inline_delimiter(})>content( guanacos.)delimiter(")>
-ident(print) string<delimiter(")content(I have )delimiter(")>operator(,) ident(n)integer(+1)operator(,) string<delimiter(")content( guanacos.)delimiter(")>
+string<delimiter(")content(I have )inline<inline_delimiter(#{)ident(n)operator(+)integer(1)inline_delimiter(})>content( guanacos.)delimiter(")>
+ident(print) string<delimiter(")content(I have )delimiter(")>operator(,) ident(n)operator(+)integer(1)operator(,) string<delimiter(")content( guanacos.)delimiter(")>
 
 
 comment(# @@PLEAC@@_1.11)
@@ -459,7 +459,7 @@ reserved(end)
 
 
 comment(# @@PLEAC@@_2.7)
-ident(random) operator(=) ident(rand)operator(()ident(y)operator(-)ident(x)integer(+1)operator(\))operator(+)ident(x)
+ident(random) operator(=) ident(rand)operator(()ident(y)operator(-)ident(x)operator(+)integer(1)operator(\))operator(+)ident(x)
 
 ident(chars) operator(=) operator([)string<delimiter(")content(A)delimiter(")>operator(..)string<delimiter(")content(Z)delimiter(")>operator(,)string<delimiter(")content(a)delimiter(")>operator(..)string<delimiter(")content(z)delimiter(")>operator(,)string<delimiter(")content(0)delimiter(")>operator(..)string<delimiter(")content(9)delimiter(")>operator(])operator(.)ident(collect) operator({) operator(|)ident(r)operator(|) ident(r)operator(.)ident(to_a) operator(})operator(.)ident(join) operator(+) string<delimiter(%q()content(!@$%^&*)delimiter(\))>
 ident(password) operator(=) operator(()integer(1)operator(..)integer(8)operator(\))operator(.)ident(collect) operator({) ident(chars)operator([)ident(rand)operator(()ident(chars)operator(.)ident(size)operator(\))operator(]) operator(})operator(.)ident(pack)operator(()string<delimiter(")content(C*)delimiter(")>operator(\))
@@ -953,7 +953,7 @@ reserved(end)
 comment(# @@PLEAC@@_4.3)
 comment(#   (note: AFAIK Ruby doesn't allow gory change of Array length\))
 comment(# grow the array by assigning nil to past the end of array)
-ident(ary)operator([)ident(new_size)integer(-1)operator(]) operator(=) pre_constant(nil)
+ident(ary)operator([)ident(new_size)operator(-)integer(1)operator(]) operator(=) pre_constant(nil)
 comment(# shrink the array by slicing it down)
 ident(ary)operator(.)ident(slice!)operator(()ident(new_size)operator(..)integer(-1)operator(\))
 comment(# init the array with given size)
@@ -1207,8 +1207,8 @@ reserved(end)
 
 comment(# @@PLEAC@@_4.17)
 reserved(def) method(fisher_yates_shuffle)operator(()ident(a)operator(\))
-    operator(()ident(a)operator(.)ident(size)integer(-1)operator(\))operator(.)ident(downto)operator(()integer(1)operator(\)) operator({) operator(|)ident(i)operator(|)
-        ident(j) operator(=) ident(rand)operator(()ident(i)integer(+1)operator(\))
+    operator(()ident(a)operator(.)ident(size)operator(-)integer(1)operator(\))operator(.)ident(downto)operator(()integer(1)operator(\)) operator({) operator(|)ident(i)operator(|)
+        ident(j) operator(=) ident(rand)operator(()ident(i)operator(+)integer(1)operator(\))
         ident(a)operator([)ident(i)operator(])operator(,) ident(a)operator([)ident(j)operator(]) operator(=) ident(a)operator([)ident(j)operator(])operator(,) ident(a)operator([)ident(i)operator(]) reserved(if) ident(i) operator(!=) ident(j)
     operator(})
 reserved(end)
@@ -1252,7 +1252,7 @@ reserved(class) class(WordFormatter)
         comment(# now process each item, picking out proper piece for this position)
         integer(0)operator(.)ident(upto)operator(()ident(rows) operator(*) ident(columns) operator(-) integer(1)operator(\)) operator({) operator(|)ident(item)operator(|)
             ident(target) operator(=) operator(()ident(item) operator(%) ident(columns)operator(\)) operator(*) ident(rows) operator(+) operator(()ident(item) operator(/) ident(columns)operator(\))
-            ident(eol) operator(=) operator(()operator(()ident(item)integer(+1)operator(\)) operator(%) ident(columns) operator(==) integer(0)operator(\))
+            ident(eol) operator(=) operator(()operator(()ident(item)operator(+)integer(1)operator(\)) operator(%) ident(columns) operator(==) integer(0)operator(\))
             ident(piece) operator(=) ident(wordlist)operator([)ident(target)operator(]) operator(||) string<delimiter(")delimiter(")>
             ident(piece) operator(=) ident(piece)operator(.)ident(ljust)operator(()ident(collen)operator(\)) reserved(unless) ident(eol)
             ident(print) ident(piece)
@@ -5256,7 +5256,7 @@ ident(lines)operator(.)ident(tie)operator(()ident(filename)operator(,) constant(
     comment(# print the records in order.)
     comment(# Opposed to perl, the tied array behaves exactly as a normal array)
     ident(puts) string<delimiter(")char(\\n)content(Original)delimiter(")>
-    reserved(for) ident(i) reserved(in) integer(0)operator(..)operator(()ident(lines)operator(.)ident(length)integer(-1)operator(\))
+    reserved(for) ident(i) reserved(in) integer(0)operator(..)operator(()ident(lines)operator(.)ident(length)operator(-)integer(1)operator(\))
         ident(puts) string<delimiter(")inline<inline_delimiter(#{)ident(i)inline_delimiter(})>content(: )inline<inline_delimiter(#{)ident(lines)operator([)ident(i)operator(])inline_delimiter(})>delimiter(")>
     reserved(end)
 
@@ -5505,7 +5505,7 @@ ident(values) operator(=) operator(()integer(1)operator(..)integer(5)operator(\)
 reserved(for) ident(i) reserved(in) ident(values)
     ident(max) operator(=) ident(i) reserved(if) ident(max) operator(<) ident(i)
 reserved(end)
-ident(ratio) operator(=) ident(Float)operator(()ident(ws_col)integer(-12)operator(\))operator(/)ident(max)          comment(# chars per unit)
+ident(ratio) operator(=) ident(Float)operator(()ident(ws_col)operator(-)integer(12)operator(\))operator(/)ident(max)          comment(# chars per unit)
 reserved(for) ident(i) reserved(in) ident(values)
     ident(printf) string<delimiter(")content(%8.1f %s)char(\\n)delimiter(")>operator(,) ident(i)operator(,) string<delimiter(")content(*)delimiter(")> operator(*) operator(()ident(ratio)operator(*)ident(i)operator(\))
 reserved(end)

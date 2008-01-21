@@ -124,7 +124,8 @@ module Scanners
 # {{{
           if match = scan(/[ \t\f]+/)
             kind = :space
-            match << scan(/\s*/) unless eos? or heredocs
+            match << scan(/\s*/) unless eos? || heredocs
+            value_expected = true if match.index(?\n) # FIXME not quite true
             tokens << [match, kind]
             next
             
@@ -175,6 +176,7 @@ module Scanners
               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
 
             # OPERATORS #
+            # TODO: match (), [], {} as one single operator
             elsif not last_token_dot and match = scan(/ \.\.\.? | (?:\.|::)() | [,\(\)\[\]\{\}] | ==?=? /x)
               if match !~ / [.\)\]\}] /x or match =~ /\.\.\.?/
                 value_expected = :set
@@ -210,8 +212,9 @@ module Scanners
               interpreted = true
               state = patterns::StringState.new :regexp, interpreted, match
 
-            elsif match = scan(/#{patterns::NUMERIC}/o)
-              kind = if self[1] then :float else :integer end
+            # elsif match = scan(/[-+]?#{patterns::NUMERIC}/o)
+            elsif match = value_expected ? scan(/[-+]?#{patterns::NUMERIC}/o) : scan(/#{patterns::NUMERIC}/o)
+              kind = self[1] ? :float : :integer
 
             elsif match = scan(/#{patterns::SYMBOL}/o)
               case delim = match[1]
@@ -338,9 +341,11 @@ module Scanners
 
           end
 # }}}
-
-          value_expected = value_expected == :set
-          last_token_dot = last_token_dot == :set
+          
+          unless kind == :error
+            value_expected = value_expected == :set
+            last_token_dot = last_token_dot == :set
+          end
 
           if $DEBUG and not kind
             raise_inspect 'Error token %p in line %d' %

@@ -3,7 +3,7 @@ constant(Index)operator(:) regexp<delimiter(/)content(Users)delimiter(/)>ident(j
 operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(===)operator(=)
 operator(-)operator(-)operator(-) regexp<delimiter(/)content(Users)delimiter(/)>ident(jgoebel)operator(/)ident(rails)operator(/)ident(pastie)operator(/)ident(app)operator(/)ident(controllers)operator(/)ident(pastes_controller)operator(.)ident(rb)  operator(()ident(revision) integer(1431)operator(\))
 operator(+)operator(+)operator(+) regexp<delimiter(/)content(Users)delimiter(/)>ident(jgoebel)operator(/)ident(rails)operator(/)ident(pastie)operator(/)ident(app)operator(/)ident(controllers)operator(/)ident(pastes_controller)operator(.)ident(rb)  operator(()ident(revision) integer(1437)operator(\))
-error(@)error(@) integer(-1)operator(,)integer(6) integer(+1)operator(,)integer(10) error(@)error(@)
+error(@)error(@) integer(-1)operator(,)integer(6) operator(+)integer(1)operator(,)integer(10) error(@)error(@)
 operator(+)ident(require) string<delimiter(')content(login_system)delimiter(')>
  ident(require) string<delimiter(')content(coderay)delimiter(')>
  
@@ -14,7 +14,7 @@ operator(+)  ident(before_filter) symbol(:attempt_cookie_login)
  
  comment(#  caches_action :recent)
  
-error(@)error(@) integer(-10)operator(,)integer(11) integer(+14)operator(,)integer(7) error(@)error(@)
+error(@)error(@) integer(-10)operator(,)integer(11) operator(+)integer(14)operator(,)integer(7) error(@)error(@)
  
    reserved(def) method(show)
      instance_variable(@paste) operator(=) constant(Paste)operator(.)ident(find)operator(()ident(params)operator([)symbol(:id)operator(])operator(\))

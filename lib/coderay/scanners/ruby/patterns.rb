@@ -69,7 +69,7 @@ module Scanners
     EXPONENT = / [eE] [+-]? #{DECIMAL} /ox
     FLOAT_SUFFIX = / #{EXPONENT} | \. #{DECIMAL} #{EXPONENT}? /ox
     FLOAT_OR_INT = / #{DECIMAL} (?: #{FLOAT_SUFFIX} () )? /ox
-    NUMERIC = / [-+]? (?: (?=0) (?: #{OCTAL} | #{HEXADECIMAL} | #{BINARY} ) | #{FLOAT_OR_INT} ) /ox
+    NUMERIC = / (?: (?=0) (?: #{OCTAL} | #{HEXADECIMAL} | #{BINARY} ) | #{FLOAT_OR_INT} ) /ox
 
     SYMBOL = /
       :
@@ -126,15 +126,14 @@ module Scanners
     /mx
     
     # Checks for a valid value to follow. This enables
-    # fancy_allowed in method calls.
+    # value_expected in method calls without parentheses.
     VALUE_FOLLOWS = /
-      \s+
+      (?>[ \t\f\v]+)
       (?:
         [%\/][^\s=]
-      |
-        <<-?\S
-      |
-        #{CHARACTER}
+      | <<-?\S
+      | [-+] \d
+      | #{CHARACTER}
       )
     /x
 

@@ -747,7 +747,7 @@ comment(#   end)
 comment(# end)
 
 reserved(if) global_variable($0) operator(==) pre_constant(__FILE__)
-  ident(eval) pre_constant(DATA)operator(.)ident(read)operator(,) pre_constant(nil)operator(,) global_variable($0)operator(,) pre_constant(__LINE__)integer(+4)
+  ident(eval) pre_constant(DATA)operator(.)ident(read)operator(,) pre_constant(nil)operator(,) global_variable($0)operator(,) pre_constant(__LINE__)operator(+)integer(4)
 reserved(end)
 
 comment(# = rweb - CGI Support Library)
@@ -984,7 +984,7 @@ reserved(class) class(Rweb)
                     comment(# If the index is numerical convert it to an Integer)
                     ident(key) operator(=) ident(key)operator(.)ident(to_i)
                 reserved(elsif) ident(key)operator([)integer(0)operator(])operator(.)ident(chr) operator(==) string<delimiter(")content(')delimiter(")> operator(||) ident(key)operator([)integer(0)operator(])operator(.)ident(chr) operator(==) string<delimiter(')content(")delimiter(')>
-                    ident(key) operator(=) ident(key)operator([)integer(1)operator(,) ident(key)operator(.)ident(length)operator(()operator(\)) integer(-2)operator(])
+                    ident(key) operator(=) ident(key)operator([)integer(1)operator(,) ident(key)operator(.)ident(length)operator(()operator(\)) operator(-)integer(2)operator(])
                 reserved(end)
                 reserved(if) operator(!)ident(akt)operator(.)ident(has_key?)operator(()ident(key)operator(\)) operator(||) operator(!)ident(akt)operator([)ident(key)operator(])operator(.)ident(class) operator(==) constant(Hash)
                     comment(# create an empty Hash if there isn't already one)
@@ -1033,7 +1033,7 @@ reserved(class) class(Rweb)
                             comment(# If the index is numerical convert it to an Integer)
                             ident(key) operator(=) ident(key)operator(.)ident(to_i)
                         reserved(elsif) ident(key)operator([)integer(0)operator(])operator(.)ident(chr) operator(==) string<delimiter(")content(')delimiter(")> operator(||) ident(key)operator([)integer(0)operator(])operator(.)ident(chr) operator(==) string<delimiter(')content(")delimiter(')>
-                            ident(key) operator(=) ident(key)operator([)integer(1)operator(,) ident(key)operator(.)ident(length)operator(()operator(\)) integer(-2)operator(])
+                            ident(key) operator(=) ident(key)operator([)integer(1)operator(,) ident(key)operator(.)ident(length)operator(()operator(\)) operator(-)integer(2)operator(])
                         reserved(end)
                         reserved(if) operator(!)ident(akt)operator(.)ident(has_key?)operator(()ident(key)operator(\)) operator(||) operator(!)ident(akt)operator([)ident(key)operator(])operator(.)ident(class) operator(==) constant(Hash)
                             comment(# create an empty Hash if there isn't already one)
@@ -2397,7 +2397,7 @@ ident(private)
 reserved(end)
 
 reserved(if) global_variable($0) operator(==) pre_constant(__FILE__)
-  ident(eval) pre_constant(DATA)operator(.)ident(read)operator(,) pre_constant(nil)operator(,) global_variable($0)operator(,) pre_constant(__LINE__)integer(+4)
+  ident(eval) pre_constant(DATA)operator(.)ident(read)operator(,) pre_constant(nil)operator(,) global_variable($0)operator(,) pre_constant(__LINE__)operator(+)integer(4)
 reserved(end)
 
 ident(require) string<delimiter(')content(test/unit)delimiter(')>
@@ -3381,7 +3381,7 @@ reserved(end)
 comment(#$stdin = DATA)
 
 ident(gets)operator(.)ident(to_i)operator(.)ident(times) reserved(do) operator(|)ident(i)operator(|)
-  ident(puts) string<delimiter(")content(Scenario #)inline<inline_delimiter(#{)ident(i)integer(+1)inline_delimiter(})>content(:)delimiter(")>
+  ident(puts) string<delimiter(")content(Scenario #)inline<inline_delimiter(#{)ident(i)operator(+)integer(1)inline_delimiter(})>content(:)delimiter(")>
   ident(fs) operator(=) string<delimiter(')delimiter(')>
   integer(9)operator(.)ident(times) operator({) ident(fs) operator(<<) ident(gets) operator(})
   ident(cube) operator(=) constant(Cube)operator(.)ident(new)

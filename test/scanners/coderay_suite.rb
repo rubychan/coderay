@@ -1,4 +1,5 @@
 require 'benchmark'
+require 'ftools'
 
 $mydir = File.dirname(__FILE__)
 $:.unshift File.join($mydir, '..', '..', 'lib')
@@ -143,7 +144,7 @@ module CodeRay
         scanner = CodeRay::Scanners[self.class.lang].new
         max = ENV.fetch('max', DEFAULT_MAX).to_i
         
-        random_test scanner, max unless ENV['norandom']
+        random_test scanner, max unless ENV['norandom'] || ENV['only']
         
         unless ENV['noexamples']
           examples_test scanner, max
@@ -159,7 +160,7 @@ module CodeRay
         for example_filename in Dir["*.#{extension}"]
           name = File.basename(example_filename, ".#{extension}")
           next if ENV['lang'] && ENV['only'] && ENV['only'] != name
-          print name_and_size = ('%15s'.cyan + ' %4.0fK: '.yellow) %
+          print name_and_size = ('%15s'.cyan + ' %6.1fK: '.yellow) %
             [ name, File.size(example_filename) / 1024.0 ]
           time_for_file = Benchmark.realtime do
             example_test example_filename, name, scanner, max
@@ -172,7 +173,7 @@ module CodeRay
     
     def example_test example_filename, name, scanner, max
       if File.size(example_filename) > MAX_CODE_SIZE_TO_TEST and not ENV['only']
-        print 'too big. '
+        print 'too big, '
         return
       end
       code = File.open(example_filename, 'rb') { |f| break f.read }
@@ -185,12 +186,12 @@ module CodeRay
         print '-skipped- '.concealed
       end
       
-      tokens = complete_test scanner, code, name
+      tokens, ok = complete_test scanner, code, name
       
       identity_test scanner, tokens
       
-      unless ENV['nohl'] or (code.size > MAX_CODE_SIZE_TO_HIGHLIGHT and not ENV['only'])
-        highlight_test tokens, name
+      unless ENV['nohighlighting'] or (code.size > MAX_CODE_SIZE_TO_HIGHLIGHT and not ENV['only'])
+        highlight_test tokens, name, ok
       else
         print '-- skipped -- '.concealed
       end
@@ -198,7 +199,7 @@ module CodeRay
     
     def random_test scanner, max
       print "Random test...".yellow
-      ok = true
+      okay = true
       for size in (0..max).progress
         srand size + 17
         scanner.string = Array.new(size) { rand 256 }.pack 'c*'
@@ -206,54 +207,51 @@ module CodeRay
           scanner.tokenize
         rescue
           flunk "Random test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}!" unless ENV['noassert']
-          ok = false
+          okay = false
           break
         end
       end
       print "\b" * 'Random test...'.size
-      print 'Random test'.green_or_red(ok)
-      puts ' - finished'.green
+      print 'Random test'.green_or_red(okay)
+      puts ' - finished.'.green
     end
     
     def incremental_test scanner, code, max
-      print 'incremental...'.yellow
-      ok = true
-      for size in (0..max).progress
-        break if size > code.size
-        scanner.string = code[0,size]
-        begin
-          scanner.tokenize
-        rescue
-          flunk "Incremental test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}!" unless ENV['noassert']
-          ok = false
-          break
+      report 'incremental' do
+        okay = true
+        for size in (0..max).progress
+          break if size > code.size
+          scanner.string = code[0,size]
+          begin
+            scanner.tokenize
+          rescue
+            flunk "Incremental test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}!" unless ENV['noassert']
+            okay = false
+            break
+          end
         end
+        okay
       end
-      print "\b" * 'incremental...'.size
-      print 'incremental, '.green_or_red(ok)
     end
     
     def shuffled_test scanner, code, max
-      print 'shuffled...'.yellow
-      code_bits = code[0,max].unpack('Q*')  # split into quadwords...
-      ok = true
-      for i in (0..max / 4).progress
-        srand i
-        code_bits.shuffle!                     # ...mix...
-        scanner.string = code_bits.pack('Q*')  # ...and join again
-        begin
-          scanner.tokenize
-        rescue
-          flunk 'shuffle test failed!' unless ENV['noassert']
-          ok = false
-          break
+      report 'shuffled' do
+        code_bits = code[0,max].unpack('Q*')  # split into quadwords...
+        okay = true
+        for i in (0..max / 4).progress
+          srand i
+          code_bits.shuffle!                     # ...mix...
+          scanner.string = code_bits.pack('Q*')  # ...and join again
+          begin
+            scanner.tokenize
+          rescue
+            flunk 'shuffle test failed!' unless ENV['noassert']
+            okay = false
+            break
+          end
         end
+        okay
       end
-      
-      # highlighted = highlighter.encode_tokens scanner.tokenize
-      # File.open(name + '.shuffled.html', 'w') { |f| f.write highlighted }
-      print "\b" * 'shuffled...'.size
-      print 'shuffled, '.green_or_red(ok)
     end
     
     def complete_test scanner, code, name
@@ -283,23 +281,24 @@ module CodeRay
       else
         File.open(expected_filename, 'wb') { |f| f.write result }
         print "\b" * 'complete...'.size, "new test, ".blue
+        ok = true
       end
       
-      tokens
+      return tokens, ok
     end
     
     def identity_test scanner, tokens
-      print 'identity...'.yellow
-      if scanner.instance_of? CodeRay::Scanners[:debug]
-        ok = true
-      else
-        ok = scanner.code == tokens.text
-        unless ok
-          flunk 'identity test failed!' unless ENV['noassert']
+      report 'identity' do
+        if scanner.instance_of? CodeRay::Scanners[:debug]
+          okay = true
+        else
+          okay = scanner.code == tokens.text
+          unless okay
+            flunk 'identity test failed!' unless ENV['noassert']
+          end
+          okay
         end
       end
-      print "\b" * 'identity...'.size
-      print 'identity, '.green_or_red(ok)
     end
     
     Highlighter = CodeRay::Encoders[:html].new(
@@ -310,21 +309,27 @@ module CodeRay
       :css => :class
     )
     
-    def highlight_test tokens, name
-      print 'highlighting...'.yellow
-      ok = true
-      begin
-        highlighted = Highlighter.encode_tokens tokens
-      rescue
-        flunk 'highlighting test failed!' unless ENV['noassert']
-        ok = false
-        return
+    def highlight_test tokens, name, okay
+      report 'highlighting' do
+        begin
+          highlighted = Highlighter.encode_tokens tokens
+        rescue
+          flunk 'highlighting test failed!' unless ENV['noassert']
+          return
+        end
+        File.open(name + '.actual.html', 'w') { |f| f.write highlighted }
+        File.copy(name + '.actual.html', name + '.expected.html') if okay
+        true
       end
-      File.open(name + '.actual.html', 'w') { |f| f.write highlighted }
-      print "\b" * 'highlighting...'.size
-      print 'highlighting, '.green_or_red(ok)
     end
     
+    def report task
+      print "#{task}...".yellow
+      okay = yield
+      print "\b" * "#{task}...".size
+      print "#{task}, ".green_or_red(okay)
+      okay
+    end
   end
   
   require 'test/unit/testsuite'

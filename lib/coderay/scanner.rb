@@ -66,7 +66,9 @@ module CodeRay
         end
 
         def normify code
-          code = code.to_s.to_unix
+          code = code.to_s
+          code.force_encoding 'binary' if code.respond_to? :force_encoding
+          code.to_unix
         end
         
         def file_extension extension = nil

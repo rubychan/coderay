@@ -35,6 +35,10 @@ task '18' do
   RUBY.replace 'ruby'
 end
 
+task '187' do
+  RUBY.replace 'ruby187'
+end
+
 task 'yarv' do
   RUBY.replace 'ruby-yarv'
 end

@@ -75,8 +75,6 @@
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
 			<date>2006-10-31T02:10:52Z</date>
-			<key>selected</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -89,6 +87,10 @@
 		<dict>
 			<key>filename</key>
 			<string>../TODO</string>
+			<key>lastUsed</key>
+			<date>2008-01-21T03:03:08Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>name</key>

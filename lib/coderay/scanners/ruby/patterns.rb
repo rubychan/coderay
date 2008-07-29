@@ -49,7 +49,7 @@ module Scanners
     CLASS_VARIABLE = / @@ #{IDENT} /ox
     OBJECT_VARIABLE = / @@? #{IDENT} /ox
     GLOBAL_VARIABLE = / \$ (?: #{IDENT} | [1-9]\d* | 0\w* | [~&+`'=\/,;_.<>!@$?*":\\] | -[a-zA-Z_0-9] ) /ox
-    PREFIX_VARIABLE = / #{GLOBAL_VARIABLE} |#{OBJECT_VARIABLE} /ox
+    PREFIX_VARIABLE = / #{GLOBAL_VARIABLE} | #{OBJECT_VARIABLE} /ox
     VARIABLE = / @?@? #{IDENT} | #{GLOBAL_VARIABLE} /ox
 
     QUOTE_TO_TYPE = {

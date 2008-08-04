@@ -95,12 +95,12 @@ module CodeRay
   class TestCase < Test::Unit::TestCase
     
     if ENV['deluxe']
-      MAX_CODE_SIZE_TO_HIGHLIGHT = 5_000_000
-      MAX_CODE_SIZE_TO_TEST = 5_000_000
+      MAX_CODE_SIZE_TO_HIGHLIGHT = 500_000_000
+      MAX_CODE_SIZE_TO_TEST = 500_000_000
       DEFAULT_MAX = 1024
     else
-      MAX_CODE_SIZE_TO_HIGHLIGHT = 20_000
-      MAX_CODE_SIZE_TO_TEST = 100_000
+      MAX_CODE_SIZE_TO_HIGHLIGHT = 5_000_000
+      MAX_CODE_SIZE_TO_TEST = 5_000_000
       DEFAULT_MAX = 128
     end
     

@@ -107,7 +107,7 @@
 #
 # CodeRay.scan_stream:: Scan in stream mode.
 #
-#  == All-in-One Encoding
+# == All-in-One Encoding
 #
 # CodeRay.encode:: Highlight a string with a given input and output format.
 #
@@ -315,6 +315,7 @@ end
 # Run a test script.
 if $0 == __FILE__
   $stderr.print 'Press key to print demo.'; gets
+  # Just use this file as an example of Ruby code.
   code = File.read(__FILE__)[/module CodeRay.*/m]
   print CodeRay.scan(code, :ruby).html
 end

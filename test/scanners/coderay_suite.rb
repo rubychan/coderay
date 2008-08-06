@@ -101,7 +101,7 @@ module CodeRay
     else
       MAX_CODE_SIZE_TO_HIGHLIGHT = 5_000_000
       MAX_CODE_SIZE_TO_TEST = 5_000_000
-      DEFAULT_MAX = 128
+      DEFAULT_MAX = 512
     end
     
     class << self

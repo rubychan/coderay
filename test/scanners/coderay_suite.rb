@@ -206,7 +206,7 @@ module CodeRay
         begin
           scanner.tokenize
         rescue
-          flunk "Random test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}!" unless ENV['noassert']
+          flunk "Random test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}!" if ENV['assert']
           okay = false
           break
         end
@@ -225,7 +225,7 @@ module CodeRay
           begin
             scanner.tokenize
           rescue
-            flunk "Incremental test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}!" unless ENV['noassert']
+            flunk "Incremental test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}!" if ENV['assert']
             okay = false
             break
           end
@@ -245,7 +245,7 @@ module CodeRay
           begin
             scanner.tokenize
           rescue
-            flunk 'shuffle test failed!' unless ENV['noassert']
+            flunk 'shuffle test failed!' if ENV['assert']
             okay = false
             break
           end
@@ -273,9 +273,9 @@ module CodeRay
             system "EDITOR #{diff}" if ENV['diffed']
           end
         end
-        unless ENV['noassert']
-          assert(ok, "Scan error: unexpected output".red)
-        end
+        
+        assert(ok, "Scan error: unexpected output".red) if ENV['assert']
+        
         print "\b" * 'complete...'.size
         print 'complete, '.green_or_red(ok)
       else
@@ -294,7 +294,7 @@ module CodeRay
         else
           okay = scanner.code == tokens.text
           unless okay
-            flunk 'identity test failed!' unless ENV['noassert']
+            flunk 'identity test failed!' if ENV['assert']
           end
           okay
         end
@@ -314,7 +314,7 @@ module CodeRay
         begin
           highlighted = Highlighter.encode_tokens tokens
         rescue
-          flunk 'highlighting test failed!' unless ENV['noassert']
+          flunk 'highlighting test failed!' if ENV['assert']
           return
         end
         File.open(name + '.actual.html', 'w') { |f| f.write highlighted }

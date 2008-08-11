@@ -75,17 +75,19 @@
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
 			<date>2008-08-06T18:57:10Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>../README</string>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>../diff</string>
+			<key>lastUsed</key>
+			<date>2008-08-11T12:12:11Z</date>
 			<key>selected</key>
 			<true/>
 		</dict>
-        <dict>
-            <key>filename</key>
-            <string>../README</string>
-        </dict>
-        <dict>
-            <key>filename</key>
-            <string>../diff</string>
-        </dict>
 		<dict>
 			<key>filename</key>
 			<string>../ROADMAP</string>

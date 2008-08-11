@@ -34,12 +34,12 @@ module FileType
     # That means you can get filetypes from files that don't exist.
     def [] filename, read_shebang = false
       name = File.basename filename
-      ext = File.extname name
-      ext.sub!(/^\./, '')  # delete the leading dot
+      ext = File.extname(name).sub(/^\./, '')  # from last dot, delete the leading dot
+      ext2 = filename[/\.(.*)/, 1]  # from first dot
 
       type =
-        TypeFromExt[ext] ||
         TypeFromExt[ext.downcase] ||
+        (TypeFromExt[ext2.downcase] if ext2) ||
         TypeFromName[name] ||
         TypeFromName[name.downcase]
       type ||= shebang(filename) if read_shebang
@@ -94,6 +94,7 @@ module FileType
     'xhtml' => :xhtml,
     'raydebug' => :debug,
     'rhtml' => :rhtml,
+    'html.erb' => :rhtml,
     'ss' => :scheme,
     'sch' => :scheme,
     'yaml' => :yaml,
@@ -173,6 +174,7 @@ class TC_FileType < Test::Unit::TestCase
     assert_equal :xhtml, FileType['test.xhtml']
     assert_equal :xhtml, FileType['test.html.xhtml']
     assert_equal :rhtml, FileType['_form.rhtml']
+    assert_equal :rhtml, FileType['_form.html.erb']
   end
 
   def test_yaml

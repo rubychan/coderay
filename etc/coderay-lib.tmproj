@@ -74,12 +74,18 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2006-10-31T02:10:52Z</date>
+			<date>2008-08-06T18:57:10Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
-		<dict>
-			<key>filename</key>
-			<string>../README</string>
-		</dict>
+        <dict>
+            <key>filename</key>
+            <string>../README</string>
+        </dict>
+        <dict>
+            <key>filename</key>
+            <string>../diff</string>
+        </dict>
 		<dict>
 			<key>filename</key>
 			<string>../ROADMAP</string>
@@ -89,8 +95,6 @@
 			<string>../TODO</string>
 			<key>lastUsed</key>
 			<date>2008-01-21T03:03:08Z</date>
-			<key>selected</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -104,17 +108,19 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2006-10-31T02:10:48Z</date>
+			<date>2008-08-04T21:50:01Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../test/scanners/suite.rb</string>
 			<key>lastUsed</key>
-			<date>2006-10-31T01:56:15Z</date>
+			<date>2008-08-04T21:50:01Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
+			<key>lastUsed</key>
+			<date>2008-08-04T21:50:12Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
@@ -124,6 +130,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{6, 14}, {643, 764}}</string>
+	<string>{{0, 4}, {1070, 774}}</string>
 </dict>
 </plist>

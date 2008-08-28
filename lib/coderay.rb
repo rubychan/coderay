@@ -141,7 +141,6 @@ module CodeRay
   require 'coderay/encoder'
   require 'coderay/duo'
   require 'coderay/style'
-  require 'coderay/for_redcloth'
 
 
   class << self

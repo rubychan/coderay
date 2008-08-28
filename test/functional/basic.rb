@@ -36,7 +36,7 @@ class BasicTest < Test::Unit::TestCase
   
   def test_for_redcloth
     require 'rubygems'
-    CodeRay.for_redcloth
+    require 'coderay/for_redcloth'
     assert_equal '<p><span lang="ruby" class="CodeRay">puts <span style="background-color:#fff0f0"><span style="color:#710">&quot;</span><span style="color:#D20">Hello, World!</span><span style="color:#710">&quot;</span></span></span></p>',
       RedCloth.new('@[ruby]puts "Hello, World!"@').to_html
   end

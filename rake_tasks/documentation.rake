@@ -3,7 +3,7 @@ require 'pathname'
 
 CODERAY_TEMPLATE = Pathname.new(File.dirname(__FILE__)).join('..', 'rake_helpers', 'coderay_rdoc_template.rb').expand_path.to_s
 
-def set_rdoc_info rd, small = false
+def set_rdoc_info rd
   rd.main = 'README'
   rd.title = "CodeRay Documentation"
   rd.options << '--line-numbers' << '--inline-source' << '--tab-width' << '2'
@@ -11,8 +11,8 @@ def set_rdoc_info rd, small = false
   rd.options << '--all'
   
   rd.template = ENV.fetch('template', CODERAY_TEMPLATE)
-  rd.rdoc_files.add *EXTRA_FILES.in(ROOT)
-  rd.rdoc_files.add *Dir[File.join(LIB_ROOT, "#{'**/' unless small}*.rb")]
+  rd.rdoc_files.add(*EXTRA_FILES.in(ROOT))
+  rd.rdoc_files.add(*Dir[File.join(LIB_ROOT, "**/*.rb")])
 end
 
 namespace :doc do
@@ -23,12 +23,6 @@ namespace :doc do
     rd.rdoc_dir = 'doc/all'
   end
 
-  desc 'Generate test documentation for CodeRay (faster)'
-  Rake::RDocTask.new :small do |rd|
-    set_rdoc_info rd, true
-    rd.rdoc_dir = 'doc/small'
-  end
-
   desc 'Upload rdoc to ' + FTP_DOMAIN
   task :upload => :all do
     gn 'Uploading documentation:'
@@ -37,7 +31,7 @@ namespace :doc do
         uploader = uploader_for ftp
         ftp.chdir FTP_CODERAY_DIR
         ftp.chdir 'doc'
-        Dir['**/*.*'].each &uploader
+        Dir['**/*.*'].each(&uploader)
       end
     end
     gn 'Documentation uploaded.'

@@ -51,6 +51,10 @@ task 'rubinius' do
   RUBY.replace 'rbx'
 end
 
+task 'ee' do
+  RUBY.replace 'rubyee'
+end
+
 for task_file in Dir['rake_tasks/*.rake']
   load task_file
 end

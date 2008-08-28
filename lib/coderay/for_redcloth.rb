@@ -18,7 +18,16 @@ module CodeRay  # :nodoc:
       raise 'CodeRay.for_redcloth needs RedCloth 4.0.3 or later.' unless RedCloth::VERSION.to_s >= '4.0.3'
       RedCloth::TextileDoc.send :include, ForRedCloth::TextileDoc
       RedCloth::Formatters::HTML.module_eval do
-        undef_method :code, :bc_open, :bc_close
+        def unescape(html)
+          replacements = {
+            '&amp;' => '&',
+            '&quot;' => '"',
+            '&gt;' => '>',
+            '&lt;' => '<',
+          }
+          html.gsub(/&(?:amp|quot|[gl]t);/) { |entity| replacements[entity] }
+        end
+        undef_method :code, :bc_open, :bc_close, :escape_pre
         def code(opts)  # :nodoc:
           opts[:block] = true
           if opts[:lang] && !filter_coderay
@@ -26,7 +35,9 @@ module CodeRay  # :nodoc:
             @in_bc ||= nil
             format = @in_bc ? :div : :span
             highlighted_code = CodeRay.encode opts[:text], opts[:lang], format, :stream => true
-            highlighted_code.sub(/\A<(span|div)/) { |m| m + pba(@in_bc || opts) }
+            highlighted_code.sub!(/\A<(span|div)/) { |m| m + pba(@in_bc || opts) }
+            highlighted_code = unescape(highlighted_code) unless @in_bc
+            highlighted_code
           else
             "<code#{pba(opts)}>#{opts[:text]}</code>"
           end
@@ -39,6 +50,13 @@ module CodeRay  # :nodoc:
         def bc_close(opts)  # :nodoc:
           @in_bc = nil
           opts[:lang] ? '' : "</pre>\n"
+        end
+        def escape_pre(text)
+          if @in_bc ||= nil
+            text
+          else
+            html_esc(text, :html_escape_preformatted)
+          end
         end
       end
     end

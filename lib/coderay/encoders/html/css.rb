@@ -34,9 +34,12 @@ module Encoders
     private
 
       CSS_CLASS_PATTERN = /
-        ( (?:                # $1 = classes
-          \s* \. [-\w]+
-        )+ )
+        (                    # $1 = selectors
+          (?:
+            (?: \s* \. [-\w]+ )+
+            \s* ,?
+          )+
+        )
         \s* \{ \s*
         ( [^\}]+ )?          # $2 = style
         \s* \} \s*
@@ -44,12 +47,14 @@ module Encoders
         ( . )                # $3 = error
       /mx
       def parse stylesheet
-        stylesheet.scan CSS_CLASS_PATTERN do |classes, style, error|
+        stylesheet.scan CSS_CLASS_PATTERN do |selectors, style, error|
           raise "CSS parse error: '#{error.inspect}' not recognized" if error
-          styles = classes.scan(/[-\w]+/)
-          cl = styles.pop
-          @classes[cl] ||= Hash.new
-          @classes[cl][styles] = style.to_s.strip
+          for selector in selectors.split(',')
+            classes = selector.scan(/[-\w]+/)
+            cl = classes.pop
+            @classes[cl] ||= Hash.new
+            @classes[cl][classes] = style.to_s.strip
+          end
         end
       end
 

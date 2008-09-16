@@ -84,6 +84,9 @@ ol.CodeRay li { white-space: pre; }
 .pp { color:#579; }
 .pt { color:#66f; font-weight:bold; }
 .r  { color:#5de; font-weight:bold; }
+.r, .kw  { color:#5de; font-weight:bold }
+
+.ke { color: #808; }
 
 .rx { background-color:#221133; }
 .rx .k { color:#f8f; }

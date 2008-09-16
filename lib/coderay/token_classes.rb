@@ -35,6 +35,8 @@ module CodeRay
       :instance_variable => 'iv',
       :integer => 'i',
       :interpreted => 'in',
+      :keyword => 'kw',
+      :key => 'ke',
       :label => 'la',
       :local_variable => 'lv',
       :modifier => 'mod',

@@ -77,7 +77,7 @@ module CodeRay
           else
             @file_extension ||= plugin_id.to_s
           end
-        end        
+        end
 
       end
 

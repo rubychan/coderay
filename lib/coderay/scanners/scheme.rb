@@ -6,7 +6,7 @@ module CodeRay
     class Scheme < Scanner
       
       register_for :scheme
-      file_extension :scm
+      file_extension 'scm'
 
       CORE_FORMS = %w[
         lambda let let* letrec syntax-case define-syntax let-syntax

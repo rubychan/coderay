@@ -11,6 +11,7 @@ module Scanners
   class XML < HTML
 
     register_for :xml
+    file_extension 'xml'
 
   end
 

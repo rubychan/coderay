@@ -85,12 +85,6 @@
 			<string>../diff</string>
 			<key>lastUsed</key>
 			<date>2008-08-11T12:12:11Z</date>
-			<key>selected</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>../ROADMAP</string>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -110,7 +104,9 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2008-08-04T21:50:01Z</date>
+			<date>2008-09-16T21:34:38Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>

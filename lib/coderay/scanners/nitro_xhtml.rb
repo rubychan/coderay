@@ -11,6 +11,7 @@ module Scanners
 
     include Streamable
     register_for :nitro_xhtml
+    file_extension :xhtml
 
     NITRO_RUBY_BLOCK = /
       <\?r

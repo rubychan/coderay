@@ -157,15 +157,28 @@ module CodeRay
     def examples_test scanner, max
       self.class.dir do
         extension = 'in.' + self.class.extension
-        for example_filename in Dir["*.#{extension}"]
+        path = "test/scanners/#{File.basename(Dir.pwd)}/*.#{extension}"
+        print 'Loading examples in '.green + path.cyan + '...'.green
+        examples = Dir["*.#{extension}"]
+        if examples.empty?
+          puts "No examples found!".red
+        else
+          puts '%d'.yellow % examples.size + " example#{'s' if examples.size > 1} found.".green
+        end
+        for example_filename in examples
           name = File.basename(example_filename, ".#{extension}")
           next if ENV['lang'] && ENV['only'] && ENV['only'] != name
           print name_and_size = ('%15s'.cyan + ' %6.1fK: '.yellow) %
             [ name, File.size(example_filename) / 1024.0 ]
+          
+          tokens = nil
           time_for_file = Benchmark.realtime do
-            example_test example_filename, name, scanner, max
+            tokens = example_test example_filename, name, scanner, max
           end
-          print 'finished in '.green + '%0.2fs'.white % time_for_file
+          tokens_per_second = tokens.size / time_for_file
+          
+          print 'finished in '.green + '%5.2fs'.white % time_for_file +
+            ' ('.green + '%6.0f tok/s'.white % tokens_per_second + ')'.green
           puts '.'.green
         end
       end
@@ -195,6 +208,7 @@ module CodeRay
       else
         print '-- skipped -- '.concealed
       end
+      tokens
     end
     
     def random_test scanner, max
@@ -315,7 +329,7 @@ module CodeRay
           highlighted = Highlighter.encode_tokens tokens
         rescue
           flunk 'highlighting test failed!' if ENV['assert']
-          return
+          return false
         end
         File.open(name + '.actual.html', 'w') { |f| f.write highlighted }
         File.copy(name + '.actual.html', name + '.expected.html') if okay

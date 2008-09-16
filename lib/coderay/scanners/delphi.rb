@@ -4,6 +4,7 @@ module Scanners
   class Delphi < Scanner
 
     register_for :delphi
+    file_extension 'pas'
     
     RESERVED_WORDS = [
       'and', 'array', 'as', 'at', 'asm', 'at', 'begin', 'case', 'class',

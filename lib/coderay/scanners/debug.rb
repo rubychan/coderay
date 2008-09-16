@@ -6,6 +6,7 @@ module Scanners
 
     include Streamable
     register_for :debug
+    file_extension 'raydebug'
 
   protected
     def scan_tokens tokens, options

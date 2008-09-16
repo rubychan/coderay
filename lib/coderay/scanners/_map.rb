@@ -5,8 +5,8 @@ module Scanners
     :plain => :plaintext,
     :pascal => :delphi,
     :irb => :ruby,
-    :xml => :html,
     :xhtml => :nitro_xhtml,
+    :javascript => :java_script,
     :nitro => :nitro_xhtml
 
   default :plain

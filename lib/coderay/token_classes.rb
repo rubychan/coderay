@@ -29,6 +29,7 @@ module CodeRay
       :function => 'fu',
       :global_variable => 'gv',
       :hex => 'hx',
+      :important => 'im',
       :include => 'ic',
       :inline => 'il',
       :inline_delimiter => 'idl',
@@ -46,6 +47,7 @@ module CodeRay
       :pre_type => 'pt',
       :predefined => 'pd',
       :preprocessor => 'pp',
+      :pseudo_class => 'ps',
       :regexp => 'rx',
       :reserved => 'r',
       :shell => 'sh',
@@ -56,6 +58,7 @@ module CodeRay
       :tag_special => 'ts',
       :type => 'ty',
       :variable => 'v',
+      :value => 'vl',
       :xml_text => 'xt',
 
       :ident => :NO_HIGHLIGHT, # 'id'

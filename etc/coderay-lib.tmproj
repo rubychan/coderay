@@ -5,12 +5,12 @@
 	<key>documents</key>
 	<array>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>selected</key>
+			<true/>
 			<key>sourceDirectory</key>
 			<string>../lib</string>
 		</dict>
@@ -19,38 +19,52 @@
 			<string>bin</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>selected</key>
+			<true/>
 			<key>sourceDirectory</key>
 			<string>../bin</string>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../FOLDERS</string>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../ftp.yaml</string>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>name</key>
 			<string>gem_server</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>selected</key>
+			<true/>
 			<key>sourceDirectory</key>
 			<string>../gem_server</string>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../IDEA</string>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../LICENSE</string>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>name</key>
 			<string>pkg</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>selected</key>
+			<true/>
 			<key>sourceDirectory</key>
 			<string>../pkg</string>
 		</dict>
@@ -59,6 +73,8 @@
 			<string>rake_helpers</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>selected</key>
+			<true/>
 			<key>sourceDirectory</key>
 			<string>../rake_helpers</string>
 		</dict>
@@ -67,6 +83,8 @@
 			<string>rake_tasks</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>selected</key>
+			<true/>
 			<key>sourceDirectory</key>
 			<string>../rake_tasks</string>
 		</dict>
@@ -75,28 +93,38 @@
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
 			<date>2008-08-06T18:57:10Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../README</string>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
 			<date>2008-08-11T12:12:11Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../TODO</string>
 			<key>lastUsed</key>
 			<date>2008-01-21T03:03:08Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>name</key>
 			<string>functional</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>selected</key>
+			<true/>
 			<key>sourceDirectory</key>
 			<string>../test/functional</string>
 		</dict>
@@ -113,12 +141,16 @@
 			<string>../test/scanners/suite.rb</string>
 			<key>lastUsed</key>
 			<date>2008-08-04T21:50:01Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
 			<date>2008-08-04T21:50:12Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>

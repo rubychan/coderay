@@ -115,7 +115,7 @@ end
 
 if $0 == __FILE__
   $VERBOSE = true
-  eval DATA.read, nil, $0, __LINE__+4
+  eval DATA.read, nil, $0, __LINE__ + 4
 end
 
 __END__

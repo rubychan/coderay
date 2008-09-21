@@ -4,6 +4,7 @@ module CodeRay
       h[k] = k.to_s
     end
     ClassOfKind.update with = {
+      :annotation => 'at',
       :attribute_name => 'an',
       :attribute_name_fat => 'af',
       :attribute_value => 'av',

@@ -135,9 +135,13 @@ module PluginHost
   #    map :navy => :dark_blue
   #    default :gray
   #  end
-  def default id
-    id = validate_id id
-    plugin_hash[nil] = id
+  def default id = nil
+    if id
+      id = validate_id id
+      plugin_hash[nil] = id
+    else
+      plugin_hash[nil]
+    end
   end
 
   # Every plugin must register itself for one or more

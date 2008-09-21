@@ -142,6 +142,7 @@ module CodeRay
       
       time_for_lang = Benchmark.realtime do
         scanner = CodeRay::Scanners[self.class.lang].new
+        raise "No Scanner for #{self.class.lang} found!" if scanner.is_a? CodeRay::Scanners[nil]
         max = ENV.fetch('max', DEFAULT_MAX).to_i
         
         random_test scanner, max unless ENV['norandom'] || ENV['only']

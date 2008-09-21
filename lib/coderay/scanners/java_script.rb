@@ -68,10 +68,18 @@ module Scanners
             value_expected = true
             kind = :comment
 
-          elsif scan(/[+-]?(?:\d+)(?![.eEfF])/)
-            value_expected = false
-            kind = :integer
-
+          elsif check(/\d/)
+            key_expected = value_expected = false
+            if scan(/0[xX][0-9A-Fa-f]+/)
+              kind = :hex
+            elsif scan(/(?>0[0-7]+)(?![89.eEfF])/)
+              kind = :oct
+            elsif scan(/\d+[fF]|\d*\.\d+(?:[eE][+-]?\d+)?[fF]?|\d+[eE][+-]?\d+[fF]?/)
+              kind = :float
+            elsif scan(/\d+/)
+              kind = :integer
+            end
+            
           elsif match = scan(/ [-+*=<>?:;,!&^|(\[{~%]+ | \.(?!\d) /x)
             value_expected = true
             last_operator = match[-1]
@@ -110,18 +118,6 @@ module Scanners
             value_expected = true
             key_expected = false
             kind = :operator
-
-          elsif scan(/0[xX][0-9A-Fa-f]+/)
-            key_expected = value_expected = false
-            kind = :hex
-
-          elsif scan(/(?:0[0-7]+)(?![89.eEfF])/)
-            key_expected = value_expected = false
-            kind = :oct
-
-          elsif scan(/\d[fF]?|\d*\.\d+(?:[eE][+-]?\d+)?[fF]?|\d+[eE][+-]?\d+[fF]?/)
-            key_expected = value_expected = false
-            kind = :float
 
           else
             getch

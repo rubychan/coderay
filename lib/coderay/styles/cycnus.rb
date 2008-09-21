@@ -46,6 +46,7 @@ ol.CodeRay li { white-space: pre }
 
 .af { color:#00C }
 .an { color:#007 }
+.at { color:#f08 }
 .av { color:#700 }
 .aw { color:#C00 }
 .bi { color:#509; font-weight:bold }

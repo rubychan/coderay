@@ -436,5 +436,3 @@ class SimpleRegexpScannerTest < Test::Unit::TestCase
   end
   
 end
-
-puts SimpleRegexpScanner.new(SimpleRegexpScannerTest::JAVA_BUILTIN_TYPES).list

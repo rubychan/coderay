@@ -169,17 +169,19 @@ module CodeRay
         for example_filename in examples
           name = File.basename(example_filename, ".#{extension}")
           next if ENV['lang'] && ENV['only'] && ENV['only'] != name
-          print name_and_size = ('%15s'.cyan + ' %6.1fK: '.yellow) %
-            [ name, File.size(example_filename) / 1024.0 ]
+          filesize_in_kb = File.size(example_filename) / 1024.0
+          print '%15s'.cyan % name + ' %6.1fK: '.yellow % filesize_in_kb
           
-          tokens = nil
-          time_for_file = Benchmark.realtime do
-            tokens = example_test example_filename, name, scanner, max
+          tokens = example_test example_filename, name, scanner, max
+          
+          if time = @time_for_encoding
+            kilo_tokens_per_second = tokens.size / time / 1000
+            print 'finished in '.green + '%5.2fs'.white % time
+            if filesize_in_kb > 1
+              print ' ('.green + '%4.0f Ktok/s'.white % kilo_tokens_per_second + ')'.green
+            end
+            @time_for_encoding = nil
           end
-          tokens_per_second = tokens.size / time_for_file
-          
-          print 'finished in '.green + '%5.2fs'.white % time_for_file +
-            ' ('.green + '%6.0f tok/s'.white % tokens_per_second + ')'.green
           puts '.'.green
         end
       end
@@ -273,8 +275,12 @@ module CodeRay
       print 'complete...'.yellow
       expected_filename = name + '.expected.' + Tokenizer.file_extension
       scanner.string = code
-      tokens = scanner.tokens
-      result = Tokenizer.encode_tokens tokens
+      
+      tokens = result = nil
+      @time_for_encoding = Benchmark.realtime do
+        tokens = scanner.tokens
+        result = Tokenizer.encode_tokens tokens
+      end
       
       if File.exist?(expected_filename) && !(ENV['lang'] && ENV['new'] && name == ENV['new'])
         expected = File.open(expected_filename, 'rb') { |f| break f.read }
@@ -282,11 +288,8 @@ module CodeRay
         actual_filename = expected_filename.sub('.expected.', '.actual.')
         unless ok
           File.open(actual_filename, 'wb') { |f| f.write result }
-          if ENV['diff'] or ENV['diffed']
-            diff = expected_filename.sub(/\.expected\..*/, '.debug.diff')
-            system "diff --unified=0 --text #{expected_filename} #{actual_filename} > #{diff}"
-            system "EDITOR #{diff}" if ENV['diffed']
-          end
+          diff = expected_filename.sub(/\.expected\..*/, '.debug.diff')
+          system "diff --unified=0 --text #{expected_filename} #{actual_filename} > #{diff}"
         end
         
         assert(ok, "Scan error: unexpected output".red) if ENV['assert']

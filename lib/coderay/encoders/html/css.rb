@@ -53,7 +53,7 @@ module Encoders
             classes = selector.scan(/[-\w]+/)
             cl = classes.pop
             @classes[cl] ||= Hash.new
-            @classes[cl][classes] = style.to_s.strip
+            @classes[cl][classes] = style.to_s.strip.delete(' ').chomp(';')
           end
         end
       end

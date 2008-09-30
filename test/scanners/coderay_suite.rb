@@ -223,7 +223,7 @@ module CodeRay
         begin
           scanner.tokenize
         rescue
-          flunk "Random test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}!" if ENV['assert']
+          flunk "Random test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}" if ENV['assert']
           okay = false
           break
         end

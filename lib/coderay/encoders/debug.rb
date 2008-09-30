@@ -35,6 +35,14 @@ module Encoders
       ">"
     end
 
+    def begin_line kind
+      "#{kind}["
+    end
+
+    def end_line kind
+      "]"
+    end
+
   end
 
 end

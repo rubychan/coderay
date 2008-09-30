@@ -71,6 +71,7 @@ module Encoders
           line_numbers.gsub!(/\n/) { "<tt>\n</tt>" }
 
           line_numbers_table_tpl = TABLE.apply('LINE_NUMBERS', line_numbers)
+          gsub!(/<\/div>\n/) { '</div>' }
           gsub!(/\n/) { "<tt>\n</tt>" }
           wrap_in! line_numbers_table_tpl
           @wrapped_in = :div
@@ -90,8 +91,9 @@ module Encoders
             end
             close = '</span>' * opened_tags.size
 
-            "<li>#{open}#{line}#{close}</li>"
+            "<li>#{open}#{line}#{close}</li>\n"
           end
+          chomp!("\n")
           wrap_in! LIST
           @wrapped_in = :div
 

@@ -226,13 +226,16 @@ module Encoders
           text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
         end
         @opened[0] = type
-        if style = @css_style[@opened]
+        if text != "\n" && style = @css_style[@opened]
           @out << style << text << '</span>'
         else
           @out << text
         end
       else
+        
         case text
+        
+        # token groups, eg. strings
         when :open
           @opened[0] = type
           @out << (@css_style[@opened] || '<span>')
@@ -248,6 +251,28 @@ module Encoders
             @out << '</span>'
             @opened.pop
           end
+        
+        # whole lines to be highlighted, eg. a deleted line in a diff
+        when :begin_line
+          @opened[0] = type
+          if style = @css_style[@opened]
+            @out << style.sub('<span', '<div')
+          else
+            @out << '<div>'
+          end
+          @opened << type
+        when :end_line
+          if @opened.empty?
+            # nothing to close
+          else
+            if $DEBUG and (@opened.size == 1 or @opened.last != type)
+              raise 'Malformed token stream: Trying to close a line (%p) \
+                that is not open. Open are: %p.' % [type, @opened[1..-1]]
+            end
+            @out << '</div>'
+            @opened.pop
+          end
+        
         when nil
           raise 'Token with nil as text was given: %p' % [[text, type]]
         else

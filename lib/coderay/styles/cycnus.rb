@@ -125,6 +125,16 @@ ol.CodeRay li { white-space: pre }
 .ty { color:#339; font-weight:bold }
 .v  { color:#036 }
 .xt { color:#444 }
+
+.ins { background: #afa; }
+.del { background: #faa; }
+.chg { color: #aaf; background: #007; }
+.head { color: #f8f; background: #505 }
+
+.ins .ins { color: #080; font-weight:bold }
+.del .del { color: #800; font-weight:bold }
+.chg .chg { color: #66f; }
+.head .head { color: #f4f; }
     TOKENS
 
   end

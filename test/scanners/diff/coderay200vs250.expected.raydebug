@@ -1,0 +1,2241 @@
+head[head(Index: )plain(lib/coderay/token_classes.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/token_classes.rb	(revision 0\))]
+head[head(+++ )plain(lib/coderay/token_classes.rb	(revision 250\))]
+change[change(@@)plain( -0,0 +1,71 )change(@@)]
+insert[insert(+)plain(module CodeRay)]
+insert[insert(+)plain(  class Tokens)]
+insert[insert(+)plain(    ClassOfKind = Hash.new do |h, k|)]
+insert[insert(+)plain(      h[k] = k.to_s)]
+insert[insert(+)plain(    end)]
+insert[insert(+)plain(    ClassOfKind.update with = {)]
+insert[insert(+)plain(      :attribute_name => 'an',)]
+insert[insert(+)plain(      :attribute_name_fat => 'af',)]
+insert[insert(+)plain(      :attribute_value => 'av',)]
+insert[insert(+)plain(      :attribute_value_fat => 'aw',)]
+insert[insert(+)plain(      :bin => 'bi',)]
+insert[insert(+)plain(      :char => 'ch',)]
+insert[insert(+)plain(      :class => 'cl',)]
+insert[insert(+)plain(      :class_variable => 'cv',)]
+insert[insert(+)plain(      :color => 'cr',)]
+insert[insert(+)plain(      :comment => 'c',)]
+insert[insert(+)plain(      :constant => 'co',)]
+insert[insert(+)plain(      :content => 'k',)]
+insert[insert(+)plain(      :definition => 'df',)]
+insert[insert(+)plain(      :delimiter => 'dl',)]
+insert[insert(+)plain(      :directive => 'di',)]
+insert[insert(+)plain(      :doc => 'do',)]
+insert[insert(+)plain(      :doc_string => 'ds',)]
+insert[insert(+)plain(      :entity => 'en',)]
+insert[insert(+)plain(      :error => 'er',)]
+insert[insert(+)plain(      :escape => 'e',)]
+insert[insert(+)plain(      :exception => 'ex',)]
+insert[insert(+)plain(      :float => 'fl',)]
+insert[insert(+)plain(      :function => 'fu',)]
+insert[insert(+)plain(      :global_variable => 'gv',)]
+insert[insert(+)plain(      :hex => 'hx',)]
+insert[insert(+)plain(      :include => 'ic',)]
+insert[insert(+)plain(      :inline => 'il',)]
+insert[insert(+)plain(      :inline_delimiter => 'idl',)]
+insert[insert(+)plain(      :instance_variable => 'iv',)]
+insert[insert(+)plain(      :integer => 'i',)]
+insert[insert(+)plain(      :interpreted => 'in',)]
+insert[insert(+)plain(      :label => 'la',)]
+insert[insert(+)plain(      :local_variable => 'lv',)]
+insert[insert(+)plain(      :modifier => 'mod',)]
+insert[insert(+)plain(      :oct => 'oc',)]
+insert[insert(+)plain(      :operator_fat => 'of',)]
+insert[insert(+)plain(      :pre_constant => 'pc',)]
+insert[insert(+)plain(      :pre_type => 'pt',)]
+insert[insert(+)plain(      :predefined => 'pd',)]
+insert[insert(+)plain(      :preprocessor => 'pp',)]
+insert[insert(+)plain(      :regexp => 'rx',)]
+insert[insert(+)plain(      :reserved => 'r',)]
+insert[insert(+)plain(      :shell => 'sh',)]
+insert[insert(+)plain(      :string => 's',)]
+insert[insert(+)plain(      :symbol => 'sy',)]
+insert[insert(+)plain(      :tag => 'ta',)]
+insert[insert(+)plain(      :tag_fat => 'tf',)]
+insert[insert(+)plain(      :tag_special => 'ts',)]
+insert[insert(+)plain(      :type => 'ty',)]
+insert[insert(+)plain(      :variable => 'v',)]
+insert[insert(+)plain(      :xml_text => 'xt',)]
+insert[insert(+)]
+insert[insert(+)plain(      :ident => :NO_HIGHLIGHT, # 'id')]
+insert[insert(+)plain(      #:operator => 'op',)]
+insert[insert(+)plain(      :operator => :NO_HIGHLIGHT,  # 'op')]
+insert[insert(+)plain(      :space => :NO_HIGHLIGHT,  # 'sp')]
+insert[insert(+)plain(      :plain => :NO_HIGHLIGHT,)]
+insert[insert(+)plain(    })]
+insert[insert(+)plain(    ClassOfKind[:procedure] = ClassOfKind[:method] = ClassOfKind[:function])]
+insert[insert(+)plain(    ClassOfKind[:open] = ClassOfKind[:close] = ClassOfKind[:delimiter])]
+insert[insert(+)plain(    ClassOfKind[:nesting_delimiter] = ClassOfKind[:delimiter])]
+insert[insert(+)plain(    ClassOfKind[:escape] = ClassOfKind[:delimiter])]
+insert[insert(+)plain(    #ClassOfKind.default = ClassOfKind[:error] or raise 'no class found for :error!')]
+insert[insert(+)plain(  end)]
+insert[insert(+)plain(end)]
+change[change(\\ )plain(No newline at end of file)]
+
+head[head(Property changes on: )plain(lib/coderay/token_classes.rb)]
+head[head(___________________________________________________________________)]
+head[head(Added: )plain(svn:executable)]
+insert[insert(   +)plain( *)]
+
+head[head(Index: )plain(lib/coderay/encoder.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/encoder.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/encoder.rb	(revision 250\))]
+change[change(@@)plain( -1,3 +1,5 )change(@@)]
+insert[insert(+)plain(require "stringio")]
+insert[insert(+)]
+comment( module CodeRay)
+comment( )
+comment(   # This module holds the Encoder class and its subclasses.)
+change[change(@@)plain( -40,7 +42,7 )change(@@)]
+comment(         # downcase class name instead.)
+comment(         def const_missing sym)
+comment(           if sym == :FILE_EXTENSION)
+delete[delete(-)plain(            sym.to_s.downcase)]
+insert[insert(+)plain(            plugin_id)]
+comment(           else)
+comment(             super)
+comment(           end)
+change[change(@@)plain( -130,13 +132,15 )change(@@)]
+comment(       # By default, it calls text_token or block_token, depending on)
+comment(       # whether +text+ is a String.)
+comment(       def token text, kind)
+delete[delete(-)plain(        if text.instance_of? ::String  # Ruby 1.9: :open.is_a? String)]
+delete[delete(-)plain(          text_token text, kind)]
+delete[delete(-)plain(        elsif text.is_a? ::Symbol)]
+delete[delete(-)plain(          block_token text, kind)]
+delete[delete(-)plain(        else)]
+delete[delete(-)plain(          raise 'Unknown token text type: %p' % text)]
+delete[delete(-)plain(        end)]
+insert[insert(+)plain(        out =)]
+insert[insert(+)plain(          if text.is_a? ::String  # Ruby 1.9: :open.is_a? String)]
+insert[insert(+)plain(            text_token text, kind)]
+insert[insert(+)plain(          elsif text.is_a? ::Symbol)]
+insert[insert(+)plain(            block_token text, kind)]
+insert[insert(+)plain(          else)]
+insert[insert(+)plain(            raise 'Unknown token text type: %p' % text)]
+insert[insert(+)plain(          end)]
+insert[insert(+)plain(        @out << out if defined?(@out\) && @out)]
+comment(       end)
+comment( )
+comment(       def text_token text, kind)
+change[change(@@)plain( -164,7 +168,8 )change(@@)]
+comment(       # The already created +tokens+ object must be used; it can be a)
+comment(       # TokenStream or a Tokens object.)
+comment(       def compile tokens, options)
+delete[delete(-)plain(        tokens.each(&self\))]
+insert[insert(+)plain(        tokens.each { |text, kind| token text, kind }  # FIXME for Ruby 1.9?)]
+insert[insert(+)plain(        #tokens.each(&self\))]
+comment(       end)
+comment( )
+comment(     end)
+head[head(Index: )plain(lib/coderay/encoders/xml.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/encoders/xml.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/encoders/xml.rb	(revision 250\))]
+change[change(@@)plain( -22,7 +22,6 )change(@@)]
+comment(   protected)
+comment( )
+comment(     def setup options)
+delete[delete(-)plain(      @out = '')]
+comment(       @doc = REXML::Document.new)
+comment(       @doc << REXML::XMLDecl.new)
+comment(       @tab_width = options[:tab_width])
+change[change(@@)plain( -33,7 +32,7 )change(@@)]
+comment(       @doc.write @out, options[:pretty], options[:transitive], true)
+comment(       @out)
+comment(     end)
+delete[delete(-)]
+insert[insert(+)plain(    )]
+comment(     def text_token text, kind)
+comment(       if kind == :space)
+comment(         token = @node)
+head[head(Index: )plain(lib/coderay/encoders/html/classes.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/encoders/html/classes.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/encoders/html/classes.rb	(revision 250\))]
+change[change(@@)plain( -1,77 +0,0 )change(@@)]
+delete[delete(-)plain(module CodeRay)]
+delete[delete(-)plain(module Encoders)]
+delete[delete(-)]
+delete[delete(-)plain(  class HTML)]
+delete[delete(-)]
+delete[delete(-)plain(    ClassOfKind = Hash.new do |h, k|)]
+delete[delete(-)plain(      h[k] = k.to_s)]
+delete[delete(-)plain(    end)]
+delete[delete(-)plain(    ClassOfKind.update with = {)]
+delete[delete(-)plain(      :attribute_name => 'an',)]
+delete[delete(-)plain(      :attribute_name_fat => 'af',)]
+delete[delete(-)plain(      :attribute_value => 'av',)]
+delete[delete(-)plain(      :attribute_value_fat => 'aw',)]
+delete[delete(-)plain(      :bin => 'bi',)]
+delete[delete(-)plain(      :char => 'ch',)]
+delete[delete(-)plain(      :class => 'cl',)]
+delete[delete(-)plain(      :class_variable => 'cv',)]
+delete[delete(-)plain(      :color => 'cr',)]
+delete[delete(-)plain(      :comment => 'c',)]
+delete[delete(-)plain(      :constant => 'co',)]
+delete[delete(-)plain(      :content => 'k',)]
+delete[delete(-)plain(      :definition => 'df',)]
+delete[delete(-)plain(      :delimiter => 'dl',)]
+delete[delete(-)plain(      :directive => 'di',)]
+delete[delete(-)plain(      :doc => 'do',)]
+delete[delete(-)plain(      :doc_string => 'ds',)]
+delete[delete(-)plain(      :entity => 'en',)]
+delete[delete(-)plain(      :error => 'er',)]
+delete[delete(-)plain(      :escape => 'e',)]
+delete[delete(-)plain(      :exception => 'ex',)]
+delete[delete(-)plain(      :float => 'fl',)]
+delete[delete(-)plain(      :function => 'fu',)]
+delete[delete(-)plain(      :global_variable => 'gv',)]
+delete[delete(-)plain(      :hex => 'hx',)]
+delete[delete(-)plain(      :include => 'ic',)]
+delete[delete(-)plain(      :inline => 'il',)]
+delete[delete(-)plain(      :inline_delimiter => 'idl',)]
+delete[delete(-)plain(      :instance_variable => 'iv',)]
+delete[delete(-)plain(      :integer => 'i',)]
+delete[delete(-)plain(      :interpreted => 'in',)]
+delete[delete(-)plain(      :label => 'la',)]
+delete[delete(-)plain(      :local_variable => 'lv',)]
+delete[delete(-)plain(      :modifier => 'mod',)]
+delete[delete(-)plain(      :oct => 'oc',)]
+delete[delete(-)plain(      :operator_name => 'on',)]
+delete[delete(-)plain(      :pre_constant => 'pc',)]
+delete[delete(-)plain(      :pre_type => 'pt',)]
+delete[delete(-)plain(      :predefined => 'pd',)]
+delete[delete(-)plain(      :preprocessor => 'pp',)]
+delete[delete(-)plain(      :regexp => 'rx',)]
+delete[delete(-)plain(      :reserved => 'r',)]
+delete[delete(-)plain(      :shell => 'sh',)]
+delete[delete(-)plain(      :string => 's',)]
+delete[delete(-)plain(      :symbol => 'sy',)]
+delete[delete(-)plain(      :tag => 'ta',)]
+delete[delete(-)plain(      :tag_fat => 'tf',)]
+delete[delete(-)plain(      :tag_special => 'ts',)]
+delete[delete(-)plain(      :type => 'ty',)]
+delete[delete(-)plain(      :variable => 'v',)]
+delete[delete(-)plain(      :xml_text => 'xt',)]
+delete[delete(-)]
+delete[delete(-)plain(      :ident => :NO_HIGHLIGHT, # 'id')]
+delete[delete(-)plain(      #:operator => 'op',)]
+delete[delete(-)plain(      :operator => :NO_HIGHLIGHT,  # 'op')]
+delete[delete(-)plain(      :space => :NO_HIGHLIGHT,  # 'sp')]
+delete[delete(-)plain(      :plain => :NO_HIGHLIGHT,)]
+delete[delete(-)plain(    })]
+delete[delete(-)plain(    ClassOfKind[:procedure] = ClassOfKind[:method] = ClassOfKind[:function])]
+delete[delete(-)plain(    ClassOfKind[:open] = ClassOfKind[:close] = ClassOfKind[:delimiter])]
+delete[delete(-)plain(    ClassOfKind[:nesting_delimiter] = ClassOfKind[:delimiter])]
+delete[delete(-)plain(    ClassOfKind[:escape] = ClassOfKind[:delimiter])]
+delete[delete(-)plain(    #ClassOfKind.default = ClassOfKind[:error] or raise 'no class found for :error!')]
+delete[delete(-)]
+delete[delete(-)plain(  end)]
+delete[delete(-)]
+delete[delete(-)plain(end)]
+delete[delete(-)plain(end)]
+head[head(Index: )plain(lib/coderay/encoders/html/numerization.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/encoders/html/numerization.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/encoders/html/numerization.rb	(revision 250\))]
+change[change(@@)plain( -51,12 +51,12 )change(@@)]
+comment(         case mode)
+comment(         when :inline)
+comment(           max_width = (start + line_count\).to_s.size)
+delete[delete(-)plain(          line = start)]
+insert[insert(+)plain(          line_number = start)]
+comment(           gsub!(/^/\) do)
+delete[delete(-)plain(            line_number = bolding.call line)]
+delete[delete(-)plain(            indent = ' ' * (max_width - line.to_s.size\))]
+delete[delete(-)plain(            res = "<span class=\\"no\\">#{indent}#{line_number}</span> ")]
+delete[delete(-)plain(            line += 1)]
+insert[insert(+)plain(            line_number_text = bolding.call line_number)]
+insert[insert(+)plain(            indent = ' ' * (max_width - line_number.to_s.size\)  # TODO: Optimize (10^x\))]
+insert[insert(+)plain(            res = "<span class=\\"no\\">#{indent}#{line_number_text}</span> ")]
+insert[insert(+)plain(            line_number += 1)]
+comment(             res)
+comment(           end)
+comment( )
+head[head(Index: )plain(lib/coderay/encoders/tokens.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/encoders/tokens.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/encoders/tokens.rb	(revision 250\))]
+change[change(@@)plain( -33,9 +33,9 )change(@@)]
+comment( )
+comment(     FILE_EXTENSION = 'tok')
+comment( )
+delete[delete(-)plain(    protected)]
+delete[delete(-)plain(    def token *args)]
+delete[delete(-)plain(      @out << CodeRay::Tokens.write_token(*args\))]
+insert[insert(+)plain(  protected)]
+insert[insert(+)plain(    def token text, kind)]
+insert[insert(+)plain(      @out << CodeRay::Tokens.write_token(text, kind\))]
+comment(     end)
+comment( )
+comment(   end)
+head[head(Index: )plain(lib/coderay/encoders/html.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/encoders/html.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/encoders/html.rb	(revision 250\))]
+change[change(@@)plain( -1,3 +1,5 )change(@@)]
+insert[insert(+)plain(require "set")]
+insert[insert(+)]
+comment( module CodeRay)
+comment( module Encoders)
+comment( )
+change[change(@@)plain( -10,7 +12,8 )change(@@)]
+comment(   #)
+comment(   #  require 'coderay')
+comment(   #  puts CodeRay.scan('Some /code/', :ruby\).html  #-> a HTML page)
+delete[delete(-)plain(  #  puts CodeRay.scan('Some /code/', :ruby\).html(:wrap => :span\) #-> <span class="CodeRay"><span class="co">Some</span> /code/</span>)]
+insert[insert(+)plain(  #  puts CodeRay.scan('Some /code/', :ruby\).html(:wrap => :span\))]
+insert[insert(+)plain(  #  #-> <span class="CodeRay"><span class="co">Some</span> /code/</span>)]
+comment(   #  puts CodeRay.scan('Some /code/', :ruby\).span  #-> the same)
+comment(   #  )
+comment(   #  puts CodeRay.scan('Some code', :ruby\).html()
+change[change(@@)plain( -55,7 +58,8 )change(@@)]
+comment(   #)
+comment(   # === :hint)
+comment(   # Include some information into the output using the title attribute.)
+delete[delete(-)plain(  # Can be :info (show token type on mouse-over\), :info_long (with full path\) or :debug (via inspect\).)]
+insert[insert(+)plain(  # Can be :info (show token type on mouse-over\), :info_long (with full path\))]
+insert[insert(+)plain(  # or :debug (via inspect\).)]
+comment(   #)
+comment(   # Default: false)
+comment(   class HTML < Encoder)
+change[change(@@)plain( -82,7 +86,7 )change(@@)]
+comment(       :hint => false,)
+comment(     })
+comment( )
+delete[delete(-)plain(    helper :classes, :output, :css)]
+insert[insert(+)plain(    helper :output, :css)]
+comment( )
+comment(     attr_reader :css)
+comment( )
+change[change(@@)plain( -115,11 +119,14 )change(@@)]
+comment(         end)
+comment(     })
+comment( )
+insert[insert(+)plain(    TRANSPARENT_TOKEN_KINDS = [)]
+insert[insert(+)plain(      :delimiter, :modifier, :content, :escape, :inline_delimiter,)]
+insert[insert(+)plain(    ].to_set)]
+insert[insert(+)]
+comment(     # Generate a hint about the given +classes+ in a +hint+ style.)
+comment(     #)
+comment(     # +hint+ may be :info, :info_long or :debug.)
+comment(     def self.token_path_to_hint hint, classes)
+delete[delete(-)plain(      return '' unless hint)]
+comment(       title =)
+comment(         case hint)
+comment(         when :info)
+change[change(@@)plain( -129,7 +136,7 )change(@@)]
+comment(         when :debug)
+comment(           classes.inspect)
+comment(         end)
+delete[delete(-)plain(      " title=\\"#{title}\\"")]
+insert[insert(+)plain(      title ? " title=\\"#{title}\\"" : '')]
+comment(     end)
+comment( )
+comment(     def setup options)
+change[change(@@)plain( -143,42 +150,45 )change(@@)]
+comment( )
+comment(       hint = options[:hint])
+comment(       if hint and not [:debug, :info, :info_long].include? hint)
+delete[delete(-)plain(        raise ArgumentError, "Unknown value %p for :hint; expected :info, :debug, false or nil." % hint)]
+insert[insert(+)plain(        raise ArgumentError, "Unknown value %p for :hint; \\)]
+insert[insert(+)plain(          expected :info, :debug, false, or nil." % hint)]
+comment(       end)
+comment( )
+comment(       case options[:css])
+comment( )
+comment(       when :class)
+comment(         @css_style = Hash.new do |h, k|)
+delete[delete(-)plain(          if k.is_a? Array)]
+delete[delete(-)plain(            type = k.first)]
+delete[delete(-)plain(          else)]
+delete[delete(-)plain(            type = k)]
+delete[delete(-)plain(          end)]
+delete[delete(-)plain(          c = ClassOfKind[type])]
+insert[insert(+)plain(          c = CodeRay::Tokens::ClassOfKind[k.first])]
+comment(           if c == :NO_HIGHLIGHT and not hint)
+delete[delete(-)plain(            h[k] = false)]
+insert[insert(+)plain(            h[k.dup] = false)]
+comment(           else)
+delete[delete(-)plain(            title = HTML.token_path_to_hint hint, (k[1..-1] << k.first\))]
+delete[delete(-)plain(            h[k] = '<span%s class="%s">' % [title, c])]
+insert[insert(+)plain(            title = if hint)]
+insert[insert(+)plain(              HTML.token_path_to_hint(hint, k[1..-1] << k.first\))]
+insert[insert(+)plain(            else)]
+insert[insert(+)plain(              '')]
+insert[insert(+)plain(            end)]
+insert[insert(+)plain(            if c == :NO_HIGHLIGHT)]
+insert[insert(+)plain(              h[k.dup] = '<span%s>' % [title])]
+insert[insert(+)plain(            else)]
+insert[insert(+)plain(              h[k.dup] = '<span%s class="%s">' % [title, c])]
+insert[insert(+)plain(            end)]
+comment(           end)
+comment(         end)
+comment( )
+comment(       when :style)
+comment(         @css_style = Hash.new do |h, k|)
+delete[delete(-)plain(          if k.is_a? Array)]
+insert[insert(+)plain(          if k.is_a? ::Array)]
+comment(             styles = k.dup)
+comment(           else)
+comment(             styles = [k])
+comment(           end)
+comment(           type = styles.first)
+delete[delete(-)plain(          classes = styles.map { |c| ClassOfKind[c] })]
+insert[insert(+)plain(          classes = styles.map { |c| Tokens::ClassOfKind[c] })]
+comment(           if classes.first == :NO_HIGHLIGHT and not hint)
+comment(             h[k] = false)
+comment(           else)
+delete[delete(-)plain(            styles.shift if [:delimiter, :modifier, :content, :escape].include? styles.first)]
+insert[insert(+)plain(            styles.shift if TRANSPARENT_TOKEN_KINDS.include? styles.first)]
+comment(             title = HTML.token_path_to_hint hint, styles)
+delete[delete(-)plain(            classes.delete 'il')]
+comment(             style = @css[*classes])
+comment(             h[k] =)
+comment(               if style)
+change[change(@@)plain( -198,7 +208,9 )change(@@)]
+comment(     def finish options)
+comment(       not_needed = @opened.shift)
+comment(       @out << '</span>' * @opened.size)
+delete[delete(-)plain(      warn '%d tokens still open: %p' % [@opened.size, @opened] unless @opened.empty?)]
+insert[insert(+)plain(      unless @opened.empty?)]
+insert[insert(+)plain(        warn '%d tokens still open: %p' % [@opened.size, @opened])]
+insert[insert(+)plain(      end)]
+comment( )
+comment(       @out.extend Output)
+comment(       @out.css = @css)
+change[change(@@)plain( -229,8 +241,9 )change(@@)]
+comment(           if @opened.empty?)
+comment(             # nothing to close)
+comment(           else)
+delete[delete(-)plain(            if @opened.size == 1 or @opened.last != type)]
+delete[delete(-)plain(              raise 'Malformed token stream: Trying to close a token (%p\) that is not open. Open are: %p.' % [type, @opened[1..-1]] if $DEBUG)]
+insert[insert(+)plain(            if $DEBUG and (@opened.size == 1 or @opened.last != type\))]
+insert[insert(+)plain(              raise 'Malformed token stream: Trying to close a token (%p\) \\)]
+insert[insert(+)plain(                that is not open. Open are: %p.' % [type, @opened[1..-1]])]
+comment(             end)
+comment(             @out << '</span>')
+comment(             @opened.pop)
+head[head(Index: )plain(lib/coderay/encoders/text.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/encoders/text.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/encoders/text.rb	(revision 250\))]
+change[change(@@)plain( -14,13 +14,12 )change(@@)]
+comment( )
+comment(   protected)
+comment(     def setup options)
+delete[delete(-)plain(      super)]
+insert[insert(+)plain(      @out = '')]
+comment(       @sep = options[:separator])
+comment(     end)
+comment( )
+comment(     def token text, kind)
+delete[delete(-)plain(      return unless text.respond_to? :to_str)]
+delete[delete(-)plain(      @out << text + @sep)]
+insert[insert(+)plain(      @out << text + @sep if text.is_a? ::String)]
+comment(     end)
+comment( )
+comment(     def finish options)
+head[head(Index: )plain(lib/coderay/encoders/debug.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/encoders/debug.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/encoders/debug.rb	(revision 250\))]
+change[change(@@)plain( -19,19 +19,14 )change(@@)]
+comment( )
+comment(   protected)
+comment(     def text_token text, kind)
+delete[delete(-)plain(      @out <<)]
+delete[delete(-)plain(        if kind == :space)]
+delete[delete(-)plain(          text)]
+delete[delete(-)plain(        else)]
+delete[delete(-)plain(          text = text.gsub(/[\)\\\\]/, '\\\\\\\\\\0'\))]
+delete[delete(-)plain(          "#{kind}(#{text}\)")]
+delete[delete(-)plain(        end)]
+insert[insert(+)plain(      if kind == :space)]
+insert[insert(+)plain(        text)]
+insert[insert(+)plain(      else)]
+insert[insert(+)plain(        text = text.gsub(/[\)\\\\]/, '\\\\\\\\\\0'\)  # escape \) and \\)]
+insert[insert(+)plain(        "#{kind}(#{text}\)")]
+insert[insert(+)plain(      end)]
+comment(     end)
+comment( )
+delete[delete(-)plain(    def block_token action, kind)]
+delete[delete(-)plain(      @out << super)]
+delete[delete(-)plain(    end)]
+delete[delete(-)]
+comment(     def open_token kind)
+comment(       "#{kind}<")
+comment(     end)
+head[head(Index: )plain(lib/coderay/encoders/statistic.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/encoders/statistic.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/encoders/statistic.rb	(revision 250\))]
+change[change(@@)plain( -28,19 +28,15 )change(@@)]
+comment(       @type_stats[kind].count += 1)
+comment(       @type_stats[kind].size += text.size)
+comment(       @type_stats['TOTAL'].size += text.size)
+insert[insert(+)plain(      @type_stats['TOTAL'].count += 1)]
+comment(     end)
+comment( )
+comment(     # TODO Hierarchy handling)
+comment(     def block_token action, kind)
+delete[delete(-)plain(      #@content_type = kind)]
+insert[insert(+)plain(      @type_stats['TOTAL'].count += 1)]
+comment(       @type_stats['open/close'].count += 1)
+comment(     end)
+comment( )
+delete[delete(-)plain(    def token text, kind)]
+delete[delete(-)plain(      super)]
+delete[delete(-)plain(      @type_stats['TOTAL'].count += 1)]
+delete[delete(-)plain(    end)]
+delete[delete(-)]
+comment(     STATS = <<-STATS)
+comment( )
+comment( Code Statistics)
+head[head(Index: )plain(lib/coderay/encoders/_map.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/encoders/_map.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/encoders/_map.rb	(revision 250\))]
+change[change(@@)plain( -2,7 +2,8 )change(@@)]
+comment( module Encoders)
+comment( )
+comment(   map :stats => :statistic,)
+delete[delete(-)plain(    :plain => :text)]
+insert[insert(+)plain(    :plain => :text,)]
+insert[insert(+)plain(    :tex => :latex)]
+comment( )
+comment( end)
+comment( end)
+head[head(Index: )plain(lib/coderay/helpers/filetype.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/helpers/filetype.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/helpers/filetype.rb	(revision 250\))]
+change[change(@@)plain( -1,180 +0,0 )change(@@)]
+delete[delete(-)plain(# =FileType)]
+delete[delete(-)plain(#)]
+delete[delete(-)plain(# A simple filetype recognizer)]
+delete[delete(-)plain(#)]
+delete[delete(-)plain(# Author: murphy (mail to murphy cYcnus de\))]
+delete[delete(-)plain(#)]
+delete[delete(-)plain(# Version: 0.1 (2005.september.1\))]
+delete[delete(-)plain(#)]
+delete[delete(-)plain(# == Documentation)]
+delete[delete(-)plain(#)]
+delete[delete(-)plain(#  # determine the type of the given)]
+delete[delete(-)plain(#   lang = FileType[ARGV.first])]
+delete[delete(-)plain(#  )]
+delete[delete(-)plain(#   # return :plaintext if the file type is unknown)]
+delete[delete(-)plain(#   lang = FileType.fetch ARGV.first, :plaintext)]
+delete[delete(-)plain(#  )]
+delete[delete(-)plain(#   # try the shebang line, too)]
+delete[delete(-)plain(#   lang = FileType.fetch ARGV.first, :plaintext, true)]
+delete[delete(-)plain(module FileType)]
+delete[delete(-)]
+delete[delete(-)plain(  UnknownFileType = Class.new Exception)]
+delete[delete(-)]
+delete[delete(-)plain(  class << self)]
+delete[delete(-)]
+delete[delete(-)plain(    # Try to determine the file type of the file.)]
+delete[delete(-)plain(    #)]
+delete[delete(-)plain(    # +filename+ is a relative or absolute path to a file.)]
+delete[delete(-)plain(    #)]
+delete[delete(-)plain(    # The file itself is only accessed when +read_shebang+ is set to true.)]
+delete[delete(-)plain(    # That means you can get filetypes from files that don't exist.)]
+delete[delete(-)plain(    def [] filename, read_shebang = false)]
+delete[delete(-)plain(      name = File.basename filename)]
+delete[delete(-)plain(      ext = File.extname name)]
+delete[delete(-)plain(      ext.sub!(/^\\./, ''\)  # delete the leading dot)]
+delete[delete(-)]
+delete[delete(-)plain(      type =)]
+delete[delete(-)plain(        TypeFromExt[ext] ||)]
+delete[delete(-)plain(        TypeFromExt[ext.downcase] ||)]
+delete[delete(-)plain(        TypeFromName[name] ||)]
+delete[delete(-)plain(        TypeFromName[name.downcase])]
+delete[delete(-)plain(      type ||= shebang(filename\) if read_shebang)]
+delete[delete(-)]
+delete[delete(-)plain(      type)]
+delete[delete(-)plain(    end)]
+delete[delete(-)]
+delete[delete(-)plain(    def shebang filename)]
+delete[delete(-)plain(      begin)]
+delete[delete(-)plain(        File.open filename, 'r' do |f|)]
+delete[delete(-)plain(          first_line = f.gets)]
+delete[delete(-)plain(          first_line[TypeFromShebang])]
+delete[delete(-)plain(        end)]
+delete[delete(-)plain(      rescue IOError)]
+delete[delete(-)plain(        nil)]
+delete[delete(-)plain(      end)]
+delete[delete(-)plain(    end)]
+delete[delete(-)]
+delete[delete(-)plain(    # This works like Hash#fetch.)]
+delete[delete(-)plain(    #)]
+delete[delete(-)plain(    # If the filetype cannot be found, the +default+ value)]
+delete[delete(-)plain(    # is returned.)]
+delete[delete(-)plain(    def fetch filename, default = nil, read_shebang = false)]
+delete[delete(-)plain(      if default and block_given?)]
+delete[delete(-)plain(        warn 'block supersedes default value argument')]
+delete[delete(-)plain(      end)]
+delete[delete(-)]
+delete[delete(-)plain(      unless type = self[filename, read_shebang])]
+delete[delete(-)plain(        return yield if block_given?)]
+delete[delete(-)plain(        return default if default)]
+delete[delete(-)plain(        raise UnknownFileType, 'Could not determine type of %p.' % filename)]
+delete[delete(-)plain(      end)]
+delete[delete(-)plain(      type)]
+delete[delete(-)plain(    end)]
+delete[delete(-)]
+delete[delete(-)plain(  end)]
+delete[delete(-)]
+delete[delete(-)plain(  TypeFromExt = {)]
+delete[delete(-)plain(    'rb' => :ruby,)]
+delete[delete(-)plain(    'rbw' => :ruby,)]
+delete[delete(-)plain(    'rake' => :ruby,)]
+delete[delete(-)plain(    'cpp' => :c,)]
+delete[delete(-)plain(    'c' => :c,)]
+delete[delete(-)plain(    'h' => :c,)]
+delete[delete(-)plain(    'xml' => :xml,)]
+delete[delete(-)plain(    'htm' => :html,)]
+delete[delete(-)plain(    'html' => :html,)]
+delete[delete(-)plain(    'xhtml' => :xhtml,)]
+delete[delete(-)plain(    'rhtml' => :rhtml,)]
+delete[delete(-)plain(    'yaml' => :yaml,)]
+delete[delete(-)plain(    'yml' => :yaml,)]
+delete[delete(-)plain(  })]
+delete[delete(-)]
+delete[delete(-)plain(  TypeFromShebang = /\\b(?:ruby|perl|python|sh\)\\b/)]
+delete[delete(-)]
+delete[delete(-)plain(  TypeFromName = {)]
+delete[delete(-)plain(    'Rakefile' => :ruby,)]
+delete[delete(-)plain(    'Rantfile' => :ruby,)]
+delete[delete(-)plain(  })]
+delete[delete(-)]
+delete[delete(-)plain(end)]
+delete[delete(-)]
+delete[delete(-)plain(if $0 == __FILE__)]
+delete[delete(-)plain(  $VERBOSE = true)]
+delete[delete(-)plain(  eval DATA.read, nil, $0, __LINE__+4)]
+delete[delete(-)plain(end)]
+delete[delete(-)]
+delete[delete(-)plain(__END__)]
+delete[delete(-)]
+delete[delete(-)plain(require 'test/unit')]
+delete[delete(-)]
+delete[delete(-)plain(class TC_FileType < Test::Unit::TestCase)]
+delete[delete(-)]
+delete[delete(-)plain(  def test_fetch)]
+delete[delete(-)plain(    assert_raise FileType::UnknownFileType do)]
+delete[delete(-)plain(      FileType.fetch '')]
+delete[delete(-)plain(    end)]
+delete[delete(-)]
+delete[delete(-)plain(    assert_throws :not_found do)]
+delete[delete(-)plain(      FileType.fetch '.' do)]
+delete[delete(-)plain(        throw :not_found)]
+delete[delete(-)plain(      end)]
+delete[delete(-)plain(    end)]
+delete[delete(-)]
+delete[delete(-)plain(    assert_equal :default, FileType.fetch('c', :default\))]
+delete[delete(-)]
+delete[delete(-)plain(    stderr, fake_stderr = $stderr, Object.new)]
+delete[delete(-)plain(    $err = '')]
+delete[delete(-)plain(    def fake_stderr.write x)]
+delete[delete(-)plain(      $err << x)]
+delete[delete(-)plain(    end)]
+delete[delete(-)plain(    $stderr = fake_stderr)]
+delete[delete(-)plain(    FileType.fetch('c', :default\) { })]
+delete[delete(-)plain(    assert_equal "block supersedes default value argument\\n", $err)]
+delete[delete(-)plain(    $stderr = stderr)]
+delete[delete(-)plain(  end)]
+delete[delete(-)]
+delete[delete(-)plain(  def test_ruby)]
+delete[delete(-)plain(    assert_equal :ruby, FileType['test.rb'])]
+delete[delete(-)plain(    assert_equal :ruby, FileType['C:\\\\Program Files\\\\x\\\\y\\\\c\\\\test.rbw'])]
+delete[delete(-)plain(    assert_equal :ruby, FileType['/usr/bin/something/Rakefile'])]
+delete[delete(-)plain(    assert_equal :ruby, FileType['~/myapp/gem/Rantfile'])]
+delete[delete(-)plain(    assert_equal :ruby, FileType['./lib/tasks\\repository.rake'])]
+delete[delete(-)plain(    assert_not_equal :ruby, FileType['test_rb'])]
+delete[delete(-)plain(    assert_not_equal :ruby, FileType['Makefile'])]
+delete[delete(-)plain(    assert_not_equal :ruby, FileType['set.rb/set'])]
+delete[delete(-)plain(    assert_not_equal :ruby, FileType['~/projects/blabla/rb'])]
+delete[delete(-)plain(  end)]
+delete[delete(-)]
+delete[delete(-)plain(  def test_c)]
+delete[delete(-)plain(    assert_equal :c, FileType['test.c'])]
+delete[delete(-)plain(    assert_equal :c, FileType['C:\\\\Program Files\\\\x\\\\y\\\\c\\\\test.h'])]
+delete[delete(-)plain(    assert_not_equal :c, FileType['test_c'])]
+delete[delete(-)plain(    assert_not_equal :c, FileType['Makefile'])]
+delete[delete(-)plain(    assert_not_equal :c, FileType['set.h/set'])]
+delete[delete(-)plain(    assert_not_equal :c, FileType['~/projects/blabla/c'])]
+delete[delete(-)plain(  end)]
+delete[delete(-)]
+delete[delete(-)plain(  def test_html)]
+delete[delete(-)plain(    assert_equal :html, FileType['test.htm'])]
+delete[delete(-)plain(    assert_equal :xhtml, FileType['test.xhtml'])]
+delete[delete(-)plain(    assert_equal :xhtml, FileType['test.html.xhtml'])]
+delete[delete(-)plain(    assert_equal :rhtml, FileType['_form.rhtml'])]
+delete[delete(-)plain(  end)]
+delete[delete(-)]
+delete[delete(-)plain(  def test_yaml)]
+delete[delete(-)plain(    assert_equal :yaml, FileType['test.yml'])]
+delete[delete(-)plain(    assert_equal :yaml, FileType['test.yaml'])]
+delete[delete(-)plain(    assert_equal :yaml, FileType['my.html.yaml'])]
+delete[delete(-)plain(    assert_not_equal :yaml, FileType['YAML'])]
+delete[delete(-)plain(  end)]
+delete[delete(-)]
+delete[delete(-)plain(  def test_shebang)]
+delete[delete(-)plain(    dir = './test')]
+delete[delete(-)plain(    if File.directory? dir)]
+delete[delete(-)plain(      Dir.chdir dir do)]
+delete[delete(-)plain(        assert_equal :c, FileType['test.c'])]
+delete[delete(-)plain(      end)]
+delete[delete(-)plain(    end)]
+delete[delete(-)plain(  end)]
+delete[delete(-)]
+delete[delete(-)plain(end)]
+head[head(Index: )plain(lib/coderay/helpers/plugin.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/helpers/plugin.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/helpers/plugin.rb	(revision 250\))]
+change[change(@@)plain( -1,3 +1,5 )change(@@)]
+insert[insert(+)plain(module CodeRay)]
+insert[insert(+)plain(  )]
+comment( # = PluginHost)
+comment( #)
+comment( # $Id$)
+change[change(@@)plain( -20,7 +22,7 )change(@@)]
+comment( #)
+comment( #    Generators[:fancy]  #-> FancyGenerator)
+comment( #    # or)
+delete[delete(-)plain(#    require_plugin 'Generators/fancy')]
+insert[insert(+)plain(#    CodeRay.require_plugin 'Generators/fancy')]
+comment( module PluginHost)
+comment( )
+comment(   # Raised if Encoders::[] fails because:)
+change[change(@@)plain( -310,17 +312,18 )change(@@)]
+comment( )
+comment( end)
+comment( )
+delete[delete(-)]
+comment( # Convenience method for plugin loading.)
+comment( # The syntax used is:)
+comment( #)
+delete[delete(-)plain(#  require_plugin '<Host ID>/<Plugin ID>')]
+insert[insert(+)plain(#  CodeRay.require_plugin '<Host ID>/<Plugin ID>')]
+comment( #)
+comment( # Returns the loaded plugin.)
+delete[delete(-)plain(def require_plugin path)]
+insert[insert(+)plain(def self.require_plugin path)]
+comment(   host_id, plugin_id = path.split '/', 2)
+comment(   host = PluginHost.host_by_id(host_id\))
+comment(   raise PluginHost::HostNotFound,)
+comment(     "No host for #{host_id.inspect} found." unless host)
+comment(   host.load plugin_id)
+comment( end)
+insert[insert(+)]
+insert[insert(+)plain(end)]
+change[change(\\ )plain(No newline at end of file)]
+head[head(Index: )plain(lib/coderay/helpers/file_type.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/helpers/file_type.rb	(revision 0\))]
+head[head(+++ )plain(lib/coderay/helpers/file_type.rb	(revision 250\))]
+change[change(@@)plain( -0,0 +1,210 )change(@@)]
+insert[insert(+)plain(#!/usr/bin/env ruby)]
+insert[insert(+)plain(module CodeRay)]
+insert[insert(+)]
+insert[insert(+)plain(# = FileType)]
+insert[insert(+)plain(#)]
+insert[insert(+)plain(# A simple filetype recognizer.)]
+insert[insert(+)plain(#)]
+insert[insert(+)plain(# Copyright (c\) 2006 by murphy (Kornelius Kalnbach\) <murphy rubychan de>)]
+insert[insert(+)plain(#)]
+insert[insert(+)plain(# License:: LGPL / ask the author)]
+insert[insert(+)plain(# Version:: 0.1 (2005-09-01\))]
+insert[insert(+)plain(#)]
+insert[insert(+)plain(# == Documentation)]
+insert[insert(+)plain(#)]
+insert[insert(+)plain(#  # determine the type of the given)]
+insert[insert(+)plain(#   lang = FileType[ARGV.first])]
+insert[insert(+)plain(#  )]
+insert[insert(+)plain(#   # return :plaintext if the file type is unknown)]
+insert[insert(+)plain(#   lang = FileType.fetch ARGV.first, :plaintext)]
+insert[insert(+)plain(#  )]
+insert[insert(+)plain(#   # try the shebang line, too)]
+insert[insert(+)plain(#   lang = FileType.fetch ARGV.first, :plaintext, true)]
+insert[insert(+)plain(module FileType)]
+insert[insert(+)]
+insert[insert(+)plain(  UnknownFileType = Class.new Exception)]
+insert[insert(+)]
+insert[insert(+)plain(  class << self)]
+insert[insert(+)]
+insert[insert(+)plain(    # Try to determine the file type of the file.)]
+insert[insert(+)plain(    #)]
+insert[insert(+)plain(    # +filename+ is a relative or absolute path to a file.)]
+insert[insert(+)plain(    #)]
+insert[insert(+)plain(    # The file itself is only accessed when +read_shebang+ is set to true.)]
+insert[insert(+)plain(    # That means you can get filetypes from files that don't exist.)]
+insert[insert(+)plain(    def [] filename, read_shebang = false)]
+insert[insert(+)plain(      name = File.basename filename)]
+insert[insert(+)plain(      ext = File.extname(name\).sub(/^\\./, ''\)  # from last dot, delete the leading dot)]
+insert[insert(+)plain(      ext2 = filename[/\\.(.*\)/, 1]  # from first dot)]
+insert[insert(+)]
+insert[insert(+)plain(      type =)]
+insert[insert(+)plain(        TypeFromExt[ext.downcase] ||)]
+insert[insert(+)plain(        (TypeFromExt[ext2.downcase] if ext2\) ||)]
+insert[insert(+)plain(        TypeFromName[name] ||)]
+insert[insert(+)plain(        TypeFromName[name.downcase])]
+insert[insert(+)plain(      type ||= shebang(filename\) if read_shebang)]
+insert[insert(+)]
+insert[insert(+)plain(      type)]
+insert[insert(+)plain(    end)]
+insert[insert(+)]
+insert[insert(+)plain(    def shebang filename)]
+insert[insert(+)plain(      begin)]
+insert[insert(+)plain(        File.open filename, 'r' do |f|)]
+insert[insert(+)plain(          if first_line = f.gets)]
+insert[insert(+)plain(            if type = first_line[TypeFromShebang])]
+insert[insert(+)plain(              type.to_sym)]
+insert[insert(+)plain(            end)]
+insert[insert(+)plain(          end)]
+insert[insert(+)plain(        end)]
+insert[insert(+)plain(      rescue IOError)]
+insert[insert(+)plain(        nil)]
+insert[insert(+)plain(      end)]
+insert[insert(+)plain(    end)]
+insert[insert(+)]
+insert[insert(+)plain(    # This works like Hash#fetch.)]
+insert[insert(+)plain(    #)]
+insert[insert(+)plain(    # If the filetype cannot be found, the +default+ value)]
+insert[insert(+)plain(    # is returned.)]
+insert[insert(+)plain(    def fetch filename, default = nil, read_shebang = false)]
+insert[insert(+)plain(      if default and block_given?)]
+insert[insert(+)plain(        warn 'block supersedes default value argument')]
+insert[insert(+)plain(      end)]
+insert[insert(+)]
+insert[insert(+)plain(      unless type = self[filename, read_shebang])]
+insert[insert(+)plain(        return yield if block_given?)]
+insert[insert(+)plain(        return default if default)]
+insert[insert(+)plain(        raise UnknownFileType, 'Could not determine type of %p.' % filename)]
+insert[insert(+)plain(      end)]
+insert[insert(+)plain(      type)]
+insert[insert(+)plain(    end)]
+insert[insert(+)]
+insert[insert(+)plain(  end)]
+insert[insert(+)]
+insert[insert(+)plain(  TypeFromExt = {)]
+insert[insert(+)plain(    'rb' => :ruby,)]
+insert[insert(+)plain(    'rbw' => :ruby,)]
+insert[insert(+)plain(    'rake' => :ruby,)]
+insert[insert(+)plain(    'mab' => :ruby,)]
+insert[insert(+)plain(    'cpp' => :c,)]
+insert[insert(+)plain(    'c' => :c,)]
+insert[insert(+)plain(    'h' => :c,)]
+insert[insert(+)plain(    'xml' => :xml,)]
+insert[insert(+)plain(    'htm' => :html,)]
+insert[insert(+)plain(    'html' => :html,)]
+insert[insert(+)plain(    'xhtml' => :xhtml,)]
+insert[insert(+)plain(    'raydebug' => :debug,)]
+insert[insert(+)plain(    'rhtml' => :rhtml,)]
+insert[insert(+)plain(    'html.erb' => :rhtml,)]
+insert[insert(+)plain(    'ss' => :scheme,)]
+insert[insert(+)plain(    'sch' => :scheme,)]
+insert[insert(+)plain(    'yaml' => :yaml,)]
+insert[insert(+)plain(    'yml' => :yaml,)]
+insert[insert(+)plain(  })]
+insert[insert(+)]
+insert[insert(+)plain(  TypeFromShebang = /\\b(?:ruby|perl|python|sh\)\\b/)]
+insert[insert(+)]
+insert[insert(+)plain(  TypeFromName = {)]
+insert[insert(+)plain(    'Rakefile' => :ruby,)]
+insert[insert(+)plain(    'Rantfile' => :ruby,)]
+insert[insert(+)plain(  })]
+insert[insert(+)]
+insert[insert(+)plain(end)]
+insert[insert(+)]
+insert[insert(+)plain(end)]
+insert[insert(+)]
+insert[insert(+)plain(if $0 == __FILE__)]
+insert[insert(+)plain(  $VERBOSE = true)]
+insert[insert(+)plain(  eval DATA.read, nil, $0, __LINE__+4)]
+insert[insert(+)plain(end)]
+insert[insert(+)]
+insert[insert(+)plain(__END__)]
+insert[insert(+)plain(require 'test/unit')]
+insert[insert(+)]
+insert[insert(+)plain(class TC_FileType < Test::Unit::TestCase)]
+insert[insert(+)plain(  )]
+insert[insert(+)plain(  include CodeRay)]
+insert[insert(+)plain(  )]
+insert[insert(+)plain(  def test_fetch)]
+insert[insert(+)plain(    assert_raise FileType::UnknownFileType do)]
+insert[insert(+)plain(      FileType.fetch '')]
+insert[insert(+)plain(    end)]
+insert[insert(+)]
+insert[insert(+)plain(    assert_throws :not_found do)]
+insert[insert(+)plain(      FileType.fetch '.' do)]
+insert[insert(+)plain(        throw :not_found)]
+insert[insert(+)plain(      end)]
+insert[insert(+)plain(    end)]
+insert[insert(+)]
+insert[insert(+)plain(    assert_equal :default, FileType.fetch('c', :default\))]
+insert[insert(+)]
+insert[insert(+)plain(    stderr, fake_stderr = $stderr, Object.new)]
+insert[insert(+)plain(    $err = '')]
+insert[insert(+)plain(    def fake_stderr.write x)]
+insert[insert(+)plain(      $err << x)]
+insert[insert(+)plain(    end)]
+insert[insert(+)plain(    $stderr = fake_stderr)]
+insert[insert(+)plain(    FileType.fetch('c', :default\) { })]
+insert[insert(+)plain(    assert_equal "block supersedes default value argument\\n", $err)]
+insert[insert(+)plain(    $stderr = stderr)]
+insert[insert(+)plain(  end)]
+insert[insert(+)]
+insert[insert(+)plain(  def test_ruby)]
+insert[insert(+)plain(    assert_equal :ruby, FileType['test.rb'])]
+insert[insert(+)plain(    assert_equal :ruby, FileType['C:\\\\Program Files\\\\x\\\\y\\\\c\\\\test.rbw'])]
+insert[insert(+)plain(    assert_equal :ruby, FileType['/usr/bin/something/Rakefile'])]
+insert[insert(+)plain(    assert_equal :ruby, FileType['~/myapp/gem/Rantfile'])]
+insert[insert(+)plain(    assert_equal :ruby, FileType['./lib/tasks\\repository.rake'])]
+insert[insert(+)plain(    assert_not_equal :ruby, FileType['test_rb'])]
+insert[insert(+)plain(    assert_not_equal :ruby, FileType['Makefile'])]
+insert[insert(+)plain(    assert_not_equal :ruby, FileType['set.rb/set'])]
+insert[insert(+)plain(    assert_not_equal :ruby, FileType['~/projects/blabla/rb'])]
+insert[insert(+)plain(  end)]
+insert[insert(+)]
+insert[insert(+)plain(  def test_c)]
+insert[insert(+)plain(    assert_equal :c, FileType['test.c'])]
+insert[insert(+)plain(    assert_equal :c, FileType['C:\\\\Program Files\\\\x\\\\y\\\\c\\\\test.h'])]
+insert[insert(+)plain(    assert_not_equal :c, FileType['test_c'])]
+insert[insert(+)plain(    assert_not_equal :c, FileType['Makefile'])]
+insert[insert(+)plain(    assert_not_equal :c, FileType['set.h/set'])]
+insert[insert(+)plain(    assert_not_equal :c, FileType['~/projects/blabla/c'])]
+insert[insert(+)plain(  end)]
+insert[insert(+)]
+insert[insert(+)plain(  def test_html)]
+insert[insert(+)plain(    assert_equal :html, FileType['test.htm'])]
+insert[insert(+)plain(    assert_equal :xhtml, FileType['test.xhtml'])]
+insert[insert(+)plain(    assert_equal :xhtml, FileType['test.html.xhtml'])]
+insert[insert(+)plain(    assert_equal :rhtml, FileType['_form.rhtml'])]
+insert[insert(+)plain(    assert_equal :rhtml, FileType['_form.html.erb'])]
+insert[insert(+)plain(  end)]
+insert[insert(+)]
+insert[insert(+)plain(  def test_yaml)]
+insert[insert(+)plain(    assert_equal :yaml, FileType['test.yml'])]
+insert[insert(+)plain(    assert_equal :yaml, FileType['test.yaml'])]
+insert[insert(+)plain(    assert_equal :yaml, FileType['my.html.yaml'])]
+insert[insert(+)plain(    assert_not_equal :yaml, FileType['YAML'])]
+insert[insert(+)plain(  end)]
+insert[insert(+)]
+insert[insert(+)plain(  def test_no_shebang)]
+insert[insert(+)plain(    dir = './test')]
+insert[insert(+)plain(    if File.directory? dir)]
+insert[insert(+)plain(      Dir.chdir dir do)]
+insert[insert(+)plain(        assert_equal :c, FileType['test.c'])]
+insert[insert(+)plain(      end)]
+insert[insert(+)plain(    end)]
+insert[insert(+)plain(  end)]
+insert[insert(+)plain(  )]
+insert[insert(+)plain(  def test_shebang_empty_file)]
+insert[insert(+)plain(    require 'tmpdir')]
+insert[insert(+)plain(    tmpfile = File.join(Dir.tmpdir, 'bla'\))]
+insert[insert(+)plain(    File.open(tmpfile, 'w'\) { }  # touch)]
+insert[insert(+)plain(    assert_equal nil, FileType[tmpfile])]
+insert[insert(+)plain(  end)]
+insert[insert(+)plain(  )]
+insert[insert(+)plain(  def test_shebang)]
+insert[insert(+)plain(    require 'tmpdir')]
+insert[insert(+)plain(    tmpfile = File.join(Dir.tmpdir, 'bla'\))]
+insert[insert(+)plain(    File.open(tmpfile, 'w'\) { |f| f.puts '#!/usr/bin/env ruby' })]
+insert[insert(+)plain(    assert_equal :ruby, FileType[tmpfile, true])]
+insert[insert(+)plain(  end)]
+insert[insert(+)]
+insert[insert(+)plain(end)]
+
+head[head(Property changes on: )plain(lib/coderay/helpers/file_type.rb)]
+head[head(___________________________________________________________________)]
+head[head(Added: )plain(svn:keywords)]
+insert[insert(   +)plain( Id Rev)]
+
+head[head(Index: )plain(lib/coderay/helpers/gzip_simple.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/helpers/gzip_simple.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/helpers/gzip_simple.rb	(revision 250\))]
+change[change(@@)plain( -46,6 +46,7 )change(@@)]
+comment(   end)
+comment( end)
+comment( )
+insert[insert(+)]
+comment( # String extensions to use the GZip module.)
+comment( #)
+comment( # The methods gzip and gunzip provide an even more simple)
+head[head(Index: )plain(lib/coderay/helpers/word_list.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/helpers/word_list.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/helpers/word_list.rb	(revision 250\))]
+change[change(@@)plain( -1,15 +1,19 )change(@@)]
+insert[insert(+)plain(module CodeRay)]
+insert[insert(+)]
+comment( # = WordList)
+insert[insert(+)plain(# )]
+insert[insert(+)plain(# <b>A Hash subclass designed for mapping word lists to token types.</b>)]
+insert[insert(+)plain(# )]
+insert[insert(+)plain(# Copyright (c\) 2006 by murphy (Kornelius Kalnbach\) <murphy rubychan de>)]
+comment( #)
+delete[delete(-)plain(# Copyright (c\) 2006 by murphy (Kornelius Kalnbach\) <murphy cYcnus de>)]
+delete[delete(-)plain(#)]
+comment( # License:: LGPL / ask the author)
+delete[delete(-)plain(# Version:: 1.0 (2006-Feb-3\))]
+insert[insert(+)plain(# Version:: 1.1 (2006-Oct-19\))]
+comment( #)
+comment( # A WordList is a Hash with some additional features.)
+comment( # It is intended to be used for keyword recognition.)
+comment( #)
+comment( # WordList is highly optimized to be used in Scanners,)
+delete[delete(-)plain(# typically to decide whether a given ident is a keyword.)]
+insert[insert(+)plain(# typically to decide whether a given ident is a special token.)]
+comment( #)
+comment( # For case insensitive words use CaseIgnoringWordList.)
+comment( #)
+change[change(@@)plain( -47,25 +51,30 )change(@@)]
+comment( #      ...)
+comment( class WordList < Hash)
+comment( )
+delete[delete(-)plain(  # Create a WordList for the given +words+.)]
+delete[delete(-)plain(  #)]
+delete[delete(-)plain(  # This WordList responds to [] with +true+, if the word is)]
+delete[delete(-)plain(  # in +words+, and with +false+ otherwise.)]
+delete[delete(-)plain(  def self.for words)]
+delete[delete(-)plain(    new.add words)]
+delete[delete(-)plain(  end)]
+delete[delete(-)]
+comment(   # Creates a new WordList with +default+ as default value.)
+delete[delete(-)plain(  def initialize default = false, &block)]
+delete[delete(-)plain(    super default, &block)]
+insert[insert(+)plain(  # )]
+insert[insert(+)plain(  # You can activate +caching+ to store the results for every [] request.)]
+insert[insert(+)plain(  # )]
+insert[insert(+)plain(  # With caching, methods like +include?+ or +delete+ may no longer behave)]
+insert[insert(+)plain(  # as you expect. Therefore, it is recommended to use the [] method only.)]
+insert[insert(+)plain(  def initialize default = false, caching = false, &block)]
+insert[insert(+)plain(    if block)]
+insert[insert(+)plain(      raise ArgumentError, 'Can\\'t combine block with caching.' if caching)]
+insert[insert(+)plain(      super(&block\))]
+insert[insert(+)plain(    else)]
+insert[insert(+)plain(      if caching)]
+insert[insert(+)plain(        super(\) do |h, k|)]
+insert[insert(+)plain(          h[k] = h.fetch k, default)]
+insert[insert(+)plain(        end)]
+insert[insert(+)plain(      else)]
+insert[insert(+)plain(        super default)]
+insert[insert(+)plain(      end)]
+insert[insert(+)plain(    end)]
+comment(   end)
+comment( )
+delete[delete(-)plain(  # Checks if a word is included.)]
+delete[delete(-)plain(  def include? word)]
+delete[delete(-)plain(    has_key? word)]
+delete[delete(-)plain(  end)]
+delete[delete(-)]
+comment(   # Add words to the list and associate them with +kind+.)
+insert[insert(+)plain(  # )]
+insert[insert(+)plain(  # Returns +self+, so you can concat add calls.)]
+comment(   def add words, kind = true)
+comment(     words.each do |word|)
+comment(       self[word] = kind)
+change[change(@@)plain( -78,24 +87,30 )change(@@)]
+comment( )
+comment( # A CaseIgnoringWordList is like a WordList, only that)
+comment( # keys are compared case-insensitively.)
+insert[insert(+)plain(# )]
+insert[insert(+)plain(# Ignoring the text case is realized by sending the +downcase+ message to)]
+insert[insert(+)plain(# all keys.)]
+insert[insert(+)plain(# )]
+insert[insert(+)plain(# Caching usually makes a CaseIgnoringWordList faster, but it has to be)]
+insert[insert(+)plain(# activated explicitely.)]
+comment( class CaseIgnoringWordList < WordList)
+comment( )
+delete[delete(-)plain(  # Creates a new WordList with +default+ as default value.)]
+delete[delete(-)plain(  #)]
+delete[delete(-)plain(  # Text case is ignored.)]
+delete[delete(-)plain(  def initialize default = false, &block)]
+delete[delete(-)plain(    block ||= proc do |h, k|)]
+delete[delete(-)plain(      h[k] = h.fetch k.downcase, default)]
+insert[insert(+)plain(  # Creates a new case-insensitive WordList with +default+ as default value.)]
+insert[insert(+)plain(  # )]
+insert[insert(+)plain(  # You can activate caching to store the results for every [] request.)]
+insert[insert(+)plain(  def initialize default = false, caching = false)]
+insert[insert(+)plain(    if caching)]
+insert[insert(+)plain(      super(default, false\) do |h, k|)]
+insert[insert(+)plain(        h[k] = h.fetch k.downcase, default)]
+insert[insert(+)plain(      end)]
+insert[insert(+)plain(    else)]
+insert[insert(+)plain(      def self.[] key  # :nodoc:)]
+insert[insert(+)plain(        super(key.downcase\))]
+insert[insert(+)plain(      end)]
+comment(     end)
+delete[delete(-)plain(    super default)]
+comment(   end)
+comment( )
+delete[delete(-)plain(  # Checks if a word is included.)]
+delete[delete(-)plain(  def include? word)]
+delete[delete(-)plain(    has_key? word.downcase)]
+delete[delete(-)plain(  end)]
+delete[delete(-)]
+delete[delete(-)plain(  # Add words to the list and associate them with +kind+.)]
+insert[insert(+)plain(  # Add +words+ to the list and associate them with +kind+.)]
+comment(   def add words, kind = true)
+comment(     words.each do |word|)
+comment(       self[word.downcase] = kind)
+change[change(@@)plain( -104,3 +119,5 )change(@@)]
+comment(   end)
+comment( )
+comment( end)
+insert[insert(+)]
+insert[insert(+)plain(end)]
+change[change(\\ )plain(No newline at end of file)]
+head[head(Index: )plain(lib/coderay/styles/cycnus.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/styles/cycnus.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/styles/cycnus.rb	(revision 250\))]
+change[change(@@)plain( -42,12 +42,14 )change(@@)]
+comment(     MAIN)
+comment( )
+comment(     TOKEN_COLORS = <<-'TOKENS')
+insert[insert(+)plain(.debug { color:white ! important; background:blue ! important; })]
+insert[insert(+)]
+comment( .af { color:#00C })
+comment( .an { color:#007 })
+comment( .av { color:#700 })
+comment( .aw { color:#C00 })
+comment( .bi { color:#509; font-weight:bold })
+delete[delete(-)plain(.c  { color:#888 })]
+insert[insert(+)plain(.c  { color:#666; })]
+comment( )
+comment( .ch { color:#04D })
+comment( .ch .k { color:#04D })
+change[change(@@)plain( -83,7 +85,7 )change(@@)]
+comment( .la { color:#970; font-weight:bold })
+comment( .lv { color:#963 })
+comment( .oc { color:#40E; font-weight:bold })
+delete[delete(-)plain(.on { color:#000; font-weight:bold })]
+insert[insert(+)plain(.of { color:#000; font-weight:bold })]
+comment( .op { })
+comment( .pc { color:#038; font-weight:bold })
+comment( .pd { color:#369; font-weight:bold })
+head[head(Index: )plain(lib/coderay/styles/murphy.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/styles/murphy.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/styles/murphy.rb	(revision 250\))]
+change[change(@@)plain( -47,7 +47,7 )change(@@)]
+comment( .av { color:#700; })
+comment( .aw { color:#C00; })
+comment( .bi { color:#509; font-weight:bold; })
+delete[delete(-)plain(.c  { color:#666; })]
+insert[insert(+)plain(.c  { color:#555; background-color: black; })]
+comment( )
+comment( .ch { color:#88F; })
+comment( .ch .k { color:#04D; })
+change[change(@@)plain( -77,7 +77,7 )change(@@)]
+comment( .la { color:#970; font-weight:bold; })
+comment( .lv { color:#963; })
+comment( .oc { color:#40E; font-weight:bold; })
+delete[delete(-)plain(.on { color:#000; font-weight:bold; })]
+insert[insert(+)plain(.of { color:#000; font-weight:bold; })]
+comment( .op { })
+comment( .pc { color:#08f; font-weight:bold; })
+comment( .pd { color:#369; font-weight:bold; })
+head[head(Index: )plain(lib/coderay/tokens.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/tokens.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/tokens.rb	(revision 250\))]
+change[change(@@)plain( -115,7 +115,7 )change(@@)]
+comment(     #   tokens.each_text_token { |text, kind| text.replace html_escape(text\) })
+comment(     def each_text_token)
+comment(       each do |text, kind|)
+delete[delete(-)plain(        next unless text.respond_to? :to_str)]
+insert[insert(+)plain(        next unless text.is_a? ::String)]
+comment(         yield text, kind)
+comment(       end)
+comment(     end)
+change[change(@@)plain( -252,7 +252,7 )change(@@)]
+comment(     #)
+comment(     # You can configure the level of compression,)
+comment(     # but the default value 7 should be what you want)
+delete[delete(-)plain(    # in most cases as it is a good comprimise between)]
+insert[insert(+)plain(    # in most cases as it is a good compromise between)]
+comment(     # speed and compression rate.)
+comment(     #)
+comment(     # See GZip module.)
+change[change(@@)plain( -267,9 +267,20 )change(@@)]
+comment(     # Should be equal to the input size before)
+comment(     # scanning.)
+comment(     def text_size)
+delete[delete(-)plain(      map { |t, k| t }.join.size)]
+insert[insert(+)plain(      size = 0)]
+insert[insert(+)plain(      each_text_token do |t, k|)]
+insert[insert(+)plain(        size + t.size)]
+insert[insert(+)plain(      end)]
+insert[insert(+)plain(      size)]
+comment(     end)
+comment( )
+insert[insert(+)plain(    # The total size of the tokens.)]
+insert[insert(+)plain(    # Should be equal to the input size before)]
+insert[insert(+)plain(    # scanning.)]
+insert[insert(+)plain(    def text)]
+insert[insert(+)plain(      map { |t, k| t if t.is_a? ::String }.join)]
+insert[insert(+)plain(    end)]
+insert[insert(+)]
+comment(     # Include this module to give an object an #undump)
+comment(     # method.)
+comment(     #)
+change[change(@@)plain( -342,7 +353,7 )change(@@)]
+comment(     #)
+comment(     # Returns self.)
+comment(     def << token)
+delete[delete(-)plain(      @callback.call token)]
+insert[insert(+)plain(      @callback.call(*token\))]
+comment(       @size += 1)
+comment(       self)
+comment(     end)
+change[change(@@)plain( -365,4 +376,8 )change(@@)]
+comment( )
+comment(   end)
+comment( )
+insert[insert(+)plain(  )]
+insert[insert(+)plain(  # Token name abbreviations)]
+insert[insert(+)plain(  require 'coderay/token_classes')]
+insert[insert(+)]
+comment( end)
+head[head(Index: )plain(lib/coderay/duo.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/duo.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/duo.rb	(revision 250\))]
+change[change(@@)plain( -4,26 +4,84 )change(@@)]
+comment(   #)
+comment(   # $Id: scanner.rb 123 2006-03-21 14:46:34Z murphy $)
+comment(   #)
+delete[delete(-)plain(  # TODO: Doc.)]
+insert[insert(+)plain(  # A Duo is a convenient way to use CodeRay. You just create a Duo,)]
+insert[insert(+)plain(  # giving it a lang (language of the input code\) and a format (desired)]
+insert[insert(+)plain(  # output format\), and call Duo#highlight with the code.)]
+insert[insert(+)plain(  # )]
+insert[insert(+)plain(  # Duo makes it easy to re-use both scanner and encoder for a repetitive)]
+insert[insert(+)plain(  # task. It also provides a very easy interface syntax:)]
+insert[insert(+)plain(  # )]
+insert[insert(+)plain(  #   require 'coderay')]
+insert[insert(+)plain(  #   CodeRay::Duo[:python, :div].highlight 'import this')]
+insert[insert(+)plain(  # )]
+insert[insert(+)plain(  # Until you want to do uncommon things with CodeRay, I recommend to use)]
+insert[insert(+)plain(  # this method, since it takes care of everything.)]
+comment(   class Duo)
+comment( )
+delete[delete(-)plain(    attr_accessor :scanner, :encoder)]
+delete[delete(-)]
+delete[delete(-)plain(    def initialize lang, format, options = {})]
+delete[delete(-)plain(      @scanner = CodeRay.scanner lang, CodeRay.get_scanner_options(options\))]
+delete[delete(-)plain(      @encoder = CodeRay.encoder format, options)]
+insert[insert(+)plain(    attr_accessor :lang, :format, :options)]
+insert[insert(+)plain(    )]
+insert[insert(+)plain(    # Create a new Duo, holding a lang and a format to highlight code.)]
+insert[insert(+)plain(    # )]
+insert[insert(+)plain(    # simple:)]
+insert[insert(+)plain(    #   CodeRay::Duo[:ruby, :page].highlight 'bla 42')]
+insert[insert(+)plain(    # )]
+insert[insert(+)plain(    # streaming:)]
+insert[insert(+)plain(    #   CodeRay::Duo[:ruby, :page].highlight 'bar 23', :stream => true)]
+insert[insert(+)plain(    # )]
+insert[insert(+)plain(    # with options:)]
+insert[insert(+)plain(    #   CodeRay::Duo[:ruby, :html, :hint => :debug].highlight '????::??')]
+insert[insert(+)plain(    # )]
+insert[insert(+)plain(    # alternative syntax without options:)]
+insert[insert(+)plain(    #   CodeRay::Duo[:ruby => :statistic].encode 'class << self; end')]
+insert[insert(+)plain(    # )]
+insert[insert(+)plain(    # alternative syntax with options:)]
+insert[insert(+)plain(    #   CodeRay::Duo[{ :ruby => :statistic }, :do => :something].encode 'abc')]
+insert[insert(+)plain(    # )]
+insert[insert(+)plain(    # The options are forwarded to scanner and encoder)]
+insert[insert(+)plain(    # (see CodeRay.get_scanner_options\).)]
+insert[insert(+)plain(    def initialize lang = nil, format = nil, options = {})]
+insert[insert(+)plain(      if format == nil and lang.is_a? Hash and lang.size == 1)]
+insert[insert(+)plain(        @lang = lang.keys.first)]
+insert[insert(+)plain(        @format = lang[@lang])]
+insert[insert(+)plain(      else)]
+insert[insert(+)plain(        @lang = lang)]
+insert[insert(+)plain(        @format = format)]
+insert[insert(+)plain(      end)]
+insert[insert(+)plain(      @options = options)]
+comment(     end)
+comment( )
+comment(     class << self)
+insert[insert(+)plain(      # To allow calls like Duo[:ruby, :html].highlight.)]
+comment(       alias [] new)
+comment(     end)
+comment( )
+delete[delete(-)plain(    def encode code)]
+delete[delete(-)plain(      @scanner.string = code)]
+delete[delete(-)plain(      @encoder.encode_tokens(scanner.tokenize\))]
+insert[insert(+)plain(    # The scanner of the duo. Only created once.)]
+insert[insert(+)plain(    def scanner)]
+insert[insert(+)plain(      @scanner ||= CodeRay.scanner @lang, CodeRay.get_scanner_options(@options\))]
+comment(     end)
+insert[insert(+)plain(    )]
+insert[insert(+)plain(    # The encoder of the duo. Only created once.)]
+insert[insert(+)plain(    def encoder)]
+insert[insert(+)plain(      @encoder ||= CodeRay.encoder @format, @options)]
+insert[insert(+)plain(    end)]
+insert[insert(+)plain(    )]
+insert[insert(+)plain(    # Tokenize and highlight the code using +scanner+ and +encoder+.)]
+insert[insert(+)plain(    #)]
+insert[insert(+)plain(    # If the :stream option is set, the Duo will go into streaming mode,)]
+insert[insert(+)plain(    # saving memory for the cost of time.)]
+insert[insert(+)plain(    def encode code, options = { :stream => false })]
+insert[insert(+)plain(      stream = options.delete :stream)]
+insert[insert(+)plain(      options = @options.merge options)]
+insert[insert(+)plain(      if stream)]
+insert[insert(+)plain(        encoder.encode_stream(code, @lang, options\))]
+insert[insert(+)plain(      else)]
+insert[insert(+)plain(        scanner.code = code)]
+insert[insert(+)plain(        encoder.encode_tokens(scanner.tokenize, options\))]
+insert[insert(+)plain(      end)]
+insert[insert(+)plain(    end)]
+comment(     alias highlight encode)
+comment( )
+comment(   end)
+comment( )
+comment( end)
+insert[insert(+)]
+head[head(Index: )plain(lib/coderay/scanner.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/scanner.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/scanner.rb	(revision 250\))]
+change[change(@@)plain( -66,8 +66,18 )change(@@)]
+comment(         end)
+comment( )
+comment(         def normify code)
+delete[delete(-)plain(          code = code.to_s.to_unix)]
+insert[insert(+)plain(          code = code.to_s)]
+insert[insert(+)plain(          code.force_encoding 'binary' if code.respond_to? :force_encoding)]
+insert[insert(+)plain(          code.to_unix)]
+comment(         end)
+insert[insert(+)plain(        )]
+insert[insert(+)plain(        def file_extension extension = nil)]
+insert[insert(+)plain(          if extension)]
+insert[insert(+)plain(            @file_extension = extension.to_s)]
+insert[insert(+)plain(          else)]
+insert[insert(+)plain(            @file_extension ||= plugin_id.to_s)]
+insert[insert(+)plain(          end)]
+insert[insert(+)plain(        end        )]
+comment( )
+comment(       end)
+comment( )
+change[change(@@)plain( -117,9 +127,6 )change(@@)]
+comment(         setup)
+comment(       end)
+comment( )
+delete[delete(-)plain(      # More mnemonic accessor name for the input string.)]
+delete[delete(-)plain(      alias code string)]
+delete[delete(-)]
+comment(       def reset)
+comment(         super)
+comment(         reset_instance)
+change[change(@@)plain( -131,6 +138,10 )change(@@)]
+comment(         reset_instance)
+comment(       end)
+comment( )
+insert[insert(+)plain(      # More mnemonic accessor name for the input string.)]
+insert[insert(+)plain(      alias code string)]
+insert[insert(+)plain(      alias code= string=)]
+insert[insert(+)]
+comment(       # Scans the code and returns all tokens in a Tokens object.)
+comment(       def tokenize new_string=nil, options = {})
+comment(         options = @options.merge(options\))
+change[change(@@)plain( -148,6 +159,11 )change(@@)]
+comment(       def tokens)
+comment(         @cached_tokens ||= tokenize)
+comment(       end)
+insert[insert(+)plain(      )]
+insert[insert(+)plain(      # Whether the scanner is in streaming mode.)]
+insert[insert(+)plain(      def streaming?)]
+insert[insert(+)plain(        !!@options[:stream])]
+insert[insert(+)plain(      end)]
+comment( )
+comment(       # Traverses the tokens.)
+comment(       def each &block)
+change[change(@@)plain( -195,7 +211,7 )change(@@)]
+comment(         raise ScanError, <<-EOE % [)
+comment( )
+comment( )
+delete[delete(-)plain(***ERROR in %s: %s)]
+insert[insert(+)plain(***ERROR in %s: %s (after %d tokens\))]
+comment( )
+comment( tokens:)
+comment( %s)
+change[change(@@)plain( -211,13 +227,14 )change(@@)]
+comment( ***ERROR***)
+comment( )
+comment(         EOE)
+delete[delete(-)plain(        File.basename(caller[0]\),)]
+delete[delete(-)plain(        msg,)]
+delete[delete(-)plain(        tokens.last(10\).map { |t| t.inspect }.join("\\n"\),)]
+delete[delete(-)plain(        line, pos,)]
+delete[delete(-)plain(        matched, state, bol?, eos?,)]
+delete[delete(-)plain(        string[pos-ambit,ambit],)]
+delete[delete(-)plain(        string[pos,ambit],)]
+insert[insert(+)plain(          File.basename(caller[0]\),)]
+insert[insert(+)plain(          msg,)]
+insert[insert(+)plain(          tokens.size,)]
+insert[insert(+)plain(          tokens.last(10\).map { |t| t.inspect }.join("\\n"\),)]
+insert[insert(+)plain(          line, pos,)]
+insert[insert(+)plain(          matched, state, bol?, eos?,)]
+insert[insert(+)plain(          string[pos-ambit,ambit],)]
+insert[insert(+)plain(          string[pos,ambit],)]
+comment(         ])
+comment(       end)
+comment( )
+head[head(Index: )plain(lib/coderay/for_redcloth.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/for_redcloth.rb	(revision 0\))]
+head[head(+++ )plain(lib/coderay/for_redcloth.rb	(revision 250\))]
+change[change(@@)plain( -0,0 +1,72 )change(@@)]
+insert[insert(+)plain(module CodeRay  # :nodoc:)]
+insert[insert(+)plain(  )]
+insert[insert(+)plain(  # A little hack to enable CodeRay highlighting in RedCloth.)]
+insert[insert(+)plain(  # )]
+insert[insert(+)plain(  # Usage:)]
+insert[insert(+)plain(  #  require 'coderay')]
+insert[insert(+)plain(  #  require 'coderay/for_redcloth')]
+insert[insert(+)plain(  #  RedCloth.new('@[ruby]puts "Hello, World!"@'\).to_html)]
+insert[insert(+)plain(  # )]
+insert[insert(+)plain(  # Make sure you have RedCloth 4.0.3 activated, for example by calling)]
+insert[insert(+)plain(  #  require 'rubygems')]
+insert[insert(+)plain(  # before RedCloth is loaded and before calling CodeRay.for_redcloth.)]
+insert[insert(+)plain(  module ForRedCloth)]
+insert[insert(+)plain(    )]
+insert[insert(+)plain(    def self.install)]
+insert[insert(+)plain(      gem 'RedCloth', '>= 4.0.3' rescue nil)]
+insert[insert(+)plain(      require 'redcloth')]
+insert[insert(+)plain(      raise 'CodeRay.for_redcloth needs RedCloth 4.0.3 or later.' unless RedCloth::VERSION.to_s >= '4.0.3')]
+insert[insert(+)plain(      RedCloth::TextileDoc.send :include, ForRedCloth::TextileDoc)]
+insert[insert(+)plain(      RedCloth::Formatters::HTML.module_eval do)]
+insert[insert(+)plain(        def unescape(html\))]
+insert[insert(+)plain(          replacements = {)]
+insert[insert(+)plain(            '&amp;' => '&',)]
+insert[insert(+)plain(            '&quot;' => '"',)]
+insert[insert(+)plain(            '&gt;' => '>',)]
+insert[insert(+)plain(            '&lt;' => '<',)]
+insert[insert(+)plain(          })]
+insert[insert(+)plain(          html.gsub(/&(?:amp|quot|[gl]t\);/\) { |entity| replacements[entity] })]
+insert[insert(+)plain(        end)]
+insert[insert(+)plain(        undef_method :code, :bc_open, :bc_close, :escape_pre)]
+insert[insert(+)plain(        def code(opts\)  # :nodoc:)]
+insert[insert(+)plain(          opts[:block] = true)]
+insert[insert(+)plain(          if opts[:lang] && !filter_coderay)]
+insert[insert(+)plain(            require 'coderay')]
+insert[insert(+)plain(            @in_bc ||= nil)]
+insert[insert(+)plain(            format = @in_bc ? :div : :span)]
+insert[insert(+)plain(            highlighted_code = CodeRay.encode opts[:text], opts[:lang], format, :stream => true)]
+insert[insert(+)plain(            highlighted_code.sub!(/\\A<(span|div\)/\) { |m| m + pba(@in_bc || opts\) })]
+insert[insert(+)plain(            highlighted_code = unescape(highlighted_code\) unless @in_bc)]
+insert[insert(+)plain(            highlighted_code)]
+insert[insert(+)plain(          else)]
+insert[insert(+)plain(            "<code#{pba(opts\)}>#{opts[:text]}</code>")]
+insert[insert(+)plain(          end)]
+insert[insert(+)plain(        end)]
+insert[insert(+)plain(        def bc_open(opts\)  # :nodoc:)]
+insert[insert(+)plain(          opts[:block] = true)]
+insert[insert(+)plain(          @in_bc = opts)]
+insert[insert(+)plain(          opts[:lang] ? '' : "<pre#{pba(opts\)}>")]
+insert[insert(+)plain(        end)]
+insert[insert(+)plain(        def bc_close(opts\)  # :nodoc:)]
+insert[insert(+)plain(          @in_bc = nil)]
+insert[insert(+)plain(          opts[:lang] ? '' : "</pre>\\n")]
+insert[insert(+)plain(        end)]
+insert[insert(+)plain(        def escape_pre(text\))]
+insert[insert(+)plain(          if @in_bc ||= nil)]
+insert[insert(+)plain(            text)]
+insert[insert(+)plain(          else)]
+insert[insert(+)plain(            html_esc(text, :html_escape_preformatted\))]
+insert[insert(+)plain(          end)]
+insert[insert(+)plain(        end)]
+insert[insert(+)plain(      end)]
+insert[insert(+)plain(    end)]
+insert[insert(+)]
+insert[insert(+)plain(    module TextileDoc  # :nodoc:)]
+insert[insert(+)plain(      attr_accessor :filter_coderay)]
+insert[insert(+)plain(    end)]
+insert[insert(+)plain(    )]
+insert[insert(+)plain(  end)]
+insert[insert(+)plain(  )]
+insert[insert(+)plain(end)]
+insert[insert(+)]
+insert[insert(+)plain(CodeRay::ForRedCloth.install)]
+change[change(\\ )plain(No newline at end of file)]
+head[head(Index: )plain(lib/coderay/scanners/ruby/patterns.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/scanners/ruby/patterns.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/scanners/ruby/patterns.rb	(revision 250\))]
+change[change(@@)plain( -14,19 +14,14 )change(@@)]
+comment( )
+comment(     DEF_KEYWORDS = %w[ def ])
+comment(     UNDEF_KEYWORDS = %w[ undef ])
+insert[insert(+)plain(    ALIAS_KEYWORDS = %w[ alias ])]
+comment(     MODULE_KEYWORDS = %w[class module])
+comment(     DEF_NEW_STATE = WordList.new(:initial\).)
+comment(       add(DEF_KEYWORDS, :def_expected\).)
+comment(       add(UNDEF_KEYWORDS, :undef_expected\).)
+insert[insert(+)plain(      add(ALIAS_KEYWORDS, :alias_expected\).)]
+comment(       add(MODULE_KEYWORDS, :module_expected\))
+comment( )
+delete[delete(-)plain(    IDENTS_ALLOWING_REGEXP = %w[)]
+delete[delete(-)plain(      and or not while until unless if then elsif when sub sub! gsub gsub!)]
+delete[delete(-)plain(      scan slice slice! split)]
+delete[delete(-)plain(    ])]
+delete[delete(-)plain(    REGEXP_ALLOWED = WordList.new(false\).)]
+delete[delete(-)plain(      add(IDENTS_ALLOWING_REGEXP, :set\))]
+delete[delete(-)]
+comment(     PREDEFINED_CONSTANTS = %w[)
+comment(       nil true false self)
+comment(       DATA ARGV ARGF __FILE__ __LINE__)
+change[change(@@)plain( -41,19 +36,20 )change(@@)]
+comment(     METHOD_NAME = / #{IDENT} [?!]? /ox)
+comment(     METHOD_NAME_OPERATOR = /)
+comment(       \\*\\*?           # multiplication and power)
+delete[delete(-)plain(      | [-+]@?        # plus, minus)]
+delete[delete(-)plain(      | [\\/%&|^`~]    # division, modulo or format strings, &and, |or, ^xor, `system`, tilde)]
+insert[insert(+)plain(      | [-+~]@?       # plus, minus, tilde with and without @)]
+insert[insert(+)plain(      | [\\/%&|^`]     # division, modulo or format strings, &and, |or, ^xor, `system`)]
+comment(       | \\[\\]=?        # array getter and setter)
+comment(       | << | >>       # append or shift left, shift right)
+comment(       | <=?>? | >=?   # comparison, rocket operator)
+delete[delete(-)plain(      | ===?          # simple equality and case equality)]
+insert[insert(+)plain(      | ===? | =~     # simple equality, case equality, match)]
+insert[insert(+)plain(      | ![~=@]?       # negation with and without @, not-equal and not-match)]
+comment(     /ox)
+comment(     METHOD_NAME_EX = / #{IDENT} (?:[?!]|=(?!>\)\)? | #{METHOD_NAME_OPERATOR} /ox)
+comment(     INSTANCE_VARIABLE = / @ #{IDENT} /ox)
+comment(     CLASS_VARIABLE = / @@ #{IDENT} /ox)
+comment(     OBJECT_VARIABLE = / @@? #{IDENT} /ox)
+comment(     GLOBAL_VARIABLE = / \\$ (?: #{IDENT} | [1-9]\\d* | 0\\w* | [~&+`'=\\/,;_.<>!@$?*":\\\\] | -[a-zA-Z_0-9] \) /ox)
+delete[delete(-)plain(    PREFIX_VARIABLE = / #{GLOBAL_VARIABLE} |#{OBJECT_VARIABLE} /ox)]
+insert[insert(+)plain(    PREFIX_VARIABLE = / #{GLOBAL_VARIABLE} | #{OBJECT_VARIABLE} /ox)]
+comment(     VARIABLE = / @?@? #{IDENT} | #{GLOBAL_VARIABLE} /ox)
+comment( )
+comment(     QUOTE_TO_TYPE = {)
+change[change(@@)plain( -73,7 +69,7 )change(@@)]
+comment(     EXPONENT = / [eE] [+-]? #{DECIMAL} /ox)
+comment(     FLOAT_SUFFIX = / #{EXPONENT} | \\. #{DECIMAL} #{EXPONENT}? /ox)
+comment(     FLOAT_OR_INT = / #{DECIMAL} (?: #{FLOAT_SUFFIX} (\) \)? /ox)
+delete[delete(-)plain(    NUMERIC = / [-+]? (?: (?=0\) (?: #{OCTAL} | #{HEXADECIMAL} | #{BINARY} \) | #{FLOAT_OR_INT} \) /ox)]
+insert[insert(+)plain(    NUMERIC = / (?: (?=0\) (?: #{OCTAL} | #{HEXADECIMAL} | #{BINARY} \) | #{FLOAT_OR_INT} \) /ox)]
+comment( )
+comment(     SYMBOL = /)
+comment(       :)
+change[change(@@)plain( -83,6 +79,7 )change(@@)]
+comment(       | ['"])
+comment(       \))
+comment(     /ox)
+insert[insert(+)plain(    METHOD_NAME_OR_SYMBOL = / #{METHOD_NAME_EX} | #{SYMBOL} /ox)]
+comment( )
+comment(     # TODO investigste \\M, \\c and \\C escape sequences)
+comment(     # (?: M-\\\\C-|C-\\\\M-|M-\\\\c|c\\\\M-|c|C-|M-\)? (?: \\\\ (?: [0-7]{3} | x[0-9A-Fa-f]{2} | . \) \))
+change[change(@@)plain( -111,7 +108,7 )change(@@)]
+comment(       (?:)
+comment(         ( [A-Za-z_0-9]+ \)  # $2 = delim)
+comment(       |)
+delete[delete(-)plain(        ( ["'`] \)          # $3 = quote, type)]
+insert[insert(+)plain(        ( ["'`\\/] \)        # $3 = quote, type)]
+comment(         ( [^\\n]*? \) \\3     # $4 = delim)
+comment(       \))
+comment(     /mx)
+change[change(@@)plain( -129,15 +126,14 )change(@@)]
+comment(     /mx)
+comment(     )
+comment(     # Checks for a valid value to follow. This enables)
+delete[delete(-)plain(    # fancy_allowed in method calls.)]
+insert[insert(+)plain(    # value_expected in method calls without parentheses.)]
+comment(     VALUE_FOLLOWS = /)
+delete[delete(-)plain(      \\s+)]
+insert[insert(+)plain(      (?>[ \\t\\f\\v]+\))]
+comment(       (?:)
+comment(         [%\\/][^\\s=])
+delete[delete(-)plain(      |)]
+delete[delete(-)plain(        <<-?\\S)]
+delete[delete(-)plain(      |)]
+delete[delete(-)plain(        #{CHARACTER})]
+insert[insert(+)plain(      | <<-?\\S)]
+insert[insert(+)plain(      | [-+] \\d)]
+insert[insert(+)plain(      | #{CHARACTER})]
+comment(       \))
+comment(     /x)
+comment( )
+head[head(Index: )plain(lib/coderay/scanners/ruby.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/scanners/ruby.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/scanners/ruby.rb	(revision 250\))]
+change[change(@@)plain( -18,6 +18,7 )change(@@)]
+comment(     include Streamable)
+comment( )
+comment(     register_for :ruby)
+insert[insert(+)plain(    file_extension 'rb')]
+comment( )
+comment(     helper :patterns)
+comment( )
+change[change(@@)plain( -90,15 +91,15 )change(@@)]
+comment(             end)
+comment( )
+comment(           when '#')
+delete[delete(-)plain(            case peek(1\)[0])]
+delete[delete(-)plain(            when ?{)]
+insert[insert(+)plain(            case peek(1\))]
+insert[insert(+)plain(            when '{')]
+comment(               inline_block_stack << [state, depth, heredocs])
+comment(               value_expected = true)
+comment(               state = :initial)
+comment(               depth = 1)
+comment(               tokens << [:open, :inline])
+comment(               tokens << [match + getch, :inline_delimiter])
+delete[delete(-)plain(            when ?$, ?@)]
+insert[insert(+)plain(            when '$', '@')]
+comment(               tokens << [match, :escape])
+comment(               last_state = state  # scan one token as normal code, then return here)
+comment(               state = :initial)
+change[change(@@)plain( -121,36 +122,37 )change(@@)]
+comment( # }}})
+comment(         else)
+comment( # {{{)
+delete[delete(-)plain(          if match = scan(/ [ \\t\\f]+ | \\\\? \\n | \\# .* /x\) or)]
+delete[delete(-)plain(            ( bol? and match = scan(/#{patterns::RUBYDOC_OR_DATA}/o\) \))]
+delete[delete(-)plain(            case m = match[0])]
+delete[delete(-)plain(            when ?\\s, ?\\t, ?\\f)]
+delete[delete(-)plain(              match << scan(/\\s*/\) unless eos? or heredocs)]
+delete[delete(-)plain(              kind = :space)]
+delete[delete(-)plain(            when ?\\n, ?\\\\)]
+delete[delete(-)plain(              kind = :space)]
+delete[delete(-)plain(              if m == ?\\n)]
+delete[delete(-)plain(                value_expected = true  # FIXME not quite true)]
+delete[delete(-)plain(                state = :initial if state == :undef_comma_expected)]
+delete[delete(-)plain(              end)]
+delete[delete(-)plain(              if heredocs)]
+delete[delete(-)plain(                unscan  # heredoc scanning needs \\n at start)]
+delete[delete(-)plain(                state = heredocs.shift)]
+delete[delete(-)plain(                tokens << [:open, state.type])]
+delete[delete(-)plain(                heredocs = nil if heredocs.empty?)]
+delete[delete(-)plain(                next)]
+delete[delete(-)plain(              else)]
+delete[delete(-)plain(                match << scan(/\\s*/\) unless eos?)]
+delete[delete(-)plain(              end)]
+delete[delete(-)plain(            when ?#, ?=, ?_)]
+delete[delete(-)plain(              kind = :comment)]
+delete[delete(-)plain(              value_expected = true)]
+insert[insert(+)plain(          if match = scan(/[ \\t\\f]+/\))]
+insert[insert(+)plain(            kind = :space)]
+insert[insert(+)plain(            match << scan(/\\s*/\) unless eos? || heredocs)]
+insert[insert(+)plain(            value_expected = true if match.index(?\\n\) # FIXME not quite true)]
+insert[insert(+)plain(            tokens << [match, kind])]
+insert[insert(+)plain(            next)]
+insert[insert(+)plain(            )]
+insert[insert(+)plain(          elsif match = scan(/\\\\?\\n/\))]
+insert[insert(+)plain(            kind = :space)]
+insert[insert(+)plain(            if match == "\\n")]
+insert[insert(+)plain(              value_expected = true  # FIXME not quite true)]
+insert[insert(+)plain(              state = :initial if state == :undef_comma_expected)]
+insert[insert(+)plain(            end)]
+insert[insert(+)plain(            if heredocs)]
+insert[insert(+)plain(              unscan  # heredoc scanning needs \\n at start)]
+insert[insert(+)plain(              state = heredocs.shift)]
+insert[insert(+)plain(              tokens << [:open, state.type])]
+insert[insert(+)plain(              heredocs = nil if heredocs.empty?)]
+insert[insert(+)plain(              next)]
+comment(             else)
+delete[delete(-)plain(              raise_inspect 'else-case _ reached, because case %p was)]
+delete[delete(-)plain(                not handled' % [matched[0].chr], tokens)]
+insert[insert(+)plain(              match << scan(/\\s*/\) unless eos?)]
+comment(             end)
+comment(             tokens << [match, kind])
+comment(             next)
+insert[insert(+)plain(          )]
+insert[insert(+)plain(          elsif match = scan(/\\#.*/\) or)]
+insert[insert(+)plain(            ( bol? and match = scan(/#{patterns::RUBYDOC_OR_DATA}/o\) \))]
+insert[insert(+)plain(              kind = :comment)]
+insert[insert(+)plain(              value_expected = true)]
+insert[insert(+)plain(              tokens << [match, kind])]
+insert[insert(+)plain(              next)]
+comment( )
+comment(           elsif state == :initial)
+comment( )
+change[change(@@)plain( -167,19 +169,19 )change(@@)]
+comment(                 end)
+comment(               end)
+comment(               ## experimental!)
+delete[delete(-)plain(              value_expected = :set if)]
+delete[delete(-)plain(                patterns::REGEXP_ALLOWED[match] or check(/#{patterns::VALUE_FOLLOWS}/o\))]
+insert[insert(+)plain(              value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o\))]
+comment(             )
+comment(             elsif last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}/o\))
+comment(               kind = :ident)
+comment(               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o\))
+comment( )
+comment(             # OPERATORS #)
+delete[delete(-)plain(            elsif not last_token_dot and match = scan(/ ==?=? | \\.\\.?\\.? | [\\(\\\)\\[\\]\\{\\}] | :: | , /x\))]
+insert[insert(+)plain(            # TODO: match (\), [], {} as one single operator)]
+insert[insert(+)plain(            elsif not last_token_dot and match = scan(/ \\.\\.\\.? | (?:\\.|::\)(\) | [,\\(\\\)\\[\\]\\{\\}] | ==?=? /x\))]
+comment(               if match !~ / [.\\\)\\]\\}] /x or match =~ /\\.\\.\\.?/)
+comment(                 value_expected = :set)
+comment(               end)
+delete[delete(-)plain(              last_token_dot = :set if match == '.' or match == '::')]
+insert[insert(+)plain(              last_token_dot = :set if self[1])]
+comment(               kind = :operator)
+comment(               unless inline_block_stack.empty?)
+comment(                 case match)
+change[change(@@)plain( -210,8 +212,9 )change(@@)]
+comment(               interpreted = true)
+comment(               state = patterns::StringState.new :regexp, interpreted, match)
+comment( )
+delete[delete(-)plain(            elsif match = scan(/#{patterns::NUMERIC}/o\))]
+delete[delete(-)plain(              kind = if self[1] then :float else :integer end)]
+insert[insert(+)plain(            # elsif match = scan(/[-+]?#{patterns::NUMERIC}/o\))]
+insert[insert(+)plain(            elsif match = value_expected ? scan(/[-+]?#{patterns::NUMERIC}/o\) : scan(/#{patterns::NUMERIC}/o\))]
+insert[insert(+)plain(              kind = self[1] ? :float : :integer)]
+comment( )
+comment(             elsif match = scan(/#{patterns::SYMBOL}/o\))
+comment(               case delim = match[1])
+change[change(@@)plain( -285,6 +288,18 )change(@@)]
+comment(               next)
+comment(             end)
+comment( )
+insert[insert(+)plain(          elsif state == :module_expected)]
+insert[insert(+)plain(            if match = scan(/<</\))]
+insert[insert(+)plain(              kind = :operator)]
+insert[insert(+)plain(            else)]
+insert[insert(+)plain(              state = :initial)]
+insert[insert(+)plain(              if match = scan(/ (?:#{patterns::IDENT}::\)* #{patterns::IDENT} /ox\))]
+insert[insert(+)plain(                kind = :class)]
+insert[insert(+)plain(              else)]
+insert[insert(+)plain(                next)]
+insert[insert(+)plain(              end)]
+insert[insert(+)plain(            end)]
+insert[insert(+)]
+comment(           elsif state == :undef_expected)
+comment(             state = :undef_comma_expected)
+comment(             if match = scan(/#{patterns::METHOD_NAME_EX}/o\))
+change[change(@@)plain( -306,6 +321,15 )change(@@)]
+comment(               next)
+comment(             end)
+comment( )
+insert[insert(+)plain(          elsif state == :alias_expected)]
+insert[insert(+)plain(            if match = scan(/(#{patterns::METHOD_NAME_OR_SYMBOL}\)([ \\t]+\)(#{patterns::METHOD_NAME_OR_SYMBOL}\)/o\))]
+insert[insert(+)plain(              tokens << [self[1], (self[1][0] == ?: ? :symbol : :method\)])]
+insert[insert(+)plain(              tokens << [self[2], :space])]
+insert[insert(+)plain(              tokens << [self[3], (self[3][0] == ?: ? :symbol : :method\)])]
+insert[insert(+)plain(            end)]
+insert[insert(+)plain(            state = :initial)]
+insert[insert(+)plain(            next)]
+insert[insert(+)]
+comment(           elsif state == :undef_comma_expected)
+comment(             if match = scan(/,/\))
+comment(               kind = :operator)
+change[change(@@)plain( -315,24 +339,14 )change(@@)]
+comment(               next)
+comment(             end)
+comment( )
+delete[delete(-)plain(          elsif state == :module_expected)]
+delete[delete(-)plain(            if match = scan(/<</\))]
+delete[delete(-)plain(              kind = :operator)]
+delete[delete(-)plain(            else)]
+delete[delete(-)plain(              state = :initial)]
+delete[delete(-)plain(              if match = scan(/ (?:#{patterns::IDENT}::\)* #{patterns::IDENT} /ox\))]
+delete[delete(-)plain(                kind = :class)]
+delete[delete(-)plain(              else)]
+delete[delete(-)plain(                next)]
+delete[delete(-)plain(              end)]
+delete[delete(-)plain(            end)]
+delete[delete(-)]
+comment(           end)
+comment( # }}})
+insert[insert(+)plain(          )]
+insert[insert(+)plain(          unless kind == :error)]
+insert[insert(+)plain(            value_expected = value_expected == :set)]
+insert[insert(+)plain(            last_token_dot = last_token_dot == :set)]
+insert[insert(+)plain(          end)]
+comment( )
+delete[delete(-)plain(          value_expected = value_expected == :set)]
+delete[delete(-)plain(          last_token_dot = last_token_dot == :set)]
+delete[delete(-)]
+comment(           if $DEBUG and not kind)
+comment(             raise_inspect 'Error token %p in line %d' %)
+comment(               [[match, kind], line], tokens, state)
+head[head(Index: )plain(lib/coderay/scanners/c.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/scanners/c.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/scanners/c.rb	(revision 250\))]
+change[change(@@)plain( -4,6 +4,8 )change(@@)]
+comment(   class C < Scanner)
+comment( )
+comment(     register_for :c)
+insert[insert(+)plain(    )]
+insert[insert(+)plain(    include Streamable)]
+comment( )
+comment(     RESERVED_WORDS = [)
+comment(       'asm', 'break', 'case', 'continue', 'default', 'do', 'else',)
+change[change(@@)plain( -42,7 +44,7 )change(@@)]
+comment( )
+comment(         kind = nil)
+comment(         match = nil)
+delete[delete(-)]
+insert[insert(+)plain(        )]
+comment(         case state)
+comment( )
+comment(         when :initial)
+head[head(Index: )plain(lib/coderay/scanners/scheme.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/scanners/scheme.rb	(revision 0\))]
+head[head(+++ )plain(lib/coderay/scanners/scheme.rb	(revision 250\))]
+change[change(@@)plain( -0,0 +1,142 )change(@@)]
+insert[insert(+)plain(module CodeRay)]
+insert[insert(+)plain(  module Scanners)]
+insert[insert(+)]
+insert[insert(+)plain(    # Scheme scanner for CodeRay (by closure\).)]
+insert[insert(+)plain(    # Thanks to murphy for putting CodeRay into public.)]
+insert[insert(+)plain(    class Scheme < Scanner)]
+insert[insert(+)plain(      )]
+insert[insert(+)plain(      register_for :scheme)]
+insert[insert(+)plain(      file_extension :scm)]
+insert[insert(+)]
+insert[insert(+)plain(      CORE_FORMS = %w[)]
+insert[insert(+)plain(        lambda let let* letrec syntax-case define-syntax let-syntax)]
+insert[insert(+)plain(        letrec-syntax begin define quote if or and cond case do delay)]
+insert[insert(+)plain(        quasiquote set! cons force call-with-current-continuation call/cc)]
+insert[insert(+)plain(      ])]
+insert[insert(+)]
+insert[insert(+)plain(      IDENT_KIND = CaseIgnoringWordList.new(:ident\).)]
+insert[insert(+)plain(        add(CORE_FORMS, :reserved\))]
+insert[insert(+)plain(      )]
+insert[insert(+)plain(      #IDENTIFIER_INITIAL = /[a-z!@\\$%&\\*\\/\\:<=>\\?~_\\^]/i)]
+insert[insert(+)plain(      #IDENTIFIER_SUBSEQUENT = /#{IDENTIFIER_INITIAL}|\\d|\\.|\\+|-/)]
+insert[insert(+)plain(      #IDENTIFIER = /#{IDENTIFIER_INITIAL}#{IDENTIFIER_SUBSEQUENT}*|\\+|-|\\.{3}/)]
+insert[insert(+)plain(      IDENTIFIER = /[a-zA-Z!@$%&*\\/:<=>?~_^][\\w!@$%&*\\/:<=>?~^.+\\-]*|[+-]|\\.\\.\\./)]
+insert[insert(+)plain(      DIGIT = /\\d/)]
+insert[insert(+)plain(      DIGIT10 = DIGIT)]
+insert[insert(+)plain(      DIGIT16 = /[0-9a-f]/i)]
+insert[insert(+)plain(      DIGIT8 = /[0-7]/)]
+insert[insert(+)plain(      DIGIT2 = /[01]/)]
+insert[insert(+)plain(      RADIX16 = /\\#x/i)]
+insert[insert(+)plain(      RADIX8 = /\\#o/i)]
+insert[insert(+)plain(      RADIX2 = /\\#b/i)]
+insert[insert(+)plain(      RADIX10 = /\\#d/i)]
+insert[insert(+)plain(      EXACTNESS = /#i|#e/i)]
+insert[insert(+)plain(      SIGN = /[\\+-]?/)]
+insert[insert(+)plain(      EXP_MARK = /[esfdl]/i)]
+insert[insert(+)plain(      EXP = /#{EXP_MARK}#{SIGN}#{DIGIT}+/)]
+insert[insert(+)plain(      SUFFIX = /#{EXP}?/)]
+insert[insert(+)plain(      PREFIX10 = /#{RADIX10}?#{EXACTNESS}?|#{EXACTNESS}?#{RADIX10}?/)]
+insert[insert(+)plain(      PREFIX16 = /#{RADIX16}#{EXACTNESS}?|#{EXACTNESS}?#{RADIX16}/)]
+insert[insert(+)plain(      PREFIX8 = /#{RADIX8}#{EXACTNESS}?|#{EXACTNESS}?#{RADIX8}/)]
+insert[insert(+)plain(      PREFIX2 = /#{RADIX2}#{EXACTNESS}?|#{EXACTNESS}?#{RADIX2}/)]
+insert[insert(+)plain(      UINT10 = /#{DIGIT10}+#*/)]
+insert[insert(+)plain(      UINT16 = /#{DIGIT16}+#*/)]
+insert[insert(+)plain(      UINT8 = /#{DIGIT8}+#*/)]
+insert[insert(+)plain(      UINT2 = /#{DIGIT2}+#*/)]
+insert[insert(+)plain(      DECIMAL = /#{DIGIT10}+#+\\.#*#{SUFFIX}|#{DIGIT10}+\\.#{DIGIT10}*#*#{SUFFIX}|\\.#{DIGIT10}+#*#{SUFFIX}|#{UINT10}#{EXP}/)]
+insert[insert(+)plain(      UREAL10 = /#{UINT10}\\/#{UINT10}|#{DECIMAL}|#{UINT10}/)]
+insert[insert(+)plain(      UREAL16 = /#{UINT16}\\/#{UINT16}|#{UINT16}/)]
+insert[insert(+)plain(      UREAL8 = /#{UINT8}\\/#{UINT8}|#{UINT8}/)]
+insert[insert(+)plain(      UREAL2 = /#{UINT2}\\/#{UINT2}|#{UINT2}/)]
+insert[insert(+)plain(      REAL10 = /#{SIGN}#{UREAL10}/)]
+insert[insert(+)plain(      REAL16 = /#{SIGN}#{UREAL16}/)]
+insert[insert(+)plain(      REAL8 = /#{SIGN}#{UREAL8}/)]
+insert[insert(+)plain(      REAL2 = /#{SIGN}#{UREAL2}/)]
+insert[insert(+)plain(      IMAG10 = /i|#{UREAL10}i/)]
+insert[insert(+)plain(      IMAG16 = /i|#{UREAL16}i/)]
+insert[insert(+)plain(      IMAG8 = /i|#{UREAL8}i/)]
+insert[insert(+)plain(      IMAG2 = /i|#{UREAL2}i/)]
+insert[insert(+)plain(      COMPLEX10 = /#{REAL10}@#{REAL10}|#{REAL10}\\+#{IMAG10}|#{REAL10}-#{IMAG10}|\\+#{IMAG10}|-#{IMAG10}|#{REAL10}/)]
+insert[insert(+)plain(      COMPLEX16 = /#{REAL16}@#{REAL16}|#{REAL16}\\+#{IMAG16}|#{REAL16}-#{IMAG16}|\\+#{IMAG16}|-#{IMAG16}|#{REAL16}/)]
+insert[insert(+)plain(      COMPLEX8 = /#{REAL8}@#{REAL8}|#{REAL8}\\+#{IMAG8}|#{REAL8}-#{IMAG8}|\\+#{IMAG8}|-#{IMAG8}|#{REAL8}/)]
+insert[insert(+)plain(      COMPLEX2 = /#{REAL2}@#{REAL2}|#{REAL2}\\+#{IMAG2}|#{REAL2}-#{IMAG2}|\\+#{IMAG2}|-#{IMAG2}|#{REAL2}/)]
+insert[insert(+)plain(      NUM10 = /#{PREFIX10}?#{COMPLEX10}/)]
+insert[insert(+)plain(      NUM16 = /#{PREFIX16}#{COMPLEX16}/)]
+insert[insert(+)plain(      NUM8 = /#{PREFIX8}#{COMPLEX8}/)]
+insert[insert(+)plain(      NUM2 = /#{PREFIX2}#{COMPLEX2}/)]
+insert[insert(+)plain(      NUM = /#{NUM10}|#{NUM16}|#{NUM8}|#{NUM2}/)]
+insert[insert(+)plain(    )]
+insert[insert(+)plain(    private)]
+insert[insert(+)plain(      def scan_tokens tokens,options)]
+insert[insert(+)plain(        )]
+insert[insert(+)plain(        state = :initial)]
+insert[insert(+)plain(        ident_kind = IDENT_KIND)]
+insert[insert(+)plain(        )]
+insert[insert(+)plain(        until eos?)]
+insert[insert(+)plain(          kind = match = nil)]
+insert[insert(+)plain(          )]
+insert[insert(+)plain(          case state)]
+insert[insert(+)plain(          when :initial)]
+insert[insert(+)plain(            if scan(/ \\s+ | \\\\\\n /x\))]
+insert[insert(+)plain(              kind = :space)]
+insert[insert(+)plain(            elsif scan(/['\\(\\[\\\)\\]]|#\\(/\))]
+insert[insert(+)plain(              kind = :operator_fat)]
+insert[insert(+)plain(            elsif scan(/;.*/\))]
+insert[insert(+)plain(              kind = :comment)]
+insert[insert(+)plain(            elsif scan(/#\\\\(?:newline|space|.?\)/\))]
+insert[insert(+)plain(              kind = :char)]
+insert[insert(+)plain(            elsif scan(/#[ft]/\))]
+insert[insert(+)plain(              kind = :pre_constant)]
+insert[insert(+)plain(            elsif scan(/#{IDENTIFIER}/o\))]
+insert[insert(+)plain(              kind = ident_kind[matched])]
+insert[insert(+)plain(            elsif scan(/\\./\))]
+insert[insert(+)plain(              kind = :operator)]
+insert[insert(+)plain(            elsif scan(/"/\))]
+insert[insert(+)plain(              tokens << [:open, :string])]
+insert[insert(+)plain(              state = :string)]
+insert[insert(+)plain(              tokens << ['"', :delimiter])]
+insert[insert(+)plain(              next)]
+insert[insert(+)plain(            elsif scan(/#{NUM}/o\) and not matched.empty?)]
+insert[insert(+)plain(              kind = :integer)]
+insert[insert(+)plain(            elsif getch)]
+insert[insert(+)plain(              kind = :error)]
+insert[insert(+)plain(            end)]
+insert[insert(+)plain(            )]
+insert[insert(+)plain(          when :string)]
+insert[insert(+)plain(            if scan(/[^"\\\\]+/\) or scan(/\\\\.?/\))]
+insert[insert(+)plain(              kind = :content)]
+insert[insert(+)plain(            elsif scan(/"/\))]
+insert[insert(+)plain(              tokens << ['"', :delimiter])]
+insert[insert(+)plain(              tokens << [:close, :string])]
+insert[insert(+)plain(              state = :initial)]
+insert[insert(+)plain(              next)]
+insert[insert(+)plain(            else)]
+insert[insert(+)plain(              raise_inspect "else case \\" reached; %p not handled." % peek(1\),)]
+insert[insert(+)plain(                tokens, state)]
+insert[insert(+)plain(            end)]
+insert[insert(+)plain(            )]
+insert[insert(+)plain(          else)]
+insert[insert(+)plain(            raise "else case reached")]
+insert[insert(+)plain(          end)]
+insert[insert(+)plain(          )]
+insert[insert(+)plain(          match ||= matched)]
+insert[insert(+)plain(          if $DEBUG and not kind)]
+insert[insert(+)plain(            raise_inspect 'Error token %p in line %d' %)]
+insert[insert(+)plain(            [[match, kind], line], tokens)]
+insert[insert(+)plain(          end)]
+insert[insert(+)plain(          raise_inspect 'Empty token', tokens, state unless match)]
+insert[insert(+)plain(          )]
+insert[insert(+)plain(          tokens << [match, kind])]
+insert[insert(+)plain(          )]
+insert[insert(+)plain(        end  # until eos)]
+insert[insert(+)plain(        )]
+insert[insert(+)plain(        if state == :string)]
+insert[insert(+)plain(          tokens << [:close, :string])]
+insert[insert(+)plain(        end)]
+insert[insert(+)plain(        )]
+insert[insert(+)plain(        tokens)]
+insert[insert(+)plain(        )]
+insert[insert(+)plain(      end #scan_tokens)]
+insert[insert(+)plain(    end #class)]
+insert[insert(+)plain(  end #module scanners)]
+insert[insert(+)plain(end #module coderay)]
+change[change(\\ )plain(No newline at end of file)]
+head[head(Index: )plain(lib/coderay/scanners/delphi.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/scanners/delphi.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/scanners/delphi.rb	(revision 250\))]
+change[change(@@)plain( -29,13 +29,18 )change(@@)]
+comment(       'virtual', 'write', 'writeonly')
+comment(     ])
+comment( )
+delete[delete(-)plain(    IDENT_KIND = CaseIgnoringWordList.new(:ident\).)]
+insert[insert(+)plain(    IDENT_KIND = CaseIgnoringWordList.new(:ident, caching=true\).)]
+comment(       add(RESERVED_WORDS, :reserved\).)
+comment(       add(DIRECTIVES, :directive\))
+insert[insert(+)plain(    )]
+insert[insert(+)plain(    NAME_FOLLOWS = CaseIgnoringWordList.new(false, caching=true\).)]
+insert[insert(+)plain(      add(%w(procedure function .\)\))]
+comment( )
+insert[insert(+)plain(  private)]
+comment(     def scan_tokens tokens, options)
+comment( )
+comment(       state = :initial)
+insert[insert(+)plain(      last_token = '')]
+comment( )
+comment(       until eos?)
+comment( )
+change[change(@@)plain( -45,19 +50,29 )change(@@)]
+comment(         if state == :initial)
+comment(           )
+comment(           if scan(/ \\s+ /x\))
+delete[delete(-)plain(            kind = :space)]
+insert[insert(+)plain(            tokens << [matched, :space])]
+insert[insert(+)plain(            next)]
+comment(             )
+comment(           elsif scan(%r! \\{ \\$ [^}]* \\}? | \\(\\* \\$ (?: .*? \\*\\\) | .* \) !mx\))
+delete[delete(-)plain(            kind = :preprocessor)]
+insert[insert(+)plain(            tokens << [matched, :preprocessor])]
+insert[insert(+)plain(            next)]
+comment(             )
+comment(           elsif scan(%r! // [^\\n]* | \\{ [^}]* \\}? | \\(\\* (?: .*? \\*\\\) | .* \) !mx\))
+delete[delete(-)plain(            kind = :comment)]
+insert[insert(+)plain(            tokens << [matched, :comment])]
+insert[insert(+)plain(            next)]
+comment(             )
+delete[delete(-)plain(          elsif scan(/ [-+*\\/=<>:;,.@\\^|\\(\\\)\\[\\]]+ /x\))]
+insert[insert(+)plain(          elsif match = scan(/ <[>=]? | >=? | :=? | [-+=*\\/;,@\\^|\\(\\\)\\[\\]] | \\.\\. /x\))]
+comment(             kind = :operator)
+insert[insert(+)plain(          )]
+insert[insert(+)plain(          elsif match = scan(/\\./\))]
+insert[insert(+)plain(            kind = :operator)]
+insert[insert(+)plain(            if last_token == 'end')]
+insert[insert(+)plain(              tokens << [match, kind])]
+insert[insert(+)plain(              next)]
+insert[insert(+)plain(            end)]
+comment(             )
+comment(           elsif match = scan(/ [A-Za-z_][A-Za-z_0-9]* /x\))
+delete[delete(-)plain(            kind = IDENT_KIND[match])]
+insert[insert(+)plain(            kind = NAME_FOLLOWS[last_token] ? :ident : IDENT_KIND[match])]
+comment(             )
+comment(           elsif match = scan(/ ' ( [^\\n']|'' \) (?:'|$\) /x\))
+comment(             tokens << [:open, :char])
+change[change(@@)plain( -101,6 +116,7 )change(@@)]
+comment(             state = :initial)
+comment(             next)
+comment(           elsif scan(/\\n/\))
+insert[insert(+)plain(            tokens << [:close, :string])]
+comment(             kind = :error)
+comment(             state = :initial)
+comment(           else)
+change[change(@@)plain( -119,6 +135,7 )change(@@)]
+comment(         end)
+comment(         raise_inspect 'Empty token', tokens unless match)
+comment( )
+insert[insert(+)plain(        last_token = match)]
+comment(         tokens << [match, kind])
+comment(         )
+comment(       end)
+head[head(Index: )plain(lib/coderay/scanners/debug.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/scanners/debug.rb	(revision 0\))]
+head[head(+++ )plain(lib/coderay/scanners/debug.rb	(revision 250\))]
+change[change(@@)plain( -0,0 +1,60 )change(@@)]
+insert[insert(+)plain(module CodeRay)]
+insert[insert(+)plain(module Scanners)]
+insert[insert(+)]
+insert[insert(+)plain(  # = Debug Scanner)]
+insert[insert(+)plain(  class Debug < Scanner)]
+insert[insert(+)]
+insert[insert(+)plain(    include Streamable)]
+insert[insert(+)plain(    register_for :debug)]
+insert[insert(+)]
+insert[insert(+)plain(  protected)]
+insert[insert(+)plain(    def scan_tokens tokens, options)]
+insert[insert(+)]
+insert[insert(+)plain(      opened_tokens = [])]
+insert[insert(+)]
+insert[insert(+)plain(      until eos?)]
+insert[insert(+)]
+insert[insert(+)plain(        kind = nil)]
+insert[insert(+)plain(        match = nil)]
+insert[insert(+)]
+insert[insert(+)plain(          if scan(/\\s+/\))]
+insert[insert(+)plain(            tokens << [matched, :space])]
+insert[insert(+)plain(            next)]
+insert[insert(+)plain(            )]
+insert[insert(+)plain(          elsif scan(/ (\\w+\) \\( ( [^\\\)\\\\]* ( \\\\. [^\\\)\\\\]* \)* \) \\\) /x\))]
+insert[insert(+)plain(            kind = self[1].to_sym)]
+insert[insert(+)plain(            match = self[2].gsub(/\\\\(.\)/, '\\1'\))]
+insert[insert(+)plain(            )]
+insert[insert(+)plain(          elsif scan(/ (\\w+\) < /x\))]
+insert[insert(+)plain(            kind = self[1].to_sym)]
+insert[insert(+)plain(            opened_tokens << kind)]
+insert[insert(+)plain(            match = :open)]
+insert[insert(+)plain(            )]
+insert[insert(+)plain(          elsif scan(/ > /x\))]
+insert[insert(+)plain(            kind = opened_tokens.pop)]
+insert[insert(+)plain(            match = :close)]
+insert[insert(+)plain(            )]
+insert[insert(+)plain(          else)]
+insert[insert(+)plain(            kind = :error)]
+insert[insert(+)plain(            getch)]
+insert[insert(+)]
+insert[insert(+)plain(          end)]
+insert[insert(+)plain(                  )]
+insert[insert(+)plain(        match ||= matched)]
+insert[insert(+)plain(        if $DEBUG and not kind)]
+insert[insert(+)plain(          raise_inspect 'Error token %p in line %d' %)]
+insert[insert(+)plain(            [[match, kind], line], tokens)]
+insert[insert(+)plain(        end)]
+insert[insert(+)plain(        raise_inspect 'Empty token', tokens unless match)]
+insert[insert(+)]
+insert[insert(+)plain(        tokens << [match, kind])]
+insert[insert(+)plain(        )]
+insert[insert(+)plain(      end)]
+insert[insert(+)plain(      )]
+insert[insert(+)plain(      tokens)]
+insert[insert(+)plain(    end)]
+insert[insert(+)]
+insert[insert(+)plain(  end)]
+insert[insert(+)]
+insert[insert(+)plain(end)]
+insert[insert(+)plain(end)]
+head[head(Index: )plain(lib/coderay/scanners/rhtml.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/scanners/rhtml.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/scanners/rhtml.rb	(revision 250\))]
+change[change(@@)plain( -51,10 +51,10 )change(@@)]
+comment(           start_tag = match[/\\A<%[-=]?/])
+comment(           end_tag = match[/-?%?>?\\z/])
+comment(           tokens << [:open, :inline])
+delete[delete(-)plain(          tokens << [start_tag, :delimiter])]
+insert[insert(+)plain(          tokens << [start_tag, :inline_delimiter])]
+comment(           code = match[start_tag.size .. -1 - end_tag.size])
+comment(           @ruby_scanner.tokenize code)
+delete[delete(-)plain(          tokens << [end_tag, :delimiter] unless end_tag.empty?)]
+insert[insert(+)plain(          tokens << [end_tag, :inline_delimiter] unless end_tag.empty?)]
+comment(           tokens << [:close, :inline])
+comment( )
+comment(         else)
+head[head(Index: )plain(lib/coderay/scanners/nitro_xhtml.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/scanners/nitro_xhtml.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/scanners/nitro_xhtml.rb	(revision 250\))]
+change[change(@@)plain( -95,20 +95,20 )change(@@)]
+comment(           delimiter = CLOSING_PAREN[start_tag[1,1]])
+comment(           end_tag = match[-1,1] == delimiter ? delimiter : '')
+comment(           tokens << [:open, :inline])
+delete[delete(-)plain(          tokens << [start_tag, :delimiter])]
+insert[insert(+)plain(          tokens << [start_tag, :inline_delimiter])]
+comment(           code = match[start_tag.size .. -1 - end_tag.size])
+comment(           @ruby_scanner.tokenize code)
+delete[delete(-)plain(          tokens << [end_tag, :delimiter] unless end_tag.empty?)]
+insert[insert(+)plain(          tokens << [end_tag, :inline_delimiter] unless end_tag.empty?)]
+comment(           tokens << [:close, :inline])
+comment( )
+comment(         elsif match = scan(/#{NITRO_RUBY_BLOCK}/o\))
+comment(           start_tag = '<?r')
+comment(           end_tag = match[-2,2] == '?>' ? '?>' : '')
+comment(           tokens << [:open, :inline])
+delete[delete(-)plain(          tokens << [start_tag, :delimiter])]
+insert[insert(+)plain(          tokens << [start_tag, :inline_delimiter])]
+comment(           code = match[start_tag.size .. -(end_tag.size\)-1])
+comment(           @ruby_scanner.tokenize code)
+delete[delete(-)plain(          tokens << [end_tag, :delimiter] unless end_tag.empty?)]
+insert[insert(+)plain(          tokens << [end_tag, :inline_delimiter] unless end_tag.empty?)]
+comment(           tokens << [:close, :inline])
+comment( )
+comment(         elsif entity = scan(/#{NITRO_ENTITY}/o\))
+head[head(Index: )plain(lib/coderay/scanners/plaintext.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay/scanners/plaintext.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay/scanners/plaintext.rb	(revision 250\))]
+change[change(@@)plain( -4,6 +4,8 )change(@@)]
+comment(   class Plaintext < Scanner)
+comment( )
+comment(     register_for :plaintext, :plain)
+insert[insert(+)plain(    )]
+insert[insert(+)plain(    include Streamable)]
+comment( )
+comment(     def scan_tokens tokens, options)
+comment(       text = (scan_until(/\\z/\) || ''\))
+head[head(Index: )plain(lib/coderay.rb)]
+head[head(===================================================================)]
+head[head(--- )plain(lib/coderay.rb	(revision 200\))]
+head[head(+++ )plain(lib/coderay.rb	(revision 250\))]
+change[change(@@)plain( -24,8 +24,8 )change(@@)]
+comment( #)
+comment( # == Usage)
+comment( #)
+delete[delete(-)plain(# Remember you need RubyGems to use CodeRay. Run Ruby with -rubygems option)]
+delete[delete(-)plain(# if required.)]
+insert[insert(+)plain(# Remember you need RubyGems to use CodeRay, unless you have it in your load path. Run Ruby with)]
+insert[insert(+)plain(# -rubygems option if required.)]
+comment( #)
+comment( # === Highlight Ruby code in a string as html)
+comment( # )
+change[change(@@)plain( -44,19 +44,15 )change(@@)]
+comment( # )
+comment( # You can include this div in your page. The used CSS styles can be printed with)
+comment( # )
+delete[delete(-)plain(#   % ruby -rcoderay -e "print CodeRay::Encoders[:html]::CSS")]
+insert[insert(+)plain(#   % coderay_stylesheet)]
+comment( # )
+comment( # === Highlight without typing too much)
+delete[delete(-)plain(#)]
+insert[insert(+)plain(# )]
+comment( # If you are one of the hasty (or lazy, or extremely curious\) people, just run this file:)
+delete[delete(-)plain(#)]
+delete[delete(-)plain(#   % ruby -rubygems coderay.rb)]
+comment( # )
+delete[delete(-)plain(# If the output was to fast for you, try)]
+insert[insert(+)plain(#   % ruby -rubygems /path/to/coderay/coderay.rb > example.html)]
+comment( # )
+delete[delete(-)plain(#   % ruby -rubygems coderay.rb > example.html)]
+delete[delete(-)plain(#)]
+delete[delete(-)plain(# and look at the file it created.)]
+insert[insert(+)plain(# and look at the file it created in your browser.)]
+comment( # )
+comment( # = CodeRay Module)
+comment( #)
+change[change(@@)plain( -111,7 +107,7 )change(@@)]
+comment( #)
+comment( # CodeRay.scan_stream:: Scan in stream mode.)
+comment( #)
+delete[delete(-)plain(#  == All-in-One Encoding)]
+insert[insert(+)plain(# == All-in-One Encoding)]
+comment( #)
+comment( # CodeRay.encode:: Highlight a string with a given input and output format.)
+comment( #)
+change[change(@@)plain( -121,11 +117,16 )change(@@)]
+comment( # for this Encoder must only be done once.)
+comment( #)
+comment( # CodeRay.encoder:: Create an Encoder instance with format and options.)
+insert[insert(+)plain(# CodeRay.scanner:: Create an Scanner instance for lang, with '' as default code.)]
+comment( #)
+delete[delete(-)plain(# There is no CodeRay.scanner method because Scanners are bound to an input string)]
+delete[delete(-)plain(# on creation; you can't re-use them with another string.)]
+insert[insert(+)plain(# To make use of CodeRay.scanner, use CodeRay::Scanner::code=.)]
+comment( #)
+delete[delete(-)plain(#  The scanning methods provide more flexibility; we recommend to use these.)]
+insert[insert(+)plain(# The scanning methods provide more flexibility; we recommend to use these.)]
+insert[insert(+)plain(# )]
+insert[insert(+)plain(# == Reusing Scanners and Encoders)]
+insert[insert(+)plain(# )]
+insert[insert(+)plain(# If you want to re-use scanners and encoders (because that is faster\), see)]
+insert[insert(+)plain(# CodeRay::Duo for the most convenient (and recommended\) interface.)]
+comment( module CodeRay)
+comment( )
+comment(   # Version: Major.Minor.Teeny[.Revision])
+change[change(@@)plain( -133,7 +134,7 )change(@@)]
+comment(   # Minor: odd for beta, even for stable)
+comment(   # Teeny: development state)
+comment(   # Revision: Subversion Revision number (generated on rake\))
+delete[delete(-)plain(  VERSION = '0.7.4')]
+insert[insert(+)plain(  VERSION = '0.7.9')]
+comment( )
+comment(   require 'coderay/tokens')
+comment(   require 'coderay/scanner')
+change[change(@@)plain( -170,7 +171,7 )change(@@)]
+comment(     def scan_file filename, lang = :auto, options = {}, &block)
+comment(       file = IO.read filename)
+comment(       if lang == :auto)
+delete[delete(-)plain(        require 'coderay/helpers/filetype')]
+insert[insert(+)plain(        require 'coderay/helpers/file_type')]
+comment(         lang = FileType.fetch filename, :plaintext, true)
+comment(       end)
+comment(       scan file, lang, options = {}, &block)
+change[change(@@)plain( -314,6 +315,7 )change(@@)]
+comment( # Run a test script.)
+comment( if $0 == __FILE__)
+comment(   $stderr.print 'Press key to print demo.'; gets)
+delete[delete(-)plain(  code = File.read($0\)[/module CodeRay.*/m])]
+insert[insert(+)plain(  # Just use this file as an example of Ruby code.)]
+insert[insert(+)plain(  code = File.read(__FILE__\)[/module CodeRay.*/m])]
+comment(   print CodeRay.scan(code, :ruby\).html)
+comment( end)
+
+head[head(Property changes on: )plain(lib)]
+head[head(___________________________________________________________________)]
+head[head(Added: )plain(svn:externals)]
+insert[insert(   +)plain( term http://term-ansicolor.rubyforge.org/svn/trunk/lib/term/)]
+
+

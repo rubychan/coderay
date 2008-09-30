@@ -200,25 +200,29 @@ module CodeRay
     #
     # TODO: Test this!
     def fix
+      tokens = self.class.new
       # Check token nesting using a stack of kinds.
       opened = []
-      for token, kind in self
-        if token == :open
-          opened.push kind
-        elsif token == :close
+      for type, kind in self
+        case type
+        when :open
+          opened.push [:close, kind]
+        when :begin_line
+          opened.push [:end_line, kind]
+        when :close, :end_line
           expected = opened.pop
-          if kind != expected
+          if [type, kind] != expected
             # Unexpected :close; decide what to do based on the kind:
-            # - token was opened earlier: also close tokens in between
-            # - token was never opened: delete the :close (skip with next)
+            # - token was never opened: delete the :close (just skip it)
             next unless opened.rindex expected
-            tokens << [:close, kind] until (kind = opened.pop) == expected
+            # - token was opened earlier: also close tokens in between
+            tokens << token until (token = opened.pop) == expected
           end
         end
-        tokens << [token, kind]
+        tokens << [type, kind]
       end
       # Close remaining opened tokens
-      tokens << [:close, kind] while kind = opened.pop
+      tokens << token while token = opened.pop
       tokens
     end
     

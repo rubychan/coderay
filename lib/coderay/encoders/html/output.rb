@@ -166,7 +166,9 @@ module Encoders
       # title="double click to expand"
 
       LIST = <<-`LIST`
-<ol class="CodeRay"><%CONTENT%></ol>
+<ol class="CodeRay">
+<%CONTENT%>
+</ol>
       LIST
 
       PAGE = <<-`PAGE`

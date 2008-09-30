@@ -133,7 +133,7 @@ module CodeRay
       # whether +text+ is a String.
       def token text, kind
         out =
-          if text.is_a? ::String  # Ruby 1.9: :open.is_a? String
+          if text.is_a? ::String  # Ruby 1.9: watch out, :open.is_a? String is true
             text_token text, kind
           elsif text.is_a? ::Symbol
             block_token text, kind
@@ -152,6 +152,10 @@ module CodeRay
           open_token kind
         when :close
           close_token kind
+        when :begin_line
+          begin_line kind
+        when :end_line
+          end_line kind
         else
           raise 'unknown block action: %p' % action
         end

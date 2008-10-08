@@ -97,6 +97,8 @@ ol.CodeRay li { white-space: pre }
 .r, .kw  { color:#080; font-weight:bold }
 
 .ke { color: #808; }
+.ke .dl { color: #606; }
+.ke .ch { color: #80f; }
 .vl { color: #088; }
 
 .rx { background-color:#fff0ff }
@@ -105,11 +107,12 @@ ol.CodeRay li { white-space: pre }
 .rx .mod { color:#C2C }
 .rx .fu  { color:#404; font-weight: bold }
 
-.s  { background-color:#fff0f0 }
-.s  .s { background-color:#ffe0e0 }
-.s  .s  .s { background-color:#ffd0d0 }
-.s  .k { color:#D20 }
-.s  .dl { color:#710 }
+.s { background-color:#fff0f0 }
+.s .s { background-color:#ffe0e0 }
+.s .s  .s { background-color:#ffd0d0 }
+.s .k { color: #D20; }
+.s .ch { color: #b0b; }
+.s .dl { color: #710; }
 
 .sh { background-color:#f0fff0 }
 .sh .k { color:#2B2 }

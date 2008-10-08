@@ -1,0 +1,73 @@
+operator([)
+    string<delimiter(")content(JSON Test Pattern pass1)delimiter(")>operator(,)
+    operator({)key<delimiter(")content(object with 1 member)delimiter(")>operator(:)operator([)string<delimiter(")content(array with 1 element)delimiter(")>operator(])operator(})operator(,)
+    operator({)operator(})operator(,)
+    operator([)operator(])operator(,)
+    integer(-42)operator(,)
+    reserved(true)operator(,)
+    reserved(false)operator(,)
+    reserved(null)operator(,)
+    operator({)
+        key<delimiter(")content(integer)delimiter(")>operator(:) integer(1234567890)operator(,)
+        key<delimiter(")content(real)delimiter(")>operator(:) float(-9876.543210)operator(,)
+        key<delimiter(")content(e)delimiter(")>operator(:) float(0.123456789e-12)operator(,)
+        key<delimiter(")content(E)delimiter(")>operator(:) float(1.234567890E+34)operator(,)
+        key<delimiter(")delimiter(")>operator(:)  float(23456789012E666)operator(,)
+        key<delimiter(")content(zero)delimiter(")>operator(:) integer(0)operator(,)
+        key<delimiter(")content(one)delimiter(")>operator(:) integer(1)operator(,)
+        key<delimiter(")content(space)delimiter(")>operator(:) string<delimiter(")content( )delimiter(")>operator(,)
+        key<delimiter(")content(quote)delimiter(")>operator(:) string<delimiter(")char(\\")delimiter(")>operator(,)
+        key<delimiter(")content(backslash)delimiter(")>operator(:) string<delimiter(")char(\\\\)delimiter(")>operator(,)
+        key<delimiter(")content(controls)delimiter(")>operator(:) string<delimiter(")char(\\b)char(\\f)char(\\n)char(\\r)char(\\t)delimiter(")>operator(,)
+        key<delimiter(")content(slash)delimiter(")>operator(:) string<delimiter(")content(/ & )char(\\/)delimiter(")>operator(,)
+        key<delimiter(")content(alpha)delimiter(")>operator(:) string<delimiter(")content(abcdefghijklmnopqrstuvwyz)delimiter(")>operator(,)
+        key<delimiter(")content(ALPHA)delimiter(")>operator(:) string<delimiter(")content(ABCDEFGHIJKLMNOPQRSTUVWYZ)delimiter(")>operator(,)
+        key<delimiter(")content(digit)delimiter(")>operator(:) string<delimiter(")content(0123456789)delimiter(")>operator(,)
+        key<delimiter(")content(special)delimiter(")>operator(:) string<delimiter(")content(`1~!@#$%^&*(\)_+-={':[,]}|;.</>?)delimiter(")>operator(,)
+        key<delimiter(")content(hex)delimiter(")>operator(:) string<delimiter(")char(\\u0123)char(\\u4567)char(\\u89AB)char(\\uCDEF)char(\\uabcd)char(\\uef4A)delimiter(")>operator(,)
+        key<delimiter(")content(true)delimiter(")>operator(:) reserved(true)operator(,)
+        key<delimiter(")content(false)delimiter(")>operator(:) reserved(false)operator(,)
+        key<delimiter(")content(null)delimiter(")>operator(:) reserved(null)operator(,)
+        key<delimiter(")content(array)delimiter(")>operator(:)operator([)  operator(])operator(,)
+        key<delimiter(")content(object)delimiter(")>operator(:)operator({)  operator(})operator(,)
+        key<delimiter(")content(address)delimiter(")>operator(:) string<delimiter(")content(50 St. James Street)delimiter(")>operator(,)
+        key<delimiter(")content(url)delimiter(")>operator(:) string<delimiter(")content(http://www.JSON.org/)delimiter(")>operator(,)
+        key<delimiter(")content(comment)delimiter(")>operator(:) string<delimiter(")content(// /* <!-- --)delimiter(")>operator(,)
+        key<delimiter(")content(# -- --> */)delimiter(")>operator(:) string<delimiter(")content( )delimiter(")>operator(,)
+        key<delimiter(")content( s p a c e d )delimiter(")> operator(:)operator([)integer(1)operator(,)integer(2) operator(,) integer(3)
+
+operator(,)
+
+integer(4) operator(,) integer(5)        operator(,)          integer(6)           operator(,)integer(7)        operator(])operator(,)
+        key<delimiter(")content(compact)delimiter(")>operator(:) operator([)integer(1)operator(,)integer(2)operator(,)integer(3)operator(,)integer(4)operator(,)integer(5)operator(,)integer(6)operator(,)integer(7)operator(])operator(,)
+        key<delimiter(")content(jsontext)delimiter(")>operator(:) string<delimiter(")content({)char(\\")content(object with 1 member)char(\\")content(:[)char(\\")content(array with 1 element)char(\\")content(]})delimiter(")>operator(,)
+        key<delimiter(")content(quotes)delimiter(")>operator(:) string<delimiter(")content(&#34; )char(\\u0022)content( %22 0x22 034 &#x22;)delimiter(")>operator(,)
+        key<delimiter(")char(\\/)char(\\\\)char(\\")char(\\uCAFE)char(\\uBABE)char(\\uAB98)char(\\uFCDE)char(\\ubcda)char(\\uef4A)char(\\b)char(\\f)char(\\n)char(\\r)char(\\t)content(`1~!@#$%^&*(\)_+-=[]{}|;:',./<>?)delimiter(")>
+operator(:) string<delimiter(")content(A key can be any string)delimiter(")>
+    operator(})operator(,)
+    float(0.5) operator(,)float(98.6)
+operator(,)
+float(99.44)
+operator(,)
+
+integer(1066)
+
+
+operator(,)string<delimiter(")content(rosebud)delimiter(")>operator(])
+
+operator([)string<delimiter(")content(Illegal backslash escape: )content(\\x)content(15)delimiter(")>operator(])
+
+operator([)string<delimiter(")content(Illegal backslash escape: )content(\\')delimiter(")>operator(])
+
+operator([)string<delimiter(")content(Illegal backslash escape: )content(\\0)content(17)delimiter(")>operator(])
+
+operator([)operator([)operator([)operator([)operator([)operator([)operator([)operator([)operator([)operator([)operator([)operator([)operator([)operator([)operator([)operator([)operator([)operator([)operator([)string<delimiter(")content(Not too deep)delimiter(")>operator(])operator(])operator(])operator(])operator(])operator(])operator(])operator(])operator(])operator(])operator(])operator(])operator(])operator(])operator(])operator(])operator(])operator(])operator(])
+
+operator([)string<delimiter(")content(tab)content(\\ )content(  character)content(\\ )content(  in)content(\\ )content( string)content(\\ )content( )delimiter(")>operator(])
+
+operator({)
+    key<delimiter(")content(JSON Test Pattern pass3)delimiter(")>operator(:) operator({)
+        key<delimiter(")content(The outermost value)delimiter(")>operator(:) string<delimiter(")content(must be an object or array.)delimiter(")>operator(,)
+        key<delimiter(")content(In this test)delimiter(")>operator(:) string<delimiter(")content(It is an object.)delimiter(")>
+    operator(})
+operator(})

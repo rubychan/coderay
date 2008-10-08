@@ -1,0 +1,295 @@
+[
+  {
+    "import_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Storage\/import",
+    "type": "Neighbourhood",
+    "reflected": false,
+    "selected": true,
+    "export_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Storage\/export",
+    "snapshots_url": "http:\/\/localhost:3000\/snapshots",
+    "uri": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Storage\/lists",
+    "print_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Storage\/print",
+    "locked": false,
+    "name": "Lager",
+    "lists": [
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Manufacturers\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Manufacturers\/sort_key",
+        "name": "Hersteller",
+        "readable": true,
+        "id": "Lists::Manufacturers",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AManufacturers&type=Elements%3A%3AManufacturer",
+            "essential_attributes": [
+            ],
+            "name": "Hersteller",
+            "ask_for_email": false,
+            "id": "Elements::Manufacturer"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Categories\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Categories\/sort_key",
+        "name": "Rubriken",
+        "readable": true,
+        "id": "Lists::Categories",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3ACategories&type=Elements%3A%3ACategory",
+            "essential_attributes": [
+            ],
+            "name": "Rubrik",
+            "ask_for_email": false,
+            "id": "Elements::Category"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::ArticlesList\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::ArticlesList\/sort_key",
+        "name": "Artikel",
+        "readable": true,
+        "id": "Lists::ArticlesList",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AArticlesList&type=Elements%3A%3AArticle",
+            "essential_attributes": [
+            ],
+            "name": "Artikel",
+            "ask_for_email": false,
+            "id": "Elements::Article"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            },
+            {
+              "name": "Bestelldatum",
+              "id": "Date"
+            },
+            {
+              "name": "bestellt von",
+              "id": "OrderedBy"
+            },
+            {
+              "name": "Summe",
+              "id": "Total"
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Orders\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Orders\/sort_key",
+        "name": "Bestellungen",
+        "readable": true,
+        "id": "Lists::Orders",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AOrders&type=Elements%3A%3AOrder",
+            "essential_attributes": [
+            ],
+            "name": "Bestellung",
+            "ask_for_email": false,
+            "id": "Elements::Order"
+          }
+        ],
+        "writable": true
+      }
+    ],
+    "release_export_lock_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Storage\/release_export_lock",
+    "readable": true,
+    "replay_latest_snapshot_url": "http:\/\/localhost:3000\/snapshots\/replay_latest",
+    "id": "Neighbourhoods::Storage",
+    "writable": true
+  },
+  {
+    "import_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Administration\/import",
+    "type": "Neighbourhood",
+    "reflected": true,
+    "selected": false,
+    "export_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Administration\/export",
+    "snapshots_url": "http:\/\/localhost:3000\/snapshots",
+    "uri": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Administration\/lists",
+    "print_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Administration\/print",
+    "locked": false,
+    "name": "Verwaltung",
+    "lists": [
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Employees\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Employees\/sort_key",
+        "name": "Mitarbeiter",
+        "readable": true,
+        "id": "Lists::Employees",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AEmployees&type=Elements%3A%3APerson",
+            "essential_attributes": [
+            ],
+            "name": "Person",
+            "ask_for_email": true,
+            "id": "Elements::Person"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Departments\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Departments\/sort_key",
+        "name": "Abteilungen",
+        "readable": true,
+        "id": "Lists::Departments",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3ADepartments&type=Elements%3A%3ADepartment",
+            "essential_attributes": [
+            ],
+            "name": "Abteilung",
+            "ask_for_email": false,
+            "id": "Elements::Department"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Locations\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Locations\/sort_key",
+        "name": "Standorte",
+        "readable": true,
+        "id": "Lists::Locations",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3ALocations&type=Elements%3A%3ALocation",
+            "essential_attributes": [
+            ],
+            "name": "Standort",
+            "ask_for_email": false,
+            "id": "Elements::Location"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Stocktakings\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Stocktakings\/sort_key",
+        "name": "Inventuren",
+        "readable": true,
+        "id": "Lists::Stocktakings",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AStocktakings&type=Elements%3A%3AStocktaking",
+            "essential_attributes": [
+            ],
+            "name": "Inventur",
+            "ask_for_email": false,
+            "id": "Elements::Stocktaking"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Invoices\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Invoices\/sort_key",
+        "name": "Abrechnungen",
+        "readable": true,
+        "id": "Lists::Invoices",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AInvoices&type=Elements%3A%3AInvoice",
+            "essential_attributes": [
+            ],
+            "name": "Abrechnung",
+            "ask_for_email": false,
+            "id": "Elements::Invoice"
+          }
+        ],
+        "writable": true
+      }
+    ],
+    "release_export_lock_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Administration\/release_export_lock",
+    "readable": true,
+    "replay_latest_snapshot_url": "http:\/\/localhost:3000\/snapshots\/replay_latest",
+    "id": "Neighbourhoods::Administration",
+    "writable": true
+  }
+]

@@ -1,0 +1,267 @@
+{
+  "url": "http:\/\/localhost:3000\/elements\/633\/attributes",
+  "name": "Bestellung: 3 <strong>Clovis Schwenger<\/strong> (\u20ac 12.10, 2008-10-08)",
+  "attributes": [
+    {
+      "color": "red",
+      "type": "state",
+      "uri": "http:\/\/localhost:3000\/elements\/633\/state",
+      "options": [
+        {
+          "color": "red",
+          "name": "neu",
+          "id": "new"
+        },
+        {
+          "color": "orange",
+          "name": "abgeschlossen",
+          "id": "closed"
+        },
+        {
+          "color": "green",
+          "name": "freigegeben",
+          "id": "approved"
+        },
+        {
+          "color": "",
+          "name": "verschickt",
+          "id": "shipped"
+        }
+      ],
+      "name": "Zustand",
+      "value": "new",
+      "readable": true,
+      "journals": [
+        {
+          "user": "CS",
+          "timestamp": "17:05 10\/07\/08",
+          "created": true
+        }
+      ],
+      "writable": false
+    },
+    {
+      "type": "boolean",
+      "mandatory": false,
+      "confirm": true,
+      "uri": "http:\/\/localhost:3000\/attributes\/5217",
+      "value": false,
+      "name": "abgeschlossen",
+      "readable": true,
+      "id": 5217,
+      "writable": true
+    },
+    {
+      "type": "boolean",
+      "mandatory": false,
+      "confirm": true,
+      "uri": "http:\/\/localhost:3000\/attributes\/5218",
+      "value": false,
+      "name": "freigegeben",
+      "readable": true,
+      "id": 5218,
+      "writable": false
+    },
+    {
+      "type": "boolean",
+      "mandatory": false,
+      "confirm": true,
+      "uri": "http:\/\/localhost:3000\/attributes\/5219",
+      "value": false,
+      "name": "verschickt",
+      "readable": true,
+      "id": 5219,
+      "writable": false
+    },
+    {
+      "type": "date",
+      "mandatory": true,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5220",
+      "value": "2008-10-08",
+      "name": "Bestelldatum",
+      "readable": true,
+      "id": 5220,
+      "writable": false
+    },
+    {
+      "type": "references",
+      "create_options": [
+        {
+          "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AEmployees&source_id=5221&type=Elements%3A%3APerson",
+          "essential_attributes": [
+          ],
+          "names": {
+            "type": "Person",
+            "list": "Mitarbeiter"
+          },
+          "ask_for_email": true
+        }
+      ],
+      "maximum_reached": true,
+      "constraints": {
+        "neighbourhood": null,
+        "attribute": null,
+        "maximum": 1,
+        "element": [
+          "Elements::Person"
+        ],
+        "list": null,
+        "follow": null
+      },
+      "essential_attributes": [
+      ],
+      "mandatory": false,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5221",
+      "value": {
+        "elements": [
+          {
+            "color": null,
+            "type": "Elements::Person",
+            "has_predecessors": false,
+            "successors": "http:\/\/localhost:3000\/elements\/582\/successors",
+            "uri": "http:\/\/localhost:3000\/elements\/582",
+            "name": "Clovis Schwenger",
+            "attributes": "http:\/\/localhost:3000\/elements\/582\/attributes",
+            "link_url": "http:\/\/localhost:3000\/inbound_references\/457",
+            "state": null,
+            "readable": true,
+            "list": "Lists::Employees",
+            "id": 582,
+            "writable": true,
+            "family": "http:\/\/localhost:3000\/elements\/582\/family"
+          }
+        ]
+      },
+      "name": "bestellt von",
+      "candidates_uri": "http:\/\/localhost:3000\/attributes\/5221\/candidates",
+      "create_reference_uri": "http:\/\/localhost:3000\/inbound_references",
+      "readable": true,
+      "id": 5221,
+      "writable": false
+    },
+    {
+      "type": "text",
+      "mandatory": false,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5222",
+      "value": {
+        "language": null,
+        "version": 0,
+        "text": ""
+      },
+      "name": "Verwendungszweck",
+      "multiline": true,
+      "readable": true,
+      "id": 5222,
+      "languages": [
+      ],
+      "writable": true
+    },
+    {
+      "type": "references",
+      "create_options": [
+      ],
+      "maximum_reached": null,
+      "constraints": {
+        "neighbourhood": null,
+        "attribute": null,
+        "maximum": null,
+        "element": [
+          "Elements::Merchandise"
+        ],
+        "list": null,
+        "follow": "Article"
+      },
+      "essential_attributes": [
+        {
+          "name": "Menge",
+          "default": 1,
+          "id": "Amount"
+        }
+      ],
+      "mandatory": true,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5223",
+      "value": {
+        "elements": [
+          {
+            "color": null,
+            "type": "Elements::Merchandise",
+            "has_predecessors": true,
+            "successors": "http:\/\/localhost:3000\/elements\/627\/successors",
+            "uri": "http:\/\/localhost:3000\/elements\/627",
+            "name": "8 x <div class=\"thumbnail\"><img src=\"http:\/\/localhost:3000\/files\/875\/thumbnail?attribute_id=5001\" \/><\/div>#005 Stressball",
+            "attributes": "http:\/\/localhost:3000\/elements\/627\/attributes",
+            "link_url": "http:\/\/localhost:3000\/inbound_references\/458",
+            "state": null,
+            "readable": true,
+            "list": "Lists::OrderItems",
+            "id": 627,
+            "writable": true,
+            "family": "http:\/\/localhost:3000\/elements\/627\/family"
+          },
+          {
+            "color": null,
+            "type": "Elements::Merchandise",
+            "has_predecessors": true,
+            "successors": "http:\/\/localhost:3000\/elements\/628\/successors",
+            "uri": "http:\/\/localhost:3000\/elements\/628",
+            "name": "3 x <div class=\"thumbnail\"><img src=\"http:\/\/localhost:3000\/files\/881\/thumbnail?attribute_id=5091\" \/><\/div>#011 Post-It Block",
+            "attributes": "http:\/\/localhost:3000\/elements\/628\/attributes",
+            "link_url": "http:\/\/localhost:3000\/inbound_references\/459",
+            "state": null,
+            "readable": true,
+            "list": "Lists::OrderItems",
+            "id": 628,
+            "writable": true,
+            "family": "http:\/\/localhost:3000\/elements\/628\/family"
+          }
+        ]
+      },
+      "name": "Bestellpositionen",
+      "candidates_uri": "http:\/\/localhost:3000\/attributes\/5223\/candidates",
+      "create_reference_uri": "http:\/\/localhost:3000\/inbound_references",
+      "readable": true,
+      "id": 5223,
+      "writable": true
+    },
+    {
+      "type": "float",
+      "mandatory": false,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5224",
+      "value": "12,10",
+      "name": "Summe",
+      "readable": true,
+      "id": 5224,
+      "writable": false
+    },
+    {
+      "type": "document",
+      "files": [
+      ],
+      "mandatory": false,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5225",
+      "name": "Bestellschein",
+      "readable": true,
+      "id": 5225,
+      "writable": false
+    },
+    {
+      "type": "document",
+      "files": [
+      ],
+      "mandatory": false,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5226",
+      "name": "Empf\u00e4ngernachweis",
+      "readable": true,
+      "id": 5226,
+      "writable": false
+    }
+  ],
+  "writable": true
+}

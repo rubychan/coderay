@@ -134,7 +134,7 @@ module CodeRay
   # Minor: odd for beta, even for stable
   # Teeny: development state
   # Revision: Subversion Revision number (generated on rake)
-  VERSION = '0.7.9'
+  VERSION = '0.8'
 
   require 'coderay/tokens'
   require 'coderay/scanner'

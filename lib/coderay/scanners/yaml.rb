@@ -4,7 +4,7 @@ module Scanners
   # YAML Scanner
   #
   # Based on the YAML scanner from Syntax by Jamis Buck.
-  class XML < Scanner
+  class YAML < Scanner
     
     register_for :yaml
     file_extension 'yml'

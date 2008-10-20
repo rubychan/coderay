@@ -2,8 +2,6 @@ module CodeRay
 module Scanners
 
   # HTML Scanner
-  #
-  # $Id$
   class HTML < Scanner
 
     include Streamable

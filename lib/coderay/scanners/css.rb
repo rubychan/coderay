@@ -168,7 +168,6 @@ module Scanners
         raise_inspect 'Empty token', tokens unless match
 
         tokens << [match, kind]
-        # tokens << [states.inspect, :error]
 
       end
 

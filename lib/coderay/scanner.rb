@@ -233,8 +233,8 @@ surrounding code:
           tokens.last(10).map { |t| t.inspect }.join("\n"),
           line, pos,
           matched, state, bol?, eos?,
-          string[pos-ambit,ambit],
-          string[pos,ambit],
+          string[pos - ambit, ambit],
+          string[pos, ambit],
         ]
       end
 

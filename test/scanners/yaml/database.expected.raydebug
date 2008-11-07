@@ -1,0 +1,52 @@
+key(login)operator(:) variable(&login)
+  key(adapter)operator(:) string(mysql)
+  key(host)operator(:) string(localhost)
+  key(socket)operator(:) string(/Applications/MAMP/tmp/mysql/mysql.sock)
+  key(username)operator(:) string(rails)
+  key(password)operator(:) 
+
+comment(# A)
+key(development)operator(:) variable(&default)
+  key(database)operator(:) string(a_development)
+  class_variable(<<)operator(:) global_variable(*login)
+
+key(production)operator(:) variable(&production)
+  class_variable(<<)operator(:) global_variable(*default)
+
+key(test)operator(:) variable(&test)
+  key(database)operator(:) string(a_test)
+  class_variable(<<)operator(:) global_variable(*login)
+
+comment(# B)
+key(b_development)operator(:) variable(&b)
+  key(database)operator(:) string(b_development)
+  class_variable(<<)operator(:) global_variable(*login)
+
+key(b_production)operator(:) global_variable(*b)
+
+key(b_test)operator(:)
+  key(database)operator(:) string(b_test)
+  class_variable(<<)operator(:) global_variable(*login)
+
+comment(# C)
+key(c_development)operator(:) variable(&c)
+  key(database)operator(:) string(c_development)
+  class_variable(<<)operator(:) global_variable(*login)
+
+key(c_production)operator(:) global_variable(*c)
+
+key(c_test)operator(:)
+  key(database)operator(:) string(c_test)
+  class_variable(<<)operator(:) global_variable(*login)
+
+comment(# D)
+key(d_development)operator(:) variable(&d)
+  key(database)operator(:) string(d_development)
+  class_variable(<<)operator(:) global_variable(*login)
+
+key(d_production)operator(:) global_variable(*d)
+
+key(d_test)operator(:)
+  key(database)operator(:) string(d_test)
+  class_variable(<<)operator(:) global_variable(*login)
+

@@ -1,492 +1,492 @@
-tag(---)
-operator(-) key<delimiter(")content(What is a...)delimiter(")>error(:)
+head<head(---)>
+operator(-) key<delimiter(")content(What is a...)delimiter(")>operator(:)
   operator(-) key<delimiter(")content(container?)delimiter(")>operator(:) string(>-)
-      string(A) string(_container_) string(is) string(collection) string(of) string(service) string(points) string(and) string(other) string(containers.) string(It)
-      string(is) string(used) string(to) string(organize) string(services.) string(Each) string(container) string(has) string(access) string(to) string(all) string(of) string(the)
-      string(service) string(points) string(in) string(its) string(ancestor) string(containers.)
+      string(A _container_ is collection of service points and other containers. It)
+      string(is used to organize services. Each container has access to all of the)
+      string(service points in its ancestor containers.)
 
   operator(-) key<delimiter(")content(registry?)delimiter(")>operator(:) string(>-)
-      string(A) string(_registry_) string(is) string(a) string(special) string(kind) string(of) string(container) string(that) string(has) string(no) string(parent) string(container.)
-      string(It) string(also) string(defines) string(a) string(few) string(services) string((such) string(as) string(the) string(LoggingInterceptor,) string(and)
-      string(the) string(various) string(service) string(models) string(and) string(pipeline) string(elements\),) string(so) string(that) string(they) string(are)
-      string(available) string(by) string(default) string(to) string(all) string(of) string(the) string(services) string(it) string(contains.)
+      string(A _registry_ is a special kind of container that has no parent container.)
+      string(It also defines a few services (such as the LoggingInterceptor, and)
+      string(the various service models and pipeline elements\), so that they are)
+      string(available by default to all of the services it contains.)
 
   operator(-) key<delimiter(")content(service point?)delimiter(")>operator(:) string(>-)
-      string(A) string(_service) string(point_) string(is) string(the) string(definition) string(of) string(a) string(service.) string(Just) string(as) string(a) string(class) string(is) string(the)
-      string(definition) string(of) string(an) string(object,) string(and) string(you) string(instantiate) string(an) string(object) string(from) string(a) string(class,) string(so)
-      string(do) string(you) string(instantiate) string(services) string(from) string(service) string(points.)
+      string(A _service point_ is the definition of a service. Just as a class is the)
+      string(definition of an object, and you instantiate an object from a class, so)
+      string(do you instantiate services from service points.)
 
   operator(-) key<delimiter(")content(service?)delimiter(")>operator(:) string(>-)
-      string(A) string(_service_) string(is) string(the) string(instantiation) string(of) string(a) string(service) string(point.)
+      string(A _service_ is the instantiation of a service point.)
 
   operator(-) key<delimiter(")content(parameterized service?)delimiter(")>operator(:) string(>-)
-      string(A) string(_parameterized_) string(service) string(is) string(a) string(service) string(that) string(allows) string(contextual) string(parameters)
-      string(to) string(be) string(passed) string(to) string(the) string(service) string(when) string(it) string(is) string(created.) string(Such) string(services) string(are)
-      string(typically) string(used) string(in) string(conjunction) string(with) string(the) string(@multiton@) string(service) string(model,) string(but)
-      string(the) string(only) string(real) string(requirement) string(is) string(that) string(they) string(_not_) string(be) string(used) string(with) string(a) string(service) string(model)
-      string(that) string(does) string(not) string(support) string(multiple) string(parameters) string((like) string(@singleton@) string(or)
+      string(A _parameterized_ service is a service that allows contextual parameters)
+      string(to be passed to the service when it is created. Such services are)
+      string(typically used in conjunction with the @multiton@ service model, but)
+      string(the only real requirement is that they _not_ be used with a service model)
+      string(that does not support multiple parameters (like @singleton@ or)
       string(@threaded@\).)
 
   operator(-) key<delimiter(")content(service model?)delimiter(")>operator(:) string(>-)
-      string(A) string(_service) string(model_) string(is) string(a) string(description) string(of) string(the) string(lifecycle) string(of) string(a) string(service.) string(By)
-      string(default,) string(all) string(services) string(are) string(_singletons_,) string(meaning) string(that) string(every) string(time) string(you) string(ask)
-      string(a) string(container) string(for) string(a) string(particular) string(service,) string(you'll) string(get) string(the) string(same) string(object)
-      string(instance) string(back.)
+      string(A _service model_ is a description of the lifecycle of a service. By)
+      string(default, all services are _singletons_, meaning that every time you ask)
+      string(a container for a particular service, you'll get the same object)
+      string(instance back.)
 
 
-      string(There) string(are) string(other) string(service) string(models) string(available,) string(though,) string(including) string("prototype")
-      string((which) string(returns) string(a) string(new) string(instance) string(for) string(each) string(request) string(of) string(a) string(service\)) string(and)
-      string("deferred") string((which) string(returns) string(a) string(proxy,) string(deferring) string(the) string(instatiation) string(of) string(the)
-      string(service) string(itself) string(until) string(a) string(method) string(is) string(invoked) string(on) string(the) string(service\).) 
+      string(There are other service models available, though, including "prototype")
+      string((which returns a new instance for each request of a service\) and)
+      string("deferred" (which returns a proxy, deferring the instatiation of the)
+      string(service itself until a method is invoked on the service\). )
 
   operator(-) key<delimiter(")content(interceptor?)delimiter(")>operator(:) string(>-)
-      string(An) string(_interceptor_) string(is) string(an) string(object) string(that) string(may) string(be) string(placed) string(between) string(the) string(client) string(and)
-      string(a) string(service.) string(Every) string(request) string(to) string(the) string(service) string(is) string(thus) string(_intercepted_) string(by) string(that)
-      string(object,) string(which) string(can) string(do) string(operations) string(on) string(the) string(request) string((such) string(as) string(logging\)) string(and) string(may)
-      string(even) string(reroute) string(or) string(ignore) string(the) string(request) string(altogether.) string(This) string(provides) string(a) string(kind) string(of)
-      string("poor) string(man's) string(AOP",) string(since) string(you) string(can) string(do) string("before",) string("after",) string(and) string("around") string(advice)
-      string(on) string(the) string(methods) string(of) string(a) string(service.)
+      string(An _interceptor_ is an object that may be placed between the client and)
+      string(a service. Every request to the service is thus _intercepted_ by that)
+      string(object, which can do operations on the request (such as logging\) and may)
+      string(even reroute or ignore the request altogether. This provides a kind of)
+      string("poor man's AOP", since you can do "before", "after", and "around" advice)
+      string(on the methods of a service.)
 
 
-      string(Needle) string(comes) string(with) string(one) string(standard) string(interceptor,) string(the) string(LoggingInterceptor.) string(It)
-      string(will) string(log) string(a) string(message) string(on) string(method) string(entry) string(and) string(exit,) string(and) string(also) string(when) string(an) string(exception)
-      string(is) string(raised.)
+      string(Needle comes with one standard interceptor, the LoggingInterceptor. It)
+      string(will log a message on method entry and exit, and also when an exception)
+      string(is raised.)
 
   operator(-) key<delimiter(")content(pipeline?)delimiter(")>operator(:) string(>-)
-      string(In) string(Needle,) string(the) string(_instantiation) string(pipeline_) string(is) string(used) string(to) string(control) string(how) string(and) string(when)
-      string(services) string(are) string(instantiated.) string(The) string(_service) string(models_) string(are) string(implemented) string(as)
+      string(In Needle, the _instantiation pipeline_ is used to control how and when)
+      string(services are instantiated. The _service models_ are implemented as)
       string(pipelines.)
 
 
-      string(Just) string(as) string(the) string(_interceptors_) string(are) string(for) string(hooking) string(into) string(method) string(invocations,) string(the)
-      string(pipelines) string(are) string(for) string(hooking) string(into) string(service) string(instantiations.) string(Every) string(time) string(a)
-      string(service) string(is) string(requested,) string(it's) string(instantiation) string(pipeline) string(is) string(executed.) string(By)
-      string(choosing) string(the) string(appropriate) string(kinds) string(of) string(pipeline) string(elements,) string(all) string(of) string(the) string(available)
-      string(service) string(models) string(can) string(be) string(implemented) string((prototype,) string(prototype_deferred,)
-      string(singleton,) string(singleton_deferred,) string(etc.\).)
+      string(Just as the _interceptors_ are for hooking into method invocations, the)
+      string(pipelines are for hooking into service instantiations. Every time a)
+      string(service is requested, it's instantiation pipeline is executed. By)
+      string(choosing the appropriate kinds of pipeline elements, all of the available)
+      string(service models can be implemented (prototype, prototype_deferred,)
+      string(singleton, singleton_deferred, etc.\).)
 
-operator(-) key<delimiter(")content(How do I...)delimiter(")>error(:)
+operator(-) key<delimiter(")content(How do I...)delimiter(")>operator(:)
   operator(-) key<delimiter(")content(create a new registry?)delimiter(")>operator(:) string(>-)
-      string(There) string(are) string(several) string(ways) string(to) string(create) string(a) string(new) string(registry.) string(The) string(simplist) string(is) string(just) string(to)
-      string(invoke) string(Registry#new.)
+      string(There are several ways to create a new registry. The simplist is just to)
+      string(invoke Registry#new.)
 
 
       string(<pre>)
-        string(reg) string(=) key(Needle)error(:)symbol(:Registry)string(.new)
+        string(reg = Needle::Registry.new)
       string(</pre>)
 
 
-      string(This) string(will) string(create) string(a) string(new) string(Registry) string(instance.) string(You) string(can) string(also) string(send) string(a) string(block) string(to)
+      string(This will create a new Registry instance. You can also send a block to)
       comment(#new, in which case the new registry will be yielded to it:)
 
 
       string(<pre>)
-        string(reg) string(=) key(Needle)error(:)symbol(:Registry)string(.new) string(do) string(|r|)
+        string(reg = Needle::Registry.new do |r|)
           string(...)
         string(end)
       string(</pre>)
 
 
-      string(There) string(are) string(two) string(other) string(factory) string(methods) string(you) string(can) string(use) string(for) string(creating) string(a) string(Registry)
-      string(instance.) string(Both) string(require) string(a) string(block.)
+      string(There are two other factory methods you can use for creating a Registry)
+      string(instance. Both require a block.)
 
 
       string(<pre>)
-        string(r1) string(=) key(Needle)error(:)symbol(:Registry)string(.define) string(do) string(|builder|)
+        string(r1 = Needle::Registry.define do |builder|)
           string(...)
         string(end)
 
-        string(r2) string(=) key(Needle)error(:)symbol(:Registry)string(.define!) string(do)
+        string(r2 = Needle::Registry.define! do)
           string(...)
         string(end)
       string(</pre>)
 
 
-      string(Registry#define) string(creates) string(a) string("builder") string(object) string(that) string(you) string(can) string(use) string(define)
-      string(services) string(more) string(conveniently.) string(Register#define!) string((with) string(a) string(bang\)) string(does) string(the) string(same)
-      string(thing,) string(but) string(evaluates) string(the) string(block) string(within) string(the) string(context) string(of) string(the) string(builder.)
+      string(Registry#define creates a "builder" object that you can use define)
+      string(services more conveniently. Register#define! (with a bang\) does the same)
+      string(thing, but evaluates the block within the context of the builder.)
 
   operator(-) key<delimiter(")content(register a service?)delimiter(")>operator(:) string(>-)
-      string(The) string(first) string(way) string(to) string(register) string(a) string(service) string(is) string(by) string(calling) comment(#register on the)
-      string(registry) string((or) string(a) string(namespace\))error(:)
+      string(The first way to register a service is by calling #register on the)
+      key(registry (or a namespace\))operator(:)
 
 
       string(<pre>)
-        string(reg.register() symbol(:foo) string(\)) operator({) string(Foo.new) operator(})
+        string(reg.register( :foo \) { Foo.new })
       string(</pre>)
 
 
-      string(The) string((first\)) string(parameter) string(to) comment(#register is the name of the service, and the)
-      string(block) string(should) string(return) string(the) string(implementation) string(of) string(the) string(service.) string(If) string(needed,) string(the)
-      string(block) string(can) string(accept) string(two) string(parameters--the) string(container) string(that) string(the) string(service) string(is) string(being)
-      string(registered) string(with,) string(and) string(an) string(object) string(that) string(represents) string(the) string(service) string(being) string(defined)
-      string((called) string(a) string("service) string(point"\))error(:)
+      string(The (first\) parameter to #register is the name of the service, and the)
+      string(block should return the implementation of the service. If needed, the)
+      string(block can accept two parameters--the container that the service is being)
+      string(registered with, and an object that represents the service being defined)
+      string((called a "service point"\):)
 
 
       string(<pre>)
-        string(reg.register() symbol(:foo) string(\)) string(do) string(|container,point|)
-          string(Foo.new() string(container[)symbol(:bar)operator(])operator(,) string(point.fullname) string(\))
+        string(reg.register( :foo \) do |container,point|)
+          string(Foo.new( container[:bar], point.fullname \))
         string(end)
       string(</pre>)
 
 
-      string(You) string(can) string(also) string(use) string(Container#define) string(and) string(Container#define!) string(to) string(register)
-      string(services.)  string(These) string(approaches) string(are) string(friendlier) string(if) string(you) string(are) string(needing) string(to) string(register)
-      string(several) string(services) string(at) string(once.)
+      string(You can also use Container#define and Container#define! to register)
+      string(services.  These approaches are friendlier if you are needing to register)
+      string(several services at once.)
 
 
       string(<pre>)
-        string(reg.define) string(do) string(|builder|)
-          string(builder.foo) operator({) string(Foo.new) operator(})
-          string(builder.bar) operator({) string(|c,p|) string(Bar.new() string(c[)symbol(:foo)operator(])operator(,) string(p.name) string(\)) operator(})
+        string(reg.define do |builder|)
+          string(builder.foo { Foo.new })
+          string(builder.bar { |c,p| Bar.new( c[:foo], p.name \) })
         string(end)
 
-        string(reg.define!) string(do)
-          string(baz) operator({) string(|c,p|) string(Baz.new() string(c[)symbol(:bar)operator(])operator(,) string(p.name) string(\)) operator(})
-          string(zoom) operator({) string(Buggy.new) operator(})
+        string(reg.define! do)
+          string(baz { |c,p| Baz.new( c[:bar], p.name \) })
+          string(zoom { Buggy.new })
         string(end)
       string(</pre>)
 
 
-      string(Container#define) string(yields) string(a) string(new) string("builder") string(object) string(to) string(the) string(block.) string(Messages)
-      string(sent) string(to) string(the) string(builder) string(are) string(interpreted) string(as) string(service) string(names,) string(and) string(if) string(a) string(block) string(is)
-      string(sent) string(with) string(the) string(message,) string(a) string(new) string(service) string(is) string(registered) string(under) string(that) string(name.)
+      string(Container#define yields a new "builder" object to the block. Messages)
+      string(sent to the builder are interpreted as service names, and if a block is)
+      string(sent with the message, a new service is registered under that name.)
 
       
-      string(Container#define!) string(does) string(likewise,) string(except) string(it) string(evaluates) string(the) string(block) string(within) string(the)
-      string(context) string(of) string(the) string(builder) string(object.)
+      string(Container#define! does likewise, except it evaluates the block within the)
+      string(context of the builder object.)
 
 
-      string(If) string(you) string(do) string(not) string(pass) string(a) string(block) string(to) comment(#define, it will return the builder object,)
-      string(so) string(you) string(could) string(do) string(something) string(like) string(the) string(following) string(if) string(you) string(only) string(need) string(to) string(define)
-      string(one) string(or) string(two) key(services)error(:)
-
-
-      string(<pre>)
-        string(reg.define.foo) operator({) string(...) operator(})
-      string(</pre>)
-
-
-      string(Lastly,) string(you) string(can) string(get) string(the) string(builder) string(directly) string(and) string(add) string(services) string(using) key(it)error(:)
+      string(If you do not pass a block to #define, it will return the builder object,)
+      string(so you could do something like the following if you only need to define)
+      key(one or two services)operator(:)
 
 
       string(<pre>)
-        string(builder) string(=) string(reg.builder)
-        string(builder.baz) operator({) string(...) operator(})
-        string(builder.bar) operator({) string(...) operator(})
+        string(reg.define.foo { ... })
       string(</pre>)
 
 
-      string((This) string(last) string(is) string(the) string(same) string(as) string(calling) comment(#define without arguments, but is more)
-      string(readable) string(if) string(you) string(intend) string(to) string(use) string(the) string(builder) string(object) string(multiple) string(times.\))
+      string(Lastly, you can get the builder directly and add services using it:)
+
+
+      string(<pre>)
+        string(builder = reg.builder)
+        string(builder.baz { ... })
+        string(builder.bar { ... })
+      string(</pre>)
+
+
+      string((This last is the same as calling #define without arguments, but is more)
+      string(readable if you intend to use the builder object multiple times.\))
       
   operator(-) key<delimiter(")content(reference a service?)delimiter(")>operator(:) string(>-)
-      string(Referencing) string(a) string(service) string(can) string(be) string(done) string(in) string(either) string(of) string(two) string(ways.) string(The) string(first) string(is) string(to)
-      string(treat) string(the) string(container) string((i.e.,) string(registry\)) string(as) string(a) string(hash,) string(passing) string(the) string(name) string(of) string(the)
-      string(service) string(as) string(an) string(argument) string(to) string(Container#[])error(:)
+      string(Referencing a service can be done in either of two ways. The first is to)
+      string(treat the container (i.e., registry\) as a hash, passing the name of the)
+      string(service as an argument to Container#[]:)
 
 
       string(<pre>)
-        string(svc) string(=) string(registry[)symbol(:foo)operator(])
+        string(svc = registry[:foo])
         string(svc.do_something_interesting)
       string(</pre>)
 
 
-      string(A) string(more) string(convenient) string((but) string(slightly) string(more) string(peril-fraught\)) string(approach) string(is) string(to) string(send)
-      string(the) string(name) string(of) string(the) string(method) string(to) string(the) string(registry) string(as) string(a) key(message)error(:)
+      string(A more convenient (but slightly more peril-fraught\) approach is to send)
+      key(the name of the method to the registry as a message)operator(:)
 
 
       string(<pre>)
-        string(svc) string(=) string(registry.foo)
+        string(svc = registry.foo)
       string(</pre>)
 
 
-      string(Be) string(aware) string(that) string(this) string(latter) string(approach) string(will) string(only) string(work) string(when) string(the) string(service) string(name)
-      string(does) string(not) string(conflict) string(with) string(the) string(name) string(of) string(an) string(existing) string(method) string(on) string(the) string(container.)
-      string(For) string(example,) string(if) string(you) string(were) string(to) key(do)error(:)
+      string(Be aware that this latter approach will only work when the service name)
+      string(does not conflict with the name of an existing method on the container.)
+      string(For example, if you were to do:)
 
 
       string(<pre>)
-        string(registry.register() symbol(:hash) string(\)) operator({) string("hello,) string(world") operator(})
-        string(p) string(registry.hash)
+        string(registry.register( :hash \) { "hello, world" })
+        string(p registry.hash)
       string(</pre>)
 
 
-      string(You) string(would) string(get) string(the) string(hash) string(value) string(of) string(the) string(registry) string(object,) string(instead) string(of) string(the) string(value)
-      string(value) string(of) string(the) string(service) string((which) string(would) string(be) string("hello,) string(world"\).)
+      string(You would get the hash value of the registry object, instead of the value)
+      string(value of the service (which would be "hello, world"\).)
 
   operator(-) key<delimiter(")content(select a service model for a service (i.e., change the default model of lifecycle management\)?)delimiter(")>operator(:) string(>-)
-      string(By) string(default,) string(a) string(service) string(will) string(be) string(managed) string(as) string(a) string(singleton,) string(i.e.,) string(every) string(request)
-      string(of) string(that) string(service) string(will) string(return) string(the) string(same) string(object) string(instance.) string(This) string(is) string(the)
-      string(_singleton_) string(service) string(model.)
+      string(By default, a service will be managed as a singleton, i.e., every request)
+      string(of that service will return the same object instance. This is the)
+      string(_singleton_ service model.)
 
 
-      string(To) string(select) string(a) string(different) string(service) string(model,) string(pass) string(it) string(as) string(an) string(option) string(when) string(you)
-      string(register) string(the) key(service)error(:)
+      string(To select a different service model, pass it as an option when you)
+      key(register the service)operator(:)
 
 
       string(<pre>)
-        string(registry.register() symbol(:foo)operator(,) symbol(:model) string(=>) symbol(:prototype) string(\)) operator({)string(...})
-        string(registry.define.bar() symbol(:model) string(=>) symbol(:threaded) string(\)) operator({)string(...})
-        string(registry.define!) string(do)
-          string(baz() symbol(:model) string(=>) symbol(:singleton_deferred) string(\)) operator({)string(...})
+        string(registry.register( :foo, :model => :prototype \) {...})
+        string(registry.define.bar( :model => :threaded \) {...})
+        string(registry.define! do)
+          string(baz( :model => :singleton_deferred \) {...})
           string(...)
         string(end)
         string(...)
       string(</pre>)
 
   operator(-) key<delimiter(")content(create a namespace?)delimiter(")>operator(:) string(>-)
-      string(Namespaces) string(allow) string(you) string(to) string(organize) string(your) string(services) string(into) string(hierarchical)
-      string(packages.) string(You) string(can) string(create) string(namespaces) string(in) string(a) string(few) string(ways.) string(The) string(first) string((and)
-      string(simplest\)) string(is) string(to) string(just) string(call) string(Container#namespace)error(:)
+      string(Namespaces allow you to organize your services into hierarchical)
+      string(packages. You can create namespaces in a few ways. The first (and)
+      string(simplest\) is to just call Container#namespace:)
 
 
       string(<pre>)
-        string(registry.namespace() symbol(:stuff) string(\))
+        string(registry.namespace( :stuff \))
       string(</pre>)
 
 
-      string(This) string(will) string(create) string(a) string(namespace) string(in) string(the) string(registry,) string(called) string(stuff.) string(If) string(you) string(send) string(a)
-      string(block) string(as) string(well,) string(the) string(block) string(will) string(be) string(invoked) string((with) string(the) string(new) string(namespace) string(yielded)
-      string(to) string(it\)) string(the) string(first) string(time) string(the) string(namespace) string(is) key(requested)error(:)
+      string(This will create a namespace in the registry, called stuff. If you send a)
+      string(block as well, the block will be invoked (with the new namespace yielded)
+      key(to it\) the first time the namespace is requested)operator(:)
 
 
       string(<pre>)
-        string(registry.namespace() symbol(:stuff) string(\)) string(do) string(|ns|)
-          string(ns.register() symbol(:foo) string(\)) operator({)string(...})
-          string(ns.define.bar) operator({)string(...})
-          string(ns.define!) string(do)
-            string(baz) operator({)string(...})
-            string(buf) operator({)string(...})
+        string(registry.namespace( :stuff \) do |ns|)
+          string(ns.register( :foo \) {...})
+          string(ns.define.bar {...})
+          string(ns.define! do)
+            string(baz {...})
+            string(buf {...})
           string(end)
         string(end)
       string(</pre>)
 
-      string(Because) string(it) string(is) string(so) string(common) string(to) string(immediately) string(define) string(services) string(on) string(the) string(new)
-      string(namespace,) string(there) string(are) string(some) string(convenience) string(methods) string(to) string(make) string(this) string(more...)
+      string(Because it is so common to immediately define services on the new)
+      string(namespace, there are some convenience methods to make this more...)
       string(convenient.)
 
 
       string(<pre>)
-        string(registry.namespace_define!() symbol(:stuff) string(\)) string(do)
-          string(foo) operator({)string(...})
-          string(bar) operator({)string(...})
-          string(baz) operator({)string(...})
+        string(registry.namespace_define!( :stuff \) do)
+          string(foo {...})
+          string(bar {...})
+          string(baz {...})
         string(end)
 
-        string(registry.namespace_define() symbol(:more_stuff) string(\)) string(do) string(|b|)
-          string(b.blah) operator({)string(...})
-          string(b.argh) operator({)string(...})
-          string(b.hack) operator({)string(...})
+        string(registry.namespace_define( :more_stuff \) do |b|)
+          string(b.blah {...})
+          string(b.argh {...})
+          string(b.hack {...})
         string(end)
       string(</pre>)
 
 
-      string(The) string(first) string(one,) string(above,) string(creates) string(the) string(namespace) string(and) string(calls) string(Container#define!.)
-      string(The) string(second) string(creates) string(the) string(namespace) string(and) string(calls) string(Container#define.) string(In) string(both)
-      string(cases,) string(_the) string(namespace) string(is) string(created) string(immediately_,) string(unlike) string(Container#namespace)
-      string(which) string(only) string(creates) string(the) string(namespace) string(when) string(it) string(is) string(first) string(requested.)
+      string(The first one, above, creates the namespace and calls Container#define!.)
+      string(The second creates the namespace and calls Container#define. In both)
+      string(cases, _the namespace is created immediately_, unlike Container#namespace)
+      string(which only creates the namespace when it is first requested.)
 
 
-      string(Lastly,) string(note) string(that) string(namespace's) string(are) string(just) string(special) string(services.) string(Thus,) string(you) string(can)
-      string(pass) string(options) string(to) string(the) string(namespace) string(methods) string(just) string(as) string(you) string(can) string(with)
-      string(Container#register) string(and) string(friends.)
+      string(Lastly, note that namespace's are just special services. Thus, you can)
+      string(pass options to the namespace methods just as you can with)
+      string(Container#register and friends.)
 
   operator(-) key<delimiter(")content(write log messages?)delimiter(")>operator(:) string(>-)
-      string(You) string(can) string(obtain) string(a) string(new) string(logger) string(instance) string(from) string(the) string(@)symbol(:logs)string(@) string(and) string(@)symbol(:log_for)string(@)
-      string(services.) string(Once) string(you) string(have) string(a) string(logger) string(instance,) string(you) string(can) string(invoke) string(the) comment(#debug,)
+      string(You can obtain a new logger instance from the @:logs@ and @:log_for@)
+      string(services. Once you have a logger instance, you can invoke the #debug,)
       comment(#info, #warn, #error, and #fatal methods on the instance to log messages)
-      string(of) string(the) string(corresponding) string(severity.)
+      string(of the corresponding severity.)
 
 
       string(<pre>)
-        string(logger) string(=) string(registry.logs.get() string("a) string(name) string(for) string(my) string(logger") string(\))
-        string(logger.debug) string("This) string(is) string(a) string(debug) string(message")
-        string(logger.info) string("This) string(is) string(an) string(informational) string(message")
+        string(logger = registry.logs.get( "a name for my logger" \))
+        string(logger.debug "This is a debug message")
+        string(logger.info "This is an informational message")
         string(...)
-        string(logger2) string(=) string(registry.log_for() string("another) string(logger) string(name") string(\))
+        string(logger2 = registry.log_for( "another logger name" \))
         string(...)
       string(</pre>)
 
 
-      string(The) string(two) string(approaches) string(shown) string(above) string(are) string(identical--the) string(second) string(approach) string((using)
-      string(the) string(@log_for@) string(service\)) string(is) string(just) string(a) string(convenience) string(for) string(@logs.get@.)
+      string(The two approaches shown above are identical--the second approach (using)
+      string(the @log_for@ service\) is just a convenience for @logs.get@.)
 
 
-      string(Log) string(messages) string(are) string(written,) string(by) string(default,) string(to) string(a) string(file) string(called) string("needle.log",) string(in)
-      string(the) string(same) string(directory) string(that) string(the) string(application) string(was) string(invoked) string(from.)
+      string(Log messages are written, by default, to a file called "needle.log", in)
+      string(the same directory that the application was invoked from.)
 
 
-      string(You) string(can) string(also) string(use) string(a) string(logging) string(interceptor) string(to) string(automatically) string(log) string(all) string(external)
-      string(method) string(invocations) string(on) string(a) string(service.) string(This) string(includes) string(method) string(entry) string(and) string(exit,) string(as)
-      string(well) string(as) string(any) string(exceptions) string(that) string(are) string(raised) string(inside) string(the) string(method.)
+      string(You can also use a logging interceptor to automatically log all external)
+      string(method invocations on a service. This includes method entry and exit, as)
+      string(well as any exceptions that are raised inside the method.)
 
 
       string(<pre>)
-        string(registry.register() symbol(:foo) string(\)) operator({) string(...) operator(})
-        string(registry.intercept() symbol(:foo) string(\).with) operator({) string(|r|) string(r.logging_interceptor) operator(})
+        string(registry.register( :foo \) { ... })
+        string(registry.intercept( :foo \).with { |r| r.logging_interceptor })
 
         string(foo.something)
-        string(foo.another_method() string(1,) string(2,) string(3) string(\))
+        string(foo.another_method( 1, 2, 3 \))
       string(</pre>)
 
 
-      string(See) string(the) string(chapter) string(in) string(the) key<delimiter(")content(User's Manual)delimiter(")>symbol(:http)error(:)string(//needle.rubyforge.org) string(about)
-      string(logging) string(for) string(more) string(information) string(on) string(how) string(to) string(use) string(and) string(configure) string(loggers.)
+      string(See the chapter in the "User's Manual":http://needle.rubyforge.org about)
+      string(logging for more information on how to use and configure loggers.)
 
   operator(-) key<delimiter(")content(exclude methods from being intercepted?)delimiter(")>operator(:) string(>-)
-      string(Only) string(interceptors) string(that) string(explicitly) string(support) string(exclusion) string(of) string(methods) string(can) string(help)
-      string(you) string(here.)  string(Fortunately,) string(the) string(LoggingInterceptor) string(is) string(one) string(of) string(them.) string((If) string(you)
-      string(write) string(your) string(own) string(interceptor) string(and) string(would) string(like) string(similar) string(functionality,) string(see) string(the)
-      string(IncludeExclude) string(module.\))
+      string(Only interceptors that explicitly support exclusion of methods can help)
+      string(you here.  Fortunately, the LoggingInterceptor is one of them. (If you)
+      string(write your own interceptor and would like similar functionality, see the)
+      string(IncludeExclude module.\))
 
 
-      string(In) string(the) string(case) string(of) string(the) string(LoggingInterceptor,) string(just) string(pass) string(an) string(array) string(of) string(patterns)
-      string((matching) string(method) string(names) string(and/or) string(arities\)) string(as) string(the) string("exclude") string(option,) string(when)
-      string(declaring) string(the) key(interceptor)error(:)
+      string(In the case of the LoggingInterceptor, just pass an array of patterns)
+      string((matching method names and/or arities\) as the "exclude" option, when)
+      key(declaring the interceptor)operator(:)
 
 
       string(<pre>)
-        string(registry.register() symbol(:foo) string(\)) operator({) string(...) operator(})
-        string(registry.intercept() symbol(:foo) string(\).)
-          string(with) operator({) string(|r|) string(r.logging_interceptor) operator(})string(.)
-          string(with_options) symbol(:exclude) string(=>) operator([) string('foo',) string('bar(>4\)',) string('*(<2\)') operator(])
+        string(registry.register( :foo \) { ... })
+        string(registry.intercept( :foo \).)
+          string(with { |r| r.logging_interceptor }.)
+          string(with_options :exclude => [ 'foo', 'bar(>4\)', '*(<2\)' ])
       string(</pre>)
 
 
-      string(The) string(above) string(will) string(exclude) string(from) string(interception) string(any) string(method) string(named) string('foo',) string(or) string(any)
-      string(invocation) string(of) string('bar') string(with) string(more) string(than) string(4) string(arguments,) string(or) string(any) string(method) string(invocation)
-      string(with) string(fewer) string(than) string(two) string(arguments.)
+      string(The above will exclude from interception any method named 'foo', or any)
+      string(invocation of 'bar' with more than 4 arguments, or any method invocation)
+      string(with fewer than two arguments.)
 
 
-      string(You) string(can) string(also) string(give) string(an) string(array) string(of) string(patterns) string(to) string(_include_.) string(These) string(cause) string(methods)
-      string(to) string(be) string(explicitly) string(intercepted) string(even) string(if) string(they) string(match) string(an) string(exclude) key(pattern)error(:)
+      string(You can also give an array of patterns to _include_. These cause methods)
+      key(to be explicitly intercepted even if they match an exclude pattern)operator(:)
 
 
       string(<pre>)
-        string(registry.register() symbol(:foo) string(\)) operator({) string(...) operator(})
-        string(registry.intercept() symbol(:foo) string(\).)
-          string(with) operator({) string(|r|) string(r.logging_interceptor) operator(})string(.)
-          string(with_options) symbol(:exclude) string(=>) operator([) string('foo',) string('bar(>4\)',) string('*(<2\)') operator(])operator(,)
-                       symbol(:include) string(=>) operator([) string('baz') operator(])
+        string(registry.register( :foo \) { ... })
+        string(registry.intercept( :foo \).)
+          string(with { |r| r.logging_interceptor }.)
+          string(with_options :exclude => [ 'foo', 'bar(>4\)', '*(<2\)' ],)
+                       symbol(:include) string(=> [ 'baz' ])
 
-        string(foo) string(=) string(registry.foo)
+        string(foo = registry.foo)
         string(foo.baz)
       string(</pre>)
 
 
-      string(This) string(would) string(result) string(in) string(the) string(call) string(to) comment(#baz being intercepted, even though it)
-      string(matches) string(an) string(exclude) string(pattern) string((@*(<2\)@\).)
+      string(This would result in the call to #baz being intercepted, even though it)
+      string(matches an exclude pattern (@*(<2\)@\).)
 
   operator(-) key<delimiter(")content(include services defined in another library?)delimiter(")>operator(:) string(>-)
-      string(This) string(requires) string(that) string(the) string(other) string(library) string(be) string(implemented) string(in) string(such) string(a) string(way) string(that) string(it)
-      string(expects) string(to) string(be) string("included") string(by) string(other) string(libraries/applications.) string(For) string(example,)
-      string(Needle) string(encourages) string(the) string(use) string(of) string(a) string(method) string(called) string(@register_services@,) string(which)
-      string(accepts) string(a) string(container) string(as) string(a) key(parameter)error(:)
+      string(This requires that the other library be implemented in such a way that it)
+      string(expects to be "included" by other libraries/applications. For example,)
+      string(Needle encourages the use of a method called @register_services@, which)
+      key(accepts a container as a parameter)operator(:)
 
 
       string(<pre>)
-        string(module) string(A)
-          string(module) string(B)
-            string(def) string(register_services() string(container) string(\))
+        string(module A)
+          string(module B)
+            string(def register_services( container \))
               string(...)
             string(end)
-            string(module_function) symbol(:register_services)
+            string(module_function :register_services)
           string(end)
         string(end)
       string(</pre>)
 
 
-      string(If) string(the) string(library) string(has) string(been) string(implemented) string(in) string(this) string(way,) string(you) string(can) string(simply) string(do) string(a)
-      string(require) string(of) string(the) string(library) string(and) string(then) string(invoke) string(the) string(@register_services@) string(method.)
+      string(If the library has been implemented in this way, you can simply do a)
+      string(require of the library and then invoke the @register_services@ method.)
 
 
-      string(There) string(is) string(a) string(convenience) string(method) string(in) string(Container) string(for) string(doing) string(this.) string(Just) string(call)
-      string(Container#require,) string(passing) string(the) string(file) string(to) string(require) string(and) string(a) string(string) string((or) string(symbol\))
-      string(identifying) string(the) string(name) string(of) string(the) string(module) string(that) string(contains) string(the) string(registration) string(method.)
-      string(You) string(can) string(also) string(pass) string(a) string(symbol) string(as) string(the) string(third) string(parameter) string(naming) string(the) string(registration)
-      string(method,) string(but) string(it) string(defaults) string(to) string(@)symbol(:register_services)string(@.)
+      string(There is a convenience method in Container for doing this. Just call)
+      string(Container#require, passing the file to require and a string (or symbol\))
+      string(identifying the name of the module that contains the registration method.)
+      string(You can also pass a symbol as the third parameter naming the registration)
+      string(method, but it defaults to @:register_services@.)
 
 
       string(<pre>)
-        string(require) string('a/b')
-        key(A)error(:)symbol(:B)string(.register_services() string(container) string(\))
+        string(require 'a/b')
+        string(A::B.register_services( container \))
 
         comment(# or)
 
-        string(container.require() string('a/b',) string("A)error(:)symbol(:B)string(") string(\))
+        string(container.require( 'a/b', "A::B" \))
       string(</pre>)
 
 
-      string(The) string(definition) string(context) string((i.e.,) string(the) string("builder") string(object\)) string(also) string(supports) string(the)
-      string(require) string(method,) string(so) string(you) string(can) key(do)error(:)
+      string(The definition context (i.e., the "builder" object\) also supports the)
+      string(require method, so you can do:)
 
 
       string(<pre>)
-        string(container.define) string(do) string(|b|)
-          string(b.require) string("a/b",) string("A)error(:)symbol(:B)string(")
-          string(b.foo) operator({) string(...) operator(})
+        string(container.define do |b|)
+          string(b.require "a/b", "A::B")
+          string(b.foo { ... })
           string(...)
         string(end)
       string(</pre>)
 
-operator(-) key<delimiter(")content(When should I...)delimiter(")>error(:)
-  operator(-) key<delimiter(")content(use a different service model?)delimiter(")>error(:)
+operator(-) key<delimiter(")content(When should I...)delimiter(")>operator(:)
+  operator(-) key<delimiter(")content(use a different service model?)delimiter(")>operator(:)
     operator(-) key<delimiter(")content(Like, :prototype?)delimiter(")>operator(:) string(>-)
-        string(The) string(prototype) string(service) string(model) string(is) string(appropriate) string(when) string(the) key(service)error(:)
+        key(The prototype service model is appropriate when the service)operator(:)
 
 
-        string(*) string(has) string(internal) string(state)
+        string(* has internal state)
 
-        string(*) string(will) string(be) string(used) string(multiple) string(times) string(for) string(different) string(situations)
+        string(* will be used multiple times for different situations)
 
 
-        string(For) string(example,) string(if) string(you) string(have) string(a) string(GUI) string(library,) string(a) string("button") string(service) string(could) string(be) string(a)
-        string(prototype,) string(because) string(you) string(will) string(likely) string(have) string(many) string(buttons) string(in) string(an) string(application,)
-        string(with) string(each) string(button) string(being) string(an) string(independent) string(instance.)
+        string(For example, if you have a GUI library, a "button" service could be a)
+        string(prototype, because you will likely have many buttons in an application,)
+        string(with each button being an independent instance.)
       
     operator(-) key<delimiter(")content(Like, :singleton?)delimiter(")>operator(:) string(>-)
-        string(The) string(singleton) string(service) string(model) string(is) string(the) string(default,) string(so) string(you) string(should) string(rarely) string(need)
-        string(to) string(explicitly) string(specify) string(it) string(as) string(a) string(model.) string(It) string(is) string(appropriate) string(for) string(services)
-        key(that)error(:)
+        string(The singleton service model is the default, so you should rarely need)
+        string(to explicitly specify it as a model. It is appropriate for services)
+        key(that)operator(:)
 
 
-        string(*) string(guard) string(some) string(specific) string(functionality)
+        string(* guard some specific functionality)
 
-        string(*) string(represent) string(state) string(that) string(is) string(global) string(across) string(an) string(application)
+        string(* represent state that is global across an application)
 
     operator(-) key<delimiter(")content(Like, :threaded?)delimiter(")>operator(:) string(>-)
-        string(Threaded) string(is) string(similar) string(to) string(singleton,) string(but) string(it) string(allows) string(one) string(unique) string(instance) string(of)
-        string(the) string(service) string(_per) string(thread_.) string(Thus,) string(it) string(is) string(appropriate) string(to) string(the) string(same)
-        string(situations) string(as) string(singleton,) string(but) string(specific) string(to) string(a) string(thread,) string(instead) string(of) string(an)
-        string(application.) string(This) string(is) string(useful) string(for) string(web) string(applications) string(that) string(are) string(run) string(in) string(a)
-        string(single) string(virtual) string(machine,) string(and) string(which) string(share) string(a) string(single) string(registry.)
+        string(Threaded is similar to singleton, but it allows one unique instance of)
+        string(the service _per thread_. Thus, it is appropriate to the same)
+        string(situations as singleton, but specific to a thread, instead of an)
+        string(application. This is useful for web applications that are run in a)
+        string(single virtual machine, and which share a single registry.)
 
     operator(-) key<delimiter(")content(Like, deferred?)delimiter(")>operator(:) string(>-)
-        string(Deferred) string(models) string(use) string(a) string(proxy) string(to) string(enforce) string(lazy) string(initialization) string(of) string(the)
-        string(service.) string(A) string(service) string(using) string(a) string(deferred) string(service) string(model) string((ie,)
-        string(@)symbol(:prototype_deferred)string(@,) string(@)symbol(:multiton_deferred)string(@,) string(@)symbol(:singleton_deferred)string(@,) string(or)
-        string(@)symbol(:threaded_deferred)string(@\)) string(will) string(not) string(be) string(instantiated) string(until) string(the) string(first) string(time) string(a)
-        string(method) string(is) string(invoked) string(on) string(the) string(service.)
+        string(Deferred models use a proxy to enforce lazy initialization of the)
+        string(service. A service using a deferred service model (ie,)
+        string(@:prototype_deferred@, @:multiton_deferred@, @:singleton_deferred@, or)
+        string(@:threaded_deferred@\) will not be instantiated until the first time a)
+        string(method is invoked on the service.)
 
 
-        string(This) string(makes) string(a) string(deferred) string(model) string(appropriate) string(when) string(a) string(service) string(is) string(expensive) string(to)
-        string(instantiate,) string(since) string(you) string(can) string(wait) string(to) string(do) string(the) string(expensive) string(initialization)
-        string(until) string(it) string(is) string(really) string(needed.) string(Applications) string(will) string(start) string(up) string(faster) string(when) string(their)
-        string(dependences) string(use) string(deferred) string(instantiation.)
+        string(This makes a deferred model appropriate when a service is expensive to)
+        string(instantiate, since you can wait to do the expensive initialization)
+        string(until it is really needed. Applications will start up faster when their)
+        string(dependences use deferred instantiation.)
 
     operator(-) key<delimiter(")content(Like, initialize?)delimiter(")>operator(:) string(>-)
-        string(This) string(is) string(useful) string(when) string(you) string(have) string(a) string(method) string(that) string(you) string(want) string(to) string(be) string(invoked)
-        string(automatically) string(after) string(a) string(service) string(has) string(been) string(instantiated.) string(Consider) string(the) string(case)
-        string(where) string(a) string(service) string(is) string(initialized) string(primarily) string(using) string(setters,) string(but) string(requires)
-        string(some) string(logic) string(to) string(be) string(executed) string(to) string(complete) string(the) string(initialization) string(phase.) string(In) string(this)
-        string(case,) string(you) string(could) string(always) string(explicitly) string(invoke) string(the) string(initialization) string(method(s\))
-        string(in) string(the) string(constructor) string(block,) string(but) string(if) string(many) string(services) string(use) string(the) string(same)
-        string(initialization) string(method,) string(it) string(can) string(be) string(more) string(convenient) string(to) string(use) string(an) string("initialize")
-        string(service) string(model.)
+        string(This is useful when you have a method that you want to be invoked)
+        string(automatically after a service has been instantiated. Consider the case)
+        string(where a service is initialized primarily using setters, but requires)
+        string(some logic to be executed to complete the initialization phase. In this)
+        string(case, you could always explicitly invoke the initialization method(s\))
+        string(in the constructor block, but if many services use the same)
+        string(initialization method, it can be more convenient to use an "initialize")
+        string(service model.)
 
     operator(-) key<delimiter(")content(Like, multiton?)delimiter(")>operator(:) string(>-)
-        string(Multitons) string(are) string(useful) string(for) string(factories,) string(where) string(you) string(have) string(a) string(class) string(that)
-        string(differentiates) string(its) string(instances) string(based) string(on) string(some) string(construction) string(parameters) string(that)
-        string(need) string(to) string(be) string(determined) string(at) string(runtime.) string(Thus,) string(multitons) string(are) string(always) string(used) string(with)
-        string(parameterized) string(services.)
+        string(Multitons are useful for factories, where you have a class that)
+        string(differentiates its instances based on some construction parameters that)
+        string(need to be determined at runtime. Thus, multitons are always used with)
+        string(parameterized services.)

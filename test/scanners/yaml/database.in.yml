@@ -1,0 +1,52 @@
+login: &login
+  adapter: mysql
+  host: localhost
+  socket: /Applications/MAMP/tmp/mysql/mysql.sock
+  username: rails
+  password: 
+
+# A
+development: &default
+  database: a_development
+  <<: *login
+
+production: &production
+  <<: *default
+
+test: &test
+  database: a_test
+  <<: *login
+
+# B
+b_development: &b
+  database: b_development
+  <<: *login
+
+b_production: *b
+
+b_test:
+  database: b_test
+  <<: *login
+
+# C
+c_development: &c
+  database: c_development
+  <<: *login
+
+c_production: *c
+
+c_test:
+  database: c_test
+  <<: *login
+
+# D
+d_development: &d
+  database: d_development
+  <<: *login
+
+d_production: *d
+
+d_test:
+  database: d_test
+  <<: *login
+

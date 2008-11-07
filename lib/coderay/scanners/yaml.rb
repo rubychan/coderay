@@ -12,14 +12,23 @@ module Scanners
     def scan_tokens tokens, options
       
       value_expected = nil
-      states = :initial
+      state = :initial
+      indent = 0
       
       until eos?
         
         kind = nil
         match = nil
         
-        if match = scan(/\s+/)
+        if bol?
+          indent = matched.size if check(/ +/)
+          # tokens << [indent.to_s, :debug]
+        end
+        
+        if match = scan(/ +[\t ]*/)
+          kind = :space
+          
+        elsif match = scan(/\n+/)
           kind = :space
           state = :initial if match.index(?\n)
           
@@ -27,25 +36,36 @@ module Scanners
           kind = :comment
           
         elsif bol? and case
-          when scan(/---/)
-            kind = :tag
+          when match = scan(/---|\.\.\./)
+            tokens << [:open, :head]
+            tokens << [match, :head]
+            tokens << [:close, :head]
+            next
           end
         
         elsif state == :value and case
-          when scan(/(?![!*&]).+(?=$|\s+#)/)
+          when !check(/(?:"[^"]*")(?=: |:$)/) && scan(/"/)
+            tokens << [:open, :string]
+            tokens << [matched, :delimiter]
+            tokens << [matched, :content] if scan(/ [^"\\]* (?: \\. [^"\\]* )* /mx)
+            tokens << [matched, :delimiter] if scan(/"/)
+            tokens << [:close, :string]
+            next
+          when scan(/(?![!"*&]).+?(?=$|\s+#)/)
             kind = :string
           end
           
         elsif case
-          when match = scan(/[-:](?= )/)
+          when match = scan(/[-:](?= |$)/)
             state = :value if state == :colon && (match == ':' || match == '-')
+            state = :value if state == :initial && match == '-'
             kind = :operator
           when match = scan(/[,{}\[\]]/)
             kind = :operator
-          when state == :initial && scan(/\w+(?=:)/)
+          when state == :initial && scan(/[\w.() ]*\S(?=: |:$)/)
             kind = :key
             state = :colon
-          when state == :initial && match = scan(/(?:"[^"]*"|'[^']*')(?=:)/)
+          when match = scan(/(?:"[^"]*"|'[^']*')(?=: |:$)/)
             tokens << [:open, :key]
             tokens << [match[0,1], :delimiter]
             tokens << [match[1..-2], :content]
@@ -64,13 +84,17 @@ module Scanners
             kind = :variable
           when scan(/\*\w+/)
             kind = :global_variable
+          when scan(/<</)
+            kind = :class_variable
           when scan(/\d\d:\d\d:\d\d/)
             kind = :oct
           when scan(/\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d(\.\d+)? [-+]\d\d:\d\d/)
             kind = :oct
           when scan(/:\w+/)
             kind = :symbol
-          when scan(/[^:\s]+/)
+          when scan(/[^:\s]+(:(?! |$)[^:\s]*)* .*/)
+            kind = :string
+          when scan(/[^:\s]+(:(?! |$)[^:\s]*)*/)
             kind = :string
           # when scan(/>-?/)
           #   kind = :punct

@@ -1,5 +1,7 @@
 require 'rake_helpers/ftp.rb'
 
+verbose false
+
 ROOT = '.'
 LIB_ROOT = File.join ROOT, 'lib'
 RUBY = ENV.fetch 'ruby', 'ruby'
@@ -23,7 +25,7 @@ def ruby command
       '-w'
     end
   cmd = "#{RUBY} #{params} #{command}"
-  puts cmd
+  puts cmd if verbose
   system cmd
 end
 

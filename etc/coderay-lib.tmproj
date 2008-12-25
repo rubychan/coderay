@@ -5,8 +5,6 @@
 	<key>documents</key>
 	<array>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -29,6 +27,16 @@
 		<dict>
 			<key>filename</key>
 			<string>../ftp.yaml</string>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>etc</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle|log|aux))$</string>
+			<key>selected</key>
+			<true/>
+			<key>sourceDirectory</key>
+			<string></string>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -74,7 +82,7 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2008-08-06T18:57:10Z</date>
+			<date>2008-12-25T02:53:00Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -84,7 +92,7 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2008-09-30T16:57:58Z</date>
+			<date>2008-12-25T02:40:10Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -104,9 +112,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2008-12-25T01:19:30Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2008-12-25T02:39:14Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -118,7 +124,7 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2008-08-04T21:50:12Z</date>
+			<date>2008-12-25T02:42:18Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>

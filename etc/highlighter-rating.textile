@@ -1,0 +1,39 @@
+h1=. Star Ratings for Syntax Highlighter Language Support (Draft)
+ 
+p={font-style: italic}. murphy 2008-11-06, updated 2008-12-25
+ 
+h2. Abstract
+ 
+A proposal for a simple, 6-level star rating to estimate a syntax highlighters' support of a given language.
+
+h2. Levels
+ 
+I propose five levels, which can be represented with 0 to 5 out of 5 stars:
+ 
+|_=. Name |_=. Level |_. Stars |
+|>. No support |=. 0 |  ☆☆☆☆☆ |
+|>. Poor support |=. 1 |  ★☆☆☆☆ |
+|>. Basic support |=. 2 |  ★★☆☆☆ |
+|>. Good support |=. 3 |  ★★★☆☆ |
+|>. Very good support |=. 4 |  ★★★★☆ |
+|>. Perfect support |=. 5 |  ★★★★★ |
+
+h3. Definition
+
+Each rating has an associated support percentage and a short description.
+
+|_<. Name |_. Stars |_>.  % |_<. Description |
+|          No support |  ☆☆☆☆☆  |>.   0 | Missing, broken, or useless. |
+|        Poor support |  ★☆☆☆☆  |>.  70 | Highlights average code, fails on complex code, hangs up, buggy. |
+|       Basic support |  ★★☆☆☆  |>.  90 | Good highlighting for typical code, problems with complex code. |
+|        Good support |  ★★★☆☆  |>.  98 | Solid highlighting for most code, some problems with very complex code. |
+|   Very good support |  ★★★★☆  |>.  99 | Perfect highlighting even for complex code, only small problems with edge cases. |
+|     Perfect support |  ★★★★★  |>. 100 | Complete highlighting, can be used as reference. |
+
+h2. Rating Process
+ 
+The star ratings are defined above. It is completely up to the author of a scanner to rate their work.
+ 
+However, they should be careful not to overrate a scanner/lexer. Ratings of 2 and up should only be granted for tested code. A rating of 3 should not be given without a review of another person who knows the language very well. A rating of 5 is very rare for complex languages; such scanners should be bug free, feature complete, and absolutely reliable. A rating of 4 is typically the goal for a developer.
+
+

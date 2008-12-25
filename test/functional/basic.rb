@@ -34,32 +34,40 @@ class BasicTest < Test::Unit::TestCase
       CodeRay::Duo[:plain, :plain].highlight(RUBY_TEST_CODE, :stream => true))
   end
   
-  def test_for_redcloth
+  begin
     require 'rubygems'
-    require 'coderay/for_redcloth'
-    assert_equal "<p><span lang=\"ruby\" class=\"CodeRay\">puts <span style=\"background-color:#fff0f0;color:#D20\"><span style=\"color:#710\">\"</span><span style=\"\">Hello, World!</span><span style=\"color:#710\">\"</span></span></span></p>",
-      RedCloth.new('@[ruby]puts "Hello, World!"@').to_html
-    assert_equal <<-BLOCKCODE.chomp,
+    gem 'RedCloth', '>= 4.0.3' rescue nil
+    require 'redcloth'
+  
+    def test_for_redcloth
+      require 'rubygems'
+      require 'coderay/for_redcloth'
+      assert_equal "<p><span lang=\"ruby\" class=\"CodeRay\">puts <span style=\"background-color:#fff0f0;color:#D20\"><span style=\"color:#710\">\"</span><span style=\"\">Hello, World!</span><span style=\"color:#710\">\"</span></span></span></p>",
+        RedCloth.new('@[ruby]puts "Hello, World!"@').to_html
+      assert_equal <<-BLOCKCODE.chomp,
 <div lang="ruby" class="CodeRay">
   <div class="code"><pre>puts <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">Hello, World!</span><span style="color:#710">&quot;</span></span></pre></div>
 </div>
 </pre>
-BLOCKCODE
-      RedCloth.new('bc[ruby]. puts "Hello, World!"').to_html
-  end
+        BLOCKCODE
+        RedCloth.new('bc[ruby]. puts "Hello, World!"').to_html
+    end
   
-  def test_for_redcloth_escapes
-    require 'rubygems'
-    require 'coderay/for_redcloth'
-    assert_equal '<p><span lang="ruby" class="CodeRay">&gt;</span></p>',
-      RedCloth.new('@[ruby]>@').to_html
-    assert_equal <<-BLOCKCODE.chomp,
+    def test_for_redcloth_escapes
+      require 'rubygems'
+      require 'coderay/for_redcloth'
+      assert_equal '<p><span lang="ruby" class="CodeRay">&gt;</span></p>',
+        RedCloth.new('@[ruby]>@').to_html
+      assert_equal <<-BLOCKCODE.chomp,
 <div lang="ruby" class="CodeRay">
   <div class="code"><pre>&amp;</pre></div>
 </div>
 </pre>
-BLOCKCODE
-      RedCloth.new('bc[ruby]. &').to_html
+        BLOCKCODE
+        RedCloth.new('bc[ruby]. &').to_html
+    end
+  rescue LoadError
+    $stderr.puts 'RedCloth not found.'
   end
   
   ENCODERS_LIST = %w(

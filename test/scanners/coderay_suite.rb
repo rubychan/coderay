@@ -1,5 +1,5 @@
 require 'benchmark'
-require 'ftools'
+require 'fileutils'
 
 $mydir = File.dirname(__FILE__)
 $:.unshift File.join($mydir, '..', '..', 'lib')
@@ -90,6 +90,9 @@ end
 
 module CodeRay
   
+  if RUBY_VERSION >= '1.9'
+    $:.unshift File.join($mydir, '..', 'lib')
+  end
   require 'test/unit'
   
   class TestCase < Test::Unit::TestCase
@@ -340,7 +343,7 @@ module CodeRay
           return false
         end
         File.open(name + '.actual.html', 'w') { |f| f.write highlighted }
-        File.copy(name + '.actual.html', name + '.expected.html') if okay
+        FileUtils.copy(name + '.actual.html', name + '.expected.html') if okay
         true
       end
     end
@@ -353,8 +356,6 @@ module CodeRay
       okay
     end
   end
-  
-  require 'test/unit/testsuite'
   
   class TestSuite
     @suite = Test::Unit::TestSuite.new 'CodeRay::Scanners'

@@ -32,7 +32,7 @@ task '19' do
 end
 
 task '18' do
-  RUBY.replace 'ruby'
+  RUBY.replace 'ruby18'
 end
 
 task '187' do

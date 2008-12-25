@@ -34,11 +34,11 @@ module Scanners
           elsif match = scan(/ [:,\[{\]}] /x)
             kind = :operator
             case match
-            when '{': stack << :object; key_expected = true
-            when '[': stack << :array
-            when ':': key_expected = false
-            when ',': key_expected = true if stack.last == :object
-            when '}', ']': stack.pop  # no error recovery, but works for valid JSON
+            when '{' then stack << :object; key_expected = true
+            when '[' then stack << :array
+            when ':' then key_expected = false
+            when ',' then key_expected = true if stack.last == :object
+            when '}', ']' then stack.pop  # no error recovery, but works for valid JSON
             end
           elsif match = scan(/ true | false | null /x)
             kind = IDENT_KIND[match]

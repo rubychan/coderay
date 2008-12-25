@@ -1,0 +1,2 @@
+Contents:
+- test/unit: We need the old Test::Unit for the scanner test suite to work with Ruby 1.9.

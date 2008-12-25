@@ -133,7 +133,7 @@ module CodeRay
       # whether +text+ is a String.
       def token text, kind
         out =
-          if text.is_a? ::String  # Ruby 1.9: watch out, :open.is_a? String is true
+          if text.is_a? ::String
             text_token text, kind
           elsif text.is_a? ::Symbol
             block_token text, kind
@@ -171,9 +171,14 @@ module CodeRay
       #
       # The already created +tokens+ object must be used; it can be a
       # TokenStream or a Tokens object.
-      def compile tokens, options
-        tokens.each { |text, kind| token text, kind }  # FIXME for Ruby 1.9?
-        #tokens.each(&self)
+      if RUBY_VERSION >= '1.9'
+        def compile tokens, options
+          tokens.each { |text, kind| token text, kind }  # FIXME for Ruby 1.9?
+        end
+      else
+        def compile tokens, options
+          tokens.each(&self)
+        end
       end
 
     end

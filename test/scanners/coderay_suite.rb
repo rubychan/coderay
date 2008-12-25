@@ -126,7 +126,7 @@ module CodeRay
       end
       
       def lang
-        @lang ||= name.downcase.to_sym
+        @lang ||= name[/[\w_]+$/].downcase.to_sym
       end
       
       def extension extension = nil

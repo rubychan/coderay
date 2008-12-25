@@ -1,2 +1,4 @@
-class Java < CodeRay::TestCase
+module ScannerTests
+  class Java < CodeRay::TestCase
+  end
 end

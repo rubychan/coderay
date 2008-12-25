@@ -166,13 +166,14 @@ module Scanners
         { }
       ] ]
 
-      CLOSING_PAREN.values.each { |o| o.freeze }  # debug, if I try to change it with <<
+      CLOSING_PAREN.each { |k,v| k.freeze; v.freeze }  # debug, if I try to change it with <<
       OPENING_PAREN = CLOSING_PAREN.invert
 
       STRING_PATTERN = Hash.new { |h, k|
         delim, interpreted = *k
-        delim_pattern = Regexp.escape(delim.dup)
+        delim_pattern = Regexp.escape(delim)
         if closing_paren = CLOSING_PAREN[delim]
+          delim_pattern = delim_pattern[0..-1] if defined? JRUBY_VERSION  # JRuby fix
           delim_pattern << Regexp.escape(closing_paren)
         end
 

@@ -1,110 +1,110 @@
 head<head(---)> 
 key(name)operator(:) string(paragraphs)
 key(desc)operator(:) string(Textile looks for paragraphs in your text.  Paragraphs are separated by one blank line. Every paragraph is translated as an HTML paragraph.)
-key(in)operator(:) string(|-)
-  string(A single paragraph.)
+key(in)operator(:) string<delimiter(|-)content(
+  A single paragraph.
   
-  string(Followed by another.)
-key(html)operator(:) string(|-)
-  string(<p>A single paragraph.</p>)
-  string(<p>Followed by another.</p>)
+  Followed by another.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>A single paragraph.</p>
+  <p>Followed by another.</p>)>
 head<head(---)>
 key(name)operator(:) string(block containing block start)
-key(in)operator(:) string(|-)
-  string(I saw a ship. It ate my elephant.)
-key(html)operator(:) string(|-)
-  string(<p>I saw a ship. It ate my elephant.</p>)
+key(in)operator(:) string<delimiter(|-)content(
+  I saw a ship. It ate my elephant.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>I saw a ship. It ate my elephant.</p>)>
 head<head(---)>
 key(name)operator(:) string(extended block containing block start)
-key(in)operator(:) string(|-)
-  string(p.. I saw a ship. It ate my elephant.)
+key(in)operator(:) string<delimiter(|-)content(
+  p.. I saw a ship. It ate my elephant.
   
-  string(When the elephant comes to take a p. you...)
-key(html)operator(:) string(|-)
-  string(<p>I saw a ship. It ate my elephant.</p>)
-  string(<p>When the elephant comes to take a p. you&#8230;</p>)
+  When the elephant comes to take a p. you...)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>I saw a ship. It ate my elephant.</p>
+  <p>When the elephant comes to take a p. you&#8230;</p>)>
 head<head(---)>
 key(name)operator(:) string(blockquote containing block start)
-key(in)operator(:) string(|-)
-  string(bq. I saw a ship. It ate my elephant.)
-key(html)operator(:) string(|-)
-  string(<blockquote>)
-  string(<p>I saw a ship. It ate my elephant.</p>)
-  string(</blockquote>)
+key(in)operator(:) string<delimiter(|-)content(
+  bq. I saw a ship. It ate my elephant.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <blockquote>
+  <p>I saw a ship. It ate my elephant.</p>
+  </blockquote>)>
 head<head(---)>
 key(name)operator(:) string(extended blockquote containing block start)
-key(in)operator(:) string(|-)
-  string(bq.. I saw a ship. It ate my elephant.)
+key(in)operator(:) string<delimiter(|-)content(
+  bq.. I saw a ship. It ate my elephant.
 
-  string(When the elephant comes to take a p. you...)
-key(html)operator(:) string(|-)
-  string(<blockquote>)
-  string(<p>I saw a ship. It ate my elephant.</p>)
-  string(<p>When the elephant comes to take a p. you&#8230;</p>)
-  string(</blockquote>)
+  When the elephant comes to take a p. you...)>
+key(html)operator(:) string<delimiter(|-)content(
+  <blockquote>
+  <p>I saw a ship. It ate my elephant.</p>
+  <p>When the elephant comes to take a p. you&#8230;</p>
+  </blockquote>)>
 head<head(---)> 
 key(name)operator(:) string(notextile block containing block start)
-key(in)operator(:) string(|-)
-  string(notextile. I saw a ship. It ate my elephant.)
-key(html)operator(:) string(|-)
-  string(I saw a ship. It ate my elephant.)
+key(in)operator(:) string<delimiter(|-)content(
+  notextile. I saw a ship. It ate my elephant.)>
+key(html)operator(:) string<delimiter(|-)content(
+  I saw a ship. It ate my elephant.)>
 key(valid_html)operator(:) string(false)
 head<head(---)>
 key(name)operator(:) string(extended notextile block containing block start)
-key(in)operator(:) string(|-)
-  string(notextile.. I saw a ship. It ate my elephant.)
+key(in)operator(:) string<delimiter(|-)content(
+  notextile.. I saw a ship. It ate my elephant.
 
-  string(When the elephant comes to take a p. you...)
-key(html)operator(:) string(|-)
-  string(I saw a ship. It ate my elephant.)
+  When the elephant comes to take a p. you...)>
+key(html)operator(:) string<delimiter(|-)content(
+  I saw a ship. It ate my elephant.
   
-  string(When the elephant comes to take a p. you...)
+  When the elephant comes to take a p. you...)>
 key(valid_html)operator(:) string(false)
 head<head(---)> 
 key(name)operator(:) string(pre block containing block start)
-key(in)operator(:) string(|-)
-  string(pre. I saw a ship. It ate my elephant.)
-key(html)operator(:) string(|-)
-  string(<pre>I saw a ship. It ate my elephant.</pre>)
+key(in)operator(:) string<delimiter(|-)content(
+  pre. I saw a ship. It ate my elephant.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <pre>I saw a ship. It ate my elephant.</pre>)>
 head<head(---)>
 key(name)operator(:) string(extended pre block containing block start)
-key(in)operator(:) string(|-)
-  string(pre.. I saw a ship. It ate my elephant.)
+key(in)operator(:) string<delimiter(|-)content(
+  pre.. I saw a ship. It ate my elephant.
 
-  string(When the elephant comes to take a p. you...)
-key(html)operator(:) string(|-)
-  string(<pre>I saw a ship. It ate my elephant.</pre>)
+  When the elephant comes to take a p. you...)>
+key(html)operator(:) string<delimiter(|-)content(
+  <pre>I saw a ship. It ate my elephant.</pre>
 
-  string(<pre>When the elephant comes to take a p. you&#8230;</pre>)
-  string(--- )
+  <pre>When the elephant comes to take a p. you&#8230;</pre>
+  --- )>
 key(name)operator(:) string(html tags)
 key(desc)operator(:) string(You can certainly use HTML tags inside your Textile documents.  HTML will only be escaped if it&#8217;s found in a <code>pre</code> or <code>code</code> block.)
-key(in)operator(:) string(|-)
-  string(I am <b>very</b> serious.)
+key(in)operator(:) string<delimiter(|-)content(
+  I am <b>very</b> serious.
   
-  string(<pre>)
-    string(I am <b>very</b> serious.)
-  string(</pre>)
-key(html)operator(:) string(|-)
-  string(<p>I am <b>very</b> serious.</p>)
-  string(<pre>)
-    string(I am &lt;b&gt;very&lt;/b&gt; serious.)
-  string(</pre>)
+  <pre>
+    I am <b>very</b> serious.
+  </pre>)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>I am <b>very</b> serious.</p>
+  <pre>
+    I am &lt;b&gt;very&lt;/b&gt; serious.
+  </pre>)>
 head<head(---)> 
 key(name)operator(:) string(line breaks)
 key(desc)operator(:) string(Line breaks are converted to HTML breaks.)
-key(in)operator(:) string(|-)
-  string(I spoke.)
-  string(And none replied.)
-key(html)operator(:) string(|-)
-  string(<p>I spoke.<br />)
-  string(And none replied.</p>)
-key(html_no_breaks)operator(:) string(|-)
-  string(<p>I spoke.)
-  string(And none replied.</p>)
-key(lite_mode_html)operator(:) string(|-)
-  string(I spoke.<br />)
-  string(And none replied.)
+key(in)operator(:) string<delimiter(|-)content(
+  I spoke.
+  And none replied.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>I spoke.<br />
+  And none replied.</p>)>
+key(html_no_breaks)operator(:) string<delimiter(|-)content(
+  <p>I spoke.
+  And none replied.</p>)>
+key(lite_mode_html)operator(:) string<delimiter(|-)content(
+  I spoke.<br />
+  And none replied.)>
 head<head(---)> 
 key(name)operator(:) string(curly quotes)
 key(desc)operator(:) string(Single- and double-quotes around words or phrases are converted to curly quotations, much easier on the eye.)
@@ -112,13 +112,13 @@ key(in)operator(:) string<delimiter(")content(\\"Observe!\\")delimiter(")>
 key(html)operator(:) string(<p>&#8220;Observe!&#8221;</p>)
 head<head(---)>
 key(name)operator(:) string(quotes contained in multi-paragraph quotes)
-key(in)operator(:) string(|-)
-  string("I first learned about this thing called "Redcloth" several years ago.)
+key(in)operator(:) string<delimiter(|-)content(
+  "I first learned about this thing called "Redcloth" several years ago.
 
-  string("It's wonderful.")
-key(html)operator(:) string(|-)
-  string(<p>&#8220;I first learned about this thing called &#8220;Redcloth&#8221; several years ago.</p>)
-  string(<p>&#8220;It&#8217;s wonderful.&#8221;</p>)
+  "It's wonderful.")>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>&#8220;I first learned about this thing called &#8220;Redcloth&#8221; several years ago.</p>
+  <p>&#8220;It&#8217;s wonderful.&#8221;</p>)>
 head<head(---)> 
 key(name)operator(:) string(double hyphens)
 key(desc)operator(:) string(Double hyphens are replaced with an em-dash.)
@@ -200,18 +200,18 @@ key(html)operator(:) string(<h3>Header 3</h3>)
 head<head(---)> 
 key(name)operator(:) string(blockquote)
 key(desc)operator(:) string(To make an entire paragraph into a block quotation, place “bq.” before it.)
-key(in)operator(:) string(|-)
-  string(Any old text)
+key(in)operator(:) string<delimiter(|-)content(
+  Any old text
   
-  string(bq. A block quotation.)
+  bq. A block quotation.
   
-  string(Any old text)
-key(html)operator(:) string(|-)
-  string(<p>Any old text</p>)
-  string(<blockquote>)
-  string(<p>A block quotation.</p>)
-  string(</blockquote>)
-  string(<p>Any old text</p>)
+  Any old text)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>Any old text</p>
+  <blockquote>
+  <p>A block quotation.</p>
+  </blockquote>
+  <p>Any old text</p>)>
 head<head(---)> 
 key(name)operator(:) string(footnote reference)
 key(desc)operator(:) string(Numeric references within text to footnotes appear between square brackets.)
@@ -242,12 +242,12 @@ key(html)operator(:) string<delimiter(")content(<p><strong>10 times as many</str
 head<head(---)> 
 key(name)operator(:) string(force bold italics)
 key(desc)operator(:) string(Both italics and bold can be forced by doubling the underscores or asterisks.)
-key(in)operator(:) string(|-)
-  string(I __know__.)
-  string(I **really** __know__.)
-key(html)operator(:) string(|-)
-  string(<p>I <i>know</i>.<br />)
-  string(I <b>really</b> <i>know</i>.</p>)
+key(in)operator(:) string<delimiter(|-)content(
+  I __know__.
+  I **really** __know__.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>I <i>know</i>.<br />
+  I <b>really</b> <i>know</i>.</p>)>
 head<head(---)> 
 key(name)operator(:) string(citation)
 key(desc)operator(:) string(Use double question marks to indicate <em>citation</em>.  The title of a book, for instance.)
@@ -304,24 +304,24 @@ key(html)operator(:) string(<p>I&#8217;m <span>unaware</span> of most soft drink
 head<head(---)> 
 key(name)operator(:) string(style span)
 key(desc)operator(:) string(This way, you can apply style settings, as described in the next section to arbitrary phrases.)
-key(in)operator(:) string(|-)
-  string(I'm %{color:red}unaware%)
-  string(of most soft drinks.)
-key(html)operator(:) string(|-)
-  string(<p>I&#8217;m <span style="color:red;">unaware</span><br />)
-  string(of most soft drinks.</p>)
-key(lite_mode_html)operator(:) string(|-)
-  string(I&#8217;m <span style="color:red;">unaware</span><br />)
-  string(of most soft drinks.)
+key(in)operator(:) string<delimiter(|-)content(
+  I'm %{color:red}unaware%
+  of most soft drinks.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>I&#8217;m <span style="color:red;">unaware</span><br />
+  of most soft drinks.</p>)>
+key(lite_mode_html)operator(:) string<delimiter(|-)content(
+  I&#8217;m <span style="color:red;">unaware</span><br />
+  of most soft drinks.)>
 head<head(---)>
 key(name)operator(:) string(percent sign)
 key(desc)operator(:) string(though percent signs indicate a span, they shouldn't be overly greedy.)
-key(in)operator(:) string(|-)
-  string(http://blah.com/one%20two%20three)
-  string((min\)5%-95%(max\))
-key(html)operator(:) string(|-)
-  string(<p>http://blah.com/one%20two%20three<br />)
-  string((min\)5%-95%(max\)</p>)
+key(in)operator(:) string<delimiter(|-)content(
+  http://blah.com/one%20two%20three
+  (min\)5%-95%(max\))>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>http://blah.com/one%20two%20three<br />
+  (min\)5%-95%(max\)</p>)>
 head<head(---)> 
 key(name)operator(:) string(css class)
 key(desc)operator(:) string(A block can be tagged with a CSS class by circling the class in parentheses and placing it just before the period which marks the block.)
@@ -350,29 +350,29 @@ key(html)operator(:) string(<p lang="fr">rouge</p>)
 head<head(---)> 
 key(name)operator(:) string(block attributes on phrase modifiers)
 key(desc)operator(:) string(All block attributes can be applied to phrases as well by placing them just inside the opening modifier.)
-key(in)operator(:) string(|-)
-  string(I seriously *{color:red}blushed*)
-  string(when I _(big\)sprouted_ that)
-  string(corn stalk from my)
-  string(%[es]cabeza%.)
-key(html)operator(:) string(|-)
-  string(<p>I seriously <strong style="color:red;">blushed</strong><br />)
-  string(when I <em class="big">sprouted</em> that<br />)
-  string(corn stalk from my<br />)
-  string(<span lang="es">cabeza</span>.</p>)
+key(in)operator(:) string<delimiter(|-)content(
+  I seriously *{color:red}blushed*
+  when I _(big\)sprouted_ that
+  corn stalk from my
+  %[es]cabeza%.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>I seriously <strong style="color:red;">blushed</strong><br />
+  when I <em class="big">sprouted</em> that<br />
+  corn stalk from my<br />
+  <span lang="es">cabeza</span>.</p>)>
 head<head(---)> 
 key(name)operator(:) string(inline attributes preceded by text are treated as literal)
 key(desc)operator(:) string(modifiers must come first, without anything before them)
-key(in)operator(:) string(|-)
-  string(I *seriously {color:red}blushed*)
-  string(when I _first (big\)sprouted_ that)
-  string(corn stalk from my)
-  string(%grande [es]cabeza%.)
-key(html)operator(:) string(|-)
-  string(<p>I <strong>seriously {color:red}blushed</strong><br />)
-  string(when I <em>first (big\)sprouted</em> that<br />)
-  string(corn stalk from my<br />)
-  string(<span>grande [es]cabeza</span>.</p>)
+key(in)operator(:) string<delimiter(|-)content(
+  I *seriously {color:red}blushed*
+  when I _first (big\)sprouted_ that
+  corn stalk from my
+  %grande [es]cabeza%.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>I <strong>seriously {color:red}blushed</strong><br />
+  when I <em>first (big\)sprouted</em> that<br />
+  corn stalk from my<br />
+  <span>grande [es]cabeza</span>.</p>)>
 head<head(---)> 
 key(name)operator(:) string(align justified)
 key(desc)operator(:) string(Text inside blocks can be aligned in four basic ways.)
@@ -396,115 +396,115 @@ key(html)operator(:) string(<h3 style="padding-left:1em;padding-right:1em;text-a
 head<head(---)> 
 key(name)operator(:) string(code blocks)
 key(desc)operator(:) string(For example, long code blocks belong between <code>pre</code> and <code>code</code> tags.  Please also indent your code inside the tags to be sure that all Textile processors out there will ignore the contents.)
-key(in)operator(:) string(|)
-  string(<pre>)
-  string(<code>)
-    string(a.gsub!( /</, '' \))
-  string(</code>)
-  string(</pre>)
-key(html)operator(:) string(|-)
-  string(<pre>)
-  string(<code>)
-    string(a.gsub!( /&lt;/, '' \))
-  string(</code>)
-  string(</pre>)
+key(in)operator(:) string<delimiter(|)content(
+  <pre>
+  <code>
+    a.gsub!( /</, '' \)
+  </code>
+  </pre>)>
+key(html)operator(:) string<delimiter(|-)content(
+  <pre>
+  <code>
+    a.gsub!( /&lt;/, '' \)
+  </code>
+  </pre>)>
 head<head(---)> 
 key(name)operator(:) string(div tags)
 key(desc)operator(:) string(You may also choose to surround sections with <code>div</code> tags to separate your document into sections. <a href="http://www.instiki.org/">Instiki</a> uses this technique to float a sidebar to the right.)
-key(in)operator(:) string(|)
-  string(<div style="float:right;">)
+key(in)operator(:) string<delimiter(|)content(
+  <div style="float:right;">
   
-  string(h3. Sidebar)
+  h3. Sidebar
   
-  string("Hobix":http://hobix.com/)
-  string("Ruby":http://ruby-lang.org/)
+  "Hobix":http://hobix.com/
+  "Ruby":http://ruby-lang.org/
   
-  string(</div>)
+  </div>
   
-  string(The main text of the page goes here and will stay to the left of the sidebar.)
-key(html)operator(:) string(|-)
-  string(<div style="float:right;">)
-  string(<h3>Sidebar</h3>)
-  string(<p><a href="http://hobix.com/">Hobix</a><br />)
-  string(<a href="http://ruby-lang.org/">Ruby</a></p>)
-  string(</div>)
-  string(<p>The main text of the page goes here and will stay to the left of the sidebar.</p>)
+  The main text of the page goes here and will stay to the left of the sidebar.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <div style="float:right;">
+  <h3>Sidebar</h3>
+  <p><a href="http://hobix.com/">Hobix</a><br />
+  <a href="http://ruby-lang.org/">Ruby</a></p>
+  </div>
+  <p>The main text of the page goes here and will stay to the left of the sidebar.</p>)>
 head<head(---)> 
 key(name)operator(:) string(numbered list)
 key(desc)operator(:) string(To make a numbered list, place each item in its own paragraph, preceded by &#8221;#&#8221;.)
-key(in)operator(:) string(|-)
-  comment(# A first item)
-  comment(# A second item)
-  comment(# A third)
-key(html)operator(:) string(|-)
-  string(<ol>)
-  	string(<li>A first item</li>)
-  	string(<li>A second item</li>)
-  	string(<li>A third</li>)
-  string(</ol>)
+key(in)operator(:) string<delimiter(|-)content(
+  # A first item
+  # A second item
+  # A third)>
+key(html)operator(:) string<delimiter(|-)content(
+  <ol>
+  	<li>A first item</li>
+  	<li>A second item</li>
+  	<li>A third</li>
+  </ol>)>
 head<head(---)> 
 key(name)operator(:) string(nested numbered lists)
 key(desc)operator(:) string(These lists may be nested by increasing the number of pound symbols preceding child entries.)
-key(in)operator(:) string(|-)
-  comment(# Fuel could be:)
-  comment(## Coal)
-  comment(## Gasoline)
-  comment(## Electricity)
-  comment(# Humans need only:)
-  comment(## Water)
-  comment(## Protein)
-key(html)operator(:) string(|-)
-  string(<ol>)
-  	string(<li>Fuel could be:)
-  	string(<ol>)
-  		string(<li>Coal</li>)
-  		string(<li>Gasoline</li>)
-  		string(<li>Electricity</li>)
-  	string(</ol></li>)
-  	string(<li>Humans need only:)
-  	string(<ol>)
-  		string(<li>Water</li>)
-  		string(<li>Protein</li>)
-  	string(</ol></li>)
-  string(</ol>)
+key(in)operator(:) string<delimiter(|-)content(
+  # Fuel could be:
+  ## Coal
+  ## Gasoline
+  ## Electricity
+  # Humans need only:
+  ## Water
+  ## Protein)>
+key(html)operator(:) string<delimiter(|-)content(
+  <ol>
+  	<li>Fuel could be:
+  	<ol>
+  		<li>Coal</li>
+  		<li>Gasoline</li>
+  		<li>Electricity</li>
+  	</ol></li>
+  	<li>Humans need only:
+  	<ol>
+  		<li>Water</li>
+  		<li>Protein</li>
+  	</ol></li>
+  </ol>)>
 head<head(---)> 
 key(name)operator(:) string(bulleted list)
 key(desc)operator(:) string(Bulleted lists use an asterisk in place of the pound.)
-key(in)operator(:) string(|-)
-  string(* A first item)
-  string(* A second item)
-  string(* A third)
-key(html)operator(:) string(|-)
-  string(<ul>)
-  	string(<li>A first item</li>)
-  	string(<li>A second item</li>)
-  	string(<li>A third</li>)
-  string(</ul>)
+key(in)operator(:) string<delimiter(|-)content(
+  * A first item
+  * A second item
+  * A third)>
+key(html)operator(:) string<delimiter(|-)content(
+  <ul>
+  	<li>A first item</li>
+  	<li>A second item</li>
+  	<li>A third</li>
+  </ul>)>
 head<head(---)> 
 key(name)operator(:) string(nested bulleted lists)
 key(desc)operator(:) string(These lists may be nested in like manner.)
-key(in)operator(:) string(|-)
-  string(* Fuel could be:)
-  string(** Coal)
-  string(** Gasoline)
-  string(** Electricity)
-  string(* Humans need only:)
-  string(** Water)
-  string(** Protein)
-key(html)operator(:) string(|-)
-  string(<ul>)
-  	string(<li>Fuel could be:)
-  	string(<ul>)
-  		string(<li>Coal</li>)
-  		string(<li>Gasoline</li>)
-  		string(<li>Electricity</li>)
-  	string(</ul></li>)
-  	string(<li>Humans need only:)
-  	string(<ul>)
-  		string(<li>Water</li>)
-  		string(<li>Protein</li>)
-  	string(</ul></li>)
-  string(</ul>)
+key(in)operator(:) string<delimiter(|-)content(
+  * Fuel could be:
+  ** Coal
+  ** Gasoline
+  ** Electricity
+  * Humans need only:
+  ** Water
+  ** Protein)>
+key(html)operator(:) string<delimiter(|-)content(
+  <ul>
+  	<li>Fuel could be:
+  	<ul>
+  		<li>Coal</li>
+  		<li>Gasoline</li>
+  		<li>Electricity</li>
+  	</ul></li>
+  	<li>Humans need only:
+  	<ul>
+  		<li>Water</li>
+  		<li>Protein</li>
+  	</ul></li>
+  </ul>)>
 head<head(---)> 
 key(name)operator(:) string(links)
 key(desc)operator(:) string(Basic links are comprised of a phrase which is linked to a <acronym title="Universal Resource Locator">URL</acronym>.  Place the descriptive phrase in quotation marks.  Follow it immediately by a colon and the URL.)
@@ -514,16 +514,16 @@ key(lite_mode_html)operator(:) string(I searched <a href="http://google.com">Goo
 head<head(---)> 
 key(name)operator(:) string(link aliases)
 key(desc)operator(:) string(If you are using the same link several times in your document, or you’d just like to be a tad more organized, you can use a link alias.  Place the URL anywhere in your document, beginning with its alias in square brackets.  Then, use the alias in place of the URL, using the link format above.)
-key(in)operator(:) string(|-)
-  string(I am crazy about "Hobix":hobix)
-  string(and "it's":hobix "all":hobix I ever)
-  string("link to":hobix!)
+key(in)operator(:) string<delimiter(|-)content(
+  I am crazy about "Hobix":hobix
+  and "it's":hobix "all":hobix I ever
+  "link to":hobix!
   
-  operator([)string(hobix]http://hobix.com)
-key(html)operator(:) string(|-)
-  string(<p>I am crazy about <a href="http://hobix.com">Hobix</a><br />)
-  string(and <a href="http://hobix.com">it&#8217;s</a> <a href="http://hobix.com">all</a> I ever<br />)
-  string(<a href="http://hobix.com">link to</a>!</p>)
+  [hobix]http://hobix.com)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>I am crazy about <a href="http://hobix.com">Hobix</a><br />
+  and <a href="http://hobix.com">it&#8217;s</a> <a href="http://hobix.com">all</a> I ever<br />
+  <a href="http://hobix.com">link to</a>!</p>)>
 head<head(---)> 
 key(name)operator(:) string(image)
 key(desc)operator(:) string(You can embed an image in your Textile document by surrounding its URL with exclamation marks.)
@@ -543,15 +543,15 @@ key(html)operator(:) string(<p><a href="http://hobix.com/"><img src="openwindow1
 head<head(---)> 
 key(name)operator(:) string(image alignments)
 key(desc)operator(:) string(Alignments can be applied as well to images.)
-key(in)operator(:) string(|-)
-  string(!>obake.gif!)
+key(in)operator(:) string<delimiter(|-)content(
+  !>obake.gif!
   
-  string(And others sat all round the small)
-  string(machine and paid it to sing to them.)
-key(html)operator(:) string(|-)
-  string(<p style="float:right;"><img src="obake.gif" alt="" /></p>)
-  string(<p>And others sat all round the small<br />)
-  string(machine and paid it to sing to them.</p>)
+  And others sat all round the small
+  machine and paid it to sing to them.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p style="float:right;"><img src="obake.gif" alt="" /></p>
+  <p>And others sat all round the small<br />
+  machine and paid it to sing to them.</p>)>
 head<head(---)> 
 key(name)operator(:) string(acronym definitions)
 key(desc)operator(:) string(Definitions for acronyms can be provided by following an acronym with its definition in parens.)
@@ -562,288 +562,288 @@ key(no_span_caps_html)operator(:) string(<p>We use <acronym title="Cascading Sty
 head<head(---)> 
 key(name)operator(:) string(tables)
 key(desc)operator(:) string(Simple tables can be built by separating fields with pipe characters)
-key(in)operator(:) string(|-)
-  string(| name | age | sex |)
-  string(| joan | 24 | f |)
-  string(| archie | 29 | m |)
-  string(| bella | 45 | f |)
-key(html)operator(:) string(|-)
-  string(<table>)
-  	string(<tr>)
-  		string(<td> name </td>)
-  		string(<td> age </td>)
-  		string(<td> sex </td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td> joan </td>)
-  		string(<td> 24 </td>)
-  		string(<td> f </td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td> archie </td>)
-  		string(<td> 29 </td>)
-  		string(<td> m </td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td> bella </td>)
-  		string(<td> 45 </td>)
-  		string(<td> f </td>)
-  	string(</tr>)
-  string(</table>)
+key(in)operator(:) string<delimiter(|-)content(
+  | name | age | sex |
+  | joan | 24 | f |
+  | archie | 29 | m |
+  | bella | 45 | f |)>
+key(html)operator(:) string<delimiter(|-)content(
+  <table>
+  	<tr>
+  		<td> name </td>
+  		<td> age </td>
+  		<td> sex </td>
+  	</tr>
+  	<tr>
+  		<td> joan </td>
+  		<td> 24 </td>
+  		<td> f </td>
+  	</tr>
+  	<tr>
+  		<td> archie </td>
+  		<td> 29 </td>
+  		<td> m </td>
+  	</tr>
+  	<tr>
+  		<td> bella </td>
+  		<td> 45 </td>
+  		<td> f </td>
+  	</tr>
+  </table>)>
 head<head(---)> 
 key(name)operator(:) string(table headers)
 key(desc)operator(:) string(Specify header cells by marking them with an underscore and period.)
-key(in)operator(:) string(|-)
-  string(|_. name |_. age |_. sex |)
-  string(| joan | 24 | f |)
-  string(| archie | 29 | m |)
-  string(| bella | 45 | f |)
-key(html)operator(:) string(|-)
-  string(<table>)
-  	string(<tr>)
-  		string(<th>name </th>)
-  		string(<th>age </th>)
-  		string(<th>sex </th>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td> joan </td>)
-  		string(<td> 24 </td>)
-  		string(<td> f </td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td> archie </td>)
-  		string(<td> 29 </td>)
-  		string(<td> m </td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td> bella </td>)
-  		string(<td> 45 </td>)
-  		string(<td> f </td>)
-  	string(</tr>)
-  string(</table>)
+key(in)operator(:) string<delimiter(|-)content(
+  |_. name |_. age |_. sex |
+  | joan | 24 | f |
+  | archie | 29 | m |
+  | bella | 45 | f |)>
+key(html)operator(:) string<delimiter(|-)content(
+  <table>
+  	<tr>
+  		<th>name </th>
+  		<th>age </th>
+  		<th>sex </th>
+  	</tr>
+  	<tr>
+  		<td> joan </td>
+  		<td> 24 </td>
+  		<td> f </td>
+  	</tr>
+  	<tr>
+  		<td> archie </td>
+  		<td> 29 </td>
+  		<td> m </td>
+  	</tr>
+  	<tr>
+  		<td> bella </td>
+  		<td> 45 </td>
+  		<td> f </td>
+  	</tr>
+  </table>)>
 head<head(---)> 
 key(name)operator(:) string(table cell attributes)
 key(desc)operator(:) string(The period used above marks the end of a cell’s attributes.  Other attributes can be applied as well.)
-key(in)operator(:) string(|-)
-  string(|_. attribute list |)
-  string(|<. align left |)
-  string(|>. align right|)
-  string(|=. center |)
-  string(|<>. justify |)
-  string(|^. valign top |)
-  string(|~. bottom |)
-key(html)operator(:) string(|-)
-  string(<table>)
-  	string(<tr>)
-  		string(<th>attribute list </th>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td style="text-align:left;">align left </td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td style="text-align:right;">align right</td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td style="text-align:center;">center </td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td style="text-align:justify;">justify </td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td style="vertical-align:top;">valign top </td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td style="vertical-align:bottom;">bottom </td>)
-  	string(</tr>)
-  string(</table>)
+key(in)operator(:) string<delimiter(|-)content(
+  |_. attribute list |
+  |<. align left |
+  |>. align right|
+  |=. center |
+  |<>. justify |
+  |^. valign top |
+  |~. bottom |)>
+key(html)operator(:) string<delimiter(|-)content(
+  <table>
+  	<tr>
+  		<th>attribute list </th>
+  	</tr>
+  	<tr>
+  		<td style="text-align:left;">align left </td>
+  	</tr>
+  	<tr>
+  		<td style="text-align:right;">align right</td>
+  	</tr>
+  	<tr>
+  		<td style="text-align:center;">center </td>
+  	</tr>
+  	<tr>
+  		<td style="text-align:justify;">justify </td>
+  	</tr>
+  	<tr>
+  		<td style="vertical-align:top;">valign top </td>
+  	</tr>
+  	<tr>
+  		<td style="vertical-align:bottom;">bottom </td>
+  	</tr>
+  </table>)>
 head<head(---)> 
 key(name)operator(:) string(table colspan)
 key(desc)operator(:) string(You can also specify colspans with a backslash, followed by the cell width.)
-key(in)operator(:) string(|-)
-  string(|\\2. spans two cols |)
-  string(| col 1 | col 2 |)
-key(html)operator(:) string(|-)
-  string(<table>)
-  	string(<tr>)
-  		string(<td colspan="2">spans two cols </td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td> col 1 </td>)
-  		string(<td> col 2 </td>)
-  	string(</tr>)
-  string(</table>)
+key(in)operator(:) string<delimiter(|-)content(
+  |\\2. spans two cols |
+  | col 1 | col 2 |)>
+key(html)operator(:) string<delimiter(|-)content(
+  <table>
+  	<tr>
+  		<td colspan="2">spans two cols </td>
+  	</tr>
+  	<tr>
+  		<td> col 1 </td>
+  		<td> col 2 </td>
+  	</tr>
+  </table>)>
 head<head(---)> 
 key(name)operator(:) string(table rowspan)
 key(desc)operator(:) string(Rowspan is specified by a forward slash, followed by the row height.)
-key(in)operator(:) string(|-)
-  string(|/3. spans 3 rows | a |)
-  string(| b |)
-  string(| c |)
-key(html)operator(:) string(|-)
-  string(<table>)
-  	string(<tr>)
-  		string(<td rowspan="3">spans 3 rows </td>)
-  		string(<td> a </td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td> b </td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td> c </td>)
-  	string(</tr>)
-  string(</table>)
+key(in)operator(:) string<delimiter(|-)content(
+  |/3. spans 3 rows | a |
+  | b |
+  | c |)>
+key(html)operator(:) string<delimiter(|-)content(
+  <table>
+  	<tr>
+  		<td rowspan="3">spans 3 rows </td>
+  		<td> a </td>
+  	</tr>
+  	<tr>
+  		<td> b </td>
+  	</tr>
+  	<tr>
+  		<td> c </td>
+  	</tr>
+  </table>)>
 head<head(---)> 
 key(name)operator(:) string(block attributes applied to table cells)
 key(desc)operator(:) string(All block attributes can be applied to table cells as well.)
 key(in)operator(:) string<delimiter(")content(|{background:#ddd}. Grey cell|)delimiter(")>
-key(html)operator(:) string(|-)
-  string(<table>)
-  	string(<tr>)
-  		string(<td style="background:#ddd;">Grey cell</td>)
-  	string(</tr>)
-  string(</table>)
+key(html)operator(:) string<delimiter(|-)content(
+  <table>
+  	<tr>
+  		<td style="background:#ddd;">Grey cell</td>
+  	</tr>
+  </table>)>
 head<head(---)> 
 key(name)operator(:) string(black attributes applied to a table)
 key(desc)operator(:) string(Table-wide attributes can be applied before the first row of the table.  On its own line, followed by a period.)
-key(in)operator(:) string(|-)
-  string(table{border:1px solid black}.)
-  string(|This|is|a|row|)
-  string(|This|is|a|row|)
-key(html)operator(:) string(|-)
-  string(<table style="border:1px solid black;">)
-  	string(<tr>)
-  		string(<td>This</td>)
-  		string(<td>is</td>)
-  		string(<td>a</td>)
-  		string(<td>row</td>)
-  	string(</tr>)
-  	string(<tr>)
-  		string(<td>This</td>)
-  		string(<td>is</td>)
-  		string(<td>a</td>)
-  		string(<td>row</td>)
-  	string(</tr>)
-  string(</table>)
+key(in)operator(:) string<delimiter(|-)content(
+  table{border:1px solid black}.
+  |This|is|a|row|
+  |This|is|a|row|)>
+key(html)operator(:) string<delimiter(|-)content(
+  <table style="border:1px solid black;">
+  	<tr>
+  		<td>This</td>
+  		<td>is</td>
+  		<td>a</td>
+  		<td>row</td>
+  	</tr>
+  	<tr>
+  		<td>This</td>
+  		<td>is</td>
+  		<td>a</td>
+  		<td>row</td>
+  	</tr>
+  </table>)>
 head<head(---)> 
 key(name)operator(:) string(black attributes applied to a table row)
 key(desc)operator(:) string(Attributes can be applied to a single row by supplying the attribute before the row starts, using a <code>table</code> modifier and following it by a period.)
-key(in)operator(:) string(|-)
-  string(|This|is|a|row|)
-  operator({)string(background:#ddd}. |This|is|grey|row|)
-key(html)operator(:) string(|-)
-  string(<table>)
-  	string(<tr>)
-  		string(<td>This</td>)
-  		string(<td>is</td>)
-  		string(<td>a</td>)
-  		string(<td>row</td>)
-  	string(</tr>)
-  	string(<tr style="background:#ddd;">)
-  		string(<td>This</td>)
-  		string(<td>is</td>)
-  		string(<td>grey</td>)
-  		string(<td>row</td>)
-  	string(</tr>)
-  string(</table>)
+key(in)operator(:) string<delimiter(|-)content(
+  |This|is|a|row|
+  {background:#ddd}. |This|is|grey|row|)>
+key(html)operator(:) string<delimiter(|-)content(
+  <table>
+  	<tr>
+  		<td>This</td>
+  		<td>is</td>
+  		<td>a</td>
+  		<td>row</td>
+  	</tr>
+  	<tr style="background:#ddd;">
+  		<td>This</td>
+  		<td>is</td>
+  		<td>grey</td>
+  		<td>row</td>
+  	</tr>
+  </table>)>
 head<head(---)>
 key(name)operator(:) string(extended block followed by pre block)
-key(in)operator(:) string(|-)
-  string(div.. Just a test.)
+key(in)operator(:) string<delimiter(|-)content(
+  div.. Just a test.
   
-  string(Second div.)
+  Second div.
   
-  string(pre. A pre block ends it.)
-key(html)operator(:) string(|-)
-  string(<div>Just a test.</div>)
-  string(<div>Second div.</div>)
-  string(<pre>A pre block ends it.</pre>)
+  pre. A pre block ends it.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <div>Just a test.</div>
+  <div>Second div.</div>
+  <pre>A pre block ends it.</pre>)>
 head<head(---)>
 key(name)operator(:) string(extended block followed by blockquote)
-key(in)operator(:) string(|-)
-  string(div.. Just a test.)
+key(in)operator(:) string<delimiter(|-)content(
+  div.. Just a test.
 
-  string(Second div.)
+  Second div.
 
-  string(bq. A blockquote ends it.)
-key(html)operator(:) string(|-)
-  string(<div>Just a test.</div>)
-  string(<div>Second div.</div>)
-  string(<blockquote>)
-  string(<p>A blockquote ends it.</p>)
-  string(</blockquote>)
+  bq. A blockquote ends it.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <div>Just a test.</div>
+  <div>Second div.</div>
+  <blockquote>
+  <p>A blockquote ends it.</p>
+  </blockquote>)>
 head<head(---)>
 key(name)operator(:) string(extended block followed by block code)
-key(in)operator(:) string(|-)
-  string(div.. Just a test.)
+key(in)operator(:) string<delimiter(|-)content(
+  div.. Just a test.
 
-  string(Second div.)
+  Second div.
 
-  string(bc. A blockcode ends it.)
-key(html)operator(:) string(|-)
-  string(<div>Just a test.</div>)
-  string(<div>Second div.</div>)
-  string(<pre><code>A blockcode ends it.</code></pre>)
+  bc. A blockcode ends it.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <div>Just a test.</div>
+  <div>Second div.</div>
+  <pre><code>A blockcode ends it.</code></pre>)>
 head<head(---)>
 key(name)operator(:) string(extended block followed by notextile block)
-key(in)operator(:) string(|-)
-  string(div.. Just a test.)
+key(in)operator(:) string<delimiter(|-)content(
+  div.. Just a test.
 
-  string(Second div.)
+  Second div.
 
-  string(notextile. A notextile block ends it.)
-key(html)operator(:) string(|-)
-  string(<div>Just a test.</div>)
-  string(<div>Second div.</div>)
-  string(A notextile block ends it.)
+  notextile. A notextile block ends it.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <div>Just a test.</div>
+  <div>Second div.</div>
+  A notextile block ends it.)>
 key(valid_html)operator(:) string(false)
 head<head(---)>
 key(name)operator(:) string(simple parentheses)
-key(in)operator(:) string(|-)
-  string(before (in parens\) after)
-key(html)operator(:) string(|-)
-  string(<p>before (in parens\) after</p>)
+key(in)operator(:) string<delimiter(|-)content(
+  before (in parens\) after)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>before (in parens\) after</p>)>
 head<head(---)>
 key(name)operator(:) string(parentheses in underscores)
-key(in)operator(:) string(|-)
-  string(before _(in parens\)_ after)
-key(html)operator(:) string(|-)
-  string(<p>before <em>(in parens\)</em> after</p>)
+key(in)operator(:) string<delimiter(|-)content(
+  before _(in parens\)_ after)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>before <em>(in parens\)</em> after</p>)>
 head<head(---)>
 key(name)operator(:) string(parentheses in asterisks)
-key(in)operator(:) string(|-)
-  string(before *(in parens\)* after)
-key(html)operator(:) string(|-)
-  string(<p>before <strong>(in parens\)</strong> after</p>)
+key(in)operator(:) string<delimiter(|-)content(
+  before *(in parens\)* after)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>before <strong>(in parens\)</strong> after</p>)>
 head<head(---)>
 key(name)operator(:) string(parentheses in underscores in quotes)
-key(in)operator(:) string(|-)
-  string("before _(in parens\)_ after")
-key(html)operator(:) string(|-)
-  string(<p>&#8220;before <em>(in parens\)</em> after&#8221;</p>)
+key(in)operator(:) string<delimiter(|-)content(
+  "before _(in parens\)_ after")>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>&#8220;before <em>(in parens\)</em> after&#8221;</p>)>
 head<head(---)>
 key(name)operator(:) string(underscores in parentheses)
-key(in)operator(:) string(|-)
-   string(one _two three_ (four _five six_\) seven)
-key(html)operator(:) string(|-)
-  string(<p>one <em>two three</em> (four <em>five six</em>\) seven</p>)
+key(in)operator(:) string<delimiter(|-)content(
+   one _two three_ (four _five six_\) seven)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>one <em>two three</em> (four <em>five six</em>\) seven</p>)>
 head<head(---)>
 key(name)operator(:) string(underscores in parentheses in quotes)
-key(in)operator(:) string(|-)
-   string("one _two three_ (four _five six_\) seven")
-key(html)operator(:) string(|-)
-  string(<p>&#8220;one <em>two three</em> (four <em>five six</em>\) seven&#8221;</p>)
+key(in)operator(:) string<delimiter(|-)content(
+   "one _two three_ (four _five six_\) seven")>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>&#8220;one <em>two three</em> (four <em>five six</em>\) seven&#8221;</p>)>
 head<head(---)>
 key(name)operator(:) string(underscores in parentheses 2)
-key(in)operator(:) string(|-)
-   string(one (two _three four_\) five)
-key(html)operator(:) string(|-)
-  string(<p>one (two <em>three four</em>\) five</p>)
+key(in)operator(:) string<delimiter(|-)content(
+   one (two _three four_\) five)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>one (two <em>three four</em>\) five</p>)>
 head<head(---)>
 key(name)operator(:) string(underscores in parentheses in quotes 2)
-key(in)operator(:) string(|-)
-   string("one (two _three four_\) five")
-key(html)operator(:) string(|-)
-  string(<p>&#8220;one (two <em>three four</em>\) five&#8221;</p>)
+key(in)operator(:) string<delimiter(|-)content(
+   "one (two _three four_\) five")>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>&#8220;one (two <em>three four</em>\) five&#8221;</p>)>
 head<head(---)>
 key(name)operator(:) string(caps in parentheses)
 key(desc)operator(:) string(Uppercase words of three or more characters that are in parentheses should be recognized as well as those not in parentheses.)
@@ -853,19 +853,19 @@ key(no_span_caps_html)operator(:) string(<p>IBM or (HAL\)</p>)
 head<head(---)>
 key(name)operator(:) string(phrase modifiers in parentheses)
 key(desc)operator(:) string(Inline modifiers are expected to work in parentheses as well.)
-key(in)operator(:) string(|-)
-  string(__Amanita__s are mushrooms.)
-  string(Lungworts (__Lobaria__\) are lichens.)
-  string(Blah blah (normal text **bold**\) blah.)
-key(html)operator(:) string(|-)
-  string(<p>__Amanita__s are mushrooms.<br />)
-  string(Lungworts (<i>Lobaria</i>\) are lichens.<br />)
-  string(Blah blah (normal text <b>bold</b>\) blah.</p>)
+key(in)operator(:) string<delimiter(|-)content(
+  __Amanita__s are mushrooms.
+  Lungworts (__Lobaria__\) are lichens.
+  Blah blah (normal text **bold**\) blah.)>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>__Amanita__s are mushrooms.<br />
+  Lungworts (<i>Lobaria</i>\) are lichens.<br />
+  Blah blah (normal text <b>bold</b>\) blah.</p>)>
 head<head(---)>
 key(name)operator(:) string(square brackets are preserved)
-key(in)operator(:) string(|-)
-  string(citation ["(Berk.\) Hilton"], see)
-  operator([)string(Papers "blah blah."])
-key(html)operator(:) string(|-)
-  string(<p>citation [&#8220;(Berk.\) Hilton&#8221;], see<br />)
-  operator([)string(Papers &#8220;blah blah.&#8221;]</p>)
+key(in)operator(:) string<delimiter(|-)content(
+  citation ["(Berk.\) Hilton"], see
+  [Papers "blah blah."])>
+key(html)operator(:) string<delimiter(|-)content(
+  <p>citation [&#8220;(Berk.\) Hilton&#8221;], see<br />
+  [Papers &#8220;blah blah.&#8221;]</p>)>

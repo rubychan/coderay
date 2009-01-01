@@ -180,6 +180,11 @@ module CodeRay
       def line
         string[0..pos].count("\n") + 1
       end
+      
+      def column pos = self.pos
+        return 0 if pos <= 0
+        pos - (string.rindex(?\n, pos) || 0)
+      end
 
     protected
 
@@ -216,7 +221,7 @@ module CodeRay
 tokens:
 %s
 
-current line: %d  pos = %d
+current line: %d  column: %d  pos: %d
 matched: %p  state: %p
 bol? = %p,  eos? = %p
 
@@ -231,7 +236,7 @@ surrounding code:
           msg,
           tokens.size,
           tokens.last(10).map { |t| t.inspect }.join("\n"),
-          line, pos,
+          line, column, pos,
           matched, state, bol?, eos?,
           string[pos - ambit, ambit],
           string[pos, ambit],

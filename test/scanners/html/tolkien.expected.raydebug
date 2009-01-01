@@ -1,4 +1,4 @@
-preprocessor(<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">)
+doctype(<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">)
 tag(<html) attribute_name(xmlns)operator(=)string<delimiter(")content(http://www.w3.org/1999/xhtml)delimiter(")> attribute_name(xml:lang)operator(=)string<delimiter(")content(de)delimiter(")> attribute_name(lang)operator(=)string<delimiter(")content(de)delimiter(")>tag(>)
 tag(<head>)tag(<title>)plain(Faszination Tolkien - Herr der Ringe )entity(&amp;) plain(Co.)tag(</title>)
 tag(<meta) attribute_name(name)operator(=)string<delimiter(")content(description)delimiter(")> attribute_name(content)operator(=)string<delimiter(")content(J.R.R. Tolkien und seine Werke (Schwerpunkt: Der Herr der Ringe\). Anf)entity(&auml;)content(ngerfreundlich gestaltet. Gro)entity(&szlig;)content(e kommentierte Galerie, Downloads, Forum, Postkarten, etc.)delimiter(")> tag(/>)

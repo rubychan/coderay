@@ -1,4 +1,4 @@
-preprocessor(<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+doctype(<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">)
 tag(<html) attribute_name(xmlns)operator(=)string<delimiter(")content(http://www.w3.org/1999/xhtml)delimiter(")> attribute_name(xml:lang)operator(=)string<delimiter(")content(en)delimiter(")> attribute_name(lang)operator(=)string<delimiter(")content(de)delimiter(")>tag(>)
 tag(<head>)

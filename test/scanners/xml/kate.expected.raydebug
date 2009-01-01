@@ -1,5 +1,5 @@
 preprocessor(<?xml version="1.0" encoding="UTF-8"?>)
-preprocessor(<!DOCTYPE language SYSTEM "language.dtd">)
+doctype(<!DOCTYPE language SYSTEM "language.dtd">)
 tag(<language) attribute_name(name)operator(=)string<delimiter(")content(Eiffel)delimiter(")> attribute_name(version)operator(=)string<delimiter(")content(1.02)delimiter(")> attribute_name(kateversion)operator(=)string<delimiter(")content(2.1)delimiter(")> attribute_name(section)operator(=)string<delimiter(")content(Sources)delimiter(")> attribute_name(extensions)operator(=)string<delimiter(")content(*.e)delimiter(")> attribute_name(mimetype)operator(=)string<delimiter(")content(text/x-eiffel-src)delimiter(")>tag(>)
         tag(<highlighting>)
                 tag(<list) attribute_name(name)operator(=)string<delimiter(")content(keywords)delimiter(")>tag(>)

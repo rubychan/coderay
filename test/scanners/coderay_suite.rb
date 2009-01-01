@@ -143,7 +143,7 @@ module CodeRay
     
     def test_ALL
       puts
-      puts '    >> Testing '.magenta + self.class.name.cyan +
+      puts '    >> Testing '.magenta + self.class.name[/\w+$/].cyan +
         ' scanner <<'.magenta
       puts
       
@@ -230,7 +230,9 @@ module CodeRay
         begin
           scanner.tokenize
         rescue
-          flunk "Random test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}" if ENV['assert']
+          assert_nothing_raised "Random test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}" do
+            raise
+          end if ENV['assert']
           okay = false
           break
         end

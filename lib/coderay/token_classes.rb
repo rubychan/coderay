@@ -21,6 +21,7 @@ module CodeRay
       :delimiter => 'dl',
       :directive => 'di',
       :doc => 'do',
+      :doctype => 'dt',
       :doc_string => 'ds',
       :entity => 'en',
       :error => 'er',

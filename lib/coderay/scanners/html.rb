@@ -63,7 +63,7 @@ module Scanners
             if scan(/<!--.*?-->/m)
               kind = :comment
             elsif scan(/<!DOCTYPE.*?>/m)
-              kind = :preprocessor
+              kind = :doctype
             elsif scan(/<\?xml.*?\?>/m)
               kind = :preprocessor
             elsif scan(/<\?.*?\?>|<%.*?%>/m)

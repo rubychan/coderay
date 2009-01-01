@@ -1,0 +1,21 @@
+head<head(---)> 
+key(What It Is)operator(:) string(YAML is a human friendly data serialization)string(
+            standard for all programming languages.)
+head<head(---)> 
+key(What It Is)operator(:) string(YAML is a human friendly data serialization)string(
+ standard for all programming languages.)
+head<head(---)> 
+key(What It Is)operator(:) string(YAML is a human friendly data serialization)
+error(standard for all programming languages.)
+head<head(---)> 
+operator(-) string(What It Is: YAML is a human friendly data serialization)string(
+            standard for all programming languages.)
+head<head(---)> 
+operator(-) string(What It Is: YAML is a human friendly data serialization)string(
+   standard for all programming languages.)
+head<head(---)> 
+operator(-) string(What It Is: YAML is a human friendly data serialization)
+  error(standard for all programming languages.)
+head<head(---)> 
+operator(-) string(What It Is: YAML is a human friendly data serialization)
+error(standard for all programming languages.)

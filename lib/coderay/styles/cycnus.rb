@@ -64,6 +64,7 @@ ol.CodeRay li { white-space: pre }
 .di { color:#088; font-weight:bold }
 .dl { color:black }
 .do { color:#970 }
+.dt { color:#34b }
 .ds { color:#D42; font-weight:bold }
 .e  { color:#666; font-weight:bold }
 .en { color:#800; font-weight:bold }

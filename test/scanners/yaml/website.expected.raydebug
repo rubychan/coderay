@@ -1,9 +1,9 @@
-string(%YAML 1.2)
+doctype(%YAML 1.2)
 head<head(---)>
 key(YAML)operator(:) string(YAML Ain't Markup Language)
 
-key(What It Is)operator(:) string(YAML is a human friendly data serialization)
-  string(standard for all programming languages.)
+key(What It Is)operator(:) string(YAML is a human friendly data serialization)string(
+  standard for all programming languages.)
 
 key(YAML Resources)operator(:)
   key(YAML 1.2 Specification)operator(:) string(http://yaml.org/spec/1.2/)
@@ -52,18 +52,18 @@ key(News)operator(:)
   operator(-) string(01-OCT-2004 -- YAML for Cocoa was released by Will Thimbley)
   operator(-) string(08-FEB-2004 -- Slaven Rezic announced a new version of his Javascript binding)
   operator(-) string(29-JAN-2004 -- Ingy, Oren, and Clark spent 4 days hacking on the spec in Portland.)
-  operator(-) string(10-OCT-2003 -- The Syck implementation with bindings for Ruby, Python,)
-                   string(and PHP is now at version .41)
+  operator(-) string(10-OCT-2003 -- The Syck implementation with bindings for Ruby, Python,)string(
+                   and PHP is now at version .41)
   operator(-) string(26-APR-2003 -- Mike Orr has taken over the Pure Python development.)
   operator(-) string(26-APR-2003 -- Brian Ingerson has created a FIT platform for Wiki-like testing.)
   operator(-) string(24-JAN-2003 -- Updates to specification.)
-  operator(-) string(25-JUL-2002 -- Both the Ruby and Python parsers have made significant progress.)
-                   string(There is an article about YAML by Kendall Grant Clark at xml.com.)
-                   string(There is also a draft XML binding.)
-  operator(-) string(02-JUL-2002 -- Brian Ingerson will be giving a 45 minute presentation on YAML at the)
-                   string(O'Reilly Open Source Conference in San Diego on July 24th 2002.)
-  operator(-) string(01-FEB-2002 -- Brian's Perl implementation YAML.pm, has been updated with new documentation.)
-                   string(Included in this release is YSH, a test shell for learning how YAML works.)
+  operator(-) string(25-JUL-2002 -- Both the Ruby and Python parsers have made significant progress.)string(
+                   There is an article about YAML by Kendall Grant Clark at xml.com.
+                   There is also a draft XML binding.)
+  operator(-) string(02-JUL-2002 -- Brian Ingerson will be giving a 45 minute presentation on YAML at the)string(
+                   O'Reilly Open Source Conference in San Diego on July 24th 2002.)
+  operator(-) string(01-FEB-2002 -- Brian's Perl implementation YAML.pm, has been updated with new documentation.)string(
+                   Included in this release is YSH, a test shell for learning how YAML works.)
   operator(-) string(03-JAN-2002 -- YAML(tm\) starts the new year with a new name YAML Ain't Markup Language.)
   operator(-) string(17-MAY-2001 -- YAML now has a mailing list at SourceForge.)
   operator(-) string(15-MAY-2001 -- YAML is started with a first pass specification.)

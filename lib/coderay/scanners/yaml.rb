@@ -13,7 +13,7 @@ module Scanners
       
       value_expected = nil
       state = :initial
-      indent = 0
+      key_indent = indent = 0
       
       until eos?
         
@@ -21,8 +21,11 @@ module Scanners
         match = nil
         
         if bol?
-          indent = matched.size if check(/ +/)
-          # tokens << [indent.to_s, :debug]
+          key_indent = nil
+          if $DEBUG
+            indent = check(/ +/) ? matched.size : 0
+            tokens << [indent.to_s, :debug]
+          end
         end
         
         if match = scan(/ +[\t ]*/)
@@ -41,6 +44,9 @@ module Scanners
             tokens << [match, :head]
             tokens << [:close, :head]
             next
+          when match = scan(/%.*/)
+            tokens << [match, :doctype]
+            next
           end
         
         elsif state == :value and case
@@ -51,8 +57,17 @@ module Scanners
             tokens << [matched, :delimiter] if scan(/"/)
             tokens << [:close, :string]
             next
-          when scan(/(?![!"*&]).+?(?=$|\s+#)/)
-            kind = :string
+          when match = scan(/[|>][-+]?/)
+            tokens << [:open, :string]
+            tokens << [match, :delimiter]
+            tokens << [matched, :content] if scan(/(?:\n+ {#{key_indent + 1}}.*)+/)
+            tokens << [:close, :string]
+            next
+          when match = scan(/(?![!"*&]).+?(?=$|\s+#)/)
+            tokens << [match, :string]
+            string_indent = key_indent || column(pos - match.size - 1)
+            tokens << [matched, :string] if scan(/(?:\n+ {#{string_indent + 1}}.*)+/)
+            next
           end
           
         elsif case
@@ -62,15 +77,19 @@ module Scanners
             kind = :operator
           when match = scan(/[,{}\[\]]/)
             kind = :operator
-          when state == :initial && scan(/[\w.() ]*\S(?=: |:$)/)
+          when state == :initial && match = scan(/[\w.() ]*\S(?=: |:$)/)
             kind = :key
+            key_indent = column(pos - match.size - 1)
+            # tokens << [key_indent.inspect, :debug]
             state = :colon
-          when match = scan(/(?:"[^"]*"|'[^']*')(?=: |:$)/)
+          when match = scan(/(?:"[^"\n]*"|'[^'\n]*')(?=: |:$)/)
             tokens << [:open, :key]
             tokens << [match[0,1], :delimiter]
             tokens << [match[1..-2], :content]
             tokens << [match[-1,1], :delimiter]
             tokens << [:close, :key]
+            key_indent = column(pos - match.size - 1)
+            # tokens << [key_indent.inspect, :debug]
             state = :colon
             next
           when scan(/(![\w\/]+)(:([\w:]+))?/)
@@ -93,25 +112,9 @@ module Scanners
           when scan(/:\w+/)
             kind = :symbol
           when scan(/[^:\s]+(:(?! |$)[^:\s]*)* .*/)
-            kind = :string
+            kind = :error
           when scan(/[^:\s]+(:(?! |$)[^:\s]*)*/)
-            kind = :string
-          # when scan(/>-?/)
-          #   kind = :punct
-          #   kind = :normal, scan(/.*$/)
-          #   append getch until eos? || bol?
-          #   return if eos?
-          #   indent = check(/ */)
-          #   kind = :string
-          #   loop do
-          #     line = check_until(/[\n\r]|\Z/)
-          #     break if line.nil?
-          #     if line.chomp.length > 0
-          #       this_indent = line.chomp.match( /^\s*/ )[0]
-          #       break if this_indent.length < indent.length
-          #     end
-          #     append scan_until(/[\n\r]|\Z/)
-          #   end
+            kind = :error
           end
           
         else

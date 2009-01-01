@@ -77,7 +77,7 @@ Please report errors in this documentation to <coderay cycnus de>.
   scanner.
 * everyone who uses CodeBB on http://www.rubyforen.de, http://www.python-forum.de, and
   http://www.infhu.de/mx (down)
-* iGEL, magichisoka, manveru, WoN·Do and everyone I forgot from rubyforen.de
+* iGEL, magichisoka, manveru, WoN√°Do and everyone I forgot from rubyforen.de
 * Dethix from ruby-mine.de
 * zickzackw
 * Dookie (who is no longer with us...) and Leonidas from http://www.python-forum.de
@@ -88,6 +88,7 @@ Please report errors in this documentation to <coderay cycnus de>.
 * Josh Goebel for another version of the JavaScript scanner and a Diff scanner.
 * Jonathan Younger for pointing out the licence confusion caused by wrong LICENSE file.
 * Jeremy Hinegardner for finding the shebang-on-empty-file bug in FileType.
+* The folks at redmine.org - thank you for using and fixing CodeRay!
 * matz and all Ruby gods and gurus
 * The inventors of: the computer, the internet, the true color display, HTML &
   CSS, VIM, RUBY, pizza, microwaves, guitars, scouting, programming, anime, 
@@ -102,6 +103,7 @@ Where would we be without all those people?
   Seras and Hikari (my PCs)
 * RDE[http://homepage2.nifty.com/sakazuki/rde_e.html], VIM[http://vim.org] and TextMate[http://macromates.com]
 * Subversion[http://subversion.tigris.org/]
+* Redmine[http://redmine.org/]
 * Firefox[http://www.mozilla.org/products/firefox/],
   Firebug[http://getfirebug.com/], and
   Thunderbird[http://www.mozilla.org/products/thunderbird/]

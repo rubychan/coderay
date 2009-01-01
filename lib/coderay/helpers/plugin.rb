@@ -245,7 +245,7 @@ protected
       id
     elsif id.is_a? String
       if id[/\w+/] == id
-        id.to_sym
+        id.downcase.to_sym
       else
         raise ArgumentError, "Invalid id: '#{id}' given."
       end

@@ -29,12 +29,12 @@
 			<string>../ftp.yaml</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>etc</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle|log|aux))$</string>
-			<key>selected</key>
-			<true/>
 			<key>sourceDirectory</key>
 			<string></string>
 		</dict>
@@ -82,17 +82,21 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2008-12-25T02:53:00Z</date>
+			<date>2009-01-01T13:31:39Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../README</string>
+			<key>lastUsed</key>
+			<date>2009-01-01T13:54:45Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2008-12-25T02:40:10Z</date>
+			<date>2009-01-01T03:19:25Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -112,7 +116,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2008-12-25T02:39:14Z</date>
+			<date>2009-01-01T13:28:43Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>

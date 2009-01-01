@@ -27,11 +27,11 @@ Example:
 
   if first
     if first[/-(\w+)/] == first
-      lang = $1.to_sym
+      lang = $1
       input = $stdin.read
       tokens = :scan
     elsif first == '-'
-      lang = $1.to_sym
+      lang = $1
       input = $stdin.read
       tokens = :scan
     else
@@ -46,7 +46,7 @@ Example:
 
   if second
     if second[/-(\w+)/] == second
-      format = $1.to_sym
+      format = $1
     else
       raise 'Invalid format (must be -xxx).'
     end

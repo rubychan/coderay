@@ -12,31 +12,11 @@ def set_rdoc_info rd
   
   rd.template = ENV.fetch('template', CODERAY_TEMPLATE)
   rd.rdoc_files.add(*EXTRA_FILES.in(ROOT))
-  rd.rdoc_files.add(*Dir[File.join(LIB_ROOT, "**/*.rb")])
+  rd.rdoc_files.add(*Dir[File.join(LIB_ROOT, 'coderay', '**', '*.rb')])
 end
 
-namespace :doc do
-
-  desc 'Generate documentation for CodeRay'
-  Rake::RDocTask.new :all do |rd|
-    set_rdoc_info rd
-    rd.rdoc_dir = 'doc/all'
-  end
-
-  desc 'Upload rdoc to ' + FTP_DOMAIN
-  task :upload => :all do
-    gn 'Uploading documentation:'
-    Dir.chdir 'doc/all' do
-      cYcnus_ftp do |ftp|
-        uploader = uploader_for ftp
-        ftp.chdir FTP_CODERAY_DIR
-        ftp.chdir 'doc'
-        Dir['**/*.*'].each(&uploader)
-      end
-    end
-    gn 'Documentation uploaded.'
-  end
-
+desc 'Generate documentation for CodeRay'
+Rake::RDocTask.new :doc do |rd|
+  set_rdoc_info rd
+  rd.rdoc_dir = 'doc'
 end
-
-task :doc => 'doc:all'

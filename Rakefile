@@ -6,7 +6,7 @@ ROOT = '.'
 LIB_ROOT = File.join ROOT, 'lib'
 RUBY = ENV.fetch 'ruby', 'ruby'
 
-EXTRA_FILES = %w(README FOLDERS)
+EXTRA_FILES = %w(lib/README FOLDERS)
 def EXTRA_FILES.in folder
   map do |file_name|
     File.join folder, file_name

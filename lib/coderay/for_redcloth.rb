@@ -1,4 +1,4 @@
-module CodeRay  # :nodoc:
+module CodeRay
   
   # A little hack to enable CodeRay highlighting in RedCloth.
   # 

@@ -191,6 +191,7 @@ module Scanners
                   depth -= 1
                   if depth == 0  # closing brace of inline block reached
                     state, depth, heredocs = inline_block_stack.pop
+                    heredocs = nil if heredocs && heredocs.empty?
                     tokens << [match, :inline_delimiter]
                     kind = :inline
                     match = :close
@@ -346,7 +347,7 @@ module Scanners
             value_expected = value_expected == :set
             last_token_dot = last_token_dot == :set
           end
-
+          
           if $DEBUG and not kind
             raise_inspect 'Error token %p in line %d' %
               [[match, kind], line], tokens, state

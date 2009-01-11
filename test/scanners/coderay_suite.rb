@@ -251,7 +251,9 @@ module CodeRay
           begin
             scanner.tokenize
           rescue
-            flunk "Incremental test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}!" if ENV['assert']
+            assert_nothing_raised "Incremental test failed at #{size} #{RUBY_VERSION < '1.9' ? 'bytes' : 'chars'}!" do
+              raise
+            end if ENV['assert']
             okay = false
             break
           end
@@ -271,7 +273,9 @@ module CodeRay
           begin
             scanner.tokenize
           rescue
-            flunk 'shuffle test failed!' if ENV['assert']
+            assert_nothing_raised 'shuffle test failed!' do
+              raise
+            end if ENV['assert']
             okay = false
             break
           end
@@ -383,7 +387,7 @@ module CodeRay
       
       def check_env_lang
         for key in %w(only new)
-          if ENV[key] && ENV[key][/^(\w+)\.([\w_]+)$/]
+          if ENV[key] && ENV[key][/^(\w+)\.([-\w_]+)$/]
             ENV['lang'] = $1
             ENV[key] = $2
           end

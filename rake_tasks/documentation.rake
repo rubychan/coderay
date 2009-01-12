@@ -20,3 +20,8 @@ Rake::RDocTask.new :doc do |rd|
   set_rdoc_info rd
   rd.rdoc_dir = 'doc'
 end
+
+desc 'Copy the documentation over to the CodeRay website'
+task :copy_doc do
+  cp_r 'doc/.', '../../rails/coderay/public/doc'
+end

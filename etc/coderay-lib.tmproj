@@ -67,6 +67,8 @@
 			<string>../pkg</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>rake_helpers</string>
 			<key>regexFolderFilter</key>
@@ -88,21 +90,15 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2009-01-04T15:18:23Z</date>
+			<date>2009-01-08T15:37:13Z</date>
 			<key>selected</key>
 			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
-			<string>../README</string>
-			<key>lastUsed</key>
-			<date>2009-01-01T16:43:20Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2009-01-01T16:43:19Z</date>
+			<date>2009-01-11T11:46:17Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -122,7 +118,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2009-01-01T13:28:43Z</date>
+			<date>2009-01-11T04:30:16Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -134,7 +130,7 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2008-12-25T02:42:18Z</date>
+			<date>2009-01-11T04:09:18Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>

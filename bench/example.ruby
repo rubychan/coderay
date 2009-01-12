@@ -3530,7 +3530,7 @@ class Fixnum
 end
 
 ##
-# Stellt einen einfachen Scanner für die lexikalische Analyse der Sprache Pas-0 dar.
+# Stellt einen einfachen Scanner fÃ¼r die lexikalische Analyse der Sprache Pas-0 dar.
 #
 # @author Andreas Kunert
 # Ruby port by murphy
@@ -3547,7 +3547,7 @@ class Scanner
 	end
 
 	##
-	# Erzeugt einen Scanner, der als Eingabe das übergebene IO benutzt.
+	# Erzeugt einen Scanner, der als Eingabe das Ã¼bergebene IO benutzt.
 	def initialize input = DUMMY_INPUT
 		@line = 1
 		@pos = 0
@@ -3575,8 +3575,8 @@ class Scanner
 	end
 
 	##
-	# Sucht das nächste Symbol, identifiziert es, instantiiert ein entsprechendes
-	# PascalSymbol-Objekt und gibt es zurück.
+	# Sucht das nÃ¤chste Symbol, identifiziert es, instantiiert ein entsprechendes
+	# PascalSymbol-Objekt und gibt es zurÃ¼ck.
 	# @see Symbol
 	# @return das gefundene Symbol als PascalSymbol-Objekt
 	def get_symbol
@@ -3651,12 +3651,12 @@ class Scanner
 
 private
 	##
-	# Versucht, in dem gegebenen String ein Schlüsselwort zu erkennen.
-	# Sollte dabei ein Keyword gefunden werden, so gibt er ein PascalSymbol-Objekt zurück, das
-	# das entsprechende Keyword repräsentiert. Ansonsten besteht die Rückgabe aus
-	# einem SymbolIdent-Objekt (abgeleitet von PascalSymbol), das den String 1:1 enthält
+	# Versucht, in dem gegebenen String ein SchlÃ¼sselwort zu erkennen.
+	# Sollte dabei ein Keyword gefunden werden, so gibt er ein PascalSymbol-Objekt zurÃ¼ck, das
+	# das entsprechende Keyword reprÃ¤sentiert. Ansonsten besteht die RÃ¼ckgabe aus
+	# einem SymbolIdent-Objekt (abgeleitet von PascalSymbol), das den String 1:1 enthÃ¤lt
 	# @see symbol
-	# @return falls Keyword gefunden, zugehöriges PascalSymbol, sonst SymbolIdent
+	# @return falls Keyword gefunden, zugehÃ¶riges PascalSymbol, sonst SymbolIdent
 	def handle_identifier identifier
 		if sym = KEYWORD_SYMBOLS[identifier]
 			PascalSymbol.new sym
@@ -3670,18 +3670,18 @@ private
 	MAXINT_MOD_10  = MAXINT % 10
 	##
 	# Versucht, aus dem gegebenen Zeichen und den folgenden eine Zahl zusammenzusetzen.
-	# Dabei wird der relativ intuitive Algorithmus benutzt, die endgültige Zahl bei
+	# Dabei wird der relativ intuitive Algorithmus benutzt, die endgÃ¼ltige Zahl bei
 	# jeder weiteren Ziffer mit 10 zu multiplizieren und diese dann mit der Ziffer zu
-	# addieren. Sonderfälle bestehen dann nur noch in der Behandlung von reellen Zahlen.
+	# addieren. SonderfÃ¤lle bestehen dann nur noch in der Behandlung von reellen Zahlen.
 	# <BR>
 	# Treten dabei kein Punkt oder ein E auf, so gibt diese Methode ein SymbolIntCon-Objekt
-	# zurück, ansonsten (reelle Zahl) ein SymbolRealCon-Objekt. Beide Symbole enthalten
+	# zurÃ¼ck, ansonsten (reelle Zahl) ein SymbolRealCon-Objekt. Beide Symbole enthalten
 	# jeweils die Zahlwerte.
 	# <BR>
 	# Anmerkung: Diese Funktion ist mit Hilfe der Java/Ruby-API deutlich leichter zu realisieren.
 	# Sie wurde dennoch so implementiert, um den Algorithmus zu demonstrieren
 	# @see symbol
-	# @return SymbolIntcon- oder SymbolRealcon-Objekt, das den Zahlwert enthält
+	# @return SymbolIntcon- oder SymbolRealcon-Objekt, das den Zahlwert enthÃ¤lt
 	def number
 		is_integer = true
 		integer_too_long = false
@@ -3746,8 +3746,8 @@ private
 	end
 
 	##
-	# Sorgt für ein Überlesen von Kommentaren.
-	# Es werden einfach alle Zeichen bis zu einer schließenden Klammer eingelesen
+	# Sorgt fÃ¼r ein Ãœberlesen von Kommentaren.
+	# Es werden einfach alle Zeichen bis zu einer schlieÃŸenden Klammer eingelesen
 	# und verworfen.
 	def comment
 		while @current_char != ?}
@@ -3775,7 +3775,7 @@ private
 end
 
 ##
-# Läßt ein Testprogramm ablaufen.
+# LÃ¤ÃŸt ein Testprogramm ablaufen.
 # Dieses erzeugt sich ein Scanner-Objekt und ruft an diesem kontinuierlich bis zum Dateiende
 # get_symbol auf.
 if $0 == __FILE__
@@ -6025,7 +6025,7 @@ matcher = Amatch.new('balast')
 File.open('/usr/share/dict/words').each_line do |line|
     print line if matcher.search(line) <= 1
 end
-__END__
+#__END__
 #CODE
 ballast
 ballasts
@@ -6624,7 +6624,7 @@ puts 'Tmp file has: ', fh.readlines
 while (DATA.gets) do
     # process the line
 end
-__END__
+#__END__
 # your data goes here
 # __DATA__ doesn't exist in Ruby
 
@@ -6634,7 +6634,7 @@ kilosize = DATA.stat.size / 1024
 last_modif = DATA.stat.mtime
 puts "<P>Script size is #{kilosize}"
 puts "<P>Last script update: #{last_modif}"
-__END__
+#__END__
 # DO NOT REMOVE THE PRECEEDING LINE.
 # Everything else in this file will be ignored.
 #CODE

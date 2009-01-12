@@ -91,14 +91,12 @@
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
 			<date>2009-01-08T15:37:13Z</date>
-			<key>selected</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2009-01-11T11:46:17Z</date>
+			<date>2009-01-12T14:22:41Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -130,7 +128,9 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2009-01-11T04:09:18Z</date>
+			<date>2009-01-12T15:01:45Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>

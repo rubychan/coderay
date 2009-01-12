@@ -11,7 +11,7 @@ def gemspec
     s.requirements = ['strscan']
     s.date = Time.now.strftime '%Y-%m-%d'
     s.has_rdoc = true
-    s.rdoc_options = '-SNw2', '-mREADME', '-a', '-t CodeRay Documentation'
+    s.rdoc_options = '-SNw2', '-mlib/README', '-a', '-t CodeRay Documentation'
     s.extra_rdoc_files = EXTRA_FILES.in('./')
 
     # Description
@@ -76,7 +76,7 @@ namespace :gem do
       #    Dir['./bin/*'] +
       #    Dir['./demo/bench/*'] +
       #    Dir['./test/*'] +
-      %w( ./README ./LICENSE)
+      %w( ./lib/README ./LICENSE)
     s = gemtask.gem_spec
     s.files = candidates #.delete_if { |item| item[/(?:CVS|rdoc)|~$/] }
     gemtask.version = s.version = $version

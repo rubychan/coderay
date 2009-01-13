@@ -303,9 +303,17 @@ module Plugin
   #
   # The above example loads the file myplugin/my_helper.rb relative to the
   # file in which MyPlugin was defined.
+  # 
+  # You can also load a helper from a different plugin:
+  # 
+  #  helper 'other_plugin/other_helper'
   def helper *helpers
     for helper in helpers
-      self::PLUGIN_HOST.require_helper plugin_id, helper.to_s
+      if helper.is_a?(String) && helper[/\//]
+        self::PLUGIN_HOST.require_helper $`, $'
+      else
+        self::PLUGIN_HOST.require_helper plugin_id, helper.to_s
+      end
     end
   end
 

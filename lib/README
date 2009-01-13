@@ -75,8 +75,7 @@ Please report errors in this documentation to <coderay cycnus de>.
 * Doug Kearns and everyone else who worked on ruby.vim - it not only helped me
   coding CodeRay, but also gave me a wonderful target to reach for the Ruby
   scanner.
-* everyone who uses CodeBB on http://www.rubyforen.de, http://www.python-forum.de, and
-  http://www.infhu.de/mx (down)
+* everyone who uses CodeBB on http://www.rubyforen.de and http://www.python-forum.de
 * iGEL, magichisoka, manveru, WoNáDo and everyone I forgot from rubyforen.de
 * Dethix from ruby-mine.de
 * zickzackw
@@ -88,6 +87,7 @@ Please report errors in this documentation to <coderay cycnus de>.
 * Josh Goebel for another version of the JavaScript scanner and a Diff scanner.
 * Jonathan Younger for pointing out the licence confusion caused by wrong LICENSE file.
 * Jeremy Hinegardner for finding the shebang-on-empty-file bug in FileType.
+* Charles Oliver Nutter and Yehuda Katz for helping me benchmark CodeRay on JRuby.
 * The folks at redmine.org - thank you for using and fixing CodeRay!
 * matz and all Ruby gods and gurus
 * The inventors of: the computer, the internet, the true color display, HTML &
@@ -99,9 +99,11 @@ Where would we be without all those people?
 === Created using
 
 * Ruby[http://ruby-lang.org/]
-* Chihiro (my Sony VAIO laptop); Henrietta (my old MacBook); Triella, born Rico (my new MacBook); as well as
+* Chihiro (my Sony VAIO laptop); Henrietta (my old MacBook);
+  Triella, born Rico (my new MacBook); as well as
   Seras and Hikari (my PCs)
-* RDE[http://homepage2.nifty.com/sakazuki/rde_e.html], VIM[http://vim.org] and TextMate[http://macromates.com]
+* RDE[http://homepage2.nifty.com/sakazuki/rde_e.html],
+  VIM[http://vim.org] and TextMate[http://macromates.com]
 * Subversion[http://subversion.tigris.org/]
 * Redmine[http://redmine.org/]
 * Firefox[http://www.mozilla.org/products/firefox/],

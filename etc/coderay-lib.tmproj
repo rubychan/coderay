@@ -96,7 +96,7 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2009-01-12T14:22:41Z</date>
+			<date>2009-01-13T06:56:37Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -116,7 +116,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2009-01-11T04:30:16Z</date>
+			<date>2009-01-13T06:27:23Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -128,9 +128,7 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2009-01-12T15:01:45Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2009-01-12T16:50:32Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>

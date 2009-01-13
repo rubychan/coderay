@@ -1,4 +1,4 @@
-comment(#!/usr/bin/env ruby)
+doctype(#!/usr/bin/env ruby)
 comment(# Sidebarize is a quite simple converter, like a lot others.)
 comment(# But in one way Sidebarize is special: it converts)
 comment(# feeds into HTML-pages suitable for sidebars in Gecko-browsers.)

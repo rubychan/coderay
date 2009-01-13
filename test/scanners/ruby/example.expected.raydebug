@@ -2636,7 +2636,7 @@ reserved(end)
 
 comment(# vim:foldmethod=syntax)
 
-comment(#!/usr/bin/env ruby)
+doctype(#!/usr/bin/env ruby)
 
 ident(require) string<delimiter(')content(fox12)delimiter(')>
 
@@ -2885,7 +2885,7 @@ reserved(if) pre_constant(__FILE__) operator(==) global_variable($0)
 	reserved(end)
 reserved(end)
 
-comment(#!/usr/bin/env ruby)
+doctype(#!/usr/bin/env ruby)
 
 ident(require) string<delimiter(')content(fox)delimiter(')>
 reserved(begin)

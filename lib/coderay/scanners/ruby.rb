@@ -147,6 +147,10 @@ module Scanners
             tokens << [match, kind]
             next
           
+          elsif bol? && match = scan(/\#!.*/)
+            tokens << [match, :doctype]
+            next
+            
           elsif match = scan(/\#.*/) or
             ( bol? and match = scan(/#{patterns::RUBYDOC_OR_DATA}/o) )
               kind = :comment

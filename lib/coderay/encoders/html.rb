@@ -56,6 +56,16 @@ module Encoders
   #
   # Default: 10
   #
+  # === :highlight_lines
+  # 
+  # Highlights certain line numbers now by using the :highlight_lines option.
+  # Can be any Enumerable, typically just an Array or Range, of numbers.
+  # 
+  # Bolding is deactivated when :highlight_lines is set. It only makes sense
+  # in combination with :line_numbers.
+  #
+  # Default: nil
+  #
   # === :hint
   # Include some information into the output using the title attribute.
   # Can be :info (show token type on mouse-over), :info_long (with full path)
@@ -82,6 +92,7 @@ module Encoders
       :line_numbers => nil,
       :line_number_start => 1,
       :bold_every => 10,
+      :highlight_lines => nil,
 
       :hint => false,
     }

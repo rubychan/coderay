@@ -32,6 +32,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top }
   text-align: right;
 }
 .CodeRay .line_numbers tt { font-weight: bold }
+.CodeRay .line_numbers .highlighted { color: red }
 .CodeRay .no { padding: 0px 4px }
 .CodeRay .code { width: 100% }
 

@@ -32,9 +32,19 @@ module Encoders
         #end
 
         bold_every = options[:bold_every]
+        highlight_lines = options[:highlight_lines]
         bolding =
-          if bold_every == false
+          if bold_every == false && highlight_lines == nil
             proc { |line| line.to_s }
+          elsif highlight_lines.is_a? Enumerable
+            highlight_lines = highlight_lines.to_set
+            proc do |line|
+              if highlight_lines.include? line
+                "<strong class=\"highlighted\">#{line}</strong>"  # highlighted line numbers in bold
+              else
+                line.to_s
+              end
+            end
           elsif bold_every.is_a? Integer
             raise ArgumentError, ":bolding can't be 0." if bold_every == 0
             proc do |line|

@@ -209,12 +209,12 @@ module CodeRay
         print '-skipped- '.concealed
       end
       
-      tokens, ok = complete_test scanner, code, name
+      tokens, ok, changed_lines = complete_test scanner, code, name
       
       identity_test scanner, tokens
       
       unless ENV['nohighlighting'] or (code.size > MAX_CODE_SIZE_TO_HIGHLIGHT and not ENV['only'])
-        highlight_test tokens, name, ok
+        highlight_test tokens, name, ok, changed_lines
       else
         print '-- skipped -- '.concealed
       end
@@ -303,6 +303,12 @@ module CodeRay
           File.open(actual_filename, 'wb') { |f| f.write result }
           diff = expected_filename.sub(/\.expected\..*/, '.debug.diff')
           system "diff --unified=0 --text #{expected_filename} #{actual_filename} > #{diff}"
+          changed_lines = []
+          File.read(diff).scan(/^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/) do |offset, size|
+            offset = offset.to_i
+            size = (size || 1).to_i
+            changed_lines.concat Array(offset...offset + size)
+          end
         end
         
         assert(ok, "Scan error: unexpected output".red) if ENV['assert']
@@ -315,7 +321,7 @@ module CodeRay
         ok = true
       end
       
-      return tokens, ok
+      return tokens, ok, changed_lines
     end
     
     def identity_test scanner, tokens
@@ -340,10 +346,10 @@ module CodeRay
       :css => :class
     )
     
-    def highlight_test tokens, name, okay
+    def highlight_test tokens, name, okay, changed_lines
       report 'highlighting' do
         begin
-          highlighted = Highlighter.encode_tokens tokens
+          highlighted = Highlighter.encode_tokens tokens, { :highlight_lines => changed_lines }
         rescue
           flunk 'highlighting test failed!' if ENV['assert']
           return false

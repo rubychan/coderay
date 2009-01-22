@@ -1,0 +1,34 @@
+comment(/* This is valid Groovy code. */)
+
+ident(var) operator(=) integer(1)
+keyword(def) method(another)operator(()ident(a)operator(,)ident(b)operator(,)ident(c)operator(,)ident(d)(\)) operator({) (})
+
+comment(// "\\/"  Error?)
+string<delimiter(")content(text )inline<inline_delimiter($)ident(var)>content( )inline<inline_delimiter($)ident(var)>content(.meth text )inline<inline_delimiter(${)keyword(if) operator(()integer(1)(\)) operator({)ident(another)operator(()string<delimiter(")content(st)delimiter(")>operator(,) string<delimiter(')content(ri)delimiter(')>operator(,) regexp<delimiter(/)content(ng)delimiter(/)>operator(,) string<delimiter(")content(})delimiter(")>(\))(})inline_delimiter(})>content( )char(\\t)content( text )char(\\n)content( text )char(\\uafaf)content( text )char(\\$)content(novar text )char(\\')char(\\")char(\\\\)content( )delimiter(")>  comment(//';)
+
+string<delimiter(')content(text $novar text ${not_interpreted} \\t text \\n text \\uafaf text \\$novar text )char(\\')content(\\")char(\\\\)content( )delimiter(')>operator(;)
+
+regexp<delimiter(/)content(text )inline<inline_delimiter($)ident(var)>content( )inline<inline_delimiter($)ident(var)>content(.meth text )inline<inline_delimiter(${)keyword(if) operator(()integer(1)(\)) operator({)ident(another)operator(()string<delimiter(")content(st)delimiter(")>operator(,) string<delimiter(')content(ri)delimiter(')>operator(,) regexp<delimiter(/)content(ng)delimiter(/)>operator(,) string<delimiter(")content(})delimiter(")>(\))(})inline_delimiter(})>content( )char(\\t)content( text )char(\\n)content( text )char(\\uafaf)content( text )content(\\$)content(var )char(\\\\)inline<inline_delimiter($)ident(var)>content( text )char(\\')char(\\")char(\\\\)char(\\/)content( )delimiter(/)>operator(;)
+
+ident(youcannotescape) operator(=) integer(0)operator(;)
+ident(println)operator(()regexp<delimiter(/)content(\\$)content(youcannotescape)inline<inline_delimiter($)ident(var)>delimiter(/)>(\))
+
+comment(// "\\/"  Error?)
+operator(~)string<delimiter(")content(text )inline<inline_delimiter($)ident(var)>content( )inline<inline_delimiter($)ident(var)>content(.meth text )inline<inline_delimiter(${)keyword(if) operator(()integer(1)(\)) operator({)ident(another)operator(()string<delimiter(")content(st)delimiter(")>operator(,) string<delimiter(')content(ri)delimiter(')>operator(,) regexp<delimiter(/)content(ng)delimiter(/)>operator(,) string<delimiter(")content(})delimiter(")>(\))(})inline_delimiter(})>content( )char(\\t)content( text )char(\\n)content( text )char(\\uafaf)content( text )char(\\$)content(novar text )char(\\')char(\\")char(\\\\)content( )delimiter(")>  comment(//';)
+
+operator(~)string<delimiter(')content(text $novar text ${0} \\t text \\n text \\uafaf text \\$novar text )char(\\')content(\\")char(\\\\)content( )delimiter(')>operator(;)
+
+operator(~)regexp<delimiter(/)content(text )inline<inline_delimiter($)ident(var)>content( )inline<inline_delimiter($)ident(var)>content(.meth text )inline<inline_delimiter(${)keyword(if) operator(()integer(1)(\)) operator({)ident(another)operator(()string<delimiter(")content(st)delimiter(")>operator(,) string<delimiter(')content(ri)delimiter(')>operator(,) regexp<delimiter(/)content(ng)delimiter(/)>operator(,) string<delimiter(")content(})delimiter(")>(\))(})inline_delimiter(})>content( )char(\\t)content( (text\) )char(\\n)content( text )char(\\uafaf)content( text )content(\\$)content(var )char(\\\\)inline<inline_delimiter($)ident(var)>content( text )char(\\')char(\\")char(\\\\)char(\\/)content( )delimiter(/)>operator(;)
+
+ident(println)operator(()operator(~)regexp<delimiter(/)content(\\$)content(youcannotescape)inline<inline_delimiter($)ident(var)>delimiter(/)>(\))
+
+ident(println) string<delimiter(")content(Age )inline<inline_delimiter($)ident(age)>content(: )inline<inline_delimiter(${)ident(list)operator(.)ident(collect)operator({)local_variable(it)operator(.)string<delimiter(')content(name)delimiter(')>(})operator(.)ident(join)operator(()string<delimiter(')content(, )delimiter(')>(\))inline_delimiter(})>delimiter(")>
+
+string<delimiter(""")content(
+text )inline<inline_delimiter($)ident(var)>content( )inline<inline_delimiter($)ident(var)>content(.meth text )inline<inline_delimiter(${)keyword(if) operator(()integer(1)(\)) operator({)ident(another)operator(()string<delimiter(")content(st)delimiter(")>operator(,) string<delimiter(')content(ri)delimiter(')>operator(,) regexp<delimiter(/)content(ng)delimiter(/)>operator(,) string<delimiter(")content(})delimiter(")>(\))(})inline_delimiter(})>content( )char(\\t)content( text )char(\\n)content( text )char(\\uafaf)content( text )char(\\$)content(novar text )char(\\')char(\\")char(\\\\)content( )char(\\")content(""
+)delimiter(""")>
+
+string<delimiter(''')content(
+text $novar text ${not_interpreted} )content(\\t)content( text )content(\\n)content( text )content(\\uafaf)content( text )content(\\$)content(novar text )char(\\')content(\\")char(\\\\)content( )char(\\')content(''
+)delimiter(''')>
+

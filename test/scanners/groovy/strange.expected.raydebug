@@ -1,0 +1,1 @@
+ident(foo)operator(?)ident(bar)operator(:)string<delimiter(')content(unknown)delimiter(')>  comment(// bar is not a key!)

@@ -201,7 +201,7 @@ module Scanners
           
           elsif (state == :string || state == :multiline_string) &&
               (match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox))
-            if string_delimiter[0] == "'" && !(match == "\\\\" || match == "\\'")
+            if string_delimiter[0] == ?' && !(match == "\\\\" || match == "\\'")
               kind = :content
             else
               kind = :char

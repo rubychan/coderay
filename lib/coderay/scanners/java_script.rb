@@ -104,6 +104,7 @@ module Scanners
           
           # TODO: string key recognition
           # There's a problem with expressions like: PAIRS: { 'slide':  ['SlideDown','SlideUp'], ... }.
+          # The commas in the array are confusing the scanner here.
           # elsif key_expected && match = scan(/["']/)
           #   tokens << [:open, :key]
           #   state = :key

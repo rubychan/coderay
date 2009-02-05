@@ -3,3 +3,16 @@ ident(some_string)operator(.)ident(to_i) regexp<delimiter(/)char(\\s)content(+)d
 ident(some_string)operator(.)ident(split) operator(/) operator(+)regexp<delimiter(/)content(  this is a regexp after a division )delimiter(/)>
 ident(some_string)operator(.)ident(split) operator(/) operator(+) regexp<delimiter(/)content(  this one, too )delimiter(/)>
 ident(some_string)operator(.)ident(split) regexp<delimiter(/)content(- )delimiter(/)>  comment(# and this one is a regexp without division)
+
+ident(it) string<delimiter(")content(allows substitution to interact with other Regexp constructs)delimiter(")> reserved(do)
+  ident(str) operator(=) string<delimiter(")content(foo\)|(bar)delimiter(")>
+  regexp<delimiter(/)content(()inline<inline_delimiter(#{)ident(str)inline_delimiter(})>content(\))delimiter(/)>operator(.)ident(should) operator(==) regexp<delimiter(/)content((foo\)|(bar\))delimiter(/)>
+  
+  ident(str) operator(=) string<delimiter(")content(a)delimiter(")>
+  regexp<delimiter(/)content([)inline<inline_delimiter(#{)ident(str)inline_delimiter(})>content(-z])delimiter(/)>operator(.)ident(should) operator(==) regexp<delimiter(/)content([a-z])delimiter(/)>
+
+  ident(not_compliant_on)operator(()symbol(:ruby)operator(\)) reserved(do)
+    ident(str) operator(=) string<delimiter(")content(J)delimiter(")>
+    ident(re) operator(=) regexp<delimiter(/)char(\\c#)content({str})delimiter(/)>operator(.)ident(should) operator(==) regexp<delimiter(/)char(\\cJ)delimiter(/)>
+  reserved(end)
+reserved(end)

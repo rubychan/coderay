@@ -87,7 +87,7 @@ module Scanners
     # assert_equal(129, ?\M-\C-a)
     ESCAPE = /
         [abefnrstv]
-      | M-\\C-|C-\\M-|M-\\c|c\\M-|c|C-|M-
+      | (?:M-|C-|c) .?
       |  [0-7]{1,3}
       | x[0-9A-Fa-f]{1,2}
       | .

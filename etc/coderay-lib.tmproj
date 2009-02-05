@@ -15,8 +15,6 @@
 			<string>../lib</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>bin</string>
 			<key>regexFolderFilter</key>
@@ -33,8 +31,6 @@
 			<string>../ftp.yaml</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>etc</string>
 			<key>regexFolderFilter</key>
@@ -67,8 +63,6 @@
 			<string>../pkg</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>rake_helpers</string>
 			<key>regexFolderFilter</key>
@@ -77,8 +71,6 @@
 			<string>../rake_helpers</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>rake_tasks</string>
 			<key>regexFolderFilter</key>
@@ -90,13 +82,15 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2009-01-13T15:38:32Z</date>
+			<date>2009-01-22T14:33:27Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2009-01-13T16:07:48Z</date>
+			<date>2009-02-02T10:25:08Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -116,7 +110,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2009-01-13T15:34:57Z</date>
+			<date>2009-01-22T13:52:45Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>

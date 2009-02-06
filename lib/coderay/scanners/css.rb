@@ -38,6 +38,7 @@ module Scanners
       Id = /##{Name}/
       Class = /\.#{Name}/
       PseudoClass = /:#{Name}/
+      AttributeSelector = /\[[^\]]*\]?/
 
     end
 
@@ -55,8 +56,8 @@ module Scanners
           kind = :space
 
         elsif case states.last
-          when :initial
-            if scan(/#{RE::Ident}|\*/ox)
+          when :initial, :media
+            if scan(/(?>#{RE::Ident})(?!\()|\*/ox)
               kind = :keyword
             elsif scan RE::Class
               kind = :class
@@ -64,10 +65,19 @@ module Scanners
               kind = :constant
             elsif scan RE::PseudoClass
               kind = :pseudo_class
-            elsif scan RE::Name
-              kind = :identifier
+            elsif match = scan(RE::AttributeSelector)
+              # TODO: Improve highlighting inside of attribute selectors.
+              tokens << [:open, :string]
+              tokens << [match[0,1], :delimiter]
+              tokens << [match[1..-2], :content] if match.size > 2
+              tokens << [match[-1,1], :delimiter] if match[-1] == ?]
+              tokens << [:close, :string]
+              next
+            elsif match = scan(/@media/)
+              kind = :directive
+              states.push :media_before_name
             end
-
+          
           when :block
             if scan(/(?>#{RE::Ident})(?!\()/ox)
               if value_expected
@@ -77,6 +87,18 @@ module Scanners
               end
             end
 
+          when :media_before_name
+            if scan RE::Ident
+              kind = :type
+              states[-1] = :media_after_name
+            end
+          
+          when :media_after_name
+            if scan(/\{/)
+              kind = :operator
+              states[-1] = :media
+            end
+          
           when :comment
             if scan(/(?:[^*\s]|\*(?!\/))+/)
               kind = :comment
@@ -103,7 +125,7 @@ module Scanners
 
         elsif scan(/\}/)
           value_expected = false
-          if states.last == :block
+          if states.last == :block || states.last == :media
             kind = :operator
             states.pop
           else

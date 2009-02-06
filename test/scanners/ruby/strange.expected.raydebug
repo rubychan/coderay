@@ -115,6 +115,14 @@ that)delimiter(
 this)>
 ident(that)
 
+comment(# control and meta)
+string<delimiter(")char(\\ca)delimiter(")>  comment(# ")
+string<delimiter(")char(\\c\\3)delimiter(")>  comment(# ")
+string<delimiter(")char(\\c")delimiter(")>  comment(# ")
+string<delimiter(")char(\\M-")delimiter(")>  comment(# ")
+string<delimiter(")char(\\C-")delimiter(")>  comment(# ")
+string<delimiter(")char(\\C-\\M-\\c\\M-\\C-a)delimiter(")> operator(==) string<delimiter(")char(\\201)delimiter(")>  comment(# ")
+
 comment(##################################################################)
 reserved(class)                                                  class(NP)
 reserved(def)  method(initialize) ident(a)operator(=)instance_variable(@p)operator(=)operator([)operator(])operator(,) ident(b)operator(=)instance_variable(@b)operator(=)operator([)operator(])operator(;)                      reserved(end)

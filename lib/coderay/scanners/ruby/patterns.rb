@@ -81,25 +81,30 @@ module Scanners
     /ox
     METHOD_NAME_OR_SYMBOL = / #{METHOD_NAME_EX} | #{SYMBOL} /ox
 
-    # TODO investigste \M, \c and \C escape sequences
-    # (?: M-\\C-|C-\\M-|M-\\c|c\\M-|c|C-|M-)? (?: \\ (?: [0-7]{3} | x[0-9A-Fa-f]{2} | . ) )
-    # assert_equal(225, ?\M-a)
-    # assert_equal(129, ?\M-\C-a)
-    ESCAPE = /
+    SIMPLE_ESCAPE = /
         [abefnrstv]
-      | (?:M-|C-|c) .?
       |  [0-7]{1,3}
       | x[0-9A-Fa-f]{1,2}
-      | .
+      | .?
     /mx
-
+    
+    CONTROL_META_ESCAPE = /
+      (?: M-|C-|c )
+      (?: \\ (?: M-|C-|c ) )*
+      (?: [^\\] | \\ #{SIMPLE_ESCAPE} )?
+    /mox
+    
+    ESCAPE = /
+      #{CONTROL_META_ESCAPE} | #{SIMPLE_ESCAPE}
+    /mox
+    
     CHARACTER = /
       \?
       (?:
         [^\s\\]
       | \\ #{ESCAPE}
       )
-    /mx
+    /mox
 
     # NOTE: This is not completely correct, but
     # nobody needs heredoc delimiters ending with \n.

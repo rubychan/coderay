@@ -2,7 +2,7 @@
 #
 # A simplified interface to the gzip library +zlib+ (from the Ruby Standard Library.)
 #
-# Author: murphy (mail to murphy cYcnus de)
+# Author: murphy (mail to murphy rubychan de)
 #
 # Version: 0.2 (2005.may.28)
 #

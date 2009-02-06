@@ -8,7 +8,7 @@ def gemspec
 
     s.platform = Gem::Platform::RUBY
     s.required_ruby_version = '>= 1.8.2'
-    s.requirements = ['strscan']
+    s.requirements = []
     s.date = Time.now.strftime '%Y-%m-%d'
     s.has_rdoc = true
     s.rdoc_options = '-SNw2', '-mlib/README', '-a', '-t CodeRay Documentation'
@@ -31,14 +31,14 @@ def gemspec
 
     # Files
     s.require_path = 'lib'
-    s.autorequire = 'coderay'
+    # s.autorequire = 'coderay'
     s.executables = [ 'coderay', 'coderay_stylesheet' ]
 
     s.files = nil  # defined later
 
     # Credits
     s.author = 'murphy'
-    s.email = 'murphy@cYcnus.de'
+    s.email = 'murphy@rubychan.de'
     s.homepage = 'http://coderay.rubychan.de'
   end
 end
@@ -66,7 +66,7 @@ namespace :gem do
       $version = CodeRay::VERSION
     end
     puts 'Current Version: %s' % $version
-    #$version.sub!(/\.(\d+)\./) { minor = $1; ".#{minor.to_i}." }
+    sh 'svn up --ignore-externals'
     $version << '.' << (`svn info`[/Revision: (\d+)/,1])
   end
 
@@ -97,7 +97,7 @@ namespace :gem do
       Dir.chdir 'gem_server' do
         uploader = uploader_for ftp
         ftp.chdir FTP_CODERAY_DIR
-        %w(yaml).each &uploader
+        %w(yaml).each(&uploader)
         Dir.chdir 'gems' do
           ftp.chdir 'gems'
           uploader.call $gemfile

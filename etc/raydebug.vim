@@ -1,6 +1,6 @@
 " vim syntax file
 " Language:	BBCode
-" Maintainer:	Korenlius Kalnbach <korny@cYcnus.de>
+" Maintainer:	Kornelius Kalnbach <murphy@rubychan.de>
 " Last Change:	2004 Dec 12
 
 " For version 5.x: Clear all syntax items

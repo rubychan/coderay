@@ -12,6 +12,7 @@ def set_rdoc_info rd
   
   rd.template = ENV.fetch('template', CODERAY_TEMPLATE)
   rd.rdoc_files.add(*EXTRA_FILES.in(ROOT))
+  rd.rdoc_files.add(*Dir[File.join(LIB_ROOT, '*.rb')])
   rd.rdoc_files.add(*Dir[File.join(LIB_ROOT, 'coderay', '**', '*.rb')])
 end
 

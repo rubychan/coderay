@@ -1,7 +1,7 @@
 = CodeRay
 
 [- Tired of blue'n'gray? Try the original version of this documentation on
-coderay.rubychan.de[http://coderay.rubychan.de/doc/] (use Ctrl+Click to open it in its own frame.) -]
+http://rd.cYcnus.de/coderay/doc (use Ctrl+Click to open it in its own frame.) -]
 
 == About
 CodeRay is a Ruby library for syntax highlighting.
@@ -51,7 +51,7 @@ CodeRay needs Ruby 1.8.6 or later. It should also run with Ruby 1.9 and JRuby.
 
 See CodeRay.
 
-Please report errors in this documentation to <murphy rubychan de>.
+Please report errors in this documentation to <coderay cycnus de>.
 
 
 == Credits
@@ -75,7 +75,8 @@ Please report errors in this documentation to <murphy rubychan de>.
 * Doug Kearns and everyone else who worked on ruby.vim - it not only helped me
   coding CodeRay, but also gave me a wonderful target to reach for the Ruby
   scanner.
-* everyone who uses CodeBB on http://www.rubyforen.de and http://www.python-forum.de
+* everyone who uses CodeBB on http://www.rubyforen.de, http://www.python-forum.de, and
+  http://www.infhu.de/mx (down)
 * iGEL, magichisoka, manveru, WoNáDo and everyone I forgot from rubyforen.de
 * Dethix from ruby-mine.de
 * zickzackw
@@ -87,7 +88,6 @@ Please report errors in this documentation to <murphy rubychan de>.
 * Josh Goebel for another version of the JavaScript scanner and a Diff scanner.
 * Jonathan Younger for pointing out the licence confusion caused by wrong LICENSE file.
 * Jeremy Hinegardner for finding the shebang-on-empty-file bug in FileType.
-* Charles Oliver Nutter and Yehuda Katz for helping me benchmark CodeRay on JRuby.
 * The folks at redmine.org - thank you for using and fixing CodeRay!
 * matz and all Ruby gods and gurus
 * The inventors of: the computer, the internet, the true color display, HTML &
@@ -99,11 +99,9 @@ Where would we be without all those people?
 === Created using
 
 * Ruby[http://ruby-lang.org/]
-* Chihiro (my Sony VAIO laptop); Henrietta (my old MacBook);
-  Triella, born Rico (my new MacBook); as well as
+* Chihiro (my Sony VAIO laptop); Henrietta (my old MacBook); Triella, born Rico (my new MacBook); as well as
   Seras and Hikari (my PCs)
-* RDE[http://homepage2.nifty.com/sakazuki/rde_e.html],
-  VIM[http://vim.org] and TextMate[http://macromates.com]
+* RDE[http://homepage2.nifty.com/sakazuki/rde_e.html], VIM[http://vim.org] and TextMate[http://macromates.com]
 * Subversion[http://subversion.tigris.org/]
 * Redmine[http://redmine.org/]
 * Firefox[http://www.mozilla.org/products/firefox/],

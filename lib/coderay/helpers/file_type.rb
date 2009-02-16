@@ -87,8 +87,6 @@ module FileType
     'mab' => :ruby,
     'cpp' => :c,
     'c' => :c,
-    'gvy' => :groovy,
-    'groovy' => :groovy,
     'h' => :c,
     'java' => :java,
     'js' => :java_script,

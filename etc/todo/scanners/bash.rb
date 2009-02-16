@@ -82,7 +82,7 @@ module CodeRay
             elsif match = scan(/[a-zA-Z]\w*/)
               tokens << [match, :ident]
             elsif match = scan(/\#!.*/) # until eof
-              tokens << [match, :doctype]
+              tokens << [match, :preprocessor]
             elsif match = scan(/\#.*/) # until eof  
               tokens << [match, :comment]
             # catch the rest as other

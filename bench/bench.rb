@@ -45,7 +45,7 @@ if format == 'comp'
     require 'syntax'
     require 'syntax/convertors/html.rb'
   rescue LoadError
-    puts 'Syntax no found!! (Try % gem install syntax)'
+    raise 'This requires Syntax! (Try % gem install syntax)'
   end
 end
 
@@ -66,7 +66,6 @@ b = ARGV.find { |a| a[/^B/] }
 BoldEvery = if b then b[/\d+/].to_i else 10 end
 $filename = ARGV.include?('strange') ? 'strange' : 'example'
 
-(compare ? 1 : 5).times do
 Benchmark.bm(20) do |bm|
 
   data = nil
@@ -134,29 +133,27 @@ Benchmark.bm(20) do |bm|
   puts $o if ARGV.include? '-o'
 
   if compare
-    if defined? Syntax
-      time = bm.report('Syntax') do
-        c = Syntax::Convertors::HTML.for_syntax lang
-        puts 'No Syntax syntax found!' if c.tokenizer.is_a? Syntax::Default
-        begin
-          v = $VERBOSE
-          $VERBOSE = nil
-          N.times do
-            output = c.convert(data)
-          end
-          $VERBOSE = v
-        rescue => boom
-          output = boom.inspect
+    time = bm.report('Syntax') do
+      c = Syntax::Convertors::HTML.for_syntax lang
+      puts 'No Syntax syntax found!' if c.tokenizer.is_a? Syntax::Default
+      begin
+        v = $VERBOSE
+        $VERBOSE = nil
+        N.times do
+          output = c.convert(data)
         end
-        Dir.chdir(here) do
-          File.open('test.syntax.' + format, 'wb') do |f|
-            f.write '<html><head><style>%s</style></head><body><div class="ruby">%s</div></body></html>' % [DATA.read, output]
-          end
-        end
-        $file_created << ", test.syntax.#{format}"
+        $VERBOSE = v
+      rescue => boom
+        output = boom.inspect
       end
-      puts "\t%7.2f KB/sec" % ((@size / 1024.0) / time.real)
+      Dir.chdir(here) do
+        File.open('test.syntax.' + format, 'wb') do |f|
+          f.write '<html><head><style>%s</style></head><body><div class="ruby">%s</div></body></html>' % [DATA.read, output]
+        end
+      end
+      $file_created << ", test.syntax.#{format}"
     end
+    puts "\t%7.2f KB/sec" % ((@size / 1024.0) / time.real)
 
 =begin
     time = bm.report('SilverCity') do
@@ -173,9 +170,9 @@ Benchmark.bm(20) do |bm|
     time = bm.report('Pygments') do
       Dir.chdir(here) do
         Dir.chdir File.expand_path('~/Python/pygments') do
-          File.open('input-data', 'wb') { |f| f.write data }
+          File.open('input-data', 'w') { |f| f.write data }
           N.times do
-            `pygmentize -O encoding=utf-8 -l#{lang} -fhtml input-data > /dev/null`
+            `python pygmentize -l#{lang} -fhtml input-data > /dev/null`
           end
         end
       end
@@ -184,7 +181,6 @@ Benchmark.bm(20) do |bm|
     puts "\t%7.2f KB/sec" % ((@size / 1024.0) / time.real)
   end
 
-end
 end
 puts "Files created: #$file_created"
 

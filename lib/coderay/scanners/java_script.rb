@@ -94,22 +94,13 @@ module Scanners
             kind = IDENT_KIND[match]
             value_expected = (kind == :keyword) && KEYWORDS_EXPECTING_VALUE[match]
             if kind == :ident
-              if match.index(?$)  # $ allowed inside an identifier
+              if match.index(?$)
                 kind = :predefined
               elsif key_expected && check(/\s*:/)
                 kind = :key
               end
             end
             key_expected = false
-          
-          # TODO: string key recognition
-          # There's a problem with expressions like: PAIRS: { 'slide':  ['SlideDown','SlideUp'], ... }.
-          # The commas in the array are confusing the scanner here.
-          # elsif key_expected && match = scan(/["']/)
-          #   tokens << [:open, :key]
-          #   state = :key
-          #   string_delimiter = match
-          #   kind = :delimiter
 
           elsif match = scan(/["']/)
             tokens << [:open, :string]
@@ -134,7 +125,7 @@ module Scanners
 
           end
 
-        when :string, :regexp, :key
+        when :string, :regexp
           if scan(STRING_CONTENT_PATTERN[string_delimiter])
             kind = :content
           elsif match = scan(/["'\/]/)
@@ -148,7 +139,7 @@ module Scanners
             key_expected = value_expected = false
             state = :initial
             next
-          elsif state != :regexp && (match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox))
+          elsif state == :string && (match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox))
             if string_delimiter == "'" && !(match == "\\\\" || match == "\\'")
               kind = :content
             else
@@ -159,7 +150,7 @@ module Scanners
           elsif scan(/\\./m)
             kind = :content
           elsif scan(/ \\ | $ /x)
-            tokens << [:close, state]
+            tokens << [:close, :delimiter]
             kind = :error
             key_expected = value_expected = false
             state = :initial

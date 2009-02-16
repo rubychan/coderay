@@ -91,6 +91,17 @@ class SimpleRegexpScannerTest < Test::Unit::TestCase
     assert_scans_list '(A(B(C|D))?)?', ['ABC', 'ABD', 'A', '']
   end
   
+  def test_deep_recusion
+    n = 1_000
+    assert_nothing_raised do
+      assert_scans_list '(' * n + ')' * n, ['']
+    end
+    n = 10_000
+    assert_raise SystemStackError do
+      assert_scans_list '(' * n + ')' * n, ['']
+    end
+  end
+  
   JAVA_BUILTIN_TYPES = <<-TYPES.delete(" \n")
     (R(GBImageFilter|MI(S(ocketFactory|e(curity(Manager|Exception)|rver(SocketFactor
     y|Impl(_Stub)?)?))|C(onnect(ion(Impl(_Stub)?)?|or(Server)?)|l(ientSocketFactory|

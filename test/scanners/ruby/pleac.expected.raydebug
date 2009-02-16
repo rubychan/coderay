@@ -642,7 +642,7 @@ comment(# dunno if an equivalent to Lingua::EN::Inflect exists...)
 
 comment(# @@PLEAC@@_2.19)
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby)
+doctype(#!/usr/bin/ruby)
 comment(# bigfact - calculating prime factors)
 reserved(def) method(factorize)operator(()ident(orig)operator(\))
     ident(factors) operator(=) operator({)operator(})
@@ -808,7 +808,7 @@ comment(# (may be interrupted by sending the process a SIGALRM\))
 
 
 comment(# @@PLEAC@@_3.11)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# hopdelta - feed mail header, produce lines)
 comment(#            showing delay at each hop.)
 ident(require) string<delimiter(')content(time)delimiter(')>
@@ -919,7 +919,7 @@ comment(# So, needs:)
 ident(print) string<delimiter(")content(I have )inline<inline_delimiter(#{)ident(array)operator(.)ident(join)operator(()string<delimiter(')content( )delimiter(')>operator(\))inline_delimiter(})>content( marbles)char(\\n)delimiter(")>
 comment(# -> I have red yellow green marbles)
 
-comment(#!/usr/bin/ruby)
+doctype(#!/usr/bin/ruby)
 comment(# communify_series - show proper comma insertion in list output)
 
 reserved(def) method(commify_series)operator(()ident(arr)operator(\))
@@ -1222,7 +1222,7 @@ reserved(end)
 
 
 comment(# @@PLEAC@@_4.18)
-comment(#!/usr/bin/env ruby)
+doctype(#!/usr/bin/env ruby)
 comment(# example 4-2 words)
 comment(# words - gather lines, present in colums)
 
@@ -1481,7 +1481,7 @@ ident(food_color)operator(.)ident(keys)operator(.)ident(sort)operator(.)ident(ea
 operator(})
 
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby)
+doctype(#!/usr/bin/ruby)
 comment(# countfrom - count number of messages from each sender)
 
 comment(# Default value is 0)
@@ -1528,7 +1528,7 @@ ident(puts) ident(surname)operator(.)ident(index)operator(()string<delimiter(")c
 comment(# If you really needed to 'invert' the whole hash, use Hash#invert)
 
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# foodfind - find match for food or color)
 
 ident(given) operator(=) pre_constant(ARGV)operator(.)ident(shift) reserved(or) ident(raise) string<delimiter(")content(usage: foodfind food_or_color)delimiter(")>
@@ -1962,7 +1962,7 @@ reserved(end)
 
 comment(# @@PLEAC@@_6.6)
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# killtags - very bad html killer)
 global_variable($/) operator(=) pre_constant(nil)operator(;)                              comment(# each read is whole file)
 reserved(while) ident(file) operator(=) ident(gets)operator(()operator(\)) reserved(do)
@@ -1970,7 +1970,7 @@ reserved(while) ident(file) operator(=) ident(gets)operator(()operator(\)) reser
     ident(puts) ident(file)                          comment(# print file to STDOUT)
 reserved(end)
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(#headerfy - change certain chapter headers to html)
 global_variable($/) operator(=) string<delimiter(')delimiter(')>
 reserved(while) ident(file) operator(=) ident(gets)operator(()operator(\)) reserved(do)
@@ -1990,7 +1990,7 @@ reserved(end)
 comment(#-----------------------------)
 comment(#% ruby -00pe "gsub!(/\\A(Chapter\\s+\\d+\\s*:.*\)/,'<H1>\\1</H1>'\)" datafile)
 
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(#-----------------------------)
 reserved(for) ident(file) reserved(in) pre_constant(ARGV)
     ident(file) operator(=) constant(File)operator(.)ident(open)operator(()pre_constant(ARGV)operator(.)ident(shift)operator(\))
@@ -2113,7 +2113,7 @@ reserved(end)
 
 comment(#-----------------------------)
 
-comment(#!/usr/bin/ruby)
+doctype(#!/usr/bin/ruby)
 comment(# popgrep1 - grep for abbreviations of places that say "pop")
 comment(# version 1: slow but obvious way)
 ident(popstates) operator(=) string<delimiter(%w()content(CO ON MI WI MN)delimiter(\))>
@@ -2127,7 +2127,7 @@ pre_constant(ARGF)operator(.)ident(each) reserved(do) operator(|)ident(line)oper
 reserved(end)
 
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby)
+doctype(#!/usr/bin/ruby)
 comment(# popgrep2 - grep for abbreviations of places that say "pop")
 comment(# version 2: eval strings; fast but hard to quote)
 ident(popstates) operator(=) string<delimiter(%w()content(CO ON MI WI MN)delimiter(\))>
@@ -2153,7 +2153,7 @@ comment(# ---)
 
 comment(## alternatively, the same idea as above but compiling )
 comment(## to a case statement: (not in perlcookbook\))
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# popgrep2.5 - grep for abbreviations of places that say "pop")
 comment(# version 2.5: eval strings; fast but hard to quote)
 ident(popstates) operator(=) string<delimiter(%w()content(CO ON MI WI MN)delimiter(\))>
@@ -2183,7 +2183,7 @@ comment(# Note: (above\) Ruby 1.8+ allows the 'when EXP : EXPR' on one line)
 comment(# with the colon separator.)
 
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby)
+doctype(#!/usr/bin/ruby)
 comment(# popgrep3 - grep for abbreviations of places that say "pop")
 comment(# version3: build a match_any function)
 ident(popstates) operator(=) string<delimiter(%w()content(CO ON MI WI MN)delimiter(\))>
@@ -2197,7 +2197,7 @@ comment(#-----------------------------)
 comment(##  building a match_all function is a trivial)
 comment(##  substitution of && for ||)
 comment(##  here is a generalized example:)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(## grepauth - print lines that mention both foo and bar)
 reserved(class) class(MultiMatch) 
     reserved(def) method(initialize)operator(()operator(*)ident(patterns)operator(\))
@@ -2217,7 +2217,7 @@ pre_constant(ARGF)operator(.)ident(each) reserved(do) operator(|)ident(line)oper
 reserved(end)
 comment(#-----------------------------)
 
-comment(#!/usr/bin/ruby)
+doctype(#!/usr/bin/ruby)
 comment(# popgrep4 - grep for abbreviations of places that say "pop")
 comment(# version4: pretty fast, but simple: compile all re's first:)
 ident(popstates) operator(=) string<delimiter(%w()content(CO ON MI WI MN)delimiter(\))>
@@ -2367,7 +2367,7 @@ reserved(if) string<delimiter(")inline<inline_delimiter(#{)ident(astr)inline_del
     ident(print) string<delimiter(")inline<inline_delimiter(#{)global_variable($2)inline_delimiter(})>content( overlaps in )inline<inline_delimiter(#{)global_variable($1)inline_delimiter(})>content(-)inline<inline_delimiter(#{)global_variable($2)inline_delimiter(})>content(-)inline<inline_delimiter(#{)global_variable($3)inline_delimiter(})>delimiter(")>
 reserved(end)
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# prime_pattern -- find prime factors of argument using patterns)
 pre_constant(ARGV) operator(<<) integer(180)
 ident(cap) operator(=) string<delimiter(')content(o)delimiter(')> operator(*) pre_constant(ARGV)operator(.)ident(shift)
@@ -2434,7 +2434,7 @@ reserved(if) ident(string) operator(=)operator(~) regexp<delimiter(/)content(pat
     ident(something)operator(()operator(\))
 reserved(end)
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# minigrep - trivial grep)
 ident(pat) operator(=) pre_constant(ARGV)operator(.)ident(shift)
 pre_constant(ARGF)operator(.)ident(each) reserved(do) operator(|)ident(line)operator(|)
@@ -2552,7 +2552,7 @@ comment(#-----------------------------)
 comment(# dummy values are defined for 'file', 'PAGER', and)
 comment(# the 'invoke_editor' and 'deliver_message' methods)
 comment(# do not do anything interesting in this example.)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 ident(require) string<delimiter(')content(abbrev)delimiter(')>
 
 ident(file) operator(=) string<delimiter(')content(pleac_ruby.data)delimiter(')>
@@ -2604,7 +2604,7 @@ comment(#% gunzip -c ~/mail/archive.gz | urlify > archive.urlified)
 comment(#-----------------------------)
 comment(#% urlify ~/mail/*.inbox > ~/allmail.urlified)
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# urlify - wrap HTML links around URL-like constructs)
 
 ident(urls) operator(=) string<delimiter(')content((https?|telnet|gopher|file|wais|ftp\))delimiter(')>operator(;)
@@ -2958,7 +2958,7 @@ comment(#)
 pre_constant(ARGF)operator(.)ident(each) operator({) operator(|)ident(l)operator(|) ident(puts) ident(l)operator(.)ident(downcase!) operator(})
 
 comment(#------------------)
-comment(#!/usr/bin/ruby -p)
+doctype(#!/usr/bin/ruby -p)
 comment(# just like perl's -p)
 global_variable($_)operator(.)ident(downcase!)
 comment(#)
@@ -3097,7 +3097,7 @@ comment(# @@PLEAC@@_7.12)
 ident(output_handle)operator(.)ident(sync) operator(=) pre_constant(true)
 comment(# Please note that like in Perl, $stderr is already unbuffered)
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# seeme - demo stdio output buffering)
 global_variable($stdout)operator(.)ident(sync) operator(=) pre_constant(ARGV)operator(.)ident(size) operator(>) integer(0)
 ident(print) string<delimiter(")content(Now you don't see it...)delimiter(")>
@@ -3384,7 +3384,7 @@ constant(File)operator(.)ident(utime)operator(()constant(Time)operator(.)ident(n
 constant(File)operator(.)ident(utime)operator(()constant(Time)operator(.)ident(new)operator(,) constant(File)operator(.)ident(stat)operator(()string<delimiter(")content(testfile)delimiter(")>operator(\))operator(.)ident(mtime)operator(,) ident(file)operator(\))
 
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(## uvi - vi a file without changing it's access times)
 
 reserved(if) pre_constant(ARGV)operator(.)ident(length) operator(!=) integer(1)
@@ -3584,7 +3584,7 @@ reserved(end)
 ident(puts) string<delimiter(")inline<inline_delimiter(#{)ident(name)inline_delimiter(})>content( )inline<inline_delimiter(#{)ident(age)inline_delimiter(})>delimiter(")>
 
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# fdirs - find all directories)
 ident(require) string<delimiter(')content(find)delimiter(')>
 ident(argv) operator(=) pre_constant(ARGV)operator(.)ident(empty?) operator(?) string<delimiter(%w{)content(.)delimiter(})> operator(:) pre_constant(ARGV)
@@ -3655,7 +3655,7 @@ reserved(end)
 
 comment(# @@PLEAC@@_9.11)
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# symirror - build spectral forest of symlinks)
 
 ident(require) string<delimiter(')content(find)delimiter(')>
@@ -3686,7 +3686,7 @@ comment(# @@PLEAC@@_9.12)
 comment(# we use the Getopt/Declare library here for convenience:)
 comment(#   http://raa.ruby-lang.org/project/getoptdeclare/)
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# lst - list sorted directory contents (depth first\))
 
 ident(require) string<delimiter(')content(find)delimiter(')>
@@ -4056,7 +4056,7 @@ reserved(end)
 
 
 comment(# @@PLEAC@@_10.17)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# mailsort - sort mbox by different criteria)
 ident(require) string<delimiter(')content(English)delimiter(')>
 ident(require) string<delimiter(')content(Date)delimiter(')>
@@ -5103,7 +5103,7 @@ ident(dbobj) operator(=) constant(SDBM)operator(.)ident(open)operator(()string<d
 comment(#.. do something with dbobj)
 ident(dbobj)operator(.)ident(close)
 
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# userstats - generate statistics on who is logged in)
 comment(# call with usernames as argument to display the totals)
 comment(# for the given usernames, call with "ALL" to display all users)
@@ -5177,7 +5177,7 @@ ident(sdb)operator(.)ident(close)
 
 
 comment(# @@PLEAC@@_14.4)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# dbmmerge: merges two dbm databases)
 ident(require) string<delimiter(")content(sdbm)delimiter(")>
 
@@ -5369,7 +5369,7 @@ ident(puts) global_variable($arrayvariable2)
 
 
 comment(# @@PLEAC@@_14.10)
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# Ruby has a dbi module with an architecture similar)
 comment(# to the Perl dbi module: the dbi module provides an unified)
 comment(# interface and uses specialized drivers for each dbms vendor)
@@ -5393,7 +5393,7 @@ reserved(rescue) constant(DBI)operator(::)constant(DatabaseError) operator(=)ope
     ident(puts) string<delimiter(")content(Error message: )inline<inline_delimiter(#{)ident(e)operator(.)ident(errstr)inline_delimiter(})>delimiter(")>
 reserved(end)
 
-comment(#!/usr/bin/ruby -w)
+doctype(#!/usr/bin/ruby -w)
 comment(# dbusers - example for mysql which creates a table,)
 comment(# fills it with values, retrieves the values back,)
 comment(# and finally destroys the table.)
@@ -5658,7 +5658,7 @@ operator(>) integer(3)operator(:)     string<delimiter(")content(The software re
 
 > 4:      so I installed Linux.)delimiter(")>  
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby)
+doctype(#!/usr/bin/ruby)
 comment(# qnumcat - demo additive output filters)
 
 reserved(def) method(number)operator(()operator(\))
@@ -5991,7 +5991,7 @@ reserved(class) class(Preforker)
 reserved(end)
 
 comment(#-----------------------------)
-comment(#!/usr/bin/ruby)
+doctype(#!/usr/bin/ruby)
 
 ident(require) string<delimiter(')content(Preforker)delimiter(')>
 
@@ -6162,7 +6162,7 @@ comment(#-----------------------------)
 
 
 comment(# @@PLEAC@@_19.1)
-comment(#!/usr/local/bin/ruby -w)
+doctype(#!/usr/local/bin/ruby -w)
 comment(# hiweb - load CGI class to decode information given by web server)
 
 ident(require) string<delimiter(')content(cgi)delimiter(')>
@@ -6192,7 +6192,7 @@ ident(print) ident(cgi)operator(.)ident(header)operator(() string<delimiter(')co
 
 
 comment(# @@PLEAC@@_19.3)
-comment(#!/usr/local/bin/ruby -w)
+doctype(#!/usr/local/bin/ruby -w)
 comment(# webwhoami - show web user's id)
 ident(require) string<delimiter(')content(etc)delimiter(')>
 ident(print) string<delimiter(")content(Content-Type: text/plain)char(\\n)char(\\n)delimiter(")>
@@ -6221,7 +6221,7 @@ comment(# It can be switched on by providing the -T command line parameter)
 comment(# or by setting $SAFE to 1. Setting $SAFE to 2,3 or 4 restricts possible)
 comment(# harmful operations further.)
 
-comment(#!/usr/bin/ruby -T)
+doctype(#!/usr/bin/ruby -T)
 global_variable($SAFE) operator(=) integer(1)
 constant(File)operator(.)ident(open)operator(()pre_constant(ARGV)operator([)integer(0)operator(])operator(,) string<delimiter(")content(w)delimiter(")>operator(\))
 comment(# ruby warns with:)
@@ -6249,7 +6249,7 @@ ident(url) operator(=) string<delimiter(")content(http://pleac.sourceforge.net/p
 ident(print) string<delimiter(")content(Location: )inline<inline_delimiter(#{)ident(url)inline_delimiter(})>char(\\r)char(\\n)char(\\r)char(\\n)delimiter(")>
 ident(exit)
 
-comment(#!/usr/bin/ruby)
+doctype(#!/usr/bin/ruby)
 ident(require) string<delimiter(')content(cgi)delimiter(')>
 
 ident(cgi) operator(=) constant(CGI)operator(.)ident(new)
@@ -6263,7 +6263,7 @@ ident(whither) operator(=) string<delimiter(')content(http://pleac.sourceforge.n
 ident(cgi)operator(.)ident(out)operator(()string<delimiter(')content(cookie)delimiter(')> operator(=)operator(>) ident(oreo)operator(,)
         string<delimiter(')content(Location)delimiter(')> operator(=)operator(>) ident(whither)operator(\))operator({)string<delimiter(")delimiter(")>operator(})
 
-comment(#!/usr/bin/ruby)
+doctype(#!/usr/bin/ruby)
 comment(# os_snipe - redirect to a Jargon File entry about current OS)
 ident(dir) operator(=) string<delimiter(')content(http://www.elsewhere.org/jargon/html/entry)delimiter(')>
 
@@ -6301,7 +6301,7 @@ ident(packed_cookie) operator(=) constant(CGI)operator(::)constant(Cookie)operat
 
 ident(cgi)operator(.)ident(header)operator(()string<delimiter(")content(cookie)delimiter(")> operator(=)operator(>) operator([)ident(packed_cookie)operator(])operator(\))
 
-comment(#!/usr/local/bin/ruby -w)
+doctype(#!/usr/local/bin/ruby -w)
 comment(# ic_cookies - sample CGI script that uses a cookie)
 ident(require) string<delimiter(')content(cgi)delimiter(')>
 

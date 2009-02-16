@@ -7,6 +7,7 @@ module Scanners
     :irb => :ruby,
     :xhtml => :nitro_xhtml,
     :javascript => :java_script,
+    :js => :java_script,
     :nitro => :nitro_xhtml,
     :yml => :yaml
 

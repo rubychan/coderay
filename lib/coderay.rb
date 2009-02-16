@@ -1,7 +1,5 @@
 # = CodeRay Library
 #
-# $Id$
-#
 # CodeRay is a Ruby library for syntax highlighting.
 #
 # I try to make CodeRay easy to use and intuitive, but at the same time fully featured, complete,
@@ -130,10 +128,10 @@
 module CodeRay
 
   # Version: Major.Minor.Teeny[.Revision]
-  # Major: 0 for pre-release
-  # Minor: odd for beta, even for stable
-  # Teeny: development state
-  # Revision: Subversion Revision number (generated on rake)
+  # Major: 0 for pre-stable, 1 for stable
+  # Minor: feature milestone
+  # Teeny: development state, 0 for pre-release
+  # Revision: Subversion Revision number (generated on rake gem:make)
   VERSION = '0.8'
 
   require 'coderay/tokens'

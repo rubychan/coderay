@@ -30,12 +30,11 @@ module Scanners
       add(KEYWORDS, :keyword).
       add(MAGIC_VARIABLES, :local_variable).
       add(TYPES, :type).
-      add(BuiltinTypes::List, :type).
+      add(BuiltinTypes::List, :pre_type).
       add(DIRECTIVES, :directive)
 
     ESCAPE = / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
     UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x
-    REGEXP_ESCAPE =  / [bBdDsSwW] /x
     STRING_CONTENT_PATTERN = {
       "'" => /[^\\']+/,
       '"' => /[^\\"]+/,
@@ -117,15 +116,11 @@ module Scanners
 
           end
 
-        when :string, :regexp
+        when :string
           if scan(STRING_CONTENT_PATTERN[string_delimiter])
             kind = :content
           elsif match = scan(/["'\/]/)
             tokens << [match, :delimiter]
-            if state == :regexp
-              modifiers = scan(/[gim]+/)
-              tokens << [modifiers, :modifier] if modifiers && !modifiers.empty?
-            end
             tokens << [:close, state]
             string_delimiter = nil
             state = :initial
@@ -136,8 +131,6 @@ module Scanners
             else
               kind = :char
             end
-          elsif state == :regexp && scan(/ \\ (?: #{ESCAPE} | #{REGEXP_ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
-            kind = :char
           elsif scan(/\\./m)
             kind = :content
           elsif scan(/ \\ | $ /x)
@@ -166,7 +159,7 @@ module Scanners
 
       end
 
-      if [:string, :regexp].include? state
+      if state == :string
         tokens << [:close, state]
       end
 

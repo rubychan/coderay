@@ -13,7 +13,7 @@ begin
 
   if ARGV.empty?
     puts <<-USAGE
-CodeRay #{CodeRay::VERSION} (http://rd.cYcnus.de/coderay)
+CodeRay #{CodeRay::VERSION} (http://coderay.rubychan.de)
 Usage:
   coderay -<lang> [-<format>] < file > output
   coderay file [-<format>]

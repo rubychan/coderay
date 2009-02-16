@@ -8,7 +8,7 @@ module Styles
     code_background = '#f8f8f8'
     numbers_background = '#def'
     border_color = 'silver'
-    normal_color = '#100'
+    normal_color = '#000'
 
     CSS_MAIN_STYLES = <<-MAIN
 .CodeRay {
@@ -50,7 +50,7 @@ ol.CodeRay li { white-space: pre }
 .av { color:#700 }
 .aw { color:#C00 }
 .bi { color:#509; font-weight:bold }
-.c  { color:#666; }
+.c  { color:#888; }
 
 .ch { color:#04D }
 .ch .k { color:#04D }
@@ -77,10 +77,10 @@ ol.CodeRay li { white-space: pre }
 .i  { color:#00D; font-weight:bold }
 .ic { color:#B44; font-weight:bold }
 
-.il { background: #eee }
+.il { background: #eee; color: black }
 .il .il { background: #ddd }
 .il .il .il { background: #ccc }
-.il .idl { font-weight: bold; color: #888 }
+.il .idl { font-weight: bold; color: #777 }
 
 .im { color:#f00; }
 .in { color:#B2B; font-weight:bold }
@@ -94,7 +94,7 @@ ol.CodeRay li { white-space: pre }
 .pd { color:#369; font-weight:bold }
 .pp { color:#579; }
 .ps { color:#00C; font-weight: bold; }
-.pt { color:#339; font-weight:bold }
+.pt { color:#349; font-weight:bold }
 .r, .kw  { color:#080; font-weight:bold }
 
 .ke { color: #808; }

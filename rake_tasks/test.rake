@@ -20,6 +20,23 @@ namespace :test do
       rm file
     end
   end
+  
+  desc 'run all tests on all supported Ruby platforms'
+  task :all do
+    $stdout.sync = true
+    for task in %w(test 19 test jruby test ee test)
+      if task == 'test'
+        puts "\n\nTesting with #{RUBY}..."
+        Rake::Task['test'].reenable
+        Rake::Task['test:functional'].reenable
+        Rake::Task['test:scanners'].reenable
+        Rake::Task['test'].invoke
+      else
+        Rake::Task[task].invoke
+      end
+    end
+  end
+  
 end
 
 task :test => %w( test:functional test:scanners )

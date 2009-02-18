@@ -88,6 +88,7 @@ Please report errors in this documentation to <murphy rubychan de>.
 * Jonathan Younger for pointing out the licence confusion caused by wrong LICENSE file.
 * Jeremy Hinegardner for finding the shebang-on-empty-file bug in FileType.
 * Charles Oliver Nutter and Yehuda Katz for helping me benchmark CodeRay on JRuby.
+* Andreas Neuhaus for pointing out a markup bug in coderay/for_redcloth.
 * The folks at redmine.org - thank you for using and fixing CodeRay!
 * matz and all Ruby gods and gurus
 * The inventors of: the computer, the internet, the true color display, HTML &

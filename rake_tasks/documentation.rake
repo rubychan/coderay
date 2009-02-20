@@ -7,7 +7,7 @@ def set_rdoc_info rd
   rd.main = 'lib/README'
   rd.title = "CodeRay Documentation"
   rd.options << '--line-numbers' << '--inline-source' << '--tab-width' << '2'
-  # rd.options << '--format' << ENV.fetch('format', 'html_coderay')
+  rd.options << '--fmt' << ENV.fetch('format', 'html_coderay')
   rd.options << '--all'
   
   rd.template = ENV.fetch('template', CODERAY_TEMPLATE)

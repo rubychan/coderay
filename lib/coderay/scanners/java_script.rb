@@ -42,6 +42,10 @@ module Scanners
       '"' => /[^\\"]+/,
       '/' => /[^\\\/]+/,
     }
+    KEY_CHECK_PATTERN = {
+      "'" => / [^\\']* (?: \\.? [^\\']* )* '? \s* : /x,
+      '"' => / [^\\"]* (?: \\.? [^\\"]* )* "? \s* : /x,
+    }
 
     def scan_tokens tokens, options
 
@@ -102,18 +106,13 @@ module Scanners
             end
             key_expected = false
           
-          # TODO: string key recognition
-          # There's a problem with expressions like: PAIRS: { 'slide':  ['SlideDown','SlideUp'], ... }.
-          # The commas in the array are confusing the scanner here.
-          # elsif key_expected && match = scan(/["']/)
-          #   tokens << [:open, :key]
-          #   state = :key
-          #   string_delimiter = match
-          #   kind = :delimiter
-
           elsif match = scan(/["']/)
-            tokens << [:open, :string]
-            state = :string
+            if key_expected && check(KEY_CHECK_PATTERN[match])
+              state = :key
+            else
+              state = :string
+            end
+            tokens << [:open, state]
             string_delimiter = match
             kind = :delimiter
 

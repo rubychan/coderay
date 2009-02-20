@@ -23,7 +23,6 @@ Author:: murphy (Kornelius Kalnbach)
 Contact:: murphy rubychan de
 Website:: coderay.rubychan.de[http://coderay.rubychan.de]
 License:: GNU LGPL; see LICENSE file in the main directory.
-Subversion:: $Id$
 
 == Installation
 
@@ -34,7 +33,7 @@ You need RubyGems[http://rubyforge.org/frs/?group_id=126].
 
 === Dependencies
 
-CodeRay needs Ruby 1.8.6 or later. It should also run with Ruby 1.9 and JRuby.
+CodeRay needs Ruby 1.8.6 or later. It also runs with Ruby 1.9.1+ and JRuby 1.1+.
 
 
 == Example Usage

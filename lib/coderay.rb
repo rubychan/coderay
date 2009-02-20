@@ -1,7 +1,5 @@
 # = CodeRay Library
 #
-# $Id$
-#
 # CodeRay is a Ruby library for syntax highlighting.
 #
 # I try to make CodeRay easy to use and intuitive, but at the same time fully featured, complete,

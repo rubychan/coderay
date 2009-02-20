@@ -5,8 +5,6 @@ module Scanners
 
   # XML Scanner
   #
-  # $Id$
-  #
   # Currently this is the same scanner as Scanners::HTML.
   class XML < HTML
 

@@ -42,6 +42,10 @@ module Scanners
       '"' => /[^\\"]+/,
       '/' => /[^\\\/]+/,
     }
+    KEY_CHECK_PATTERN = {
+      "'" => / [^\\']* (?: \\.? [^\\']* )* '? \s* : /x,
+      '"' => / [^\\"]* (?: \\.? [^\\"]* )* "? \s* : /x,
+    }
 
     def scan_tokens tokens, options
 
@@ -103,8 +107,12 @@ module Scanners
             key_expected = false
 
           elsif match = scan(/["']/)
-            tokens << [:open, :string]
-            state = :string
+            if key_expected && check(KEY_CHECK_PATTERN[match])
+              state = :key
+            else
+              state = :string
+            end
+            tokens << [:open, state]
             string_delimiter = match
             kind = :delimiter
 
@@ -125,7 +133,7 @@ module Scanners
 
           end
 
-        when :string, :regexp
+        when :string, :regexp, :key
           if scan(STRING_CONTENT_PATTERN[string_delimiter])
             kind = :content
           elsif match = scan(/["'\/]/)
@@ -139,7 +147,7 @@ module Scanners
             key_expected = value_expected = false
             state = :initial
             next
-          elsif state == :string && (match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox))
+          elsif state != :regexp && (match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox))
             if string_delimiter == "'" && !(match == "\\\\" || match == "\\'")
               kind = :content
             else
@@ -155,20 +163,20 @@ module Scanners
             key_expected = value_expected = false
             state = :initial
           else
-            raise_inspect "else case \" reached; %p not handled." % peek(1), tokens
+            raise_inspect "else case \" reached; %p not handled." % peek(1), tokens, state
           end
 
         else
-          raise_inspect 'Unknown state', tokens
+          raise_inspect 'Unknown state', tokens, state
 
         end
 
         match ||= matched
         if $DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens
+            [[match, kind], line], tokens, state
         end
-        raise_inspect 'Empty token', tokens unless match
+        raise_inspect 'Empty token', tokens, state unless match
         
         tokens << [match, kind]
 

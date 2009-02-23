@@ -76,7 +76,7 @@ module Scanners
               class_name_follows = false
             else
               import_clause = true if match == 'import'
-              class_name_follows = true if match == 'class'
+              class_name_follows = true if match == 'class' || match == 'interface'
             end
           
           elsif scan(/ \.(?!\d) | [,?:(\[)\]}] | -- | \+\+ | && | \|\| | \*\*=? | [-+*\/%^~&|<>=!]=? | <<<?=? | >>>?=? /x)

@@ -48,9 +48,28 @@ class BasicTest < Test::Unit::TestCase
 <div lang="ruby" class="CodeRay">
   <div class="code"><pre>puts <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">Hello, World!</span><span style="color:#710">&quot;</span></span></pre></div>
 </div>
-</pre>
         BLOCKCODE
         RedCloth.new('bc[ruby]. puts "Hello, World!"').to_html
+    end
+  
+    def test_for_redcloth_no_lang
+      require 'rubygems'
+      require 'coderay/for_redcloth'
+      assert_equal "<p><code>puts \"Hello, World!\"</code></p>",
+        RedCloth.new('@puts "Hello, World!"@').to_html
+      assert_equal <<-BLOCKCODE.chomp,
+<pre><code>puts \"Hello, World!\"</code></pre>
+        BLOCKCODE
+        RedCloth.new('bc. puts "Hello, World!"').to_html
+    end
+  
+    def test_for_redcloth_style
+      require 'rubygems'
+      require 'coderay/for_redcloth'
+      assert_equal <<-BLOCKCODE.chomp,
+<pre style=\"color: red;\"><code style=\"color: red;\">puts \"Hello, World!\"</code></pre>
+        BLOCKCODE
+        RedCloth.new('bc{color: red}. puts "Hello, World!"').to_html
     end
   
     def test_for_redcloth_escapes
@@ -62,7 +81,6 @@ class BasicTest < Test::Unit::TestCase
 <div lang="ruby" class="CodeRay">
   <div class="code"><pre>&amp;</pre></div>
 </div>
-</pre>
         BLOCKCODE
         RedCloth.new('bc[ruby]. &').to_html
     end

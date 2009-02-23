@@ -2,8 +2,6 @@ module CodeRay
   
 # = PluginHost
 #
-# $Id$
-#
 # A simple subclass plugin system.
 #
 #  Example:

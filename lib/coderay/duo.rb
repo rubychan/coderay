@@ -2,8 +2,6 @@ module CodeRay
   
   # = Duo
   #
-  # $Id: scanner.rb 123 2006-03-21 14:46:34Z murphy $
-  #
   # A Duo is a convenient way to use CodeRay. You just create a Duo,
   # giving it a lang (language of the input code) and a format (desired
   # output format), and call Duo#highlight with the code.

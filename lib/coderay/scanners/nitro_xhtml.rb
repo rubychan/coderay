@@ -5,8 +5,6 @@ module Scanners
   load :ruby
 
   # Nitro XHTML Scanner
-  #
-  # $Id$
   class NitroXHTML < Scanner
 
     include Streamable

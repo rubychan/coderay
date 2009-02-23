@@ -44,10 +44,12 @@ end
 task 'jruby' do
   RUBY.replace 'jruby'
 end
+task :j => :jruby
 
 task 'jruby19' do
   RUBY.replace 'jruby --1.9'
 end
+task :j19 => :jruby19
 
 task 'rubinius' do
   RUBY.replace 'rbx'

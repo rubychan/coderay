@@ -48,7 +48,6 @@ module CodeRay
           opts[:lang] ? '' : "<pre#{pba(opts)}>"
         end
         def bc_close(opts)  # :nodoc:
-          opts = @in_bc
           @in_bc = nil
           opts[:lang] ? '' : "</pre>\n"
         end

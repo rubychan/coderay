@@ -5,6 +5,8 @@ module Scanners
   load :ruby
 
   # RHTML Scanner
+  #
+  # $Id$
   class RHTML < Scanner
 
     include Streamable

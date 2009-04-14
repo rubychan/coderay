@@ -61,8 +61,9 @@ module Scanners
             tokens << [match, :space]
             next
           
-          elsif scan(%r! // [^\n\\]* (?: \\. [^\n\\]* )* | /\* (?: .*? \*/ | .* ) !mx)
-            kind = :comment
+          elsif match = scan(%r! // [^\n\\]* (?: \\. [^\n\\]* )* | /\* (?: .*? \*/ | .* ) !mx)
+            tokens << [match, :comment]
+            next
           
           elsif import_clause && scan(/ #{IDENT} (?: \. #{IDENT} )* /ox)
             kind = :include
@@ -79,7 +80,7 @@ module Scanners
               class_name_follows = true if match == 'class' || match == 'interface'
             end
           
-          elsif scan(/ \.(?!\d) | [,?:(\[)\]}] | -- | \+\+ | && | \|\| | \*\*=? | [-+*\/%^~&|<>=!]=? | <<<?=? | >>>?=? /x)
+          elsif scan(/ \.(?!\d) | [,?:()\[\]}] | -- | \+\+ | && | \|\| | \*\*=? | [-+*\/%^~&|<>=!]=? | <<<?=? | >>>?=? /x)
             kind = :operator
           
           elsif scan(/;/)

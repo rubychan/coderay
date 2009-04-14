@@ -41,6 +41,12 @@ module Encoders
   #
   # Default: nil
   #
+  # === :title
+  # 
+  # The title of the HTML page (works only when :wrap is set to :page.)
+  #
+  # Default: 'CodeRay output'
+  #
   # === :line_numbers
   # Include line numbers in :table, :inline, :list or nil (no line numbers)
   #
@@ -86,8 +92,8 @@ module Encoders
       :css => :class,
 
       :style => :cycnus,
-
       :wrap => nil,
+      :title => 'CodeRay output',
 
       :line_numbers => nil,
       :line_number_start => 1,
@@ -227,6 +233,7 @@ module Encoders
       @out.css = @css
       @out.numerize! options[:line_numbers], options
       @out.wrap! options[:wrap]
+      @out.apply_title! options[:title]
 
       super
     end

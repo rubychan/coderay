@@ -86,6 +86,11 @@ module Encoders
         Template.wrap! self, template, 'CONTENT'
         self
       end
+      
+      def apply_title! title
+        self.sub!(/(<title>)(<\/title>)/) { $1 + title + $2 }
+        self
+      end
 
       def wrap! element, *args
         return self if not element or element == wrapped_in
@@ -100,6 +105,10 @@ module Encoders
           wrap! :div if wrapped_in? nil
           raise "Can't wrap %p in %p" % [wrapped_in, element] unless wrapped_in? :div
           wrap_in! Output.page_template_for_css(@css)
+          if args.first.is_a?(Hash) && title = args.first[:title]
+            apply_title! title
+          end
+          self
         when nil
           return self
         else
@@ -177,7 +186,7 @@ module Encoders
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="de">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>CodeRay Output</title>
+  <title></title>
   <style type="text/css">
 <%CSS%>
   </style>

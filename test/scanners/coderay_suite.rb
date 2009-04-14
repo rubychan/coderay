@@ -349,7 +349,8 @@ module CodeRay
     def highlight_test tokens, name, okay, changed_lines
       report 'highlighting' do
         begin
-          highlighted = Highlighter.encode_tokens tokens, { :highlight_lines => changed_lines }
+          highlighted = Highlighter.encode_tokens tokens, :highlight_lines => changed_lines,
+            :title => "Testing #{self.class.name[/\w+$/]}: #{name} [#{'NOT ' unless okay}OKAY]"
         rescue
           flunk 'highlighting test failed!' if ENV['assert']
           return false

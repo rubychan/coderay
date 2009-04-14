@@ -25,7 +25,8 @@ namespace :generate do
     File.open(scanner_file, 'w') do |file|
       file.write base_scanner.
         sub(/class \w+ < Scanner/, "class #{class_name} < Scanner").
-        sub!(/register_for :\w+/, "register_for :#{lang}")
+        sub(/register_for :\w+/, "register_for :#{lang}").
+        sub(/file_extension '\S+'/, "file_extension '#{ENV.fetch('EXT', lang).split(',').first}'")
     end
     
     test_dir = File.join(ROOT, 'test', 'scanners', lang)
@@ -68,7 +69,7 @@ namespace :generate do
 *.expected.html
 *.debug.diff
       SVN_IGNORE
-      sh "svn pset svn:ignore 'svn_ignore' #{test_dir}"
+      sh "svn pset svn:ignore '#{svn_ignore}' #{test_dir}"
     end
   end
 end

@@ -6,6 +6,7 @@ module Scanners
     include Streamable
     
     register_for :json
+    file_extension 'json'
     
     CONSTANTS = %w( true false null )
     IDENT_KIND = WordList.new(:key).add(CONSTANTS, :reserved)

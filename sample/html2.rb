@@ -8,4 +8,4 @@ out = tokens.div(:line_numbers => :table)
 out << '<hr />'
 out << tokens.div(:line_numbers => :inline, :line_number_start => 8)
 
-puts out.page
+puts out.page(:title => 'CodeRay HTML Encoder Example')

@@ -1,17 +1,17 @@
 <div class="CodeRay">
-  <div class="code"><pre><span style="color:#080; font-weight:bold">for</span> a <span style="color:#080; font-weight:bold">in</span> <span style="color:#00D; font-weight:bold">0</span>..<span style="color:#00D; font-weight:bold">255</span>
+  <div class="code"><pre><span style="color:#080;font-weight:bold">for</span> a <span style="color:#080;font-weight:bold">in</span> <span style="color:#00D;font-weight:bold">0</span>..<span style="color:#00D;font-weight:bold">255</span>
         a = a.chr
-        <span style="color:#080; font-weight:bold">begin</span>
-                x = eval(<span style="background-color:#fff0f0"><span style="color:#710">&quot;</span><span style="color:#D20">?</span><span style="color:#04D">\\</span><span style="background: #eee"><span style="font-weight: bold; color: #888">#{</span>a<span style="font-weight: bold; color: #888">}</span></span><span style="color:#710">&quot;</span></span>)
-                <span style="color:#080; font-weight:bold">if</span> x == a[<span style="color:#00D; font-weight:bold">0</span>]
-                        <span style="color:#080; font-weight:bold">next</span>
-                <span style="color:#080; font-weight:bold">else</span>
-                        print <span style="background-color:#fff0f0"><span style="color:#710">&quot;</span><span style="background: #eee"><span style="font-weight: bold; color: #888">#{</span>a<span style="font-weight: bold; color: #888">}</span></span><span style="color:#D20">: </span><span style="background: #eee"><span style="font-weight: bold; color: #888">#{</span>x<span style="font-weight: bold; color: #888">}</span></span><span style="color:#710">&quot;</span></span>
-                <span style="color:#080; font-weight:bold">end</span>
-        <span style="color:#080; font-weight:bold">rescue</span> <span style="color:#036; font-weight:bold">SyntaxError</span> =&gt; boom
-                print <span style="background-color:#fff0f0"><span style="color:#710">&quot;</span><span style="background: #eee"><span style="font-weight: bold; color: #888">#{</span>a<span style="font-weight: bold; color: #888">}</span></span><span style="color:#D20">: error</span><span style="color:#710">&quot;</span></span>
-        <span style="color:#080; font-weight:bold">end</span>
+        <span style="color:#080;font-weight:bold">begin</span>
+                x = eval(<span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">?</span><span style="color:#b0b">\\</span><span style="background:#eee;color:black"><span style="font-weight:bold;color:#777">#{</span>a<span style="font-weight:bold;color:#777">}</span></span><span style="color:#710">&quot;</span></span>)
+                <span style="color:#080;font-weight:bold">if</span> x == a[<span style="color:#00D;font-weight:bold">0</span>]
+                        <span style="color:#080;font-weight:bold">next</span>
+                <span style="color:#080;font-weight:bold">else</span>
+                        print <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="background:#eee;color:black"><span style="font-weight:bold;color:#777">#{</span>a<span style="font-weight:bold;color:#777">}</span></span><span style="">: </span><span style="background:#eee;color:black"><span style="font-weight:bold;color:#777">#{</span>x<span style="font-weight:bold;color:#777">}</span></span><span style="color:#710">&quot;</span></span>
+                <span style="color:#080;font-weight:bold">end</span>
+        <span style="color:#080;font-weight:bold">rescue</span> <span style="color:#036;font-weight:bold">SyntaxError</span> =&gt; boom
+                print <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="background:#eee;color:black"><span style="font-weight:bold;color:#777">#{</span>a<span style="font-weight:bold;color:#777">}</span></span><span style="">: error</span><span style="color:#710">&quot;</span></span>
+        <span style="color:#080;font-weight:bold">end</span>
         puts
-<span style="color:#080; font-weight:bold">end</span>
+<span style="color:#080;font-weight:bold">end</span>
 </pre></div>
 </div>

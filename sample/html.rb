@@ -2,9 +2,9 @@ $: << '..'
 require 'coderay'
 
 tokens = CodeRay.scan DATA.read, :ruby
-html = tokens.html(:tab_width => 2, :line_numbers => :table)
+html = tokens.page(:tab_width => 2, :line_numbers => :table, :title => 'CodeRay HTML Encoder Example')
 
-puts html.page
+puts html
 
 __END__
 require 'scanner'

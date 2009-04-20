@@ -1,0 +1,872 @@
+Index: coderay/encoders/html/numerization.rb
+===================================================================
+--- coderay/encoders/html/numerization.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay/encoders/html/numerization.rb	(.../trunk/lib)	(revision 302)
+@@ -32,9 +32,19 @@
+         #end
+ 
+         bold_every = options[:bold_every]
++        highlight_lines = options[:highlight_lines]
+         bolding =
+-          if bold_every == false
++          if bold_every == false && highlight_lines == nil
+             proc { |line| line.to_s }
++          elsif highlight_lines.is_a? Enumerable
++            highlight_lines = highlight_lines.to_set
++            proc do |line|
++              if highlight_lines.include? line
++                "<strong class=\"highlighted\">#{line}</strong>"  # highlighted line numbers in bold
++              else
++                line.to_s
++              end
++            end
+           elsif bold_every.is_a? Integer
+             raise ArgumentError, ":bolding can't be 0." if bold_every == 0
+             proc do |line|
+Index: coderay/encoders/html.rb
+===================================================================
+--- coderay/encoders/html.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay/encoders/html.rb	(.../trunk/lib)	(revision 302)
+@@ -56,6 +56,16 @@
+   #
+   # Default: 10
+   #
++  # === :highlight_lines
++  # 
++  # Highlights certain line numbers now by using the :highlight_lines option.
++  # Can be any Enumerable, typically just an Array or Range, of numbers.
++  # 
++  # Bolding is deactivated when :highlight_lines is set. It only makes sense
++  # in combination with :line_numbers.
++  #
++  # Default: nil
++  #
+   # === :hint
+   # Include some information into the output using the title attribute.
+   # Can be :info (show token type on mouse-over), :info_long (with full path)
+@@ -82,6 +92,7 @@
+       :line_numbers => nil,
+       :line_number_start => 1,
+       :bold_every => 10,
++      :highlight_lines => nil,
+ 
+       :hint => false,
+     }
+Index: coderay/helpers/plugin.rb
+===================================================================
+--- coderay/helpers/plugin.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay/helpers/plugin.rb	(.../trunk/lib)	(revision 302)
+@@ -303,9 +303,17 @@
+   #
+   # The above example loads the file myplugin/my_helper.rb relative to the
+   # file in which MyPlugin was defined.
++  # 
++  # You can also load a helper from a different plugin:
++  # 
++  #  helper 'other_plugin/other_helper'
+   def helper *helpers
+     for helper in helpers
+-      self::PLUGIN_HOST.require_helper plugin_id, helper.to_s
++      if helper.is_a?(String) && helper[/\//]
++        self::PLUGIN_HOST.require_helper $`, $'
++      else
++        self::PLUGIN_HOST.require_helper plugin_id, helper.to_s
++      end
+     end
+   end
+ 
+Index: coderay/helpers/file_type.rb
+===================================================================
+--- coderay/helpers/file_type.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay/helpers/file_type.rb	(.../trunk/lib)	(revision 302)
+@@ -87,6 +87,8 @@
+     'mab' => :ruby,
+     'cpp' => :c,
+     'c' => :c,
++    'gvy' => :groovy,
++    'groovy' => :groovy,
+     'h' => :c,
+     'java' => :java,
+     'js' => :java_script,
+Index: coderay/helpers/gzip_simple.rb
+===================================================================
+--- coderay/helpers/gzip_simple.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay/helpers/gzip_simple.rb	(.../trunk/lib)	(revision 302)
+@@ -2,7 +2,7 @@
+ #
+ # A simplified interface to the gzip library +zlib+ (from the Ruby Standard Library.)
+ #
+-# Author: murphy (mail to murphy cYcnus de)
++# Author: murphy (mail to murphy rubychan de)
+ #
+ # Version: 0.2 (2005.may.28)
+ #
+Index: coderay/styles/cycnus.rb
+===================================================================
+--- coderay/styles/cycnus.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay/styles/cycnus.rb	(.../trunk/lib)	(revision 302)
+@@ -8,7 +8,7 @@
+     code_background = '#f8f8f8'
+     numbers_background = '#def'
+     border_color = 'silver'
+-    normal_color = '#100'
++    normal_color = '#000'
+ 
+     CSS_MAIN_STYLES = <<-MAIN
+ .CodeRay {
+@@ -32,6 +32,7 @@
+   text-align: right;
+ }
+ .CodeRay .line_numbers tt { font-weight: bold }
++.CodeRay .line_numbers .highlighted { color: red }
+ .CodeRay .no { padding: 0px 4px }
+ .CodeRay .code { width: 100% }
+ 
+@@ -50,7 +51,7 @@
+ .av { color:#700 }
+ .aw { color:#C00 }
+ .bi { color:#509; font-weight:bold }
+-.c  { color:#666; }
++.c  { color:#888; }
+ 
+ .ch { color:#04D }
+ .ch .k { color:#04D }
+@@ -77,10 +78,10 @@
+ .i  { color:#00D; font-weight:bold }
+ .ic { color:#B44; font-weight:bold }
+ 
+-.il { background: #eee }
++.il { background: #eee; color: black }
+ .il .il { background: #ddd }
+ .il .il .il { background: #ccc }
+-.il .idl { font-weight: bold; color: #888 }
++.il .idl { font-weight: bold; color: #777 }
+ 
+ .im { color:#f00; }
+ .in { color:#B2B; font-weight:bold }
+@@ -94,7 +95,7 @@
+ .pd { color:#369; font-weight:bold }
+ .pp { color:#579; }
+ .ps { color:#00C; font-weight: bold; }
+-.pt { color:#339; font-weight:bold }
++.pt { color:#349; font-weight:bold }
+ .r, .kw  { color:#080; font-weight:bold }
+ 
+ .ke { color: #808; }
+Index: coderay/for_redcloth.rb
+===================================================================
+--- coderay/for_redcloth.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay/for_redcloth.rb	(.../trunk/lib)	(revision 302)
+@@ -1,4 +1,4 @@
+-module CodeRay  # :nodoc:
++module CodeRay
+   
+   # A little hack to enable CodeRay highlighting in RedCloth.
+   # 
+Index: coderay/scanners/ruby/patterns.rb
+===================================================================
+--- coderay/scanners/ruby/patterns.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay/scanners/ruby/patterns.rb	(.../trunk/lib)	(revision 302)
+@@ -81,25 +81,30 @@
+     /ox
+     METHOD_NAME_OR_SYMBOL = / #{METHOD_NAME_EX} | #{SYMBOL} /ox
+ 
+-    # TODO investigste \M, \c and \C escape sequences
+-    # (?: M-\\C-|C-\\M-|M-\\c|c\\M-|c|C-|M-)? (?: \\ (?: [0-7]{3} | x[0-9A-Fa-f]{2} | . ) )
+-    # assert_equal(225, ?\M-a)
+-    # assert_equal(129, ?\M-\C-a)
+-    ESCAPE = /
++    SIMPLE_ESCAPE = /
+         [abefnrstv]
+-      | M-\\C-|C-\\M-|M-\\c|c\\M-|c|C-|M-
+       |  [0-7]{1,3}
+       | x[0-9A-Fa-f]{1,2}
+-      | .
++      | .?
+     /mx
+-
++    
++    CONTROL_META_ESCAPE = /
++      (?: M-|C-|c )
++      (?: \\ (?: M-|C-|c ) )*
++      (?: [^\\] | \\ #{SIMPLE_ESCAPE} )?
++    /mox
++    
++    ESCAPE = /
++      #{CONTROL_META_ESCAPE} | #{SIMPLE_ESCAPE}
++    /mox
++    
+     CHARACTER = /
+       \?
+       (?:
+         [^\s\\]
+       | \\ #{ESCAPE}
+       )
+-    /mx
++    /mox
+ 
+     # NOTE: This is not completely correct, but
+     # nobody needs heredoc delimiters ending with \n.
+Index: coderay/scanners/java.rb
+===================================================================
+--- coderay/scanners/java.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay/scanners/java.rb	(.../trunk/lib)	(revision 302)
+@@ -30,12 +30,11 @@
+       add(KEYWORDS, :keyword).
+       add(MAGIC_VARIABLES, :local_variable).
+       add(TYPES, :type).
+-      add(BuiltinTypes::List, :type).
++      add(BuiltinTypes::List, :pre_type).
+       add(DIRECTIVES, :directive)
+ 
+     ESCAPE = / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
+     UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x
+-    REGEXP_ESCAPE =  / [bBdDsSwW] /x
+     STRING_CONTENT_PATTERN = {
+       "'" => /[^\\']+/,
+       '"' => /[^\\"]+/,
+@@ -117,15 +116,11 @@
+ 
+           end
+ 
+-        when :string, :regexp
++        when :string
+           if scan(STRING_CONTENT_PATTERN[string_delimiter])
+             kind = :content
+           elsif match = scan(/["'\/]/)
+             tokens << [match, :delimiter]
+-            if state == :regexp
+-              modifiers = scan(/[gim]+/)
+-              tokens << [modifiers, :modifier] if modifiers && !modifiers.empty?
+-            end
+             tokens << [:close, state]
+             string_delimiter = nil
+             state = :initial
+@@ -136,8 +131,6 @@
+             else
+               kind = :char
+             end
+-          elsif state == :regexp && scan(/ \\ (?: #{ESCAPE} | #{REGEXP_ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
+-            kind = :char
+           elsif scan(/\\./m)
+             kind = :content
+           elsif scan(/ \\ | $ /x)
+@@ -166,7 +159,7 @@
+ 
+       end
+ 
+-      if [:string, :regexp].include? state
++      if state == :string
+         tokens << [:close, state]
+       end
+ 
+Index: coderay/scanners/ruby.rb
+===================================================================
+--- coderay/scanners/ruby.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay/scanners/ruby.rb	(.../trunk/lib)	(revision 302)
+@@ -147,6 +147,10 @@
+             tokens << [match, kind]
+             next
+           
++          elsif bol? && match = scan(/\#!.*/)
++            tokens << [match, :doctype]
++            next
++            
+           elsif match = scan(/\#.*/) or
+             ( bol? and match = scan(/#{patterns::RUBYDOC_OR_DATA}/o) )
+               kind = :comment
+@@ -191,6 +195,7 @@
+                   depth -= 1
+                   if depth == 0  # closing brace of inline block reached
+                     state, depth, heredocs = inline_block_stack.pop
++                    heredocs = nil if heredocs && heredocs.empty?
+                     tokens << [match, :inline_delimiter]
+                     kind = :inline
+                     match = :close
+@@ -346,7 +351,7 @@
+             value_expected = value_expected == :set
+             last_token_dot = last_token_dot == :set
+           end
+-
++          
+           if $DEBUG and not kind
+             raise_inspect 'Error token %p in line %d' %
+               [[match, kind], line], tokens, state
+Index: coderay/scanners/groovy.rb
+===================================================================
+--- coderay/scanners/groovy.rb	(.../tags/0.8.2/lib)	(revision 0)
++++ coderay/scanners/groovy.rb	(.../trunk/lib)	(revision 302)
+@@ -0,0 +1,271 @@
++module CodeRay
++module Scanners
++
++  load :java
++
++  class Groovy < Java
++
++    include Streamable
++    register_for :groovy
++    
++    # TODO: Check this!
++    KEYWORDS = Java::KEYWORDS + %w[
++      as assert def in
++    ]
++    KEYWORDS_EXPECTING_VALUE = WordList.new.add %w[
++      case instanceof new return throw typeof while as assert in
++    ]
++    
++    MAGIC_VARIABLES = Java::MAGIC_VARIABLES + %w[ it ]
++    # DIRECTIVES = %w[
++    #   abstract extends final implements native private protected public
++    #   static strictfp synchronized threadsafe throws transient volatile
++    # ]
++    
++    IDENT_KIND = WordList.new(:ident).
++      add(KEYWORDS, :keyword).
++      add(MAGIC_VARIABLES, :local_variable).
++      add(TYPES, :type).
++      add(BuiltinTypes::List, :pre_type).
++      add(DIRECTIVES, :directive)
++    
++    ESCAPE = / [bfnrtv$\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
++    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} /x  # no 4-byte unicode chars? U[a-fA-F0-9]{8}
++    REGEXP_ESCAPE =  / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} | \d | [bBdDsSwW\/] /x
++    
++    # TODO: interpretation inside ', ", /
++    STRING_CONTENT_PATTERN = {
++      "'" => /(?>\\[^\\'\n]+|[^\\'\n]+)+/,
++      '"' => /[^\\$"\n]+/,
++      "'''" => /(?>[^\\']+|'(?!''))+/,
++      '"""' => /(?>[^\\$"]+|"(?!""))+/,
++      '/' => /[^\\$\/\n]+/,
++    }
++    
++    def scan_tokens tokens, options
++
++      state = :initial
++      inline_block_stack = []
++      inline_block_paren_depth = nil
++      string_delimiter = nil
++      import_clause = class_name_follows = last_token = after_def = false
++      value_expected = true
++
++      until eos?
++
++        kind = nil
++        match = nil
++        
++        case state
++
++        when :initial
++
++          if match = scan(/ \s+ | \\\n /x)
++            tokens << [match, :space]
++            if match.index ?\n
++              import_clause = after_def = false
++              value_expected = true unless value_expected
++            end
++            next
++          
++          elsif scan(%r! // [^\n\\]* (?: \\. [^\n\\]* )* | /\* (?: .*? \*/ | .* ) !mx)
++            value_expected = true
++            after_def = false
++            kind = :comment
++          
++          elsif bol? && scan(/ \#!.* /x)
++            kind = :doctype
++          
++          elsif import_clause && scan(/ (?!as) #{IDENT} (?: \. #{IDENT} )* (?: \.\* )? /ox)
++            after_def = value_expected = false
++            kind = :include
++          
++          elsif match = scan(/ #{IDENT} | \[\] /ox)
++            kind = IDENT_KIND[match]
++            value_expected = (kind == :keyword) && KEYWORDS_EXPECTING_VALUE[match]
++            if last_token == '.'
++              kind = :ident
++            elsif class_name_follows
++              kind = :class
++              class_name_follows = false
++            elsif after_def && check(/\s*[({]/)
++              kind = :method
++              after_def = false
++            elsif kind == :ident && last_token != '?' && check(/:/)
++              kind = :key
++            else
++              class_name_follows = true if match == 'class' || (import_clause && match == 'as')
++              import_clause = match == 'import'
++              after_def = true if match == 'def'
++            end
++          
++          elsif scan(/;/)
++            import_clause = after_def = false
++            value_expected = true
++            kind = :operator
++          
++          elsif scan(/\{/)
++            class_name_follows = after_def = false
++            value_expected = true
++            kind = :operator
++            if !inline_block_stack.empty?
++              inline_block_paren_depth += 1
++            end
++          
++          # TODO: ~'...', ~"..." and ~/.../ style regexps
++          elsif match = scan(/ \.\.<? | \*?\.(?!\d)@? | \.& | \?:? | [,?:(\[] | -[->] | \+\+ |
++              && | \|\| | \*\*=? | ==?~ | <=?>? | [-+*%^~&|>=!]=? | <<<?=? | >>>?=? /x)
++            value_expected = true
++            value_expected = :regexp if match == '~'
++            after_def = false
++            kind = :operator
++          
++          elsif match = scan(/ [)\]}] /x)
++            value_expected = after_def = false
++            if !inline_block_stack.empty? && match == '}'
++              inline_block_paren_depth -= 1
++              if inline_block_paren_depth == 0  # closing brace of inline block reached
++                tokens << [match, :inline_delimiter]
++                tokens << [:close, :inline]
++                state, string_delimiter, inline_block_paren_depth = inline_block_stack.pop
++                next
++              end
++            end
++          
++          elsif check(/[\d.]/)
++            after_def = value_expected = false
++            if scan(/0[xX][0-9A-Fa-f]+/)
++              kind = :hex
++            elsif scan(/(?>0[0-7]+)(?![89.eEfF])/)
++              kind = :oct
++            elsif scan(/\d+[fFdD]|\d*\.\d+(?:[eE][+-]?\d+)?[fFdD]?|\d+[eE][+-]?\d+[fFdD]?/)
++              kind = :float
++            elsif scan(/\d+[lLgG]?/)
++              kind = :integer
++            end
++
++          elsif match = scan(/'''|"""/)
++            after_def = value_expected = false
++            state = :multiline_string
++            tokens << [:open, :string]
++            string_delimiter = match
++            kind = :delimiter
++          
++          # TODO: record.'name'
++          elsif match = scan(/["']/)
++            after_def = value_expected = false
++            state = match == '/' ? :regexp : :string
++            tokens << [:open, state]
++            string_delimiter = match
++            kind = :delimiter
++
++          elsif value_expected && (match = scan(/\//))
++            after_def = value_expected = false
++            tokens << [:open, :regexp]
++            state = :regexp
++            string_delimiter = '/'
++            kind = :delimiter
++
++          elsif scan(/ @ #{IDENT} /ox)
++            after_def = value_expected = false
++            kind = :annotation
++
++          elsif scan(/\//)
++            after_def = false
++            value_expected = true
++            kind = :operator
++          
++          else
++            getch
++            kind = :error
++
++          end
++
++        when :string, :regexp, :multiline_string
++          if scan(STRING_CONTENT_PATTERN[string_delimiter])
++            kind = :content
++            
++          elsif match = scan(state == :multiline_string ? /'''|"""/ : /["'\/]/)
++            tokens << [match, :delimiter]
++            if state == :regexp
++              # TODO: regexp modifiers? s, m, x, i?
++              modifiers = scan(/[ix]+/)
++              tokens << [modifiers, :modifier] if modifiers && !modifiers.empty?
++            end
++            state = :string if state == :multiline_string
++            tokens << [:close, state]
++            string_delimiter = nil
++            after_def = value_expected = false
++            state = :initial
++            next
++          
++          elsif (state == :string || state == :multiline_string) &&
++              (match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox))
++            if string_delimiter[0] == ?' && !(match == "\\\\" || match == "\\'")
++              kind = :content
++            else
++              kind = :char
++            end
++          elsif state == :regexp && scan(/ \\ (?: #{REGEXP_ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
++            kind = :char
++          
++          elsif match = scan(/ \$ #{IDENT} /mox)
++            tokens << [:open, :inline]
++            tokens << ['$', :inline_delimiter]
++            match = match[1..-1]
++            tokens << [match, IDENT_KIND[match]]
++            tokens << [:close, :inline]
++            next
++          elsif match = scan(/ \$ \{ /x)
++            tokens << [:open, :inline]
++            tokens << ['${', :inline_delimiter]
++            inline_block_stack << [state, string_delimiter, inline_block_paren_depth]
++            inline_block_paren_depth = 1
++            state = :initial
++            next
++          
++          elsif scan(/ \$ /mx)
++            kind = :content
++          
++          elsif scan(/ \\. /mx)
++            kind = :content
++          
++          elsif scan(/ \\ | \n /x)
++            tokens << [:close, state]
++            kind = :error
++            after_def = value_expected = false
++            state = :initial
++          
++          else
++            raise_inspect "else case \" reached; %p not handled." % peek(1), tokens
++          end
++
++        else
++          raise_inspect 'Unknown state', tokens
++
++        end
++
++        match ||= matched
++        if $DEBUG and not kind
++          raise_inspect 'Error token %p in line %d' %
++            [[match, kind], line], tokens
++        end
++        raise_inspect 'Empty token', tokens unless match
++        
++        last_token = match unless [:space, :comment, :doctype].include? kind
++        
++        tokens << [match, kind]
++
++      end
++
++      if [:multiline_string, :string, :regexp].include? state
++        tokens << [:close, state]
++      end
++
++      tokens
++    end
++
++  end
++
++end
++end
+Index: coderay/scanners/css.rb
+===================================================================
+--- coderay/scanners/css.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay/scanners/css.rb	(.../trunk/lib)	(revision 302)
+@@ -38,6 +38,7 @@
+       Id = /##{Name}/
+       Class = /\.#{Name}/
+       PseudoClass = /:#{Name}/
++      AttributeSelector = /\[[^\]]*\]?/
+ 
+     end
+ 
+@@ -55,8 +56,8 @@
+           kind = :space
+ 
+         elsif case states.last
+-          when :initial
+-            if scan(/#{RE::Ident}|\*/ox)
++          when :initial, :media
++            if scan(/(?>#{RE::Ident})(?!\()|\*/ox)
+               kind = :keyword
+             elsif scan RE::Class
+               kind = :class
+@@ -64,10 +65,19 @@
+               kind = :constant
+             elsif scan RE::PseudoClass
+               kind = :pseudo_class
+-            elsif scan RE::Name
+-              kind = :identifier
++            elsif match = scan(RE::AttributeSelector)
++              # TODO: Improve highlighting inside of attribute selectors.
++              tokens << [:open, :string]
++              tokens << [match[0,1], :delimiter]
++              tokens << [match[1..-2], :content] if match.size > 2
++              tokens << [match[-1,1], :delimiter] if match[-1] == ?]
++              tokens << [:close, :string]
++              next
++            elsif match = scan(/@media/)
++              kind = :directive
++              states.push :media_before_name
+             end
+-
++          
+           when :block
+             if scan(/(?>#{RE::Ident})(?!\()/ox)
+               if value_expected
+@@ -77,6 +87,18 @@
+               end
+             end
+ 
++          when :media_before_name
++            if scan RE::Ident
++              kind = :type
++              states[-1] = :media_after_name
++            end
++          
++          when :media_after_name
++            if scan(/\{/)
++              kind = :operator
++              states[-1] = :media
++            end
++          
+           when :comment
+             if scan(/(?:[^*\s]|\*(?!\/))+/)
+               kind = :comment
+@@ -103,7 +125,7 @@
+ 
+         elsif scan(/\}/)
+           value_expected = false
+-          if states.last == :block
++          if states.last == :block || states.last == :media
+             kind = :operator
+             states.pop
+           else
+Index: coderay/scanners/java_script.rb
+===================================================================
+--- coderay/scanners/java_script.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay/scanners/java_script.rb	(.../trunk/lib)	(revision 302)
+@@ -94,13 +94,22 @@
+             kind = IDENT_KIND[match]
+             value_expected = (kind == :keyword) && KEYWORDS_EXPECTING_VALUE[match]
+             if kind == :ident
+-              if match.index(?$)
++              if match.index(?$)  # $ allowed inside an identifier
+                 kind = :predefined
+               elsif key_expected && check(/\s*:/)
+                 kind = :key
+               end
+             end
+             key_expected = false
++          
++          # TODO: string key recognition
++          # There's a problem with expressions like: PAIRS: { 'slide':  ['SlideDown','SlideUp'], ... }.
++          # The commas in the array are confusing the scanner here.
++          # elsif key_expected && match = scan(/["']/)
++          #   tokens << [:open, :key]
++          #   state = :key
++          #   string_delimiter = match
++          #   kind = :delimiter
+ 
+           elsif match = scan(/["']/)
+             tokens << [:open, :string]
+@@ -125,7 +134,7 @@
+ 
+           end
+ 
+-        when :string, :regexp
++        when :string, :regexp, :key
+           if scan(STRING_CONTENT_PATTERN[string_delimiter])
+             kind = :content
+           elsif match = scan(/["'\/]/)
+@@ -139,7 +148,7 @@
+             key_expected = value_expected = false
+             state = :initial
+             next
+-          elsif state == :string && (match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox))
++          elsif state != :regexp && (match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox))
+             if string_delimiter == "'" && !(match == "\\\\" || match == "\\'")
+               kind = :content
+             else
+@@ -150,7 +159,7 @@
+           elsif scan(/\\./m)
+             kind = :content
+           elsif scan(/ \\ | $ /x)
+-            tokens << [:close, :delimiter]
++            tokens << [:close, state]
+             kind = :error
+             key_expected = value_expected = false
+             state = :initial
+Index: coderay/scanners/_map.rb
+===================================================================
+--- coderay/scanners/_map.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay/scanners/_map.rb	(.../trunk/lib)	(revision 302)
+@@ -7,6 +7,7 @@
+     :irb => :ruby,
+     :xhtml => :nitro_xhtml,
+     :javascript => :java_script,
++    :js => :java_script,
+     :nitro => :nitro_xhtml,
+     :yml => :yaml
+ 
+Index: coderay.rb
+===================================================================
+--- coderay.rb	(.../tags/0.8.2/lib)	(revision 302)
++++ coderay.rb	(.../trunk/lib)	(revision 302)
+@@ -130,11 +130,11 @@
+ module CodeRay
+ 
+   # Version: Major.Minor.Teeny[.Revision]
+-  # Major: 0 for pre-release
+-  # Minor: odd for beta, even for stable
+-  # Teeny: development state
+-  # Revision: Subversion Revision number (generated on rake)
+-  VERSION = '0.8'
++  # Major: 0 for pre-stable, 1 for stable
++  # Minor: feature milestone
++  # Teeny: development state, 0 for pre-release
++  # Revision: Subversion Revision number (generated on rake gem:make)
++  VERSION = '0.9.0'
+ 
+   require 'coderay/tokens'
+   require 'coderay/scanner'
+Index: README
+===================================================================
+--- README	(.../tags/0.8.2/lib)	(revision 0)
++++ README	(.../trunk/lib)	(revision 302)
+@@ -0,0 +1,128 @@
++= CodeRay
++
++[- Tired of blue'n'gray? Try the original version of this documentation on
++coderay.rubychan.de[http://coderay.rubychan.de/doc/] (use Ctrl+Click to open it in its own frame.) -]
++
++== About
++CodeRay is a Ruby library for syntax highlighting.
++
++Syntax highlighting means: You put your code in, and you get it back colored;
++Keywords, strings, floats, comments - all in different colors.
++And with line numbers.
++
++*Syntax* *Highlighting*...
++* makes code easier to read and maintain
++* lets you detect syntax errors faster
++* helps you to understand the syntax of a language
++* looks nice
++* is what everybody should have on their website
++* solves all your problems and makes the girls run after you
++
++Version: 0.8.1
++Author:: murphy (Kornelius Kalnbach)
++Contact:: murphy rubychan de
++Website:: coderay.rubychan.de[http://coderay.rubychan.de]
++License:: GNU LGPL; see LICENSE file in the main directory.
++Subversion:: $Id$
++
++== Installation
++
++You need RubyGems[http://rubyforge.org/frs/?group_id=126].
++
++ % gem install coderay
++
++
++=== Dependencies
++
++CodeRay needs Ruby 1.8.6 or later. It should also run with Ruby 1.9 and JRuby.
++
++
++== Example Usage
++(Forgive me, but this is not highlighted.)
++
++ require 'coderay'
++ 
++ tokens = CodeRay.scan "puts 'Hello, world!'", :ruby
++ page = tokens.html :line_numbers => :inline, :wrap => :page
++ puts page
++
++
++== Documentation
++
++See CodeRay.
++
++Please report errors in this documentation to <murphy rubychan de>.
++
++
++== Credits
++
++=== Special Thanks to
++
++* licenser (Heinz N. Gies) for ending my QBasic career, inventing the Coder
++  project and the input/output plugin system.
++  CodeRay would not exist without him.
++* bovi (Daniel Bovensiepen) for helping me out on various occasions.
++
++=== Thanks to
++
++* Caleb Clausen for writing RubyLexer (see
++  http://rubyforge.org/projects/rubylexer) and lots of very interesting mail
++  traffic
++* birkenfeld (Georg Brandl) and mitsuhiku (Arnim Ronacher) for PyKleur, now pygments.
++  You guys rock!
++* Jamis Buck for writing Syntax (see http://rubyforge.org/projects/syntax)
++  I got some useful ideas from it.
++* Doug Kearns and everyone else who worked on ruby.vim - it not only helped me
++  coding CodeRay, but also gave me a wonderful target to reach for the Ruby
++  scanner.
++* everyone who uses CodeBB on http://www.rubyforen.de and http://www.python-forum.de
++* iGEL, magichisoka, manveru, WoNáDo and everyone I forgot from rubyforen.de
++* Dethix from ruby-mine.de
++* zickzackw
++* Dookie (who is no longer with us...) and Leonidas from http://www.python-forum.de
++* Andreas Schwarz for finding out that CaseIgnoringWordList was not case
++  ignoring! Such things really make you write tests.
++* closure for the first version of the Scheme scanner.
++* Stefan Walk for the first version of the JavaScript scanner.
++* Josh Goebel for another version of the JavaScript scanner and a Diff scanner.
++* Jonathan Younger for pointing out the licence confusion caused by wrong LICENSE file.
++* Jeremy Hinegardner for finding the shebang-on-empty-file bug in FileType.
++* Charles Oliver Nutter and Yehuda Katz for helping me benchmark CodeRay on JRuby.
++* The folks at redmine.org - thank you for using and fixing CodeRay!
++* matz and all Ruby gods and gurus
++* The inventors of: the computer, the internet, the true color display, HTML &
++  CSS, VIM, RUBY, pizza, microwaves, guitars, scouting, programming, anime, 
++  manga, coke and green ice tea.
++
++Where would we be without all those people?
++
++=== Created using
++
++* Ruby[http://ruby-lang.org/]
++* Chihiro (my Sony VAIO laptop); Henrietta (my old MacBook);
++  Triella, born Rico (my new MacBook); as well as
++  Seras and Hikari (my PCs)
++* RDE[http://homepage2.nifty.com/sakazuki/rde_e.html],
++  VIM[http://vim.org] and TextMate[http://macromates.com]
++* Subversion[http://subversion.tigris.org/]
++* Redmine[http://redmine.org/]
++* Firefox[http://www.mozilla.org/products/firefox/],
++  Firebug[http://getfirebug.com/], and
++  Thunderbird[http://www.mozilla.org/products/thunderbird/]
++* RubyGems[http://docs.rubygems.org/] and Rake[http://rake.rubyforge.org/]
++* TortoiseSVN[http://tortoisesvn.tigris.org/] using Apache via
++  XAMPP[http://www.apachefriends.org/en/xampp.html]
++* RDoc (though I'm quite unsatisfied with it)
++* Microsoft Windows (yes, I confess!) and MacOS X
++* GNUWin32, MinGW and some other tools to make the shell under windows a bit
++  less useless
++* Term::ANSIColor[http://term-ansicolor.rubyforge.org/]
++* PLEAC[http://pleac.sourceforge.net/] code examples
++
++=== Free
++
++* As you can see, CodeRay was created under heavy use of *free* software.
++* So CodeRay is also *free*.
++* If you use CodeRay to create software, think about making this software
++  *free*, too.
++* Thanks :)
+
+Property changes on: README
+___________________________________________________________________
+Added: svn:keywords
+   + Id
+Added: svn:mergeinfo
+

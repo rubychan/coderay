@@ -1,0 +1,656 @@
+Index: test/functional/basic.rb
+===================================================================
+--- test/functional/basic.rb	(revision 308)
++++ test/functional/basic.rb	(working copy)
+@@ -48,11 +48,30 @@
+ <div lang="ruby" class="CodeRay">
+   <div class="code"><pre>puts <span style="background-color:#fff0f0;color:#D20"><span style="color:#710">&quot;</span><span style="">Hello, World!</span><span style="color:#710">&quot;</span></span></pre></div>
+ </div>
+-</pre>
+         BLOCKCODE
+         RedCloth.new('bc[ruby]. puts "Hello, World!"').to_html
+     end
+   
++    def test_for_redcloth_no_lang
++      require 'rubygems'
++      require 'coderay/for_redcloth'
++      assert_equal "<p><code>puts \"Hello, World!\"</code></p>",
++        RedCloth.new('@puts "Hello, World!"@').to_html
++      assert_equal <<-BLOCKCODE.chomp,
++<pre><code>puts \"Hello, World!\"</code></pre>
++        BLOCKCODE
++        RedCloth.new('bc. puts "Hello, World!"').to_html
++    end
++  
++    def test_for_redcloth_style
++      require 'rubygems'
++      require 'coderay/for_redcloth'
++      assert_equal <<-BLOCKCODE.chomp,
++<pre style=\"color: red;\"><code style=\"color: red;\">puts \"Hello, World!\"</code></pre>
++        BLOCKCODE
++        RedCloth.new('bc{color: red}. puts "Hello, World!"').to_html
++    end
++  
+     def test_for_redcloth_escapes
+       require 'rubygems'
+       require 'coderay/for_redcloth'
+@@ -62,7 +81,6 @@
+ <div lang="ruby" class="CodeRay">
+   <div class="code"><pre>&amp;</pre></div>
+ </div>
+-</pre>
+         BLOCKCODE
+         RedCloth.new('bc[ruby]. &').to_html
+     end
+Index: test/scanners/java/jruby.expected.raydebug
+===================================================================
+--- test/scanners/java/jruby.expected.raydebug	(revision 308)
++++ test/scanners/java/jruby.expected.raydebug	(working copy)
+@@ -50,7 +50,7 @@
+  * @author pldms
+  *
+  */)
+-directive(public) type(interface) ident(Finalizable) operator({)
++directive(public) type(interface) class(Finalizable) operator({)
+     directive(public) type(void) ident(finalize)operator(()operator(\))operator(;)
+ operator(})
+ comment(/***** BEGIN LICENSE BLOCK *****
+@@ -91,7 +91,7 @@
+  * The purpose of this class it to help implement the Errno module which in turn in needed by rubicon.
+  * @author Benoit Cerrina
+  **/)
+-directive(public) type(interface) ident(IErrno)
++directive(public) type(interface) class(IErrno)
+ operator({)
+     type(int) ident(EPERM) operator(=) integer(1)operator(;)
+     type(int) ident(ENOENT) operator(=) integer(2)operator(;)
+@@ -590,7 +590,7 @@
+     directive(private) pre_type(Graphics) ident(backBufferGraphics)operator(;)
+     directive(private) ident(Facade) ident(facade)operator(;)
+ 
+-    directive(private) type(interface) ident(Facade) operator({)
++    directive(private) type(interface) class(Facade) operator({)
+         directive(public) pre_type(InputStream) ident(getInputStream)operator(()operator(\))operator(;)
+         directive(public) pre_type(PrintStream) ident(getOutputStream)operator(()operator(\))operator(;)
+         directive(public) pre_type(PrintStream) ident(getErrorStream)operator(()operator(\))operator(;)
+@@ -1742,7 +1742,7 @@
+ comment(/**
+  * @author <a href="mailto:ola.bini@ki.se">Ola Bini</a>
+  */)
+-directive(public) type(interface) ident(Profile) operator({)
++directive(public) type(interface) class(Profile) operator({)
+     ident(Profile) ident(ALL) operator(=) keyword(new) ident(Profile)operator(()operator(\)) operator({)
+             directive(public) type(boolean) ident(allowBuiltin)operator(()pre_type(String) ident(name)operator(\)) operator({) keyword(return) keyword(true)operator(;) operator(})
+             directive(public) type(boolean) ident(allowClass)operator(()pre_type(String) ident(name)operator(\)) operator({) keyword(return) keyword(true)operator(;) operator(})
+@@ -21557,7 +21557,7 @@
+     directive(public) directive(static) type(boolean) ident(nativeEnabled) operator(=) keyword(true)operator(;)
+     
+ 
+-    directive(public) directive(static) type(interface) ident(LoadServiceCreator) operator({)
++    directive(public) directive(static) type(interface) class(LoadServiceCreator) operator({)
+         ident(LoadService) ident(create)operator(()ident(Ruby) ident(runtime)operator(\))operator(;)
+ 
+         ident(LoadServiceCreator) ident(DEFAULT) operator(=) keyword(new) ident(LoadServiceCreator)operator(()operator(\)) operator({)
+@@ -36946,7 +36946,7 @@
+  *
+  * @author nicksieger
+  */)
+-directive(public) type(interface) ident(RubyObjectAdapter) operator({)
++directive(public) type(interface) class(RubyObjectAdapter) operator({)
+ 
+     type(boolean) ident(isKindOf)operator(()ident(IRubyObject) ident(value)operator(,) ident(RubyModule) ident(rubyModule)operator(\))operator(;)
+ 
+@@ -40779,7 +40779,7 @@
+  *
+  * @author nicksieger
+  */)
+-directive(public) type(interface) ident(RubyRuntimeAdapter) operator({)
++directive(public) type(interface) class(RubyRuntimeAdapter) operator({)
+     ident(IRubyObject) ident(eval)operator(()ident(Ruby) ident(runtime)operator(,) pre_type(String) ident(script)operator(\))operator(;)
+ operator(})
+ comment(/***** BEGIN LICENSE BLOCK *****
+Index: test/scanners/javascript/script.aculo.us.expected.raydebug
+===================================================================
+--- test/scanners/javascript/script.aculo.us.expected.raydebug	(revision 308)
++++ test/scanners/javascript/script.aculo.us.expected.raydebug	(working copy)
+@@ -2083,9 +2083,9 @@
+     operator(}\))operator(;)
+   operator(})operator(,)
+   key(PAIRS)operator(:) operator({)
+-    string<delimiter(')content(slide)delimiter(')>operator(:)  operator([)string<delimiter(')content(SlideDown)delimiter(')>operator(,)string<delimiter(')content(SlideUp)delimiter(')>operator(])operator(,)
+-    string<delimiter(')content(blind)delimiter(')>operator(:)  operator([)string<delimiter(')content(BlindDown)delimiter(')>operator(,)string<delimiter(')content(BlindUp)delimiter(')>operator(])operator(,)
+-    string<delimiter(')content(appear)delimiter(')>operator(:) operator([)string<delimiter(')content(Appear)delimiter(')>operator(,)string<delimiter(')content(Fade)delimiter(')>operator(])
++    key<delimiter(')content(slide)delimiter(')>operator(:)  operator([)string<delimiter(')content(SlideDown)delimiter(')>operator(,)string<delimiter(')content(SlideUp)delimiter(')>operator(])operator(,)
++    key<delimiter(')content(blind)delimiter(')>operator(:)  operator([)string<delimiter(')content(BlindDown)delimiter(')>operator(,)string<delimiter(')content(BlindUp)delimiter(')>operator(])operator(,)
++    key<delimiter(')content(appear)delimiter(')>operator(:) operator([)string<delimiter(')content(Appear)delimiter(')>operator(,)string<delimiter(')content(Fade)delimiter(')>operator(])
+   operator(})operator(,)
+   key(toggle)operator(:) keyword(function)operator(()ident(element)operator(,) ident(effect)operator(\)) operator({)
+     ident(element) operator(=) predefined($)operator(()ident(element)operator(\))operator(;)
+@@ -3378,12 +3378,12 @@
+     keyword(return) ident(value) operator(==) keyword(null) operator(?) string<delimiter(')delimiter(')> operator(:) ident(String)operator(()ident(value)operator(\))operator(;)
+   operator(})operator(,)
+   key(specialChar)operator(:) operator({)
+-    string<delimiter(')content(\\b)delimiter(')>operator(:) string<delimiter(')char(\\\\)content(b)delimiter(')>operator(,)
+-    string<delimiter(')content(\\t)delimiter(')>operator(:) string<delimiter(')char(\\\\)content(t)delimiter(')>operator(,)
+-    string<delimiter(')content(\\n)delimiter(')>operator(:) string<delimiter(')char(\\\\)content(n)delimiter(')>operator(,)
+-    string<delimiter(')content(\\f)delimiter(')>operator(:) string<delimiter(')char(\\\\)content(f)delimiter(')>operator(,)
+-    string<delimiter(')content(\\r)delimiter(')>operator(:) string<delimiter(')char(\\\\)content(r)delimiter(')>operator(,)
+-    string<delimiter(')char(\\\\)delimiter(')>operator(:) string<delimiter(')char(\\\\)char(\\\\)delimiter(')>
++    key<delimiter(')content(\\b)delimiter(')>operator(:) string<delimiter(')char(\\\\)content(b)delimiter(')>operator(,)
++    key<delimiter(')content(\\t)delimiter(')>operator(:) string<delimiter(')char(\\\\)content(t)delimiter(')>operator(,)
++    key<delimiter(')content(\\n)delimiter(')>operator(:) string<delimiter(')char(\\\\)content(n)delimiter(')>operator(,)
++    key<delimiter(')content(\\f)delimiter(')>operator(:) string<delimiter(')char(\\\\)content(f)delimiter(')>operator(,)
++    key<delimiter(')content(\\r)delimiter(')>operator(:) string<delimiter(')char(\\\\)content(r)delimiter(')>operator(,)
++    key<delimiter(')char(\\\\)delimiter(')>operator(:) string<delimiter(')char(\\\\)char(\\\\)delimiter(')>
+   operator(})
+ operator(}\))operator(;)
+ 
+@@ -4296,9 +4296,9 @@
+ 
+   key(setRequestHeaders)operator(:) keyword(function)operator(()operator(\)) operator({)
+     keyword(var) ident(headers) operator(=) operator({)
+-      string<delimiter(')content(X-Requested-With)delimiter(')>operator(:) string<delimiter(')content(XMLHttpRequest)delimiter(')>operator(,)
+-      string<delimiter(')content(X-Prototype-Version)delimiter(')>operator(:) ident(Prototype)operator(.)ident(Version)operator(,)
+-      string<delimiter(')content(Accept)delimiter(')>operator(:) string<delimiter(')content(text/javascript, text/html, application/xml, text/xml, */*)delimiter(')>
++      key<delimiter(')content(X-Requested-With)delimiter(')>operator(:) string<delimiter(')content(XMLHttpRequest)delimiter(')>operator(,)
++      key<delimiter(')content(X-Prototype-Version)delimiter(')>operator(:) ident(Prototype)operator(.)ident(Version)operator(,)
++      key<delimiter(')content(Accept)delimiter(')>operator(:) string<delimiter(')content(text/javascript, text/html, application/xml, text/xml, */*)delimiter(')>
+     operator(})operator(;)
+ 
+     keyword(if) operator(()local_variable(this)operator(.)ident(method) operator(==) string<delimiter(')content(post)delimiter(')>operator(\)) operator({)
+@@ -4705,7 +4705,7 @@
+   key(inspect)operator(:) keyword(function)operator(()ident(element)operator(\)) operator({)
+     ident(element) operator(=) predefined($)operator(()ident(element)operator(\))operator(;)
+     keyword(var) ident(result) operator(=) string<delimiter(')content(<)delimiter(')> operator(+) ident(element)operator(.)ident(tagName)operator(.)ident(toLowerCase)operator(()operator(\))operator(;)
+-    predefined($H)operator(({)string<delimiter(')content(id)delimiter(')>operator(:) string<delimiter(')content(id)delimiter(')>operator(,) string<delimiter(')content(className)delimiter(')>operator(:) string<delimiter(')content(class)delimiter(')>operator(}\))operator(.)ident(each)operator(()keyword(function)operator(()ident(pair)operator(\)) operator({)
++    predefined($H)operator(({)key<delimiter(')content(id)delimiter(')>operator(:) string<delimiter(')content(id)delimiter(')>operator(,) key<delimiter(')content(className)delimiter(')>operator(:) string<delimiter(')content(class)delimiter(')>operator(}\))operator(.)ident(each)operator(()keyword(function)operator(()ident(pair)operator(\)) operator({)
+       keyword(var) ident(property) operator(=) ident(pair)operator(.)ident(first)operator(()operator(\))operator(,) ident(attribute) operator(=) ident(pair)operator(.)ident(last)operator(()operator(\))operator(;)
+       keyword(var) ident(value) operator(=) operator(()ident(element)operator([)ident(property)operator(]) operator(||) string<delimiter(')delimiter(')>operator(\))operator(.)ident(toString)operator(()operator(\))operator(;)
+       keyword(if) operator(()ident(value)operator(\)) ident(result) operator(+=) string<delimiter(')content( )delimiter(')> operator(+) ident(attribute) operator(+) string<delimiter(')content(=)delimiter(')> operator(+) ident(value)operator(.)ident(inspect)operator(()keyword(true)operator(\))operator(;)
+@@ -5352,8 +5352,8 @@
+   ident(Element)operator(.)ident(_attributeTranslations) operator(=) operator({)
+     key(read)operator(:) operator({)
+       key(names)operator(:) operator({)
+-        string<delimiter(')content(class)delimiter(')>operator(:) string<delimiter(')content(className)delimiter(')>operator(,)
+-        string<delimiter(')content(for)delimiter(')>operator(:)   string<delimiter(')content(htmlFor)delimiter(')>
++        key<delimiter(')content(class)delimiter(')>operator(:) string<delimiter(')content(className)delimiter(')>operator(,)
++        key<delimiter(')content(for)delimiter(')>operator(:)   string<delimiter(')content(htmlFor)delimiter(')>
+       operator(})operator(,)
+       key(values)operator(:) operator({)
+         key(_getAttr)operator(:) keyword(function)operator(()ident(element)operator(,) ident(attribute)operator(\)) operator({)
+@@ -5667,10 +5667,10 @@
+     ident(Object)operator(.)ident(extend)operator(()ident(Form)operator(,) ident(Form)operator(.)ident(Methods)operator(\))operator(;)
+     ident(Object)operator(.)ident(extend)operator(()ident(Form)operator(.)ident(Element)operator(,) ident(Form)operator(.)ident(Element)operator(.)ident(Methods)operator(\))operator(;)
+     ident(Object)operator(.)ident(extend)operator(()ident(Element)operator(.)ident(Methods)operator(.)ident(ByTag)operator(,) operator({)
+-      string<delimiter(")content(FORM)delimiter(")>operator(:)     ident(Object)operator(.)ident(clone)operator(()ident(Form)operator(.)ident(Methods)operator(\))operator(,)
+-      string<delimiter(")content(INPUT)delimiter(")>operator(:)    ident(Object)operator(.)ident(clone)operator(()ident(Form)operator(.)ident(Element)operator(.)ident(Methods)operator(\))operator(,)
+-      string<delimiter(")content(SELECT)delimiter(")>operator(:)   ident(Object)operator(.)ident(clone)operator(()ident(Form)operator(.)ident(Element)operator(.)ident(Methods)operator(\))operator(,)
+-      string<delimiter(")content(TEXTAREA)delimiter(")>operator(:) ident(Object)operator(.)ident(clone)operator(()ident(Form)operator(.)ident(Element)operator(.)ident(Methods)operator(\))
++      key<delimiter(")content(FORM)delimiter(")>operator(:)     ident(Object)operator(.)ident(clone)operator(()ident(Form)operator(.)ident(Methods)operator(\))operator(,)
++      key<delimiter(")content(INPUT)delimiter(")>operator(:)    ident(Object)operator(.)ident(clone)operator(()ident(Form)operator(.)ident(Element)operator(.)ident(Methods)operator(\))operator(,)
++      key<delimiter(")content(SELECT)delimiter(")>operator(:)   ident(Object)operator(.)ident(clone)operator(()ident(Form)operator(.)ident(Element)operator(.)ident(Methods)operator(\))operator(,)
++      key<delimiter(")content(TEXTAREA)delimiter(")>operator(:) ident(Object)operator(.)ident(clone)operator(()ident(Form)operator(.)ident(Element)operator(.)ident(Methods)operator(\))
+     operator(}\))operator(;)
+   operator(})
+ 
+@@ -5705,15 +5705,15 @@
+   keyword(function) ident(findDOMClass)operator(()ident(tagName)operator(\)) operator({)
+     keyword(var) ident(klass)operator(;)
+     keyword(var) ident(trans) operator(=) operator({)
+-      string<delimiter(")content(OPTGROUP)delimiter(")>operator(:) string<delimiter(")content(OptGroup)delimiter(")>operator(,) string<delimiter(")content(TEXTAREA)delimiter(")>operator(:) string<delimiter(")content(TextArea)delimiter(")>operator(,) string<delimiter(")content(P)delimiter(")>operator(:) string<delimiter(")content(Paragraph)delimiter(")>operator(,)
+-      string<delimiter(")content(FIELDSET)delimiter(")>operator(:) string<delimiter(")content(FieldSet)delimiter(")>operator(,) string<delimiter(")content(UL)delimiter(")>operator(:) string<delimiter(")content(UList)delimiter(")>operator(,) string<delimiter(")content(OL)delimiter(")>operator(:) string<delimiter(")content(OList)delimiter(")>operator(,) string<delimiter(")content(DL)delimiter(")>operator(:) string<delimiter(")content(DList)delimiter(")>operator(,)
+-      string<delimiter(")content(DIR)delimiter(")>operator(:) string<delimiter(")content(Directory)delimiter(")>operator(,) string<delimiter(")content(H1)delimiter(")>operator(:) string<delimiter(")content(Heading)delimiter(")>operator(,) string<delimiter(")content(H2)delimiter(")>operator(:) string<delimiter(")content(Heading)delimiter(")>operator(,) string<delimiter(")content(H3)delimiter(")>operator(:) string<delimiter(")content(Heading)delimiter(")>operator(,)
+-      string<delimiter(")content(H4)delimiter(")>operator(:) string<delimiter(")content(Heading)delimiter(")>operator(,) string<delimiter(")content(H5)delimiter(")>operator(:) string<delimiter(")content(Heading)delimiter(")>operator(,) string<delimiter(")content(H6)delimiter(")>operator(:) string<delimiter(")content(Heading)delimiter(")>operator(,) string<delimiter(")content(Q)delimiter(")>operator(:) string<delimiter(")content(Quote)delimiter(")>operator(,)
+-      string<delimiter(")content(INS)delimiter(")>operator(:) string<delimiter(")content(Mod)delimiter(")>operator(,) string<delimiter(")content(DEL)delimiter(")>operator(:) string<delimiter(")content(Mod)delimiter(")>operator(,) string<delimiter(")content(A)delimiter(")>operator(:) string<delimiter(")content(Anchor)delimiter(")>operator(,) string<delimiter(")content(IMG)delimiter(")>operator(:) string<delimiter(")content(Image)delimiter(")>operator(,) string<delimiter(")content(CAPTION)delimiter(")>operator(:)
+-      string<delimiter(")content(TableCaption)delimiter(")>operator(,) string<delimiter(")content(COL)delimiter(")>operator(:) string<delimiter(")content(TableCol)delimiter(")>operator(,) string<delimiter(")content(COLGROUP)delimiter(")>operator(:) string<delimiter(")content(TableCol)delimiter(")>operator(,) string<delimiter(")content(THEAD)delimiter(")>operator(:)
+-      string<delimiter(")content(TableSection)delimiter(")>operator(,) string<delimiter(")content(TFOOT)delimiter(")>operator(:) string<delimiter(")content(TableSection)delimiter(")>operator(,) string<delimiter(")content(TBODY)delimiter(")>operator(:) string<delimiter(")content(TableSection)delimiter(")>operator(,) string<delimiter(")content(TR)delimiter(")>operator(:)
+-      string<delimiter(")content(TableRow)delimiter(")>operator(,) string<delimiter(")content(TH)delimiter(")>operator(:) string<delimiter(")content(TableCell)delimiter(")>operator(,) string<delimiter(")content(TD)delimiter(")>operator(:) string<delimiter(")content(TableCell)delimiter(")>operator(,) string<delimiter(")content(FRAMESET)delimiter(")>operator(:)
+-      string<delimiter(")content(FrameSet)delimiter(")>operator(,) string<delimiter(")content(IFRAME)delimiter(")>operator(:) string<delimiter(")content(IFrame)delimiter(")>
++      key<delimiter(")content(OPTGROUP)delimiter(")>operator(:) string<delimiter(")content(OptGroup)delimiter(")>operator(,) key<delimiter(")content(TEXTAREA)delimiter(")>operator(:) string<delimiter(")content(TextArea)delimiter(")>operator(,) key<delimiter(")content(P)delimiter(")>operator(:) string<delimiter(")content(Paragraph)delimiter(")>operator(,)
++      key<delimiter(")content(FIELDSET)delimiter(")>operator(:) string<delimiter(")content(FieldSet)delimiter(")>operator(,) key<delimiter(")content(UL)delimiter(")>operator(:) string<delimiter(")content(UList)delimiter(")>operator(,) key<delimiter(")content(OL)delimiter(")>operator(:) string<delimiter(")content(OList)delimiter(")>operator(,) key<delimiter(")content(DL)delimiter(")>operator(:) string<delimiter(")content(DList)delimiter(")>operator(,)
++      key<delimiter(")content(DIR)delimiter(")>operator(:) string<delimiter(")content(Directory)delimiter(")>operator(,) key<delimiter(")content(H1)delimiter(")>operator(:) string<delimiter(")content(Heading)delimiter(")>operator(,) key<delimiter(")content(H2)delimiter(")>operator(:) string<delimiter(")content(Heading)delimiter(")>operator(,) key<delimiter(")content(H3)delimiter(")>operator(:) string<delimiter(")content(Heading)delimiter(")>operator(,)
++      key<delimiter(")content(H4)delimiter(")>operator(:) string<delimiter(")content(Heading)delimiter(")>operator(,) key<delimiter(")content(H5)delimiter(")>operator(:) string<delimiter(")content(Heading)delimiter(")>operator(,) key<delimiter(")content(H6)delimiter(")>operator(:) string<delimiter(")content(Heading)delimiter(")>operator(,) key<delimiter(")content(Q)delimiter(")>operator(:) string<delimiter(")content(Quote)delimiter(")>operator(,)
++      key<delimiter(")content(INS)delimiter(")>operator(:) string<delimiter(")content(Mod)delimiter(")>operator(,) key<delimiter(")content(DEL)delimiter(")>operator(:) string<delimiter(")content(Mod)delimiter(")>operator(,) key<delimiter(")content(A)delimiter(")>operator(:) string<delimiter(")content(Anchor)delimiter(")>operator(,) key<delimiter(")content(IMG)delimiter(")>operator(:) string<delimiter(")content(Image)delimiter(")>operator(,) key<delimiter(")content(CAPTION)delimiter(")>operator(:)
++      string<delimiter(")content(TableCaption)delimiter(")>operator(,) key<delimiter(")content(COL)delimiter(")>operator(:) string<delimiter(")content(TableCol)delimiter(")>operator(,) key<delimiter(")content(COLGROUP)delimiter(")>operator(:) string<delimiter(")content(TableCol)delimiter(")>operator(,) key<delimiter(")content(THEAD)delimiter(")>operator(:)
++      string<delimiter(")content(TableSection)delimiter(")>operator(,) key<delimiter(")content(TFOOT)delimiter(")>operator(:) string<delimiter(")content(TableSection)delimiter(")>operator(,) key<delimiter(")content(TBODY)delimiter(")>operator(:) string<delimiter(")content(TableSection)delimiter(")>operator(,) key<delimiter(")content(TR)delimiter(")>operator(:)
++      string<delimiter(")content(TableRow)delimiter(")>operator(,) key<delimiter(")content(TH)delimiter(")>operator(:) string<delimiter(")content(TableCell)delimiter(")>operator(,) key<delimiter(")content(TD)delimiter(")>operator(:) string<delimiter(")content(TableCell)delimiter(")>operator(,) key<delimiter(")content(FRAMESET)delimiter(")>operator(:)
++      string<delimiter(")content(FrameSet)delimiter(")>operator(,) key<delimiter(")content(IFRAME)delimiter(")>operator(:) string<delimiter(")content(IFrame)delimiter(")>
+     operator(})operator(;)
+     keyword(if) operator(()ident(trans)operator([)ident(tagName)operator(]\)) ident(klass) operator(=) string<delimiter(')content(HTML)delimiter(')> operator(+) ident(trans)operator([)ident(tagName)operator(]) operator(+) string<delimiter(')content(Element)delimiter(')>operator(;)
+     keyword(if) operator(()ident(window)operator([)ident(klass)operator(]\)) keyword(return) ident(window)operator([)ident(klass)operator(])operator(;)
+@@ -5941,23 +5941,23 @@
+       keyword(return) keyword(new) ident(Template)operator(()ident(Selector)operator(.)ident(xpath)operator(.)ident(pseudos)operator([)ident(m)operator([)integer(1)operator(]]\))operator(.)ident(evaluate)operator(()ident(m)operator(\))operator(;)
+     operator(})operator(,)
+     key(operators)operator(:) operator({)
+-      string<delimiter(')content(=)delimiter(')>operator(:)  string<delimiter(")content([@#{1}='#{3}'])delimiter(")>operator(,)
+-      string<delimiter(')content(!=)delimiter(')>operator(:) string<delimiter(")content([@#{1}!='#{3}'])delimiter(")>operator(,)
+-      string<delimiter(')content(^=)delimiter(')>operator(:) string<delimiter(")content([starts-with(@#{1}, '#{3}'\)])delimiter(")>operator(,)
+-      string<delimiter(')content($=)delimiter(')>operator(:) string<delimiter(")content([substring(@#{1}, (string-length(@#{1}\) - string-length('#{3}'\) + 1\)\)='#{3}'])delimiter(")>operator(,)
+-      string<delimiter(')content(*=)delimiter(')>operator(:) string<delimiter(")content([contains(@#{1}, '#{3}'\)])delimiter(")>operator(,)
+-      string<delimiter(')content(~=)delimiter(')>operator(:) string<delimiter(")content([contains(concat(' ', @#{1}, ' '\), ' #{3} '\)])delimiter(")>operator(,)
+-      string<delimiter(')content(|=)delimiter(')>operator(:) string<delimiter(")content([contains(concat('-', @#{1}, '-'\), '-#{3}-'\)])delimiter(")>
++      key<delimiter(')content(=)delimiter(')>operator(:)  string<delimiter(")content([@#{1}='#{3}'])delimiter(")>operator(,)
++      key<delimiter(')content(!=)delimiter(')>operator(:) string<delimiter(")content([@#{1}!='#{3}'])delimiter(")>operator(,)
++      key<delimiter(')content(^=)delimiter(')>operator(:) string<delimiter(")content([starts-with(@#{1}, '#{3}'\)])delimiter(")>operator(,)
++      key<delimiter(')content($=)delimiter(')>operator(:) string<delimiter(")content([substring(@#{1}, (string-length(@#{1}\) - string-length('#{3}'\) + 1\)\)='#{3}'])delimiter(")>operator(,)
++      key<delimiter(')content(*=)delimiter(')>operator(:) string<delimiter(")content([contains(@#{1}, '#{3}'\)])delimiter(")>operator(,)
++      key<delimiter(')content(~=)delimiter(')>operator(:) string<delimiter(")content([contains(concat(' ', @#{1}, ' '\), ' #{3} '\)])delimiter(")>operator(,)
++      key<delimiter(')content(|=)delimiter(')>operator(:) string<delimiter(")content([contains(concat('-', @#{1}, '-'\), '-#{3}-'\)])delimiter(")>
+     operator(})operator(,)
+     key(pseudos)operator(:) operator({)
+-      string<delimiter(')content(first-child)delimiter(')>operator(:) string<delimiter(')content([not(preceding-sibling::*\)])delimiter(')>operator(,)
+-      string<delimiter(')content(last-child)delimiter(')>operator(:)  string<delimiter(')content([not(following-sibling::*\)])delimiter(')>operator(,)
+-      string<delimiter(')content(only-child)delimiter(')>operator(:)  string<delimiter(')content([not(preceding-sibling::* or following-sibling::*\)])delimiter(')>operator(,)
+-      string<delimiter(')content(empty)delimiter(')>operator(:)       string<delimiter(")content([count(*\) = 0 and (count(text(\)\) = 0 or translate(text(\), ' )char(\\t)char(\\r)char(\\n)content(', ''\) = ''\)])delimiter(")>operator(,)
+-      string<delimiter(')content(checked)delimiter(')>operator(:)     string<delimiter(")content([@checked])delimiter(")>operator(,)
+-      string<delimiter(')content(disabled)delimiter(')>operator(:)    string<delimiter(")content([@disabled])delimiter(")>operator(,)
+-      string<delimiter(')content(enabled)delimiter(')>operator(:)     string<delimiter(")content([not(@disabled\)])delimiter(")>operator(,)
+-      string<delimiter(')content(not)delimiter(')>operator(:) keyword(function)operator(()ident(m)operator(\)) operator({)
++      key<delimiter(')content(first-child)delimiter(')>operator(:) string<delimiter(')content([not(preceding-sibling::*\)])delimiter(')>operator(,)
++      key<delimiter(')content(last-child)delimiter(')>operator(:)  string<delimiter(')content([not(following-sibling::*\)])delimiter(')>operator(,)
++      key<delimiter(')content(only-child)delimiter(')>operator(:)  string<delimiter(')content([not(preceding-sibling::* or following-sibling::*\)])delimiter(')>operator(,)
++      key<delimiter(')content(empty)delimiter(')>operator(:)       string<delimiter(")content([count(*\) = 0 and (count(text(\)\) = 0 or translate(text(\), ' )char(\\t)char(\\r)char(\\n)content(', ''\) = ''\)])delimiter(")>operator(,)
++      key<delimiter(')content(checked)delimiter(')>operator(:)     string<delimiter(")content([@checked])delimiter(")>operator(,)
++      key<delimiter(')content(disabled)delimiter(')>operator(:)    string<delimiter(")content([@disabled])delimiter(")>operator(,)
++      key<delimiter(')content(enabled)delimiter(')>operator(:)     string<delimiter(")content([not(@disabled\)])delimiter(")>operator(,)
++      key<delimiter(')content(not)delimiter(')>operator(:) keyword(function)operator(()ident(m)operator(\)) operator({)
+         keyword(var) ident(e) operator(=) ident(m)operator([)integer(6)operator(])operator(,) ident(p) operator(=) ident(Selector)operator(.)ident(patterns)operator(,)
+             ident(x) operator(=) ident(Selector)operator(.)ident(xpath)operator(,) ident(le)operator(,) ident(v)operator(;)
+ 
+@@ -5975,25 +5975,25 @@
+         operator(})
+         keyword(return) string<delimiter(")content([not()delimiter(")> operator(+) ident(exclusion)operator(.)ident(join)operator(()string<delimiter(")content( and )delimiter(")>operator(\)) operator(+) string<delimiter(")content(\)])delimiter(")>operator(;)
+       operator(})operator(,)
+-      string<delimiter(')content(nth-child)delimiter(')>operator(:)      keyword(function)operator(()ident(m)operator(\)) operator({)
++      key<delimiter(')content(nth-child)delimiter(')>operator(:)      keyword(function)operator(()ident(m)operator(\)) operator({)
+         keyword(return) ident(Selector)operator(.)ident(xpath)operator(.)ident(pseudos)operator(.)ident(nth)operator(()string<delimiter(")content((count(./preceding-sibling::*\) + 1\) )delimiter(")>operator(,) ident(m)operator(\))operator(;)
+       operator(})operator(,)
+-      string<delimiter(')content(nth-last-child)delimiter(')>operator(:) keyword(function)operator(()ident(m)operator(\)) operator({)
++      key<delimiter(')content(nth-last-child)delimiter(')>operator(:) keyword(function)operator(()ident(m)operator(\)) operator({)
+         keyword(return) ident(Selector)operator(.)ident(xpath)operator(.)ident(pseudos)operator(.)ident(nth)operator(()string<delimiter(")content((count(./following-sibling::*\) + 1\) )delimiter(")>operator(,) ident(m)operator(\))operator(;)
+       operator(})operator(,)
+-      string<delimiter(')content(nth-of-type)delimiter(')>operator(:)    keyword(function)operator(()ident(m)operator(\)) operator({)
++      key<delimiter(')content(nth-of-type)delimiter(')>operator(:)    keyword(function)operator(()ident(m)operator(\)) operator({)
+         keyword(return) ident(Selector)operator(.)ident(xpath)operator(.)ident(pseudos)operator(.)ident(nth)operator(()string<delimiter(")content(position(\) )delimiter(")>operator(,) ident(m)operator(\))operator(;)
+       operator(})operator(,)
+-      string<delimiter(')content(nth-last-of-type)delimiter(')>operator(:) keyword(function)operator(()ident(m)operator(\)) operator({)
++      key<delimiter(')content(nth-last-of-type)delimiter(')>operator(:) keyword(function)operator(()ident(m)operator(\)) operator({)
+         keyword(return) ident(Selector)operator(.)ident(xpath)operator(.)ident(pseudos)operator(.)ident(nth)operator(()string<delimiter(")content((last(\) + 1 - position(\)\) )delimiter(")>operator(,) ident(m)operator(\))operator(;)
+       operator(})operator(,)
+-      string<delimiter(')content(first-of-type)delimiter(')>operator(:)  keyword(function)operator(()ident(m)operator(\)) operator({)
++      key<delimiter(')content(first-of-type)delimiter(')>operator(:)  keyword(function)operator(()ident(m)operator(\)) operator({)
+         ident(m)operator([)integer(6)operator(]) operator(=) string<delimiter(")content(1)delimiter(")>operator(;) keyword(return) ident(Selector)operator(.)ident(xpath)operator(.)ident(pseudos)operator([)string<delimiter(')content(nth-of-type)delimiter(')>operator(])operator(()ident(m)operator(\))operator(;)
+       operator(})operator(,)
+-      string<delimiter(')content(last-of-type)delimiter(')>operator(:)   keyword(function)operator(()ident(m)operator(\)) operator({)
++      key<delimiter(')content(last-of-type)delimiter(')>operator(:)   keyword(function)operator(()ident(m)operator(\)) operator({)
+         ident(m)operator([)integer(6)operator(]) operator(=) string<delimiter(")content(1)delimiter(")>operator(;) keyword(return) ident(Selector)operator(.)ident(xpath)operator(.)ident(pseudos)operator([)string<delimiter(')content(nth-last-of-type)delimiter(')>operator(])operator(()ident(m)operator(\))operator(;)
+       operator(})operator(,)
+-      string<delimiter(')content(only-of-type)delimiter(')>operator(:)   keyword(function)operator(()ident(m)operator(\)) operator({)
++      key<delimiter(')content(only-of-type)delimiter(')>operator(:)   keyword(function)operator(()ident(m)operator(\)) operator({)
+         keyword(var) ident(p) operator(=) ident(Selector)operator(.)ident(xpath)operator(.)ident(pseudos)operator(;) keyword(return) ident(p)operator([)string<delimiter(')content(first-of-type)delimiter(')>operator(])operator(()ident(m)operator(\)) operator(+) ident(p)operator([)string<delimiter(')content(last-of-type)delimiter(')>operator(])operator(()ident(m)operator(\))operator(;)
+       operator(})operator(,)
+       key(nth)operator(:) keyword(function)operator(()ident(fragment)operator(,) ident(m)operator(\)) operator({)
+@@ -6258,46 +6258,46 @@
+   operator(})operator(,)
+ 
+   key(pseudos)operator(:) operator({)
+-    string<delimiter(')content(first-child)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(first-child)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
+       keyword(for) operator(()keyword(var) ident(i) operator(=) integer(0)operator(,) ident(results) operator(=) operator([)operator(])operator(,) ident(node)operator(;) ident(node) operator(=) ident(nodes)operator([)ident(i)operator(])operator(;) ident(i)operator(++)operator(\)) operator({)
+         keyword(if) operator(()ident(Selector)operator(.)ident(handlers)operator(.)ident(previousElementSibling)operator(()ident(node)operator(\)\)) keyword(continue)operator(;)
+           ident(results)operator(.)ident(push)operator(()ident(node)operator(\))operator(;)
+       operator(})
+       keyword(return) ident(results)operator(;)
+     operator(})operator(,)
+-    string<delimiter(')content(last-child)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(last-child)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
+       keyword(for) operator(()keyword(var) ident(i) operator(=) integer(0)operator(,) ident(results) operator(=) operator([)operator(])operator(,) ident(node)operator(;) ident(node) operator(=) ident(nodes)operator([)ident(i)operator(])operator(;) ident(i)operator(++)operator(\)) operator({)
+         keyword(if) operator(()ident(Selector)operator(.)ident(handlers)operator(.)ident(nextElementSibling)operator(()ident(node)operator(\)\)) keyword(continue)operator(;)
+           ident(results)operator(.)ident(push)operator(()ident(node)operator(\))operator(;)
+       operator(})
+       keyword(return) ident(results)operator(;)
+     operator(})operator(,)
+-    string<delimiter(')content(only-child)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(only-child)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
+       keyword(var) ident(h) operator(=) ident(Selector)operator(.)ident(handlers)operator(;)
+       keyword(for) operator(()keyword(var) ident(i) operator(=) integer(0)operator(,) ident(results) operator(=) operator([)operator(])operator(,) ident(node)operator(;) ident(node) operator(=) ident(nodes)operator([)ident(i)operator(])operator(;) ident(i)operator(++)operator(\))
+         keyword(if) operator((!)ident(h)operator(.)ident(previousElementSibling)operator(()ident(node)operator(\)) operator(&&) operator(!)ident(h)operator(.)ident(nextElementSibling)operator(()ident(node)operator(\)\))
+           ident(results)operator(.)ident(push)operator(()ident(node)operator(\))operator(;)
+       keyword(return) ident(results)operator(;)
+     operator(})operator(,)
+-    string<delimiter(')content(nth-child)delimiter(')>operator(:)        keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(nth-child)delimiter(')>operator(:)        keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
+       keyword(return) ident(Selector)operator(.)ident(pseudos)operator(.)ident(nth)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\))operator(;)
+     operator(})operator(,)
+-    string<delimiter(')content(nth-last-child)delimiter(')>operator(:)   keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(nth-last-child)delimiter(')>operator(:)   keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
+       keyword(return) ident(Selector)operator(.)ident(pseudos)operator(.)ident(nth)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(,) keyword(true)operator(\))operator(;)
+     operator(})operator(,)
+-    string<delimiter(')content(nth-of-type)delimiter(')>operator(:)      keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(nth-of-type)delimiter(')>operator(:)      keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
+       keyword(return) ident(Selector)operator(.)ident(pseudos)operator(.)ident(nth)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(,) keyword(false)operator(,) keyword(true)operator(\))operator(;)
+     operator(})operator(,)
+-    string<delimiter(')content(nth-last-of-type)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(nth-last-of-type)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
+       keyword(return) ident(Selector)operator(.)ident(pseudos)operator(.)ident(nth)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(,) keyword(true)operator(,) keyword(true)operator(\))operator(;)
+     operator(})operator(,)
+-    string<delimiter(')content(first-of-type)delimiter(')>operator(:)    keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(first-of-type)delimiter(')>operator(:)    keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
+       keyword(return) ident(Selector)operator(.)ident(pseudos)operator(.)ident(nth)operator(()ident(nodes)operator(,) string<delimiter(")content(1)delimiter(")>operator(,) ident(root)operator(,) keyword(false)operator(,) keyword(true)operator(\))operator(;)
+     operator(})operator(,)
+-    string<delimiter(')content(last-of-type)delimiter(')>operator(:)     keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(last-of-type)delimiter(')>operator(:)     keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
+       keyword(return) ident(Selector)operator(.)ident(pseudos)operator(.)ident(nth)operator(()ident(nodes)operator(,) string<delimiter(")content(1)delimiter(")>operator(,) ident(root)operator(,) keyword(true)operator(,) keyword(true)operator(\))operator(;)
+     operator(})operator(,)
+-    string<delimiter(')content(only-of-type)delimiter(')>operator(:)     keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(only-of-type)delimiter(')>operator(:)     keyword(function)operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\)) operator({)
+       keyword(var) ident(p) operator(=) ident(Selector)operator(.)ident(pseudos)operator(;)
+       keyword(return) ident(p)operator([)string<delimiter(')content(last-of-type)delimiter(')>operator(])operator(()ident(p)operator([)string<delimiter(')content(first-of-type)delimiter(')>operator(])operator(()ident(nodes)operator(,) ident(formula)operator(,) ident(root)operator(\))operator(,) ident(formula)operator(,) ident(root)operator(\))operator(;)
+     operator(})operator(,)
+@@ -6343,7 +6343,7 @@
+       keyword(return) ident(results)operator(;)
+     operator(})operator(,)
+ 
+-    string<delimiter(')content(empty)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(empty)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
+       keyword(for) operator(()keyword(var) ident(i) operator(=) integer(0)operator(,) ident(results) operator(=) operator([)operator(])operator(,) ident(node)operator(;) ident(node) operator(=) ident(nodes)operator([)ident(i)operator(])operator(;) ident(i)operator(++)operator(\)) operator({)
+         comment(// IE treats comments as element nodes)
+         keyword(if) operator(()ident(node)operator(.)ident(tagName) operator(==) string<delimiter(')content(!)delimiter(')> operator(||) operator(()ident(node)operator(.)ident(firstChild) operator(&&) operator(!)ident(node)operator(.)ident(innerHTML)operator(.)ident(match)operator(()regexp<delimiter(/)content(^)char(\\s)content(*$)delimiter(/)>operator(\)\)\)) keyword(continue)operator(;)
+@@ -6352,7 +6352,7 @@
+       keyword(return) ident(results)operator(;)
+     operator(})operator(,)
+ 
+-    string<delimiter(')content(not)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(selector)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(not)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(selector)operator(,) ident(root)operator(\)) operator({)
+       keyword(var) ident(h) operator(=) ident(Selector)operator(.)ident(handlers)operator(,) ident(selectorType)operator(,) ident(m)operator(;)
+       keyword(var) ident(exclusions) operator(=) keyword(new) ident(Selector)operator(()ident(selector)operator(\))operator(.)ident(findElements)operator(()ident(root)operator(\))operator(;)
+       ident(h)operator(.)ident(mark)operator(()ident(exclusions)operator(\))operator(;)
+@@ -6362,19 +6362,19 @@
+       keyword(return) ident(results)operator(;)
+     operator(})operator(,)
+ 
+-    string<delimiter(')content(enabled)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(enabled)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
+       keyword(for) operator(()keyword(var) ident(i) operator(=) integer(0)operator(,) ident(results) operator(=) operator([)operator(])operator(,) ident(node)operator(;) ident(node) operator(=) ident(nodes)operator([)ident(i)operator(])operator(;) ident(i)operator(++)operator(\))
+         keyword(if) operator((!)ident(node)operator(.)ident(disabled)operator(\)) ident(results)operator(.)ident(push)operator(()ident(node)operator(\))operator(;)
+       keyword(return) ident(results)operator(;)
+     operator(})operator(,)
+ 
+-    string<delimiter(')content(disabled)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(disabled)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
+       keyword(for) operator(()keyword(var) ident(i) operator(=) integer(0)operator(,) ident(results) operator(=) operator([)operator(])operator(,) ident(node)operator(;) ident(node) operator(=) ident(nodes)operator([)ident(i)operator(])operator(;) ident(i)operator(++)operator(\))
+         keyword(if) operator(()ident(node)operator(.)ident(disabled)operator(\)) ident(results)operator(.)ident(push)operator(()ident(node)operator(\))operator(;)
+       keyword(return) ident(results)operator(;)
+     operator(})operator(,)
+ 
+-    string<delimiter(')content(checked)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
++    key<delimiter(')content(checked)delimiter(')>operator(:) keyword(function)operator(()ident(nodes)operator(,) ident(value)operator(,) ident(root)operator(\)) operator({)
+       keyword(for) operator(()keyword(var) ident(i) operator(=) integer(0)operator(,) ident(results) operator(=) operator([)operator(])operator(,) ident(node)operator(;) ident(node) operator(=) ident(nodes)operator([)ident(i)operator(])operator(;) ident(i)operator(++)operator(\))
+         keyword(if) operator(()ident(node)operator(.)ident(checked)operator(\)) ident(results)operator(.)ident(push)operator(()ident(node)operator(\))operator(;)
+       keyword(return) ident(results)operator(;)
+@@ -6382,13 +6382,13 @@
+   operator(})operator(,)
+ 
+   key(operators)operator(:) operator({)
+-    string<delimiter(')content(=)delimiter(')>operator(:)  keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) ident(nv) operator(==) ident(v)operator(;) operator(})operator(,)
+-    string<delimiter(')content(!=)delimiter(')>operator(:) keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) ident(nv) operator(!=) ident(v)operator(;) operator(})operator(,)
+-    string<delimiter(')content(^=)delimiter(')>operator(:) keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) ident(nv)operator(.)ident(startsWith)operator(()ident(v)operator(\))operator(;) operator(})operator(,)
+-    string<delimiter(')content($=)delimiter(')>operator(:) keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) ident(nv)operator(.)ident(endsWith)operator(()ident(v)operator(\))operator(;) operator(})operator(,)
+-    string<delimiter(')content(*=)delimiter(')>operator(:) keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) ident(nv)operator(.)ident(include)operator(()ident(v)operator(\))operator(;) operator(})operator(,)
+-    string<delimiter(')content(~=)delimiter(')>operator(:) keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) operator(()string<delimiter(')content( )delimiter(')> operator(+) ident(nv) operator(+) string<delimiter(')content( )delimiter(')>operator(\))operator(.)ident(include)operator(()string<delimiter(')content( )delimiter(')> operator(+) ident(v) operator(+) string<delimiter(')content( )delimiter(')>operator(\))operator(;) operator(})operator(,)
+-    string<delimiter(')content(|=)delimiter(')>operator(:) keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) operator(()string<delimiter(')content(-)delimiter(')> operator(+) ident(nv)operator(.)ident(toUpperCase)operator(()operator(\)) operator(+) string<delimiter(')content(-)delimiter(')>operator(\))operator(.)ident(include)operator(()string<delimiter(')content(-)delimiter(')> operator(+) ident(v)operator(.)ident(toUpperCase)operator(()operator(\)) operator(+) string<delimiter(')content(-)delimiter(')>operator(\))operator(;) operator(})
++    key<delimiter(')content(=)delimiter(')>operator(:)  keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) ident(nv) operator(==) ident(v)operator(;) operator(})operator(,)
++    key<delimiter(')content(!=)delimiter(')>operator(:) keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) ident(nv) operator(!=) ident(v)operator(;) operator(})operator(,)
++    key<delimiter(')content(^=)delimiter(')>operator(:) keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) ident(nv)operator(.)ident(startsWith)operator(()ident(v)operator(\))operator(;) operator(})operator(,)
++    key<delimiter(')content($=)delimiter(')>operator(:) keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) ident(nv)operator(.)ident(endsWith)operator(()ident(v)operator(\))operator(;) operator(})operator(,)
++    key<delimiter(')content(*=)delimiter(')>operator(:) keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) ident(nv)operator(.)ident(include)operator(()ident(v)operator(\))operator(;) operator(})operator(,)
++    key<delimiter(')content(~=)delimiter(')>operator(:) keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) operator(()string<delimiter(')content( )delimiter(')> operator(+) ident(nv) operator(+) string<delimiter(')content( )delimiter(')>operator(\))operator(.)ident(include)operator(()string<delimiter(')content( )delimiter(')> operator(+) ident(v) operator(+) string<delimiter(')content( )delimiter(')>operator(\))operator(;) operator(})operator(,)
++    key<delimiter(')content(|=)delimiter(')>operator(:) keyword(function)operator(()ident(nv)operator(,) ident(v)operator(\)) operator({) keyword(return) operator(()string<delimiter(')content(-)delimiter(')> operator(+) ident(nv)operator(.)ident(toUpperCase)operator(()operator(\)) operator(+) string<delimiter(')content(-)delimiter(')>operator(\))operator(.)ident(include)operator(()string<delimiter(')content(-)delimiter(')> operator(+) ident(v)operator(.)ident(toUpperCase)operator(()operator(\)) operator(+) string<delimiter(')content(-)delimiter(')>operator(\))operator(;) operator(})
+   operator(})operator(,)
+ 
+   key(matchElements)operator(:) keyword(function)operator(()ident(elements)operator(,) ident(expression)operator(\)) operator({)
+Index: Rakefile
+===================================================================
+--- Rakefile	(revision 308)
++++ Rakefile	(working copy)
+@@ -44,10 +44,12 @@
+ task 'jruby' do
+   RUBY.replace 'jruby'
+ end
++task :j => :jruby
+ 
+ task 'jruby19' do
+   RUBY.replace 'jruby --1.9'
+ end
++task :j19 => :jruby19
+ 
+ task 'rubinius' do
+   RUBY.replace 'rbx'
+Index: lib/coderay/helpers/plugin.rb
+===================================================================
+--- lib/coderay/helpers/plugin.rb	(revision 308)
++++ lib/coderay/helpers/plugin.rb	(working copy)
+@@ -2,8 +2,6 @@
+   
+ # = PluginHost
+ #
+-# $Id$
+-#
+ # A simple subclass plugin system.
+ #
+ #  Example:
+Index: lib/coderay/duo.rb
+===================================================================
+--- lib/coderay/duo.rb	(revision 308)
++++ lib/coderay/duo.rb	(working copy)
+@@ -2,8 +2,6 @@
+   
+   # = Duo
+   #
+-  # $Id: scanner.rb 123 2006-03-21 14:46:34Z murphy $
+-  #
+   # A Duo is a convenient way to use CodeRay. You just create a Duo,
+   # giving it a lang (language of the input code) and a format (desired
+   # output format), and call Duo#highlight with the code.
+Index: lib/coderay/scanner.rb
+===================================================================
+--- lib/coderay/scanner.rb	(revision 308)
++++ lib/coderay/scanner.rb	(working copy)
+@@ -4,8 +4,6 @@
+ 
+   # = Scanners
+   #
+-  # $Id$
+-  #
+   # This module holds the Scanner class and its subclasses.
+   # For example, the Ruby scanner is named CodeRay::Scanners::Ruby
+   # can be found in coderay/scanners/ruby.
+Index: lib/coderay/scanners/java.rb
+===================================================================
+--- lib/coderay/scanners/java.rb	(revision 308)
++++ lib/coderay/scanners/java.rb	(working copy)
+@@ -76,7 +76,7 @@
+               class_name_follows = false
+             else
+               import_clause = true if match == 'import'
+-              class_name_follows = true if match == 'class'
++              class_name_follows = true if match == 'class' || match == 'interface'
+             end
+           
+           elsif scan(/ \.(?!\d) | [,?:(\[)\]}] | -- | \+\+ | && | \|\| | \*\*=? | [-+*\/%^~&|<>=!]=? | <<<?=? | >>>?=? /x)
+Index: lib/coderay/scanners/rhtml.rb
+===================================================================
+--- lib/coderay/scanners/rhtml.rb	(revision 308)
++++ lib/coderay/scanners/rhtml.rb	(working copy)
+@@ -5,8 +5,6 @@
+   load :ruby
+ 
+   # RHTML Scanner
+-  #
+-  # $Id$
+   class RHTML < Scanner
+ 
+     include Streamable
+Index: lib/coderay/scanners/xml.rb
+===================================================================
+--- lib/coderay/scanners/xml.rb	(revision 308)
++++ lib/coderay/scanners/xml.rb	(working copy)
+@@ -5,8 +5,6 @@
+ 
+   # XML Scanner
+   #
+-  # $Id$
+-  #
+   # Currently this is the same scanner as Scanners::HTML.
+   class XML < HTML
+ 
+Index: lib/coderay/scanners/java_script.rb
+===================================================================
+--- lib/coderay/scanners/java_script.rb	(revision 308)
++++ lib/coderay/scanners/java_script.rb	(working copy)
+@@ -42,6 +42,10 @@
+       '"' => /[^\\"]+/,
+       '/' => /[^\\\/]+/,
+     }
++    KEY_CHECK_PATTERN = {
++      "'" => / [^\\']* (?: \\.? [^\\']* )* '? \s* : /x,
++      '"' => / [^\\"]* (?: \\.? [^\\"]* )* "? \s* : /x,
++    }
+ 
+     def scan_tokens tokens, options
+ 
+@@ -103,8 +107,12 @@
+             key_expected = false
+ 
+           elsif match = scan(/["']/)
+-            tokens << [:open, :string]
+-            state = :string
++            if key_expected && check(KEY_CHECK_PATTERN[match])
++              state = :key
++            else
++              state = :string
++            end
++            tokens << [:open, state]
+             string_delimiter = match
+             kind = :delimiter
+ 
+@@ -125,7 +133,7 @@
+ 
+           end
+ 
+-        when :string, :regexp
++        when :string, :regexp, :key
+           if scan(STRING_CONTENT_PATTERN[string_delimiter])
+             kind = :content
+           elsif match = scan(/["'\/]/)
+@@ -139,7 +147,7 @@
+             key_expected = value_expected = false
+             state = :initial
+             next
+-          elsif state == :string && (match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox))
++          elsif state != :regexp && (match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox))
+             if string_delimiter == "'" && !(match == "\\\\" || match == "\\'")
+               kind = :content
+             else
+@@ -155,20 +163,20 @@
+             key_expected = value_expected = false
+             state = :initial
+           else
+-            raise_inspect "else case \" reached; %p not handled." % peek(1), tokens
++            raise_inspect "else case \" reached; %p not handled." % peek(1), tokens, state
+           end
+ 
+         else
+-          raise_inspect 'Unknown state', tokens
++          raise_inspect 'Unknown state', tokens, state
+ 
+         end
+ 
+         match ||= matched
+         if $DEBUG and not kind
+           raise_inspect 'Error token %p in line %d' %
+-            [[match, kind], line], tokens
++            [[match, kind], line], tokens, state
+         end
+-        raise_inspect 'Empty token', tokens unless match
++        raise_inspect 'Empty token', tokens, state unless match
+         
+         tokens << [match, kind]
+ 
+Index: lib/coderay/scanners/nitro_xhtml.rb
+===================================================================
+--- lib/coderay/scanners/nitro_xhtml.rb	(revision 308)
++++ lib/coderay/scanners/nitro_xhtml.rb	(working copy)
+@@ -5,8 +5,6 @@
+   load :ruby
+ 
+   # Nitro XHTML Scanner
+-  #
+-  # $Id$
+   class NitroXHTML < Scanner
+ 
+     include Streamable
+Index: lib/coderay/for_redcloth.rb
+===================================================================
+--- lib/coderay/for_redcloth.rb	(revision 308)
++++ lib/coderay/for_redcloth.rb	(working copy)
+@@ -48,6 +48,7 @@
+           opts[:lang] ? '' : "<pre#{pba(opts)}>"
+         end
+         def bc_close(opts)  # :nodoc:
++          opts = @in_bc
+           @in_bc = nil
+           opts[:lang] ? '' : "</pre>\n"
+         end
+Index: lib/README
+===================================================================
+--- lib/README	(revision 308)
++++ lib/README	(working copy)
+@@ -87,6 +87,7 @@
+ * Jonathan Younger for pointing out the licence confusion caused by wrong LICENSE file.
+ * Jeremy Hinegardner for finding the shebang-on-empty-file bug in FileType.
+ * Charles Oliver Nutter and Yehuda Katz for helping me benchmark CodeRay on JRuby.
++* Andreas Neuhaus for pointing out a markup bug in coderay/for_redcloth.
+ * The folks at redmine.org - thank you for using and fixing CodeRay!
+ * matz and all Ruby gods and gurus
+ * The inventors of: the computer, the internet, the true color display, HTML &
+Index: rake_tasks/test.rake
+===================================================================
+--- rake_tasks/test.rake	(revision 308)
++++ rake_tasks/test.rake	(working copy)
+@@ -9,6 +9,22 @@
+     ruby "./test/functional/suite.rb"
+   end
+   
++  namespace :functional do
++    desc 'run all functional tests on all supported Ruby platforms'
++    task :all do
++      $stdout.sync = true
++      for task in %w(test:functional 19 test:functional jruby test:functional ee test:functional)
++        if task == 'test:functional'
++          puts "\n\nTesting with #{RUBY}..."
++          Rake::Task['test:functional'].reenable
++          Rake::Task['test:functional'].invoke
++        else
++          Rake::Task[task].invoke
++        end
++      end
++    end
++  end
++  
+   desc 'run all scanner tests'
+   task :scanners do
+     ruby "./test/scanners/suite.rb"
+Index: rake_tasks/documentation.rake
+===================================================================
+--- rake_tasks/documentation.rake	(revision 308)
++++ rake_tasks/documentation.rake	(working copy)
+@@ -7,7 +7,7 @@
+   rd.main = 'lib/README'
+   rd.title = "CodeRay Documentation"
+   rd.options << '--line-numbers' << '--inline-source' << '--tab-width' << '2'
+-  # rd.options << '--format' << ENV.fetch('format', 'html_coderay')
++  rd.options << '--fmt' << ENV.fetch('format', 'html_coderay')
+   rd.options << '--all'
+   
+   rd.template = ENV.fetch('template', CODERAY_TEMPLATE)

@@ -45,20 +45,24 @@ class WordListTest < Test::Unit::TestCase
 
   def test_case_ignoring_word_list
     list = CaseIgnoringWordList.new(:ident).add(['foobar'], :reserved)
+    assert_equal :ident, list['foo']
     assert_equal :reserved, list['foobar']
     assert_equal :reserved, list['FooBar']
 
     list = CaseIgnoringWordList.new(:ident).add(['FooBar'], :reserved)
+    assert_equal :ident, list['foo']
     assert_equal :reserved, list['foobar']
     assert_equal :reserved, list['FooBar']
   end
 
   def test_case_ignoring_word_list_cached
     list = CaseIgnoringWordList.new(:ident, true).add(['foobar'], :reserved)
+    assert_equal :ident, list['foo']
     assert_equal :reserved, list['foobar']
     assert_equal :reserved, list['FooBar']
 
     list = CaseIgnoringWordList.new(:ident, true).add(['FooBar'], :reserved)
+    assert_equal :ident, list['foo']
     assert_equal :reserved, list['foobar']
     assert_equal :reserved, list['FooBar']
   end

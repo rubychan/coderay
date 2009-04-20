@@ -104,6 +104,7 @@ class CaseIgnoringWordList < WordList
         h[k] = h.fetch k.downcase, default
       end
     else
+      super(default, false)
       def self.[] key  # :nodoc:
         super(key.downcase)
       end

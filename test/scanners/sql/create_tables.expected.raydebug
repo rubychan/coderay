@@ -20,34 +20,34 @@ reserved(DROP) reserved(TABLE) reserved(IF) reserved(EXISTS) string<delimiter(`)
 comment(-- Create table)
 reserved(CREATE) reserved(TABLE) string<delimiter(`)content(general_lookups)delimiter(`)> operator(()
   string<delimiter(`)content(name)delimiter(`)> pre_type(varchar)operator(()integer(255)operator(\)) directive(default) pre_constant(NULL)
-operator(\)) reserved(ENGINE)operator(=)(InnoDB) directive(DEFAULT) directive(CHARSET)operator(=)(latin1)operator(;)
+operator(\)) reserved(ENGINE)operator(=)ident(InnoDB) directive(DEFAULT) directive(CHARSET)operator(=)ident(latin1)operator(;)
 
 comment(-- Drop table again)
-reserved(DROP) reserved(TABLE) reserved(IF) reserved(EXISTS) (customer)operator(;)
+reserved(DROP) reserved(TABLE) reserved(IF) reserved(EXISTS) ident(customer)operator(;)
 
 comment(-- Create customers)
-reserved(CREATE) reserved(TABLE) (customer) operator(()
-   (first_name) pre_type(char)operator(()integer(50)operator(\))operator(,)
-   (last_name) pre_type(char)operator(()integer(50)operator(\))operator(,)
-   (address) pre_type(char)operator(()integer(50)operator(\))operator(,)
-   (city) pre_type(char)operator(()integer(50)operator(\))operator(,)
-   (country) pre_type(char)operator(()integer(25)operator(\))operator(,)
-   (birth_date) pre_type(date)operator(,)
-   (created_at) pre_type(timestamp)operator(,) comment(-- Differnt sort of date here)
-   (updated_at) pre_type(timestamp)
+reserved(CREATE) reserved(TABLE) ident(customer) operator(()
+   ident(first_name) pre_type(char)operator(()integer(50)operator(\))operator(,)
+   ident(last_name) pre_type(char)operator(()integer(50)operator(\))operator(,)
+   ident(address) pre_type(char)operator(()integer(50)operator(\))operator(,)
+   ident(city) pre_type(char)operator(()integer(50)operator(\))operator(,)
+   ident(country) pre_type(char)operator(()integer(25)operator(\))operator(,)
+   ident(birth_date) pre_type(date)operator(,)
+   ident(created_at) pre_type(timestamp)operator(,) comment(-- Differnt sort of date here)
+   ident(updated_at) pre_type(timestamp)
 operator(\))
 
 comment(-- Create business)
-reserved(CREATE) reserved(TABLE) (business) operator(()
-   (compant_name) pre_type(char)operator(()integer(50)operator(\))operator(,)
-   (address) pre_type(char)operator(()integer(50)operator(\)) directive(default) string<delimiter(')content(Address Unknown)delimiter(')>operator(,) comment(-- Oohh, defaults..)
-   (city) pre_type(char)operator(()integer(50)operator(\)) directive(default) string<delimiter(')content(Adelaide)delimiter(')>operator(,)
-   (country) pre_type(char)operator(()integer(150)operator(\)) directive(default) string<delimiter(')content(Australia)delimiter(')>
+reserved(CREATE) reserved(TABLE) ident(business) operator(()
+   ident(compant_name) pre_type(char)operator(()integer(50)operator(\))operator(,)
+   ident(address) pre_type(char)operator(()integer(50)operator(\)) directive(default) string<delimiter(')content(Address Unknown)delimiter(')>operator(,) comment(-- Oohh, defaults..)
+   ident(city) pre_type(char)operator(()integer(50)operator(\)) directive(default) string<delimiter(')content(Adelaide)delimiter(')>operator(,)
+   ident(country) pre_type(char)operator(()integer(150)operator(\)) directive(default) string<delimiter(')content(Australia)delimiter(')>
 operator(\))
 
 comment(-- Some random table)
 
-reserved(DROP) reserved(TABLE) reserved(IF) reserved(EXISTS) (customer_statuses)operator(;)
+reserved(DROP) reserved(TABLE) reserved(IF) reserved(EXISTS) ident(customer_statuses)operator(;)
 
 reserved(CREATE) reserved(TABLE) string<delimiter(`)content(customer_statuses)delimiter(`)> operator(()
    comment(-- Auto incrementing IDs)
@@ -58,10 +58,10 @@ reserved(CREATE) reserved(TABLE) string<delimiter(`)content(customer_statuses)de
   string<delimiter(`)content(status_id)delimiter(`)> pre_type(smallint)operator(()integer(6)operator(\)) pre_type(unsigned) directive(default) pre_constant(NULL)operator(,)
   string<delimiter(`)content(comments)delimiter(`)> pre_type(varchar)operator(()integer(100)operator(\)) directive(default) pre_constant(NULL)operator(,)
   reserved(PRIMARY) reserved(KEY)  operator(()string<delimiter(`)content(id)delimiter(`)>operator(\))
-operator(\)) reserved(ENGINE)operator(=)(InnoDB) directive(DEFAULT) directive(CHARSET)operator(=)(latin1)operator(;)
+operator(\)) reserved(ENGINE)operator(=)ident(InnoDB) directive(DEFAULT) directive(CHARSET)operator(=)ident(latin1)operator(;)
 
 comment(-- Try creating an index.)
-reserved(CREATE) reserved(INDEX) (customer_status_status_id) reserved(ON) (customer_statuses) operator(()(status_id)operator(\))
+reserved(CREATE) reserved(INDEX) ident(customer_status_status_id) reserved(ON) ident(customer_statuses) operator(()ident(status_id)operator(\))
 
 comment(/* Now lets try and make a really big table */)
 
@@ -89,6 +89,6 @@ reserved(CREATE) reserved(TABLE) string<delimiter(`)content(legacy_clients)delim
   string<delimiter(`)content(location_temp)delimiter(`)> pre_type(varchar)operator(()integer(50)operator(\)) directive(default) pre_constant(NULL)operator(,)
   string<delimiter(`)content(employer_temp)delimiter(`)> pre_type(varchar)operator(()integer(50)operator(\)) directive(default) pre_constant(NULL)operator(,)
   reserved(PRIMARY) reserved(KEY)  operator(()string<delimiter(`)content(id)delimiter(`)>operator(\))
-operator(\)) reserved(ENGINE)operator(=)(InnoDB) directive(DEFAULT) directive(CHARSET)operator(=)(latin1)operator(;)
+operator(\)) reserved(ENGINE)operator(=)ident(InnoDB) directive(DEFAULT) directive(CHARSET)operator(=)ident(latin1)operator(;)
 
 

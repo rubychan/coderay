@@ -14,11 +14,11 @@ comment(--GNU General Public License for more details.)
 comment(--You should have received a copy of the GNU General Public License)
 comment(--along with this program.  If not, see <http://www.gnu.org/licenses/>.)
 
-reserved(INSERT) reserved(INTO) (users) operator(()(first_name)operator(,) (last_name)operator(\)) reserved(VALUES) operator(()string<delimiter(')content(John)delimiter(')>operator(,) string<delimiter(')content(Doe)delimiter(')>operator(\))operator(;)
+reserved(INSERT) reserved(INTO) ident(users) operator(()ident(first_name)operator(,) ident(last_name)operator(\)) reserved(VALUES) operator(()string<delimiter(')content(John)delimiter(')>operator(,) string<delimiter(')content(Doe)delimiter(')>operator(\))operator(;)
 
-reserved(INSERT) reserved(INTO) (users) operator(()(first_name)operator(,) (last_name)operator(\)) reserved(VALUES) operator(()string<delimiter(")content(John)delimiter(")>operator(,) string<delimiter(")content(Doe)delimiter(")>operator(\))operator(;)
+reserved(INSERT) reserved(INTO) ident(users) operator(()ident(first_name)operator(,) ident(last_name)operator(\)) reserved(VALUES) operator(()string<delimiter(")content(John)delimiter(")>operator(,) string<delimiter(")content(Doe)delimiter(")>operator(\))operator(;)
 
-reserved(UPDATE) (users) reserved(SET) (first_name) operator(=) string<delimiter(')content(Keith)delimiter(')> reserved(WHERE) (first_name) operator(=) string<delimiter(')content(JOHN)delimiter(')>operator(;)
+reserved(UPDATE) ident(users) reserved(SET) ident(first_name) operator(=) string<delimiter(')content(Keith)delimiter(')> reserved(WHERE) ident(first_name) operator(=) string<delimiter(')content(JOHN)delimiter(')>operator(;)
 
-reserved(DELETE) reserved(FROM) (users) reserved(WHERE) (first_name) operator(=) string<delimiter(')content(Keith)delimiter(')>operator(;)
+reserved(DELETE) reserved(FROM) ident(users) reserved(WHERE) ident(first_name) operator(=) string<delimiter(')content(Keith)delimiter(')>operator(;)
 

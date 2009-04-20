@@ -14,33 +14,33 @@ comment(--GNU General Public License for more details.)
 comment(--You should have received a copy of the GNU General Public License)
 comment(--along with this program.  If not, see <http://www.gnu.org/licenses/>.)
 
-reserved(SELECT) operator(*) reserved(FROM) (users)operator(;)
+reserved(SELECT) operator(*) reserved(FROM) ident(users)operator(;)
 
-reserved(select) operator(*) reserved(from) (users)operator(;)
+reserved(select) operator(*) reserved(from) ident(users)operator(;)
 
 reserved(SELECT) string<delimiter(`)content(First Name)delimiter(`)>operator(,) string<delimiter(`)content(Last Name)delimiter(`)> reserved(FROM) string<delimiter(`)content(User Table)delimiter(`)>operator(;)
 
-reserved(select) (first_name)operator(,) (last_name) reserved(FROM) (users)operator(;)
+reserved(select) ident(first_name)operator(,) ident(last_name) reserved(FROM) ident(users)operator(;)
 
-reserved(select) (first_name) operator(|)operator(|) string<delimiter(')content( )delimiter(')> operator(|)operator(|) (last_name) reserved(from) (users)operator(;)
+reserved(select) ident(first_name) operator(|)operator(|) string<delimiter(')content( )delimiter(')> operator(|)operator(|) ident(last_name) reserved(from) ident(users)operator(;)
 
-reserved(select) (first_name) operator(|)operator(|) string<delimiter(")content( )delimiter(")> operator(|)operator(|) (last_name) reserved(from) (users)operator(;)
+reserved(select) ident(first_name) operator(|)operator(|) string<delimiter(")content( )delimiter(")> operator(|)operator(|) ident(last_name) reserved(from) ident(users)operator(;)
 
-reserved(SELECT) operator(*) reserved(FROM) (users) reserved(JOIN) (companies) reserved(USING) operator(()(company_id)operator(\)) reserved(WHERE) (company_type) operator(=) string<delimiter(')content(Fortune 500)delimiter(')>operator(;)
+reserved(SELECT) operator(*) reserved(FROM) ident(users) reserved(JOIN) ident(companies) reserved(USING) operator(()ident(company_id)operator(\)) reserved(WHERE) ident(company_type) operator(=) string<delimiter(')content(Fortune 500)delimiter(')>operator(;)
 
-reserved(SELECT) operator(*) reserved(FROM) (users) reserved(WHERE) (name_first) reserved(LIKE) string<delimiter(')content(%Keith%)delimiter(')>operator(;)
+reserved(SELECT) operator(*) reserved(FROM) ident(users) reserved(WHERE) ident(name_first) reserved(LIKE) string<delimiter(')content(%Keith%)delimiter(')>operator(;)
 
-reserved(SELECT) reserved(CASE) reserved(WHEN) (foo)operator(.)(bar) operator(=) string<delimiter(')content(PY)delimiter(')>
+reserved(SELECT) reserved(CASE) reserved(WHEN) ident(foo)operator(.)ident(bar) operator(=) string<delimiter(')content(PY)delimiter(')>
    reserved(THEN) string<delimiter(')content(BAR)delimiter(')>
    reserved(ELSE) string<delimiter(')content(FOO)delimiter(')>
-   reserved(END) reserved(as) (bar_type)operator(,)
-   (user_id)operator(,)
-   (company_id)operator(,)
+   reserved(END) reserved(as) ident(bar_type)operator(,)
+   ident(user_id)operator(,)
+   ident(company_id)operator(,)
    predefined(sum)operator(()
-      reserved(case) reserved(when) (foo)operator(.)(bar) operator(=) string<delimiter(')content(PY)delimiter(')>
-      reserved(then) operator(-)(amt) reserved(else) (amt)
+      reserved(case) reserved(when) ident(foo)operator(.)ident(bar) operator(=) string<delimiter(')content(PY)delimiter(')>
+      reserved(then) operator(-)ident(amt) reserved(else) ident(amt)
    reserved(end)
-   operator(\)) (over) operator(()reserved(order) reserved(by) (id)operator(,) (amt)operator(\)) reserved(as) (balance)operator(;)
+   operator(\)) ident(over) operator(()reserved(order) reserved(by) ident(id)operator(,) ident(amt)operator(\)) reserved(as) ident(balance)operator(;)
 
-reserved(SELECT) (users)operator(.)operator(*)operator(,) operator(()reserved(SELECT) (company_name) reserved(FROM) (companies) reserved(WHERE) (company_id) operator(=) (users)operator(.)(company_id)operator(\)) reserved(FROM) (users)operator(;)
+reserved(SELECT) ident(users)operator(.)operator(*)operator(,) operator(()reserved(SELECT) ident(company_name) reserved(FROM) ident(companies) reserved(WHERE) ident(company_id) operator(=) ident(users)operator(.)ident(company_id)operator(\)) reserved(FROM) ident(users)operator(;)
 

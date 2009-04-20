@@ -1,0 +1,24 @@
+comment(--RANDOM SQL QUERIES THAT DO NOTHING INTERESTING)
+comment(--Copyright (C\) 2009 - Keith Pitt <keith@keithpitt.com>)
+
+comment(--This program is free software: you can redistribute it and/or modify)
+comment(--it under the terms of the GNU General Public License as published by)
+comment(--the Free Software Foundation, either version 3 of the License, or)
+comment(--(at your option\) any later version.)
+
+comment(--This program is distributed in the hope that it will be useful,)
+comment(--but WITHOUT ANY WARRANTY; without even the implied warranty of)
+comment(--MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the)
+comment(--GNU General Public License for more details.)
+
+comment(--You should have received a copy of the GNU General Public License)
+comment(--along with this program.  If not, see <http://www.gnu.org/licenses/>.)
+
+reserved(INSERT) reserved(INTO) (users) operator(()(first_name)operator(,) (last_name)operator(\)) reserved(VALUES) operator(()string<delimiter(')content(John)delimiter(')>operator(,) string<delimiter(')content(Doe)delimiter(')>operator(\))operator(;)
+
+reserved(INSERT) reserved(INTO) (users) operator(()(first_name)operator(,) (last_name)operator(\)) reserved(VALUES) operator(()string<delimiter(")content(John)delimiter(")>operator(,) string<delimiter(")content(Doe)delimiter(")>operator(\))operator(;)
+
+reserved(UPDATE) (users) reserved(SET) (first_name) operator(=) string<delimiter(')content(Keith)delimiter(')> reserved(WHERE) (first_name) operator(=) string<delimiter(')content(JOHN)delimiter(')>operator(;)
+
+reserved(DELETE) reserved(FROM) (users) reserved(WHERE) (first_name) operator(=) string<delimiter(')content(Keith)delimiter(')>operator(;)
+

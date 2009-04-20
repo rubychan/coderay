@@ -1,0 +1,109 @@
+comment(# All of the values below are valid MySQL syntax accoring to)
+comment(# the Reference Manual:)
+comment(#   http://dev.mysql.com/doc/refman/5.1/en/language-structure.html)
+comment(# unless stated otherwise.)
+
+comment(# strings)
+reserved(SELECT) string<delimiter(')content(a string)delimiter(')>operator(;)
+reserved(SELECT) string<delimiter(")content(another string)delimiter(")>operator(;)
+
+reserved(SELECT) string<modifier(_latin1)delimiter(')content(string)delimiter(')>operator(;)
+reserved(SELECT) string<modifier(_latin1)delimiter(')content(string)delimiter(')> reserved(COLLATE) (latin1_danish_ci)operator(;)
+
+reserved(SELECT) string<modifier(N)delimiter(')content(some text)delimiter(')>operator(;)
+reserved(SELECT) string<modifier(n)delimiter(')content(some text)delimiter(')>operator(;)
+reserved(SELECT) string<modifier(_utf8)delimiter(')content(some text)delimiter(')>operator(;)
+
+reserved(SELECT) string<delimiter(")char(\\0)char(\\')char(\\")content(''"")char(\\b)char(\\n)char(\\r)char(\\t)char(\\Z)char(\\\\)char(\\%)char(\\_)delimiter(")>operator(;)  comment(# ")
+reserved(SELECT) string<delimiter(')char(\\0)char(\\')char(\\")content(''"")char(\\b)char(\\n)char(\\r)char(\\t)char(\\Z)char(\\\\)char(\\%)char(\\_)delimiter(')>operator(;)  comment(# ')
+
+reserved(SELECT) string<delimiter(")char(\\B)char(\\x)delimiter(")>operator(;)  comment(# ")
+reserved(SELECT) string<delimiter(')char(\\B)char(\\x)delimiter(')>operator(;)  comment(# ')
+
+reserved(SELECT) string<delimiter(')content(hello)delimiter(')>operator(,) string<delimiter(')content("hello")delimiter(')>operator(,) string<delimiter(')content(""hello"")delimiter(')>operator(,) string<delimiter(')content(hel''lo)delimiter(')>operator(,) string<delimiter(')char(\\')content(hello)delimiter(')>operator(;)  comment(-- ')
+reserved(SELECT) string<delimiter(")content(hello)delimiter(")>operator(,) string<delimiter(")content('hello')delimiter(")>operator(,) string<delimiter(")content(''hello'')delimiter(")>operator(,) string<delimiter(")content(hel""lo)delimiter(")>operator(,) string<delimiter(")char(\\")content(hello)delimiter(")>operator(;)  comment(-- ")
+
+reserved(SELECT) string<delimiter(')content(This)char(\\n)content(Is)char(\\n)content(Four)char(\\n)content(Lines)delimiter(')>operator(;)
+reserved(SELECT) string<delimiter(')content(disappearing)char(\\ )content(backslash)delimiter(')>operator(;)
+
+comment(# numbers)
+reserved(select) integer(1221)operator(;)
+reserved(select) integer(0)operator(;)
+reserved(select) operator(-)integer(32)error(:)
+
+reserved(select) float(294.42)error(:)
+reserved(select) operator(-)float(32032.6809e+10)operator(;)
+reserved(select) float(148.00)operator(;)
+
+reserved(select) float(10e+10)operator(;)
+reserved(select) float(10e10)operator(;)
+
+comment(# hexadecimal)
+reserved(SELECT) string<modifier(X)delimiter(')content(4D7953514C)delimiter(')>operator(;)
+reserved(SELECT) hex(0x0a)operator(+)integer(0)operator(;)
+reserved(SELECT) hex(0x5061756c)operator(;)
+reserved(SELECT) hex(0x41)operator(,) predefined(CAST)operator(()hex(0x41) reserved(AS) pre_type(UNSIGNED)operator(\))operator(;)
+reserved(SELECT) pre_type(HEX)operator(()string<delimiter(')content(cat)delimiter(')>operator(\))operator(;)
+reserved(SELECT) hex(0x636174)operator(;)
+reserved(insert) reserved(into) (t) operator(()(md5)operator(\)) reserved(values) operator(()hex(0xad65)operator(\))operator(;)
+reserved(SELECT) operator(*) reserved(FROM) (SomeTable) reserved(WHERE) (BinaryColumn) operator(=) predefined(CAST)operator(() string<modifier(x)delimiter(')content(a0f44ef7a52411de)delimiter(')> reserved(AS) pre_type(BINARY) operator(\))operator(;)
+reserved(select) string<modifier(x)delimiter(')content(000bdddc0e9153f5a93447fc3310f710)delimiter(')>operator(,) string<modifier(x)delimiter(')content(0bdddc0e9153f5a93447fc3310f710)delimiter(')>operator(;)
+
+reserved(SELECT) pre_constant(TRUE)operator(,) pre_constant(true)operator(,) pre_constant(FALSE)operator(,) pre_constant(false)operator(;)
+reserved(SELECT) pre_constant(NULL)operator(,) pre_constant(null)operator(,) pre_constant(nuLL)operator(,) error(\\)(N)operator(;)
+reserved(SELECT) error(\\)(n)operator(;)  comment(# invalid!)
+
+comment(# bit-field)
+reserved(CREATE) reserved(TABLE) (t) operator(()(b) pre_type(BIT)operator(()integer(8)operator(\))operator(\))operator(;)
+reserved(INSERT) reserved(INTO) (t) reserved(SET) (b) operator(=) string<modifier(b)delimiter(')content(11111111)delimiter(')>operator(;)
+reserved(INSERT) reserved(INTO) (t) reserved(SET) (b) operator(=) string<modifier(b)delimiter(')content(1010)delimiter(')>operator(;)
+reserved(INSERT) reserved(INTO) (t) reserved(SET) (b) operator(=) string<modifier(b)delimiter(')content(0101)delimiter(')>operator(;)
+reserved(SELECT) (b)operator(+)integer(0)operator(,) pre_type(BIN)operator(()(b)operator(+)integer(0)operator(\))operator(,) pre_type(OCT)operator(()(b)operator(+)integer(0)operator(\))operator(,) pre_type(HEX)operator(()(b)operator(+)integer(0)operator(\)) reserved(FROM) (t)operator(;)
+
+reserved(SET) variable(@v1) operator(=) string<modifier(b)delimiter(')content(1000001)delimiter(')>operator(;)
+reserved(SET) variable(@v2) operator(=) predefined(CAST)operator(()string<modifier(b)delimiter(')content(1000001)delimiter(')> reserved(AS) pre_type(UNSIGNED)operator(\))operator(,) variable(@v3) operator(=) string<modifier(b)delimiter(')content(1000001)delimiter(')>operator(+)integer(0)operator(;)
+reserved(SELECT) variable(@v1)operator(,) variable(@v2)operator(,) variable(@v3)operator(;)
+
+reserved(INSERT) reserved(INTO) (my_table) operator(()(phone)operator(\)) reserved(VALUES) operator(()pre_constant(NULL)operator(\))operator(;)
+reserved(INSERT) reserved(INTO) (my_table) operator(()(phone)operator(\)) reserved(VALUES) operator(()string<delimiter(')delimiter(')>operator(\))operator(;)
+
+comment(# schema object names)
+reserved(SELECT) operator(*) reserved(FROM) string<delimiter(`)content(select)delimiter(`)> reserved(WHERE) string<delimiter(`)content(select)delimiter(`)>operator(.)(id) operator(>) integer(100)operator(;)
+
+reserved(CREATE) reserved(TABLE) string<delimiter(`)content(a``b)delimiter(`)> operator(()string<delimiter(`)content(c"d)delimiter(`)> pre_type(INT)operator(\))operator(;)
+reserved(SELECT) integer(1) reserved(AS) string<delimiter(`)content(one)delimiter(`)>operator(,) integer(2) reserved(AS) string<delimiter(')content(two)delimiter(')>operator(;)
+
+reserved(select) (foo) reserved(from) (foo)operator(;)
+reserved(select) string<delimiter(`)content(foo)delimiter(`)> reserved(from) (foo)operator(;)
+reserved(select) (foo)operator(.)(bar) reserved(from) (foo)operator(;)
+reserved(select) string<delimiter(`)content(foo)delimiter(`)>operator(.)(bar) reserved(from) (foo)operator(;)
+reserved(select) (foo)operator(.)string<delimiter(`)content(bar)delimiter(`)> reserved(from) (foo)operator(;)
+reserved(select) string<delimiter(`)content(foo.bar)delimiter(`)> reserved(from) (foo)operator(;)
+reserved(select) string<delimiter(`)content(foo)delimiter(`)>operator(.)string<delimiter(`)content(bar)delimiter(`)> reserved(from) (foo)operator(;)
+
+comment(# How to handle ANSI_QUOTES?)
+reserved(CREATE) reserved(TABLE) string<delimiter(")content(test)delimiter(")> operator(()(col) pre_type(INT)operator(\))operator(;)
+reserved(SET) (sql_mode)operator(=)string<delimiter(')content(ANSI_QUOTES)delimiter(')>operator(;)
+reserved(CREATE) reserved(TABLE) string<delimiter(")content(test)delimiter(")> operator(()(col) pre_type(INT)operator(\))operator(;)
+
+comment(# identifiers)
+reserved(SELECT) operator(*) reserved(FROM) (my_table) reserved(WHERE) (MY_TABLE)operator(.)(col)operator(=)integer(1)operator(;)
+reserved(SHOW) reserved(COLUMNS) reserved(FROM) string<delimiter(`)content(#mysql50#a@b)delimiter(`)>operator(;)
+
+comment(# Function Name Parsing and Resolution)
+
+
+reserved(SELECT) predefined(COUNT)operator(()operator(*)operator(\)) reserved(FROM) (mytable)operator(;)  comment(-- the first reference to count is a function call)
+reserved(CREATE) reserved(TABLE) predefined(count) operator(()(i) pre_type(INT)operator(\))operator(;)  comment(-- whereas the second reference is a table name)
+reserved(CREATE) reserved(TABLE) string<delimiter(`)content(count)delimiter(`)>operator(()(i) pre_type(INT)operator(\))operator(;)  comment(-- this too)
+reserved(CREATE) reserved(TABLE) string<delimiter(`)content(count)delimiter(`)> operator(()(i) pre_type(INT)operator(\))operator(;)  comment(-- this too)
+
+comment(# IGNORE_SPACE)
+reserved(SELECT) predefined(COUNT)operator(()operator(*)operator(\)) reserved(FROM) (mytable)operator(;)
+reserved(SELECT) predefined(COUNT) operator(()operator(*)operator(\)) reserved(FROM) (mytable)operator(;)
+
+comment(# reserved words)
+reserved(CREATE) reserved(TABLE) (interval) operator(()reserved(begin) pre_type(INT)operator(,) reserved(end) pre_type(INT)operator(\))operator(;)  comment(-- errror)
+reserved(CREATE) reserved(TABLE) string<delimiter(`)content(interval)delimiter(`)> operator(()reserved(begin) pre_type(INT)operator(,) reserved(end) pre_type(INT)operator(\))operator(;)  comment(-- valid)
+reserved(CREATE) reserved(TABLE) (mydb)operator(.)(interval) operator(()reserved(begin) pre_type(INT)operator(,) reserved(end) pre_type(INT)operator(\))operator(;)  comment(-- valid)
+reserved(SELECT) string<delimiter(`)content(foo)delimiter(`)>operator(,) string<delimiter(`)content(bar)delimiter(`)> reserved(FROM) string<delimiter(`)content(baz)delimiter(`)> reserved(WHERE) string<delimiter(`)content(bal)delimiter(`)> operator(=) string<delimiter(`)content(quiche)delimiter(`)>operator(;)  comment(-- valid)

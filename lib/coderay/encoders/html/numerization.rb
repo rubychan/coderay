@@ -75,7 +75,6 @@ module Encoders
           # Because even monospace fonts seem to have different heights when bold,
           # I make the newline bold, both in the code and the line numbers.
           # FIXME Still not working perfect for Mr. Internet Exploder
-          # FIXME Firefox struggles with very long codes (> 200 lines)
           line_numbers = (start ... start + line_count).to_a.map(&bolding).join("\n")
           line_numbers << "\n"  # also for Mr. MS Internet Exploder :-/
           line_numbers.gsub!(/\n/) { "<tt>\n</tt>" }

@@ -1,4 +1,3 @@
-require 'test/unit'
 require 'test/unit/ui/testrunnerutilities'
 require 'optparse'
 

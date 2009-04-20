@@ -2,9 +2,10 @@ require "test/unit"
 require "coderay"
 
 class BasicTest < Test::Unit::TestCase
+  
   def test_version
     assert_nothing_raised do
-      CodeRay::VERSION
+      assert_match(/\A\d\.\d\.\d\z/, CodeRay::VERSION)
     end
   end
   
@@ -38,7 +39,7 @@ class BasicTest < Test::Unit::TestCase
     require 'rubygems'
     gem 'RedCloth', '>= 4.0.3' rescue nil
     require 'redcloth'
-  
+    
     def test_for_redcloth
       require 'rubygems'
       require 'coderay/for_redcloth'
@@ -51,7 +52,7 @@ class BasicTest < Test::Unit::TestCase
         BLOCKCODE
         RedCloth.new('bc[ruby]. puts "Hello, World!"').to_html
     end
-  
+    
     def test_for_redcloth_no_lang
       require 'rubygems'
       require 'coderay/for_redcloth'
@@ -62,7 +63,7 @@ class BasicTest < Test::Unit::TestCase
         BLOCKCODE
         RedCloth.new('bc. puts "Hello, World!"').to_html
     end
-  
+    
     def test_for_redcloth_style
       require 'rubygems'
       require 'coderay/for_redcloth'
@@ -71,7 +72,7 @@ class BasicTest < Test::Unit::TestCase
         BLOCKCODE
         RedCloth.new('bc{color: red}. puts "Hello, World!"').to_html
     end
-  
+    
     def test_for_redcloth_escapes
       require 'rubygems'
       require 'coderay/for_redcloth'
@@ -88,18 +89,14 @@ class BasicTest < Test::Unit::TestCase
     $stderr.puts 'RedCloth not found.'
   end
   
-  ENCODERS_LIST = %w(
-    count debug div html null page span statistic text tokens xml yaml
-  )
-  def _test_list_of_encoders
-    assert_equal(ENCODERS_LIST, CodeRay::Encoders.list.sort)
+  def test_list_of_encoders
+    assert_kind_of(Array, CodeRay::Encoders.list)
+    assert CodeRay::Encoders.list.include?('count')
   end
-
-  SCANNERS_LIST = %w(
-    c debug delphi html nitro_xhtml plaintext rhtml ruby xml
-  )
-  def _test_list_of_scanners
-    assert_equal(SCANNERS_LIST, CodeRay::Scanners.list.sort)
+  
+  def test_list_of_scanners
+    assert_kind_of(Array, CodeRay::Scanners.list)
+    assert CodeRay::Scanners.list.include?('plaintext')
   end
-
+  
 end

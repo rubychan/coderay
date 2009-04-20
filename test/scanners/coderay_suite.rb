@@ -297,9 +297,16 @@ module CodeRay
       
       if File.exist?(expected_filename) && !(ENV['lang'] && ENV['new'] && name == ENV['new'])
         expected = File.open(expected_filename, 'rb') { |f| break f.read }
+        if result.respond_to?(:bytesize) && result.bytesize != result.size
+          # for char, i in result.chars.with_index
+          #   raise "result has non-ASCII-8BIT character in line #{result[0,i].count(?\n) + 1}" if char.bytesize != 1
+          # end
+          # UTF-8 encoded result; comparison needs to be done on binary level
+          result.force_encoding(:binary)
+        end
         ok = expected == result
-        actual_filename = expected_filename.sub('.expected.', '.actual.')
         unless ok
+          actual_filename = expected_filename.sub('.expected.', '.actual.')
           File.open(actual_filename, 'wb') { |f| f.write result }
           diff = expected_filename.sub(/\.expected\..*/, '.debug.diff')
           system "diff --unified=0 --text #{expected_filename} #{actual_filename} > #{diff}"

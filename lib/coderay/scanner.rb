@@ -65,7 +65,14 @@ module CodeRay
 
         def normify code
           code = code.to_s
-          code.force_encoding 'binary' if code.respond_to? :force_encoding
+          if code.respond_to? :force_encoding
+            begin
+              code.force_encoding 'utf-8'
+              code[/\z/]  # raises an ArgumentError when code contains a non-UTF-8 char
+            rescue ArgumentError
+              code.force_encoding 'binary'
+            end
+          end
           code.to_unix
         end
         
@@ -181,6 +188,11 @@ module CodeRay
       
       def column pos = self.pos
         return 0 if pos <= 0
+        string = string()
+        if string.respond_to?(:bytesize) && (defined?(@bin_string) || string.bytesize != string.size)
+          @bin_string ||= string.dup.force_encoding(:binary)
+          string = @bin_string
+        end
         pos - (string.rindex(?\n, pos) || 0)
       end
 
@@ -207,6 +219,7 @@ module CodeRay
       def reset_instance
         @tokens.clear unless @options[:keep_tokens]
         @cached_tokens = nil
+        @bin_string = nil if defined? @bin_string
       end
 
       # Scanner error with additional status information

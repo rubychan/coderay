@@ -75,6 +75,7 @@ module Scanners
       state = :initial
       string_delimiter = nil
       import_clause = class_name_follows = last_token_dot = false
+      unicode = string.respond_to?(:encoding) && string.encoding.name == 'UTF-8'
       
       until eos?
         
@@ -109,7 +110,8 @@ module Scanners
             state = :string
             kind = :delimiter
           
-          elsif match = scan(/[[:alpha:]_][[:alnum:]_]*/ux)
+          elsif match = (unicode && scan(/[[:alpha:]_]\w*/ux)) ||
+                                    scan(/[[:alpha:]_]\w*/x)
             kind = IDENT_KIND[match]
             # TODO: handle class, def, from, import
             # TODO: handle print, exec used as functions in Python 3 code

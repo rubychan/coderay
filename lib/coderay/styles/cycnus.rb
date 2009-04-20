@@ -78,10 +78,11 @@ ol.CodeRay li { white-space: pre }
 .i  { color:#00D; font-weight:bold }
 .ic { color:#B44; font-weight:bold }
 
-.il { background: #eee; color: black }
-.il .il { background: #ddd }
-.il .il .il { background: #ccc }
-.il .idl { font-weight: bold; color: #777 }
+.il { background: #ddd; color: black }
+.il .il { background: #ccc }
+.il .il .il { background: #bbb }
+.il .idl { background: #ddd; font-weight: bold; color: #666 }
+.idl { background-color: #bbb; font-weight: bold; color: #666; }
 
 .im { color:#f00; }
 .in { color:#B2B; font-weight:bold }

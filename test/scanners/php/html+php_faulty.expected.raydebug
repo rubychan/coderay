@@ -1,1 +1,1 @@
-operator(<)operator(?)ident(php)
+inline_delimiter(<?php)

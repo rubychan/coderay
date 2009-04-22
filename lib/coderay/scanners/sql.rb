@@ -50,7 +50,7 @@ module CodeRay module Scanners
 
         kind = nil
         match = nil
-
+        
         if state == :initial
           
           if scan(/ \s+ | \\\n /x)
@@ -58,10 +58,10 @@ module CodeRay module Scanners
           
           elsif scan(/^(?:--\s?|#).*/)
             kind = :comment
-
+            
           elsif scan(%r! /\* (?: .*? \*/ | .* ) !mx)
             kind = :comment
-
+            
           elsif scan(/ [-+*\/=<>;,!&^|()\[\]{}~%] | \.(?!\d) /x)
             kind = :operator
             
@@ -88,7 +88,7 @@ module CodeRay module Scanners
             
           elsif scan(/\d[fF]|\d*\.\d+(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+/)
             kind = :float
-
+            
           else
             getch
             kind = :error
@@ -144,16 +144,19 @@ module CodeRay module Scanners
         end
         
         match ||= matched
-#        raise [match, kind], tokens if kind == :error
+        unless kind
+          raise_inspect 'Error token %p in line %d' %
+            [[match, kind], line], tokens, state
+        end
+        raise_inspect 'Empty token', tokens unless match
         
         tokens << [match, kind]
         
       end
-#      RAILS_DEFAULT_LOGGER.info tokens.inspect
       tokens
       
     end
-
+    
   end
-
+  
 end end

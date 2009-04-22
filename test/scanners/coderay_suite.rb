@@ -100,15 +100,15 @@ module CodeRay
     if ENV['deluxe']
       MAX_CODE_SIZE_TO_HIGHLIGHT = 500_000_000
       MAX_CODE_SIZE_TO_TEST = 500_000_000
-      DEFAULT_MAX = 1024
+      DEFAULT_MAX = 4096
     elsif ENV['fast']
       MAX_CODE_SIZE_TO_HIGHLIGHT = 5_000_000
       MAX_CODE_SIZE_TO_TEST = 1_000_000
       DEFAULT_MAX = 16
     else
-      MAX_CODE_SIZE_TO_HIGHLIGHT = 5_000_000
-      MAX_CODE_SIZE_TO_TEST = 5_000_000
-      DEFAULT_MAX = 512
+      MAX_CODE_SIZE_TO_HIGHLIGHT = 10_000_000
+      MAX_CODE_SIZE_TO_TEST = 10_000_000
+      DEFAULT_MAX = 1024
     end
     
     class << self

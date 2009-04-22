@@ -1,4 +1,4 @@
-class Regexp
+class XRegexp
   def |(other)
     Regexp.union(self, other)
   end
@@ -11,7 +11,7 @@ module Scanners
   
   load :html
   
-  # TODO: Complete rewrite. This scanner is buggy.
+  # Original by Stefan Walk.
   class PHP < Scanner
     
     register_for :php
@@ -175,9 +175,6 @@ module Scanners
     end
     
     module RE
-      def self.build_alternatives(array)
-        Regexp.new(array.map { |s| Regexp.escape(s) }.join('|') , Regexp::IGNORECASE)
-      end
       
       PHP_START = /
         <script\s+[^>]*?language\s*=\s*"php"[^>]*?> |
@@ -191,13 +188,9 @@ module Scanners
         \?>
       !xi
       
-      IChar = /[a-z0-9_\x80-\xFF]/i
-      IStart = /[a-z_\x80-\xFF]/i
-      Identifier = /#{IStart}#{IChar}*/
-      VARIABLE = /\$#{Identifier}/
+      IDENTIFIER = /[a-z_\x80-\xFF][a-z0-9_\x80-\xFF]*/i
+      VARIABLE = /\$#{IDENTIFIER}/
       
-      HereDoc = /<<</ + Identifier
-
       OPERATOR = /
         \.(?!\d)=? |      # dot that is not decimal point, string concatenation
         && | \|\| |       # logic
@@ -209,9 +202,6 @@ module Scanners
         [=!]=?=? | <> |   # comparison and assignment
         <<=? | >>=? | [<>]=?  # comparison and shift
       /x
-      
-      Integer = /0x[0-9a-fA-F]/ | /\d+/
-      Float = /(?:\d+\.\d*|\d*\.\d+)(?:e[-+]?\d+)?|\d+e[-+]?\d+/i
       
     end
     
@@ -258,7 +248,7 @@ module Scanners
           elsif scan(%r!(?://|#).*?(?=#{RE::PHP_END}|$)!o)
             kind = :comment
           
-          elsif match = scan(RE::Identifier)
+          elsif match = scan(RE::IDENTIFIER)
             kind = Words::IDENT_KIND[match]
             if kind == :ident && check(/:(?!:)/) #&& tokens[-2][0] == 'case'
               kind = :label
@@ -267,10 +257,13 @@ module Scanners
             # TODO: function and class definitions
             end
           
-          elsif scan RE::Float
+          elsif scan(/(?:\d+\.\d*|\d*\.\d+)(?:e[-+]?\d+)?|\d+e[-+]?\d+/i)
             kind = :float
           
-          elsif scan RE::Integer
+          elsif scan(/0x[0-9a-fA-F]+/)
+            kind = :hex
+          
+          elsif scan(/\d+/)
             kind = :integer
           
           elsif scan(/'/)
@@ -285,9 +278,9 @@ module Scanners
             states.push :dqstring
           
           # TODO: Heredocs
-          # elsif match = scan(RE::HereDoc)
+          # elsif match = scan(/<<</ + IDENTIFIER)
           #   tokens << [:open, :string]
-          #   heredocdelim = match[RE::Identifier]
+          #   heredocdelim = match[RE::IDENTIFIER]
           #   kind = :delimiter
           #   states.push :heredocstring
           
@@ -361,13 +354,13 @@ module Scanners
             kind = :local_variable
             # $foo[bar] and $foo->bar kind of stuff
             # TODO: highlight tokens separately!
-            if check(/\[#{RE::Identifier}\]/o)
-              match << scan(/\[#{RE::Identifier}\]/o)
+            if check(/\[#{RE::IDENTIFIER}\]/o)
+              match << scan(/\[#{RE::IDENTIFIER}\]/o)
             elsif check(/\[/)
-              match << scan(/\[#{RE::Identifier}?/o)
+              match << scan(/\[#{RE::IDENTIFIER}?/o)
               kind = :error
-            elsif check(/->#{RE::Identifier}/o)
-              match << scan(/->#{RE::Identifier}/o)
+            elsif check(/->#{RE::IDENTIFIER}/o)
+              match << scan(/->#{RE::IDENTIFIER}/o)
             elsif check(/->/)
               match << scan(/->/)
               kind = :error
@@ -382,7 +375,7 @@ module Scanners
             else
               kind = :string
             end
-          elsif scan(/\$\{#{RE::Identifier}\}/o)
+          elsif scan(/\$\{#{RE::IDENTIFIER}\}/o)
             kind = :local_variable
           elsif scan(/\$/)
             kind = :content

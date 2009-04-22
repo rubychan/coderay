@@ -505,7 +505,7 @@ operator({)
 operator(})
 
 predefined(echo) ident(getnum)operator(()integer(123)operator(\)) operator(.) string<delimiter(")char(\\n)delimiter(")>operator(;)   comment(// ok)
-predefined(echo) ident(getnum)operator(()integer(0xf)ident(f)operator(\)) operator(.) string<delimiter(")char(\\n)delimiter(")>operator(;)  comment(// ..)
+predefined(echo) ident(getnum)operator(()hex(0xff)operator(\)) operator(.) string<delimiter(")char(\\n)delimiter(")>operator(;)  comment(// ..)
 predefined(echo) ident(getnum)operator(()integer(044)operator(\)) operator(.) string<delimiter(")char(\\n)delimiter(")>operator(;)   comment(// ..)
 
 predefined(echo) ident(getnum)operator(()string<delimiter(')content(x)delimiter(')>operator(\)) operator(.) string<delimiter(")char(\\n)delimiter(")>operator(;)   comment(// fail)
@@ -680,7 +680,7 @@ ident(mt_srand)operator(()local_variable($saved_random_value) operator(+) predef
 
 comment(// or)
 
-ident(mt_srand)operator(()operator(()local_variable($saved_random_value) operator(+) predefined(hexdec)operator(()predefined(substr)operator(()predefined(md5)operator(()predefined(microtime)operator(()operator(\))operator(\))operator(,) operator(-)integer(8)operator(\))operator(\))operator(\)) operator(&) integer(0x7)ident(fffffff)operator(\))operator(;)
+ident(mt_srand)operator(()operator(()local_variable($saved_random_value) operator(+) predefined(hexdec)operator(()predefined(substr)operator(()predefined(md5)operator(()predefined(microtime)operator(()operator(\))operator(\))operator(,) operator(-)integer(8)operator(\))operator(\))operator(\)) operator(&) hex(0x7fffffff)operator(\))operator(;)
 
 comment(// Use of 'mt_rand' together with an appropriate seeding approach should help better)
 comment(// approximate the generation of a 'truly random value')

@@ -8,48 +8,46 @@ class Regexp
 end
 module CodeRay
 module Scanners
-
+  
   load :html
   
   # TODO: Complete rewrite. This scanner is buggy.
   class PHP < Scanner
-
+    
     register_for :php
     file_extension 'php'
-
+    
     def setup
       @html_scanner = CodeRay.scanner :html, :tokens => @tokens, :keep_tokens => true, :keep_state => true
     end
-
+    
     def reset_instance
       super
       @html_scanner.reset
     end
-
+    
     module Words
       
       # according to http://www.php.net/manual/en/reserved.keywords.php
       KEYWORDS = %w[
-        abstract and array as break case catch class clone
-        const continue declare default do else elseif
-        enddeclare endfor endforeach endif endswitch endwhile
-        extends final for foreach function global goto if implements
-        interface instanceof namespace new or
-        private protected public static switch throw try use var
-        while xor
+        abstract and array as break case catch class clone const continue declare default do else elseif
+        enddeclare endfor endforeach endif endswitch endwhile extends final for foreach function global
+        goto if implements interface instanceof namespace new or private protected public static switch
+        throw try use var while xor
         cfunction old_function
-        null true false
       ]
+      
+      TYPES = %w[ int integer float double bool boolean string array object resource ]
       
       LANGUAGE_CONSTRUCTS = %w[
         die echo empty exit eval include include_once isset list
         require require_once return print unset
       ]
       
-      TYPES = %w[ int float ]
+      CLASSES = %w[ Directory stdClass  __PHP_Incomplete_Class exception php_user_filter Closure ]
       
       # according to http://php.net/quickref.php on 2009-04-21;
-      # all functions with _ excluded (module functions)
+      # all functions with _ excluded (module functions) and selected additional functions
       BUILTIN_FUNCTIONS = %w[
         abs acos acosh addcslashes addslashes aggregate array arsort ascii2ebcdic asin asinh asort assert atan atan2
         atanh basename bcadd bccomp bcdiv bcmod bcmul bcpow bcpowmod bcscale bcsqrt bcsub bin2hex bindec
@@ -81,7 +79,14 @@ module Scanners
         strstr strtok strtolower strtotime strtoupper strtr strval substr symlink syslog system tan tanh tempnam
         textdomain time tmpfile touch trim uasort ucfirst ucwords uksort umask uniqid unixtojd unlink unpack
         unserialize unset urldecode urlencode usleep usort vfprintf virtual vprintf vsprintf wordwrap
-      ] + %w[
+        array_change_key_case array_chunk array_combine array_count_values array_diff array_diff_assoc
+        array_diff_key array_diff_uassoc array_diff_ukey array_fill array_fill_keys array_filter array_flip
+        array_intersect array_intersect_assoc array_intersect_key array_intersect_uassoc array_intersect_ukey
+        array_key_exists array_keys array_map array_merge array_merge_recursive array_multisort array_pad
+        array_pop array_product array_push array_rand array_reduce array_reverse array_search array_shift
+        array_slice array_splice array_sum array_udiff array_udiff_assoc array_udiff_uassoc array_uintersect
+        array_uintersect_assoc array_uintersect_uassoc array_unique array_unshift array_values array_walk
+        array_walk_recursive
         assert_options base_convert base64_decode base64_encode
         chunk_split class_exists class_implements class_parents
         count_chars debug_backtrace debug_print_backtrace debug_zval_dump
@@ -97,6 +102,10 @@ module Scanners
         halt_compiler headers_list headers_sent highlight_file highlight_string
         html_entity_decode htmlspecialchars_decode
         in_array include_once inclued_get_data
+        is_a is_array is_binary is_bool is_buffer is_callable is_dir is_double is_executable is_file is_finite
+        is_float is_infinite is_int is_integer is_link is_long is_nan is_null is_numeric is_object is_readable
+        is_real is_resource is_scalar is_soap_fault is_string is_subclass_of is_unicode is_uploaded_file
+        is_writable is_writeable
         locale_get_default locale_set_default
         number_format override_function parse_str parse_url
         php_check_syntax php_ini_loaded_file php_ini_scanned_files php_logo_guid php_sapi_name
@@ -114,36 +123,55 @@ module Scanners
         utf8_decode utf8_encode var_dump var_export
         version_compare
         zend_logo_guid zend_thread_id zend_version
-      ] + %w[
-        array_change_key_case array_chunk array_combine array_count_values array_diff array_diff_assoc
-        array_diff_key array_diff_uassoc array_diff_ukey array_fill array_fill_keys array_filter array_flip
-        array_intersect array_intersect_assoc array_intersect_key array_intersect_uassoc array_intersect_ukey
-        array_key_exists array_keys array_map array_merge array_merge_recursive array_multisort array_pad
-        array_pop array_product array_push array_rand array_reduce array_reverse array_search array_shift
-        array_slice array_splice array_sum array_udiff array_udiff_assoc array_udiff_uassoc array_uintersect
-        array_uintersect_assoc array_uintersect_uassoc array_unique array_unshift array_values array_walk
-        array_walk_recursive
-      ] + %w[
-        is_a is_array is_binary is_bool is_buffer is_callable is_dir is_double is_executable is_file is_finite
-        is_float is_infinite is_int is_integer is_link is_long is_nan is_null is_numeric is_object is_readable
-        is_real is_resource is_scalar is_soap_fault is_string is_subclass_of is_unicode is_uploaded_file
-        is_writable is_writeable
+      ]
+      # TODO: more built-in PHP functions?
+      
+      EXCEPTIONS = %w[
+        E_ERROR E_WARNING E_PARSE E_NOTICE E_CORE_ERROR E_CORE_WARNING E_COMPILE_ERROR E_COMPILE_WARNING
+        E_USER_ERROR E_USER_WARNING E_USER_NOTICE E_DEPRECATED E_USER_DEPRECATED E_ALL E_STRICT
       ]
       
-      # TODO: more built-in PHP functions?
-      # TODO: more predefined constants?
-      
-      SPECIAL_CONSTANTS = %w[
+      CONSTANTS = %w[
+        null true false self parent
         __LINE__ __DIR__ __FILE__ __LINE__
         __CLASS__ __NAMESPACE__ __METHOD__ __FUNCTION__
+        PHP_VERSION PHP_MAJOR_VERSION PHP_MINOR_VERSION PHP_RELEASE_VERSION PHP_VERSION_ID PHP_EXTRA_VERSION PHP_ZTS
+        PHP_DEBUG PHP_MAXPATHLEN PHP_OS PHP_SAPI PHP_EOL PHP_INT_MAX PHP_INT_SIZE DEFAULT_INCLUDE_PATH
+        PEAR_INSTALL_DIR PEAR_EXTENSION_DIR PHP_EXTENSION_DIR PHP_PREFIX PHP_BINDIR PHP_LIBDIR PHP_DATADIR
+        PHP_SYSCONFDIR PHP_LOCALSTATEDIR PHP_CONFIG_FILE_PATH PHP_CONFIG_FILE_SCAN_DIR PHP_SHLIB_SUFFIX
+        PHP_OUTPUT_HANDLER_START PHP_OUTPUT_HANDLER_CONT PHP_OUTPUT_HANDLER_END
+        __COMPILER_HALT_OFFSET__
+        EXTR_OVERWRITE EXTR_SKIP EXTR_PREFIX_SAME EXTR_PREFIX_ALL EXTR_PREFIX_INVALID EXTR_PREFIX_IF_EXISTS
+        EXTR_IF_EXISTS SORT_ASC SORT_DESC SORT_REGULAR SORT_NUMERIC SORT_STRING CASE_LOWER CASE_UPPER COUNT_NORMAL
+        COUNT_RECURSIVE ASSERT_ACTIVE ASSERT_CALLBACK ASSERT_BAIL ASSERT_WARNING ASSERT_QUIET_EVAL CONNECTION_ABORTED
+        CONNECTION_NORMAL CONNECTION_TIMEOUT INI_USER INI_PERDIR INI_SYSTEM INI_ALL M_E M_LOG2E M_LOG10E M_LN2 M_LN10
+        M_PI M_PI_2 M_PI_4 M_1_PI M_2_PI M_2_SQRTPI M_SQRT2 M_SQRT1_2 CRYPT_SALT_LENGTH CRYPT_STD_DES CRYPT_EXT_DES
+        CRYPT_MD5 CRYPT_BLOWFISH DIRECTORY_SEPARATOR SEEK_SET SEEK_CUR SEEK_END LOCK_SH LOCK_EX LOCK_UN LOCK_NB
+        HTML_SPECIALCHARS HTML_ENTITIES ENT_COMPAT ENT_QUOTES ENT_NOQUOTES INFO_GENERAL INFO_CREDITS
+        INFO_CONFIGURATION INFO_MODULES INFO_ENVIRONMENT INFO_VARIABLES INFO_LICENSE INFO_ALL CREDITS_GROUP
+        CREDITS_GENERAL CREDITS_SAPI CREDITS_MODULES CREDITS_DOCS CREDITS_FULLPAGE CREDITS_QA CREDITS_ALL STR_PAD_LEFT
+        STR_PAD_RIGHT STR_PAD_BOTH PATHINFO_DIRNAME PATHINFO_BASENAME PATHINFO_EXTENSION PATH_SEPARATOR CHAR_MAX
+        LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_ALL LC_MESSAGES ABDAY_1 ABDAY_2 ABDAY_3 ABDAY_4 ABDAY_5
+        ABDAY_6 ABDAY_7 DAY_1 DAY_2 DAY_3 DAY_4 DAY_5 DAY_6 DAY_7 ABMON_1 ABMON_2 ABMON_3 ABMON_4 ABMON_5 ABMON_6
+        ABMON_7 ABMON_8 ABMON_9 ABMON_10 ABMON_11 ABMON_12 MON_1 MON_2 MON_3 MON_4 MON_5 MON_6 MON_7 MON_8 MON_9
+        MON_10 MON_11 MON_12 AM_STR PM_STR D_T_FMT D_FMT T_FMT T_FMT_AMPM ERA ERA_YEAR ERA_D_T_FMT ERA_D_FMT ERA_T_FMT
+        ALT_DIGITS INT_CURR_SYMBOL CURRENCY_SYMBOL CRNCYSTR MON_DECIMAL_POINT MON_THOUSANDS_SEP MON_GROUPING
+        POSITIVE_SIGN NEGATIVE_SIGN INT_FRAC_DIGITS FRAC_DIGITS P_CS_PRECEDES P_SEP_BY_SPACE N_CS_PRECEDES
+        N_SEP_BY_SPACE P_SIGN_POSN N_SIGN_POSN DECIMAL_POINT RADIXCHAR THOUSANDS_SEP THOUSEP GROUPING YESEXPR NOEXPR
+        YESSTR NOSTR CODESET LOG_EMERG LOG_ALERT LOG_CRIT LOG_ERR LOG_WARNING LOG_NOTICE LOG_INFO LOG_DEBUG LOG_KERN
+        LOG_USER LOG_MAIL LOG_DAEMON LOG_AUTH LOG_SYSLOG LOG_LPR LOG_NEWS LOG_UUCP LOG_CRON LOG_AUTHPRIV LOG_LOCAL0
+        LOG_LOCAL1 LOG_LOCAL2 LOG_LOCAL3 LOG_LOCAL4 LOG_LOCAL5 LOG_LOCAL6 LOG_LOCAL7 LOG_PID LOG_CONS LOG_ODELAY
+        LOG_NDELAY LOG_NOWAIT LOG_PERROR
       ]
       
-      IdentKinds = CaseIgnoringWordList.new(:ident, true).
+      IDENT_KIND = CaseIgnoringWordList.new(:ident, true).
         add(KEYWORDS, :reserved).
         add(TYPES, :pre_type).
-        add(LANGUAGE_CONSTRUCTS, :predefined).
+        add(LANGUAGE_CONSTRUCTS, :reserved).
         add(BUILTIN_FUNCTIONS, :predefined).
-        add(SPECIAL_CONSTANTS, :pre_constant)
+        add(CLASSES, :pre_constant).
+        add(EXCEPTIONS, :exception).
+        add(CONSTANTS, :pre_constant)
     end
     
     module RE
@@ -166,41 +194,29 @@ module Scanners
       IChar = /[a-z0-9_\x80-\xFF]/i
       IStart = /[a-z_\x80-\xFF]/i
       Identifier = /#{IStart}#{IChar}*/
-      Variable = /\$#{Identifier}/
+      VARIABLE = /\$#{Identifier}/
       
-      Typecasts = build_alternatives %w!
-        float double real int integer bool boolean string array object null
-      !.map{|s| "(#{s})"}
-      OneLineComment1 = %r!//.*?(?=#{PHP_END}|$)!
-      OneLineComment2 = %r!#.*?(?=#{PHP_END}|$)!
-      OneLineComment = OneLineComment1 | OneLineComment2
-
       HereDoc = /<<</ + Identifier
 
-      binops = %w!
-        + - * / << >> & | ^ . % 
-      !
-
-      ComparisionOperator = build_alternatives %w$
-        === !== == != <= >= 
-      $
-      IncDecOperator = build_alternatives %w! ++ -- !
-
-      BinaryOperator = build_alternatives binops
-      AssignOperator = build_alternatives binops.map {|s| "${s}=" }
-      LogicalOperator = build_alternatives %w! and or xor not !
-      ObjectOperator = build_alternatives %w! -> :: !
-      OtherOperator = build_alternatives %w$ => = ? : [ ] ( ) ; , ~ ! @ > <$
-
-      Operator = ComparisionOperator | IncDecOperator | LogicalOperator |
-        ObjectOperator | AssignOperator | BinaryOperator | OtherOperator
+      OPERATOR = /
+        \.(?!\d)=? |      # dot that is not decimal point, string concatenation
+        && | \|\| |       # logic
+        :: | -> | => |    # scope, member, dictionary
+        \+\+ | -- |       # increment, decrement
+        [,;?:()\[\]{}] |  # simple delimiters
+        [-+*\/%&|^]=? |   # ordinary math, binary logic, assignment shortcuts
+        [~@$] |           # whatever
+        [=!]=?=? | <> |   # comparison and assignment
+        <<=? | >>=? | [<>]=?  # comparison and shift
+      /x
       
       Integer = /0x[0-9a-fA-F]/ | /\d+/
-      Float = /(?:\d+\.\d*|\d*\.\d+)(?:e[+-]\d+)?/
+      Float = /(?:\d+\.\d*|\d*\.\d+)(?:e[-+]?\d+)?|\d+e[-+]?\d+/i
       
     end
     
     def scan_tokens tokens, options
+      
       states = [:initial]
       if match?(RE::PHP_START) ||  # starts with <?
       (match?(/\s*<(?i:\w|\?xml)/) && exist?(RE::PHP_START))  # starts with HTML tag and contains <?
@@ -209,6 +225,7 @@ module Scanners
         states << :php
       end
       # heredocdelim = nil
+      delimiter = nil
       
       until eos?
         
@@ -230,25 +247,24 @@ module Scanners
         when :php
           if scan RE::PHP_END
             kind = :inline_delimiter
-            states.pop
+            states = [:initial]
           
           elsif scan(/\s+/)
             kind = :space
           
-          elsif scan(/\/\*/)
+          elsif scan(/ \/\* (?: .*? \*\/ | .* ) /mx)
             kind = :comment
-            states.push :mlcomment
           
-          elsif scan RE::OneLineComment
+          elsif scan(%r!(?://|#).*?(?=#{RE::PHP_END}|$)!o)
             kind = :comment
           
           elsif match = scan(RE::Identifier)
-            kind = Words::IdentKinds[match]
+            kind = Words::IDENT_KIND[match]
             if kind == :ident && check(/:(?!:)/) #&& tokens[-2][0] == 'case'
-#             match << scan(/:/)
               kind = :label
-            elsif kind == :ident and match =~ /^[A-Z]/
+            elsif kind == :ident && match =~ /^[A-Z]/
               kind = :constant
+            # TODO: function and class definitions
             end
           
           elsif scan RE::Float
@@ -262,8 +278,9 @@ module Scanners
             kind = :delimiter
             states.push :sqstring
           
-          elsif scan(/"/)
+          elsif match = scan(/["`]/)
             tokens << [:open, :string]
+            delimiter = match
             kind = :delimiter
             states.push :dqstring
           
@@ -274,7 +291,7 @@ module Scanners
           #   kind = :delimiter
           #   states.push :heredocstring
           
-          elsif scan RE::Variable
+          elsif scan RE::VARIABLE
             kind = :local_variable
           
           elsif scan(/\{/)
@@ -282,14 +299,22 @@ module Scanners
             states.push :php
           
           elsif scan(/\}/)
-            if states.length == 1
+            if states.size == 1
               kind = :error
             else
-              kind = :operator
               states.pop
+              if states.last.is_a?(::Array)
+                delimiter = states.last[1]
+                states[-1] = states.last[0]
+                tokens << [matched, :delimiter]
+                tokens << [:close, :inline]
+                next
+              else
+                kind = :operator
+              end
             end
           
-          elsif scan RE::Operator
+          elsif scan(/#{RE::OPERATOR}/o)
             kind = :operator
           
           else
@@ -298,48 +323,44 @@ module Scanners
           
           end
         
-        when :mlcomment
-          if scan(/(?:[^\n\r\f*]|\*(?!\/))+/)
-            kind = :comment
-          
-          elsif scan(/\*\//)
-            kind = :comment
-            states.pop
-          
-          elsif scan(/[\r\n\f]+/)
-            kind = :space
-          end
-        
         when :sqstring
           if scan(/[^'\\]+/)
             kind = :content
-          elsif scan(/\\./m)
-            kind = :content
-          elsif scan(/\\/)
-            kind = :error
           elsif scan(/'/)
             tokens << [matched, :delimiter]
             tokens << [:close, :string]
+            delimiter = nil
             states.pop
             next
-          end
-        
-        when :dqstring
-          # TODO: $foo[bar] kind of stuff
-          if scan(/[^"${\\]+/)
-            kind = :content
-          elsif scan(/\\x[0-9a-fA-F]{2}/)
-            kind = :char
-          elsif scan(/\\\d{3}/)
-            kind = :char
-          elsif scan(/\\["\\abcfnrtyv]/)
+          elsif scan(/\\[\\'\n]/)
             kind = :char
           elsif scan(/\\./m)
             kind = :content
           elsif scan(/\\/)
             kind = :error
-          elsif match = scan(/#{RE::Variable}/o)
+          end
+        
+        when :dqstring
+          if scan(delimiter == '"' ? /[^"${\\]+/ : /[^`${\\]+/)
+            kind = :content
+          elsif scan(delimiter == '"' ? /"/ : /`/)
+            tokens << [matched, :delimiter]
+            tokens << [:close, :string]
+            delimiter = nil
+            states.pop
+            next
+          elsif scan(/\\(?:x[0-9a-fA-F]{2}|\d{3})/)
+            kind = :char
+          elsif scan(delimiter == '"' ? /\\["\\\nfnrtv]/ : /\\[`\\\nfnrtv]/)
+            kind = :char
+          elsif scan(/\\./m)
+            kind = :content
+          elsif scan(/\\/)
+            kind = :error
+          elsif match = scan(/#{RE::VARIABLE}/o)
             kind = :local_variable
+            # $foo[bar] and $foo->bar kind of stuff
+            # TODO: highlight tokens separately!
             if check(/\[#{RE::Identifier}\]/o)
               match << scan(/\[#{RE::Identifier}\]/o)
             elsif check(/\[/)
@@ -347,24 +368,24 @@ module Scanners
               kind = :error
             elsif check(/->#{RE::Identifier}/o)
               match << scan(/->#{RE::Identifier}/o)
+            elsif check(/->/)
+              match << scan(/->/)
+              kind = :error
             end
-          elsif scan(/\{/)
+          elsif match = scan(/\{/)
             if check(/\$/)
-              kind = :operator
+              kind = :delimiter
+              states[-1] = [states.last, delimiter]
+              delimiter = nil
               states.push :php
+              tokens << [:open, :inline]
             else
               kind = :string
             end
-            match = '{'
           elsif scan(/\$\{#{RE::Identifier}\}/o)
             kind = :local_variable
           elsif scan(/\$/)
             kind = :content
-          elsif scan(/"/)
-            tokens << [matched, :delimiter]
-            tokens << [:close, :string]
-            states.pop
-            next
           end
         else
           raise_inspect 'Unknown state!', tokens, states

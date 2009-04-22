@@ -1,46 +1,46 @@
 inline_delimiter(<?php)
-comment(/*)comment(*)
-comment( *  Zip class file)
-comment( *)
-comment( *  @package     fnord.bb)
-comment( *  @subpackage  archive)
-comment( )comment(*/)
+comment(/**
+ *  Zip class file
+ *
+ *  @package     fnord.bb
+ *  @subpackage  archive
+ */)
 
 comment(// Unlock?)
-reserved(if)operator(()operator(!)predefined(defined)operator(()string<delimiter(')content(UNLOCK)delimiter(')>operator(\)) operator(|)operator(|) operator(!)constant(UNLOCK)operator(\))
+reserved(if)operator(()operator(!)predefined(defined)operator(()string<delimiter(')content(UNLOCK)delimiter(')>operator(\)) operator(||) operator(!)constant(UNLOCK)operator(\))
   predefined(die)operator(()operator(\))operator(;)
   
 comment(// Load the parent archive class)
 predefined(require_once)operator(()constant(ROOT_PATH)operator(.)string<delimiter(')content(/classes/archive.class.php)delimiter(')>operator(\))operator(;)
   
-comment(/*)comment(*)
-comment( *  Zip class)
-comment( *)
-comment( *  @author      Manni <manni@fnord.name>)
-comment( *  @copyright   Copyright (c\) 2006, Manni)
-comment( *  @version     1.0)
-comment( *  @link        http://www.pkware.com/business_and_developers/developer/popups/appnote.txt)
-comment( *  @link        http://mannithedark.is-a-geek.net/)
-comment( *  @since       1.0)
-comment( *  @package     fnord.bb)
-comment( *  @subpackage  archive)
-comment( )comment(*/)
+comment(/**
+ *  Zip class
+ *
+ *  @author      Manni <manni@fnord.name>
+ *  @copyright   Copyright (c\) 2006, Manni
+ *  @version     1.0
+ *  @link        http://www.pkware.com/business_and_developers/developer/popups/appnote.txt
+ *  @link        http://mannithedark.is-a-geek.net/
+ *  @since       1.0
+ *  @package     fnord.bb
+ *  @subpackage  archive
+ */)
 reserved(class) constant(Zip) reserved(extends) constant(Archive) operator({)
- comment(/*)comment(*)
-comment(  *  Outputs the zip file)
-comment(  *)
-comment(  *  This function creates the zip file with the dirs and files given.)
-comment(  *  If the optional parameter $file is given, the zip file is will be)
-comment(  *  saved at that location. Otherwise the function returns the zip file's content.)
-comment(  *)
-comment(  *  @access                   public)
-comment(  *)
-comment(  *  @link                     http://www.pkware.com/business_and_developers/developer/popups/appnote.txt)
-comment(  *  @param  string $filename  The path where the zip file will be saved)
-comment(  *)
-comment(  *  @return bool|string       Returns either true if the fil is sucessfully created or the content of the zip file)
-comment(  )comment(*/)
-  reserved(function) ident(out)operator(()local_variable($filename) operator(=) reserved(false)operator(\)) operator({)
+ comment(/**
+  *  Outputs the zip file
+  *
+  *  This function creates the zip file with the dirs and files given.
+  *  If the optional parameter $file is given, the zip file is will be
+  *  saved at that location. Otherwise the function returns the zip file's content.
+  *
+  *  @access                   public
+  *
+  *  @link                     http://www.pkware.com/business_and_developers/developer/popups/appnote.txt
+  *  @param  string $filename  The path where the zip file will be saved
+  *
+  *  @return bool|string       Returns either true if the fil is sucessfully created or the content of the zip file
+  */)
+  reserved(function) ident(out)operator(()local_variable($filename) operator(=) pre_constant(false)operator(\)) operator({)
     comment(// Empty output)
     local_variable($file_data) operator(=) predefined(array)operator(()operator(\))operator(;) comment(// Data of the file part)
     local_variable($cd_data)   operator(=) predefined(array)operator(()operator(\))operator(;) comment(// Data of the central directory)
@@ -51,35 +51,35 @@ comment(  )comment(*/)
 
     comment(// Handle dirs)
     reserved(foreach)operator(()local_variable($this)operator(->)ident(dirs) reserved(as) local_variable($dir)operator(\)) operator({)
-      local_variable($dir) operator(.)operator(=) string<delimiter(')content(/)delimiter(')>operator(;)
+      local_variable($dir) operator(.=) string<delimiter(')content(/)delimiter(')>operator(;)
       comment(// File part)
 
       comment(// Reset dir data)
       local_variable($dir_data) operator(=) string<delimiter(')delimiter(')>operator(;)
 
       comment(// Local file header)
-      local_variable($dir_data) operator(.)operator(=) string<delimiter(")char(\\x50)char(\\x4b)char(\\x03)char(\\x04)delimiter(")>operator(;)      comment(// Local file header signature)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(10)operator(\))operator(;)           comment(// Version needed to extract)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// General purpose bit flag)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Compression method)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Last mod file time)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Last mod file date)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// crc-32)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Compressed size)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Uncompressed size)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($dir)operator(\))operator(\))operator(;) comment(// File name length)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Extra field length)
+      local_variable($dir_data) operator(.=) string<delimiter(")char(\\x50)char(\\x4b)char(\\x03)char(\\x04)delimiter(")>operator(;)      comment(// Local file header signature)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(10)operator(\))operator(;)           comment(// Version needed to extract)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// General purpose bit flag)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Compression method)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Last mod file time)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Last mod file date)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// crc-32)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Compressed size)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Uncompressed size)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($dir)operator(\))operator(\))operator(;) comment(// File name length)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Extra field length)
 
-      local_variable($dir_data) operator(.)operator(=) local_variable($dir)operator(;)                    comment(// File name)
-      local_variable($dir_data) operator(.)operator(=) string<delimiter(')delimiter(')>operator(;)                      comment(// Extra field (is empty\))
+      local_variable($dir_data) operator(.=) local_variable($dir)operator(;)                    comment(// File name)
+      local_variable($dir_data) operator(.=) string<delimiter(')delimiter(')>operator(;)                      comment(// Extra field (is empty\))
 
       comment(// File data)
-      local_variable($dir_data) operator(.)operator(=) string<delimiter(')delimiter(')>operator(;)                      comment(// Dirs have no file data)
+      local_variable($dir_data) operator(.=) string<delimiter(')delimiter(')>operator(;)                      comment(// Dirs have no file data)
 
       comment(// Data descriptor)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// crc-32)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Compressed size)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Uncompressed size)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// crc-32)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Compressed size)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Uncompressed size)
 
       comment(// Save current offset)
       local_variable($offset) operator(=) predefined(strlen)operator(()predefined(implode)operator(()string<delimiter(')delimiter(')>operator(,) local_variable($file_data)operator(\))operator(\))operator(;)
@@ -93,34 +93,34 @@ comment(  )comment(*/)
       local_variable($dir_data) operator(=) string<delimiter(')delimiter(')>operator(;)
 
       comment(// File header)
-      local_variable($dir_data) operator(.)operator(=) string<delimiter(")char(\\x50)char(\\x4b)char(\\x01)char(\\x02)delimiter(")>operator(;)      comment(// Local file header signature)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Version made by)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(10)operator(\))operator(;)           comment(// Version needed to extract)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// General purpose bit flag)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Compression method)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Last mod file time)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Last mod file date)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// crc-32)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Compressed size)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Uncompressed size)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($dir)operator(\))operator(\))operator(;) comment(// File name length)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Extra field length)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// File comment length)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Disk number start)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Internal file attributes)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(16)operator(\))operator(;)           comment(// External file attributes)
-      local_variable($dir_data) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) local_variable($offset)operator(\))operator(;)      comment(// Relative offset of local header)
+      local_variable($dir_data) operator(.=) string<delimiter(")char(\\x50)char(\\x4b)char(\\x01)char(\\x02)delimiter(")>operator(;)      comment(// Local file header signature)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Version made by)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(10)operator(\))operator(;)           comment(// Version needed to extract)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// General purpose bit flag)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Compression method)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Last mod file time)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Last mod file date)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// crc-32)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Compressed size)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Uncompressed size)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($dir)operator(\))operator(\))operator(;) comment(// File name length)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Extra field length)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// File comment length)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Disk number start)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)            comment(// Internal file attributes)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(16)operator(\))operator(;)           comment(// External file attributes)
+      local_variable($dir_data) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) local_variable($offset)operator(\))operator(;)      comment(// Relative offset of local header)
 
-      local_variable($dir_data) operator(.)operator(=) local_variable($dir)operator(;)                    comment(// File name)
-      local_variable($dir_data) operator(.)operator(=) string<delimiter(')delimiter(')>operator(;)                      comment(// Extra field (is empty\))
-      local_variable($dir_data) operator(.)operator(=) string<delimiter(')delimiter(')>operator(;)                      comment(// File comment (is empty\))
+      local_variable($dir_data) operator(.=) local_variable($dir)operator(;)                    comment(// File name)
+      local_variable($dir_data) operator(.=) string<delimiter(')delimiter(')>operator(;)                      comment(// Extra field (is empty\))
+      local_variable($dir_data) operator(.=) string<delimiter(')delimiter(')>operator(;)                      comment(// File comment (is empty\))
 
-      comment(/*)
-comment(      // Data descriptor)
-comment(      $dir_data .= pack("V", 0\);            // crc-32)
-comment(      $dir_data .= pack("V", 0\);            // Compressed size)
-comment(      $dir_data .= pack("V", 0\);            // Uncompressed size)
-comment(      )comment(*/)
+      comment(/*
+      // Data descriptor
+      $dir_data .= pack("V", 0\);            // crc-32
+      $dir_data .= pack("V", 0\);            // Compressed size
+      $dir_data .= pack("V", 0\);            // Uncompressed size
+      */)
       
       comment(// Append dir data to the central directory data)
       local_variable($cd_data)operator([)operator(]) operator(=) local_variable($dir_data)operator(;)
@@ -160,28 +160,28 @@ comment(      )comment(*/)
       operator(})
 
       comment(// Local file header)
-      local_variable($fd) operator(.)operator(=) string<delimiter(")char(\\x50)char(\\x4b)char(\\x03)char(\\x04)delimiter(")>operator(;)                  comment(// Local file header signature)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(20)operator(\))operator(;)                       comment(// Version needed to extract)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// General purpose bit flag)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) local_variable($method)operator(\))operator(;)                  comment(// Compression method)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Last mod file time)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Last mod file date)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(crc32)operator(()local_variable($content)operator(\))operator(\))operator(;)          comment(// crc-32)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($compressed_data)operator(\))operator(\))operator(;) comment(// Compressed size)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($content)operator(\))operator(\))operator(;)         comment(// Uncompressed size)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($name)operator(\))operator(\))operator(;)            comment(// File name length)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Extra field length)
+      local_variable($fd) operator(.=) string<delimiter(")char(\\x50)char(\\x4b)char(\\x03)char(\\x04)delimiter(")>operator(;)                  comment(// Local file header signature)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(20)operator(\))operator(;)                       comment(// Version needed to extract)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// General purpose bit flag)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) local_variable($method)operator(\))operator(;)                  comment(// Compression method)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Last mod file time)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Last mod file date)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(crc32)operator(()local_variable($content)operator(\))operator(\))operator(;)          comment(// crc-32)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($compressed_data)operator(\))operator(\))operator(;) comment(// Compressed size)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($content)operator(\))operator(\))operator(;)         comment(// Uncompressed size)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($name)operator(\))operator(\))operator(;)            comment(// File name length)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Extra field length)
 
-      local_variable($fd) operator(.)operator(=) local_variable($name)operator(;)                               comment(// File name)
-      local_variable($fd) operator(.)operator(=) string<delimiter(')delimiter(')>operator(;)                                  comment(// Extra field (is empty\))
+      local_variable($fd) operator(.=) local_variable($name)operator(;)                               comment(// File name)
+      local_variable($fd) operator(.=) string<delimiter(')delimiter(')>operator(;)                                  comment(// Extra field (is empty\))
 
       comment(// File data)
-      local_variable($fd) operator(.)operator(=) local_variable($compressed_data)operator(;)
+      local_variable($fd) operator(.=) local_variable($compressed_data)operator(;)
       
       comment(// Data descriptor)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(crc32)operator(()local_variable($content)operator(\))operator(\))operator(;)          comment(// crc-32)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($compressed_data)operator(\))operator(\))operator(;) comment(// Compressed size)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($content)operator(\))operator(\))operator(;)         comment(// Uncompressed size)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(crc32)operator(()local_variable($content)operator(\))operator(\))operator(;)          comment(// crc-32)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($compressed_data)operator(\))operator(\))operator(;) comment(// Compressed size)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($content)operator(\))operator(\))operator(;)         comment(// Uncompressed size)
 
       comment(// Save current offset)
       local_variable($offset) operator(=) predefined(strlen)operator(()predefined(implode)operator(()string<delimiter(')delimiter(')>operator(,) local_variable($file_data)operator(\))operator(\))operator(;)
@@ -195,34 +195,34 @@ comment(      )comment(*/)
       local_variable($fd) operator(=) string<delimiter(')delimiter(')>operator(;)
 
       comment(// File header)
-      local_variable($fd) operator(.)operator(=) string<delimiter(")char(\\x50)char(\\x4b)char(\\x01)char(\\x02)delimiter(")>operator(;)                  comment(// Local file header signature)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Version made by)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(20)operator(\))operator(;)                       comment(// Version needed to extract)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// General purpose bit flag)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) local_variable($method)operator(\))operator(;)                  comment(// Compression method)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Last mod file time)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Last mod file date)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(crc32)operator(()local_variable($content)operator(\))operator(\))operator(;)          comment(// crc-32)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($compressed_data)operator(\))operator(\))operator(;) comment(// Compressed size)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($content)operator(\))operator(\))operator(;)         comment(// Uncompressed size)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($name)operator(\))operator(\))operator(;)            comment(// File name length)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Extra field length)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// File comment length)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Disk number start)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Internal file attributes)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(32)operator(\))operator(;)                       comment(// External file attributes)
-      local_variable($fd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) local_variable($offset)operator(\))operator(;)                  comment(// Relative offset of local header)
+      local_variable($fd) operator(.=) string<delimiter(")char(\\x50)char(\\x4b)char(\\x01)char(\\x02)delimiter(")>operator(;)                  comment(// Local file header signature)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Version made by)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(20)operator(\))operator(;)                       comment(// Version needed to extract)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// General purpose bit flag)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) local_variable($method)operator(\))operator(;)                  comment(// Compression method)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Last mod file time)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Last mod file date)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(crc32)operator(()local_variable($content)operator(\))operator(\))operator(;)          comment(// crc-32)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($compressed_data)operator(\))operator(\))operator(;) comment(// Compressed size)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($content)operator(\))operator(\))operator(;)         comment(// Uncompressed size)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($name)operator(\))operator(\))operator(;)            comment(// File name length)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Extra field length)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// File comment length)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Disk number start)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                        comment(// Internal file attributes)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) integer(32)operator(\))operator(;)                       comment(// External file attributes)
+      local_variable($fd) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) local_variable($offset)operator(\))operator(;)                  comment(// Relative offset of local header)
 
-      local_variable($fd) operator(.)operator(=) local_variable($name)operator(;)                               comment(// File name)
-      local_variable($fd) operator(.)operator(=) string<delimiter(')delimiter(')>operator(;)                                  comment(// Extra field (is empty\))
-      local_variable($fd) operator(.)operator(=) string<delimiter(')delimiter(')>operator(;)                                  comment(// File comment (is empty\))
+      local_variable($fd) operator(.=) local_variable($name)operator(;)                               comment(// File name)
+      local_variable($fd) operator(.=) string<delimiter(')delimiter(')>operator(;)                                  comment(// Extra field (is empty\))
+      local_variable($fd) operator(.=) string<delimiter(')delimiter(')>operator(;)                                  comment(// File comment (is empty\))
 
-      comment(/*)
-comment(      // Data descriptor)
-comment(      $fd .= pack("V", crc32($content\)\);          // crc-32)
-comment(      $fd .= pack("V", strlen($compressed_data\)\); // Compressed size)
-comment(      $fd .= pack("V", strlen($content\)\);         // Uncompressed size)
-comment(      )comment(*/)
+      comment(/*
+      // Data descriptor
+      $fd .= pack("V", crc32($content\)\);          // crc-32
+      $fd .= pack("V", strlen($compressed_data\)\); // Compressed size
+      $fd .= pack("V", strlen($content\)\);         // Uncompressed size
+      */)
 
       comment(// Append file data to the central directory data)
       local_variable($cd_data)operator([)operator(]) operator(=) local_variable($fd)operator(;)
@@ -230,9 +230,9 @@ comment(      )comment(*/)
 
     comment(// Digital signature)
     local_variable($digital_signature) operator(=) string<delimiter(')delimiter(')>operator(;)
-    local_variable($digital_signature) operator(.)operator(=) string<delimiter(")char(\\x50)char(\\x4b)char(\\x05)char(\\x05)delimiter(")>operator(;)  comment(// Header signature)
-    local_variable($digital_signature) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)        comment(// Size of data)
-    local_variable($digital_signature) operator(.)operator(=) string<delimiter(')delimiter(')>operator(;)                  comment(// Signature data (is empty\))
+    local_variable($digital_signature) operator(.=) string<delimiter(")char(\\x50)char(\\x4b)char(\\x05)char(\\x05)delimiter(")>operator(;)  comment(// Header signature)
+    local_variable($digital_signature) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)        comment(// Size of data)
+    local_variable($digital_signature) operator(.=) string<delimiter(')delimiter(')>operator(;)                  comment(// Signature data (is empty\))
 
     local_variable($tmp_file_data) operator(=) predefined(implode)operator(()string<delimiter(')delimiter(')>operator(,) local_variable($file_data)operator(\))operator(;)  comment(// File data)
     local_variable($tmp_cd_data)   operator(=) predefined(implode)operator(()string<delimiter(')delimiter(')>operator(,) local_variable($cd_data)operator(\))operator(.)    comment(// Central directory)
@@ -240,15 +240,15 @@ comment(      )comment(*/)
 
     comment(// End of central directory)
     local_variable($eof_cd) operator(=) string<delimiter(')delimiter(')>operator(;)
-    local_variable($eof_cd) operator(.)operator(=) string<delimiter(")char(\\x50)char(\\x4b)char(\\x05)char(\\x06)delimiter(")>operator(;)                comment(// End of central dir signature)
-    local_variable($eof_cd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                      comment(// Number of this disk)
-    local_variable($eof_cd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                      comment(// Number of the disk with the start of the central directory)
-    local_variable($eof_cd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) predefined(count)operator(()local_variable($cd_data)operator(\))operator(\))operator(;)        comment(// Total number of entries in the central directory on this disk)
-    local_variable($eof_cd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) predefined(count)operator(()local_variable($cd_data)operator(\))operator(\))operator(;)        comment(// Total number of entries in the central directory)
-    local_variable($eof_cd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($tmp_cd_data)operator(\))operator(\))operator(;)   comment(// Size of the central directory)
-    local_variable($eof_cd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($tmp_file_data)operator(\))operator(\))operator(;) comment(// Offset of start of central directory with respect to the starting disk number)
-    local_variable($eof_cd) operator(.)operator(=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                      comment(// .ZIP file comment length)
-    local_variable($eof_cd) operator(.)operator(=) string<delimiter(')delimiter(')>operator(;)                                comment(// .ZIP file comment (is empty\))
+    local_variable($eof_cd) operator(.=) string<delimiter(")char(\\x50)char(\\x4b)char(\\x05)char(\\x06)delimiter(")>operator(;)                comment(// End of central dir signature)
+    local_variable($eof_cd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                      comment(// Number of this disk)
+    local_variable($eof_cd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                      comment(// Number of the disk with the start of the central directory)
+    local_variable($eof_cd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) predefined(count)operator(()local_variable($cd_data)operator(\))operator(\))operator(;)        comment(// Total number of entries in the central directory on this disk)
+    local_variable($eof_cd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) predefined(count)operator(()local_variable($cd_data)operator(\))operator(\))operator(;)        comment(// Total number of entries in the central directory)
+    local_variable($eof_cd) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($tmp_cd_data)operator(\))operator(\))operator(;)   comment(// Size of the central directory)
+    local_variable($eof_cd) operator(.=) predefined(pack)operator(()string<delimiter(")content(V)delimiter(")>operator(,) predefined(strlen)operator(()local_variable($tmp_file_data)operator(\))operator(\))operator(;) comment(// Offset of start of central directory with respect to the starting disk number)
+    local_variable($eof_cd) operator(.=) predefined(pack)operator(()string<delimiter(")content(v)delimiter(")>operator(,) integer(0)operator(\))operator(;)                      comment(// .ZIP file comment length)
+    local_variable($eof_cd) operator(.=) string<delimiter(')delimiter(')>operator(;)                                comment(// .ZIP file comment (is empty\))
 
     comment(// Content of the zip file)
     local_variable($data) operator(=) local_variable($tmp_file_data)operator(.)
@@ -258,53 +258,53 @@ comment(      )comment(*/)
 
     comment(// Return content?)
     reserved(if)operator(()operator(!)local_variable($filename)operator(\))
-      predefined(return) local_variable($data)operator(;)
+      reserved(return) local_variable($data)operator(;)
       
     comment(// Write to file)
-    predefined(return) predefined(file_put_contents)operator(()local_variable($filename)operator(,) local_variable($data)operator(\))operator(;)
+    reserved(return) predefined(file_put_contents)operator(()local_variable($filename)operator(,) local_variable($data)operator(\))operator(;)
   operator(})
   
- comment(/*)comment(*)
-comment(  *  Load a zip file)
-comment(  *)
-comment(  *  This function loads the files and dirs from a zip file from the harddrive.)
-comment(  *)
-comment(  *  @access                public)
-comment(  *)
-comment(  *  @param  string $file   The path to the zip file)
-comment(  *  @param  bool   $reset  Reset the files and dirs before adding the zip file's content?)
-comment(  *)
-comment(  *  @return bool           Returns true if the file was loaded sucessfully)
-comment(  )comment(*/)
-  reserved(function) predefined(load_file)operator(()local_variable($file)operator(,) local_variable($reset) operator(=) reserved(true)operator(\)) operator({)
+ comment(/**
+  *  Load a zip file
+  *
+  *  This function loads the files and dirs from a zip file from the harddrive.
+  *
+  *  @access                public
+  *
+  *  @param  string $file   The path to the zip file
+  *  @param  bool   $reset  Reset the files and dirs before adding the zip file's content?
+  *
+  *  @return bool           Returns true if the file was loaded sucessfully
+  */)
+  reserved(function) predefined(load_file)operator(()local_variable($file)operator(,) local_variable($reset) operator(=) pre_constant(true)operator(\)) operator({)
     comment(// Check whether the file exists)
     reserved(if)operator(()operator(!)predefined(file_exists)operator(()local_variable($file)operator(\))operator(\))
-      predefined(return) reserved(false)operator(;)
+      reserved(return) pre_constant(false)operator(;)
 
     comment(// Load the files content)
     local_variable($content) operator(=) operator(@)predefined(file_get_contents)operator(()local_variable($file)operator(\))operator(;)
 
     comment(// Return false if the file cannot be opened)
     reserved(if)operator(()operator(!)local_variable($content)operator(\))
-      predefined(return) reserved(false)operator(;)
+      reserved(return) pre_constant(false)operator(;)
 
     comment(// Read the zip)
-    predefined(return) local_variable($this)operator(->)ident(load_string)operator(()local_variable($content)operator(,) local_variable($reset)operator(\))operator(;)
+    reserved(return) local_variable($this)operator(->)ident(load_string)operator(()local_variable($content)operator(,) local_variable($reset)operator(\))operator(;)
   operator(})
   
- comment(/*)comment(*)
-comment(  *  Load a zip string)
-comment(  *)
-comment(  *  This function loads the files and dirs from a string)
-comment(  *)
-comment(  *  @access                 public)
-comment(  *)
-comment(  *  @param  string $string  The string the zip is generated from)
-comment(  *  @param  bool   $reset   Reset the files and dirs before adding the zip file's content?)
-comment(  *)
-comment(  *  @return bool            Returns true if the string was loaded sucessfully)
-comment(  )comment(*/)
-  reserved(function) ident(load_string)operator(()local_variable($string)operator(,) local_variable($reset) operator(=) reserved(true)operator(\)) operator({)
+ comment(/**
+  *  Load a zip string
+  *
+  *  This function loads the files and dirs from a string
+  *
+  *  @access                 public
+  *
+  *  @param  string $string  The string the zip is generated from
+  *  @param  bool   $reset   Reset the files and dirs before adding the zip file's content?
+  *
+  *  @return bool            Returns true if the string was loaded sucessfully
+  */)
+  reserved(function) ident(load_string)operator(()local_variable($string)operator(,) local_variable($reset) operator(=) pre_constant(true)operator(\)) operator({)
     comment(// Reset the zip?)
     reserved(if)operator(()local_variable($reset)operator(\)) operator({)
       local_variable($this)operator(->)ident(dirs)  operator(=) predefined(array)operator(()operator(\))operator(;)
@@ -315,7 +315,7 @@ comment(  )comment(*/)
     local_variable($start) operator(=) predefined(strpos)operator(()local_variable($string)operator(,) string<delimiter(")char(\\x50)char(\\x4b)char(\\x05)char(\\x06)delimiter(")>operator(\))operator(;)
 
     comment(// Error)
-    reserved(if)operator(()local_variable($start) operator(===) reserved(false)operator(\))
+    reserved(if)operator(()local_variable($start) operator(===) pre_constant(false)operator(\))
       predefined(die)operator(()string<delimiter(')content(Could not find the end of central directory record)delimiter(')>operator(\))operator(;)
 
     comment(// Get the ecdr)
@@ -385,28 +385,28 @@ comment(  )comment(*/)
 
       comment(// Valid header?)
       reserved(if)operator(()local_variable($header_info)operator([)string<delimiter(')content(header)delimiter(')>operator(]) operator(!=) integer(33639248)operator(\))
-        predefined(return) reserved(false)operator(;)
+        reserved(return) pre_constant(false)operator(;)
 
       comment(// New position)
-      local_variable($pos) operator(+)operator(=) integer(46)operator(;)
+      local_variable($pos) operator(+=) integer(46)operator(;)
 
       comment(// Read out the file name)
       local_variable($header_info)operator([)string<delimiter(')content(name)delimiter(')>operator(]) operator(=) predefined(substr)operator(()local_variable($cdr)operator(,) local_variable($pos)operator(,) local_variable($header_info)operator([)string<delimiter(')content(name_length)delimiter(')>operator(])operator(\))operator(;)
 
       comment(// New position)
-      local_variable($pos) operator(+)operator(=) local_variable($header_info)operator([)string<delimiter(')content(name_length)delimiter(')>operator(])operator(;)
+      local_variable($pos) operator(+=) local_variable($header_info)operator([)string<delimiter(')content(name_length)delimiter(')>operator(])operator(;)
 
       comment(// Read out the extra stuff)
       local_variable($header_info)operator([)string<delimiter(')content(extra)delimiter(')>operator(]) operator(=) predefined(substr)operator(()local_variable($cdr)operator(,) local_variable($pos)operator(,) local_variable($header_info)operator([)string<delimiter(')content(extra_length)delimiter(')>operator(])operator(\))operator(;)
 
       comment(// New position)
-      local_variable($pos) operator(+)operator(=) local_variable($header_info)operator([)string<delimiter(')content(extra_length)delimiter(')>operator(])operator(;)
+      local_variable($pos) operator(+=) local_variable($header_info)operator([)string<delimiter(')content(extra_length)delimiter(')>operator(])operator(;)
 
       comment(// Read out the comment)
       local_variable($header_info)operator([)string<delimiter(')content(comment)delimiter(')>operator(]) operator(=) predefined(substr)operator(()local_variable($cdr)operator(,) local_variable($pos)operator(,) local_variable($header_info)operator([)string<delimiter(')content(comment_length)delimiter(')>operator(])operator(\))operator(;)
 
       comment(// New position)
-      local_variable($pos) operator(+)operator(=) local_variable($header_info)operator([)string<delimiter(')content(comment_length)delimiter(')>operator(])operator(;)
+      local_variable($pos) operator(+=) local_variable($header_info)operator([)string<delimiter(')content(comment_length)delimiter(')>operator(])operator(;)
 
       comment(// Append this file/dir to the entry list)
       local_variable($entries)operator([)operator(]) operator(=) local_variable($header_info)operator(;)
@@ -414,7 +414,7 @@ comment(  )comment(*/)
 
     comment(// Check whether all entries where read sucessfully)
     reserved(if)operator(()predefined(count)operator(()local_variable($entries)operator(\)) operator(!=) local_variable($cd_entries)operator(\))
-      predefined(return) reserved(false)operator(;)
+      reserved(return) pre_constant(false)operator(;)
 
     comment(// Handle files/dirs)
     reserved(foreach)operator(()local_variable($entries) reserved(as) local_variable($entry)operator(\)) operator({)
@@ -443,7 +443,7 @@ comment(  )comment(*/)
 
       comment(// Valid header?)
       reserved(if)operator(()local_variable($header_info)operator([)string<delimiter(')content(header)delimiter(')>operator(]) operator(!=) integer(67324752)operator(\))
-        predefined(return) reserved(false)operator(;)
+        reserved(return) pre_constant(false)operator(;)
 
       comment(// Get content start position)
       local_variable($start) operator(=) local_variable($entry)operator([)string<delimiter(')content(offset)delimiter(')>operator(]) operator(+) integer(30) operator(+) local_variable($header_info)operator([)string<delimiter(')content(name_length)delimiter(')>operator(]) operator(+) local_variable($header_info)operator([)string<delimiter(')content(extra_length)delimiter(')>operator(])operator(;)
@@ -462,7 +462,7 @@ comment(  )comment(*/)
         comment(// Gzip)
         reserved(case) integer(8)operator(:)
           reserved(if)operator(()operator(!)predefined(function_exists)operator(()string<delimiter(')content(gzinflate)delimiter(')>operator(\))operator(\))
-            predefined(return) reserved(false)operator(;)
+            reserved(return) pre_constant(false)operator(;)
 
           comment(// Uncompress data)
           local_variable($content) operator(=) predefined(gzinflate)operator(()local_variable($data)operator(\))operator(;)
@@ -471,7 +471,7 @@ comment(  )comment(*/)
         comment(// Bzip2)
         reserved(case) integer(12)operator(:)
           reserved(if)operator(()operator(!)predefined(function_exists)operator(()string<delimiter(')content(bzdecompress)delimiter(')>operator(\))operator(\))
-            predefined(return) reserved(false)operator(;)
+            reserved(return) pre_constant(false)operator(;)
 
           comment(// Decompress data)
           local_variable($content) operator(=) predefined(bzdecompress)operator(()local_variable($data)operator(\))operator(;)
@@ -479,20 +479,20 @@ comment(  )comment(*/)
 
         comment(// Compression not supported -> error)
         reserved(default)operator(:)
-          predefined(return) reserved(false)operator(;)
+          reserved(return) pre_constant(false)operator(;)
       operator(})
 
       comment(// Try to add file)
       reserved(if)operator(()operator(!)local_variable($this)operator(->)ident(add_file)operator(()local_variable($entry)operator([)string<delimiter(')content(name)delimiter(')>operator(])operator(,) local_variable($content)operator(\))operator(\))
-        predefined(return) reserved(false)operator(;)
+        reserved(return) pre_constant(false)operator(;)
     operator(})
 
-    predefined(return) reserved(true)operator(;)
+    reserved(return) pre_constant(true)operator(;)
   operator(})
 operator(})
 
 reserved(function) operator(&)ident(byref)operator(()operator(\)) operator({)
     local_variable($x) operator(=) predefined(array)operator(()operator(\))operator(;)
-    predefined(return) local_variable($x)operator(;)
+    reserved(return) local_variable($x)operator(;)
 operator(})
 inline_delimiter(?>)

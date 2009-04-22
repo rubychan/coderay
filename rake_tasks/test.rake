@@ -40,7 +40,7 @@ namespace :test do
   desc 'run all tests on all supported Ruby platforms'
   task :all do
     $stdout.sync = true
-    for task in %w(test 19 test jruby test ee test)
+    for task in %w(test 19 test jruby test)
       if task == 'test'
         puts "\n\nTesting with #{RUBY}..."
         Rake::Task['test'].reenable

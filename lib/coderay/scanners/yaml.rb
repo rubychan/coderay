@@ -60,7 +60,8 @@ module Scanners
           when match = scan(/[|>][-+]?/)
             tokens << [:open, :string]
             tokens << [match, :delimiter]
-            tokens << [matched, :content] if scan(/(?:\n+ {#{key_indent + 1}}.*)+/)
+            string_indent = key_indent || column(pos - match.size - 1)
+            tokens << [matched, :content] if scan(/(?:\n+ {#{string_indent + 1}}.*)+/)
             tokens << [:close, :string]
             next
           when match = scan(/(?![!"*&]).+?(?=$|\s+#)/)

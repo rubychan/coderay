@@ -39,15 +39,15 @@ module CodeRay module Scanners
     UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x
     
     STRING_PREFIXES = /[xnb]|_\w+/i
-
+    
     def scan_tokens tokens, options
-
+      
       state = :initial
       string_type = nil
       string_content = ''
-
+      
       until eos?
-
+        
         kind = nil
         match = nil
         

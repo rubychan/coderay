@@ -1,0 +1,16 @@
+comment(# from http://docs.python.org/reference/lexical_analysis.html#literals)
+
+ident(re)operator(.)ident(compile)operator(()string<delimiter(")content([A-Za-z_])delimiter(")>       comment(# letter or underscore)
+           string<delimiter(")content([A-Za-z0-9_]*)delimiter(")>   comment(# letter, digit or underscore)
+          operator(\))
+integer(7)     integer(2147483647)                        oct(0177)
+integer(3L)    integer(79228162514264337593543950336L)    oct(0377L)   hex(0x100000000L)
+      integer(79228162514264337593543950336)             hex(0xdeadbeef)
+
+float(3.14)    float(10.)    float(.001)    float(1e100)    float(3.14e-10)    float(0e0)
+
+imaginary(3.14j)   imaginary(10.j)    imaginary(10j)     imaginary(.001j)   imaginary(1e100j)  imaginary(3.14e-10j)
+
+integer(2) operator(+) imaginary(1j)
+
+float(3.5e+54) operator(-) imaginary(2.5e-13j)

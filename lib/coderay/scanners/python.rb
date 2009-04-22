@@ -15,8 +15,11 @@ module Scanners
       'del', 'elif', 'else', 'except', 'finally', 'for',
       'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'not',
       'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield',
-      'exec', 'print',  # gone in Python 3
       'nonlocal',  # new in Python 3
+    ]
+    
+    OLD_KEYWORDS = [
+      'exec', 'print',  # gone in Python 3
     ]
     
     PREDEFINED_METHODS_AND_TYPES = %w[
@@ -53,12 +56,13 @@ module Scanners
     
     IDENT_KIND = WordList.new(:ident).
       add(KEYWORDS, :keyword).
+      add(OLD_KEYWORDS, :old_keyword).
       add(PREDEFINED_METHODS_AND_TYPES, :predefined).
       add(PREDEFINED_VARIABLES_AND_CONSTANTS, :pre_constant).
       add(PREDEFINED_EXCEPTIONS, :exception)
     
-    ESCAPE = / [rbfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
-    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x
+    ESCAPE = / [abfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
+    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} | N\{[-\w ]+\} /x
     
     OPERATOR = /
       \.\.\. |          # ellipsis
@@ -66,9 +70,17 @@ module Scanners
       [,;:()\[\]{}] |   # simple delimiters
       \/\/=? | \*\*=? | # special math
       [-+*\/%&|^]=? |   # ordinary math and binary logic
-      [~@] |            # whatever
+      ~ |               # binary complement
       <<=? | >>=? | [<>=]=? | !=  # comparison and assignment
     /x
+    
+    STRING_DELIMITER_REGEXP = Hash.new do |h, delimiter|
+      h[delimiter] = Regexp.union delimiter
+    end
+    
+    STRING_CONTENT_REGEXP = Hash.new do |h, delimiter|
+      h[delimiter] = / [^\\\n]+? (?= \\ | $ | #{Regexp.escape(delimiter)} ) /x
+    end
     
     def scan_tokens tokens, options
       
@@ -94,10 +106,10 @@ module Scanners
             tokens << [match, :comment]
             next
           
-          elsif scan(/#{OPERATOR}/ox)
+          elsif scan(/#{OPERATOR}/o)
             kind = :operator
           
-          elsif match = scan(/(?i:(u?r?))?("""|"|'''|')/)
+          elsif match = scan(/(u?r?|b)?("""|"|'''|')/i)
             tokens << [:open, :string]
             string_delimiter = self[2]
             string_raw = false
@@ -114,22 +126,35 @@ module Scanners
                                     scan(/[[:alpha:]_]\w*/x)
             kind = IDENT_KIND[match]
             # TODO: handle class, def, from, import
-            # TODO: handle print, exec used as functions in Python 3 code
+            # TODO: keyword arguments
             kind = :ident if last_token_dot
+            kind = check(/\(/) ? :ident : :keyword if kind == :old_keyword
           
-          elsif scan(/0[xX][0-9A-Fa-f]+/)
+          elsif scan(/@[a-zA-Z0-9_.]+[lL]?/)
+            kind = :decorator
+          
+          elsif scan(/0[xX][0-9A-Fa-f]+[lL]?/)
             kind = :hex
           
-          elsif scan(/(?:0[0-7]+)(?![89.eEfF])/)
+          elsif scan(/0[bB][01]+[lL]?/)
+            kind = :bin
+          
+          elsif match = scan(/(?:\d*\.\d+|\d+\.\d*)(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+/)
+            kind = :float
+            if scan(/[jJ]/)
+              match << matched
+              kind = :imaginary
+            end
+          
+          elsif scan(/0[oO][0-7]+|0[0-7]+(?![89.eE])[lL]?/)
             kind = :oct
           
-          # TODO: Complex numbers
-          elsif scan(/(?:\d+)(?![.eEfF])/)
+          elsif match = scan(/\d+([lL])?/)
             kind = :integer
-          
-          # TODO: Floats
-          elsif scan(/\d[fF]?|\d*\.\d+(?:[eE][+-]?\d+)?[fF]?|\d+[eE][+-]?\d+[fF]?/)
-            kind = :float
+            if self[1] == nil && scan(/[jJ]/)
+              match << matched
+              kind = :imaginary
+            end
           
           else
             getch
@@ -138,17 +163,18 @@ module Scanners
           end
         
         when :string
-          # TODO: cache Regexps
-          if scan(Regexp.union(string_delimiter))
+          if scan(STRING_DELIMITER_REGEXP[string_delimiter])
             tokens << [matched, :delimiter]
             tokens << [:close, :string]
             state = :initial
             next
           elsif string_delimiter.size == 3 && scan(/\n/)
             kind = :content
-          elsif scan(/ [^\\\n]+? (?= \\ | $ | #{Regexp.escape(string_delimiter)} ) /x)
+          elsif scan(STRING_CONTENT_REGEXP[string_delimiter])
             kind = :content
-          elsif !string_raw && scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
+          elsif !string_raw && scan(/ \\ #{ESCAPE} /ox)
+            kind = :char
+          elsif scan(/ \\ #{UNICODE_ESCAPE} /ox)
             kind = :char
           elsif scan(/ \\ . /x)
             kind = :content

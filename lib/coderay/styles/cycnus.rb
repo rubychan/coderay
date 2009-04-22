@@ -58,9 +58,11 @@ ol.CodeRay li { white-space: pre }
 .ch .dl { color:#039 }
 
 .cl { color:#B06; font-weight:bold }
+.cm { color:#A08; font-weight:bold }
 .co { color:#036; font-weight:bold }
 .cr { color:#0A0 }
 .cv { color:#369 }
+.de { color:#B0B; }
 .df { color:#099; font-weight:bold }
 .di { color:#088; font-weight:bold }
 .dl { color:black }

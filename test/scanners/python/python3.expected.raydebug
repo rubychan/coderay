@@ -1,0 +1,19 @@
+ident(Old)operator(:) keyword(print) string<delimiter(")content(The answer is)delimiter(")>operator(,) integer(2)operator(*)integer(2)
+ident(New)operator(:) ident(print)operator(()string<delimiter(")content(The answer is)delimiter(")>operator(,) integer(2)operator(*)integer(2)operator(\))
+
+ident(Old)operator(:) keyword(print) ident(x)operator(,)           comment(# Trailing comma suppresses newline)
+ident(New)operator(:) ident(print)operator(()ident(x)operator(,) ident(end)operator(=)string<delimiter(")content( )delimiter(")>operator(\))  comment(# Appends a space instead of a newline)
+
+ident(Old)operator(:) keyword(print)              comment(# Prints a newline)
+ident(New)operator(:) ident(print)operator(()operator(\))            comment(# You must call the function!)
+
+ident(Old)operator(:) keyword(print) operator(>>)ident(sys)operator(.)ident(stderr)operator(,) string<delimiter(")content(fatal error)delimiter(")>
+ident(New)operator(:) ident(print)operator(()string<delimiter(")content(fatal error)delimiter(")>operator(,) ident(file)operator(=)ident(sys)operator(.)ident(stderr)operator(\))
+
+ident(Old)operator(:) keyword(print) operator(()ident(x)operator(,) ident(y)operator(\))       comment(# prints repr((x, y\)\))
+ident(New)operator(:) ident(print)operator(()operator(()ident(x)operator(,) ident(y)operator(\))operator(\))      comment(# Not the same as print(x, y\)!)
+
+ident(print)operator(()string<delimiter(")content(There are <)delimiter(")>operator(,) integer(2)operator(**)integer(32)operator(,) string<delimiter(")content(> possibilities!)delimiter(")>operator(,) ident(sep)operator(=)string<delimiter(")delimiter(")>operator(\))
+
+
+string<modifier(b)delimiter(")content(byte string)content(\\9)content(9)char(\\")delimiter(")>

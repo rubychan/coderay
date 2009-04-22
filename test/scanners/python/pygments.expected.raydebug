@@ -3742,7 +3742,7 @@ keyword(class) ident(LatexFormatter)operator(()ident(Formatter)operator(\))opera
 
         keyword(def) ident(rgbcolor)operator(()ident(col)operator(\))operator(:)
             keyword(if) ident(col)operator(:)
-                keyword(return) string<delimiter(')content(,)delimiter(')>operator(.)ident(join)operator(()operator([)string<delimiter(')content(%.2f)delimiter(')> operator(%)operator(()predefined(int)operator(()ident(col)operator([)ident(i)operator(]) operator(+) ident(col)operator([)ident(i) operator(+) integer(1)operator(])operator(,) integer(16)operator(\)) operator(/) integer(25)float(5)float(.0)operator(\))
+                keyword(return) string<delimiter(')content(,)delimiter(')>operator(.)ident(join)operator(()operator([)string<delimiter(')content(%.2f)delimiter(')> operator(%)operator(()predefined(int)operator(()ident(col)operator([)ident(i)operator(]) operator(+) ident(col)operator([)ident(i) operator(+) integer(1)operator(])operator(,) integer(16)operator(\)) operator(/) float(255.0)operator(\))
                                  keyword(for) ident(i) keyword(in) operator(()integer(0)operator(,) integer(2)operator(,) integer(4)operator(\))operator(])operator(\))
             keyword(else)operator(:)
                 keyword(return) string<delimiter(')content(1,1,1)delimiter(')>
@@ -4604,7 +4604,7 @@ ident(__all__) operator(=) operator([)string<delimiter(')content(Lexer)delimiter
            string<delimiter(')content(LexerContext)delimiter(')>operator(,) string<delimiter(')content(include)delimiter(')>operator(,) string<delimiter(')content(flags)delimiter(')>operator(,) string<delimiter(')content(bygroups)delimiter(')>operator(,) string<delimiter(')content(using)delimiter(')>operator(,) string<delimiter(')content(this)delimiter(')>operator(])
 
 
-ident(_default_analyse) operator(=) predefined(staticmethod)operator(()keyword(lambda) ident(x)operator(:) float(0)float(.0)operator(\))
+ident(_default_analyse) operator(=) predefined(staticmethod)operator(()keyword(lambda) ident(x)operator(:) float(0.0)operator(\))
 
 
 keyword(class) ident(LexerMeta)operator(()predefined(type)operator(\))operator(:)
@@ -5417,7 +5417,7 @@ keyword(def) ident(guess_lexer_for_filename)operator(()ident(_fn)operator(,) ide
     ident(result) operator(=) operator([)operator(])
     keyword(for) ident(lexer) keyword(in) ident(matching_lexers)operator(:)
         ident(rv) operator(=) ident(lexer)operator(.)ident(analyse_text)operator(()ident(_text)operator(\))
-        keyword(if) ident(rv) operator(==) float(1)float(.0)operator(:)
+        keyword(if) ident(rv) operator(==) float(1.0)operator(:)
             keyword(return) ident(lexer)operator(()operator(**)ident(options)operator(\))
         ident(result)operator(.)ident(append)operator(()operator(()ident(rv)operator(,) ident(lexer)operator(\))operator(\))
     ident(result)operator(.)ident(sort)operator(()operator(\))
@@ -5430,10 +5430,10 @@ keyword(def) ident(guess_lexer)operator(()ident(_text)operator(,) operator(**)id
     string<delimiter(""")content(
 )content(    Guess a lexer by strong distinctions in the text (eg, shebang\).)content(
 )content(    )delimiter(""")>
-    ident(best_lexer) operator(=) operator([)float(0)float(.0)operator(,) pre_constant(None)operator(])
+    ident(best_lexer) operator(=) operator([)float(0.0)operator(,) pre_constant(None)operator(])
     keyword(for) ident(lexer) keyword(in) ident(_iter_lexerclasses)operator(()operator(\))operator(:)
         ident(rv) operator(=) ident(lexer)operator(.)ident(analyse_text)operator(()ident(_text)operator(\))
-        keyword(if) ident(rv) operator(==) float(1)float(.0)operator(:)
+        keyword(if) ident(rv) operator(==) float(1.0)operator(:)
             keyword(return) ident(lexer)operator(()operator(**)ident(options)operator(\))
         keyword(if) ident(rv) operator(>) ident(best_lexer)operator([)integer(0)operator(])operator(:)
             ident(best_lexer)operator([)operator(:)operator(]) operator(=) operator(()ident(rv)operator(,) ident(lexer)operator(\))
@@ -10535,8 +10535,8 @@ keyword(class) ident(PerlLexer)operator(()ident(RegexLexer)operator(\))operator(
         keyword(if) ident(shebang_matches)operator(()ident(text)operator(,) string<modifier(r)delimiter(')content(perl()content(\\d)content(\\.)content(\\d)content(\\.)content(\\d)content(\)?)delimiter(')>operator(\))operator(:)
             keyword(return) pre_constant(True)
         keyword(if) string<delimiter(')content(my $)delimiter(')> keyword(in) ident(text)operator(:)
-            keyword(return) float(0)float(.9)
-        keyword(return) float(0)float(.1) comment(# who knows, might still be perl!)
+            keyword(return) float(0.9)
+        keyword(return) float(0.1) comment(# who knows, might still be perl!)
 
 
 keyword(class) ident(LuaLexer)operator(()ident(RegexLexer)operator(\))operator(:)
@@ -13272,10 +13272,10 @@ keyword(class) ident(CSharpAspxLexer)operator(()ident(DelegatingLexer)operator(\
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<modifier(r)delimiter(')content(Page)content(\\s)content(*Language="C#")delimiter(')>operator(,) ident(text)operator(,) ident(re)operator(.)ident(I)operator(\)) keyword(is) keyword(not) pre_constant(None)operator(:)
-            keyword(return) float(0)float(.2)
+            keyword(return) float(0.2)
         keyword(elif) ident(re)operator(.)ident(search)operator(()string<modifier(r)delimiter(')content(script[^>]+language=[")content(\\')content(]C#)delimiter(')>operator(,) ident(text)operator(,) ident(re)operator(.)ident(I)operator(\)) keyword(is) keyword(not) pre_constant(None)operator(:)
-            keyword(return) float(0)float(.15)
-        keyword(return) float(0)float(.001) comment(# TODO really only for when filename matched...)
+            keyword(return) float(0.15)
+        keyword(return) float(0.001) comment(# TODO really only for when filename matched...)
 
 keyword(class) ident(VbNetAspxLexer)operator(()ident(DelegatingLexer)operator(\))operator(:)
     string<delimiter(""")content(
@@ -13293,9 +13293,9 @@ keyword(class) ident(VbNetAspxLexer)operator(()ident(DelegatingLexer)operator(\)
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<modifier(r)delimiter(')content(Page)content(\\s)content(*Language="Vb")delimiter(')>operator(,) ident(text)operator(,) ident(re)operator(.)ident(I)operator(\)) keyword(is) keyword(not) pre_constant(None)operator(:)
-            keyword(return) float(0)float(.2)
+            keyword(return) float(0.2)
         keyword(elif) ident(re)operator(.)ident(search)operator(()string<modifier(r)delimiter(')content(script[^>]+language=[")content(\\')content(]vb)delimiter(')>operator(,) ident(text)operator(,) ident(re)operator(.)ident(I)operator(\)) keyword(is) keyword(not) pre_constant(None)operator(:)
-            keyword(return) float(0)float(.15)
+            keyword(return) float(0.15)
 comment(# -*- coding: utf-8 -*-)
 string<delimiter(""")content(
 )content(    pygments.lexers.functional)content(
@@ -14251,10 +14251,10 @@ keyword(class) ident(MatlabLexer)operator(()ident(RegexLexer)operator(\))operato
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
         keyword(if) ident(re)operator(.)ident(match)operator(()string<delimiter(')content(^)content(\\s)content(*%)delimiter(')>operator(,) ident(text)operator(,) ident(re)operator(.)ident(M)operator(\))operator(:) comment(# comment)
-            keyword(return) float(0)float(.9)
+            keyword(return) float(0.9)
         keyword(elif) ident(re)operator(.)ident(match)operator(()string<delimiter(')content(^!)content(\\w)content(+)delimiter(')>operator(,) ident(text)operator(,) ident(re)operator(.)ident(M)operator(\))operator(:) comment(# system cmd)
-            keyword(return) float(0)float(.9)
-        keyword(return) float(0)float(.1)
+            keyword(return) float(0.9)
+        keyword(return) float(0.1)
 
 ident(line_re)  operator(=) ident(re)operator(.)ident(compile)operator(()string<delimiter(')content(.*?)char(\\n)delimiter(')>operator(\))
 
@@ -16697,7 +16697,7 @@ keyword(class) ident(RagelEmbeddedLexer)operator(()ident(RegexLexer)operator(\))
     operator(})
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        keyword(return) string<delimiter(')content(@LANG: indep)delimiter(')> keyword(in) ident(text) keyword(or) float(0)float(.1)
+        keyword(return) string<delimiter(')content(@LANG: indep)delimiter(')> keyword(in) ident(text) keyword(or) float(0.1)
 
 keyword(class) ident(RagelRubyLexer)operator(()ident(DelegatingLexer)operator(\))operator(:)
     string<delimiter(""")content(
@@ -17106,7 +17106,7 @@ keyword(class) ident(AntlrJavaLexer)operator(()ident(DelegatingLexer)operator(\)
                                              operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        keyword(return) float(0)float(.5) comment(# Antlr is Java if not specified)
+        keyword(return) float(0.5) comment(# Antlr is Java if not specified)
 
 
 keyword(class) ident(AntlrRubyLexer)operator(()ident(DelegatingLexer)operator(\))operator(:)
@@ -17397,7 +17397,7 @@ keyword(class) ident(ErbLexer)operator(()ident(Lexer)operator(\))operator(:)
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
         keyword(if) string<delimiter(')content(<%)delimiter(')> keyword(in) ident(text) keyword(and) string<delimiter(')content(%>)delimiter(')> keyword(in) ident(text)operator(:)
-            keyword(return) float(0)float(.4)
+            keyword(return) float(0.4)
 
 
 keyword(class) ident(SmartyLexer)operator(()ident(RegexLexer)operator(\))operator(:)
@@ -17443,15 +17443,15 @@ keyword(class) ident(SmartyLexer)operator(()ident(RegexLexer)operator(\))operato
     operator(})
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) float(0)float(.0)
+        ident(rv) operator(=) float(0.0)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<delimiter(')content(\\{)content(if)content(\\s)content(+.*?)content(\\})content(.*?)content(\\{)content(/if)content(\\})delimiter(')>operator(,) ident(text)operator(\))operator(:)
-            ident(rv) operator(+=) float(0)float(.15)
+            ident(rv) operator(+=) float(0.15)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<delimiter(')content(\\{)content(include)content(\\s)content(+file=.*?)content(\\})delimiter(')>operator(,) ident(text)operator(\))operator(:)
-            ident(rv) operator(+=) float(0)float(.15)
+            ident(rv) operator(+=) float(0.15)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<delimiter(')content(\\{)content(foreach)content(\\s)content(+.*?)content(\\})content(.*?)content(\\{)content(/foreach)content(\\})delimiter(')>operator(,) ident(text)operator(\))operator(:)
-            ident(rv) operator(+=) float(0)float(.15)
+            ident(rv) operator(+=) float(0.15)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<delimiter(')content(\\{)content(\\$)content(.*?)content(\\})delimiter(')>operator(,) ident(text)operator(\))operator(:)
-            ident(rv) operator(+=) float(0)float(.01)
+            ident(rv) operator(+=) float(0.01)
         keyword(return) ident(rv)
 
 
@@ -17527,13 +17527,13 @@ keyword(class) ident(DjangoLexer)operator(()ident(RegexLexer)operator(\))operato
     operator(})
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) float(0)float(.0)
+        ident(rv) operator(=) float(0.0)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<modifier(r)delimiter(')content(\\{)content(%)content(\\s)content(*(block|extends\))delimiter(')>operator(,) ident(text)operator(\)) keyword(is) keyword(not) pre_constant(None)operator(:)
-            ident(rv) operator(+=) float(0)float(.4)
+            ident(rv) operator(+=) float(0.4)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<modifier(r)delimiter(')content(\\{)content(%)content(\\s)content(*if)content(\\s)content(*.*?%)content(\\})delimiter(')>operator(,) ident(text)operator(\)) keyword(is) keyword(not) pre_constant(None)operator(:)
-            ident(rv) operator(+=) float(0)float(.1)
+            ident(rv) operator(+=) float(0.1)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<modifier(r)delimiter(')content(\\{)content(\\{)content(.*?)content(\\})content(\\})delimiter(')>operator(,) ident(text)operator(\)) keyword(is) keyword(not) pre_constant(None)operator(:)
-            ident(rv) operator(+=) float(0)float(.1)
+            ident(rv) operator(+=) float(0.1)
         keyword(return) ident(rv)
 
 
@@ -18023,12 +18023,12 @@ keyword(class) ident(HtmlGenshiLexer)operator(()ident(DelegatingLexer)operator(\
                                               operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) float(0)float(.0)
+        ident(rv) operator(=) float(0.0)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<delimiter(')content(\\$)content(\\{)content(.*?)content(\\})delimiter(')>operator(,) ident(text)operator(\)) keyword(is) keyword(not) pre_constant(None)operator(:)
-            ident(rv) operator(+=) float(0)float(.2)
+            ident(rv) operator(+=) float(0.2)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<delimiter(')content(py:(.*?\)=[")char(\\')content(])delimiter(')>operator(,) ident(text)operator(\)) keyword(is) keyword(not) pre_constant(None)operator(:)
-            ident(rv) operator(+=) float(0)float(.2)
-        keyword(return) ident(rv) operator(+) ident(HtmlLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.01)
+            ident(rv) operator(+=) float(0.2)
+        keyword(return) ident(rv) operator(+) ident(HtmlLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.01)
 
 
 keyword(class) ident(GenshiLexer)operator(()ident(DelegatingLexer)operator(\))operator(:)
@@ -18048,12 +18048,12 @@ keyword(class) ident(GenshiLexer)operator(()ident(DelegatingLexer)operator(\))op
                                           operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) float(0)float(.0)
+        ident(rv) operator(=) float(0.0)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<delimiter(')content(\\$)content(\\{)content(.*?)content(\\})delimiter(')>operator(,) ident(text)operator(\)) keyword(is) keyword(not) pre_constant(None)operator(:)
-            ident(rv) operator(+=) float(0)float(.2)
+            ident(rv) operator(+=) float(0.2)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<delimiter(')content(py:(.*?\)=[")char(\\')content(])delimiter(')>operator(,) ident(text)operator(\)) keyword(is) keyword(not) pre_constant(None)operator(:)
-            ident(rv) operator(+=) float(0)float(.2)
-        keyword(return) ident(rv) operator(+) ident(XmlLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.01)
+            ident(rv) operator(+=) float(0.2)
+        keyword(return) ident(rv) operator(+) ident(XmlLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.01)
 
 
 keyword(class) ident(JavascriptGenshiLexer)operator(()ident(DelegatingLexer)operator(\))operator(:)
@@ -18075,7 +18075,7 @@ keyword(class) ident(JavascriptGenshiLexer)operator(()ident(DelegatingLexer)oper
                                                     operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        keyword(return) ident(GenshiLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.05)
+        keyword(return) ident(GenshiLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.05)
 
 
 keyword(class) ident(CssGenshiLexer)operator(()ident(DelegatingLexer)operator(\))operator(:)
@@ -18093,7 +18093,7 @@ keyword(class) ident(CssGenshiLexer)operator(()ident(DelegatingLexer)operator(\)
                                              operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        keyword(return) ident(GenshiLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.05)
+        keyword(return) ident(GenshiLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.05)
 
 
 keyword(class) ident(RhtmlLexer)operator(()ident(DelegatingLexer)operator(\))operator(:)
@@ -18114,10 +18114,10 @@ keyword(class) ident(RhtmlLexer)operator(()ident(DelegatingLexer)operator(\))ope
         predefined(super)operator(()ident(RhtmlLexer)operator(,) pre_constant(self)operator(\))operator(.)ident(__init__)operator(()ident(HtmlLexer)operator(,) ident(ErbLexer)operator(,) operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) ident(ErbLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.01)
+        ident(rv) operator(=) ident(ErbLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.01)
         keyword(if) ident(html_doctype_matches)operator(()ident(text)operator(\))operator(:)
             comment(# one more than the XmlErbLexer returns)
-            ident(rv) operator(+=) float(0)float(.5)
+            ident(rv) operator(+=) float(0.5)
         keyword(return) ident(rv)
 
 
@@ -18136,9 +18136,9 @@ keyword(class) ident(XmlErbLexer)operator(()ident(DelegatingLexer)operator(\))op
         predefined(super)operator(()ident(XmlErbLexer)operator(,) pre_constant(self)operator(\))operator(.)ident(__init__)operator(()ident(XmlLexer)operator(,) ident(ErbLexer)operator(,) operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) ident(ErbLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.01)
+        ident(rv) operator(=) ident(ErbLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.01)
         keyword(if) ident(looks_like_xml)operator(()ident(text)operator(\))operator(:)
-            ident(rv) operator(+=) float(0)float(.4)
+            ident(rv) operator(+=) float(0.4)
         keyword(return) ident(rv)
 
 
@@ -18156,7 +18156,7 @@ keyword(class) ident(CssErbLexer)operator(()ident(DelegatingLexer)operator(\))op
         predefined(super)operator(()ident(CssErbLexer)operator(,) pre_constant(self)operator(\))operator(.)ident(__init__)operator(()ident(CssLexer)operator(,) ident(ErbLexer)operator(,) operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        keyword(return) ident(ErbLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.05)
+        keyword(return) ident(ErbLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.05)
 
 
 keyword(class) ident(JavascriptErbLexer)operator(()ident(DelegatingLexer)operator(\))operator(:)
@@ -18177,7 +18177,7 @@ keyword(class) ident(JavascriptErbLexer)operator(()ident(DelegatingLexer)operato
                                                  operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        keyword(return) ident(ErbLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.05)
+        keyword(return) ident(ErbLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.05)
 
 
 keyword(class) ident(HtmlPhpLexer)operator(()ident(DelegatingLexer)operator(\))operator(:)
@@ -18200,9 +18200,9 @@ keyword(class) ident(HtmlPhpLexer)operator(()ident(DelegatingLexer)operator(\))o
         predefined(super)operator(()ident(HtmlPhpLexer)operator(,) pre_constant(self)operator(\))operator(.)ident(__init__)operator(()ident(HtmlLexer)operator(,) ident(PhpLexer)operator(,) operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) ident(PhpLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.01)
+        ident(rv) operator(=) ident(PhpLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.01)
         keyword(if) ident(html_doctype_matches)operator(()ident(text)operator(\))operator(:)
-            ident(rv) operator(+=) float(0)float(.5)
+            ident(rv) operator(+=) float(0.5)
         keyword(return) ident(rv)
 
 
@@ -18220,9 +18220,9 @@ keyword(class) ident(XmlPhpLexer)operator(()ident(DelegatingLexer)operator(\))op
         predefined(super)operator(()ident(XmlPhpLexer)operator(,) pre_constant(self)operator(\))operator(.)ident(__init__)operator(()ident(XmlLexer)operator(,) ident(PhpLexer)operator(,) operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) ident(PhpLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.01)
+        ident(rv) operator(=) ident(PhpLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.01)
         keyword(if) ident(looks_like_xml)operator(()ident(text)operator(\))operator(:)
-            ident(rv) operator(+=) float(0)float(.4)
+            ident(rv) operator(+=) float(0.4)
         keyword(return) ident(rv)
 
 
@@ -18240,7 +18240,7 @@ keyword(class) ident(CssPhpLexer)operator(()ident(DelegatingLexer)operator(\))op
         predefined(super)operator(()ident(CssPhpLexer)operator(,) pre_constant(self)operator(\))operator(.)ident(__init__)operator(()ident(CssLexer)operator(,) ident(PhpLexer)operator(,) operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        keyword(return) ident(PhpLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.05)
+        keyword(return) ident(PhpLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.05)
 
 
 keyword(class) ident(JavascriptPhpLexer)operator(()ident(DelegatingLexer)operator(\))operator(:)
@@ -18281,9 +18281,9 @@ keyword(class) ident(HtmlSmartyLexer)operator(()ident(DelegatingLexer)operator(\
         predefined(super)operator(()ident(HtmlSmartyLexer)operator(,) pre_constant(self)operator(\))operator(.)ident(__init__)operator(()ident(HtmlLexer)operator(,) ident(SmartyLexer)operator(,) operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) ident(SmartyLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.01)
+        ident(rv) operator(=) ident(SmartyLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.01)
         keyword(if) ident(html_doctype_matches)operator(()ident(text)operator(\))operator(:)
-            ident(rv) operator(+=) float(0)float(.5)
+            ident(rv) operator(+=) float(0.5)
         keyword(return) ident(rv)
 
 
@@ -18302,9 +18302,9 @@ keyword(class) ident(XmlSmartyLexer)operator(()ident(DelegatingLexer)operator(\)
         predefined(super)operator(()ident(XmlSmartyLexer)operator(,) pre_constant(self)operator(\))operator(.)ident(__init__)operator(()ident(XmlLexer)operator(,) ident(SmartyLexer)operator(,) operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) ident(SmartyLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.01)
+        ident(rv) operator(=) ident(SmartyLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.01)
         keyword(if) ident(looks_like_xml)operator(()ident(text)operator(\))operator(:)
-            ident(rv) operator(+=) float(0)float(.4)
+            ident(rv) operator(+=) float(0.4)
         keyword(return) ident(rv)
 
 
@@ -18323,7 +18323,7 @@ keyword(class) ident(CssSmartyLexer)operator(()ident(DelegatingLexer)operator(\)
         predefined(super)operator(()ident(CssSmartyLexer)operator(,) pre_constant(self)operator(\))operator(.)ident(__init__)operator(()ident(CssLexer)operator(,) ident(SmartyLexer)operator(,) operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        keyword(return) ident(SmartyLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.05)
+        keyword(return) ident(SmartyLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.05)
 
 
 keyword(class) ident(JavascriptSmartyLexer)operator(()ident(DelegatingLexer)operator(\))operator(:)
@@ -18344,7 +18344,7 @@ keyword(class) ident(JavascriptSmartyLexer)operator(()ident(DelegatingLexer)oper
                                                     operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        keyword(return) ident(SmartyLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.05)
+        keyword(return) ident(SmartyLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.05)
 
 
 keyword(class) ident(HtmlDjangoLexer)operator(()ident(DelegatingLexer)operator(\))operator(:)
@@ -18364,9 +18364,9 @@ keyword(class) ident(HtmlDjangoLexer)operator(()ident(DelegatingLexer)operator(\
         predefined(super)operator(()ident(HtmlDjangoLexer)operator(,) pre_constant(self)operator(\))operator(.)ident(__init__)operator(()ident(HtmlLexer)operator(,) ident(DjangoLexer)operator(,) operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) ident(DjangoLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.01)
+        ident(rv) operator(=) ident(DjangoLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.01)
         keyword(if) ident(html_doctype_matches)operator(()ident(text)operator(\))operator(:)
-            ident(rv) operator(+=) float(0)float(.5)
+            ident(rv) operator(+=) float(0.5)
         keyword(return) ident(rv)
 
 
@@ -18385,9 +18385,9 @@ keyword(class) ident(XmlDjangoLexer)operator(()ident(DelegatingLexer)operator(\)
         predefined(super)operator(()ident(XmlDjangoLexer)operator(,) pre_constant(self)operator(\))operator(.)ident(__init__)operator(()ident(XmlLexer)operator(,) ident(DjangoLexer)operator(,) operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) ident(DjangoLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.01)
+        ident(rv) operator(=) ident(DjangoLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.01)
         keyword(if) ident(looks_like_xml)operator(()ident(text)operator(\))operator(:)
-            ident(rv) operator(+=) float(0)float(.4)
+            ident(rv) operator(+=) float(0.4)
         keyword(return) ident(rv)
 
 
@@ -18406,7 +18406,7 @@ keyword(class) ident(CssDjangoLexer)operator(()ident(DelegatingLexer)operator(\)
         predefined(super)operator(()ident(CssDjangoLexer)operator(,) pre_constant(self)operator(\))operator(.)ident(__init__)operator(()ident(CssLexer)operator(,) ident(DjangoLexer)operator(,) operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        keyword(return) ident(DjangoLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.05)
+        keyword(return) ident(DjangoLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.05)
 
 
 keyword(class) ident(JavascriptDjangoLexer)operator(()ident(DelegatingLexer)operator(\))operator(:)
@@ -18431,7 +18431,7 @@ keyword(class) ident(JavascriptDjangoLexer)operator(()ident(DelegatingLexer)oper
                                                     operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        keyword(return) ident(DjangoLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.05)
+        keyword(return) ident(DjangoLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.05)
 
 
 keyword(class) ident(JspRootLexer)operator(()ident(RegexLexer)operator(\))operator(:)
@@ -18474,11 +18474,11 @@ keyword(class) ident(JspLexer)operator(()ident(DelegatingLexer)operator(\))opera
         predefined(super)operator(()ident(JspLexer)operator(,) pre_constant(self)operator(\))operator(.)ident(__init__)operator(()ident(XmlLexer)operator(,) ident(JspRootLexer)operator(,) operator(**)ident(options)operator(\))
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) ident(JavaLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0)float(.01)
+        ident(rv) operator(=) ident(JavaLexer)operator(.)ident(analyse_text)operator(()ident(text)operator(\)) operator(-) float(0.01)
         keyword(if) ident(looks_like_xml)operator(()ident(text)operator(\))operator(:)
-            ident(rv) operator(+=) float(0)float(.4)
+            ident(rv) operator(+=) float(0.4)
         keyword(if) string<delimiter(')content(<%)delimiter(')> keyword(in) ident(text) keyword(and) string<delimiter(')content(%>)delimiter(')> keyword(in) ident(text)operator(:)
-            ident(rv) operator(+=) float(0)float(.1)
+            ident(rv) operator(+=) float(0.1)
         keyword(return) ident(rv)
 
 
@@ -18790,7 +18790,7 @@ keyword(class) ident(DiffLexer)operator(()ident(RegexLexer)operator(\))operator(
         keyword(if) ident(text)operator([)operator(:)integer(5)operator(]) operator(==) string<delimiter(')content(diff )delimiter(')>operator(:)
             keyword(return) pre_constant(True)
         keyword(if) ident(text)operator([)operator(:)integer(4)operator(]) operator(==) string<delimiter(')content(--- )delimiter(')>operator(:)
-            keyword(return) float(0)float(.9)
+            keyword(return) float(0.9)
 
 
 ident(DPATCH_KEYWORDS) operator(=) operator([)string<delimiter(')content(hunk)delimiter(')>operator(,) string<delimiter(')content(addfile)delimiter(')>operator(,) string<delimiter(')content(adddir)delimiter(')>operator(,) string<delimiter(')content(rmfile)delimiter(')>operator(,) string<delimiter(')content(rmdir)delimiter(')>operator(,) string<delimiter(')content(move)delimiter(')>operator(,)
@@ -19042,7 +19042,7 @@ keyword(class) ident(GroffLexer)operator(()ident(RegexLexer)operator(\))operator
         keyword(if) ident(text)operator([)operator(:)integer(4)operator(]) operator(==) string<delimiter(')content(.TH )delimiter(')>operator(:)
             keyword(return) pre_constant(True)
         keyword(if) ident(text)operator([)integer(1)operator(:)integer(3)operator(])operator(.)ident(isalnum)operator(()operator(\)) keyword(and) ident(text)operator([)integer(3)operator(])operator(.)ident(isspace)operator(()operator(\))operator(:)
-            keyword(return) float(0)float(.9)
+            keyword(return) float(0.9)
 
 
 keyword(class) ident(ApacheConfLexer)operator(()ident(RegexLexer)operator(\))operator(:)
@@ -19270,14 +19270,14 @@ keyword(class) ident(RstLexer)operator(()ident(RegexLexer)operator(\))operator(:
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
         keyword(if) ident(text)operator([)operator(:)integer(2)operator(]) operator(==) string<delimiter(')content(..)delimiter(')> keyword(and) ident(text)operator([)integer(2)operator(:)integer(3)operator(]) operator(!=) string<delimiter(')content(.)delimiter(')>operator(:)
-            keyword(return) float(0)float(.3)
+            keyword(return) float(0.3)
         ident(p1) operator(=) ident(text)operator(.)ident(find)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\))
         ident(p2) operator(=) ident(text)operator(.)ident(find)operator(()string<delimiter(")char(\\n)delimiter(")>operator(,) ident(p1) operator(+) integer(1)operator(\))
         keyword(if) operator(()ident(p2) operator(>) operator(-)integer(1) keyword(and)              comment(# has two lines)
             ident(p1) operator(*) integer(2) operator(+) integer(1) operator(==) ident(p2) keyword(and)     comment(# they are the same length)
             ident(text)operator([)ident(p1)operator(+)integer(1)operator(]) keyword(in) string<delimiter(')content(-=)delimiter(')> keyword(and)   comment(# the next line both starts and ends with)
             ident(text)operator([)ident(p1)operator(+)integer(1)operator(]) operator(==) ident(text)operator([)ident(p2)operator(-)integer(1)operator(])operator(\))operator(:) comment(# ...a sufficiently high header)
-            keyword(return) float(0)float(.5)
+            keyword(return) float(0.5)
 
 
 keyword(class) ident(VimLexer)operator(()ident(RegexLexer)operator(\))operator(:)
@@ -20215,7 +20215,7 @@ keyword(class) ident(ActionScriptLexer)operator(()ident(RegexLexer)operator(\))o
     operator(})
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        keyword(return) float(0)float(.05)
+        keyword(return) float(0.05)
 
 
 keyword(class) ident(ActionScript3Lexer)operator(()ident(RegexLexer)operator(\))operator(:)
@@ -20293,8 +20293,8 @@ keyword(class) ident(ActionScript3Lexer)operator(()ident(RegexLexer)operator(\))
     operator(})
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        keyword(if) ident(re)operator(.)ident(match)operator(()string<modifier(r)delimiter(')content(\\w)content(+)content(\\s)content(*:)content(\\s)content(*)content(\\w)delimiter(')>operator(,) ident(text)operator(\))operator(:) keyword(return) float(0)float(.3)
-        keyword(return) float(0)float(.1)
+        keyword(if) ident(re)operator(.)ident(match)operator(()string<modifier(r)delimiter(')content(\\w)content(+)content(\\s)content(*:)content(\\s)content(*)content(\\w)delimiter(')>operator(,) ident(text)operator(\))operator(:) keyword(return) float(0.3)
+        keyword(return) float(0.1)
 
 
 keyword(class) ident(CssLexer)operator(()ident(RegexLexer)operator(\))operator(:)
@@ -20487,7 +20487,7 @@ keyword(class) ident(HtmlLexer)operator(()ident(RegexLexer)operator(\))operator(
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
         keyword(if) ident(html_doctype_matches)operator(()ident(text)operator(\))operator(:)
-            keyword(return) float(0)float(.5)
+            keyword(return) float(0.5)
 
 
 keyword(class) ident(PhpLexer)operator(()ident(RegexLexer)operator(\))operator(:)
@@ -20631,11 +20631,11 @@ keyword(class) ident(PhpLexer)operator(()ident(RegexLexer)operator(\))operator(:
             keyword(yield) ident(index)operator(,) ident(token)operator(,) ident(value)
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
-        ident(rv) operator(=) float(0)float(.0)
+        ident(rv) operator(=) float(0.0)
         keyword(if) ident(re)operator(.)ident(search)operator(()string<modifier(r)delimiter(')content(<)content(\\?)content((?!xml\))delimiter(')>operator(,) ident(text)operator(\))operator(:)
-            ident(rv) operator(+=) float(0)float(.3)
+            ident(rv) operator(+=) float(0.3)
         keyword(if) string<delimiter(')content(?>)delimiter(')> keyword(in) ident(text)operator(:)
-            ident(rv) operator(+=) float(0)float(.1)
+            ident(rv) operator(+=) float(0.1)
         keyword(return) ident(rv)
 
 
@@ -20684,7 +20684,7 @@ keyword(class) ident(XmlLexer)operator(()ident(RegexLexer)operator(\))operator(:
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
         keyword(if) ident(looks_like_xml)operator(()ident(text)operator(\))operator(:)
-            keyword(return) float(0)float(.5)
+            keyword(return) float(0.5)
 
 
 keyword(class) ident(XsltLexer)operator(()ident(XmlLexer)operator(\))operator(:)
@@ -20720,7 +20720,7 @@ keyword(class) ident(XsltLexer)operator(()ident(XmlLexer)operator(\))operator(:)
 
     keyword(def) ident(analyse_text)operator(()ident(text)operator(\))operator(:)
         keyword(if) ident(looks_like_xml)operator(()ident(text)operator(\)) keyword(and) string<delimiter(')content(<xsl)delimiter(')> keyword(in) ident(text)operator(:)
-            keyword(return) float(0)float(.8)
+            keyword(return) float(0.8)
 
 
 
@@ -22616,8 +22616,8 @@ keyword(def) ident(make_analysator)operator(()ident(f)operator(\))operator(:)
     keyword(def) ident(text_analyse)operator(()ident(text)operator(\))operator(:)
         ident(rv) operator(=) ident(f)operator(()ident(text)operator(\))
         keyword(if) keyword(not) ident(rv)operator(:)
-            keyword(return) float(0)float(.0)
-        keyword(return) predefined(min)operator(()float(1)float(.0)operator(,) predefined(max)operator(()float(0)float(.0)operator(,) predefined(float)operator(()ident(rv)operator(\))operator(\))operator(\))
+            keyword(return) float(0.0)
+        keyword(return) predefined(min)operator(()float(1.0)operator(,) predefined(max)operator(()float(0.0)operator(,) predefined(float)operator(()ident(rv)operator(\))operator(\))operator(\))
     ident(text_analyse)operator(.)ident(__doc__) operator(=) ident(f)operator(.)ident(__doc__)
     keyword(return) predefined(staticmethod)operator(()ident(text_analyse)operator(\))
 
@@ -22770,7 +22770,7 @@ ident(misspellings) operator(=) operator([)string<delimiter(")content(developeme
                 string<delimiter(")content(informations)delimiter(")>operator(])                          comment(# ALLOW-MISSPELLING)
 
 
-operator(@)ident(checker)operator(()string<delimiter(')content(.py)delimiter(')>operator(\))
+decorator(@checker)operator(()string<delimiter(')content(.py)delimiter(')>operator(\))
 keyword(def) ident(check_syntax)operator(()ident(fn)operator(,) ident(lines)operator(\))operator(:)
     keyword(try)operator(:)
         predefined(compile)operator(()string<delimiter(')delimiter(')>operator(.)ident(join)operator(()ident(lines)operator(\))operator(,) ident(fn)operator(,) string<delimiter(")content(exec)delimiter(")>operator(\))
@@ -22778,7 +22778,7 @@ keyword(def) ident(check_syntax)operator(()ident(fn)operator(,) ident(lines)oper
         keyword(yield) integer(0)operator(,) string<delimiter(")content(not compilable: %s)delimiter(")> operator(%) ident(err)
 
 
-operator(@)ident(checker)operator(()string<delimiter(')content(.py)delimiter(')>operator(\))
+decorator(@checker)operator(()string<delimiter(')content(.py)delimiter(')>operator(\))
 keyword(def) ident(check_style_and_encoding)operator(()ident(fn)operator(,) ident(lines)operator(\))operator(:)
     ident(encoding) operator(=) string<delimiter(')content(ascii)delimiter(')>
     keyword(for) ident(lno)operator(,) ident(line) keyword(in) predefined(enumerate)operator(()ident(lines)operator(\))operator(:)
@@ -22802,7 +22802,7 @@ keyword(def) ident(check_style_and_encoding)operator(()ident(fn)operator(,) iden
             ident(encoding) operator(=) string<delimiter(')content(latin1)delimiter(')>
 
 
-operator(@)ident(checker)operator(()string<delimiter(')content(.py)delimiter(')>operator(,) ident(only_pkg)operator(=)pre_constant(True)operator(\))
+decorator(@checker)operator(()string<delimiter(')content(.py)delimiter(')>operator(,) ident(only_pkg)operator(=)pre_constant(True)operator(\))
 keyword(def) ident(check_fileheader)operator(()ident(fn)operator(,) ident(lines)operator(\))operator(:)
     comment(# line number correction)
     ident(c) operator(=) integer(1)
@@ -22866,7 +22866,7 @@ keyword(def) ident(check_fileheader)operator(()ident(fn)operator(,) ident(lines)
         keyword(yield) integer(0)operator(,) string<delimiter(")content(no correct copyright info)delimiter(")>
 
 
-operator(@)ident(checker)operator(()string<delimiter(')content(.py)delimiter(')>operator(,) string<delimiter(')content(.html)delimiter(')>operator(,) string<delimiter(')content(.js)delimiter(')>operator(\))
+decorator(@checker)operator(()string<delimiter(')content(.py)delimiter(')>operator(,) string<delimiter(')content(.html)delimiter(')>operator(,) string<delimiter(')content(.js)delimiter(')>operator(\))
 keyword(def) ident(check_whitespace_and_spelling)operator(()ident(fn)operator(,) ident(lines)operator(\))operator(:)
     keyword(for) ident(lno)operator(,) ident(line) keyword(in) predefined(enumerate)operator(()ident(lines)operator(\))operator(:)
         keyword(if) string<delimiter(")char(\\t)delimiter(")> keyword(in) ident(line)operator(:)
@@ -22881,7 +22881,7 @@ keyword(def) ident(check_whitespace_and_spelling)operator(()ident(fn)operator(,)
 ident(bad_tags) operator(=) operator(()string<delimiter(')content(<b>)delimiter(')>operator(,) string<delimiter(')content(<i>)delimiter(')>operator(,) string<delimiter(')content(<u>)delimiter(')>operator(,) string<delimiter(')content(<s>)delimiter(')>operator(,) string<delimiter(')content(<strike>)delimiter(')>
             string<delimiter(')content(<center>)delimiter(')>operator(,) string<delimiter(')content(<big>)delimiter(')>operator(,) string<delimiter(')content(<small>)delimiter(')>operator(,) string<delimiter(')content(<font)delimiter(')>operator(\))
 
-operator(@)ident(checker)operator(()string<delimiter(')content(.html)delimiter(')>operator(\))
+decorator(@checker)operator(()string<delimiter(')content(.html)delimiter(')>operator(\))
 keyword(def) ident(check_xhtml)operator(()ident(fn)operator(,) ident(lines)operator(\))operator(:)
     keyword(for) ident(lno)operator(,) ident(line) keyword(in) predefined(enumerate)operator(()ident(lines)operator(\))operator(:)
         keyword(for) ident(bad_tag) keyword(in) ident(bad_tags)operator(:)
@@ -24825,7 +24825,7 @@ keyword(class) ident(LexersTest)operator(()ident(unittest)operator(.)ident(TestC
                 ident(a)operator(()predefined(type)operator(()predefined(getattr)operator(()ident(lexer)operator(,) ident(attr)operator(\))operator(\)) keyword(is) predefined(list)operator(,) string<delimiter(")content(%s: %s attribute wrong)delimiter(")> operator(%)
                                                       operator(()ident(lexer)operator(,) ident(attr)operator(\))operator(\))
             ident(result) operator(=) ident(lexer)operator(.)ident(analyse_text)operator(()string<delimiter(")content(abc)delimiter(")>operator(\))
-            ident(a)operator(()predefined(isinstance)operator(()ident(result)operator(,) predefined(float)operator(\)) keyword(and) float(0)float(.0) operator(<=) ident(result) operator(<=) float(1)float(.0)operator(\))
+            ident(a)operator(()predefined(isinstance)operator(()ident(result)operator(,) predefined(float)operator(\)) keyword(and) float(0.0) operator(<=) ident(result) operator(<=) float(1.0)operator(\))
 
             ident(inst) operator(=) ident(lexer)operator(()ident(opt1)operator(=)string<delimiter(")content(val1)delimiter(")>operator(,) ident(opt2)operator(=)string<delimiter(")content(val2)delimiter(")>operator(\))
             keyword(if) predefined(issubclass)operator(()ident(lexer)operator(,) ident(RegexLexer)operator(\))operator(:)
@@ -25561,9 +25561,9 @@ keyword(class) ident(UtilTest)operator(()ident(unittest)operator(.)ident(TestCas
     keyword(def) ident(test_analysator)operator(()pre_constant(self)operator(\))operator(:)
         keyword(class) ident(X)operator(()predefined(object)operator(\))operator(:)
             keyword(def) ident(analyse)operator(()ident(text)operator(\))operator(:)
-                keyword(return) float(0)float(.5)
+                keyword(return) float(0.5)
             ident(analyse) operator(=) ident(util)operator(.)ident(make_analysator)operator(()ident(analyse)operator(\))
-        pre_constant(self)operator(.)ident(assertEquals)operator(()ident(X)operator(.)ident(analyse)operator(()string<delimiter(')delimiter(')>operator(\))operator(,) float(0)float(.5)operator(\))
+        pre_constant(self)operator(.)ident(assertEquals)operator(()ident(X)operator(.)ident(analyse)operator(()string<delimiter(')delimiter(')>operator(\))operator(,) float(0.5)operator(\))
 
     keyword(def) ident(test_shebang_matches)operator(()pre_constant(self)operator(\))operator(:)
         pre_constant(self)operator(.)ident(assert_)operator(()ident(util)operator(.)ident(shebang_matches)operator(()string<delimiter(')content(#!/usr/bin/env python)delimiter(')>operator(,) string<modifier(r)delimiter(')content(python(2)content(\\.)content(\\d)content(\)?)delimiter(')>operator(\))operator(\))

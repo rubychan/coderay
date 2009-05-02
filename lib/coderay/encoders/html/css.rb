@@ -27,7 +27,7 @@ module Encoders
         1.upto(styles.size) do |offset|
           break if style = cl[styles[offset .. -1]]
         end
-        raise 'Style not found: %p' % [styles] if $DEBUG and style.empty?
+        $stderr.puts 'Style not found: %p' % [styles] if $DEBUG and style.empty?
         return style
       end
 

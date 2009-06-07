@@ -88,7 +88,7 @@ module Encoders
     DEFAULT_OPTIONS = {
       :tab_width => 8,
 
-      :level => :xhtml,
+      # :level => :xhtml,  # reserved for future use
       :css => :class,
 
       :style => :cycnus,

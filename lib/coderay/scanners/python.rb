@@ -129,6 +129,7 @@ module Scanners
             # TODO: keyword arguments
             kind = :ident if last_token_dot
             kind = check(/\(/) ? :ident : :keyword if kind == :old_keyword
+            kind = :ident if kind == :predefined && check(/=/)
           
           elsif scan(/@[a-zA-Z0-9_.]+[lL]?/)
             kind = :decorator

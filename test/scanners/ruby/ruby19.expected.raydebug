@@ -1,0 +1,4 @@
+ident(block)operator(.)ident(()operator(*)ident(arguments)operator(\))  comment(# bovi's example)
+
+reserved(def) operator(()ident(foo)operator(\))operator(.)ident(bar)
+reserved(end)

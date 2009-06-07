@@ -21,6 +21,10 @@ module Scanners
     file_extension 'rb'
 
     helper :patterns
+    
+    if not defined? EncodingError
+      EncodingError = Class.new Exception
+    end
 
   private
     def scan_tokens tokens, options
@@ -31,9 +35,10 @@ module Scanners
       state = :initial
       depth = nil
       inline_block_stack = []
-
+      unicode = string.respond_to?(:encoding) && string.encoding.name == 'UTF-8'
+      
       patterns = Patterns  # avoid constant lookup
-
+      
       until eos?
         match = nil
         kind = nil
@@ -161,7 +166,8 @@ module Scanners
           elsif state == :initial
 
             # IDENTS #
-            if match = scan(/#{patterns::METHOD_NAME}/o)
+            if match = scan(unicode ? /#{patterns::METHOD_NAME}/uo :
+                                      /#{patterns::METHOD_NAME}/o)
               if last_token_dot
                 kind = if match[/^[A-Z]/] and not match?(/\(/) then :constant else :ident end
               else
@@ -175,7 +181,7 @@ module Scanners
               ## experimental!
               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
             
-            elsif last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}/o)
+            elsif last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}|\(/o)
               kind = :ident
               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
 
@@ -281,13 +287,19 @@ module Scanners
 
             else
               kind = :error
-              match = getch
+              match = (scan(/./mu) rescue nil) || getch
+              if !unicode && match.size > 1
+                unicode = true
+                unscan
+                next
+              end
 
             end
 
           elsif state == :def_expected
             state = :initial
-            if match = scan(/(?>#{patterns::METHOD_NAME_EX})(?!\.|::)/o)
+            if match = scan(unicode ? /(?>#{patterns::METHOD_NAME_EX})(?!\.|::)/uo :
+                                      /(?>#{patterns::METHOD_NAME_EX})(?!\.|::)/o)
               kind = :method
             else
               next
@@ -327,7 +339,14 @@ module Scanners
             end
 
           elsif state == :alias_expected
-            if match = scan(/(#{patterns::METHOD_NAME_OR_SYMBOL})([ \t]+)(#{patterns::METHOD_NAME_OR_SYMBOL})/o)
+            begin
+              match = scan(unicode ? /(#{patterns::METHOD_NAME_OR_SYMBOL})([ \t]+)(#{patterns::METHOD_NAME_OR_SYMBOL})/uo :
+                                     /(#{patterns::METHOD_NAME_OR_SYMBOL})([ \t]+)(#{patterns::METHOD_NAME_OR_SYMBOL})/o)
+            rescue EncodingError
+              raise if $DEBUG
+            end
+            
+            if match
               tokens << [self[1], (self[1][0] == ?: ? :symbol : :method)]
               tokens << [self[2], :space]
               tokens << [self[3], (self[3][0] == ?: ? :symbol : :method)]

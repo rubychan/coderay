@@ -31,18 +31,18 @@ module Scanners
       add(RESERVED_WORDS, :reserved).
       add(PREDEFINED_CONSTANTS, :pre_constant)
 
-    IDENT = /[a-z_][\w_]*/i
+    IDENT = /[^\W\d]\w*/
 
     METHOD_NAME = / #{IDENT} [?!]? /ox
     METHOD_NAME_OPERATOR = /
       \*\*?           # multiplication and power
-      | [-+~]@?       # plus, minus, tilde with and without @
-      | [\/%&|^`]     # division, modulo or format strings, &and, |or, ^xor, `system`
+      | [-+~]@?       # plus, minus, tilde with and without at sign
+      | [\/%&|^`]     # division, modulo or format strings, and, or, xor, system
       | \[\]=?        # array getter and setter
       | << | >>       # append or shift left, shift right
       | <=?>? | >=?   # comparison, rocket operator
       | ===? | =~     # simple equality, case equality, match
-      | ![~=@]?       # negation with and without @, not-equal and not-match
+      | ![~=@]?       # negation with and without at sign, not-equal and not-match
     /ox
     METHOD_NAME_EX = / #{IDENT} (?:[?!]|=(?!>))? | #{METHOD_NAME_OPERATOR} /ox
     INSTANCE_VARIABLE = / @ #{IDENT} /ox

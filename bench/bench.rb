@@ -130,7 +130,7 @@ Benchmark.bm(20) do |bm|
 
   time_real = time.real / N
 
-  puts "\t%7.2f KB/sec (%d.%d KB)\t%0.2f KTok/sec" % [((@size / 1024.0) / time_real), @size / 1024, @size % 1024, ((@token_count / 1000.0) / time_real)]
+  puts "\t%7.2f KB/s (%d.%d KB)\t%0.2f KTok/s" % [((@size / 1024.0) / time_real), @size / 1024, @size % 1024, ((@token_count / 1000.0) / time_real)]
   puts $o if ARGV.include? '-o'
 
   if compare
@@ -155,7 +155,7 @@ Benchmark.bm(20) do |bm|
         end
         $file_created << ", test.syntax.#{format}"
       end
-      puts "\t%7.2f KB/sec" % ((@size / 1024.0) / time.real)
+      puts "\t%7.2f KB/s" % ((@size / 1024.0) / time.real)
     end
 
 =begin
@@ -168,7 +168,7 @@ Benchmark.bm(20) do |bm|
       end
       $file_created << ", test.silvercity.#{format}"
     end
-    puts "\t%7.2f KB/sec" % ((@size / 1024.0) / time.real)
+    puts "\t%7.2f KB/s" % ((@size / 1024.0) / time.real)
 =end
     time = bm.report('Pygments') do
       Dir.chdir(here) do
@@ -181,7 +181,7 @@ Benchmark.bm(20) do |bm|
       end
       #$file_created << ", test.silvercity.#{format}"
     end
-    puts "\t%7.2f KB/sec" % ((@size / 1024.0) / time.real)
+    puts "\t%7.2f KB/s" % ((@size / 1024.0) / time.real)
   end
 
 end

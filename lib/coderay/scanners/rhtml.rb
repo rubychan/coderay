@@ -9,6 +9,7 @@ module Scanners
 
     include Streamable
     register_for :rhtml
+    title 'HTML.ERB'
 
     ERB_RUBY_BLOCK = /
       <%(?!%)[=-]?

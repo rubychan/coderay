@@ -4,6 +4,7 @@ module Scanners
   class Diff < Scanner
     
     register_for :diff
+    title 'diff output'
     
     def scan_tokens tokens, options
       

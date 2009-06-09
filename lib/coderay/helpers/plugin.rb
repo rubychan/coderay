@@ -281,6 +281,14 @@ module Plugin
     plugin_host.register self, *ids
   end
 
+  def title title = nil
+    if title
+      @title = title.to_s
+    else
+      @title ||= name[/([^:]+)$/, 1]
+    end
+  end
+
   # The host for this Plugin class.
   def plugin_host host = nil
     if host and not host.is_a? PluginHost

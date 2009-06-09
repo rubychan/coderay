@@ -4,6 +4,7 @@ module Scanners
   class Plaintext < Scanner
 
     register_for :plaintext, :plain
+    title 'Plain text'
     
     include Streamable
 

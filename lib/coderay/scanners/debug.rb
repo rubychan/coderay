@@ -7,6 +7,7 @@ module Scanners
     include Streamable
     register_for :debug
     file_extension 'raydebug'
+    title 'CodeRay Token Dump'
 
   protected
     def scan_tokens tokens, options

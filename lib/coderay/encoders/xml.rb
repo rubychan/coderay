@@ -29,7 +29,7 @@ module Encoders
     end
 
     def finish options
-      # FIXME: broken!
+      @out = ''
       @doc.write @out, options[:pretty], options[:transitive], true
       @out
     end

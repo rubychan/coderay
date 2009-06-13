@@ -70,7 +70,7 @@ module Scanners
       [,;:()\[\]{}] |   # simple delimiters
       \/\/=? | \*\*=? | # special math
       [-+*\/%&|^]=? |   # ordinary math and binary logic
-      ~ |               # binary complement
+      [~`] |            # binary complement and inspection
       <<=? | >>=? | [<>=]=? | !=  # comparison and assignment
     /x
     
@@ -82,10 +82,16 @@ module Scanners
       h[delimiter] = / [^\\\n]+? (?= \\ | $ | #{Regexp.escape(delimiter)} ) /x
     end
     
+    DEF_NEW_STATE = WordList.new(:initial).
+      add(%w(def), :def_expected).
+      # add(%w(import from), :include_expected).
+      add(%w(class), :class_expected)
+    
     def scan_tokens tokens, options
       
       state = :initial
       string_delimiter = nil
+      string_raw = false
       import_clause = class_name_follows = last_token_dot = false
       unicode = string.respond_to?(:encoding) && string.encoding.name == 'UTF-8'
       
@@ -94,19 +100,41 @@ module Scanners
         kind = nil
         match = nil
         
-        case state
+        if state == :string
+          if scan(STRING_DELIMITER_REGEXP[string_delimiter])
+            tokens << [matched, :delimiter]
+            tokens << [:close, :string]
+            state = :initial
+            next
+          elsif string_delimiter.size == 3 && scan(/\n/)
+            kind = :content
+          elsif scan(STRING_CONTENT_REGEXP[string_delimiter])
+            kind = :content
+          elsif !string_raw && scan(/ \\ #{ESCAPE} /ox)
+            kind = :char
+          elsif scan(/ \\ #{UNICODE_ESCAPE} /ox)
+            kind = :char
+          elsif scan(/ \\ . /x)
+            kind = :content
+          elsif scan(/ \\ | $ /x)
+            tokens << [:close, :string]
+            kind = :error
+            state = :initial
+          else
+            raise_inspect "else case \" reached; %p not handled." % peek(1), tokens, state
+          end
         
-        when :initial
+        elsif match = scan(/ [ \t]+ | \\?\n /x)
+          tokens << [match, :space]
+          next
+        
+        elsif match = scan(/ \# [^\n]* /mx)
+          tokens << [match, :comment]
+          next
+        
+        elsif state == :initial
           
-          if match = scan(/ [ \t]+ | \\?\n /x)
-            tokens << [match, :space]
-            next
-          
-          elsif match = scan(/ \# [^\n]* /mx)
-            tokens << [match, :comment]
-            next
-          
-          elsif scan(/#{OPERATOR}/o)
+          if scan(/#{OPERATOR}/o)
             kind = :operator
           
           elsif match = scan(/(u?r?|b)?("""|"|'''|')/i)
@@ -122,14 +150,20 @@ module Scanners
             state = :string
             kind = :delimiter
           
-          elsif match = (unicode && scan(/[[:alpha:]_]\w*/ux)) ||
-                                    scan(/[[:alpha:]_]\w*/x)
+          # TODO: backticks
+          
+          elsif match = scan(unicode ? /[[:alpha:]_]\w*/ux : /[[:alpha:]_]\w*/x)
             kind = IDENT_KIND[match]
-            # TODO: handle class, def, from, import
+            # TODO: from, import
             # TODO: keyword arguments
             kind = :ident if last_token_dot
-            kind = check(/\(/) ? :ident : :keyword if kind == :old_keyword
-            kind = :ident if kind == :predefined && check(/=/)
+            if kind == :old_keyword
+              kind = check(/\(/) ? :ident : :keyword
+            elsif kind == :predefined && check(/ *=/)
+              kind = :ident
+            elsif kind == :keyword
+              state = DEF_NEW_STATE[match]
+            end
           
           elsif scan(/@[a-zA-Z0-9_.]+[lL]?/)
             kind = :decorator
@@ -162,51 +196,36 @@ module Scanners
             kind = :error
           
           end
-        
-        when :string
-          if scan(STRING_DELIMITER_REGEXP[string_delimiter])
-            tokens << [matched, :delimiter]
-            tokens << [:close, :string]
-            state = :initial
-            next
-          elsif string_delimiter.size == 3 && scan(/\n/)
-            kind = :content
-          elsif scan(STRING_CONTENT_REGEXP[string_delimiter])
-            kind = :content
-          elsif !string_raw && scan(/ \\ #{ESCAPE} /ox)
-            kind = :char
-          elsif scan(/ \\ #{UNICODE_ESCAPE} /ox)
-            kind = :char
-          elsif scan(/ \\ . /x)
-            kind = :content
-          elsif scan(/ \\ | $ /x)
-            tokens << [:close, :string]
-            kind = :error
-            state = :initial
+            
+        elsif state == :def_expected
+          state = :initial
+          if match = scan(unicode ? /[[:alpha:]_]\w*/ux : /[[:alpha:]_]\w*/x)
+            kind = :method
           else
-            raise_inspect "else case \" reached; %p not handled." % peek(1), tokens, state
+            next
           end
         
-        when :include_expected
-          if scan(/<[^>\n]+>?|"[^"\n\\]*(?:\\.[^"\n\\]*)*"?/)
-            kind = :include
-            state = :initial
-          
-          elsif match = scan(/\s+/)
-            kind = :space
-            state = :initial if match.index ?\n
-          
+        elsif state == :class_expected
+          state = :initial
+          if match = scan(unicode ? /[[:alpha:]_]\w*/ux : /[[:alpha:]_]\w*/x)
+            kind = :class
           else
-            getch
-            kind = :error
+            next
+          end
           
+        elsif state == :include_expected
+          state = :initial
+          if match = scan(unicode ? /[[:alpha:]_]\w*/ux : /[[:alpha:]_]\w*/x)
+            kind = :include
+          else
+            next
           end
           
         else
           raise_inspect 'Unknown state', tokens, state
-        
+          
         end
-
+        
         match ||= matched
         if $DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %

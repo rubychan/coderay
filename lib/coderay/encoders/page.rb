@@ -9,11 +9,10 @@ module Encoders
 
     register_for :page
 
-    DEFAULT_OPTIONS = HTML::DEFAULT_OPTIONS.merge({
+    DEFAULT_OPTIONS = HTML::DEFAULT_OPTIONS.merge \
       :css => :class,
       :wrap => :page,
       :line_numbers => :table
-    })
 
   end
 

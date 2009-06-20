@@ -142,10 +142,13 @@ module CodeRay
           end
         @out << out if defined?(@out) && @out
       end
-
+      
+      # Called for each text token ([text, kind]), where text is a String.
       def text_token text, kind
+        ''
       end
-
+      
+      # Called for each block (non-text) token ([action, kind]), where action is a Symbol.
       def block_token action, kind
         case action
         when :open
@@ -158,7 +161,23 @@ module CodeRay
           end_line kind
         else
           raise 'unknown block action: %p' % action
-        end
+        end.to_s
+      end
+      
+      # Called for each block token at the start of the block ([:open, kind]).
+      def open_token kind
+      end
+      
+      # Called for each block token end of the block ([:close, kind]).
+      def close_token kind
+      end
+      
+      # Called for each line token block at the start of the line ([:begin_line, kind]).
+      def begin_line kind
+      end
+      
+      # Called for each line token block at the end of the line ([:end_line, kind]).
+      def end_line kind
       end
 
       # Called with merged options after encoding starts.

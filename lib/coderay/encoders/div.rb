@@ -9,10 +9,9 @@ module Encoders
 
     register_for :div
 
-    DEFAULT_OPTIONS = HTML::DEFAULT_OPTIONS.merge({
+    DEFAULT_OPTIONS = HTML::DEFAULT_OPTIONS.merge \
       :css => :style,
-      :wrap => :div,
-    })
+      :wrap => :div
 
   end
 

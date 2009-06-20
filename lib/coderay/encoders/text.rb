@@ -14,16 +14,16 @@ module Encoders
 
   protected
     def setup options
-      @out = ''
+      super
       @sep = options[:separator]
     end
 
-    def token text, kind
-      @out << text + @sep if text.is_a? ::String
+    def text_token text, kind
+      text + @sep
     end
 
     def finish options
-      @out.chomp @sep
+      super.chomp @sep
     end
 
   end

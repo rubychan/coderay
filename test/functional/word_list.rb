@@ -4,7 +4,7 @@ require "coderay"
 class WordListTest < Test::Unit::TestCase
   
   include CodeRay
-
+  
   # define word arrays
   RESERVED_WORDS = %w[
     asm break case continue default do else

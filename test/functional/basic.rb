@@ -86,7 +86,7 @@ class BasicTest < Test::Unit::TestCase
         RedCloth.new('bc[ruby]. &').to_html
     end
   rescue LoadError
-    $stderr.puts 'RedCloth not found.'
+    $stderr.puts 'RedCloth not found - skipping for_redcloth tests.'
   end
   
   def test_list_of_encoders

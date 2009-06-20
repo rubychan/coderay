@@ -1,5 +1,3 @@
-require "stringio"
-
 module CodeRay
 
   # This module holds the Encoder class and its subclasses.
@@ -132,7 +130,7 @@ module CodeRay
       # By default, it calls text_token or block_token, depending on
       # whether +text+ is a String.
       def token text, kind
-        out =
+        encoded_token =
           if text.is_a? ::String
             text_token text, kind
           elsif text.is_a? ::Symbol
@@ -140,12 +138,15 @@ module CodeRay
           else
             raise 'Unknown token text type: %p' % text
           end
-        @out << out if defined?(@out) && @out
+        append_encoded_token_to_output encoded_token
+      end
+      
+      def append_encoded_token_to_output encoded_token
+        @out << encoded_token if encoded_token && defined?(@out) && @out
       end
       
       # Called for each text token ([text, kind]), where text is a String.
       def text_token text, kind
-        ''
       end
       
       # Called for each block (non-text) token ([action, kind]), where action is a Symbol.
@@ -161,7 +162,7 @@ module CodeRay
           end_line kind
         else
           raise 'unknown block action: %p' % action
-        end.to_s
+        end
       end
       
       # Called for each block token at the start of the block ([:open, kind]).

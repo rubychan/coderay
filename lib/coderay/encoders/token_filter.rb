@@ -1,7 +1,9 @@
 module CodeRay
 module Encoders
-
-  class TokenFilter < Encoder
+  
+  load :filter
+  
+  class TokenFilter < Filter
 
     include Streamable
     register_for :token_filter
@@ -19,12 +21,8 @@ module Encoders
     end
     
     def text_token text, kind
-      if @exclude.include?(kind) ||
-        @include != :all && !@include.include?(kind)
-        ''
-      else
-        text
-      end
+      [text, kind] if !@exclude.include?(kind) &&
+        (@include == :all || @include.include?(kind))
     end
 
   end

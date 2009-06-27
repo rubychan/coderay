@@ -15,7 +15,9 @@ module CodeRay
     def self.install
       gem 'RedCloth', '>= 4.0.3' rescue nil
       require 'redcloth'
-      raise 'CodeRay.for_redcloth needs RedCloth 4.0.3 or later.' unless RedCloth::VERSION.to_s >= '4.0.3'
+      unless RedCloth::VERSION.to_s >= '4.0.3'
+        raise 'CodeRay.for_redcloth needs RedCloth version 4.0.3 or later.'
+      end
       RedCloth::TextileDoc.send :include, ForRedCloth::TextileDoc
       RedCloth::Formatters::HTML.module_eval do
         def unescape(html)
@@ -30,6 +32,11 @@ module CodeRay
         undef_method :code, :bc_open, :bc_close, :escape_pre
         def code(opts)  # :nodoc:
           opts[:block] = true
+          if !opts[:lang] && RedCloth::VERSION.to_s >= '4.2.0'
+            # simulating pre-4.2 behavior
+            opts[:text].sub!(/\A\[(\w+)\]/, '')
+            opts[:lang] = $1
+          end
           if opts[:lang] && !filter_coderay
             require 'coderay'
             @in_bc ||= nil

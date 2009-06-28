@@ -3,10 +3,10 @@ module Encoders
   
   load :filter
   
-  class TokenFilter < Filter
+  class TokenClassFilter < Filter
 
     include Streamable
-    register_for :token_filter
+    register_for :token_class_filter
 
     DEFAULT_OPTIONS = {
       :exclude => [],

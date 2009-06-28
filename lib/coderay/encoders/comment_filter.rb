@@ -1,13 +1,13 @@
 module CodeRay
 module Encoders
   
-  load :token_filter
+  load :token_class_filter
   
-  class CommentFilter < TokenFilter
+  class CommentFilter < TokenClassFilter
     
     register_for :comment_filter
     
-    DEFAULT_OPTIONS = TokenFilter::DEFAULT_OPTIONS.merge \
+    DEFAULT_OPTIONS = TokenClassFilter::DEFAULT_OPTIONS.merge \
       :exclude => [:comment]
     
   end

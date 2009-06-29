@@ -35,6 +35,36 @@ class BasicTest < Test::Unit::TestCase
       CodeRay::Duo[:plain, :plain].highlight(RUBY_TEST_CODE, :stream => true))
   end
   
+  def test_comment_filter
+    assert_equal <<-EXPECTED, CodeRay.scan(<<-INPUT, :ruby).comment_filter.text
+#!/usr/bin/env ruby
+
+code
+
+more code  
+      EXPECTED
+#!/usr/bin/env ruby
+=begin
+A multi-line comment.
+=end
+code
+# A single-line comment.
+more code  # and another comment, in-line.
+      INPUT
+  end
+  
+  def test_lines_of_code
+    assert_equal 2, CodeRay.scan(<<-INPUT, :ruby).lines_of_code
+#!/usr/bin/env ruby
+=begin
+A multi-line comment.
+=end
+code
+# A single-line comment.
+more code  # and another comment, in-line.
+      INPUT
+  end
+  
   begin
     require 'rubygems'
     gem 'RedCloth', '>= 4.0.3' rescue nil

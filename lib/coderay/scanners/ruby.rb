@@ -175,7 +175,7 @@ module Scanners
               ## experimental!
               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
             
-            elsif last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}/o)
+            elsif last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}|\(/o)
               kind = :ident
               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
 

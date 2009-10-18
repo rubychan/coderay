@@ -29,21 +29,26 @@ module CodeRay
           }
           html.gsub(/&(?:amp|quot|[gl]t);/) { |entity| replacements[entity] }
         end
-        undef_method :code, :bc_open, :bc_close, :escape_pre
+        undef code, bc_open, bc_close, escape_pre
         def code(opts)  # :nodoc:
           opts[:block] = true
           if !opts[:lang] && RedCloth::VERSION.to_s >= '4.2.0'
             # simulating pre-4.2 behavior
-            opts[:text].sub!(/\A\[(\w+)\]/, '')
-            opts[:lang] = $1
+            if opts[:text].sub!(/\A\[(\w+)\]/, '')
+              if CodeRay::Scanners[$1].plugin_id == 'plaintext'
+                opts[:text] = $& + opts[:text]
+              else
+                opts[:lang] = $1
+              end
+            end
           end
           if opts[:lang] && !filter_coderay
             require 'coderay'
             @in_bc ||= nil
             format = @in_bc ? :div : :span
+            opts[:text] = unescape(opts[:text]) unless @in_bc
             highlighted_code = CodeRay.encode opts[:text], opts[:lang], format, :stream => true
             highlighted_code.sub!(/\A<(span|div)/) { |m| m + pba(@in_bc || opts) }
-            highlighted_code = unescape(highlighted_code) unless @in_bc
             highlighted_code
           else
             "<code#{pba(opts)}>#{opts[:text]}</code>"

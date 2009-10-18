@@ -77,7 +77,7 @@ module CodeRay
       :space => :NO_HIGHLIGHT,  # 'sp'
       :plain => :NO_HIGHLIGHT,
     }
-    ClassOfKind[:procedure] = ClassOfKind[:method] = ClassOfKind[:function]
+    ClassOfKind[:method] = ClassOfKind[:function]
     ClassOfKind[:open] = ClassOfKind[:close] = ClassOfKind[:delimiter]
     ClassOfKind[:nesting_delimiter] = ClassOfKind[:delimiter]
     ClassOfKind[:escape] = ClassOfKind[:delimiter]

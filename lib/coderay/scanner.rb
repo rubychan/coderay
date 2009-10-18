@@ -43,6 +43,7 @@ module CodeRay
     # You can also use +map+, +any?+, +find+ and even +sort_by+,
     # if you want.
     class Scanner < StringScanner
+      
       extend Plugin
       plugin_host Scanners
 
@@ -55,6 +56,8 @@ module CodeRay
       #
       # Define @default_options for subclasses.
       DEFAULT_OPTIONS = { :stream => false }
+      
+      KINDS_NOT_LOC = [:comment, :doctype]
 
       class << self
 
@@ -128,6 +131,7 @@ module CodeRay
             "but :stream is #{@options[:stream]}" if block_given?
           @tokens ||= Tokens.new
         end
+        @tokens.scanner = self
 
         setup
       end

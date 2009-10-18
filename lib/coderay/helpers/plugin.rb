@@ -176,7 +176,7 @@ module PluginHost
   def inspect
     map = plugin_hash.dup
     map.each do |id, plugin|
-      map[id] = plugin.to_s[/(?>[\w_]+)$/]
+      map[id] = plugin.to_s[/(?>\w+)$/]
     end
     "#{name}[#{host_id}]#{map.inspect}"
   end
@@ -325,7 +325,7 @@ module Plugin
 
   # Returns the pulgin id used by the engine.
   def plugin_id
-    name[/[\w_]+$/].downcase
+    name[/\w+$/].downcase
   end
 
 end

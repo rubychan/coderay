@@ -67,4 +67,13 @@ class WordListTest < Test::Unit::TestCase
     assert_equal :reserved, list['FooBar']
   end
 
+  def test_dup
+    list = WordList.new(:ident).add(['foobar'], :reserved)
+    assert_equal :reserved, list['foobar']
+    list2 = list.dup
+    list2.add(%w[foobar], :keyword)
+    assert_equal :keyword, list2['foobar']
+    assert_equal :reserved, list['foobar']
+  end
+
 end

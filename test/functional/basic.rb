@@ -63,6 +63,31 @@ code
 # A single-line comment.
 more code  # and another comment, in-line.
       INPUT
+    rHTML = <<-RHTML
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title><%= controller.controller_name.titleize %>: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'scaffold' %>
+</head>
+<body>
+
+<p style="color: green"><%= flash[:notice] %></p>
+
+<div id="main">
+  <%= yield %>
+</div>
+
+</body>
+</html>
+      RHTML
+    assert_equal 0, CodeRay.scan(rHTML, :html).lines_of_code
+    assert_equal 0, CodeRay.scan(rHTML, :php).lines_of_code
+    assert_equal 0, CodeRay.scan(rHTML, :yaml).lines_of_code
+    assert_equal 4, CodeRay.scan(rHTML, :rhtml).lines_of_code
   end
   
   begin
@@ -73,7 +98,7 @@ more code  # and another comment, in-line.
     def test_for_redcloth
       require 'rubygems'
       require 'coderay/for_redcloth'
-      assert_equal "<p><span lang=\"ruby\" class=\"CodeRay\">puts <span style=\"background-color:#fff0f0;color:#D20\"><span style=\"color:#710\">\"</span><span style=\"\">Hello, World!</span><span style=\"color:#710\">\"</span></span></span></p>",
+      assert_equal "<p><span lang=\"ruby\" class=\"CodeRay\">puts <span style=\"background-color:#fff0f0;color:#D20\"><span style=\"color:#710\">&quot;</span><span style=\"\">Hello, World!</span><span style=\"color:#710\">&quot;</span></span></span></p>",
         RedCloth.new('@[ruby]puts "Hello, World!"@').to_html
       assert_equal <<-BLOCKCODE.chomp,
 <div lang="ruby" class="CodeRay">
@@ -114,6 +139,28 @@ more code  # and another comment, in-line.
 </div>
         BLOCKCODE
         RedCloth.new('bc[ruby]. &').to_html
+    end
+    
+    def test_for_redcloth_escapes2
+      require 'rubygems'
+      require 'coderay/for_redcloth'
+      assert_equal "<p><span lang=\"c\" class=\"CodeRay\"><span style=\"color:#579\">#include</span> <span style=\"color:#B44;font-weight:bold\">&lt;test.h&gt;</span></span></p>",
+        RedCloth.new('@[c]#include <test.h>@').to_html
+    end
+    
+    # See http://jgarber.lighthouseapp.com/projects/13054/tickets/124-code-markup-does-not-allow-brackets.
+    def test_for_redcloth_false_positive
+      require 'rubygems'
+      require 'coderay/for_redcloth'
+      assert_equal '<p><code>[project]_dff.skjd</code></p>',
+        RedCloth.new('@[project]_dff.skjd@').to_html
+      # false positive, but expected behavior / known issue
+      assert_equal "<p><span lang=\"ruby\" class=\"CodeRay\">_dff.skjd</span></p>",
+        RedCloth.new('@[ruby]_dff.skjd@').to_html
+      assert_equal <<-BLOCKCODE.chomp,
+<pre><code>[project]_dff.skjd</code></pre>
+        BLOCKCODE
+        RedCloth.new('bc. [project]_dff.skjd').to_html
     end
   rescue LoadError
     $stderr.puts 'RedCloth not found - skipping for_redcloth tests.'

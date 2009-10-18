@@ -21,8 +21,9 @@ module Encoders
     end
     
     def text_token text, kind
-      [text, kind] if !@exclude.include?(kind) &&
-        (@include == :all || @include.include?(kind))
+      [text, kind] if \
+         (@include == :all || @include.include?(kind)) &&
+        !(@exclude == :all || @exclude.include?(kind))
     end
 
   end

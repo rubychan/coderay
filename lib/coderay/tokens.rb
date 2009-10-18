@@ -46,47 +46,10 @@ module CodeRay
   #
   # Tokens' subclass TokenStream allows streaming to save memory.
   class Tokens < Array
-
-    class << self
-
-      # Convert the token to a string.
-      #
-      # This format is used by Encoders.Tokens.
-      # It can be reverted using read_token.
-      def write_token text, type
-        if text.is_a? String
-          "#{type}\t#{escape(text)}\n"
-        else
-          ":#{text}\t#{type}\t\n"
-        end
-      end
-
-      # Read a token from the string.
-      #
-      # Inversion of write_token.
-      #
-      # TODO Test this!
-      def read_token token
-        type, text = token.split("\t", 2)
-        if type[0] == ?:
-          [text.to_sym, type[1..-1].to_sym]
-        else
-          [type.to_sym, unescape(text)]
-        end
-      end
-
-      # Escapes a string for use in write_token.
-      def escape text
-        text.gsub(/[\n\\]/, '\\\\\&')
-      end
-
-      # Unescapes a string created by escape.
-      def unescape text
-        text.gsub(/\\[\n\\]/) { |m| m[1,1] }
-      end
-
-    end
-
+    
+    # The Scanner instance that created the tokens.
+    attr_accessor :scanner
+    
     # Whether the object is a TokenStream.
     #
     # Returns false.
@@ -145,7 +108,6 @@ module CodeRay
     def to_s options = {}
       encode :text, options
     end
-
 
     # Redirects unknown methods to encoder calls.
     #
@@ -230,6 +192,8 @@ module CodeRay
       replace fix
     end
     
+    # TODO: Scanner#split_into_lines
+    # 
     # Makes sure that:
     # - newlines are single tokens
     #   (which means all other token are single-line)
@@ -380,8 +344,48 @@ module CodeRay
 
   end
 
-  
-  # Token name abbreviations
-  require 'coderay/token_classes'
+end
 
+if $0 == __FILE__
+  $VERBOSE = true
+  $: << File.join(File.dirname(__FILE__), '..')
+  eval DATA.read, nil, $0, __LINE__ + 4
+end
+
+__END__
+require 'test/unit'
+
+class TokensTest < Test::Unit::TestCase
+  
+  def test_creation
+    assert CodeRay::Tokens < Array
+    tokens = nil
+    assert_nothing_raised do
+      tokens = CodeRay::Tokens.new
+    end
+    assert_kind_of Array, tokens
+  end
+  
+  def test_adding_tokens
+    tokens = CodeRay::Tokens.new
+    assert_nothing_raised do
+      tokens << ['string', :type]
+      tokens << ['()', :operator]
+    end
+    assert_equal tokens.size, 2
+  end
+  
+  def test_dump_undump
+    tokens = CodeRay::Tokens.new
+    assert_nothing_raised do
+      tokens << ['string', :type]
+      tokens << ['()', :operator]
+    end
+    tokens2 = nil
+    assert_nothing_raised do
+      tokens2 = tokens.dump.undump
+    end
+    assert_equal tokens, tokens2
+  end
+  
 end

@@ -193,7 +193,9 @@ module CodeRay
       # TokenStream or a Tokens object.
       if RUBY_VERSION >= '1.9'
         def compile tokens, options
-          tokens.each { |text, kind| token text, kind }  # FIXME for Ruby 1.9?
+          for text, kind in tokens
+            token text, kind
+          end
         end
       else
         def compile tokens, options

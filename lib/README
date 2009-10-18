@@ -88,10 +88,11 @@ Please report errors in this documentation to <murphy rubychan de>.
 * Jeremy Hinegardner for finding the shebang-on-empty-file bug in FileType.
 * Charles Oliver Nutter and Yehuda Katz for helping me benchmark CodeRay on JRuby.
 * Andreas Neuhaus for pointing out a markup bug in coderay/for_redcloth.
+* 0xf30fc7 for the FileType patch concerning Delphi file extensions.
 * The folks at redmine.org - thank you for using and fixing CodeRay!
 * matz and all Ruby gods and gurus
 * The inventors of: the computer, the internet, the true color display, HTML &
-  CSS, VIM, RUBY, pizza, microwaves, guitars, scouting, programming, anime, 
+  CSS, VIM, Ruby, pizza, microwaves, guitars, scouting, programming, anime, 
   manga, coke and green ice tea.
 
 Where would we be without all those people?
@@ -107,7 +108,7 @@ Where would we be without all those people?
 * Subversion[http://subversion.tigris.org/]
 * Redmine[http://redmine.org/]
 * Firefox[http://www.mozilla.org/products/firefox/],
-  Firebug[http://getfirebug.com/], and
+  Firebug[http://getfirebug.com/], Safari[http://www.apple.com/safari/], and
   Thunderbird[http://www.mozilla.org/products/thunderbird/]
 * RubyGems[http://docs.rubygems.org/] and Rake[http://rake.rubyforge.org/]
 * TortoiseSVN[http://tortoisesvn.tigris.org/] using Apache via

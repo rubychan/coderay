@@ -135,6 +135,7 @@ module CodeRay
   VERSION = '0.9.0'
 
   require 'coderay/tokens'
+  require 'coderay/token_classes'
   require 'coderay/scanner'
   require 'coderay/encoder'
   require 'coderay/duo'

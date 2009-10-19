@@ -9,25 +9,17 @@ module Scanners
     register_for :groovy
     
     # TODO: Check this!
-    KEYWORDS = Java::KEYWORDS + %w[
+    GROOVY_KEYWORDS = %w[
       as assert def in
     ]
     KEYWORDS_EXPECTING_VALUE = WordList.new.add %w[
       case instanceof new return throw typeof while as assert in
     ]
+    GROOVY_MAGIC_VARIABLES = %w[ it ]
     
-    MAGIC_VARIABLES = Java::MAGIC_VARIABLES + %w[ it ]
-    # DIRECTIVES = %w[
-    #   abstract extends final implements native private protected public
-    #   static strictfp synchronized threadsafe throws transient volatile
-    # ]
-    
-    IDENT_KIND = WordList.new(:ident).
-      add(KEYWORDS, :keyword).
-      add(MAGIC_VARIABLES, :local_variable).
-      add(TYPES, :type).
-      add(BuiltinTypes::List, :pre_type).
-      add(DIRECTIVES, :directive)
+    IDENT_KIND = Java::IDENT_KIND.dup.
+      add(GROOVY_KEYWORDS, :keyword).
+      add(GROOVY_MAGIC_VARIABLES, :local_variable)
     
     ESCAPE = / [bfnrtv$\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
     UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} /x  # no 4-byte unicode chars? U[a-fA-F0-9]{8}

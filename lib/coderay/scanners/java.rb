@@ -7,30 +7,33 @@ module Scanners
     register_for :java
     helper :builtin_types
     
-    # TODO: Check this!
+    # http://java.sun.com/docs/books/tutorial/java/nutsandbolts/_keywords.html
     KEYWORDS = %w[
-      break case catch continue default do else
-      false finally for if instanceof new null
-      return switch throw true try typeof while
-      debugger export import package
+      assert break case catch continue default do else
+      finally for if instanceof import new package
+      return switch throw try typeof while
+      debugger export
     ]
-    
+    RESERVED = %w[ const goto ]
+    CONSTANTS = %w[ false null true ]
     MAGIC_VARIABLES = %w[ this super ]
     TYPES = %w[
-      boolean byte char class interface double enum float String int long short void
-    ] << '[]'
+      boolean byte char class double enum float int interface long
+      short void
+    ] << '[]'  # String[] should be highlighted as a type
     DIRECTIVES = %w[
       abstract extends final implements native private protected public
-      static strictfp synchronized threadsafe throws transient volatile
+      static strictfp synchronized throws transient volatile
     ]
-    
-    # Reserved for future use.
     
     IDENT_KIND = WordList.new(:ident).
       add(KEYWORDS, :keyword).
+      add(RESERVED, :reserved).
+      add(CONSTANTS, :pre_constant).
       add(MAGIC_VARIABLES, :local_variable).
       add(TYPES, :type).
       add(BuiltinTypes::List, :pre_type).
+      add(BuiltinTypes::List.select { |builtin| builtin[/(Error|Exception)$/] }, :exception).
       add(DIRECTIVES, :directive)
 
     ESCAPE = / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x

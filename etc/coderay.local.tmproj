@@ -5,8 +5,6 @@
 	<key>documents</key>
 	<array>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -21,12 +19,6 @@
 			<string>!.*/(\.[^/]*|CVS|_darcs|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
 			<key>sourceDirectory</key>
 			<string>../bin</string>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>../diff</string>
-			<key>lastUsed</key>
-			<date>2009-10-03T23:23:35Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -77,6 +69,8 @@
 			<string>../rake_helpers</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>rake_tasks</string>
 			<key>regexFolderFilter</key>
@@ -88,17 +82,21 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2009-10-04T04:14:10Z</date>
+			<date>2009-02-17T22:35:06Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>../diff</string>
+			<key>lastUsed</key>
+			<date>2009-02-20T17:38:28Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../TODO</string>
 			<key>lastUsed</key>
-			<date>2009-10-03T23:52:27Z</date>
+			<date>2008-11-06T18:26:56Z</date>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>functional</string>
 			<key>regexFolderFilter</key>
@@ -110,7 +108,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2009-10-13T06:53:20Z</date>
+			<date>2009-02-16T04:31:36Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -122,31 +120,16 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2009-06-07T15:13:02Z</date>
+			<date>2009-02-16T04:36:24Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>200</integer>
 	<key>metaData</key>
-	<dict>
-		<key>../test/scanners/suite.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>4</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-	</dict>
+	<dict/>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{210, 4}, {1070, 768}}</string>
+	<string>{{0, 4}, {1070, 774}}</string>
 </dict>
 </plist>

@@ -1,0 +1,12 @@
+reserved(template)operator(<) reserved(typename) ident(T) operator(>)
+ident(T) ident(plus)operator(() directive(const) operator(&)ident(T) ident(x) operator(\))
+operator({)
+  reserved(return) operator(-)ident(x)operator(;)
+operator(})
+
+reserved(template)operator(<) reserved(typename) ident(T) operator(>)
+reserved(class) class(image)
+operator({)
+directive(public)operator(:)
+  ident(image)operator(() directive(const) ident(image)operator(<) ident(T) operator(>) operator(&)ident(_image) operator(\)) operator({})
+operator(};)

@@ -2,7 +2,9 @@ module CodeRay
 module Scanners
 
   map \
-    :cpp => :c,
+    :h => :c,
+    :cplusplus => :cpp,
+    :'c++' => :cpp,
     :ecma => :java_script,
     :ecmascript => :java_script,
     :ecma_script => :java_script,

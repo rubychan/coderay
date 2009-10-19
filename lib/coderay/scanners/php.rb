@@ -1,11 +1,3 @@
-class XRegexp
-  def |(other)
-    Regexp.union(self, other)
-  end
-  def +(other)
-    /#{self}#{other}/
-  end
-end
 module CodeRay
 module Scanners
   
@@ -16,6 +8,8 @@ module Scanners
     
     register_for :php
     file_extension 'php'
+    
+    KINDS_NOT_LOC = HTML::KINDS_NOT_LOC
     
     def setup
       @html_scanner = CodeRay.scanner :html, :tokens => @tokens, :keep_tokens => true, :keep_state => true
@@ -188,6 +182,8 @@ module Scanners
         \?>
       !xi
       
+      HTML_INDICATOR = /<!DOCTYPE html|<(?:html|body|div|p)[> ]/i
+      
       IDENTIFIER = /[a-z_\x80-\xFF][a-z0-9_\x80-\xFF]*/i
       VARIABLE = /\$#{IDENTIFIER}/
       
@@ -209,11 +205,13 @@ module Scanners
       
       states = [:initial]
       if match?(RE::PHP_START) ||  # starts with <?
-      (match?(/\s*<(?i:\w|\?xml)/) && exist?(RE::PHP_START))  # starts with HTML tag and contains <?
-        # start with HTML
+       (match?(/\s*<(?i:\w|\?xml)/) && exist?(RE::PHP_START)) || # starts with HTML tag and contains <?
+       exist?(RE::HTML_INDICATOR)
+        # is PHP inside HTML, so start with HTML
       else
         states << :php
       end
+      
       # heredocdelim = nil
       delimiter = nil
       

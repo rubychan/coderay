@@ -8,8 +8,13 @@ module Scanners
     register_for :json
     file_extension 'json'
     
+    KINDS_NOT_LOC = [
+      :float, :char, :content, :delimiter,
+      :error, :integer, :operator, :value,
+    ]
+    
     CONSTANTS = %w( true false null )
-    IDENT_KIND = WordList.new(:key).add(CONSTANTS, :reserved)
+    IDENT_KIND = WordList.new(:key).add(CONSTANTS, :value)
     
     ESCAPE = / [bfnrt\\"\/] /x
     UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} /x

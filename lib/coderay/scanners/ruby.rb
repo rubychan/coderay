@@ -130,14 +130,14 @@ module Scanners
           if match = scan(/[ \t\f]+/)
             kind = :space
             match << scan(/\s*/) unless eos? || heredocs
-            value_expected = true if match.index(?\n) # FIXME not quite true
+            value_expected = true if match.index(?\n)
             tokens << [match, kind]
             next
             
           elsif match = scan(/\\?\n/)
             kind = :space
             if match == "\n"
-              value_expected = true  # FIXME not quite true
+              value_expected = true
               state = :initial if state == :undef_comma_expected
             end
             if heredocs
@@ -159,7 +159,6 @@ module Scanners
           elsif match = scan(/\#.*/) or
             ( bol? and match = scan(/#{patterns::RUBYDOC_OR_DATA}/o) )
               kind = :comment
-              value_expected = true
               tokens << [match, kind]
               next
 
@@ -176,9 +175,9 @@ module Scanners
                   kind = :constant
                 elsif kind == :reserved
                   state = patterns::DEF_NEW_STATE[match]
+                  value_expected = :set if patterns::VALUE_EXPECTING_KEYWORDS[match]
                 end
               end
-              ## experimental!
               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
             
             elsif last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}|\(/o)
@@ -186,7 +185,6 @@ module Scanners
               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
 
             # OPERATORS #
-            # TODO: match (), [], {} as one single operator
             elsif not last_token_dot and match = scan(/ \.\.\.? | (?:\.|::)() | [,\(\)\[\]\{\}] | ==?=? /x)
               if match !~ / [.\)\]\}] /x or match =~ /\.\.\.?/
                 value_expected = :set
@@ -289,6 +287,7 @@ module Scanners
               kind = :error
               match = (scan(/./mu) rescue nil) || getch
               if !unicode && match.size > 1
+                # warn 'Switchig to unicode mode: %p' % ['ä'[/#{patterns::METHOD_NAME}/uo]]
                 unicode = true
                 unscan
                 next
@@ -298,6 +297,10 @@ module Scanners
 
           elsif state == :def_expected
             state = :initial
+            if scan(/self\./)
+              tokens << ['self', :pre_constant]
+              tokens << ['.', :operator]
+            end
             if match = scan(unicode ? /(?>#{patterns::METHOD_NAME_EX})(?!\.|::)/uo :
                                       /(?>#{patterns::METHOD_NAME_EX})(?!\.|::)/o)
               kind = :method

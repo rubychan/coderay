@@ -1,3 +1,4 @@
+# encoding: utf-8
 module CodeRay
 module Scanners
 
@@ -31,7 +32,7 @@ module Scanners
       add(RESERVED_WORDS, :reserved).
       add(PREDEFINED_CONSTANTS, :pre_constant)
 
-    IDENT = /[^\W\d]\w*/
+    IDENT = 'ä'[/[[:alpha:]]/] == 'ä' ? /[[:alpha:]_][[:alnum:]_]*/ : /[^\W\d]\w*/
 
     METHOD_NAME = / #{IDENT} [?!]? /ox
     METHOD_NAME_OPERATOR = /
@@ -59,7 +60,7 @@ module Scanners
     QUOTE_TO_TYPE.default = :string
 
     REGEXP_MODIFIERS = /[mixounse]*/
-    REGEXP_SYMBOLS = /[|?*+?(){}\[\].^$]/
+    REGEXP_SYMBOLS = /[|?*+(){}\[\].^$]/
 
     DECIMAL = /\d+(?:_\d+)*/
     OCTAL = /0_?[0-7]+(?:_[0-7]+)*/
@@ -141,14 +142,19 @@ module Scanners
       | #{CHARACTER}
       )
     /x
+    VALUE_EXPECTING_KEYWORDS = WordList.new.add(%w[
+      and end in or unless begin
+      defined? ensure redo super until
+      break do next rescue then
+      when case else for retry
+      while elsif if not return
+      yield
+    ])
 
     RUBYDOC_OR_DATA = / #{RUBYDOC} | #{DATA} /xo
 
     RDOC_DATA_START = / ^=begin (?!\S) | ^__END__$ /x
 
-    # FIXME: \s and = are only a workaround, they are still allowed
-    # as delimiters.
-    FANCY_START_SAVE = / % ( [qQwWxsr] | (?![a-zA-Z0-9\s=]) ) ([^a-zA-Z0-9]) /mx
     FANCY_START_CORRECT = / % ( [qQwWxsr] | (?![a-zA-Z0-9]) ) ([^a-zA-Z0-9]) /mx
 
     FancyStringType = {
@@ -174,15 +180,15 @@ module Scanners
       CLOSING_PAREN.each { |k,v| k.freeze; v.freeze }  # debug, if I try to change it with <<
       OPENING_PAREN = CLOSING_PAREN.invert
 
-      STRING_PATTERN = Hash.new { |h, k|
+      STRING_PATTERN = Hash.new do |h, k|
         delim, interpreted = *k
         delim_pattern = Regexp.escape(delim)
         if closing_paren = CLOSING_PAREN[delim]
           delim_pattern = delim_pattern[0..-1] if defined? JRUBY_VERSION  # JRuby fix
           delim_pattern << Regexp.escape(closing_paren)
         end
-
-
+        delim_pattern << '\\\\' unless delim == '\\'
+        
         special_escapes =
           case interpreted
           when :regexp_symbols
@@ -190,16 +196,16 @@ module Scanners
           when :words
             '| \s'
           end
-
+        
         h[k] =
           if interpreted and not delim == '#'
-            / (?= [#{delim_pattern}\\] | \# [{$@] #{special_escapes} ) /mx
+            / (?= [#{delim_pattern}] | \# [{$@] #{special_escapes} ) /mx
           else
-            / (?= [#{delim_pattern}\\] #{special_escapes} ) /mx
+            / (?= [#{delim_pattern}] #{special_escapes} ) /mx
           end
-      }
+      end
 
-      HEREDOC_PATTERN = Hash.new { |h, k|
+      HEREDOC_PATTERN = Hash.new do |h, k|
         delim, interpreted, indented = *k
         delim_pattern = Regexp.escape(delim.dup)
         delim_pattern = / \n #{ '(?>[\ \t]*)' if indented } #{ Regexp.new delim_pattern } $ /x
@@ -209,12 +215,12 @@ module Scanners
           else
             / (?= #{delim_pattern}() | \\ ) /mx
           end
-      }
+      end
 
       def initialize kind, interpreted, delim, heredoc = false
         if heredoc
           pattern = HEREDOC_PATTERN[ [delim, interpreted, heredoc == :indented] ]
-          delim  = nil
+          delim = nil
         else
           pattern = STRING_PATTERN[ [delim, interpreted] ]
           if paren = CLOSING_PAREN[delim]

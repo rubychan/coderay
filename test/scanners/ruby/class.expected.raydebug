@@ -8,7 +8,7 @@ ident(include) constant(Test)operator(::)constant(Unit)
 
 reserved(class) class(CodeRaySuite) operator(<) constant(TestCase)
 	
-	reserved(def) pre_constant(self)operator(.)ident(dir) operator(&)ident(block)
+	reserved(def) pre_constant(self)operator(.)method(dir) operator(&)ident(block)
 		instance_variable(@dir) operator(||=) constant(File)operator(.)ident(dirname)operator(()instance_variable(@file)operator(\))
 		reserved(if) ident(block)
 			constant(Dir)operator(.)ident(chdir) instance_variable(@dir)operator(,) operator(&)ident(block)

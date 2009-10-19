@@ -187,7 +187,7 @@ reserved(class) class(Set)
   ident(include) constant(Enumerable)
 
   comment(# Creates a new set containing the given objects.)
-  reserved(def) pre_constant(self)operator(.)ident([])operator(()operator(*)ident(ary)operator(\))
+  reserved(def) pre_constant(self)operator(.)method([])operator(()operator(*)ident(ary)operator(\))
     ident(new)operator(()ident(ary)operator(\))
   reserved(end)
 
@@ -1726,7 +1726,7 @@ comment(=begin
 	reserved(class) class(Parser)
 		reserved(class) class(Attribute)
 			comment(# flatten and use only one empty_arg)
-			reserved(def) pre_constant(self)operator(.)ident(create) ident(attr)
+			reserved(def) pre_constant(self)operator(.)method(create) ident(attr)
 				ident(attr) operator(=) ident(flatten) ident(attr)
 				reserved(return) class_variable(@@empty_attr) reserved(if) ident(attr)operator(.)ident(empty?)
 				ident(new) ident(attr)
@@ -1735,7 +1735,7 @@ comment(=begin
 			ident(private_class_method) symbol(:new)
 
 			comment(# remove leading and trailing whitespace; concat lines)
-			reserved(def) pre_constant(self)operator(.)ident(flatten) ident(attr)
+			reserved(def) pre_constant(self)operator(.)method(flatten) ident(attr)
 				ident(attr)operator(.)ident(strip)operator(.)ident(gsub)operator(()regexp<delimiter(/)char(\\n)delimiter(/)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
 				comment(# -> ^ and $ can only match at begin and end now)
 			reserved(end)
@@ -1763,7 +1763,7 @@ comment(=begin
 				)char(\\s)content(*
 			)delimiter(/)modifier(x)>
 
-			reserved(def) pre_constant(self)operator(.)ident(parse) ident(source)
+			reserved(def) pre_constant(self)operator(.)method(parse) ident(source)
 				ident(source) operator(=) ident(source)operator(.)ident(dup)
 				comment(# empty_tag: the tag looks like [... /])
 				comment(# slice!: this deletes the \\s*/] at the end)
@@ -1789,15 +1789,15 @@ comment(=begin
 				reserved(return) ident(empty_tag)operator(,) ident(attr)
 			reserved(end)
 
-			reserved(def) pre_constant(self)operator(.)ident(unescape_char) ident(esc)
+			reserved(def) pre_constant(self)operator(.)method(unescape_char) ident(esc)
 				ident(esc)operator([)integer(1)operator(])
 			reserved(end)
 
-			reserved(def) pre_constant(self)operator(.)ident(unquote) ident(qt)
+			reserved(def) pre_constant(self)operator(.)method(unquote) ident(qt)
 				ident(qt)operator([)integer(1)operator(..)integer(-1)operator(])operator(.)ident(chomp)operator(()string<delimiter(')content(")delimiter(')>operator(\))operator(.)ident(gsub)operator(()regexp<delimiter(/)char(\\\\)content(.)delimiter(/)>operator(\)) operator({) operator(|)ident(esc)operator(|) ident(unescape_char) ident(esc) operator(})
 			reserved(end)
 
-			reserved(def) pre_constant(self)operator(.)ident(unescape) ident(str)
+			reserved(def) pre_constant(self)operator(.)method(unescape) ident(str)
 				ident(str)operator(.)ident(gsub)operator(()regexp<delimiter(/)content( ()char(\\\\)content(.\) | (" [^")char(\\\\)content(]* (?:)char(\\\\)content(.[^")char(\\\\)content(]*\)* "?\) )delimiter(/)modifier(x)>operator(\)) operator({)
 					reserved(if) global_variable($1)
 						ident(unescape_char) global_variable($1)

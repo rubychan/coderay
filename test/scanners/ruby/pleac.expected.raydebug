@@ -4293,7 +4293,7 @@ reserved(end)
 comment(# @@PLEAC@@_12.1)
 comment(# a module exports all of its functions)
 reserved(module) class(Your_Module)
-    reserved(def) pre_constant(self)operator(.)ident(function)
+    reserved(def) pre_constant(self)operator(.)method(function)
         comment(# this would be called as Your_Module.function)
     reserved(end)
     
@@ -4315,11 +4315,11 @@ reserved(module) class(Alpha)
     instance_variable(@aa) operator(=) integer(10)
     instance_variable(@bb) operator(=) integer(11)
     
-    reserved(def) pre_constant(self)operator(.)ident(put_aa)
+    reserved(def) pre_constant(self)operator(.)method(put_aa)
         ident(puts) instance_variable(@aa)
     reserved(end)
     
-    reserved(def) pre_constant(self)operator(.)ident(bb)operator(=)operator(()ident(val)operator(\))
+    reserved(def) pre_constant(self)operator(.)method(bb=)operator(()ident(val)operator(\))
         instance_variable(@bb) operator(=) ident(val)
     reserved(end)
 reserved(end)
@@ -4348,7 +4348,7 @@ reserved(BEGIN) operator({)
 operator(})
 
 reserved(module) class(Logger)
-    reserved(def) pre_constant(self)operator(.)ident(logmsg)operator(()ident(msg)operator(\))
+    reserved(def) pre_constant(self)operator(.)method(logmsg)operator(()ident(msg)operator(\))
         global_variable($LF)operator(.)ident(puts) ident(msg)
     reserved(end)
 
@@ -4395,14 +4395,14 @@ comment(# no equivalent in ruby)
 
 comment(# @@PLEAC@@_12.11)
 reserved(module) class(FineTime)
-    reserved(def) pre_constant(self)operator(.)ident(time)
+    reserved(def) pre_constant(self)operator(.)method(time)
         comment(# to be defined later)
     reserved(end)
 reserved(end)
 
 
 reserved(module) class(FineTime)
-    reserved(def) pre_constant(self)operator(.)ident(time)
+    reserved(def) pre_constant(self)operator(.)method(time)
         string<delimiter(")content(its a fine time)delimiter(")>
     reserved(end)
 reserved(end)

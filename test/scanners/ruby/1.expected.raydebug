@@ -123,7 +123,7 @@ reserved(class) class(Date)
     string<delimiter(')content(nzt)delimiter(')> operator(=)operator(>) integer(12)operator(*)integer(3600)operator(,) string<delimiter(')content(nzst)delimiter(')>operator(=)operator(>) integer(12)operator(*)integer(3600)operator(,) string<delimiter(')content(nzdt)delimiter(')>operator(=)operator(>) integer(13)operator(*)integer(3600)operator(,) string<delimiter(')content(idle)delimiter(')>operator(=)operator(>) integer(12)operator(*)integer(3600)
   operator(})
 
-  reserved(def) pre_constant(self)operator(.)ident(__strptime)operator(()ident(str)operator(,) ident(fmt)operator(,) ident(elem)operator(\))
+  reserved(def) pre_constant(self)operator(.)method(__strptime)operator(()ident(str)operator(,) ident(fmt)operator(,) ident(elem)operator(\))
     ident(fmt)operator(.)ident(scan)operator(()regexp<delimiter(/)content(%[EO]?.|.)delimiter(/)modifier(o)>operator(\)) reserved(do) operator(|)ident(c)operator(|)
       ident(cc) operator(=) ident(c)operator(.)ident(sub)operator(()regexp<delimiter(/)char(\\A)content(%[EO]?(.\))char(\\Z)delimiter(/)modifier(o)>operator(,) string<delimiter(')content(%)char(\\\\)content(1)delimiter(')>operator(\))
       reserved(case) ident(cc)
@@ -297,7 +297,7 @@ comment(=begin
 
   ident(private_class_method) symbol(:__strptime)
 
-  reserved(def) pre_constant(self)operator(.)ident(_strptime)operator(()ident(str)operator(,) ident(fmt)operator(=)string<delimiter(')content(%F)delimiter(')>operator(\))
+  reserved(def) pre_constant(self)operator(.)method(_strptime)operator(()ident(str)operator(,) ident(fmt)operator(=)string<delimiter(')content(%F)delimiter(')>operator(\))
     ident(elem) operator(=) operator({)operator(})
     ident(elem) reserved(if) ident(__strptime)operator(()ident(str)operator(.)ident(dup)operator(,) ident(fmt)operator(,) ident(elem)operator(\))
   reserved(end)
@@ -305,7 +305,7 @@ comment(=begin
   constant(PARSE_MONTHPAT) operator(=) constant(ABBR_MONTHS)operator(.)ident(keys)operator(.)ident(join)operator(()string<delimiter(')content(|)delimiter(')>operator(\))
   constant(PARSE_DAYPAT)   operator(=) constant(ABBR_DAYS)operator(.)  ident(keys)operator(.)ident(join)operator(()string<delimiter(')content(|)delimiter(')>operator(\))
 
-  reserved(def) pre_constant(self)operator(.)ident(_parse)operator(()ident(str)operator(,) ident(comp)operator(=)pre_constant(false)operator(\))
+  reserved(def) pre_constant(self)operator(.)method(_parse)operator(()ident(str)operator(,) ident(comp)operator(=)pre_constant(false)operator(\))
     ident(str) operator(=) ident(str)operator(.)ident(dup)
 
     ident(str)operator(.)ident(gsub!)operator(()regexp<delimiter(/)content([^-+,.)char(\\/)content(:0-9a-z]+)delimiter(/)modifier(ino)>operator(,) string<delimiter(')content( )delimiter(')>operator(\))
@@ -534,7 +534,7 @@ comment(=begin
     ident(elem)
   reserved(end)
 
-  reserved(def) pre_constant(self)operator(.)ident(zone_to_diff)operator(()ident(str)operator(\))
+  reserved(def) pre_constant(self)operator(.)method(zone_to_diff)operator(()ident(str)operator(\))
     ident(abb)operator(,) ident(dst) operator(=) ident(str)operator(.)ident(downcase)operator(.)ident(split)operator(()regexp<delimiter(/)char(\\s)content(+)delimiter(/)modifier(o)>operator(,) integer(2)operator(\))
     reserved(if) constant(ZONES)operator(.)ident(include?)operator(()ident(abb)operator(\))
       ident(offset)  operator(=) constant(ZONES)operator([)ident(abb)operator(])
@@ -629,7 +629,7 @@ reserved(end)
 
 reserved(class) class(DateTime) operator(<) constant(Date)
 
-  reserved(def) pre_constant(self)operator(.)ident(_strptime)operator(()ident(str)operator(,) ident(fmt)operator(=)string<delimiter(')content(%FT%T%Z)delimiter(')>operator(\))
+  reserved(def) pre_constant(self)operator(.)method(_strptime)operator(()ident(str)operator(,) ident(fmt)operator(=)string<delimiter(')content(%FT%T%Z)delimiter(')>operator(\))
     reserved(super)operator(()ident(str)operator(,) ident(fmt)operator(\))
   reserved(end)
 

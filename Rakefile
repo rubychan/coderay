@@ -13,7 +13,7 @@ def EXTRA_FILES.in folder
   end
 end
 
-task :default => ['19', :test]
+task :default => :test
 
 task :upload => %w( gem:upload doc:upload example:upload )
 

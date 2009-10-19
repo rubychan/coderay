@@ -1,5 +1,5 @@
 directive(@import) string<delimiter(url()content(redsauce.css)delimiter(\))>operator(;)  comment(/*) comment(colour) comment(file) comment(*/) 
-directive(@import) string<delimiter(url()content(theme.css)delimiter(\))>operator(;)  comment(/*) comment(colour) comment(file) comment(*/) keyword(body) operator({)
+directive(@import) string<delimiter(url()content(theme.css)delimiter(\))>operator(;)  comment(/*) comment(colour) comment(file) comment(*/) type(body) operator({)
   key(margin)operator(:)float(0)operator(;)
   key(padding)operator(:)float(0)operator(;)
   key(font-family)operator(:) value(verdana)operator(,) value(arial)operator(,) value(sans-serif)operator(;)

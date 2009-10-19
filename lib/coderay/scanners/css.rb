@@ -5,6 +5,14 @@ module Scanners
 
     register_for :css
 
+    KINDS_NOT_LOC = [
+      :comment,
+      :class, :pseudo_class, :type,
+      :constant, :directive,
+      :key, :value, :operator, :color, :float,
+      :error, :important,
+    ]
+    
     module RE
       NonASCII = /[\x80-\xFF]/
       Hex = /[0-9a-fA-F]/
@@ -58,7 +66,7 @@ module Scanners
         elsif case states.last
           when :initial, :media
             if scan(/(?>#{RE::Ident})(?!\()|\*/ox)
-              kind = :keyword
+              kind = :type
             elsif scan RE::Class
               kind = :class
             elsif scan RE::Id

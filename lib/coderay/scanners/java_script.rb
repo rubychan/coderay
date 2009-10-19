@@ -11,8 +11,11 @@ module Scanners
     # The actual JavaScript keywords.
     KEYWORDS = %w[
       break case catch continue default delete do else
-      false finally for function if in instanceof new null
-      return switch throw true try typeof var void while with
+      finally for function if in instanceof new
+      return switch throw try typeof var void while with
+    ]
+    PREDEFINED_CONSTANTS = %w[
+      false null true undefined
     ]
     
     MAGIC_VARIABLES = %w[ this arguments ]  # arguments was introduced in JavaScript 1.4
@@ -31,6 +34,7 @@ module Scanners
     
     IDENT_KIND = WordList.new(:ident).
       add(RESERVED_WORDS, :reserved).
+      add(PREDEFINED_CONSTANTS, :pre_constant).
       add(MAGIC_VARIABLES, :local_variable).
       add(KEYWORDS, :keyword)
 
@@ -53,6 +57,7 @@ module Scanners
       string_delimiter = nil
       value_expected = true
       key_expected = false
+      function_expected = false
 
       until eos?
 
@@ -72,7 +77,7 @@ module Scanners
             value_expected = true
             kind = :comment
 
-          elsif check(/\d/)
+          elsif check(/\.?\d/)
             key_expected = value_expected = false
             if scan(/0[xX][0-9A-Fa-f]+/)
               kind = :hex
@@ -83,15 +88,21 @@ module Scanners
             elsif scan(/\d+/)
               kind = :integer
             end
+          
+          elsif value_expected && match = scan(/<([[:alpha:]]\w*) (?: [^\/>]*\/> | .*?<\/\1>)/xim)
+            html_scanner.tokenize match
+            value_expected = false
+            next
             
           elsif match = scan(/ [-+*=<>?:;,!&^|(\[{~%]+ | \.(?!\d) /x)
             value_expected = true
             last_operator = match[-1]
             key_expected = (last_operator == ?{) || (last_operator == ?,)
+            function_expected = false
             kind = :operator
 
           elsif scan(/ [)\]}]+ /x)
-            key_expected = value_expected = false
+            function_expected = key_expected = value_expected = false
             kind = :operator
 
           elsif match = scan(/ [$a-zA-Z_][A-Za-z_0-9$]* /x)
@@ -100,10 +111,15 @@ module Scanners
             if kind == :ident
               if match.index(?$)  # $ allowed inside an identifier
                 kind = :predefined
+              elsif function_expected
+                kind = :function
+              elsif check(/\s*[=:]\s*function\b/)
+                kind = :function
               elsif key_expected && check(/\s*:/)
                 kind = :key
               end
             end
+            function_expected = (kind == :keyword) && (match == 'function')
             key_expected = false
           
           elsif match = scan(/["']/)
@@ -189,7 +205,18 @@ module Scanners
       tokens
     end
 
-  end
+  protected
 
+    def reset_instance
+      super
+      @html_scanner.reset if defined? @html_scanner
+    end
+
+    def html_scanner
+      @html_scanner ||= CodeRay.scanner :html, :tokens => @tokens, :keep_tokens => true, :keep_state => true
+    end
+
+  end
+  
 end
 end

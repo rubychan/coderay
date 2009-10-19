@@ -11,7 +11,7 @@ string<delimiter(""")content(
 )content(    :copyright: Copyright 2006-2009 by the Pygments team, see AUTHORS.)content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(u_prefix)
+keyword(from) include(pygments.util) keyword(import) include(u_prefix)
 
 ident(Cc) operator(=) string<modifier(u)delimiter(')char(\\x00)char(\\x01)char(\\x02)char(\\x03)char(\\x04)char(\\x05)char(\\x06)char(\\x07)char(\\x08)char(\\t)char(\\n)char(\\x0b)char(\\x0c)char(\\r)char(\\x0e)char(\\x0f)char(\\x10)char(\\x11)char(\\x12)char(\\x13)char(\\x14)char(\\x15)char(\\x16)char(\\x17)char(\\x18)char(\\x19)char(\\x1a)char(\\x1b)char(\\x1c)char(\\x1d)char(\\x1e)char(\\x1f)char(\\x7f)char(\\x80)char(\\x81)char(\\x82)char(\\x83)char(\\x84)char(\\x85)char(\\x86)char(\\x87)char(\\x88)char(\\x89)char(\\x8a)char(\\x8b)char(\\x8c)char(\\x8d)char(\\x8e)char(\\x8f)char(\\x90)char(\\x91)char(\\x92)char(\\x93)char(\\x94)char(\\x95)char(\\x96)char(\\x97)char(\\x98)char(\\x99)char(\\x9a)char(\\x9b)char(\\x9c)char(\\x9d)char(\\x9e)char(\\x9f)delimiter(')>
 
@@ -92,7 +92,7 @@ keyword(def) method(allexcept)operator(()operator(*)ident(args)operator(\))opera
     keyword(return) string<modifier(u)delimiter(')delimiter(')>operator(.)ident(join)operator(()operator([)predefined(globals)operator(()operator(\))operator([)ident(cat)operator(]) keyword(for) ident(cat) keyword(in) ident(newcats)operator(])operator(\))
 
 keyword(if) ident(__name__) operator(==) string<delimiter(')content(__main__)delimiter(')>operator(:)
-    keyword(import) ident(unicodedata)
+    keyword(import) include(unicodedata)
 
     ident(categories) operator(=) operator({)operator(})
 

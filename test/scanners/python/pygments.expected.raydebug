@@ -10,21 +10,21 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(os)
-keyword(import) ident(sys)
-keyword(from) ident(datetime) keyword(import) ident(datetime)
-keyword(from) ident(cgi) keyword(import) ident(escape)
+keyword(import) include(os)
+keyword(import) include(sys)
+keyword(from) include(datetime) keyword(import) include(datetime)
+keyword(from) include(cgi) keyword(import) include(escape)
 
-keyword(from) ident(docutils) keyword(import) ident(nodes)
-keyword(from) ident(docutils)operator(.)ident(parsers)operator(.)ident(rst) keyword(import) ident(directives)
-keyword(from) ident(docutils)operator(.)ident(core) keyword(import) ident(publish_parts)
-keyword(from) ident(docutils)operator(.)ident(writers) keyword(import) ident(html4css1)
+keyword(from) include(docutils) keyword(import) include(nodes)
+keyword(from) include(docutils.parsers.rst) keyword(import) include(directives)
+keyword(from) include(docutils.core) keyword(import) include(publish_parts)
+keyword(from) include(docutils.writers) keyword(import) include(html4css1)
 
-keyword(from) ident(jinja) keyword(import) ident(from_string)
+keyword(from) include(jinja) keyword(import) include(from_string)
 
-keyword(from) ident(pygments) keyword(import) ident(highlight)
-keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(get_lexer_by_name)
-keyword(from) ident(pygments)operator(.)ident(formatters) keyword(import) ident(HtmlFormatter)
+keyword(from) include(pygments) keyword(import) include(highlight)
+keyword(from) include(pygments.lexers) keyword(import) include(get_lexer_by_name)
+keyword(from) include(pygments.formatters) keyword(import) include(HtmlFormatter)
 
 
 ident(LEXERDOC) operator(=) string<delimiter(''')content(
@@ -37,7 +37,7 @@ ident(LEXERDOC) operator(=) string<delimiter(''')content(
 )delimiter(''')>
 
 keyword(def) method(generate_lexer_docs)operator(()operator(\))operator(:)
-    keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(LEXERS)
+    keyword(from) include(pygments.lexers) keyword(import) include(LEXERS)
 
     ident(out) operator(=) operator([)operator(])
 
@@ -66,7 +66,7 @@ keyword(def) method(generate_lexer_docs)operator(()operator(\))operator(:)
     keyword(return) string<delimiter(')delimiter(')>operator(.)ident(join)operator(()ident(out)operator(\))
 
 keyword(def) method(generate_formatter_docs)operator(()operator(\))operator(:)
-    keyword(from) ident(pygments)operator(.)ident(formatters) keyword(import) ident(FORMATTERS)
+    keyword(from) include(pygments.formatters) keyword(import) include(FORMATTERS)
 
     ident(out) operator(=) operator([)operator(])
     keyword(for) ident(cls)operator(,) ident(data) keyword(in) predefined(sorted)operator(()ident(FORMATTERS)operator(.)ident(iteritems)operator(()operator(\))operator(,)
@@ -83,7 +83,7 @@ keyword(def) method(generate_formatter_docs)operator(()operator(\))operator(:)
     keyword(return) string<delimiter(')delimiter(')>operator(.)ident(join)operator(()ident(out)operator(\))
 
 keyword(def) method(generate_filter_docs)operator(()operator(\))operator(:)
-    keyword(from) ident(pygments)operator(.)ident(filters) keyword(import) ident(FILTERS)
+    keyword(from) include(pygments.filters) keyword(import) include(FILTERS)
 
     ident(out) operator(=) operator([)operator(])
     keyword(for) ident(name)operator(,) ident(cls) keyword(in) ident(FILTERS)operator(.)ident(iteritems)operator(()operator(\))operator(:)
@@ -504,13 +504,13 @@ comment(# Set to True if you want inline CSS styles instead of classes)
 ident(INLINESTYLES) operator(=) pre_constant(False)
 
 
-keyword(import) ident(re)
+keyword(import) include(re)
 
-keyword(from) ident(markdown) keyword(import) ident(TextPreprocessor)
+keyword(from) include(markdown) keyword(import) include(TextPreprocessor)
 
-keyword(from) ident(pygments) keyword(import) ident(highlight)
-keyword(from) ident(pygments)operator(.)ident(formatters) keyword(import) ident(HtmlFormatter)
-keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(get_lexer_by_name)operator(,) ident(TextLexer)
+keyword(from) include(pygments) keyword(import) include(highlight)
+keyword(from) include(pygments.formatters) keyword(import) include(HtmlFormatter)
+keyword(from) include(pygments.lexers) keyword(import) include(get_lexer_by_name)operator(,) include(TextLexer)
 
 
 keyword(class) class(CodeBlockPreprocessor)operator(()ident(TextPreprocessor)operator(\))operator(:)
@@ -578,12 +578,12 @@ comment(# Set to True if you want inline CSS styles instead of classes)
 ident(INLINESTYLES) operator(=) pre_constant(False)
 
 
-keyword(import) ident(sys)
+keyword(import) include(sys)
 
-keyword(from) ident(pygments) keyword(import) ident(highlight)
-keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(get_lexer_by_name)operator(,) ident(get_lexer_for_filename)operator(,) ident(TextLexer)
-keyword(from) ident(pygments)operator(.)ident(formatters) keyword(import) ident(HtmlFormatter)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(ClassNotFound)
+keyword(from) include(pygments) keyword(import) include(highlight)
+keyword(from) include(pygments.lexers) keyword(import) include(get_lexer_by_name)operator(,) include(get_lexer_for_filename)operator(,) include(TextLexer)
+keyword(from) include(pygments.formatters) keyword(import) include(HtmlFormatter)
+keyword(from) include(pygments.util) keyword(import) include(ClassNotFound)
 
 
 comment(# wrap lines in <span>s so that the Moin-generated line numbers work)
@@ -685,7 +685,7 @@ comment(# ~~~~~~~)
 comment(# Set to True if you want inline CSS styles instead of classes)
 ident(INLINESTYLES) operator(=) pre_constant(False)
 
-keyword(from) ident(pygments)operator(.)ident(formatters) keyword(import) ident(HtmlFormatter)
+keyword(from) include(pygments.formatters) keyword(import) include(HtmlFormatter)
 
 comment(# The default formatter)
 ident(DEFAULT) operator(=) ident(HtmlFormatter)operator(()ident(noclasses)operator(=)ident(INLINESTYLES)operator(\))
@@ -696,11 +696,11 @@ ident(VARIANTS) operator(=) operator({)
 operator(})
 
 
-keyword(from) ident(docutils) keyword(import) ident(nodes)
-keyword(from) ident(docutils)operator(.)ident(parsers)operator(.)ident(rst) keyword(import) ident(directives)
+keyword(from) include(docutils) keyword(import) include(nodes)
+keyword(from) include(docutils.parsers.rst) keyword(import) include(directives)
 
-keyword(from) ident(pygments) keyword(import) ident(highlight)
-keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(get_lexer_by_name)operator(,) ident(TextLexer)
+keyword(from) include(pygments) keyword(import) include(highlight)
+keyword(from) include(pygments.lexers) keyword(import) include(get_lexer_by_name)operator(,) include(TextLexer)
 
 keyword(def) method(pygments_directive)operator(()ident(name)operator(,) ident(arguments)operator(,) ident(options)operator(,) ident(content)operator(,) ident(lineno)operator(,)
                        ident(content_offset)operator(,) ident(block_text)operator(,) ident(state)operator(,) ident(state_machine)operator(\))operator(:)
@@ -734,7 +734,7 @@ string<delimiter(""")content(Bootstrap setuptools installation)content(
 )content(
 )content(This file can also be run as a script to install or upgrade setuptools.)content(
 )delimiter(""")>
-keyword(import) ident(sys)
+keyword(import) include(sys)
 ident(DEFAULT_VERSION) operator(=) string<delimiter(")content(0.6c9)delimiter(")>
 ident(DEFAULT_URL)     operator(=) string<delimiter(")content(http://pypi.python.org/packages/%s/s/setuptools/)delimiter(")> operator(%) ident(sys)operator(.)ident(version)operator([)operator(:)integer(3)operator(])
 
@@ -775,9 +775,9 @@ ident(md5_data) operator(=) operator({)
     string<delimiter(')content(setuptools-0.6c9-py2.6.egg)delimiter(')>operator(:) string<delimiter(')content(ca37b1ff16fa2ede6e19383e7b59245a)delimiter(')>operator(,)
 operator(})
 
-keyword(import) ident(sys)operator(,) ident(os)
-keyword(try)operator(:) keyword(from) ident(hashlib) keyword(import) ident(md5)
-keyword(except) exception(ImportError)operator(:) keyword(from) ident(md5) keyword(import) ident(md5)
+keyword(import) include(sys)operator(,) include(os)
+keyword(try)operator(:) keyword(from) include(hashlib) keyword(import) include(md5)
+keyword(except) exception(ImportError)operator(:) keyword(from) include(md5) keyword(import) include(md5)
 
 keyword(def) method(_validate_md5)operator(()ident(egg_name)operator(,) ident(data)operator(\))operator(:)
     keyword(if) ident(egg_name) keyword(in) ident(md5_data)operator(:)
@@ -809,9 +809,9 @@ operator(\))operator(:)
     keyword(def) method(do_download)operator(()operator(\))operator(:)
         ident(egg) operator(=) ident(download_setuptools)operator(()ident(version)operator(,) ident(download_base)operator(,) ident(to_dir)operator(,) ident(download_delay)operator(\))
         ident(sys)operator(.)ident(path)operator(.)ident(insert)operator(()integer(0)operator(,) ident(egg)operator(\))
-        keyword(import) ident(setuptools)operator(;) ident(setuptools)operator(.)ident(bootstrap_install_from) operator(=) ident(egg)
+        keyword(import) include(setuptools)operator(;) ident(setuptools)operator(.)ident(bootstrap_install_from) operator(=) ident(egg)
     keyword(try)operator(:)
-        keyword(import) ident(pkg_resources)
+        keyword(import) include(pkg_resources)
     keyword(except) exception(ImportError)operator(:)
         keyword(return) ident(do_download)operator(()operator(\))       
     keyword(try)operator(:)
@@ -842,14 +842,14 @@ operator(\))operator(:)
 )content(    with a '/'\). `to_dir` is the directory where the egg will be downloaded.)content(
 )content(    `delay` is the number of seconds to pause before an actual download attempt.)content(
 )content(    )delimiter(""")>
-    keyword(import) ident(urllib2)operator(,) ident(shutil)
+    keyword(import) include(urllib2)operator(,) include(shutil)
     ident(egg_name) operator(=) string<delimiter(")content(setuptools-%s-py%s.egg)delimiter(")> operator(%) operator(()ident(version)operator(,)ident(sys)operator(.)ident(version)operator([)operator(:)integer(3)operator(])operator(\))
     ident(url) operator(=) ident(download_base) operator(+) ident(egg_name)
     ident(saveto) operator(=) ident(os)operator(.)ident(path)operator(.)ident(join)operator(()ident(to_dir)operator(,) ident(egg_name)operator(\))
     ident(src) operator(=) ident(dst) operator(=) pre_constant(None)
     keyword(if) keyword(not) ident(os)operator(.)ident(path)operator(.)ident(exists)operator(()ident(saveto)operator(\))operator(:)  comment(# Avoid repeated downloads)
         keyword(try)operator(:)
-            keyword(from) ident(distutils) keyword(import) ident(log)
+            keyword(from) include(distutils) keyword(import) include(log)
             keyword(if) ident(delay)operator(:)
                 ident(log)operator(.)ident(warn)operator(()string<delimiter(""")content(
 )content(---------------------------------------------------------------------------)content(
@@ -866,7 +866,7 @@ operator(\))operator(:)
 )content(and place it in this directory before rerunning this script.\))content(
 )content(---------------------------------------------------------------------------)delimiter(""")>operator(,)
                     ident(version)operator(,) ident(download_base)operator(,) ident(delay)operator(,) ident(url)
-                operator(\))operator(;) keyword(from) ident(time) keyword(import) ident(sleep)operator(;) ident(sleep)operator(()ident(delay)operator(\))
+                operator(\))operator(;) keyword(from) include(time) keyword(import) include(sleep)operator(;) ident(sleep)operator(()ident(delay)operator(\))
             ident(log)operator(.)ident(warn)operator(()string<delimiter(")content(Downloading %s)delimiter(")>operator(,) ident(url)operator(\))
             ident(src) operator(=) ident(urllib2)operator(.)ident(urlopen)operator(()ident(url)operator(\))
             comment(# Read/write all in one block, so we don't create a corrupt file)
@@ -916,13 +916,13 @@ operator(\))operator(:)
 keyword(def) method(main)operator(()ident(argv)operator(,) ident(version)operator(=)ident(DEFAULT_VERSION)operator(\))operator(:)
     string<delimiter(""")content(Install or upgrade setuptools and EasyInstall)delimiter(""")>
     keyword(try)operator(:)
-        keyword(import) ident(setuptools)
+        keyword(import) include(setuptools)
     keyword(except) exception(ImportError)operator(:)
         ident(egg) operator(=) pre_constant(None)
         keyword(try)operator(:)
             ident(egg) operator(=) ident(download_setuptools)operator(()ident(version)operator(,) ident(delay)operator(=)integer(0)operator(\))
             ident(sys)operator(.)ident(path)operator(.)ident(insert)operator(()integer(0)operator(,)ident(egg)operator(\))
-            keyword(from) ident(setuptools)operator(.)ident(command)operator(.)ident(easy_install) keyword(import) ident(main)
+            keyword(from) include(setuptools.command.easy_install) keyword(import) include(main)
             keyword(return) ident(main)operator(()predefined(list)operator(()ident(argv)operator(\))operator(+)operator([)ident(egg)operator(])operator(\))   comment(# we're done here)
         keyword(finally)operator(:)
             keyword(if) ident(egg) keyword(and) ident(os)operator(.)ident(path)operator(.)ident(exists)operator(()ident(egg)operator(\))operator(:)
@@ -936,19 +936,19 @@ keyword(def) method(main)operator(()ident(argv)operator(,) ident(version)operato
             ident(sys)operator(.)ident(exit)operator(()integer(2)operator(\))
 
     ident(req) operator(=) string<delimiter(")content(setuptools>=)delimiter(")>operator(+)ident(version)
-    keyword(import) ident(pkg_resources)
+    keyword(import) include(pkg_resources)
     keyword(try)operator(:)
         ident(pkg_resources)operator(.)ident(require)operator(()ident(req)operator(\))
     keyword(except) ident(pkg_resources)operator(.)ident(VersionConflict)operator(:)
         keyword(try)operator(:)
-            keyword(from) ident(setuptools)operator(.)ident(command)operator(.)ident(easy_install) keyword(import) ident(main)
+            keyword(from) include(setuptools.command.easy_install) keyword(import) include(main)
         keyword(except) exception(ImportError)operator(:)
-            keyword(from) ident(easy_install) keyword(import) ident(main)
+            keyword(from) include(easy_install) keyword(import) include(main)
         ident(main)operator(()predefined(list)operator(()ident(argv)operator(\))operator(+)operator([)ident(download_setuptools)operator(()ident(delay)operator(=)integer(0)operator(\))operator(])operator(\))
         ident(sys)operator(.)ident(exit)operator(()integer(0)operator(\)) comment(# try to force an exit)
     keyword(else)operator(:)
         keyword(if) ident(argv)operator(:)
-            keyword(from) ident(setuptools)operator(.)ident(command)operator(.)ident(easy_install) keyword(import) ident(main)
+            keyword(from) include(setuptools.command.easy_install) keyword(import) include(main)
             ident(main)operator(()ident(argv)operator(\))
         keyword(else)operator(:)
             keyword(print) string<delimiter(")content(Setuptools version)delimiter(")>operator(,)ident(version)operator(,)string<delimiter(")content(or greater has been installed.)delimiter(")>
@@ -957,7 +957,7 @@ keyword(def) method(main)operator(()ident(argv)operator(,) ident(version)operato
 keyword(def) method(update_md5)operator(()ident(filenames)operator(\))operator(:)
     string<delimiter(""")content(Update our built-in md5 registry)delimiter(""")>
 
-    keyword(import) ident(re)
+    keyword(import) include(re)
 
     keyword(for) ident(name) keyword(in) ident(filenames)operator(:)
         ident(base) operator(=) ident(os)operator(.)ident(path)operator(.)ident(basename)operator(()ident(name)operator(\))
@@ -969,7 +969,7 @@ keyword(def) method(update_md5)operator(()ident(filenames)operator(\))operator(:
     ident(data)operator(.)ident(sort)operator(()operator(\))
     ident(repl) operator(=) string<delimiter(")delimiter(")>operator(.)ident(join)operator(()ident(data)operator(\))
 
-    keyword(import) ident(inspect)
+    keyword(import) include(inspect)
     ident(srcfile) operator(=) ident(inspect)operator(.)ident(getsourcefile)operator(()ident(sys)operator(.)ident(modules)operator([)ident(__name__)operator(])operator(\))
     ident(f) operator(=) predefined(open)operator(()ident(srcfile)operator(,) string<delimiter(')content(rb)delimiter(')>operator(\))operator(;) ident(src) operator(=) ident(f)operator(.)ident(read)operator(()operator(\))operator(;) ident(f)operator(.)ident(close)operator(()operator(\))
 
@@ -1027,9 +1027,9 @@ ident(__docformat__) operator(=) string<delimiter(')content(restructuredtext)del
 ident(__all__) operator(=) operator([)string<delimiter(')content(lex)delimiter(')>operator(,) string<delimiter(')content(format)delimiter(')>operator(,) string<delimiter(')content(highlight)delimiter(')>operator(])
 
 
-keyword(import) ident(sys)operator(,) ident(os)
+keyword(import) include(sys)operator(,) include(os)
 
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(StringIO)operator(,) ident(BytesIO)
+keyword(from) include(pygments.util) keyword(import) include(StringIO)operator(,) include(BytesIO)
 
 
 keyword(def) method(lex)operator(()ident(code)operator(,) ident(lexer)operator(\))operator(:)
@@ -1082,7 +1082,7 @@ keyword(def) method(highlight)operator(()ident(code)operator(,) ident(lexer)oper
 
 
 keyword(if) ident(__name__) operator(==) string<delimiter(')content(__main__)delimiter(')>operator(:)
-    keyword(from) ident(pygments)operator(.)ident(cmdline) keyword(import) ident(main)
+    keyword(from) include(pygments.cmdline) keyword(import) include(main)
     ident(sys)operator(.)ident(exit)operator(()ident(main)operator(()ident(sys)operator(.)ident(argv)operator(\))operator(\))
 comment(# -*- coding: utf-8 -*-)
 string<delimiter(""")content(
@@ -1094,19 +1094,19 @@ string<delimiter(""")content(
 )content(    :copyright: Copyright 2006-2009 by the Pygments team, see AUTHORS.)content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
-keyword(import) ident(sys)
-keyword(import) ident(getopt)
-keyword(from) ident(textwrap) keyword(import) ident(dedent)
+keyword(import) include(sys)
+keyword(import) include(getopt)
+keyword(from) include(textwrap) keyword(import) include(dedent)
 
-keyword(from) ident(pygments) keyword(import) ident(__version__)operator(,) ident(highlight)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(ClassNotFound)operator(,) ident(OptionError)operator(,) ident(docstring_headline)
-keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(get_all_lexers)operator(,) ident(get_lexer_by_name)operator(,) ident(get_lexer_for_filename)operator(,) \
-     ident(find_lexer_class)operator(,) ident(guess_lexer)operator(,) ident(TextLexer)
-keyword(from) ident(pygments)operator(.)ident(formatters) keyword(import) ident(get_all_formatters)operator(,) ident(get_formatter_by_name)operator(,) \
-     ident(get_formatter_for_filename)operator(,) ident(find_formatter_class)operator(,) \
-     ident(TerminalFormatter)  comment(# pylint:disable-msg=E0611)
-keyword(from) ident(pygments)operator(.)ident(filters) keyword(import) ident(get_all_filters)operator(,) ident(find_filter_class)
-keyword(from) ident(pygments)operator(.)ident(styles) keyword(import) ident(get_all_styles)operator(,) ident(get_style_by_name)
+keyword(from) include(pygments) keyword(import) include(__version__)operator(,) include(highlight)
+keyword(from) include(pygments.util) keyword(import) include(ClassNotFound)operator(,) include(OptionError)operator(,) include(docstring_headline)
+keyword(from) include(pygments.lexers) keyword(import) include(get_all_lexers)operator(,) include(get_lexer_by_name)operator(,) include(get_lexer_for_filename)operator(,) \
+     include(find_lexer_class)operator(,) include(guess_lexer)operator(,) include(TextLexer)
+keyword(from) include(pygments.formatters) keyword(import) include(get_all_formatters)operator(,) include(get_formatter_by_name)operator(,) \
+     include(get_formatter_for_filename)operator(,) include(find_formatter_class)operator(,) \
+     include(TerminalFormatter)  comment(# pylint:disable-msg=E0611)
+keyword(from) include(pygments.filters) keyword(import) include(get_all_filters)operator(,) include(find_filter_class)
+keyword(from) include(pygments.styles) keyword(import) include(get_all_styles)operator(,) include(get_style_by_name)
 
 
 ident(USAGE) operator(=) string<delimiter(""")char(\\
@@ -1502,7 +1502,7 @@ keyword(def) method(main)operator(()ident(args)operator(=)ident(sys)operator(.)i
             ident(lexer)operator(.)ident(add_filter)operator(()ident(fname)operator(,) operator(**)ident(fopts)operator(\))
         ident(highlight)operator(()ident(code)operator(,) ident(lexer)operator(,) ident(fmter)operator(,) ident(outfile)operator(\))
     keyword(except) exception(Exception)operator(,) ident(err)operator(:)
-        keyword(import) ident(traceback)
+        keyword(import) include(traceback)
         ident(info) operator(=) ident(traceback)operator(.)ident(format_exception)operator(()operator(*)ident(sys)operator(.)ident(exc_info)operator(()operator(\))operator(\))
         ident(msg) operator(=) ident(info)operator([)operator(-)integer(1)operator(])operator(.)ident(strip)operator(()operator(\))
         keyword(if) predefined(len)operator(()ident(info)operator(\)) operator(>=) integer(3)operator(:)
@@ -1676,15 +1676,15 @@ string<delimiter(""")content(
 keyword(try)operator(:)
     predefined(set)
 keyword(except) exception(NameError)operator(:)
-    keyword(from) ident(sets) keyword(import) ident(Set) keyword(as) predefined(set)
+    keyword(from) include(sets) keyword(import) include(Set) keyword(as) ident(set)
 
-keyword(import) ident(re)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(String)operator(,) ident(Comment)operator(,) ident(Keyword)operator(,) ident(Name)operator(,) ident(Error)operator(,) ident(Whitespace)operator(,) \
-    ident(string_to_tokentype)
-keyword(from) ident(pygments)operator(.)ident(filter) keyword(import) ident(Filter)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_list_opt)operator(,) ident(get_int_opt)operator(,) ident(get_bool_opt)operator(,) ident(get_choice_opt)operator(,) \
-     ident(ClassNotFound)operator(,) ident(OptionError)
-keyword(from) ident(pygments)operator(.)ident(plugin) keyword(import) ident(find_plugin_filters)
+keyword(import) include(re)
+keyword(from) include(pygments.token) keyword(import) include(String)operator(,) include(Comment)operator(,) include(Keyword)operator(,) include(Name)operator(,) include(Error)operator(,) include(Whitespace)operator(,) \
+    include(string_to_tokentype)
+keyword(from) include(pygments.filter) keyword(import) include(Filter)
+keyword(from) include(pygments.util) keyword(import) include(get_list_opt)operator(,) include(get_int_opt)operator(,) include(get_bool_opt)operator(,) include(get_choice_opt)operator(,) \
+     include(ClassNotFound)operator(,) include(OptionError)
+keyword(from) include(pygments.plugin) keyword(import) include(find_plugin_filters)
 
 
 keyword(def) method(find_filter_class)operator(()ident(filtername)operator(\))operator(:)
@@ -1965,10 +1965,10 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(codecs)
+keyword(import) include(codecs)
 
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_bool_opt)
-keyword(from) ident(pygments)operator(.)ident(styles) keyword(import) ident(get_style_by_name)
+keyword(from) include(pygments.util) keyword(import) include(get_bool_opt)
+keyword(from) include(pygments.styles) keyword(import) include(get_style_by_name)
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(Formatter)delimiter(')>operator(])
 
@@ -2056,12 +2056,12 @@ string<delimiter(""")content(
 )content(    :copyright: Copyright 2006-2009 by the Pygments team, see AUTHORS.)content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
-keyword(import) ident(os)operator(.)ident(path)
-keyword(import) ident(fnmatch)
+keyword(import) include(os.path)
+keyword(import) include(fnmatch)
 
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(_mapping) keyword(import) ident(FORMATTERS)
-keyword(from) ident(pygments)operator(.)ident(plugin) keyword(import) ident(find_plugin_formatters)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(docstring_headline)operator(,) ident(ClassNotFound)
+keyword(from) include(pygments.formatters._mapping) keyword(import) include(FORMATTERS)
+keyword(from) include(pygments.plugin) keyword(import) include(find_plugin_formatters)
+keyword(from) include(pygments.util) keyword(import) include(docstring_headline)operator(,) include(ClassNotFound)
 
 ident(ns) operator(=) predefined(globals)operator(()operator(\))
 keyword(for) ident(fcls) keyword(in) ident(FORMATTERS)operator(:)
@@ -2129,22 +2129,22 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(docstring_headline)
+keyword(from) include(pygments.util) keyword(import) include(docstring_headline)
 
 comment(# start)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(bbcode) keyword(import) ident(BBCodeFormatter)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(html) keyword(import) ident(HtmlFormatter)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(img) keyword(import) ident(BmpImageFormatter)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(img) keyword(import) ident(GifImageFormatter)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(img) keyword(import) ident(ImageFormatter)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(img) keyword(import) ident(JpgImageFormatter)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(latex) keyword(import) ident(LatexFormatter)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(other) keyword(import) ident(NullFormatter)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(other) keyword(import) ident(RawTokenFormatter)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(rtf) keyword(import) ident(RtfFormatter)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(svg) keyword(import) ident(SvgFormatter)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(terminal) keyword(import) ident(TerminalFormatter)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(terminal256) keyword(import) ident(Terminal256Formatter)
+keyword(from) include(pygments.formatters.bbcode) keyword(import) include(BBCodeFormatter)
+keyword(from) include(pygments.formatters.html) keyword(import) include(HtmlFormatter)
+keyword(from) include(pygments.formatters.img) keyword(import) include(BmpImageFormatter)
+keyword(from) include(pygments.formatters.img) keyword(import) include(GifImageFormatter)
+keyword(from) include(pygments.formatters.img) keyword(import) include(ImageFormatter)
+keyword(from) include(pygments.formatters.img) keyword(import) include(JpgImageFormatter)
+keyword(from) include(pygments.formatters.latex) keyword(import) include(LatexFormatter)
+keyword(from) include(pygments.formatters.other) keyword(import) include(NullFormatter)
+keyword(from) include(pygments.formatters.other) keyword(import) include(RawTokenFormatter)
+keyword(from) include(pygments.formatters.rtf) keyword(import) include(RtfFormatter)
+keyword(from) include(pygments.formatters.svg) keyword(import) include(SvgFormatter)
+keyword(from) include(pygments.formatters.terminal) keyword(import) include(TerminalFormatter)
+keyword(from) include(pygments.formatters.terminal256) keyword(import) include(Terminal256Formatter)
 
 ident(FORMATTERS) operator(=) operator({)
     ident(BBCodeFormatter)operator(:) operator(()string<delimiter(')content(BBCode)delimiter(')>operator(,) operator(()string<delimiter(')content(bbcode)delimiter(')>operator(,) string<delimiter(')content(bb)delimiter(')>operator(\))operator(,) operator(()operator(\))operator(,) string<delimiter(')content(Format tokens with BBcodes. These formatting codes are used by many bulletin boards, so you can highlight your sourcecode with pygments before posting it there.)delimiter(')>operator(\))operator(,)
@@ -2163,8 +2163,8 @@ ident(FORMATTERS) operator(=) operator({)
 operator(})
 
 keyword(if) ident(__name__) operator(==) string<delimiter(')content(__main__)delimiter(')>operator(:)
-    keyword(import) ident(sys)
-    keyword(import) ident(os)
+    keyword(import) include(sys)
+    keyword(import) include(os)
 
     comment(# lookup formatters)
     ident(found_formatters) operator(=) operator([)operator(])
@@ -2218,8 +2218,8 @@ string<delimiter(""")content(
 )delimiter(""")>
 
 
-keyword(from) ident(pygments)operator(.)ident(formatter) keyword(import) ident(Formatter)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_bool_opt)
+keyword(from) include(pygments.formatter) keyword(import) include(Formatter)
+keyword(from) include(pygments.util) keyword(import) include(get_bool_opt)
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(BBCodeFormatter)delimiter(')>operator(])
 
@@ -2325,17 +2325,17 @@ string<delimiter(""")content(
 )content(    :copyright: Copyright 2006-2009 by the Pygments team, see AUTHORS.)content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
-keyword(import) ident(sys)operator(,) ident(os)
-keyword(import) ident(StringIO)
+keyword(import) include(sys)operator(,) include(os)
+keyword(import) include(StringIO)
 
 keyword(try)operator(:)
     predefined(set)
 keyword(except) exception(NameError)operator(:)
-    keyword(from) ident(sets) keyword(import) ident(Set) keyword(as) predefined(set)
+    keyword(from) include(sets) keyword(import) include(Set) keyword(as) ident(set)
 
-keyword(from) ident(pygments)operator(.)ident(formatter) keyword(import) ident(Formatter)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Token)operator(,) ident(Text)operator(,) ident(STANDARD_TYPES)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_bool_opt)operator(,) ident(get_int_opt)operator(,) ident(get_list_opt)operator(,) predefined(bytes)
+keyword(from) include(pygments.formatter) keyword(import) include(Formatter)
+keyword(from) include(pygments.token) keyword(import) include(Token)operator(,) include(Text)operator(,) include(STANDARD_TYPES)
+keyword(from) include(pygments.util) keyword(import) include(get_bool_opt)operator(,) include(get_int_opt)operator(,) include(get_list_opt)operator(,) include(bytes)
 
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(HtmlFormatter)delimiter(')>operator(])
@@ -2352,12 +2352,12 @@ keyword(def) method(escape_html)operator(()ident(text)operator(\))operator(:)
 
 keyword(def) method(get_random_id)operator(()operator(\))operator(:)
     string<delimiter(""")content(Return a random id for javascript fields.)delimiter(""")>
-    keyword(from) ident(random) keyword(import) ident(random)
-    keyword(from) ident(time) keyword(import) ident(time)
+    keyword(from) include(random) keyword(import) include(random)
+    keyword(from) include(time) keyword(import) include(time)
     keyword(try)operator(:)
-        keyword(from) ident(hashlib) keyword(import) ident(sha1) keyword(as) ident(sha)
+        keyword(from) include(hashlib) keyword(import) include(sha1) keyword(as) ident(sha)
     keyword(except) exception(ImportError)operator(:)
-        keyword(import) ident(sha)
+        keyword(import) include(sha)
         ident(sha) operator(=) ident(sha)operator(.)ident(new)
     keyword(return) ident(sha)operator(()string<delimiter(')content(%s|%s)delimiter(')> operator(%) operator(()ident(random)operator(()operator(\))operator(,) ident(time)operator(()operator(\))operator(\))operator(\))operator(.)ident(hexdigest)operator(()operator(\))
 
@@ -3031,21 +3031,21 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(sys)
-keyword(from) ident(commands) keyword(import) ident(getstatusoutput)
+keyword(import) include(sys)
+keyword(from) include(commands) keyword(import) include(getstatusoutput)
 
-keyword(from) ident(pygments)operator(.)ident(formatter) keyword(import) ident(Formatter)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_bool_opt)operator(,) ident(get_int_opt)operator(,) ident(get_choice_opt)
+keyword(from) include(pygments.formatter) keyword(import) include(Formatter)
+keyword(from) include(pygments.util) keyword(import) include(get_bool_opt)operator(,) include(get_int_opt)operator(,) include(get_choice_opt)
 
 comment(# Import this carefully)
 keyword(try)operator(:)
-    keyword(import) ident(Image)operator(,) ident(ImageDraw)operator(,) ident(ImageFont)
+    keyword(import) include(Image)operator(,) include(ImageDraw)operator(,) include(ImageFont)
     ident(pil_available) operator(=) pre_constant(True)
 keyword(except) exception(ImportError)operator(:)
     ident(pil_available) operator(=) pre_constant(False)
 
 keyword(try)operator(:)
-    keyword(import) ident(_winreg)
+    keyword(import) include(_winreg)
 keyword(except) exception(ImportError)operator(:)
     ident(_winreg) operator(=) pre_constant(None)
 
@@ -3548,9 +3548,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(formatter) keyword(import) ident(Formatter)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Token)operator(,) ident(STANDARD_TYPES)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_bool_opt)operator(,) ident(get_int_opt)operator(,) ident(StringIO)
+keyword(from) include(pygments.formatter) keyword(import) include(Formatter)
+keyword(from) include(pygments.token) keyword(import) include(Token)operator(,) include(STANDARD_TYPES)
+keyword(from) include(pygments.util) keyword(import) include(get_bool_opt)operator(,) include(get_int_opt)operator(,) include(StringIO)
 
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(LatexFormatter)delimiter(')>operator(])
@@ -3852,10 +3852,10 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(formatter) keyword(import) ident(Formatter)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(OptionError)operator(,) ident(get_choice_opt)operator(,) ident(b)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Token)
-keyword(from) ident(pygments)operator(.)ident(console) keyword(import) ident(colorize)
+keyword(from) include(pygments.formatter) keyword(import) include(Formatter)
+keyword(from) include(pygments.util) keyword(import) include(OptionError)operator(,) include(get_choice_opt)operator(,) include(b)
+keyword(from) include(pygments.token) keyword(import) include(Token)
+keyword(from) include(pygments.console) keyword(import) include(colorize)
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(NullFormatter)delimiter(')>operator(,) string<delimiter(')content(RawTokenFormatter)delimiter(')>operator(])
 
@@ -3927,13 +3927,13 @@ keyword(class) class(RawTokenFormatter)operator(()ident(Formatter)operator(\))op
             keyword(raise) exception(TypeError)operator(()string<delimiter(')content(The raw tokens formatter needs a binary )delimiter(')>
                             string<delimiter(')content(output file)delimiter(')>operator(\))
         keyword(if) pre_constant(self)operator(.)ident(compress) operator(==) string<delimiter(')content(gz)delimiter(')>operator(:)
-            keyword(import) ident(gzip)
+            keyword(import) include(gzip)
             ident(outfile) operator(=) ident(gzip)operator(.)ident(GzipFile)operator(()string<delimiter(')delimiter(')>operator(,) string<delimiter(')content(wb)delimiter(')>operator(,) integer(9)operator(,) ident(outfile)operator(\))
             keyword(def) method(write)operator(()ident(text)operator(\))operator(:)
                 ident(outfile)operator(.)ident(write)operator(()ident(text)operator(.)ident(encode)operator(()operator(\))operator(\))
             ident(flush) operator(=) ident(outfile)operator(.)ident(flush)
         keyword(elif) pre_constant(self)operator(.)ident(compress) operator(==) string<delimiter(')content(bz2)delimiter(')>operator(:)
-            keyword(import) ident(bz2)
+            keyword(import) include(bz2)
             ident(compressor) operator(=) ident(bz2)operator(.)ident(BZ2Compressor)operator(()integer(9)operator(\))
             keyword(def) method(write)operator(()ident(text)operator(\))operator(:)
                 ident(outfile)operator(.)ident(write)operator(()ident(compressor)operator(.)ident(compress)operator(()ident(text)operator(.)ident(encode)operator(()operator(\))operator(\))operator(\))
@@ -3969,7 +3969,7 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(formatter) keyword(import) ident(Formatter)
+keyword(from) include(pygments.formatter) keyword(import) include(Formatter)
 
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(RtfFormatter)delimiter(')>operator(])
@@ -4105,8 +4105,8 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(formatter) keyword(import) ident(Formatter)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_bool_opt)operator(,) ident(get_int_opt)
+keyword(from) include(pygments.formatter) keyword(import) include(Formatter)
+keyword(from) include(pygments.util) keyword(import) include(get_bool_opt)operator(,) include(get_int_opt)
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(SvgFormatter)delimiter(')>operator(])
 
@@ -4259,11 +4259,11 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(formatter) keyword(import) ident(Formatter)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Token)operator(,) ident(Whitespace)
-keyword(from) ident(pygments)operator(.)ident(console) keyword(import) ident(ansiformat)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_choice_opt)
+keyword(from) include(pygments.formatter) keyword(import) include(Formatter)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Token)operator(,) include(Whitespace)
+keyword(from) include(pygments.console) keyword(import) include(ansiformat)
+keyword(from) include(pygments.util) keyword(import) include(get_choice_opt)
 
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(TerminalFormatter)delimiter(')>operator(])
@@ -4383,7 +4383,7 @@ comment(#    xterm. This means that default colors are white-on-black, not)
 comment(#    black-on-while, so colors like "white background" need to be converted)
 comment(#    to "white background, black foreground", etc...)
 
-keyword(from) ident(pygments)operator(.)ident(formatter) keyword(import) ident(Formatter)
+keyword(from) include(pygments.formatter) keyword(import) include(Formatter)
 
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(Terminal256Formatter)delimiter(')>operator(])
@@ -4586,18 +4586,18 @@ string<delimiter(""")content(
 )content(    :copyright: Copyright 2006-2009 by the Pygments team, see AUTHORS.)content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
-keyword(import) ident(re)
+keyword(import) include(re)
 
 keyword(try)operator(:)
     predefined(set)
 keyword(except) exception(NameError)operator(:)
-    keyword(from) ident(sets) keyword(import) ident(Set) keyword(as) predefined(set)
+    keyword(from) include(sets) keyword(import) include(Set) keyword(as) ident(set)
 
-keyword(from) ident(pygments)operator(.)ident(filter) keyword(import) ident(apply_filters)operator(,) ident(Filter)
-keyword(from) ident(pygments)operator(.)ident(filters) keyword(import) ident(get_filter_by_name)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Error)operator(,) ident(Text)operator(,) ident(Other)operator(,) ident(_TokenType)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_bool_opt)operator(,) ident(get_int_opt)operator(,) ident(get_list_opt)operator(,) \
-     ident(make_analysator)
+keyword(from) include(pygments.filter) keyword(import) include(apply_filters)operator(,) include(Filter)
+keyword(from) include(pygments.filters) keyword(import) include(get_filter_by_name)
+keyword(from) include(pygments.token) keyword(import) include(Error)operator(,) include(Text)operator(,) include(Other)operator(,) include(_TokenType)
+keyword(from) include(pygments.util) keyword(import) include(get_bool_opt)operator(,) include(get_int_opt)operator(,) include(get_list_opt)operator(,) \
+     include(make_analysator)
 
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(Lexer)delimiter(')>operator(,) string<delimiter(')content(RegexLexer)delimiter(')>operator(,) string<delimiter(')content(ExtendedRegexLexer)delimiter(')>operator(,) string<delimiter(')content(DelegatingLexer)delimiter(')>operator(,)
@@ -4715,7 +4715,7 @@ keyword(class) class(Lexer)operator(()predefined(object)operator(\))operator(:)
                     ident(text) operator(=) ident(text)operator(.)ident(decode)operator(()string<delimiter(')content(latin1)delimiter(')>operator(\))
             keyword(elif) pre_constant(self)operator(.)ident(encoding) operator(==) string<delimiter(')content(chardet)delimiter(')>operator(:)
                 keyword(try)operator(:)
-                    keyword(import) ident(chardet)
+                    keyword(import) include(chardet)
                 keyword(except) exception(ImportError)operator(:)
                     keyword(raise) exception(ImportError)operator(()string<delimiter(')content(To enable chardet encoding guessing, )delimiter(')>
                                       string<delimiter(')content(please install the chardet library )delimiter(')>
@@ -5240,19 +5240,19 @@ string<delimiter(""")content(
 )content(    :copyright: Copyright 2006-2009 by the Pygments team, see AUTHORS.)content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
-keyword(import) ident(sys)
-keyword(import) ident(fnmatch)
-keyword(import) ident(types)
-keyword(from) ident(os)operator(.)ident(path) keyword(import) ident(basename)
+keyword(import) include(sys)
+keyword(import) include(fnmatch)
+keyword(import) include(types)
+keyword(from) include(os.path) keyword(import) include(basename)
 
 keyword(try)operator(:)
     predefined(set)
 keyword(except) exception(NameError)operator(:)
-    keyword(from) ident(sets) keyword(import) ident(Set) keyword(as) predefined(set)
+    keyword(from) include(sets) keyword(import) include(Set) keyword(as) ident(set)
 
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(_mapping) keyword(import) ident(LEXERS)
-keyword(from) ident(pygments)operator(.)ident(plugin) keyword(import) ident(find_plugin_lexers)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(ClassNotFound)operator(,) predefined(bytes)
+keyword(from) include(pygments.lexers._mapping) keyword(import) include(LEXERS)
+keyword(from) include(pygments.plugin) keyword(import) include(find_plugin_lexers)
+keyword(from) include(pygments.util) keyword(import) include(ClassNotFound)operator(,) include(bytes)
 
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(get_lexer_by_name)delimiter(')>operator(,) string<delimiter(')content(get_lexer_for_filename)delimiter(')>operator(,) string<delimiter(')content(find_lexer_class)delimiter(')>operator(,)
@@ -5455,7 +5455,7 @@ keyword(class) class(_automodule)operator(()ident(types)operator(.)ident(ModuleT
         keyword(raise) exception(AttributeError)operator(()ident(name)operator(\))
 
 
-keyword(import) ident(sys)
+keyword(import) include(sys)
 ident(oldmod) operator(=) ident(sys)operator(.)ident(modules)operator([)string<delimiter(')content(pygments.lexers)delimiter(')>operator(])
 ident(newmod) operator(=) ident(_automodule)operator(()string<delimiter(')content(pygments.lexers)delimiter(')>operator(\))
 ident(newmod)operator(.)ident(__dict__)operator(.)ident(update)operator(()ident(oldmod)operator(.)ident(__dict__)operator(\))
@@ -5843,9 +5843,9 @@ ident(MODULES) operator(=) operator({)string<delimiter(')content(basic)delimiter
            string<delimiter(')content(table.sort)delimiter(')>operator(])operator(})
 
 keyword(if) ident(__name__) operator(==) string<delimiter(')content(__main__)delimiter(')>operator(:)
-    keyword(import) ident(re)
-    keyword(import) ident(urllib)
-    keyword(import) ident(pprint)
+    keyword(import) include(re)
+    keyword(import) include(urllib)
+    keyword(import) include(pprint)
 
     comment(# you can't generally find out what module a function belongs to if you)
     comment(# have only its name. Because of this, here are some callback functions)
@@ -6127,8 +6127,8 @@ ident(LEXERS) operator(=) operator({)
 operator(})
 
 keyword(if) ident(__name__) operator(==) string<delimiter(')content(__main__)delimiter(')>operator(:)
-    keyword(import) ident(sys)
-    keyword(import) ident(os)
+    keyword(import) include(sys)
+    keyword(import) include(os)
 
     comment(# lookup lexers)
     ident(found_lexers) operator(=) operator([)operator(])
@@ -9493,9 +9493,9 @@ ident(MODULES) operator(=) operator({)string<delimiter(')content(.NET)delimiter(
 
 
 keyword(if) ident(__name__) operator(==) string<delimiter(')content(__main__)delimiter(')>operator(:)
-    keyword(import) ident(pprint)
-    keyword(import) ident(re)
-    keyword(import) ident(urllib)
+    keyword(import) include(pprint)
+    keyword(import) include(re)
+    keyword(import) include(urllib)
     ident(_function_re) operator(=) ident(re)operator(.)ident(compile)operator(()string<delimiter(')content(<B)content(\\s)content(+CLASS="function")content(\\s)content(*>(.*?\))content(\\()content(\\\))content(</B)content(\\s)content(*>(?uism\))delimiter(')>operator(\))
 
     keyword(def) method(get_php_functions)operator(()operator(\))operator(:)
@@ -9568,18 +9568,18 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(re)
+keyword(import) include(re)
 keyword(try)operator(:)
     predefined(set)
 keyword(except) exception(NameError)operator(:)
-    keyword(from) ident(sets) keyword(import) ident(Set) keyword(as) predefined(set)
+    keyword(from) include(sets) keyword(import) include(Set) keyword(as) ident(set)
 
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(Lexer)operator(,) ident(RegexLexer)operator(,) ident(ExtendedRegexLexer)operator(,) \
-     ident(LexerContext)operator(,) ident(include)operator(,) ident(combined)operator(,) ident(do_insertions)operator(,) ident(bygroups)operator(,) ident(using)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Error)operator(,) ident(Text)operator(,) \
-     ident(Comment)operator(,) ident(Operator)operator(,) ident(Keyword)operator(,) ident(Name)operator(,) ident(String)operator(,) ident(Number)operator(,) ident(Generic)operator(,) ident(Punctuation)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_bool_opt)operator(,) ident(get_list_opt)operator(,) ident(shebang_matches)
-keyword(from) ident(pygments) keyword(import) ident(unistring) keyword(as) ident(uni)
+keyword(from) include(pygments.lexer) keyword(import) include(Lexer)operator(,) include(RegexLexer)operator(,) include(ExtendedRegexLexer)operator(,) \
+     include(LexerContext)operator(,) include(include)operator(,) include(combined)operator(,) include(do_insertions)operator(,) include(bygroups)operator(,) include(using)
+keyword(from) include(pygments.token) keyword(import) include(Error)operator(,) include(Text)operator(,) \
+     include(Comment)operator(,) include(Operator)operator(,) include(Keyword)operator(,) include(Name)operator(,) include(String)operator(,) include(Number)operator(,) include(Generic)operator(,) include(Punctuation)
+keyword(from) include(pygments.util) keyword(import) include(get_bool_opt)operator(,) include(get_list_opt)operator(,) include(shebang_matches)
+keyword(from) include(pygments) keyword(import) include(unistring) keyword(as) ident(uni)
 
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(PythonLexer)delimiter(')>operator(,) string<delimiter(')content(PythonConsoleLexer)delimiter(')>operator(,) string<delimiter(')content(PythonTracebackLexer)delimiter(')>operator(,)
@@ -9588,7 +9588,7 @@ ident(__all__) operator(=) operator([)string<delimiter(')content(PythonLexer)del
            string<delimiter(')content(Python3Lexer)delimiter(')>operator(,) string<delimiter(')content(Python3TracebackLexer)delimiter(')>operator(])
 
 comment(# b/w compatibility)
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(functional) keyword(import) ident(SchemeLexer)
+keyword(from) include(pygments.lexers.functional) keyword(import) include(SchemeLexer)
 
 ident(line_re)  operator(=) ident(re)operator(.)ident(compile)operator(()string<delimiter(')content(.*?)char(\\n)delimiter(')>operator(\))
 
@@ -10639,7 +10639,7 @@ keyword(class) class(LuaLexer)operator(()ident(RegexLexer)operator(\))operator(:
 
         pre_constant(self)operator(.)ident(_functions) operator(=) predefined(set)operator(()operator(\))
         keyword(if) pre_constant(self)operator(.)ident(func_name_highlighting)operator(:)
-            keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(_luabuiltins) keyword(import) ident(MODULES)
+            keyword(from) include(pygments.lexers._luabuiltins) keyword(import) include(MODULES)
             keyword(for) ident(mod)operator(,) ident(func) keyword(in) ident(MODULES)operator(.)ident(iteritems)operator(()operator(\))operator(:)
                 keyword(if) ident(mod) keyword(not) keyword(in) pre_constant(self)operator(.)ident(disabled_modules)operator(:)
                     pre_constant(self)operator(.)ident(_functions)operator(.)ident(update)operator(()ident(func)operator(\))
@@ -11046,15 +11046,15 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(re)
+keyword(import) include(re)
 keyword(try)operator(:)
     predefined(set)
 keyword(except) exception(NameError)operator(:)
-    keyword(from) ident(sets) keyword(import) ident(Set) keyword(as) predefined(set)
+    keyword(from) include(sets) keyword(import) include(Set) keyword(as) ident(set)
 
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(RegexLexer)operator(,) ident(include)operator(,) ident(bygroups)operator(,) ident(using)operator(,) ident(DelegatingLexer)
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(compiled) keyword(import) ident(DLexer)operator(,) ident(CppLexer)operator(,) ident(CLexer)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) operator(*)
+keyword(from) include(pygments.lexer) keyword(import) include(RegexLexer)operator(,) include(include)operator(,) include(bygroups)operator(,) include(using)operator(,) include(DelegatingLexer)
+keyword(from) include(pygments.lexers.compiled) keyword(import) include(DLexer)operator(,) include(CppLexer)operator(,) include(CLexer)
+keyword(from) include(pygments.token) keyword(import) include(*)
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(GasLexer)delimiter(')>operator(,) string<delimiter(')content(ObjdumpLexer)delimiter(')>operator(,)string<delimiter(')content(DObjdumpLexer)delimiter(')>operator(,) string<delimiter(')content(CppObjdumpLexer)delimiter(')>operator(,)
            string<delimiter(')content(CObjdumpLexer)delimiter(')>operator(,) string<delimiter(')content(LlvmLexer)delimiter(')>operator(,) string<delimiter(')content(NasmLexer)delimiter(')>operator(])
@@ -11379,22 +11379,22 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(re)
+keyword(import) include(re)
 keyword(try)operator(:)
     predefined(set)
 keyword(except) exception(NameError)operator(:)
-    keyword(from) ident(sets) keyword(import) ident(Set) keyword(as) predefined(set)
+    keyword(from) include(sets) keyword(import) include(Set) keyword(as) ident(set)
 
-keyword(from) ident(pygments)operator(.)ident(scanner) keyword(import) ident(Scanner)
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(Lexer)operator(,) ident(RegexLexer)operator(,) ident(include)operator(,) ident(bygroups)operator(,) ident(using)operator(,) \
-                           ident(this)operator(,) ident(combined)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_bool_opt)operator(,) ident(get_list_opt)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) \
-     ident(Text)operator(,) ident(Comment)operator(,) ident(Operator)operator(,) ident(Keyword)operator(,) ident(Name)operator(,) ident(String)operator(,) ident(Number)operator(,) ident(Punctuation)operator(,) \
-     ident(Error)
+keyword(from) include(pygments.scanner) keyword(import) include(Scanner)
+keyword(from) include(pygments.lexer) keyword(import) include(Lexer)operator(,) include(RegexLexer)operator(,) include(include)operator(,) include(bygroups)operator(,) include(using)operator(,) \
+                           include(this)operator(,) include(combined)
+keyword(from) include(pygments.util) keyword(import) include(get_bool_opt)operator(,) include(get_list_opt)
+keyword(from) include(pygments.token) keyword(import) \
+     include(Text)operator(,) include(Comment)operator(,) include(Operator)operator(,) include(Keyword)operator(,) include(Name)operator(,) include(String)operator(,) include(Number)operator(,) include(Punctuation)operator(,) \
+     include(Error)
 
 comment(# backwards compatibility)
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(functional) keyword(import) ident(OcamlLexer)
+keyword(from) include(pygments.lexers.functional) keyword(import) include(OcamlLexer)
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(CLexer)delimiter(')>operator(,) string<delimiter(')content(CppLexer)delimiter(')>operator(,) string<delimiter(')content(DLexer)delimiter(')>operator(,) string<delimiter(')content(DelphiLexer)delimiter(')>operator(,) string<delimiter(')content(JavaLexer)delimiter(')>operator(,) string<delimiter(')content(ScalaLexer)delimiter(')>operator(,)
            string<delimiter(')content(DylanLexer)delimiter(')>operator(,) string<delimiter(')content(OcamlLexer)delimiter(')>operator(,) string<delimiter(')content(ObjectiveCLexer)delimiter(')>operator(,) string<delimiter(')content(FortranLexer)delimiter(')>operator(,)
@@ -12951,15 +12951,15 @@ string<delimiter(""")content(
 )content(    :copyright: Copyright 2006-2009 by the Pygments team, see AUTHORS.)content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
-keyword(import) ident(re)
+keyword(import) include(re)
 
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(RegexLexer)operator(,) ident(DelegatingLexer)operator(,) ident(bygroups)operator(,) ident(using)operator(,) ident(this)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Punctuation)operator(,) \
-     ident(Text)operator(,) ident(Comment)operator(,) ident(Operator)operator(,) ident(Keyword)operator(,) ident(Name)operator(,) ident(String)operator(,) ident(Number)operator(,) ident(Literal)operator(,) ident(Other)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_choice_opt)
-keyword(from) ident(pygments) keyword(import) ident(unistring) keyword(as) ident(uni)
+keyword(from) include(pygments.lexer) keyword(import) include(RegexLexer)operator(,) include(DelegatingLexer)operator(,) include(bygroups)operator(,) include(using)operator(,) include(this)
+keyword(from) include(pygments.token) keyword(import) include(Punctuation)operator(,) \
+     include(Text)operator(,) include(Comment)operator(,) include(Operator)operator(,) include(Keyword)operator(,) include(Name)operator(,) include(String)operator(,) include(Number)operator(,) include(Literal)operator(,) include(Other)
+keyword(from) include(pygments.util) keyword(import) include(get_choice_opt)
+keyword(from) include(pygments) keyword(import) include(unistring) keyword(as) ident(uni)
 
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(web) keyword(import) ident(XmlLexer)
+keyword(from) include(pygments.lexers.web) keyword(import) include(XmlLexer)
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(CSharpLexer)delimiter(')>operator(,) string<delimiter(')content(BooLexer)delimiter(')>operator(,) string<delimiter(')content(VbNetLexer)delimiter(')>operator(,) string<delimiter(')content(CSharpAspxLexer)delimiter(')>operator(,)
            string<delimiter(')content(VbNetAspxLexer)delimiter(')>operator(])
@@ -13307,15 +13307,15 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(re)
+keyword(import) include(re)
 keyword(try)operator(:)
     predefined(set)
 keyword(except) exception(NameError)operator(:)
-    keyword(from) ident(sets) keyword(import) ident(Set) keyword(as) predefined(set)
+    keyword(from) include(sets) keyword(import) include(Set) keyword(as) ident(set)
 
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(Lexer)operator(,) ident(RegexLexer)operator(,) ident(bygroups)operator(,) ident(include)operator(,) ident(do_insertions)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Text)operator(,) ident(Comment)operator(,) ident(Operator)operator(,) ident(Keyword)operator(,) ident(Name)operator(,) \
-     ident(String)operator(,) ident(Number)operator(,) ident(Punctuation)operator(,) ident(Literal)operator(,) ident(Generic)
+keyword(from) include(pygments.lexer) keyword(import) include(Lexer)operator(,) include(RegexLexer)operator(,) include(bygroups)operator(,) include(include)operator(,) include(do_insertions)
+keyword(from) include(pygments.token) keyword(import) include(Text)operator(,) include(Comment)operator(,) include(Operator)operator(,) include(Keyword)operator(,) include(Name)operator(,) \
+     include(String)operator(,) include(Number)operator(,) include(Punctuation)operator(,) include(Literal)operator(,) include(Generic)
 
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(SchemeLexer)delimiter(')>operator(,) string<delimiter(')content(CommonLispLexer)delimiter(')>operator(,) string<delimiter(')content(HaskellLexer)delimiter(')>operator(,) string<delimiter(')content(LiterateHaskellLexer)delimiter(')>operator(,)
@@ -13475,9 +13475,9 @@ keyword(class) class(CommonLispLexer)operator(()ident(RegexLexer)operator(\))ope
     ident(symbol) operator(=) string<modifier(r)delimiter(')content(()content(\\|)content([^|]+)content(\\|)content(|(?:%s\)(?:%s\)*\))delimiter(')> operator(%) operator(()ident(nonmacro)operator(,) ident(constituent)operator(\))
 
     keyword(def) method(__init__)operator(()pre_constant(self)operator(,) operator(**)ident(options)operator(\))operator(:)
-        keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(_clbuiltins) keyword(import) ident(BUILTIN_FUNCTIONS)operator(,) \
-            ident(SPECIAL_FORMS)operator(,) ident(MACROS)operator(,) ident(LAMBDA_LIST_KEYWORDS)operator(,) ident(DECLARATIONS)operator(,) \
-            ident(BUILTIN_TYPES)operator(,) ident(BUILTIN_CLASSES)
+        keyword(from) include(pygments.lexers._clbuiltins) keyword(import) include(BUILTIN_FUNCTIONS)operator(,) \
+            include(SPECIAL_FORMS)operator(,) include(MACROS)operator(,) include(LAMBDA_LIST_KEYWORDS)operator(,) include(DECLARATIONS)operator(,) \
+            include(BUILTIN_TYPES)operator(,) include(BUILTIN_CLASSES)
         pre_constant(self)operator(.)ident(builtin_function) operator(=) ident(BUILTIN_FUNCTIONS)
         pre_constant(self)operator(.)ident(special_forms) operator(=) ident(SPECIAL_FORMS)
         pre_constant(self)operator(.)ident(macros) operator(=) ident(MACROS)
@@ -13788,7 +13788,7 @@ keyword(class) class(LiterateHaskellLexer)operator(()ident(Lexer)operator(\))ope
                     ident(insertions)operator(.)ident(append)operator(()operator(()predefined(len)operator(()ident(code)operator(\))operator(,) operator([)operator(()integer(0)operator(,) ident(Text)operator(,) ident(line)operator(\))operator(])operator(\))operator(\))
         keyword(else)operator(:)
             comment(# latex-style)
-            keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(text) keyword(import) ident(TexLexer)
+            keyword(from) include(pygments.lexers.text) keyword(import) include(TexLexer)
             ident(lxlexer) operator(=) ident(TexLexer)operator(()operator(**)pre_constant(self)operator(.)ident(options)operator(\))
 
             ident(codelines) operator(=) integer(0)
@@ -14066,17 +14066,17 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(re)
+keyword(import) include(re)
 keyword(try)operator(:)
     predefined(set)
 keyword(except) exception(NameError)operator(:)
-    keyword(from) ident(sets) keyword(import) ident(Set) keyword(as) predefined(set)
+    keyword(from) include(sets) keyword(import) include(Set) keyword(as) ident(set)
 
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(Lexer)operator(,) ident(RegexLexer)operator(,) ident(bygroups)operator(,) ident(include)operator(,) ident(do_insertions)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Comment)operator(,) ident(String)operator(,) ident(Punctuation)operator(,) ident(Keyword)operator(,) ident(Name)operator(,) \
-    ident(Operator)operator(,) ident(Number)operator(,) ident(Text)operator(,) ident(Generic)
+keyword(from) include(pygments.lexer) keyword(import) include(Lexer)operator(,) include(RegexLexer)operator(,) include(bygroups)operator(,) include(include)operator(,) include(do_insertions)
+keyword(from) include(pygments.token) keyword(import) include(Comment)operator(,) include(String)operator(,) include(Punctuation)operator(,) include(Keyword)operator(,) include(Name)operator(,) \
+    include(Operator)operator(,) include(Number)operator(,) include(Text)operator(,) include(Generic)
 
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(agile) keyword(import) ident(PythonLexer)
+keyword(from) include(pygments.lexers.agile) keyword(import) include(PythonLexer)
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(MuPADLexer)delimiter(')>operator(,) string<delimiter(')content(MatlabLexer)delimiter(')>operator(,) string<delimiter(')content(MatlabSessionLexer)delimiter(')>operator(,) string<delimiter(')content(NumPyLexer)delimiter(')>operator(,)
            string<delimiter(')content(SLexer)delimiter(')>operator(])
@@ -14479,14 +14479,14 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(re)
+keyword(import) include(re)
 
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(Lexer)operator(,) ident(RegexLexer)operator(,) ident(include)operator(,) ident(bygroups)operator(,) ident(using)operator(,) \
-     ident(this)operator(,) ident(do_insertions)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Error)operator(,) ident(Punctuation)operator(,) \
-     ident(Text)operator(,) ident(Comment)operator(,) ident(Operator)operator(,) ident(Keyword)operator(,) ident(Name)operator(,) ident(String)operator(,) ident(Number)operator(,) ident(Generic)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(shebang_matches)
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(web) keyword(import) ident(HtmlLexer)
+keyword(from) include(pygments.lexer) keyword(import) include(Lexer)operator(,) include(RegexLexer)operator(,) include(include)operator(,) include(bygroups)operator(,) include(using)operator(,) \
+     include(this)operator(,) include(do_insertions)
+keyword(from) include(pygments.token) keyword(import) include(Error)operator(,) include(Punctuation)operator(,) \
+     include(Text)operator(,) include(Comment)operator(,) include(Operator)operator(,) include(Keyword)operator(,) include(Name)operator(,) include(String)operator(,) include(Number)operator(,) include(Generic)
+keyword(from) include(pygments.util) keyword(import) include(shebang_matches)
+keyword(from) include(pygments.lexers.web) keyword(import) include(HtmlLexer)
 
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(SqlLexer)delimiter(')>operator(,) string<delimiter(')content(MySqlLexer)delimiter(')>operator(,) string<delimiter(')content(SqliteConsoleLexer)delimiter(')>operator(,) string<delimiter(')content(BrainfuckLexer)delimiter(')>operator(,)
@@ -16502,20 +16502,20 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(re)
+keyword(import) include(re)
 
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(RegexLexer)operator(,) ident(DelegatingLexer)operator(,) \
-    ident(include)operator(,) ident(bygroups)operator(,) ident(using)operator(,) ident(this)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Error)operator(,) ident(Punctuation)operator(,) ident(Generic)operator(,) ident(Other)operator(,) \
-    ident(Text)operator(,) ident(Comment)operator(,) ident(Operator)operator(,) ident(Keyword)operator(,) ident(Name)operator(,) ident(String)operator(,) ident(Number)operator(,) ident(Whitespace)
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(compiled) keyword(import) ident(JavaLexer)operator(,) ident(CLexer)operator(,) ident(CppLexer)operator(,) \
-    ident(ObjectiveCLexer)operator(,) ident(DLexer)
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(dotnet) keyword(import) ident(CSharpLexer)
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(agile) keyword(import) ident(RubyLexer)operator(,) ident(PythonLexer)operator(,) ident(PerlLexer)
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(web) keyword(import) ident(ActionScriptLexer)
+keyword(from) include(pygments.lexer) keyword(import) include(RegexLexer)operator(,) include(DelegatingLexer)operator(,) \
+    include(include)operator(,) include(bygroups)operator(,) include(using)operator(,) include(this)
+keyword(from) include(pygments.token) keyword(import) include(Error)operator(,) include(Punctuation)operator(,) include(Generic)operator(,) include(Other)operator(,) \
+    include(Text)operator(,) include(Comment)operator(,) include(Operator)operator(,) include(Keyword)operator(,) include(Name)operator(,) include(String)operator(,) include(Number)operator(,) include(Whitespace)
+keyword(from) include(pygments.lexers.compiled) keyword(import) include(JavaLexer)operator(,) include(CLexer)operator(,) include(CppLexer)operator(,) \
+    include(ObjectiveCLexer)operator(,) include(DLexer)
+keyword(from) include(pygments.lexers.dotnet) keyword(import) include(CSharpLexer)
+keyword(from) include(pygments.lexers.agile) keyword(import) include(RubyLexer)operator(,) include(PythonLexer)operator(,) include(PerlLexer)
+keyword(from) include(pygments.lexers.web) keyword(import) include(ActionScriptLexer)
 comment(# Use TextLexer during development to just focus on one part of a delegating)
 comment(# lexer.)
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(special) keyword(import) ident(TextLexer)
+keyword(from) include(pygments.lexers.special) keyword(import) include(TextLexer)
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(RagelLexer)delimiter(')>operator(,) string<delimiter(')content(RagelEmbeddedLexer)delimiter(')>operator(,) string<delimiter(')content(RagelCLexer)delimiter(')>operator(,) string<delimiter(')content(RagelDLexer)delimiter(')>operator(,)
            string<delimiter(')content(RagelCppLexer)delimiter(')>operator(,) string<delimiter(')content(RagelObjectiveCLexer)delimiter(')>operator(,) string<delimiter(')content(RagelRubyLexer)delimiter(')>operator(,)
@@ -17173,12 +17173,12 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(re)
-keyword(import) ident(cStringIO)
+keyword(import) include(re)
+keyword(import) include(cStringIO)
 
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(Lexer)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Token)operator(,) ident(Error)operator(,) ident(Text)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_choice_opt)operator(,) ident(b)
+keyword(from) include(pygments.lexer) keyword(import) include(Lexer)
+keyword(from) include(pygments.token) keyword(import) include(Token)operator(,) include(Error)operator(,) include(Text)
+keyword(from) include(pygments.util) keyword(import) include(get_choice_opt)operator(,) include(b)
 
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(TextLexer)delimiter(')>operator(,) string<delimiter(')content(RawTokenLexer)delimiter(')>operator(])
@@ -17228,11 +17228,11 @@ keyword(class) class(RawTokenLexer)operator(()ident(Lexer)operator(\))operator(:
             comment(# raw token stream never has any non-ASCII characters)
             ident(text) operator(=) ident(text)operator(.)ident(encode)operator(()string<delimiter(')content(ascii)delimiter(')>operator(\))
         keyword(if) pre_constant(self)operator(.)ident(compress) operator(==) string<delimiter(')content(gz)delimiter(')>operator(:)
-            keyword(import) ident(gzip)
+            keyword(import) include(gzip)
             ident(gzipfile) operator(=) ident(gzip)operator(.)ident(GzipFile)operator(()string<delimiter(')delimiter(')>operator(,) string<delimiter(')content(rb)delimiter(')>operator(,) integer(9)operator(,) ident(cStringIO)operator(.)ident(StringIO)operator(()ident(text)operator(\))operator(\))
             ident(text) operator(=) ident(gzipfile)operator(.)ident(read)operator(()operator(\))
         keyword(elif) pre_constant(self)operator(.)ident(compress) operator(==) string<delimiter(')content(bz2)delimiter(')>operator(:)
-            keyword(import) ident(bz2)
+            keyword(import) include(bz2)
             ident(text) operator(=) ident(bz2)operator(.)ident(decompress)operator(()ident(text)operator(\))
 
         comment(# do not call Lexer.get_tokens(\) because we do not want Unicode)
@@ -17273,21 +17273,21 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(re)
+keyword(import) include(re)
 keyword(try)operator(:)
     predefined(set)
 keyword(except) exception(NameError)operator(:)
-    keyword(from) ident(sets) keyword(import) ident(Set) keyword(as) predefined(set)
+    keyword(from) include(sets) keyword(import) include(Set) keyword(as) ident(set)
 
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(web) keyword(import) \
-     ident(PhpLexer)operator(,) ident(HtmlLexer)operator(,) ident(XmlLexer)operator(,) ident(JavascriptLexer)operator(,) ident(CssLexer)
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(agile) keyword(import) ident(PythonLexer)
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(compiled) keyword(import) ident(JavaLexer)
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(Lexer)operator(,) ident(DelegatingLexer)operator(,) ident(RegexLexer)operator(,) ident(bygroups)operator(,) \
-     ident(include)operator(,) ident(using)operator(,) ident(this)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Error)operator(,) ident(Punctuation)operator(,) \
-     ident(Text)operator(,) ident(Comment)operator(,) ident(Operator)operator(,) ident(Keyword)operator(,) ident(Name)operator(,) ident(String)operator(,) ident(Number)operator(,) ident(Other)operator(,) ident(Token)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(html_doctype_matches)operator(,) ident(looks_like_xml)
+keyword(from) include(pygments.lexers.web) keyword(import) \
+     include(PhpLexer)operator(,) include(HtmlLexer)operator(,) include(XmlLexer)operator(,) include(JavascriptLexer)operator(,) include(CssLexer)
+keyword(from) include(pygments.lexers.agile) keyword(import) include(PythonLexer)
+keyword(from) include(pygments.lexers.compiled) keyword(import) include(JavaLexer)
+keyword(from) include(pygments.lexer) keyword(import) include(Lexer)operator(,) include(DelegatingLexer)operator(,) include(RegexLexer)operator(,) include(bygroups)operator(,) \
+     include(include)operator(,) include(using)operator(,) include(this)
+keyword(from) include(pygments.token) keyword(import) include(Error)operator(,) include(Punctuation)operator(,) \
+     include(Text)operator(,) include(Comment)operator(,) include(Operator)operator(,) include(Keyword)operator(,) include(Name)operator(,) include(String)operator(,) include(Number)operator(,) include(Other)operator(,) include(Token)
+keyword(from) include(pygments.util) keyword(import) include(html_doctype_matches)operator(,) include(looks_like_xml)
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(HtmlPhpLexer)delimiter(')>operator(,) string<delimiter(')content(XmlPhpLexer)delimiter(')>operator(,) string<delimiter(')content(CssPhpLexer)delimiter(')>operator(,)
            string<delimiter(')content(JavascriptPhpLexer)delimiter(')>operator(,) string<delimiter(')content(ErbLexer)delimiter(')>operator(,) string<delimiter(')content(RhtmlLexer)delimiter(')>operator(,)
@@ -17323,7 +17323,7 @@ keyword(class) class(ErbLexer)operator(()ident(Lexer)operator(\))operator(:)
     ident(_block_re) operator(=) ident(re)operator(.)ident(compile)operator(()string<modifier(r)delimiter(')content((<%%|%%>|<%=|<%#|<%-|<%|-%>|%>|^%[^%].*?$\))delimiter(')>operator(,) ident(re)operator(.)ident(M)operator(\))
 
     keyword(def) method(__init__)operator(()pre_constant(self)operator(,) operator(**)ident(options)operator(\))operator(:)
-        keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(agile) keyword(import) ident(RubyLexer)
+        keyword(from) include(pygments.lexers.agile) keyword(import) include(RubyLexer)
         pre_constant(self)operator(.)ident(ruby_lexer) operator(=) ident(RubyLexer)operator(()operator(**)ident(options)operator(\))
         ident(Lexer)operator(.)ident(__init__)operator(()pre_constant(self)operator(,) operator(**)ident(options)operator(\))
 
@@ -18576,19 +18576,19 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(re)
+keyword(import) include(re)
 keyword(try)operator(:)
     predefined(set)
 keyword(except) exception(NameError)operator(:)
-    keyword(from) ident(sets) keyword(import) ident(Set) keyword(as) predefined(set)
-keyword(from) ident(bisect) keyword(import) ident(bisect)
+    keyword(from) include(sets) keyword(import) include(Set) keyword(as) ident(set)
+keyword(from) include(bisect) keyword(import) include(bisect)
 
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(Lexer)operator(,) ident(LexerContext)operator(,) ident(RegexLexer)operator(,) ident(ExtendedRegexLexer)operator(,) \
-     ident(bygroups)operator(,) ident(include)operator(,) ident(using)operator(,) ident(this)operator(,) ident(do_insertions)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Punctuation)operator(,) ident(Text)operator(,) ident(Comment)operator(,) ident(Keyword)operator(,) ident(Name)operator(,) ident(String)operator(,) \
-     ident(Generic)operator(,) ident(Operator)operator(,) ident(Number)operator(,) ident(Whitespace)operator(,) ident(Literal)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_bool_opt)
-keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(other) keyword(import) ident(BashLexer)
+keyword(from) include(pygments.lexer) keyword(import) include(Lexer)operator(,) include(LexerContext)operator(,) include(RegexLexer)operator(,) include(ExtendedRegexLexer)operator(,) \
+     include(bygroups)operator(,) include(include)operator(,) include(using)operator(,) include(this)operator(,) include(do_insertions)
+keyword(from) include(pygments.token) keyword(import) include(Punctuation)operator(,) include(Text)operator(,) include(Comment)operator(,) include(Keyword)operator(,) include(Name)operator(,) include(String)operator(,) \
+     include(Generic)operator(,) include(Operator)operator(,) include(Number)operator(,) include(Whitespace)operator(,) include(Literal)
+keyword(from) include(pygments.util) keyword(import) include(get_bool_opt)
+keyword(from) include(pygments.lexers.other) keyword(import) include(BashLexer)
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(IniLexer)delimiter(')>operator(,) string<delimiter(')content(SourcesListLexer)delimiter(')>operator(,) string<delimiter(')content(BaseMakefileLexer)delimiter(')>operator(,)
            string<delimiter(')content(MakefileLexer)delimiter(')>operator(,) string<delimiter(')content(DiffLexer)delimiter(')>operator(,) string<delimiter(')content(IrcLogsLexer)delimiter(')>operator(,) string<delimiter(')content(TexLexer)delimiter(')>operator(,)
@@ -19150,8 +19150,8 @@ keyword(class) class(RstLexer)operator(()ident(RegexLexer)operator(\))operator(:
     ident(flags) operator(=) ident(re)operator(.)ident(MULTILINE)
 
     keyword(def) method(_handle_sourcecode)operator(()pre_constant(self)operator(,) ident(match)operator(\))operator(:)
-        keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(get_lexer_by_name)
-        keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(ClassNotFound)
+        keyword(from) include(pygments.lexers) keyword(import) include(get_lexer_by_name)
+        keyword(from) include(pygments.util) keyword(import) include(ClassNotFound)
 
         comment(# section header)
         keyword(yield) ident(match)operator(.)ident(start)operator(()integer(1)operator(\))operator(,) ident(Punctuation)operator(,) ident(match)operator(.)ident(group)operator(()integer(1)operator(\))
@@ -19315,7 +19315,7 @@ keyword(class) class(VimLexer)operator(()ident(RegexLexer)operator(\))operator(:
         operator(])operator(,)
     operator(})
     keyword(def) method(__init__)operator(()pre_constant(self)operator(,) operator(**)ident(options)operator(\))operator(:)
-        keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(_vimbuiltins) keyword(import) ident(command)operator(,) ident(option)operator(,) ident(auto)
+        keyword(from) include(pygments.lexers._vimbuiltins) keyword(import) include(command)operator(,) include(option)operator(,) include(auto)
         pre_constant(self)operator(.)ident(_cmd) operator(=) ident(command)
         pre_constant(self)operator(.)ident(_opt) operator(=) ident(option)
         pre_constant(self)operator(.)ident(_aut) operator(=) ident(auto)
@@ -20072,17 +20072,17 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(re)
+keyword(import) include(re)
 keyword(try)operator(:)
     predefined(set)
 keyword(except) exception(NameError)operator(:)
-    keyword(from) ident(sets) keyword(import) ident(Set) keyword(as) predefined(set)
+    keyword(from) include(sets) keyword(import) include(Set) keyword(as) ident(set)
 
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(RegexLexer)operator(,) ident(bygroups)operator(,) ident(using)operator(,) ident(include)operator(,) ident(this)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) \
-     ident(Text)operator(,) ident(Comment)operator(,) ident(Operator)operator(,) ident(Keyword)operator(,) ident(Name)operator(,) ident(String)operator(,) ident(Number)operator(,) ident(Other)operator(,) ident(Punctuation)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(get_bool_opt)operator(,) ident(get_list_opt)operator(,) ident(looks_like_xml)operator(,) \
-                          ident(html_doctype_matches)
+keyword(from) include(pygments.lexer) keyword(import) include(RegexLexer)operator(,) include(bygroups)operator(,) include(using)operator(,) include(include)operator(,) include(this)
+keyword(from) include(pygments.token) keyword(import) \
+     include(Text)operator(,) include(Comment)operator(,) include(Operator)operator(,) include(Keyword)operator(,) include(Name)operator(,) include(String)operator(,) include(Number)operator(,) include(Other)operator(,) include(Punctuation)
+keyword(from) include(pygments.util) keyword(import) include(get_bool_opt)operator(,) include(get_list_opt)operator(,) include(looks_like_xml)operator(,) \
+                          include(html_doctype_matches)
 
 
 ident(__all__) operator(=) operator([)string<delimiter(')content(HtmlLexer)delimiter(')>operator(,) string<delimiter(')content(XmlLexer)delimiter(')>operator(,) string<delimiter(')content(JavascriptLexer)delimiter(')>operator(,) string<delimiter(')content(CssLexer)delimiter(')>operator(,)
@@ -20612,7 +20612,7 @@ keyword(class) class(PhpLexer)operator(()ident(RegexLexer)operator(\))operator(:
         comment(# collect activated functions in a set)
         pre_constant(self)operator(.)ident(_functions) operator(=) predefined(set)operator(()operator(\))
         keyword(if) pre_constant(self)operator(.)ident(funcnamehighlighting)operator(:)
-            keyword(from) ident(pygments)operator(.)ident(lexers)operator(.)ident(_phpbuiltins) keyword(import) ident(MODULES)
+            keyword(from) include(pygments.lexers._phpbuiltins) keyword(import) include(MODULES)
             keyword(for) ident(key)operator(,) ident(value) keyword(in) ident(MODULES)operator(.)ident(iteritems)operator(()operator(\))operator(:)
                 keyword(if) ident(key) keyword(not) keyword(in) pre_constant(self)operator(.)ident(disabledmodules)operator(:)
                     pre_constant(self)operator(.)ident(_functions)operator(.)ident(update)operator(()ident(value)operator(\))
@@ -20802,7 +20802,7 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 keyword(try)operator(:)
-    keyword(import) ident(pkg_resources)
+    keyword(import) include(pkg_resources)
 keyword(except) exception(ImportError)operator(:)
     ident(pkg_resources) operator(=) pre_constant(None)
 
@@ -20855,7 +20855,7 @@ string<delimiter(""")content(
 )content(    :copyright: Copyright 2006-2009 by the Pygments team, see AUTHORS.)content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
-keyword(import) ident(re)
+keyword(import) include(re)
 
 
 keyword(class) class(EndOfText)operator(()exception(RuntimeError)operator(\))operator(:)
@@ -20953,7 +20953,7 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Token)operator(,) ident(STANDARD_TYPES)
+keyword(from) include(pygments.token) keyword(import) include(Token)operator(,) include(STANDARD_TYPES)
 
 
 keyword(class) class(StyleMeta)operator(()predefined(type)operator(\))operator(:)
@@ -21070,8 +21070,8 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(plugin) keyword(import) ident(find_plugin_styles)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(ClassNotFound)
+keyword(from) include(pygments.plugin) keyword(import) include(find_plugin_styles)
+keyword(from) include(pygments.util) keyword(import) include(ClassNotFound)
 
 
 comment(#: Maps style names to 'submodule::classname'.)
@@ -21137,9 +21137,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Whitespace)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Whitespace)
 
 
 keyword(class) class(AutumnStyle)operator(()ident(Style)operator(\))operator(:)
@@ -21202,9 +21202,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Whitespace)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Whitespace)
 
 
 keyword(class) class(BorlandStyle)operator(()ident(Style)operator(\))operator(:)
@@ -21253,9 +21253,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Operator)operator(,) ident(Generic)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Operator)operator(,) include(Generic)
 
 
 keyword(class) class(BlackWhiteStyle)operator(()ident(Style)operator(\))operator(:)
@@ -21302,9 +21302,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Whitespace)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Whitespace)
 
 
 keyword(class) class(ColorfulStyle)operator(()ident(Style)operator(\))operator(:)
@@ -21383,9 +21383,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Whitespace)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Whitespace)
 
 
 keyword(class) class(DefaultStyle)operator(()ident(Style)operator(\))operator(:)
@@ -21456,9 +21456,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Whitespace)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Whitespace)
 
 
 keyword(class) class(EmacsStyle)operator(()ident(Style)operator(\))operator(:)
@@ -21528,9 +21528,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Whitespace)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Whitespace)
 
 
 keyword(class) class(FriendlyStyle)operator(()ident(Style)operator(\))operator(:)
@@ -21600,9 +21600,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Token)operator(,) ident(Comment)operator(,) ident(Name)operator(,) ident(Keyword)operator(,) \
-    ident(Generic)operator(,) ident(Number)operator(,) ident(String)operator(,) ident(Whitespace)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Token)operator(,) include(Comment)operator(,) include(Name)operator(,) include(Keyword)operator(,) \
+    include(Generic)operator(,) include(Number)operator(,) include(String)operator(,) include(Whitespace)
 
 keyword(class) class(FruityStyle)operator(()ident(Style)operator(\))operator(:)
     string<delimiter(""")content(
@@ -21646,9 +21646,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Whitespace)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Whitespace)
 
 
 keyword(class) class(ManniStyle)operator(()ident(Style)operator(\))operator(:)
@@ -21718,9 +21718,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Whitespace)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Whitespace)
 
 
 keyword(class) class(MurphyStyle)operator(()ident(Style)operator(\))operator(:)
@@ -21798,9 +21798,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Token)operator(,) ident(Whitespace)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Token)operator(,) include(Whitespace)
 
 
 keyword(class) class(NativeStyle)operator(()ident(Style)operator(\))operator(:)
@@ -21865,9 +21865,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Whitespace)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Whitespace)
 
 
 keyword(class) class(PastieStyle)operator(()ident(Style)operator(\))operator(:)
@@ -21940,9 +21940,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Whitespace)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Whitespace)
 
 
 keyword(class) class(PerldocStyle)operator(()ident(Style)operator(\))operator(:)
@@ -22035,9 +22035,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Whitespace)operator(,) ident(Punctuation)operator(,) ident(Other)operator(,) ident(Literal)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Whitespace)operator(,) include(Punctuation)operator(,) include(Other)operator(,) include(Literal)
 
 
 keyword(class) class(TangoStyle)operator(()ident(Style)operator(\))operator(:)
@@ -22148,9 +22148,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Whitespace)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Whitespace)
 
 
 keyword(class) class(TracStyle)operator(()ident(Style)operator(\))operator(:)
@@ -22211,9 +22211,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Number)operator(,) ident(Operator)operator(,) ident(Generic)operator(,) ident(Whitespace)operator(,) ident(Token)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Number)operator(,) include(Operator)operator(,) include(Generic)operator(,) include(Whitespace)operator(,) include(Token)
 
 
 keyword(class) class(VimStyle)operator(()ident(Style)operator(\))operator(:)
@@ -22274,9 +22274,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(from) ident(pygments)operator(.)ident(style) keyword(import) ident(Style)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Keyword)operator(,) ident(Name)operator(,) ident(Comment)operator(,) ident(String)operator(,) ident(Error)operator(,) \
-     ident(Operator)operator(,) ident(Generic)
+keyword(from) include(pygments.style) keyword(import) include(Style)
+keyword(from) include(pygments.token) keyword(import) include(Keyword)operator(,) include(Name)operator(,) include(Comment)operator(,) include(String)operator(,) include(Error)operator(,) \
+     include(Operator)operator(,) include(Generic)
 
 
 keyword(class) class(VisualStudioStyle)operator(()ident(Style)operator(\))operator(:)
@@ -22314,7 +22314,7 @@ string<delimiter(""")content(
 keyword(try)operator(:)
     predefined(set)
 keyword(except) exception(NameError)operator(:)
-    keyword(from) ident(sets) keyword(import) ident(Set) keyword(as) predefined(set)
+    keyword(from) include(sets) keyword(import) include(Set) keyword(as) ident(set)
 
 
 keyword(class) class(_TokenType)operator(()predefined(tuple)operator(\))operator(:)
@@ -22514,8 +22514,8 @@ string<delimiter(""")content(
 )content(    :copyright: Copyright 2006-2009 by the Pygments team, see AUTHORS.)content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
-keyword(import) ident(re)
-keyword(import) ident(sys)
+keyword(import) include(re)
+keyword(import) include(sys)
 
 
 ident(split_path_re) operator(=) ident(re)operator(.)ident(compile)operator(()string<modifier(r)delimiter(')content([/)content(\\\\)content( ])delimiter(')>operator(\))
@@ -22709,11 +22709,11 @@ comment(# Python 2/3 compatibility)
 keyword(if) ident(sys)operator(.)ident(version_info) operator(<) operator(()integer(3)operator(,)integer(0)operator(\))operator(:)
     ident(b) operator(=) ident(bytes) operator(=) predefined(str)
     ident(u_prefix) operator(=) string<delimiter(')content(u)delimiter(')>
-    keyword(import) ident(StringIO)operator(,) ident(cStringIO)
+    keyword(import) include(StringIO)operator(,) include(cStringIO)
     ident(BytesIO) operator(=) ident(cStringIO)operator(.)ident(StringIO)
     ident(StringIO) operator(=) ident(StringIO)operator(.)ident(StringIO)
 keyword(else)operator(:)
-    keyword(import) ident(builtins)
+    keyword(import) include(builtins)
     ident(bytes) operator(=) ident(builtins)operator(.)ident(bytes)
     ident(u_prefix) operator(=) string<delimiter(')delimiter(')>
     keyword(def) method(b)operator(()ident(s)operator(\))operator(:)
@@ -22723,7 +22723,7 @@ keyword(else)operator(:)
             keyword(return) ident(s)
         keyword(else)operator(:)
             keyword(raise) exception(TypeError)operator(()string<delimiter(")content(Invalid argument %r for b(\))delimiter(")> operator(%) operator(()ident(s)operator(,)operator(\))operator(\))
-    keyword(import) ident(io)
+    keyword(import) include(io)
     ident(BytesIO) operator(=) ident(io)operator(.)ident(BytesIO)
     ident(StringIO) operator(=) ident(io)operator(.)ident(StringIO)
 comment(#!/usr/bin/env python)
@@ -22739,10 +22739,10 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(sys)operator(,) ident(os)operator(,) ident(re)
-keyword(import) ident(getopt)
-keyword(import) ident(cStringIO)
-keyword(from) ident(os)operator(.)ident(path) keyword(import) ident(join)operator(,) ident(splitext)operator(,) ident(abspath)
+keyword(import) include(sys)operator(,) include(os)operator(,) include(re)
+keyword(import) include(getopt)
+keyword(import) include(cStringIO)
+keyword(from) include(os.path) keyword(import) include(join)operator(,) include(splitext)operator(,) include(abspath)
 
 
 ident(checkers) operator(=) operator({)operator(})
@@ -22968,10 +22968,10 @@ keyword(def) method(main)operator(()ident(argv)operator(\))operator(:)
 
 keyword(if) ident(__name__) operator(==) string<delimiter(')content(__main__)delimiter(')>operator(:)
     ident(sys)operator(.)ident(exit)operator(()ident(main)operator(()ident(sys)operator(.)ident(argv)operator(\))operator(\))
-keyword(import) ident(sys)
+keyword(import) include(sys)
 
-keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(get_all_lexers)operator(,) ident(find_lexer_class)
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(Lexer)
+keyword(from) include(pygments.lexers) keyword(import) include(get_all_lexers)operator(,) include(find_lexer_class)
+keyword(from) include(pygments.lexer) keyword(import) include(Lexer)
 
 keyword(def) method(main)operator(()operator(\))operator(:)
     ident(uses) operator(=) operator({)operator(})
@@ -23011,9 +23011,9 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(sys)operator(,) ident(os)operator(,) ident(re)
-keyword(import) ident(getopt)
-keyword(from) ident(os)operator(.)ident(path) keyword(import) ident(join)operator(,) ident(abspath)operator(,) ident(isdir)operator(,) ident(isfile)
+keyword(import) include(sys)operator(,) include(os)operator(,) include(re)
+keyword(import) include(getopt)
+keyword(from) include(os.path) keyword(import) include(join)operator(,) include(abspath)operator(,) include(isdir)operator(,) include(isfile)
 
 
 ident(TAGS) operator(=) predefined(set)operator(()operator(()string<delimiter(')content(XXX)delimiter(')>operator(,) string<delimiter(')content(TODO)delimiter(')>operator(,) string<delimiter(')content(FIXME)delimiter(')>operator(,) string<delimiter(')content(HACK)delimiter(')>operator(\))operator(\))
@@ -23217,17 +23217,17 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(sys)operator(,) ident(os)
+keyword(import) include(sys)operator(,) include(os)
 
 keyword(try)operator(:)
-    keyword(import) ident(pygments)
+    keyword(import) include(pygments)
 keyword(except) exception(ImportError)operator(:)
     comment(# try parent path)
     ident(sys)operator(.)ident(path)operator(.)ident(append)operator(()ident(os)operator(.)ident(path)operator(.)ident(join)operator(()ident(os)operator(.)ident(path)operator(.)ident(dirname)operator(()ident(__file__)operator(\))operator(,) string<delimiter(")content(..)delimiter(")>operator(\))operator(\))
 
-keyword(from) ident(pygments) keyword(import) ident(highlight)
-keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(get_lexer_for_filename)operator(,) ident(get_lexer_by_name)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Error)
+keyword(from) include(pygments) keyword(import) include(highlight)
+keyword(from) include(pygments.lexers) keyword(import) include(get_lexer_for_filename)operator(,) include(get_lexer_by_name)
+keyword(from) include(pygments.token) keyword(import) include(Error)
 
 keyword(def) method(main)operator(()ident(fn)operator(\))operator(:)
     keyword(try)operator(:)
@@ -23262,8 +23262,8 @@ keyword(if) ident(__name__) operator(==) string<delimiter(")content(__main__)del
     keyword(for) ident(f) keyword(in) ident(sys)operator(.)ident(argv)operator([)integer(1)operator(:)operator(])operator(:)
         ident(ret) operator(+=) ident(main)operator(()ident(f)operator(\))
     ident(sys)operator(.)ident(exit)operator(()predefined(bool)operator(()ident(ret)operator(\))operator(\))
-keyword(import) ident(re)
-keyword(from) ident(pprint) keyword(import) ident(pprint)
+keyword(import) include(re)
+keyword(from) include(pprint) keyword(import) include(pprint)
 
 ident(r_line) operator(=) ident(re)operator(.)ident(compile)operator(()string<modifier(r)delimiter(")content(^(syn keyword vimCommand contained|syn keyword vimOption )delimiter(")>
                     string<modifier(r)delimiter(")content(contained|syn keyword vimAutoEvent contained\))content(\\s)content(+(.*\))delimiter(")>operator(\))
@@ -23339,9 +23339,9 @@ string<delimiter(""")content(reindent [-d][-r][-v] [ path ... ])content(
 
 ident(__version__) operator(=) string<delimiter(")content(1)delimiter(")>
 
-keyword(import) ident(tokenize)
-keyword(import) ident(os)
-keyword(import) ident(sys)
+keyword(import) include(tokenize)
+keyword(import) include(os)
+keyword(import) include(sys)
 
 ident(verbose) operator(=) integer(0)
 ident(recurse) operator(=) integer(0)
@@ -23361,7 +23361,7 @@ keyword(def) method(errprint)operator(()operator(*)ident(args)operator(\))operat
     ident(sys)operator(.)ident(stderr)operator(.)ident(write)operator(()string<delimiter(")char(\\n)delimiter(")>operator(\))
 
 keyword(def) method(main)operator(()operator(\))operator(:)
-    keyword(import) ident(getopt)
+    keyword(import) include(getopt)
     keyword(global) ident(verbose)operator(,) ident(recurse)operator(,) ident(dryrun)operator(,) ident(no_backup)
 
     keyword(try)operator(:)
@@ -23604,10 +23604,10 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(sys)
-keyword(import) ident(re)
-keyword(from) ident(os) keyword(import) ident(path)
-keyword(from) ident(cStringIO) keyword(import) ident(StringIO)
+keyword(import) include(sys)
+keyword(import) include(re)
+keyword(from) include(os) keyword(import) include(path)
+keyword(from) include(cStringIO) keyword(import) include(StringIO)
 
 ident(split_re) operator(=) ident(re)operator(.)ident(compile)operator(()string<modifier(r)delimiter(')content((?<!)content(\\\\)content(\))content(\\s)content(+)delimiter(')>operator(\))
 
@@ -24552,9 +24552,9 @@ string<delimiter(""")content(
 )delimiter(""")>
 
 keyword(try)operator(:)
-    keyword(from) ident(setuptools) keyword(import) ident(setup)operator(,) ident(find_packages)
+    keyword(from) include(setuptools) keyword(import) include(setup)operator(,) include(find_packages)
 keyword(except) exception(ImportError)operator(:)
-    keyword(from) ident(distutils)operator(.)ident(core) keyword(import) ident(setup)
+    keyword(from) include(distutils.core) keyword(import) include(setup)
     keyword(def) method(find_packages)operator(()operator(\))operator(:)
         keyword(return) operator([)
             string<delimiter(')content(pygments)delimiter(')>operator(,)
@@ -24565,9 +24565,9 @@ keyword(except) exception(ImportError)operator(:)
         operator(])
 
 keyword(try)operator(:)
-    keyword(from) ident(distutils)operator(.)ident(command)operator(.)ident(build_py) keyword(import) ident(build_py_2to3) keyword(as) ident(build_py)
+    keyword(from) include(distutils.command.build_py) keyword(import) include(build_py_2to3) keyword(as) ident(build_py)
 keyword(except) exception(ImportError)operator(:)
-    keyword(from) ident(distutils)operator(.)ident(command)operator(.)ident(build_py) keyword(import) ident(build_py)
+    keyword(from) include(distutils.command.build_py) keyword(import) include(build_py)
 
 ident(setup)operator(()
     ident(name) operator(=) string<delimiter(')content(Pygments)delimiter(')>operator(,)
@@ -24609,15 +24609,15 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(sys)operator(,) ident(os)
-keyword(import) ident(unittest)
+keyword(import) include(sys)operator(,) include(os)
+keyword(import) include(unittest)
 
-keyword(from) ident(os)operator(.)ident(path) keyword(import) ident(dirname)operator(,) ident(basename)operator(,) ident(join)operator(,) ident(abspath)
+keyword(from) include(os.path) keyword(import) include(dirname)operator(,) include(basename)operator(,) include(join)operator(,) include(abspath)
 
-keyword(import) ident(pygments)
+keyword(import) include(pygments)
 
 keyword(try)operator(:)
-    keyword(import) ident(coverage)
+    keyword(import) include(coverage)
 keyword(except) exception(ImportError)operator(:)
     ident(coverage) operator(=) pre_constant(None)
 
@@ -24659,7 +24659,7 @@ keyword(class) class(QuietTestRunner)operator(()predefined(object)operator(\))op
 
 keyword(def) method(run_tests)operator(()ident(with_coverage)operator(=)pre_constant(False)operator(\))operator(:)
     comment(# needed to avoid confusion involving atexit handlers)
-    keyword(import) ident(logging)
+    keyword(import) include(logging)
 
     keyword(if) ident(sys)operator(.)ident(argv)operator([)integer(1)operator(:)operator(])operator(:)
         comment(# test only files given on cmdline)
@@ -24747,19 +24747,19 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(sys)operator(,) ident(os)
+keyword(import) include(sys)operator(,) include(os)
 
 keyword(if) ident(sys)operator(.)ident(version_info) operator(>=) operator(()integer(3)operator(,)operator(\))operator(:)
     comment(# copy test suite over to "build/lib" and convert it)
     keyword(print) operator(()string<delimiter(')content(Copying and converting sources to build/lib/test...)delimiter(')>operator(\))
-    keyword(from) ident(distutils)operator(.)ident(util) keyword(import) ident(copydir_run_2to3)
+    keyword(from) include(distutils.util) keyword(import) include(copydir_run_2to3)
     ident(testroot) operator(=) ident(os)operator(.)ident(path)operator(.)ident(dirname)operator(()ident(__file__)operator(\))
     ident(newroot) operator(=) ident(os)operator(.)ident(path)operator(.)ident(join)operator(()ident(testroot)operator(,) string<delimiter(')content(..)delimiter(')>operator(,) string<delimiter(')content(build/lib/test)delimiter(')>operator(\))
     ident(copydir_run_2to3)operator(()ident(testroot)operator(,) ident(newroot)operator(\))
     ident(os)operator(.)ident(chdir)operator(()ident(os)operator(.)ident(path)operator(.)ident(join)operator(()ident(newroot)operator(,) string<delimiter(')content(..)delimiter(')>operator(\))operator(\))
 
 keyword(try)operator(:)
-    keyword(import) ident(nose)
+    keyword(import) include(nose)
 keyword(except) exception(ImportError)operator(:)
     keyword(print) operator(()string<delimiter(")content(nose is required to run the test suites)delimiter(")>operator(\))
     ident(sys)operator(.)ident(exit)operator(()integer(1)operator(\))
@@ -24770,7 +24770,7 @@ string<delimiter(""")content(
 )content(Support for Pygments tests)content(
 )delimiter(""")>
 
-keyword(import) ident(os)
+keyword(import) include(os)
 
 
 keyword(def) method(location)operator(()ident(mod_name)operator(\))operator(:)
@@ -24789,17 +24789,17 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(os)
-keyword(import) ident(unittest)
-keyword(import) ident(random)
+keyword(import) include(os)
+keyword(import) include(unittest)
+keyword(import) include(random)
 
-keyword(from) ident(pygments) keyword(import) ident(lexers)operator(,) ident(formatters)operator(,) ident(filters)operator(,) ident(format)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(_TokenType)operator(,) ident(Text)
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(RegexLexer)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(img) keyword(import) ident(FontNotFound)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(BytesIO)operator(,) ident(StringIO)operator(,) predefined(bytes)operator(,) ident(b)
+keyword(from) include(pygments) keyword(import) include(lexers)operator(,) include(formatters)operator(,) include(filters)operator(,) include(format)
+keyword(from) include(pygments.token) keyword(import) include(_TokenType)operator(,) include(Text)
+keyword(from) include(pygments.lexer) keyword(import) include(RegexLexer)
+keyword(from) include(pygments.formatters.img) keyword(import) include(FontNotFound)
+keyword(from) include(pygments.util) keyword(import) include(BytesIO)operator(,) include(StringIO)operator(,) include(bytes)operator(,) include(b)
 
-keyword(import) ident(support)
+keyword(import) include(support)
 
 ident(TESTFILE)operator(,) ident(TESTDIR) operator(=) ident(support)operator(.)ident(location)operator(()ident(__file__)operator(\))
 
@@ -24950,7 +24950,7 @@ keyword(class) class(FormattersTest)operator(()ident(unittest)operator(.)ident(T
             ident(inst)operator(.)ident(format)operator(()ident(ts)operator(,) ident(out)operator(\))
 
     keyword(def) method(test_encodings)operator(()pre_constant(self)operator(\))operator(:)
-        keyword(from) ident(pygments)operator(.)ident(formatters) keyword(import) ident(HtmlFormatter)
+        keyword(from) include(pygments.formatters) keyword(import) include(HtmlFormatter)
 
         comment(# unicode output)
         ident(fmt) operator(=) ident(HtmlFormatter)operator(()operator(\))
@@ -24970,7 +24970,7 @@ keyword(class) class(FormattersTest)operator(()ident(unittest)operator(.)ident(T
         pre_constant(self)operator(.)ident(assert_)operator(()string<modifier(u)delimiter(")content(ä)delimiter(")>operator(.)ident(encode)operator(()string<delimiter(")content(utf8)delimiter(")>operator(\)) keyword(in) ident(format)operator(()ident(tokens)operator(,) ident(fmt)operator(\))operator(\))
 
     keyword(def) method(test_styles)operator(()pre_constant(self)operator(\))operator(:)
-        keyword(from) ident(pygments)operator(.)ident(formatters) keyword(import) ident(HtmlFormatter)
+        keyword(from) include(pygments.formatters) keyword(import) include(HtmlFormatter)
         ident(fmt) operator(=) ident(HtmlFormatter)operator(()ident(style)operator(=)string<delimiter(")content(pastie)delimiter(")>operator(\))
 
     keyword(def) method(test_unicode_handling)operator(()pre_constant(self)operator(\))operator(:)
@@ -25019,11 +25019,11 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(unittest)
-keyword(import) ident(os)
+keyword(import) include(unittest)
+keyword(import) include(os)
 
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Text)operator(,) ident(Number)
-keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(CLexer)
+keyword(from) include(pygments.token) keyword(import) include(Text)operator(,) include(Number)
+keyword(from) include(pygments.lexers) keyword(import) include(CLexer)
 
 
 keyword(class) class(CLexerTest)operator(()ident(unittest)operator(.)ident(TestCase)operator(\))operator(:)
@@ -25056,14 +25056,14 @@ string<delimiter(""")content(
 
 comment(# Test the command line interface)
 
-keyword(import) ident(sys)operator(,) ident(os)
-keyword(import) ident(unittest)
-keyword(import) ident(StringIO)
+keyword(import) include(sys)operator(,) include(os)
+keyword(import) include(unittest)
+keyword(import) include(StringIO)
 
-keyword(from) ident(pygments) keyword(import) ident(highlight)
-keyword(from) ident(pygments)operator(.)ident(cmdline) keyword(import) ident(main) keyword(as) ident(cmdline_main)
+keyword(from) include(pygments) keyword(import) include(highlight)
+keyword(from) include(pygments.cmdline) keyword(import) include(main) keyword(as) ident(cmdline_main)
 
-keyword(import) ident(support)
+keyword(import) include(support)
 
 ident(TESTFILE)operator(,) ident(TESTDIR) operator(=) ident(support)operator(.)ident(location)operator(()ident(__file__)operator(\))
 
@@ -25134,8 +25134,8 @@ keyword(class) class(CmdLineTest)operator(()ident(unittest)operator(.)ident(Test
 
     keyword(def) method(test_normal)operator(()pre_constant(self)operator(\))operator(:)
         comment(# test that cmdline gives the same output as library api)
-        keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(PythonLexer)
-        keyword(from) ident(pygments)operator(.)ident(formatters) keyword(import) ident(HtmlFormatter)
+        keyword(from) include(pygments.lexers) keyword(import) include(PythonLexer)
+        keyword(from) include(pygments.formatters) keyword(import) include(HtmlFormatter)
         ident(filename) operator(=) ident(TESTFILE)
         ident(code) operator(=) predefined(open)operator(()ident(filename)operator(,) string<delimiter(')content(rb)delimiter(')>operator(\))operator(.)ident(read)operator(()operator(\))
 
@@ -25159,13 +25159,13 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(os)
-keyword(import) ident(unittest)
+keyword(import) include(os)
+keyword(import) include(unittest)
 
-keyword(from) ident(pygments) keyword(import) ident(highlight)
-keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(get_lexer_for_filename)operator(,) ident(get_lexer_by_name)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Error)
-keyword(from) ident(pygments)operator(.)ident(util) keyword(import) ident(ClassNotFound)operator(,) ident(b)
+keyword(from) include(pygments) keyword(import) include(highlight)
+keyword(from) include(pygments.lexers) keyword(import) include(get_lexer_for_filename)operator(,) include(get_lexer_by_name)
+keyword(from) include(pygments.token) keyword(import) include(Error)
+keyword(from) include(pygments.util) keyword(import) include(ClassNotFound)operator(,) include(b)
 
 
 comment(# generate methods)
@@ -25214,18 +25214,18 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(os)
-keyword(import) ident(re)
-keyword(import) ident(unittest)
-keyword(import) ident(StringIO)
-keyword(import) ident(tempfile)
-keyword(from) ident(os)operator(.)ident(path) keyword(import) ident(join)operator(,) ident(dirname)operator(,) ident(isfile)operator(,) ident(abspath)
+keyword(import) include(os)
+keyword(import) include(re)
+keyword(import) include(unittest)
+keyword(import) include(StringIO)
+keyword(import) include(tempfile)
+keyword(from) include(os.path) keyword(import) include(join)operator(,) include(dirname)operator(,) include(isfile)operator(,) include(abspath)
 
-keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(PythonLexer)
-keyword(from) ident(pygments)operator(.)ident(formatters) keyword(import) ident(HtmlFormatter)operator(,) ident(NullFormatter)
-keyword(from) ident(pygments)operator(.)ident(formatters)operator(.)ident(html) keyword(import) ident(escape_html)
+keyword(from) include(pygments.lexers) keyword(import) include(PythonLexer)
+keyword(from) include(pygments.formatters) keyword(import) include(HtmlFormatter)operator(,) include(NullFormatter)
+keyword(from) include(pygments.formatters.html) keyword(import) include(escape_html)
 
-keyword(import) ident(support)
+keyword(import) include(support)
 
 ident(TESTFILE)operator(,) ident(TESTDIR) operator(=) ident(support)operator(.)ident(location)operator(()ident(__file__)operator(\))
 
@@ -25291,7 +25291,7 @@ keyword(class) class(HtmlFormatterTest)operator(()ident(unittest)operator(.)iden
         ident(catname) operator(=) ident(os)operator(.)ident(path)operator(.)ident(join)operator(()ident(TESTDIR)operator(,) string<delimiter(')content(dtds)delimiter(')>operator(,) string<delimiter(')content(HTML4.soc)delimiter(')>operator(\))
         keyword(try)operator(:)
             keyword(try)operator(:)
-                keyword(import) ident(subprocess)
+                keyword(import) include(subprocess)
                 ident(ret) operator(=) ident(subprocess)operator(.)ident(Popen)operator(()operator([)string<delimiter(')content(nsgmls)delimiter(')>operator(,) string<delimiter(')content(-s)delimiter(')>operator(,) string<delimiter(')content(-c)delimiter(')>operator(,) ident(catname)operator(,) ident(pathname)operator(])operator(,)
                                        ident(stdout)operator(=)ident(subprocess)operator(.)ident(PIPE)operator(\))operator(.)ident(wait)operator(()operator(\))
             keyword(except) exception(ImportError)operator(:)
@@ -25338,14 +25338,14 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(os)
-keyword(import) ident(unittest)
-keyword(import) ident(tempfile)
+keyword(import) include(os)
+keyword(import) include(unittest)
+keyword(import) include(tempfile)
 
-keyword(from) ident(pygments)operator(.)ident(formatters) keyword(import) ident(LatexFormatter)
-keyword(from) ident(pygments)operator(.)ident(lexers) keyword(import) ident(PythonLexer)
+keyword(from) include(pygments.formatters) keyword(import) include(LatexFormatter)
+keyword(from) include(pygments.lexers) keyword(import) include(PythonLexer)
 
-keyword(import) ident(support)
+keyword(import) include(support)
 
 ident(TESTFILE)operator(,) ident(TESTDIR) operator(=) ident(support)operator(.)ident(location)operator(()ident(__file__)operator(\))
 
@@ -25365,7 +25365,7 @@ keyword(class) class(LatexFormatterTest)operator(()ident(unittest)operator(.)ide
         ident(tfile)operator(.)ident(close)operator(()operator(\))
         keyword(try)operator(:)
             keyword(try)operator(:)
-                keyword(import) ident(subprocess)
+                keyword(import) include(subprocess)
                 ident(ret) operator(=) ident(subprocess)operator(.)ident(Popen)operator(()operator([)string<delimiter(')content(latex)delimiter(')>operator(,) string<delimiter(')content(-interaction=nonstopmode)delimiter(')>operator(,)
                                         ident(pathname)operator(])operator(,)
                                        ident(stdout)operator(=)ident(subprocess)operator(.)ident(PIPE)operator(\))operator(.)ident(wait)operator(()operator(\))
@@ -25391,10 +25391,10 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(unittest)
+keyword(import) include(unittest)
 
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(Text)
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(RegexLexer)
+keyword(from) include(pygments.token) keyword(import) include(Text)
+keyword(from) include(pygments.lexer) keyword(import) include(RegexLexer)
 
 keyword(class) class(TestLexer)operator(()ident(RegexLexer)operator(\))operator(:)
     string<delimiter(""")content(Test tuple state transitions including #pop.)delimiter(""")>
@@ -25428,11 +25428,11 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(unittest)
-keyword(import) ident(StringIO)
-keyword(import) ident(sys)
+keyword(import) include(unittest)
+keyword(import) include(StringIO)
+keyword(import) include(sys)
 
-keyword(from) ident(pygments) keyword(import) ident(token)
+keyword(from) include(pygments) keyword(import) include(token)
 
 
 keyword(class) class(TokenTest)operator(()ident(unittest)operator(.)ident(TestCase)operator(\))operator(:)
@@ -25472,9 +25472,9 @@ keyword(class) class(TokenTest)operator(()ident(unittest)operator(.)ident(TestCa
 
 keyword(if) ident(__name__) operator(==) string<delimiter(')content(__main__)delimiter(')>operator(:)
     ident(unittest)operator(.)ident(main)operator(()operator(\))
-keyword(import) ident(unittest)
-keyword(from) ident(pygments)operator(.)ident(lexer) keyword(import) ident(using)operator(,) ident(bygroups)operator(,) ident(this)operator(,) ident(RegexLexer)
-keyword(from) ident(pygments)operator(.)ident(token) keyword(import) ident(String)operator(,) ident(Text)operator(,) ident(Keyword)
+keyword(import) include(unittest)
+keyword(from) include(pygments.lexer) keyword(import) include(using)operator(,) include(bygroups)operator(,) include(this)operator(,) include(RegexLexer)
+keyword(from) include(pygments.token) keyword(import) include(String)operator(,) include(Text)operator(,) include(Keyword)
 
 keyword(class) class(TestLexer)operator(()ident(RegexLexer)operator(\))operator(:)
     ident(tokens) operator(=) operator({)
@@ -25512,10 +25512,10 @@ string<delimiter(""")content(
 )content(    :license: BSD, see LICENSE for details.)content(
 )delimiter(""")>
 
-keyword(import) ident(unittest)
-keyword(import) ident(os)
+keyword(import) include(unittest)
+keyword(import) include(os)
 
-keyword(from) ident(pygments) keyword(import) ident(util)
+keyword(from) include(pygments) keyword(import) include(util)
 
 
 keyword(class) class(UtilTest)operator(()ident(unittest)operator(.)ident(TestCase)operator(\))operator(:)

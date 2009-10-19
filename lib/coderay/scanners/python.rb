@@ -61,6 +61,7 @@ module Scanners
       add(PREDEFINED_VARIABLES_AND_CONSTANTS, :pre_constant).
       add(PREDEFINED_EXCEPTIONS, :exception)
     
+    NAME = / [^\W\d] \w* /x
     ESCAPE = / [abfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
     UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} | N\{[-\w ]+\} /x
     
@@ -84,8 +85,14 @@ module Scanners
     
     DEF_NEW_STATE = WordList.new(:initial).
       add(%w(def), :def_expected).
-      # add(%w(import from), :include_expected).
+      add(%w(import from), :include_expected).
       add(%w(class), :class_expected)
+    
+    DESCRIPTOR = /
+      #{NAME}
+      (?: \. #{NAME} )*
+      | \*
+    /x
     
     def scan_tokens tokens, options
       
@@ -94,6 +101,7 @@ module Scanners
       string_raw = false
       import_clause = class_name_follows = last_token_dot = false
       unicode = string.respond_to?(:encoding) && string.encoding.name == 'UTF-8'
+      from_import_state = []
       
       until eos?
         
@@ -124,8 +132,13 @@ module Scanners
             raise_inspect "else case \" reached; %p not handled." % peek(1), tokens, state
           end
         
-        elsif match = scan(/ [ \t]+ | \\?\n /x)
+        elsif match = scan(/ [ \t]+ | \\\n /x)
           tokens << [match, :space]
+          next
+        
+        elsif match = scan(/\n/)
+          tokens << [match, :space]
+          state = :initial if state == :include_expected
           next
         
         elsif match = scan(/ \# [^\n]* /mx)
@@ -152,9 +165,8 @@ module Scanners
           
           # TODO: backticks
           
-          elsif match = scan(unicode ? /[[:alpha:]_]\w*/ux : /[[:alpha:]_]\w*/x)
+          elsif match = scan(unicode ? /#{NAME}/uo : /#{NAME}/o)
             kind = IDENT_KIND[match]
-            # TODO: from, import
             # TODO: keyword arguments
             kind = :ident if last_token_dot
             if kind == :old_keyword
@@ -163,6 +175,7 @@ module Scanners
               kind = :ident
             elsif kind == :keyword
               state = DEF_NEW_STATE[match]
+              from_import_state << match.to_sym if state == :include_expected
             end
           
           elsif scan(/@[a-zA-Z0-9_.]+[lL]?/)
@@ -199,7 +212,7 @@ module Scanners
             
         elsif state == :def_expected
           state = :initial
-          if match = scan(unicode ? /[[:alpha:]_]\w*/ux : /[[:alpha:]_]\w*/x)
+          if match = scan(unicode ? /#{NAME}/uo : /#{NAME}/o)
             kind = :method
           else
             next
@@ -207,17 +220,37 @@ module Scanners
         
         elsif state == :class_expected
           state = :initial
-          if match = scan(unicode ? /[[:alpha:]_]\w*/ux : /[[:alpha:]_]\w*/x)
+          if match = scan(unicode ? /#{NAME}/uo : /#{NAME}/o)
             kind = :class
           else
             next
           end
           
         elsif state == :include_expected
-          state = :initial
-          if match = scan(unicode ? /[[:alpha:]_]\w*/ux : /[[:alpha:]_]\w*/x)
+          if match = scan(unicode ? /#{DESCRIPTOR}/uo : /#{DESCRIPTOR}/o)
             kind = :include
+            if match == 'as'
+              kind = :keyword
+              from_import_state << :as
+            elsif from_import_state.first == :from && match == 'import'
+              kind = :keyword
+              from_import_state << :import
+            elsif from_import_state.last == :as
+              # kind = match[0,1][unicode ? /[[:upper:]]/u : /[[:upper:]]/] ? :class : :method
+              kind = :ident
+              from_import_state.pop
+            elsif IDENT_KIND[match] == :keyword
+              unscan
+              match = nil
+              state = :initial
+              next
+            end
+          elsif match = scan(/,/)
+            from_import_state.pop if from_import_state.last == :as
+            kind = :operator
           else
+            from_import_state = []
+            state = :initial
             next
           end
           

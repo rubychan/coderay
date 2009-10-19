@@ -126,7 +126,7 @@ module CodeRay
       end
       
       def lang
-        @lang ||= name[/[\w_]+$/].downcase
+        @lang ||= name[/\w+$/].downcase
       end
       
       def extension extension = nil
@@ -143,20 +143,16 @@ module CodeRay
     
     def test_ALL
       puts
-      puts '    >> Testing '.magenta + self.class.name[/\w+$/].cyan +
+      scanner = CodeRay::Scanners[self.class.lang].new
+      raise "No Scanner for #{self.class.lang} found!" if scanner.is_a? CodeRay::Scanners[nil]
+      puts '    >> Testing '.magenta + scanner.class.title.cyan +
         ' scanner <<'.magenta
       puts
       
       time_for_lang = Benchmark.realtime do
-        scanner = CodeRay::Scanners[self.class.lang].new
-        raise "No Scanner for #{self.class.lang} found!" if scanner.is_a? CodeRay::Scanners[nil]
         max = ENV.fetch('max', DEFAULT_MAX).to_i
-        
         random_test scanner, max unless ENV['norandom'] || ENV['only']
-        
-        unless ENV['noexamples']
-          examples_test scanner, max
-        end
+        examples_test scanner, max unless ENV['noexamples']
       end
       
       puts 'Finished in '.green + '%0.2fs'.white % time_for_lang + '.'.green
@@ -346,7 +342,7 @@ module CodeRay
     end
     
     Highlighter = CodeRay::Encoders[:html].new(
-      :tab_width => 2,
+      :tab_width => 8,
       :line_numbers => :table,
       :wrap => :page,
       :hint => :debug,
@@ -401,7 +397,7 @@ module CodeRay
       
       def check_env_lang
         for key in %w(only new)
-          if ENV[key] && ENV[key][/^(\w+)\.([-\w_]+)$/]
+          if ENV[key] && ENV[key][/^(\w+)\.([-\w]+)$/]
             ENV['lang'] = $1
             ENV[key] = $2
           end

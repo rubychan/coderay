@@ -29,7 +29,7 @@ integer(67)operator(,)integer(9)operator(,)integer(59)operator(,)integer(1)opera
 integer(28)operator(,)integer(90)operator(,)integer(29)operator(,) integer(71)operator(,)integer(4)operator(,)integer(55)operator(,)integer(9)operator(,)integer(84)operator(,)integer(28)operator(,)integer(82)operator(,)integer(29)operator(,)integer(101)operator(,)integer(5)operator(,) integer(103)operator(,)integer(9)operator(,) integer(98)operator(,)integer(35)operator(,)
 integer(97)operator(,)integer(1)operator(,)integer(94)operator(,)integer(35)operator(,)integer(93)operator(,)integer(1)operator(,)integer(100)operator(,)integer(35)operator(,)integer(92)operator(,)integer(31)operator(,)integer(99)operator(,)integer(5)operator(,)integer(96)operator(,)integer(39)operator(,)integer(95)operator(,)integer(5)operator(,)integer(102)operator(,)integer(35)operator(};)
 
-pre_type(void) ident(run)operator(()pre_type(int) ident(gun)operator(=)integer(0)operator(\)) operator({)        comment(// [gun]=[:GUN1,:GUN2])
+directive(void) ident(run)operator(()pre_type(int) ident(gun)operator(=)integer(0)operator(\)) operator({)        comment(// [gun]=[:GUN1,:GUN2])
         ident(printf)operator(()string<delimiter(")content(run(\) %i)char(\\n)delimiter(")>operator(,) ident(gun)operator(\);)
         reserved(switch)operator(()ident(gun)operator(\)) operator({)
         reserved(case) ident(GUN1) ident(when)operator(()integer(2)operator(\))

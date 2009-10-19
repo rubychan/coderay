@@ -9,17 +9,14 @@ module Scanners
     file_extension 'c'
 
     RESERVED_WORDS = [
-      'asm', 'break', 'case', 'continue', 'default', 'do', 'else',
-      'for', 'goto', 'if', 'return', 'switch', 'while',
-      'struct', 'union', 'enum', 'typedef',
-      'static', 'register', 'auto', 'extern',
-      'sizeof',
-      'volatile', 'const',  # C89
-      'inline', 'restrict', # C99
+      'asm', 'break', 'case', 'continue', 'default', 'do',
+      'else', 'enum', 'for', 'goto', 'if', 'return',
+      'sizeof', 'struct', 'switch', 'typedef', 'union', 'while',
+      'restrict', # C99
     ]
 
     PREDEFINED_TYPES = [
-      'int', 'long', 'short', 'char', 'void',
+      'int', 'long', 'short', 'char',
       'signed', 'unsigned', 'float', 'double',
       'bool', 'complex',  # C99
     ]
@@ -28,13 +25,19 @@ module Scanners
       'EOF', 'NULL',
       'true', 'false',  # C99
     ]
+    DIRECTIVES = [
+      'auto', 'extern', 'register', 'static', 'void',
+      'const', 'volatile',  # C89
+      'inline',  # C99
+    ]
 
     IDENT_KIND = WordList.new(:ident).
       add(RESERVED_WORDS, :reserved).
       add(PREDEFINED_TYPES, :pre_type).
+      add(DIRECTIVES, :directive).
       add(PREDEFINED_CONSTANTS, :pre_constant)
 
-    ESCAPE = / [rbfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
+    ESCAPE = / [rbfntv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
     UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x
 
     def scan_tokens tokens, options
@@ -60,16 +63,19 @@ module Scanners
             match << scan_until(/ ^\# (?:elif|else|endif) .*? $ | \z /xm) unless eos?
             kind = :comment
 
-          elsif scan(/ [-+*\/=<>?:;,!&^|()\[\]{}~%]+ | \.(?!\d) /x)
+          elsif scan(/ [-+*=<>?:;,!&^|()\[\]{}~%]+ | \/=? | \.(?!\d) /x)
             kind = :operator
 
           elsif match = scan(/ [A-Za-z_][A-Za-z_0-9]* /x)
             kind = IDENT_KIND[match]
             if kind == :ident and check(/:(?!:)/)
-              match << scan(/:/)
+              # FIXME: don't match a?b:c
               kind = :label
             end
 
+          elsif scan(/\$/)
+            kind = :ident
+          
           elsif match = scan(/L?"/)
             tokens << [:open, :string]
             if match[0] == ?L
@@ -92,7 +98,7 @@ module Scanners
           elsif scan(/(?:0[0-7]+)(?![89.eEfF])/)
             kind = :oct
 
-          elsif scan(/(?:\d+)(?![.eEfF])/)
+          elsif scan(/(?:\d+)(?![.eEfF])L?L?/)
             kind = :integer
 
           elsif scan(/\d[fF]?|\d*\.\d+(?:[eE][+-]?\d+)?[fF]?|\d+[eE][+-]?\d+[fF]?/)
@@ -132,8 +138,8 @@ module Scanners
             state = :initial if match.index ?\n
 
           else
-            getch
-            kind = :error
+            state = :initial
+            next
 
           end
 

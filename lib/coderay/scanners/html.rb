@@ -6,6 +6,13 @@ module Scanners
 
     include Streamable
     register_for :html
+    
+    KINDS_NOT_LOC = [
+      :comment, :doctype, :preprocessor,
+      :tag, :attribute_name, :operator,
+      :attribute_value, :delimiter, :content,
+      :plain, :entity, :error
+    ]
 
     ATTR_NAME = /[\w.:-]+/
     ATTR_VALUE_UNQUOTED = ATTR_NAME
@@ -68,9 +75,9 @@ module Scanners
               kind = :preprocessor
             elsif scan(/<\?.*?\?>|<%.*?%>/m)
               kind = :comment
-            elsif scan(/<\/[-\w_.:]*>/m)
+            elsif scan(/<\/[-\w.:]*>/m)
               kind = :tag
-            elsif match = scan(/<[-\w_.:]+>?/m)
+            elsif match = scan(/<[-\w.:]+>?/m)
               kind = :tag
               state = :attribute unless match[-1] == ?>
             elsif scan(/[^<>&]+/)

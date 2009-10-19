@@ -9,6 +9,8 @@ module Scanners
     register_for :yaml
     file_extension 'yml'
     
+    KINDS_NOT_LOC = :all
+    
     def scan_tokens tokens, options
       
       value_expected = nil

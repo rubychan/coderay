@@ -6,7 +6,7 @@ module CodeRay module Scanners
     register_for :sql
     
     RESERVED_WORDS = %w(
-      create table index trigger drop primary key set select
+      create database table index trigger drop primary key set select
       insert update delete replace into
       on from values before and or if exists case when
       then else as group order by avg where
@@ -35,7 +35,7 @@ module CodeRay module Scanners
       add(PREDEFINED_FUNCTIONS, :predefined).
       add(DIRECTIVES, :directive)
     
-    ESCAPE = / [rbfnrtv\n\\\/'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} | . /mx
+    ESCAPE = / [rbfntv\n\\\/'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} | . /mx
     UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x
     
     STRING_PREFIXES = /[xnb]|_\w+/i

@@ -12,6 +12,8 @@ module Scanners
     file_extension :xhtml
     title 'Nitro XHTML'
 
+    KINDS_NOT_LOC = HTML::KINDS_NOT_LOC
+    
     NITRO_RUBY_BLOCK = /
       <\?r
       (?>

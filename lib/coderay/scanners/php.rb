@@ -249,6 +249,7 @@ module Scanners
           elsif match = scan(RE::IDENTIFIER)
             kind = Words::IDENT_KIND[match]
             if kind == :ident && check(/:(?!:)/) #&& tokens[-2][0] == 'case'
+              # FIXME: don't match a?b:c
               kind = :label
             elsif kind == :ident && match =~ /^[A-Z]/
               kind = :constant

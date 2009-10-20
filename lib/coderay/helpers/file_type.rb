@@ -35,7 +35,7 @@ module FileType
     def [] filename, read_shebang = false
       name = File.basename filename
       ext = File.extname(name).sub(/^\./, '')  # from last dot, delete the leading dot
-      ext2 = filename[/\.(.*)/, 1]  # from first dot
+      ext2 = filename.to_s[/\.(.*)/, 1]  # from first dot
 
       type =
         TypeFromExt[ext.downcase] ||
@@ -82,7 +82,7 @@ module FileType
 
   TypeFromExt = {
     'c' => :c,
-    'cpp' => :c,
+    'cpp' => :cpp,
     'css' => :css,
     'diff' => :diff,
     'dpr' => :delphi,
@@ -139,7 +139,7 @@ end
 __END__
 require 'test/unit'
 
-class TC_FileType < Test::Unit::TestCase
+class FileTypeTests < Test::Unit::TestCase
   
   include CodeRay
   
@@ -169,6 +169,8 @@ class TC_FileType < Test::Unit::TestCase
 
   def test_ruby
     assert_equal :ruby, FileType['test.rb']
+    assert_equal :ruby, FileType['test.java.rb']
+    assert_equal :java, FileType['test.rb.java']
     assert_equal :ruby, FileType['C:\\Program Files\\x\\y\\c\\test.rbw']
     assert_equal :ruby, FileType['/usr/bin/something/Rakefile']
     assert_equal :ruby, FileType['~/myapp/gem/Rantfile']
@@ -201,6 +203,15 @@ class TC_FileType < Test::Unit::TestCase
     assert_equal :yaml, FileType['test.yaml']
     assert_equal :yaml, FileType['my.html.yaml']
     assert_not_equal :yaml, FileType['YAML']
+  end
+
+  def test_pathname
+    require 'pathname'
+    pn = Pathname.new 'test.rb'
+    assert_equal :ruby, FileType[pn]
+    dir = Pathname.new '/etc/var/blubb'
+    assert_equal :ruby, FileType[dir + pn]
+    assert_equal :cpp, FileType[dir + 'test.cpp']
   end
 
   def test_no_shebang

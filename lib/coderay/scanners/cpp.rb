@@ -96,7 +96,7 @@ module Scanners
             kind = :delimiter
 
           elsif scan(/#\s*(\w*)/)
-            kind = :preprocessor  # FIXME multiline preprocs
+            kind = :preprocessor
             state = :include_expected if self[1] == 'include'
 
           elsif scan(/ L?' (?: [^\'\n\\] | \\ #{ESCAPE} )? '? /ox)

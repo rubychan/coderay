@@ -23,10 +23,10 @@ local_variable($a) operator(=)
 string<delimiter(")content(This is a multiline
 here document)delimiter(")>operator(;)
 
-local_variable($a) operator(=) operator(<<)operator(<)constant(EOF)
-constant(This) ident(is) ident(a) ident(multiline) ident(here) ident(document)
-ident(terminated) ident(by) constant(EOF) ident(on) ident(a) ident(line) ident(by) ident(itself)
-constant(EOF)operator(;)
+local_variable($a) operator(=) string<delimiter(<<<EOF)content(
+This is a multiline here document
+terminated by EOF on a line by itself
+)delimiter(EOF)>operator(;)
 comment(#-----------------------------)
 
 comment(# @@PLEAC@@_1.1)
@@ -99,7 +99,7 @@ local_variable($b) operator(=) predefined(unpack)operator(()string<delimiter(")c
 predefined(print) local_variable($b)operator([)string<delimiter(')content(b)delimiter(')>operator(])operator(.)string<delimiter(")char(\\n)delimiter(")>operator(.)local_variable($b)operator([)string<delimiter(')content(c)delimiter(')>operator(])operator(.)string<delimiter(")char(\\n)delimiter(")>operator(;)
 
 comment(#-----------------------------)
-reserved(function) ident(cut2fmt)operator(()operator(\)) operator({)
+reserved(function) function(cut2fmt)operator(()operator(\)) operator({)
     local_variable($positions) operator(=) predefined(func_get_args)operator(()operator(\))operator(;)
     local_variable($template)  operator(=) string<delimiter(')delimiter(')>operator(;)
     local_variable($lastpos)   operator(=) integer(1)operator(;)
@@ -409,7 +409,7 @@ local_variable($string) operator(=) predefined(preg_replace)operator(()string<de
 comment(#-----------------------------)
 comment(// 1. trim leading and trailing white space)
 comment(// 2. collapse internal whitespace to single space each)
-reserved(function) ident(sub_trim)operator(()local_variable($string)operator(\)) operator({)
+reserved(function) function(sub_trim)operator(()local_variable($string)operator(\)) operator({)
     local_variable($string) operator(=) predefined(trim)operator(()local_variable($string)operator(\))operator(;)
     local_variable($string) operator(=) predefined(preg_replace)operator(()string<delimiter(')content(/)content(\\s)content(+/)delimiter(')>operator(,) string<delimiter(')content( )delimiter(')>operator(,) local_variable($string)operator(\))operator(;)
     reserved(return) local_variable($string)operator(;)
@@ -429,7 +429,7 @@ comment(#-----------------------------)
 comment(// substitution function for getpwent(\):)
 comment(// returns an array of user entries,)
 comment(// each entry contains the username and the full name)
-reserved(function) ident(getpwent)operator(()operator(\)) operator({)
+reserved(function) function(getpwent)operator(()operator(\)) operator({)
     local_variable($pwents) operator(=) predefined(array)operator(()operator(\))operator(;)
     local_variable($handle) operator(=) predefined(fopen)operator(()string<delimiter(")content(passwd)delimiter(")>operator(,) string<delimiter(")content(r)delimiter(")>operator(\))operator(;)
     reserved(while) operator(()operator(!)predefined(feof)operator(()local_variable($handle)operator(\))operator(\)) operator({)
@@ -499,7 +499,7 @@ predefined(preg_match)operator(()string<delimiter(')content(/^([+-]?\)(?=)conten
 
 comment(// ----------------------------)
 
-reserved(function) ident(getnum)operator(()local_variable($s)operator(\))
+reserved(function) function(getnum)operator(()local_variable($s)operator(\))
 operator({)
   predefined(sscanf)operator(()local_variable($s)operator(,) string<delimiter(")content(%D)delimiter(")>operator(,) local_variable($number)operator(\))operator(;) reserved(return) predefined(isset)operator(()local_variable($number)operator(\)) operator(?) local_variable($number) operator(:) integer(0)operator(;)
 operator(})
@@ -642,7 +642,7 @@ local_variable($random) operator(=) predefined(rand)operator(()local_variable($x
 
 comment(// ----------------------------)
 
-reserved(function) ident(make_password)operator(()local_variable($chars)operator(,) local_variable($reqlen)operator(\))
+reserved(function) function(make_password)operator(()local_variable($chars)operator(,) local_variable($reqlen)operator(\))
 operator({)
   local_variable($len) operator(=) predefined(strlen)operator(()local_variable($chars)operator(\))operator(;)
   reserved(for) operator(()local_variable($i) operator(=) integer(0)operator(;) local_variable($i) operator(<) local_variable($reqlen)operator(;) local_variable($i)operator(++)operator(\)) local_variable($password) operator(.=) predefined(substr)operator(()local_variable($chars)operator(,) predefined(rand)operator(()integer(0)operator(,) local_variable($len)operator(\))operator(,) integer(1)operator(\))operator(;)
@@ -687,9 +687,9 @@ comment(// approximate the generation of a 'truly random value')
 local_variable($truly_random_value) operator(=) ident(mt_rand)operator(()operator(\))operator(;)
 
 comment(// @@PLEAC@@_2.10)
-reserved(function) ident(random)operator(()operator(\)) operator({) reserved(return) operator(()pre_type(float)operator(\)) predefined(rand)operator(()operator(\)) operator(/) operator(()pre_type(float)operator(\)) predefined(getrandmax)operator(()operator(\))operator(;) operator(})
+reserved(function) function(random)operator(()operator(\)) operator({) reserved(return) operator(()pre_type(float)operator(\)) predefined(rand)operator(()operator(\)) operator(/) operator(()pre_type(float)operator(\)) predefined(getrandmax)operator(()operator(\))operator(;) operator(})
 
-reserved(function) ident(gaussian_rand)operator(()operator(\))
+reserved(function) function(gaussian_rand)operator(()operator(\))
 operator({)
   local_variable($u1) operator(=) float(0.0)operator(;) local_variable($u2) operator(=) float(0.0)operator(;) local_variable($g1) operator(=) float(0.0)operator(;) local_variable($g2) operator(=) float(0.0)operator(;) local_variable($w) operator(=) float(0.0)operator(;)
   
@@ -714,8 +714,8 @@ predefined(printf)operator(()string<delimiter(")content(You have been hired at: 
 comment(// @@PLEAC@@_2.11)
 comment(// 'deg2rad' and 'rad2deg' are actually PHP built-ins, but here is how you might implement)
 operator(/)  ident(them) reserved(if) ident(needed)
-reserved(function) ident(deg2rad_)operator(()local_variable($deg)operator(\)) operator({) reserved(return) operator(()local_variable($deg) operator(/) float(180.0)operator(\)) operator(*) pre_constant(M_PI)operator(;) operator(})
-reserved(function) ident(rad2deg_)operator(()local_variable($rad)operator(\)) operator({) reserved(return) operator(()local_variable($rad) operator(/) pre_constant(M_PI)operator(\)) operator(*) float(180.0)operator(;) operator(})
+reserved(function) function(deg2rad_)operator(()local_variable($deg)operator(\)) operator({) reserved(return) operator(()local_variable($deg) operator(/) float(180.0)operator(\)) operator(*) pre_constant(M_PI)operator(;) operator(})
+reserved(function) function(rad2deg_)operator(()local_variable($rad)operator(\)) operator({) reserved(return) operator(()local_variable($rad) operator(/) pre_constant(M_PI)operator(\)) operator(*) float(180.0)operator(;) operator(})
 
 comment(// ------------)
 
@@ -724,7 +724,7 @@ predefined(printf)operator(()string<delimiter(")content(%f)char(\\n)delimiter(")
 
 comment(// ----------------------------)
 
-reserved(function) ident(degree_sin)operator(()local_variable($deg)operator(\)) operator({) reserved(return) predefined(sin)operator(()predefined(deg2rad)operator(()local_variable($deg)operator(\))operator(\))operator(;) operator(})
+reserved(function) function(degree_sin)operator(()local_variable($deg)operator(\)) operator({) reserved(return) predefined(sin)operator(()predefined(deg2rad)operator(()local_variable($deg)operator(\))operator(\))operator(;) operator(})
 
 comment(// ------------)
 
@@ -734,7 +734,7 @@ predefined(printf)operator(()string<delimiter(")content(%f)char(\\n)delimiter(")
 predefined(printf)operator(()string<delimiter(")content(%f)char(\\n)delimiter(")>operator(,) ident(degree_sin)operator(()float(380.0)operator(\))operator(\))operator(;)
 
 comment(// @@PLEAC@@_2.12)
-reserved(function) ident(my_tan)operator(()local_variable($theta)operator(\)) operator({) reserved(return) predefined(sin)operator(()local_variable($theta)operator(\)) operator(/) predefined(cos)operator(()local_variable($theta)operator(\))operator(;) operator(})
+reserved(function) function(my_tan)operator(()local_variable($theta)operator(\)) operator({) reserved(return) predefined(sin)operator(()local_variable($theta)operator(\)) operator(/) predefined(cos)operator(()local_variable($theta)operator(\))operator(;) operator(})
 
 comment(// ------------)
 
@@ -751,7 +751,7 @@ local_variable($log_10) operator(=) predefined(log10)operator(()local_variable($
 
 comment(// ----------------------------)
 
-reserved(function) ident(log_base)operator(()local_variable($base)operator(,) local_variable($value)operator(\)) operator({) reserved(return) predefined(log)operator(()local_variable($value)operator(\)) operator(/) predefined(log)operator(()local_variable($base)operator(\))operator(;) operator(})
+reserved(function) function(log_base)operator(()local_variable($base)operator(,) local_variable($value)operator(\)) operator({) reserved(return) predefined(log)operator(()local_variable($value)operator(\)) operator(/) predefined(log)operator(()local_variable($base)operator(\))operator(;) operator(})
 
 comment(// ------------)
 
@@ -844,7 +844,7 @@ comment(// @@PLEAC@@_2.17)
 comment(// PHP offers the 'number_format' built-in function to, among many other format tasks, )
 comment(// commify numbers. Perl-compatible [as well as extended] regexes are also available)
 
-reserved(function) ident(commify_series)operator(()local_variable($s)operator(\)) operator({) reserved(return) predefined(number_format)operator(()local_variable($s)operator(,) integer(0)operator(,) string<delimiter(')delimiter(')>operator(,) string<delimiter(')content(,)delimiter(')>operator(\))operator(;) operator(})
+reserved(function) function(commify_series)operator(()local_variable($s)operator(\)) operator({) reserved(return) predefined(number_format)operator(()local_variable($s)operator(,) integer(0)operator(,) string<delimiter(')delimiter(')>operator(,) string<delimiter(')content(,)delimiter(')>operator(\))operator(;) operator(})
 
 comment(// ------------)
 
@@ -854,7 +854,7 @@ predefined(printf)operator(()string<delimiter(")content(Your website received %s
 
 comment(// ----------------------------)
 
-reserved(function) ident(commify)operator(()local_variable($s)operator(\))
+reserved(function) function(commify)operator(()local_variable($s)operator(\))
 operator({)
   reserved(return) predefined(strrev)operator(()predefined(preg_replace)operator(()string<delimiter(')content(/()content(\\d)content(\\d)content(\\d)content(\)(?=)content(\\d)content(\)(?!)content(\\d)content(*)content(\\.)content(\)/)delimiter(')>operator(,) string<delimiter(')content(${1},)delimiter(')>operator(,) predefined(strrev)operator(()local_variable($s)operator(\))operator(\))operator(\))operator(;)
 operator(})
@@ -866,7 +866,7 @@ local_variable($hits) operator(=) integer(3456789)operator(;)
 predefined(echo) ident(commify)operator(()predefined(sprintf)operator(()string<delimiter(")content(Your website received %d accesses last month)char(\\n)delimiter(")>operator(,) local_variable($hits)operator(\))operator(\))operator(;)
 
 comment(// @@PLEAC@@_2.18)
-reserved(function) ident(pluralise)operator(()local_variable($value)operator(,) local_variable($root)operator(,) local_variable($singular)operator(=)string<delimiter(')delimiter(')> operator(,) local_variable($plural)operator(=)string<delimiter(')content(s)delimiter(')>operator(\))
+reserved(function) function(pluralise)operator(()local_variable($value)operator(,) local_variable($root)operator(,) local_variable($singular)operator(=)string<delimiter(')delimiter(')> operator(,) local_variable($plural)operator(=)string<delimiter(')content(s)delimiter(')>operator(\))
 operator({)
   reserved(return) local_variable($root) operator(.) operator(()operator(()local_variable($value) operator(>) integer(1)operator(\)) operator(?) local_variable($plural) operator(:) local_variable($singular)operator(\))operator(;)
 operator(})
@@ -885,7 +885,7 @@ predefined(printf)operator(()string<delimiter(")content(%d %s %s enough.)char(\\
 
 comment(// ----------------------------)
 
-reserved(function) ident(plural)operator(()local_variable($singular)operator(\))
+reserved(function) function(plural)operator(()local_variable($singular)operator(\))
 operator({)
   local_variable($s2p) operator(=) predefined(array)operator(()string<delimiter(')content(/ss$/)delimiter(')> operator(=>) string<delimiter(')content(sses)delimiter(')>operator(,) string<delimiter(')content(/([psc]h\)$/)delimiter(')> operator(=>) string<delimiter(')content(${1}es)delimiter(')>operator(,) string<delimiter(')content(/z$/)delimiter(')> operator(=>) string<delimiter(')content(zes)delimiter(')>operator(,)
                string<delimiter(')content(/ff$/)delimiter(')> operator(=>) string<delimiter(')content(ffs)delimiter(')>operator(,) string<delimiter(')content(/f$/)delimiter(')> operator(=>) string<delimiter(')content(ves)delimiter(')>operator(,) string<delimiter(')content(/ey$/)delimiter(')> operator(=>) string<delimiter(')content(eys)delimiter(')>operator(,)
@@ -940,7 +940,7 @@ comment(// not currently shipped with PHP, no examples appear)
 
 comment(// Helper functions for performing date arithmetic )
 
-reserved(function) ident(dateOffset)operator(()operator(\))
+reserved(function) function(dateOffset)operator(()operator(\))
 operator({)
   reserved(static) local_variable($tbl) operator(=) predefined(array)operator(()string<delimiter(')content(sec)delimiter(')> operator(=>) integer(1)operator(,) string<delimiter(')content(min)delimiter(')> operator(=>) integer(60)operator(,) string<delimiter(')content(hou)delimiter(')> operator(=>) integer(3600)operator(,) string<delimiter(')content(day)delimiter(')> operator(=>) integer(86400)operator(,) string<delimiter(')content(wee)delimiter(')> operator(=>) integer(604800)operator(\))operator(;)
   local_variable($delta) operator(=) integer(0)operator(;)
@@ -954,7 +954,7 @@ operator({)
   reserved(return) local_variable($delta)operator(;)
 operator(})
 
-reserved(function) ident(dateInterval)operator(()local_variable($intvltype)operator(,) local_variable($timevalue)operator(\))
+reserved(function) function(dateInterval)operator(()local_variable($intvltype)operator(,) local_variable($timevalue)operator(\))
 operator({)
   reserved(static) local_variable($tbl) operator(=) predefined(array)operator(()string<delimiter(')content(sec)delimiter(')> operator(=>) integer(1)operator(,) string<delimiter(')content(min)delimiter(')> operator(=>) integer(60)operator(,) string<delimiter(')content(hou)delimiter(')> operator(=>) integer(3600)operator(,) string<delimiter(')content(day)delimiter(')> operator(=>) integer(86400)operator(,) string<delimiter(')content(wee)delimiter(')> operator(=>) integer(604800)operator(\))operator(;)
   reserved(return) operator(()pre_type(int)operator(\)) predefined(round)operator(()local_variable($timevalue) operator(/) local_variable($tbl)operator([)predefined(strtolower)operator(()predefined(substr)operator(()local_variable($intvltype)operator(,) integer(0)operator(,) integer(3)operator(\))operator(\))operator(])operator(\))operator(;)
@@ -1347,10 +1347,10 @@ local_variable($a) operator(=) predefined(escapeshellarg)operator(()string<delim
 
 comment(// ------------)
 
-local_variable($lines) operator(=) operator(<<)operator(<)constant(END_OF_HERE_DOC)
-    constant(The) ident(boy) ident(stood) ident(on) ident(the) ident(burning) ident(deck)operator(,)
-    ident(it) ident(was) reserved(as) ident(hot) reserved(as) ident(glass)operator(.)
-constant(END_OF_HERE_DOC)operator(;)
+local_variable($lines) operator(=) string<delimiter(<<<END_OF_HERE_DOC)content(
+    The boy stood on the burning deck,
+    it was as hot as glass.
+)delimiter(END_OF_HERE_DOC)>operator(;)
 
 comment(// ------------)
 
@@ -1405,7 +1405,7 @@ local_variable($tags) operator(=) predefined(split)operator(()string<delimiter('
 local_variable($sample) operator(=) predefined(split)operator(()string<delimiter(')content( )delimiter(')>operator(,) string<delimiter(')content(The vertical bar | looks and behaves like a pipe.)delimiter(')>operator(\))operator(;)
 
 comment(// @@PLEAC@@_4.2)
-reserved(function) ident(commify_series)operator(()local_variable($list)operator(\))
+reserved(function) function(commify_series)operator(()local_variable($list)operator(\))
 operator({)
   local_variable($n) operator(=) predefined(str_word_count)operator(()local_variable($list)operator(\))operator(;) local_variable($series) operator(=) predefined(str_word_count)operator(()local_variable($list)operator(,) integer(1)operator(\))operator(;)
 
@@ -1427,7 +1427,7 @@ predefined(echo) string<delimiter(')content(I have )delimiter(')> operator(.) id
 
 comment(// ----------------------------)
 
-reserved(function) ident(commify_series)operator(()local_variable($arr)operator(\))
+reserved(function) function(commify_series)operator(()local_variable($arr)operator(\))
 operator({)
   local_variable($n) operator(=) predefined(count)operator(()local_variable($arr)operator(\))operator(;) local_variable($sepchar) operator(=) string<delimiter(')content(,)delimiter(')>operator(;)
 
@@ -1478,7 +1478,7 @@ local_variable($item) operator(=) predefined(array_pop)operator(()local_variable
 
 comment(// ----------------------------)
 
-reserved(function) ident(what_about_the_array)operator(()operator(\))
+reserved(function) function(what_about_the_array)operator(()operator(\))
 operator({)
   reserved(global) local_variable($people)operator(;)
 
@@ -1654,7 +1654,7 @@ operator(})
 
 comment(// ------------)
 
-reserved(function) ident(some_func)operator(()local_variable($item)operator(\))
+reserved(function) function(some_func)operator(()local_variable($item)operator(\))
 operator({)
   operator(;) comment(// Do something with '$item')
 operator(})
@@ -1803,14 +1803,14 @@ comment(// Where elements need to be removed, and those elements also returned, 
 comment(// combine both operations in a function. This is the approach taken here in implementing both)
 comment(// 'shiftN' and 'popN', and it is these functions that are used in the examples)
 
-reserved(function) ident(popN)operator(()operator(&)local_variable($arr)operator(,) local_variable($n)operator(\))
+reserved(function) function(popN)operator(()operator(&)local_variable($arr)operator(,) local_variable($n)operator(\))
 operator({)
   local_variable($ret) operator(=) predefined(array_slice)operator(()local_variable($arr)operator(,) operator(-)operator(()local_variable($n)operator(\))operator(,) local_variable($n)operator(\))operator(;)
   local_variable($arr) operator(=) predefined(array_slice)operator(()local_variable($arr)operator(,) integer(0)operator(,) predefined(count)operator(()local_variable($arr)operator(\)) operator(-) local_variable($n)operator(\))operator(;)
   reserved(return) local_variable($ret)operator(;)
 operator(})
 
-reserved(function) ident(shiftN)operator(()operator(&)local_variable($arr)operator(,) local_variable($n)operator(\))
+reserved(function) function(shiftN)operator(()operator(&)local_variable($arr)operator(,) local_variable($n)operator(\))
 operator({)
   local_variable($ret) operator(=) predefined(array_slice)operator(()local_variable($arr)operator(,) integer(0)operator(,) local_variable($n)operator(\))operator(;)
   local_variable($arr) operator(=) predefined(array_slice)operator(()local_variable($arr)operator(,) local_variable($n)operator(\))operator(;)
@@ -1879,7 +1879,7 @@ operator(})
 
 comment(// ------------)
 
-reserved(function) ident(predicate)operator(()local_variable($element)operator(\))
+reserved(function) function(predicate)operator(()local_variable($element)operator(\))
 operator({)
   reserved(if) operator(()ident(criterion)operator(\)) reserved(return) pre_constant(TRUE)operator(;)
   reserved(return) pre_constant(FALSE)operator(;)
@@ -1898,11 +1898,11 @@ operator(})
 
 comment(// ----------------------------)
 
-reserved(class) constant(Employee)
+reserved(class) class(Employee)
 operator({)
   reserved(public) local_variable($name)operator(,) local_variable($age)operator(,) local_variable($ssn)operator(,) local_variable($salary)operator(;)
 
-  reserved(public) reserved(function) ident(__construct)operator(()local_variable($name)operator(,) local_variable($age)operator(,) local_variable($ssn)operator(,) local_variable($salary)operator(,) local_variable($category)operator(\))
+  reserved(public) reserved(function) function(__construct)operator(()local_variable($name)operator(,) local_variable($age)operator(,) local_variable($ssn)operator(,) local_variable($salary)operator(,) local_variable($category)operator(\))
   operator({)
     local_variable($this)operator(->)ident(name) operator(=) local_variable($name)operator(;)
     local_variable($this)operator(->)ident(age) operator(=) local_variable($age)operator(;)
@@ -1921,13 +1921,13 @@ local_variable($employees) operator(=) predefined(array)operator(()
 
 comment(// ------------)
 
-reserved(function) ident(array_update)operator(()local_variable($arr)operator(,) local_variable($lambda)operator(,) local_variable($updarr)operator(\))
+reserved(function) function(array_update)operator(()local_variable($arr)operator(,) local_variable($lambda)operator(,) local_variable($updarr)operator(\))
 operator({)
   reserved(foreach)operator(()local_variable($arr) reserved(as) local_variable($key)operator(\)) local_variable($lambda)operator(()local_variable($updarr)operator(,) local_variable($key)operator(\))operator(;)
   reserved(return) local_variable($updarr)operator(;)
 operator(})
 
-reserved(function) ident(highest_salaried_engineer)operator(()operator(&)local_variable($arr)operator(,) local_variable($employee)operator(\))
+reserved(function) function(highest_salaried_engineer)operator(()operator(&)local_variable($arr)operator(,) local_variable($employee)operator(\))
 operator({)
   reserved(static) local_variable($highest_salary) operator(=) integer(0)operator(;)
   
@@ -1954,7 +1954,7 @@ comment(// @@PLEAC@@_4.13)
 comment(// PHP implements 'grep' functionality [as embodied in the current section] in the 'array_filter')
 comment(// function)
 
-reserved(function) ident(predicate)operator(()local_variable($element)operator(\))
+reserved(function) function(predicate)operator(()local_variable($element)operator(\))
 operator({)
   reserved(if) operator(()ident(criterion)operator(\)) reserved(return) pre_constant(TRUE)operator(;)
   reserved(return) pre_constant(FALSE)operator(;)
@@ -1968,7 +1968,7 @@ local_variable($bigs) operator(=) predefined(array_filter)operator(()local_varia
 
 comment(// ------------)
 
-reserved(function) ident(is_pig)operator(()local_variable($user)operator(\))
+reserved(function) function(is_pig)operator(()local_variable($user)operator(\))
 operator({)
   local_variable($user_details) operator(=) predefined(preg_split)operator(()string<delimiter(')content(/()content(\\s)content(\)+/)delimiter(')>operator(,) local_variable($user)operator(\))operator(;)
   comment(// Assuming field 5 is the resource being compared)
@@ -1984,11 +1984,11 @@ local_variable($matching) operator(=) predefined(array_filter)operator(()predefi
 
 comment(// ------------)
 
-reserved(class) constant(Employee)
+reserved(class) class(Employee)
 operator({)
   reserved(public) local_variable($name)operator(,) local_variable($age)operator(,) local_variable($ssn)operator(,) local_variable($salary)operator(;)
 
-  reserved(public) reserved(function) ident(__construct)operator(()local_variable($name)operator(,) local_variable($age)operator(,) local_variable($ssn)operator(,) local_variable($salary)operator(,) local_variable($category)operator(\))
+  reserved(public) reserved(function) function(__construct)operator(()local_variable($name)operator(,) local_variable($age)operator(,) local_variable($ssn)operator(,) local_variable($salary)operator(,) local_variable($category)operator(\))
   operator({)
     local_variable($this)operator(->)ident(name) operator(=) local_variable($name)operator(;)
     local_variable($this)operator(->)ident(age) operator(=) local_variable($age)operator(;)
@@ -2037,8 +2037,8 @@ predefined(natsort)operator(()local_variable($unsorted)operator(\))operator(;)  
 
 comment(// ------------)
 
-reserved(function) ident(ascend)operator(()local_variable($left)operator(,) local_variable($right)operator(\)) operator({) reserved(return) local_variable($left) operator(>) local_variable($right)operator(;) operator(})
-reserved(function) ident(descend)operator(()local_variable($left)operator(,) local_variable($right)operator(\)) operator({) reserved(return) local_variable($left) operator(<) local_variable($right)operator(;) operator(})
+reserved(function) function(ascend)operator(()local_variable($left)operator(,) local_variable($right)operator(\)) operator({) reserved(return) local_variable($left) operator(>) local_variable($right)operator(;) operator(})
+reserved(function) function(descend)operator(()local_variable($left)operator(,) local_variable($right)operator(\)) operator({) reserved(return) local_variable($left) operator(<) local_variable($right)operator(;) operator(})
 
 comment(// ------------)
 
@@ -2050,7 +2050,7 @@ predefined(uasort)operator(()local_variable($unsorted)operator(,) string<delimit
 
 comment(// ----------------------------)
 
-reserved(function) ident(kill_process)operator(()local_variable($pid)operator(\))
+reserved(function) function(kill_process)operator(()local_variable($pid)operator(\))
 operator({)
   comment(// Is 'killable' ?)
   reserved(if) operator(()operator(!)ident(posix_kill)operator(()local_variable($pid)operator(,) integer(0)operator(\))operator(\)) reserved(return)operator(;)
@@ -2061,7 +2061,7 @@ operator({)
   ident(posix_kill)operator(()local_variable($pid)operator(,) integer(9)operator(\))operator(;)  comment(// SIGKILL)
 operator(})
 
-reserved(function) ident(pid)operator(()local_variable($pentry)operator(\))
+reserved(function) function(pid)operator(()local_variable($pentry)operator(\))
 operator({)
   local_variable($p) operator(=) predefined(preg_split)operator(()string<delimiter(')content(/)content(\\s)content(/)delimiter(')>operator(,) predefined(trim)operator(()local_variable($pentry)operator(\))operator(\))operator(;)
   reserved(return) local_variable($p)operator([)integer(0)operator(])operator(;)
@@ -2083,7 +2083,7 @@ comment(// A significant difference from the Perl examples is that these functio
 comment(// inplace sorters, so it is the original array that is modified. Where this must)
 comment(// be prevented a copy of the array can be made and sorted)
 
-reserved(function) ident(comparator)operator(()local_variable($left)operator(,) local_variable($right)operator(\))
+reserved(function) function(comparator)operator(()local_variable($left)operator(,) local_variable($right)operator(\))
 operator({)
   operator(;) comment(// Compare '$left' with '$right' returning result)
 operator(})
@@ -2099,7 +2099,7 @@ comment(// The Perl example looks like it is creating a hash using computed valu
 comment(// array values as the value, sorting on the computed key, then extracting the sorted)
 comment(// values and placing them back into an array)
 
-reserved(function) ident(compute)operator(()local_variable($value)operator(\))
+reserved(function) function(compute)operator(()local_variable($value)operator(\))
 operator({)
   operator(;) comment(// Return computed value utilising '$value')
 operator(})
@@ -2127,20 +2127,20 @@ comment(// ----------------------------)
 
 comment(// As above, except uses 'array_update' and 'accum' to help create hash)
 
-reserved(function) ident(array_update)operator(()local_variable($arr)operator(,) local_variable($lambda)operator(,) local_variable($updarr)operator(\))
+reserved(function) function(array_update)operator(()local_variable($arr)operator(,) local_variable($lambda)operator(,) local_variable($updarr)operator(\))
 operator({)
   reserved(foreach)operator(()local_variable($arr) reserved(as) local_variable($key)operator(\)) local_variable($lambda)operator(()local_variable($updarr)operator(,) local_variable($key)operator(\))operator(;)
   reserved(return) local_variable($updarr)operator(;)
 operator(})
 
-reserved(function) ident(accum)operator(()operator(&)local_variable($arr)operator(,) local_variable($value)operator(\))
+reserved(function) function(accum)operator(()operator(&)local_variable($arr)operator(,) local_variable($value)operator(\))
 operator({)
   local_variable($arr)operator([)ident(compute)operator(()local_variable($value)operator(\))operator(]) operator(=) local_variable($value)operator(;)
 operator(})
 
 comment(// ------------)
 
-reserved(function) ident(compute)operator(()local_variable($value)operator(\))
+reserved(function) function(compute)operator(()local_variable($value)operator(\))
 operator({)
   operator(;) comment(// Return computed value utilising '$value')
 operator(})
@@ -2162,11 +2162,11 @@ local_variable($ordered) operator(=) predefined(array_values)operator(()local_va
 
 comment(// ----------------------------)
 
-reserved(class) constant(Employee)
+reserved(class) class(Employee)
 operator({)
   reserved(public) local_variable($name)operator(,) local_variable($age)operator(,) local_variable($ssn)operator(,) local_variable($salary)operator(;)
 
-  reserved(public) reserved(function) ident(__construct)operator(()local_variable($name)operator(,) local_variable($age)operator(,) local_variable($ssn)operator(,) local_variable($salary)operator(\))
+  reserved(public) reserved(function) function(__construct)operator(()local_variable($name)operator(,) local_variable($age)operator(,) local_variable($ssn)operator(,) local_variable($salary)operator(\))
   operator({)
     local_variable($this)operator(->)ident(name) operator(=) local_variable($name)operator(;)
     local_variable($this)operator(->)ident(age) operator(=) local_variable($age)operator(;)
@@ -2219,9 +2219,9 @@ comment(// manipulation, these functions won't be used. Instead a custom functio
 comment(// 'getpwent' function will be implemented so the code presented here can more faithfully match)
 comment(// the Perl code)
 
-reserved(function) ident(get_pw_entries)operator(()operator(\))
+reserved(function) function(get_pw_entries)operator(()operator(\))
 operator({)
-  reserved(function) ident(normal_users_only)operator(()local_variable($e)operator(\))
+  reserved(function) function(normal_users_only)operator(()local_variable($e)operator(\))
   operator({)
     local_variable($entry) operator(=) predefined(split)operator(()string<delimiter(')content(:)delimiter(')>operator(,) local_variable($e)operator(\))operator(;) reserved(return) local_variable($entry)operator([)integer(2)operator(]) operator(>) integer(100) operator(&&) local_variable($entry)operator([)integer(2)operator(]) operator(<) integer(32768)operator(;)
   operator(})
@@ -2255,13 +2255,13 @@ predefined(usort)operator(()local_variable($sorted)operator(,) ident(create_func
 
 comment(// ----------------------------)
 
-reserved(function) ident(array_update)operator(()local_variable($arr)operator(,) local_variable($lambda)operator(,) local_variable($updarr)operator(\))
+reserved(function) function(array_update)operator(()local_variable($arr)operator(,) local_variable($lambda)operator(,) local_variable($updarr)operator(\))
 operator({)
   reserved(foreach)operator(()local_variable($arr) reserved(as) local_variable($key)operator(\)) local_variable($lambda)operator(()local_variable($updarr)operator(,) local_variable($key)operator(\))operator(;)
   reserved(return) local_variable($updarr)operator(;)
 operator(})
 
-reserved(function) ident(accum)operator(()operator(&)local_variable($arr)operator(,) local_variable($value)operator(\))
+reserved(function) function(accum)operator(()operator(&)local_variable($arr)operator(,) local_variable($value)operator(\))
 operator({)
   local_variable($arr)operator([)predefined(strlen)operator(()local_variable($value)operator(\))operator(]) operator(=) local_variable($value)operator(;)
 operator(})
@@ -2276,13 +2276,13 @@ local_variable($sorted) operator(=) predefined(array_values)operator(()local_var
 
 comment(// ----------------------------)
 
-reserved(function) ident(array_update)operator(()local_variable($arr)operator(,) local_variable($lambda)operator(,) local_variable($updarr)operator(\))
+reserved(function) function(array_update)operator(()local_variable($arr)operator(,) local_variable($lambda)operator(,) local_variable($updarr)operator(\))
 operator({)
   reserved(foreach)operator(()local_variable($arr) reserved(as) local_variable($key)operator(\)) local_variable($lambda)operator(()local_variable($updarr)operator(,) local_variable($key)operator(\))operator(;)
   reserved(return) local_variable($updarr)operator(;)
 operator(})
 
-reserved(function) ident(accum)operator(()operator(&)local_variable($arr)operator(,) local_variable($value)operator(\))
+reserved(function) function(accum)operator(()operator(&)local_variable($arr)operator(,) local_variable($value)operator(\))
 operator({)
   reserved(if) operator(()predefined(preg_match)operator(()string<delimiter(')content(/()content(\\d)content(+\)/)delimiter(')>operator(,) local_variable($value)operator(,) local_variable($matches)operator(\))operator(\))
     local_variable($arr)operator([)local_variable($matches)operator([)integer(1)operator(])operator(]) operator(=) local_variable($value)operator(;)
@@ -2302,7 +2302,7 @@ predefined(array_push)operator(()local_variable($a1)operator(,) predefined(array
 
 comment(// ----------------------------)
 
-reserved(function) ident(grab_and_rotate)operator(()operator(&)local_variable($arr)operator(\))
+reserved(function) function(grab_and_rotate)operator(()operator(&)local_variable($arr)operator(\))
 operator({)
   local_variable($item) operator(=) local_variable($arr)operator([)integer(0)operator(])operator(;)
   predefined(array_push)operator(()local_variable($arr)operator(,) predefined(array_shift)operator(()local_variable($arr)operator(\))operator(\))operator(;)
@@ -2332,7 +2332,7 @@ predefined(echo) predefined(join)operator(()string<delimiter(')content( )delimit
 comment(// ----------------------------)
 
 comment(// Perl example equivalents)
-reserved(function) ident(fisher_yates_shuffle)operator(()operator(&)local_variable($a)operator(\))
+reserved(function) function(fisher_yates_shuffle)operator(()operator(&)local_variable($a)operator(\))
 operator({)
   local_variable($size) operator(=) predefined(count)operator(()local_variable($a)operator(\)) operator(-) integer(1)operator(;)
 
@@ -2343,7 +2343,7 @@ operator({)
   operator(})
 operator(})
 
-reserved(function) ident(naive_shuffle)operator(()operator(&)local_variable($a)operator(\))
+reserved(function) function(naive_shuffle)operator(()operator(&)local_variable($a)operator(\))
 operator({)
   local_variable($size) operator(=) predefined(count)operator(()local_variable($a)operator(\))operator(;)
 
@@ -2462,7 +2462,7 @@ predefined(unset)operator(()local_variable($hash)operator(\))operator(;)
 
 comment(// ----------------------------)
 
-reserved(function) ident(print_foods)operator(()operator(\))
+reserved(function) function(print_foods)operator(()operator(\))
 operator({)
   comment(// Perl example uses a global variable)
   reserved(global) local_variable($food_colour)operator(;)
@@ -2621,7 +2621,7 @@ comment(// Unless sorted, hash elements remain in the order of insertion. If car
 comment(// always add a new element to the end of the hash, then element order is the order)
 comment(// of insertion. The following function, 'array_push_associative' [modified from original)
 comment(// found at 'array_push' section of PHP documentation], does just that)
-reserved(function) ident(array_push_associative)operator(()operator(&)local_variable($arr)operator(\))
+reserved(function) function(array_push_associative)operator(()operator(&)local_variable($arr)operator(\))
 operator({)
   reserved(foreach) operator(()predefined(func_get_args)operator(()operator(\)) reserved(as) local_variable($arg)operator(\))
   operator({)
@@ -2747,7 +2747,7 @@ predefined(krsort)operator(()local_variable($hash)operator(\))operator(;)
 
 comment(// Comparator-based sort)
 
-reserved(function) ident(comparator)operator(()local_variable($left)operator(,) local_variable($right)operator(\))
+reserved(function) function(comparator)operator(()local_variable($left)operator(,) local_variable($right)operator(\))
 operator({)
   comment(// Compare left key with right key)
   reserved(return) local_variable($left) operator(>) local_variable($right)operator(;)
@@ -3022,7 +3022,7 @@ comment(// ----------------------------)
 comment(// For the simple task of determining whether a file contains, text', a simple)
 comment(// function that searches for a newline could be implemented. Not exactly)
 comment(// foolproof, but very simple, low overhead, no installation headaches ...)
-reserved(function) ident(containsText)operator(()local_variable($file)operator(\))
+reserved(function) function(containsText)operator(()local_variable($file)operator(\))
 operator({)
   local_variable($status) operator(=) pre_constant(FALSE)operator(;)
 
@@ -3043,7 +3043,7 @@ comment(// PHP offers the [currently experimental] Fileinfo group of functions t
 comment(// determine file types based on their contents / 'magic numbers'. This)
 comment(// is functionality similar to the *NIX, 'file' utility. Note that it must)
 comment(// first be installed using the PEAR utility [see PHP documentation] )
-reserved(function) ident(isTextFile)operator(()local_variable($file)operator(\))
+reserved(function) function(isTextFile)operator(()local_variable($file)operator(\))
 operator({)
   comment(// Note: untested code, but I believe this is how it is supposed to work)
   local_variable($finfo) operator(=) ident(finfo_open)operator(()constant(FILEINFO_NONE)operator(\))operator(;)
@@ -3053,7 +3053,7 @@ operator({)
 operator(})
 
 comment(// Alternatively, use the *NIX utility, 'file', directly)
-reserved(function) ident(isTextFile)operator(()local_variable($file)operator(\))
+reserved(function) function(isTextFile)operator(()local_variable($file)operator(\))
 operator({)
   reserved(return) predefined(exec)operator(()predefined(trim)operator(()string<delimiter(')content(file -bN )delimiter(')> operator(.) predefined(escapeshellarg)operator(()local_variable($file)operator(\))operator(\))operator(\)) operator(==) string<delimiter(')content(ASCII text)delimiter(')>operator(;)
 operator(})
@@ -3179,7 +3179,7 @@ operator(})
 
 comment(// ------------)
 
-reserved(function) ident(rmAll)operator(()local_variable($files)operator(\))
+reserved(function) function(rmAll)operator(()local_variable($files)operator(\))
 operator({)
   local_variable($count) operator(=) integer(0)operator(;)
 
@@ -3263,7 +3263,7 @@ comment(// * command being 'exec'ed)
 comment(// as the rest of the code is platform independant)
 
 comment(// @@PLEAC@@_9.4)
-reserved(function) ident(makeDevInodePair)operator(()local_variable($filename)operator(\))
+reserved(function) function(makeDevInodePair)operator(()local_variable($filename)operator(\))
 operator({)
   reserved(if) operator(()operator(!)operator(()local_variable($fs) operator(=) operator(@)predefined(stat)operator(()local_variable($filename)operator(\))operator(\))operator(\)) reserved(return) pre_constant(FALSE)operator(;)
   reserved(return) predefined(strval)operator(()local_variable($fs)operator([)string<delimiter(')content(dev)delimiter(')>operator(]) operator(.) local_variable($fs)operator([)string<delimiter(')content(ino)delimiter(')>operator(])operator(\))operator(;)
@@ -3271,7 +3271,7 @@ operator(})
 
 comment(// ------------)
 
-reserved(function) ident(do_my_thing)operator(()local_variable($filename)operator(\))
+reserved(function) function(do_my_thing)operator(()local_variable($filename)operator(\))
 operator({)
   comment(// Using a global variable to mimic Perl example, but could easily have passed)
   comment(// '$seen' as an argument)
@@ -3316,13 +3316,13 @@ comment(// easily-implemented 'higher order' techniques)
 
 comment(// Helper function loosely modelled on, 'array_reduce', but using an array as)
 comment(// 'accumulator', which is returned on completion)
-reserved(function) ident(array_update)operator(()local_variable($arr)operator(,) local_variable($lambda)operator(,) local_variable($updarr)operator(\))
+reserved(function) function(array_update)operator(()local_variable($arr)operator(,) local_variable($lambda)operator(,) local_variable($updarr)operator(\))
 operator({)
   reserved(foreach)operator(()local_variable($arr) reserved(as) local_variable($key)operator(\)) local_variable($lambda)operator(()local_variable($updarr)operator(,) local_variable($key)operator(\))operator(;)
   reserved(return) local_variable($updarr)operator(;)
 operator(})
 
-reserved(function) ident(do_my_thing)operator(()operator(&)local_variable($seen)operator(,) local_variable($filename)operator(\))
+reserved(function) function(do_my_thing)operator(()operator(&)local_variable($seen)operator(,) local_variable($filename)operator(\))
 operator({)
   reserved(if) operator(()operator(!)predefined(array_key_exists)operator(()operator(()local_variable($devino) operator(=) ident(makeDevInodePair)operator(()local_variable($filename)operator(\))operator(\))operator(,) local_variable($seen)operator(\))operator(\))
   operator({)
@@ -3446,7 +3446,7 @@ operator(})
 
 comment(// ----------------------------)
 
-reserved(function) ident(plain_files)operator(()local_variable($dirname)operator(\))
+reserved(function) function(plain_files)operator(()local_variable($dirname)operator(\))
 operator({)
   operator(()local_variable($dirlist) operator(=) predefined(glob)operator(()local_variable($dirname) operator(.) string<delimiter(')content(*)delimiter(')>operator(\))operator(\)) operator(||) predefined(die)operator(()string<delimiter(")content(Couldn't glob )inline<delimiter({)local_variable($dirname)delimiter(})>char(\\n)delimiter(")>operator(\))operator(;)
 
@@ -3497,15 +3497,15 @@ comment(// Recursive directory traversal function and helper: traverses a direct
 comment(// applying a function [and a variable number of accompanying arguments] to each)
 comment(// file)
 
-reserved(class) constant(Accumulator)
+reserved(class) class(Accumulator)
 operator({)
   reserved(public) local_variable($value)operator(;)
-  reserved(public) reserved(function) ident(__construct)operator(()local_variable($start_value)operator(\)) operator({) local_variable($this)operator(->)ident(value) operator(=) local_variable($start_value)operator(;) operator(})
+  reserved(public) reserved(function) function(__construct)operator(()local_variable($start_value)operator(\)) operator({) local_variable($this)operator(->)ident(value) operator(=) local_variable($start_value)operator(;) operator(})
 operator(})
 
 comment(// ------------)
 
-reserved(function) ident(process_directory_)operator(()local_variable($op)operator(,) local_variable($func_args)operator(\))
+reserved(function) function(process_directory_)operator(()local_variable($op)operator(,) local_variable($func_args)operator(\))
 operator({)
   reserved(if) operator(()predefined(is_dir)operator(()local_variable($func_args)operator([)integer(0)operator(])operator(\))operator(\))
   operator({)
@@ -3523,7 +3523,7 @@ operator({)
   operator(})
 operator(})
 
-reserved(function) ident(process_directory)operator(()local_variable($op)operator(,) local_variable($dir)operator(\))
+reserved(function) function(process_directory)operator(()local_variable($op)operator(,) local_variable($dir)operator(\))
 operator({)
   reserved(if) operator(()operator(!)predefined(is_dir)operator(()local_variable($dir)operator(\))operator(\)) reserved(return) pre_constant(FALSE)operator(;)
   local_variable($func_args) operator(=) predefined(array_slice)operator(()predefined(func_get_args)operator(()operator(\))operator(,) integer(1)operator(\))operator(;)
@@ -3549,7 +3549,7 @@ comment(// ------------)
 
 local_variable($dirlist) operator(=) predefined(array)operator(()string<delimiter(')content(/tmp/d1)delimiter(')>operator(,) string<delimiter(')content(/tmp/d2)delimiter(')>operator(,) string<delimiter(')content(/tmp/d3)delimiter(')>operator(\))operator(;)
 
-reserved(function) ident(pf)operator(()local_variable($path)operator(\))
+reserved(function) function(pf)operator(()local_variable($path)operator(\))
 operator({)
   comment(// ... do something to the file or directory ...)
   predefined(printf)operator(()string<delimiter(")content(%s)char(\\n)delimiter(")>operator(,) local_variable($path)operator(\))operator(;)
@@ -3580,7 +3580,7 @@ operator(})
 
 comment(// ----------------------------)
 
-reserved(function) ident(accum_filesize)operator(()local_variable($file)operator(,) local_variable($accum)operator(\))
+reserved(function) function(accum_filesize)operator(()local_variable($file)operator(,) local_variable($accum)operator(\))
 operator({)
   predefined(is_file)operator(()local_variable($file)operator(\)) operator(&&) operator(()local_variable($accum)operator(->)ident(value) operator(+=) predefined(filesize)operator(()local_variable($file)operator(\))operator(\))operator(;)
 operator(})
@@ -3602,7 +3602,7 @@ predefined(printf)operator(()string<delimiter(")content(%s contains %d bytes)cha
 
 comment(// ----------------------------)
 
-reserved(function) ident(biggest_file)operator(()local_variable($file)operator(,) local_variable($accum)operator(\))
+reserved(function) function(biggest_file)operator(()local_variable($file)operator(,) local_variable($accum)operator(\))
 operator({)
   reserved(if) operator(()predefined(is_file)operator(()local_variable($file)operator(\))operator(\))
   operator({)
@@ -3628,7 +3628,7 @@ predefined(printf)operator(()string<delimiter(")content(Biggest file is %s conta
 
 comment(// ----------------------------)
 
-reserved(function) ident(youngest_file)operator(()local_variable($file)operator(,) local_variable($accum)operator(\))
+reserved(function) function(youngest_file)operator(()local_variable($file)operator(,) local_variable($accum)operator(\))
 operator({)
   reserved(if) operator(()predefined(is_file)operator(()local_variable($file)operator(\))operator(\))
   operator({)
@@ -3672,7 +3672,7 @@ comment(// one of each approach; the example shown here is loosely based on one 
 comment(// examples)
 
 comment(// Recursor - recursively traverses directory tree)
-reserved(function) ident(rmtree_)operator(()local_variable($dir)operator(\))
+reserved(function) function(rmtree_)operator(()local_variable($dir)operator(\))
 operator({)
   local_variable($dir) operator(=) string<delimiter(")local_variable($dir)delimiter(")>operator(;)
 
@@ -3694,7 +3694,7 @@ operator({)
 operator(})
 
 comment(// Launcher - performs validation then starts recursive routine)
-reserved(function) ident(rmtree)operator(()local_variable($dir)operator(\))
+reserved(function) function(rmtree)operator(()local_variable($dir)operator(\))
 operator({)
   reserved(if) operator(()predefined(is_dir)operator(()local_variable($dir)operator(\))operator(\))
   operator({)
@@ -3801,7 +3801,7 @@ predefined(printf)operator(()string<delimiter(")content(dir is %s, name is %s, e
 comment(// ----------------------------)
 
 comment(// Not really necessary since we have, 'pathinfo', but better matches Perl example)
-reserved(function) ident(file_extension)operator(()local_variable($filename)operator(,) local_variable($separator) operator(=) string<delimiter(')content(.)delimiter(')>operator(\))
+reserved(function) function(file_extension)operator(()local_variable($filename)operator(,) local_variable($separator) operator(=) string<delimiter(')content(.)delimiter(')>operator(\))
 operator({)
   reserved(return) predefined(end)operator(()predefined(split)operator(()operator(()string<delimiter(")char(\\\\)delimiter(")> operator(.) local_variable($separator)operator(\))operator(,) local_variable($filename)operator(\))operator(\))operator(;)
 operator(})
@@ -3827,13 +3827,13 @@ comment(// ------------)
 comment(// Must use, 'global', keyword to inform functions that $greeted already exists as)
 comment(// a global variable. If this is not done, a local variable of that name is implicitly)
 comment(// defined)
-reserved(function) ident(howManyGreetings)operator(()operator(\))
+reserved(function) function(howManyGreetings)operator(()operator(\))
 operator({)
   reserved(global) local_variable($greeted)operator(;)
   reserved(return) local_variable($greeted)operator(;)
 operator(})
 
-reserved(function) ident(hello)operator(()operator(\))
+reserved(function) function(hello)operator(()operator(\))
 operator({)
   reserved(global) local_variable($greeted)operator(;)
   local_variable($greeted)operator(++)operator(;)
@@ -3848,7 +3848,7 @@ predefined(echo) string<delimiter(")content(bye there!, there have been )inline<
 
 comment(// @@PLEAC@@_10.1)
 comment(// Conventionally-defined function together with parameter list)
-reserved(function) ident(hypotenuse)operator(()local_variable($side1)operator(,) local_variable($side2)operator(\))
+reserved(function) function(hypotenuse)operator(()local_variable($side1)operator(,) local_variable($side2)operator(\))
 operator({)
   reserved(return) predefined(sqrt)operator(()predefined(pow)operator(()local_variable($side1)operator(,) integer(2)operator(\)) operator(+) predefined(pow)operator(()local_variable($side2)operator(,) integer(2)operator(\))operator(\))operator(;)
 operator(})
@@ -3857,7 +3857,7 @@ comment(// ----)
 
 comment(// Alternative is to define the function without parameter list, then use)
 comment(// 'func_get_arg' to extract arguments)
-reserved(function) ident(hypotenuse)operator(()operator(\))
+reserved(function) function(hypotenuse)operator(()operator(\))
 operator({)
   comment(// Could check number of arguments passed with: 'func_num_args', which)
   comment(// would be the approach used if dealing with variable number of arguments)
@@ -3890,13 +3890,13 @@ local_variable($nums) operator(=) predefined(array)operator(()float(1.4)operator
 comment(// ------------)
 
 comment(// Pass-by-value)
-reserved(function) ident(int_all)operator(()local_variable($arr)operator(\))
+reserved(function) function(int_all)operator(()local_variable($arr)operator(\))
 operator({)
   reserved(return) predefined(array_map)operator(()ident(create_function)operator(()string<delimiter(')content($n)delimiter(')>operator(,) string<delimiter(')content(return (int\) $n;)delimiter(')>operator(\))operator(,) local_variable($arr)operator(\))operator(;)
 operator(})
 
 comment(// Pass-by-reference)
-reserved(function) ident(trunc_em)operator(()operator(&)local_variable($n)operator(\))
+reserved(function) function(trunc_em)operator(()operator(&)local_variable($n)operator(\))
 operator({)
   reserved(foreach) operator(()local_variable($n) reserved(as) operator(&)local_variable($value)operator(\)) local_variable($value) operator(=) operator(()pre_type(int)operator(\)) local_variable($value)operator(;)
 operator(})
@@ -3932,7 +3932,7 @@ comment(// declared 'global', and those names are then taken to refer to entries
 comment(// in the $GLOBALS array rather than seeing local variables of that name)
 comment(// accessed or defined)
 
-reserved(function) ident(some_func)operator(()operator(\))
+reserved(function) function(some_func)operator(()operator(\))
 operator({)
   comment(// Variables declared within a function are local to that function)
   local_variable($variable) operator(=) string<delimiter(')content(something)delimiter(')>operator(;)
@@ -3949,7 +3949,7 @@ local_variable($condition) operator(=) integer(0)operator(;)
 
 comment(// ------------)
 
-reserved(function) ident(run_check)operator(()operator(\))
+reserved(function) function(run_check)operator(()operator(\))
 operator({)
   comment(// The globally-declared variable, '$condition', is not accessable within)
   comment(// the function unless it declared as 'global. Had this not been done then)
@@ -3961,7 +3961,7 @@ operator({)
   comment(// ...)
 operator(})
 
-reserved(function) ident(check_x)operator(()local_variable($x)operator(\))
+reserved(function) function(check_x)operator(()local_variable($x)operator(\))
 operator({)
   local_variable($y) operator(=) string<delimiter(')content(whatever)delimiter(')>operator(;)
 
@@ -4007,7 +4007,7 @@ operator({)
   comment(// * 'next_counter' has no implict access to '$counter'; must be granted)
   comment(//   via 'global' keyword)
 
-  reserved(function) ident(next_counter)operator(()operator(\)) operator({) reserved(global) local_variable($counter)operator(;) local_variable($counter)operator(++)operator(;) operator(})
+  reserved(function) function(next_counter)operator(()operator(\)) operator({) reserved(global) local_variable($counter)operator(;) local_variable($counter)operator(++)operator(;) operator(})
 operator(})
 
 comment(// ----------------------------)
@@ -4016,16 +4016,16 @@ comment(// PHP doesn't, AFAIK, offer an equivalent to Perl's BEGIN block. Simila
 comment(// behaviour may be obtained by defining a class, and including such code)
 comment(// in its constructor)
 
-reserved(class) constant(BEGIN)
+reserved(class) class(BEGIN)
 operator({)
   reserved(private) local_variable($myvariable)operator(;)
 
-  reserved(function) ident(__construct)operator(()operator(\))
+  reserved(function) function(__construct)operator(()operator(\))
   operator({)
     local_variable($this)operator(->)ident(myvariable) operator(=) integer(5)operator(;)
   operator(})
 
-  reserved(function) ident(othersub)operator(()operator(\))
+  reserved(function) function(othersub)operator(()operator(\))
   operator({)
     predefined(echo) local_variable($this)operator(->)ident(myvariable) operator(.) string<delimiter(")char(\\n)delimiter(")>operator(;)
   operator(})
@@ -4043,17 +4043,17 @@ comment(// PHP, like C, supports 'static' local variables, that is, those that u
 comment(// first access are initialised, and thence retain their value between function)
 comment(// calls. However, the 'counter' example is better implemented as a class)
 
-reserved(class) constant(Counter)
+reserved(class) class(Counter)
 operator({)
   reserved(private) local_variable($counter)operator(;)
 
-  reserved(function) ident(__construct)operator(()local_variable($counter_init)operator(\))
+  reserved(function) function(__construct)operator(()local_variable($counter_init)operator(\))
   operator({)
     local_variable($this)operator(->)ident(counter) operator(=) local_variable($counter_init)operator(;)
   operator(})
 
-  reserved(function) ident(next_counter)operator(()operator(\)) operator({) local_variable($this)operator(->)ident(counter)operator(++)operator(;) reserved(return) local_variable($this)operator(->)ident(counter)operator(;) operator(})
-  reserved(function) ident(prev_counter)operator(()operator(\)) operator({) local_variable($this)operator(->)ident(counter)operator(;) reserved(return) local_variable($this)operator(->)ident(counter)operator(;) operator(})
+  reserved(function) function(next_counter)operator(()operator(\)) operator({) local_variable($this)operator(->)ident(counter)operator(++)operator(;) reserved(return) local_variable($this)operator(->)ident(counter)operator(;) operator(})
+  reserved(function) function(prev_counter)operator(()operator(\)) operator({) local_variable($this)operator(->)ident(counter)operator(;) reserved(return) local_variable($this)operator(->)ident(counter)operator(;) operator(})
 operator(})
 
 comment(// ------------)
@@ -4076,7 +4076,7 @@ comment(// So, to solve this problem would seem to require adopting a convention
 comment(// a string representing the function name is passed as an argument, or a local)
 comment(// variable [perhaps called, '$name'] is so set [contrived, and of limited use])
 
-reserved(function) ident(whoami)operator(()operator(\))
+reserved(function) function(whoami)operator(()operator(\))
 operator({)
   local_variable($name) operator(=) string<delimiter(')content(whoami)delimiter(')>operator(;)
   predefined(echo) string<delimiter(")content(I am: )inline<delimiter({)local_variable($name)delimiter(})>char(\\n)delimiter(")>operator(;)
@@ -4104,14 +4104,14 @@ comment(// is not altered.)
 
 comment(// A copy of the item referred to by, '$arr', is made, and altered; original)
 comment(// remains intact)
-reserved(function) ident(array_by_value)operator(()local_variable($arr)operator(\))
+reserved(function) function(array_by_value)operator(()local_variable($arr)operator(\))
 operator({)
   local_variable($arr)operator([)integer(0)operator(]) operator(=) integer(7)operator(;)
   predefined(echo) local_variable($arr)operator([)integer(0)operator(]) operator(.) string<delimiter(")char(\\n)delimiter(")>operator(;) 
 operator(})
 
 comment(// No copy is made; original item referred to by, '$arr', is altered)
-reserved(function) ident(array_by_ref)operator(()operator(&)local_variable($arr)operator(\))
+reserved(function) function(array_by_ref)operator(()operator(&)local_variable($arr)operator(\))
 operator({)
   local_variable($arr)operator([)integer(0)operator(]) operator(=) integer(7)operator(;)
   predefined(echo) local_variable($arr)operator([)integer(0)operator(]) operator(.) string<delimiter(")char(\\n)delimiter(")>operator(;) 
@@ -4135,7 +4135,7 @@ comment(// ----------------------------)
 
 comment(// Since, 'add_vecpair', does not attempt to alter either, '$x' or '$y', it makes)
 comment(// no difference whether they are 'passed by value', or 'passed by reference')
-reserved(function) ident(add_vecpair)operator(()local_variable($x)operator(,) local_variable($y)operator(\))
+reserved(function) function(add_vecpair)operator(()local_variable($x)operator(,) local_variable($y)operator(\))
 operator({)
   local_variable($r) operator(=) predefined(array)operator(()operator(\))operator(;)
   local_variable($length) operator(=) predefined(count)operator(()local_variable($x)operator(\))operator(;)
@@ -4163,7 +4163,7 @@ comment(// when obtaining it's return value. As for Perl-style 'return context',
 comment(// don't believe it is supported by PHP)
 
 comment(// Can return any type)
-reserved(function) ident(mysub)operator(()operator(\))
+reserved(function) function(mysub)operator(()operator(\))
 operator({)
   comment(// ...)
   reserved(return) integer(5)operator(;)
@@ -4201,13 +4201,13 @@ comment(// PHP doesn't directly support named / keyword parameters, but these ca
 comment(// easily mimiced using a class of key / value pairs, and passing a variable)
 comment(// number of arguments)
 
-reserved(class) constant(KeyedValue)
+reserved(class) class(KeyedValue)
 operator({)
   reserved(public) local_variable($key)operator(,) local_variable($value)operator(;)
-  reserved(public) reserved(function) ident(__construct)operator(()local_variable($key)operator(,) local_variable($value)operator(\)) operator({) local_variable($this)operator(->)predefined(key) operator(=) local_variable($key)operator(;) local_variable($this)operator(->)ident(value) operator(=) local_variable($value)operator(;) operator(})
+  reserved(public) reserved(function) function(__construct)operator(()local_variable($key)operator(,) local_variable($value)operator(\)) operator({) local_variable($this)operator(->)predefined(key) operator(=) local_variable($key)operator(;) local_variable($this)operator(->)ident(value) operator(=) local_variable($value)operator(;) operator(})
 operator(})
 
-reserved(function) ident(the_func)operator(()operator(\))
+reserved(function) function(the_func)operator(()operator(\))
 operator({)
   reserved(foreach) operator(()predefined(func_get_args)operator(()operator(\)) reserved(as) local_variable($arg)operator(\))
   operator({)
@@ -4228,7 +4228,7 @@ comment(// With the aid of the 'extract' built-in function, the key part of this
 comment(// may be intsntiated to a variable name, thus more closely approximating the)
 comment(// behaviour of true named parameters)
 
-reserved(function) ident(the_func)operator(()local_variable($var_array)operator(\))
+reserved(function) function(the_func)operator(()local_variable($var_array)operator(\))
 operator({)
   predefined(extract)operator(()local_variable($var_array)operator(\))operator(;)
 
@@ -4243,13 +4243,13 @@ ident(the_func)operator(()predefined(array)operator(()string<delimiter(')content
 
 comment(// ----------------------------)
 
-reserved(class) constant(RaceTime)
+reserved(class) class(RaceTime)
 operator({)
   reserved(public) local_variable($time)operator(,) local_variable($dim)operator(;)
-  reserved(public) reserved(function) ident(__construct)operator(()local_variable($time)operator(,) local_variable($dim)operator(\)) operator({) local_variable($this)operator(->)predefined(time) operator(=) local_variable($time)operator(;) local_variable($this)operator(->)ident(dim) operator(=) local_variable($dim)operator(;) operator(})
+  reserved(public) reserved(function) function(__construct)operator(()local_variable($time)operator(,) local_variable($dim)operator(\)) operator({) local_variable($this)operator(->)predefined(time) operator(=) local_variable($time)operator(;) local_variable($this)operator(->)ident(dim) operator(=) local_variable($dim)operator(;) operator(})
 operator(})
 
-reserved(function) ident(the_func)operator(()local_variable($var_array)operator(\))
+reserved(function) function(the_func)operator(()local_variable($var_array)operator(\))
 operator({)
   predefined(extract)operator(()local_variable($var_array)operator(\))operator(;)
 
@@ -4275,7 +4275,7 @@ comment(// construct] may be used to perform multiple assignments from a numeric
 comment(// indexed array of values, and offers the added bonus of being able to skip)
 comment(// assignment of one, or more, of those values)
 
-reserved(function) ident(func)operator(()operator(\)) operator({) reserved(return) predefined(array)operator(()integer(3)operator(,) integer(6)operator(,) integer(9)operator(\))operator(;) operator(})
+reserved(function) function(func)operator(()operator(\)) operator({) reserved(return) predefined(array)operator(()integer(3)operator(,) integer(6)operator(,) integer(9)operator(\))operator(;) operator(})
 
 comment(// ------------)
 
@@ -4300,7 +4300,7 @@ comment(// @@PLEAC@@_10.9)
 comment(// Multiple return values are possible via packing a set of values within a)
 comment(// numerically-indexed array and using 'list' to extract them)
 
-reserved(function) ident(some_func)operator(()operator(\)) operator({) reserved(return) predefined(array)operator(()predefined(array)operator(()integer(1)operator(,) integer(2)operator(,) integer(3)operator(\))operator(,) predefined(array)operator(()string<delimiter(')content(a)delimiter(')> operator(=>) integer(1)operator(,) string<delimiter(')content(b)delimiter(')> operator(=>) integer(2)operator(\))operator(\))operator(;) operator(})
+reserved(function) function(some_func)operator(()operator(\)) operator({) reserved(return) predefined(array)operator(()predefined(array)operator(()integer(1)operator(,) integer(2)operator(,) integer(3)operator(\))operator(,) predefined(array)operator(()string<delimiter(')content(a)delimiter(')> operator(=>) integer(1)operator(,) string<delimiter(')content(b)delimiter(')> operator(=>) integer(2)operator(\))operator(\))operator(;) operator(})
 
 comment(// ------------)
 
@@ -4308,7 +4308,7 @@ predefined(list)operator(()local_variable($arr)operator(,) local_variable($hash)
 
 comment(// ----------------------------)
 
-reserved(function) ident(some_func)operator(()operator(&)local_variable($arr)operator(,) operator(&)local_variable($hash)operator(\)) operator({) reserved(return) predefined(array)operator(()local_variable($arr)operator(,) local_variable($hash)operator(\))operator(;) operator(})
+reserved(function) function(some_func)operator(()operator(&)local_variable($arr)operator(,) operator(&)local_variable($hash)operator(\)) operator({) reserved(return) predefined(array)operator(()local_variable($arr)operator(,) local_variable($hash)operator(\))operator(;) operator(})
 
 comment(// ------------)
 
@@ -4322,7 +4322,7 @@ comment(// value on success, and FALSE on exit. Whilst it is possible to return 
 comment(// one of the recognised 'empty' values [e.g. '' or 0 or an empty array etc],)
 comment(// FALSE actually seems to be the preferred means of indicating failure)
 
-reserved(function) ident(a_func)operator(()operator(\)) operator({) reserved(return) pre_constant(FALSE)operator(;) operator(})
+reserved(function) function(a_func)operator(()operator(\)) operator({) reserved(return) pre_constant(FALSE)operator(;) operator(})
 
 ident(a_func)operator(()operator(\)) operator(||) predefined(die)operator(()string<delimiter(")content(Function failed)char(\\n)delimiter(")>operator(\))operator(;)
 
@@ -4344,30 +4344,30 @@ comment(//   positional order, and optionally, whether a parameter is passed by)
 comment(//   reference; no type information is present]. In short, prototyping in)
 comment(//   PHP is optional, and limited)
 
-reserved(function) ident(func_with_one_arg)operator(()local_variable($arg1)operator(\))
+reserved(function) function(func_with_one_arg)operator(()local_variable($arg1)operator(\))
 operator({)
   operator(;) comment(// ...)
 operator(})
 
-reserved(function) ident(func_with_two_arg)operator(()local_variable($arg1)operator(,) local_variable($arg2)operator(\))
+reserved(function) function(func_with_two_arg)operator(()local_variable($arg1)operator(,) local_variable($arg2)operator(\))
 operator({)
   operator(;) comment(// ...)
 operator(})
 
-reserved(function) ident(func_with_three_arg)operator(()local_variable($arg1)operator(,) local_variable($arg2)operator(,) local_variable($arg3)operator(\))
+reserved(function) function(func_with_three_arg)operator(()local_variable($arg1)operator(,) local_variable($arg2)operator(,) local_variable($arg3)operator(\))
 operator({)
   operator(;) comment(// ...)
 operator(})
 
 comment(// The following may be interpreted as meaning a function accepting no)
 comment(// arguments:)
-reserved(function) ident(func_with_no_arg)operator(()operator(\))
+reserved(function) function(func_with_no_arg)operator(()operator(\))
 operator({)
   operator(;) comment(// ...)
 operator(})
 
 comment(// whilst the following may mean a function taking zero or more arguments)
-reserved(function) ident(func_with_no_arg_information)operator(()operator(\))
+reserved(function) function(func_with_no_arg_information)operator(()operator(\))
 operator({)
   operator(;) comment(// ...)
 operator(})
@@ -4387,7 +4387,7 @@ comment(// of their respective languages. A simple, canonical example follows:)
 
 comment(// Usual to derive new exception classes from the built-in, 'Exception',)
 comment(// class)
-reserved(class) constant(MyException) reserved(extends) pre_constant(Exception)
+reserved(class) class(MyException) reserved(extends) pre_constant(Exception)
 operator({)
   comment(// ...)
 operator(})
@@ -4408,7 +4408,7 @@ operator(})
 
 comment(// ----------------------------)
 
-reserved(class) constant(FullMoonException) reserved(extends) pre_constant(Exception)
+reserved(class) class(FullMoonException) reserved(extends) pre_constant(Exception)
 operator({)
   comment(// ...)
 operator(})
@@ -4456,7 +4456,7 @@ comment(// then just assign the function name to a variable, and execute using t
 comment(// variable name)
 
 comment(// Original function)
-reserved(function) ident(expand)operator(()operator(\)) operator({) predefined(echo) string<delimiter(")content(expand)char(\\n)delimiter(")>operator(;) operator(})
+reserved(function) function(expand)operator(()operator(\)) operator({) predefined(echo) string<delimiter(")content(expand)char(\\n)delimiter(")>operator(;) operator(})
 
 comment(// Prove that function exists)
 predefined(echo) operator(()predefined(function_exists)operator(()string<delimiter(')content(expand)delimiter(')>operator(\)) operator(?) string<delimiter(')content(yes)delimiter(')> operator(:) string<delimiter(')content(no)delimiter(')>operator(\)) operator(.) string<delimiter(")char(\\n)delimiter(")>operator(;)
@@ -4474,7 +4474,7 @@ predefined(unset)operator(()local_variable($grow)operator(\))operator(;)
 
 comment(// ----------------------------)
 
-reserved(function) ident(fred)operator(()operator(\)) operator({) predefined(echo) string<delimiter(")content(fred)char(\\n)delimiter(")>operator(;) operator(})
+reserved(function) function(fred)operator(()operator(\)) operator({) predefined(echo) string<delimiter(")content(fred)char(\\n)delimiter(")>operator(;) operator(})
 
 local_variable($barney) operator(=) string<delimiter(')content(fred)delimiter(')>operator(;)
 
@@ -4498,7 +4498,7 @@ local_variable($fred)operator(()operator(\))operator(;)
 
 comment(// ----------------------------)
 
-reserved(function) ident(red)operator(()local_variable($text)operator(\)) operator({) reserved(return) string<delimiter(")content(<FONT COLOR='red'>)local_variable($text)content(</FONT>)delimiter(")>operator(;) operator(})
+reserved(function) function(red)operator(()local_variable($text)operator(\)) operator({) reserved(return) string<delimiter(")content(<FONT COLOR='red'>)local_variable($text)content(</FONT>)delimiter(")>operator(;) operator(})
 
 predefined(echo) ident(red)operator(()string<delimiter(')content(careful here)delimiter(')>operator(\)) operator(.) string<delimiter(")char(\\n)delimiter(")>operator(;)
 
@@ -4532,7 +4532,7 @@ comment(// PHP sports an AUTOLOAD facility that is quite easy to use, but, AFAIC
 comment(// towards the detection of unavailable classes rather than for individual functions.)
 comment(// Here is a rudimentary example:)
 
-reserved(function) ident(__autoload)operator(()local_variable($classname)operator(\))
+reserved(function) function(__autoload)operator(()local_variable($classname)operator(\))
 operator({)
   reserved(if) operator(()operator(!)predefined(file_exists)operator(()local_variable($classname)operator(\))operator(\))
   operator({)
@@ -4604,10 +4604,10 @@ comment(// * Do not form a closure: the inner function is merely 'parked' within
 comment(//   outer function, and has no implicit access to the outer function's variables)
 comment(//   or other inner functions)
 
-reserved(function) ident(outer)operator(()local_variable($arg)operator(\))
+reserved(function) function(outer)operator(()local_variable($arg)operator(\))
 operator({)
   local_variable($x) operator(=) local_variable($arg) operator(+) integer(35)operator(;)
-  reserved(function) ident(inner)operator(()operator(\)) operator({) reserved(return) local_variable($x) operator(*) integer(19)operator(;) operator(})
+  reserved(function) function(inner)operator(()operator(\)) operator({) reserved(return) local_variable($x) operator(*) integer(19)operator(;) operator(})
 
   comment(// *** wrong *** 'inner' returns 0 * 19, not ($arg + 35\) * 19)
   reserved(return) local_variable($x) operator(+) ident(inner)operator(()operator(\))operator(;)
@@ -4615,13 +4615,13 @@ operator(})
 
 comment(// ----------------------------)
 
-reserved(function) ident(outer)operator(()local_variable($arg)operator(\))
+reserved(function) function(outer)operator(()local_variable($arg)operator(\))
 operator({)
   local_variable($x) operator(=) local_variable($arg) operator(+) integer(35)operator(;)
 
   comment(// No implicit access to outer function scope; any required data must be)
   comment(// explicity passed)
-  reserved(function) ident(inner)operator(()local_variable($x)operator(\)) operator({) reserved(return) local_variable($x) operator(*) integer(19)operator(;) operator(})
+  reserved(function) function(inner)operator(()local_variable($x)operator(\)) operator({) reserved(return) local_variable($x) operator(*) integer(19)operator(;) operator(})
 
   reserved(return) local_variable($x) operator(+) ident(inner)operator(()local_variable($x)operator(\))operator(;)
 operator(})
@@ -4629,12 +4629,12 @@ operator(})
 comment(// ------------ )
 
 comment(// Equivalent to previously-shown code)
-reserved(function) ident(inner)operator(()local_variable($x)operator(\))
+reserved(function) function(inner)operator(()local_variable($x)operator(\))
 operator({)
   reserved(return) local_variable($x) operator(*) integer(19)operator(;)
 operator(})
 
-reserved(function) ident(outer)operator(()local_variable($arg)operator(\))
+reserved(function) function(outer)operator(()local_variable($arg)operator(\))
 operator({)
   local_variable($x) operator(=) local_variable($arg) operator(+) integer(35)operator(;)
   reserved(return) local_variable($x) operator(+) ident(inner)operator(()local_variable($x)operator(\))operator(;)
@@ -4714,7 +4714,7 @@ reserved(if) operator(()local_variable($pid) operator(==) operator(-)integer(1)o
 operator(}) reserved(elseif) operator(()local_variable($pid)operator(\)) operator({)
     comment(// parent catches INT and berates user)
     reserved(declare)operator(()ident(ticks) operator(=) integer(1)operator(\))operator(;)
-    reserved(function) ident(handle_sigint)operator(()local_variable($signal)operator(\)) operator({)
+    reserved(function) function(handle_sigint)operator(()local_variable($signal)operator(\)) operator({)
         predefined(echo) string<delimiter(")content(Tsk tsk, no process interruptus)char(\\n)delimiter(")>operator(;)
     operator(})
     ident(pcntl_signal)operator(()constant(SIGINT)operator(,) string<delimiter(')content(handle_sigint)delimiter(')>operator(\))operator(;)
@@ -4770,7 +4770,7 @@ predefined(pclose)operator(()local_variable($writeme)operator(\))operator(;)    
 comment(// -----------------------------)
 
 comment(// Output buffering callback that sends output to the pager.)
-reserved(function) ident(ob_pager)operator(()local_variable($output)operator(,) local_variable($mode)operator(\)) operator({)
+reserved(function) function(ob_pager)operator(()local_variable($output)operator(,) local_variable($mode)operator(\)) operator({)
     reserved(static) local_variable($pipe)operator(;)
     reserved(if) operator(()local_variable($mode) operator(&) pre_constant(PHP_OUTPUT_HANDLER_START)operator(\)) operator({)
         local_variable($pager) operator(=) predefined(getenv)operator(()string<delimiter(')content(PAGER)delimiter(')>operator(\))operator(;)
@@ -4793,12 +4793,12 @@ ident(ob_end_flush)operator(()operator(\))operator(;)
 
 comment(// @@PLEAC@@_16.5)
 comment(// Output buffering: Only display a certain number of lines of output.)
-reserved(class) constant(Head) operator({)
-    reserved(function) constant(Head)operator(()local_variable($lines)operator(=)integer(20)operator(\)) operator({)
+reserved(class) class(Head) operator({)
+    reserved(function) function(Head)operator(()local_variable($lines)operator(=)integer(20)operator(\)) operator({)
         local_variable($this)operator(->)ident(lines) operator(=) local_variable($lines)operator(;)
     operator(})
 
-    reserved(function) ident(filter)operator(()local_variable($output)operator(,) local_variable($mode)operator(\)) operator({)
+    reserved(function) function(filter)operator(()local_variable($output)operator(,) local_variable($mode)operator(\)) operator({)
         local_variable($result) operator(=) predefined(array)operator(()operator(\))operator(;)
         local_variable($newline) operator(=) string<delimiter(')delimiter(')>operator(;)
         reserved(if) operator(()predefined(strlen)operator(()local_variable($output)operator(\)) operator(>) integer(0) operator(&&) local_variable($output)operator([)predefined(strlen)operator(()local_variable($output)operator(\)) operator(-) integer(1)operator(]) operator(==) string<delimiter(")char(\\n)delimiter(")>operator(\)) operator({)
@@ -4816,12 +4816,12 @@ reserved(class) constant(Head) operator({)
 operator(})
 
 comment(// Output buffering: Prepend line numbers to each line of output.)
-reserved(class) constant(Number) operator({)
-    reserved(function) constant(Number)operator(()operator(\)) operator({)
+reserved(class) class(Number) operator({)
+    reserved(function) function(Number)operator(()operator(\)) operator({)
         local_variable($this)operator(->)ident(line_number) operator(=) integer(0)operator(;)
     operator(})
 
-    reserved(function) ident(filter)operator(()local_variable($output)operator(,) local_variable($mode)operator(\)) operator({)
+    reserved(function) function(filter)operator(()local_variable($output)operator(,) local_variable($mode)operator(\)) operator({)
         local_variable($result) operator(=) predefined(array)operator(()operator(\))operator(;)
         local_variable($newline) operator(=) string<delimiter(')delimiter(')>operator(;)
         reserved(if) operator(()predefined(strlen)operator(()local_variable($output)operator(\)) operator(>) integer(0) operator(&&) local_variable($output)operator([)predefined(strlen)operator(()local_variable($output)operator(\)) operator(-) integer(1)operator(]) operator(==) string<delimiter(")char(\\n)delimiter(")>operator(\)) operator({)
@@ -4837,11 +4837,11 @@ reserved(class) constant(Number) operator({)
 operator(})
 
 comment(// Output buffering: Prepend "> " to each line of output.)
-reserved(class) constant(Quote) operator({)
-    reserved(function) constant(Quote)operator(()operator(\)) operator({)
+reserved(class) class(Quote) operator({)
+    reserved(function) function(Quote)operator(()operator(\)) operator({)
     operator(})
 
-    reserved(function) ident(filter)operator(()local_variable($output)operator(,) local_variable($mode)operator(\)) operator({)
+    reserved(function) function(filter)operator(()local_variable($output)operator(,) local_variable($mode)operator(\)) operator({)
         local_variable($result) operator(=) predefined(array)operator(()operator(\))operator(;)
         local_variable($newline) operator(=) string<delimiter(')delimiter(')>operator(;)
         reserved(if) operator(()predefined(strlen)operator(()local_variable($output)operator(\)) operator(>) integer(0) operator(&&) local_variable($output)operator([)predefined(strlen)operator(()local_variable($output)operator(\)) operator(-) integer(1)operator(]) operator(==) string<delimiter(")char(\\n)delimiter(")>operator(\)) operator({)
@@ -5217,7 +5217,7 @@ comment(// fifolog - read and record log msgs from fifo)
 local_variable($fifo) operator(=) pre_constant(null)operator(;)
 
 reserved(declare)operator(()ident(ticks) operator(=) integer(1)operator(\))operator(;)
-reserved(function) ident(handle_alarm)operator(()local_variable($signal)operator(\)) operator({)
+reserved(function) function(handle_alarm)operator(()local_variable($signal)operator(\)) operator({)
     reserved(global) local_variable($fifo)operator(;)
     reserved(if) operator(()local_variable($fifo)operator(\)) predefined(fclose)operator(()local_variable($fifo)operator(\))operator(;)   comment(// move on to the next queued process)
 operator(})
@@ -5287,7 +5287,7 @@ reserved(while) operator(()pre_constant(true)operator(\)) operator({)
 operator(})
 predefined(die)operator(()string<delimiter(')content(Not reached)delimiter(')>operator(\))operator(;)
 
-reserved(function) ident(squabble)operator(()operator(\)) operator({)
+reserved(function) function(squabble)operator(()operator(\)) operator({)
     reserved(global) local_variable($handle)operator(;)
     reserved(global) local_variable($buffer)operator(;)
     local_variable($i) operator(=) integer(0)operator(;)
@@ -5386,7 +5386,7 @@ ident(pcntl_signal)operator(()constant(SIGQUIT)operator(,) string<delimiter(')co
 comment(// call got_sig_pipe for every SIGPIPE)
 ident(pcntl_signal)operator(()constant(SIGPIPE)operator(,) string<delimiter(')content(got_sig_pipe)delimiter(')>operator(\))operator(;)
 comment(// increment ouch for every SIGINT)
-reserved(function) ident(got_sig_int)operator(()local_variable($signal)operator(\)) operator({) reserved(global) local_variable($ouch)operator(;) local_variable($ouch)operator(++)operator(;) operator(})
+reserved(function) function(got_sig_int)operator(()local_variable($signal)operator(\)) operator({) reserved(global) local_variable($ouch)operator(;) local_variable($ouch)operator(++)operator(;) operator(})
 ident(pcntl_signal)operator(()constant(SIGINT)operator(,) string<delimiter(')content(got_sig_int)delimiter(')>operator(\))operator(;)
 comment(// ignore the signal INT)
 ident(pcntl_signal)operator(()constant(SIGINT)operator(,) constant(SIG_IGN)operator(\))operator(;)
@@ -5395,12 +5395,12 @@ ident(pcntl_signal)operator(()constant(SIGSTOP)operator(,) constant(SIG_DFL)oper
 
 comment(// @@PLEAC@@_16.16)
 comment(// the signal handler)
-reserved(function) ident(ding)operator(()local_variable($signal)operator(\)) operator({)
+reserved(function) function(ding)operator(()local_variable($signal)operator(\)) operator({)
     predefined(fwrite)operator(()constant(STDERR)operator(,) string<delimiter(")char(\\x07)content(Enter your name!)char(\\n)delimiter(")>operator(\))operator(;)
 operator(})
 
 comment(// prompt for name, overriding SIGINT)
-reserved(function) ident(get_name)operator(()operator(\)) operator({)
+reserved(function) function(get_name)operator(()operator(\)) operator({)
     reserved(declare)operator(()ident(ticks) operator(=) integer(1)operator(\))operator(;)
     ident(pcntl_signal)operator(()constant(SIGINT)operator(,) string<delimiter(')content(ding)delimiter(')>operator(\))operator(;)
 
@@ -5421,7 +5421,7 @@ reserved(function) ident(get_name)operator(()operator(\)) operator({)
 operator(})
 
 comment(// @@PLEAC@@_16.17)
-reserved(function) ident(got_int)operator(()local_variable($signal)operator(\)) operator({)
+reserved(function) function(got_int)operator(()local_variable($signal)operator(\)) operator({)
     ident(pcntl_signal)operator(()constant(SIGINT)operator(,) string<delimiter(')content(got_int)delimiter(')>operator(\))operator(;)  comment(// but not for SIGCHLD!)
     comment(// ...)
 operator(})
@@ -5432,7 +5432,7 @@ comment(// -----------------------------)
 reserved(declare)operator(()ident(ticks) operator(=) integer(1)operator(\))operator(;)
 local_variable($interrupted) operator(=) pre_constant(false)operator(;)
 
-reserved(function) ident(got_int)operator(()local_variable($signal)operator(\)) operator({)
+reserved(function) function(got_int)operator(()local_variable($signal)operator(\)) operator({)
     reserved(global) local_variable($interrupted)operator(;)
     local_variable($interrupted) operator(=) pre_constant(true)operator(;)
     comment(// The third argument to pcntl_signal(\) determines if system calls)
@@ -5453,7 +5453,7 @@ ident(pcntl_signal)operator(()constant(SIGINT)operator(,) constant(SIG_IGN)opera
 
 comment(// install signal handler)
 reserved(declare)operator(()ident(ticks) operator(=) integer(1)operator(\))operator(;)
-reserved(function) ident(tsktsk)operator(()local_variable($signal)operator(\)) operator({)
+reserved(function) function(tsktsk)operator(()local_variable($signal)operator(\)) operator({)
     predefined(fwrite)operator(()constant(STDERR)operator(,) string<delimiter(")char(\\x07)content(The long habit of living indisposeth us for dying.)delimiter(")>operator(\))operator(;)
     ident(pcntl_signal)operator(()constant(SIGINT)operator(,) string<delimiter(')content(tsktsk)delimiter(')>operator(\))operator(;)
 operator(})
@@ -5465,7 +5465,7 @@ ident(pcntl_signal)operator(()constant(SIGCHLD)operator(,) constant(SIG_IGN)oper
 comment(// -----------------------------)
 
 reserved(declare)operator(()ident(ticks) operator(=) integer(1)operator(\))operator(;)
-reserved(function) ident(reaper)operator(()local_variable($signal)operator(\)) operator({)
+reserved(function) function(reaper)operator(()local_variable($signal)operator(\)) operator({)
     local_variable($pid) operator(=) ident(pcntl_waitpid)operator(()operator(-)integer(1)operator(,) local_variable($status)operator(,) constant(WNOHANG)operator(\))operator(;)
     reserved(if) operator(()local_variable($pid) operator(>) integer(0)operator(\)) operator({)
         comment(// ...)
@@ -5479,7 +5479,7 @@ ident(pcntl_signal)operator(()constant(SIGCHLD)operator(,) string<delimiter(')co
 comment(// -----------------------------)
 
 reserved(declare)operator(()ident(ticks) operator(=) integer(1)operator(\))operator(;)
-reserved(function) ident(reaper)operator(()local_variable($signal)operator(\)) operator({)
+reserved(function) function(reaper)operator(()local_variable($signal)operator(\)) operator({)
     local_variable($pid) operator(=) ident(pcntl_waitpid)operator(()operator(-)integer(1)operator(,) local_variable($status)operator(,) constant(WNOHANG)operator(\))operator(;)
     reserved(if) operator(()local_variable($pid) operator(==) operator(-)integer(1)operator(\)) operator({)
         comment(// No child waiting. Ignore it.)
@@ -5502,7 +5502,7 @@ comment(// @@PLEAC@@_16.21)
 reserved(declare)operator(()ident(ticks) operator(=) integer(1)operator(\))operator(;)
 local_variable($aborted) operator(=) pre_constant(false)operator(;)
 
-reserved(function) ident(handle_alarm)operator(()local_variable($signal)operator(\)) operator({)
+reserved(function) function(handle_alarm)operator(()local_variable($signal)operator(\)) operator({)
     reserved(global) local_variable($aborted)operator(;)
     local_variable($aborted) operator(=) pre_constant(true)operator(;)
 operator(})

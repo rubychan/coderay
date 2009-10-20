@@ -184,7 +184,7 @@ module Scanners
       
       HTML_INDICATOR = /<!DOCTYPE html|<(?:html|body|div|p)[> ]/i
       
-      IDENTIFIER = /[a-z_\x80-\xFF][a-z0-9_\x80-\xFF]*/i
+      IDENTIFIER = /[a-z_\x7f-\xFF][a-z0-9_\x7f-\xFF]*/i
       VARIABLE = /\$#{IDENTIFIER}/
       
       OPERATOR = /
@@ -205,7 +205,7 @@ module Scanners
       
       states = [:initial]
       if match?(RE::PHP_START) ||  # starts with <?
-       (match?(/\s*<(?i:\w|\?xml)/) && exist?(RE::PHP_START)) || # starts with HTML tag and contains <?
+       (match?(/\s*<\S/) && exist?(RE::PHP_START)) || # starts with tag and contains <?
        exist?(RE::HTML_INDICATOR)
         # is PHP inside HTML, so start with HTML
       else
@@ -253,7 +253,10 @@ module Scanners
               kind = :label
             elsif kind == :ident && match =~ /^[A-Z]/
               kind = :constant
-            # TODO: function and class definitions
+            elsif kind == :reserved && match == 'class'
+              states << :class_expected
+            elsif kind == :reserved && match == 'function'
+              states << :function_expected
             end
           
           elsif scan(/(?:\d+\.\d*|\d*\.\d+)(?:e[-+]?\d+)?|\d+e[-+]?\d+/i)
@@ -277,11 +280,17 @@ module Scanners
             states.push :dqstring
           
           # TODO: Heredocs
-          # elsif match = scan(/<<</ + IDENTIFIER)
-          #   tokens << [:open, :string]
-          #   heredocdelim = match[RE::IDENTIFIER]
-          #   kind = :delimiter
-          #   states.push :heredocstring
+          # See http://de2.php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc
+          elsif match = scan(/<<<(#{RE::IDENTIFIER})/o)
+            tokens << [:open, :string]
+            heredocdelim = Regexp.escape self[1]
+            tokens << [match, :delimiter]
+            next if eos?
+            tokens << [scan_until(/\n(?=#{heredocdelim};?$)|\z/), :content]
+            next if eos?
+            tokens << [scan(/#{heredocdelim}/), :delimiter]
+            tokens << [:close, :string]
+            next
           
           elsif scan RE::VARIABLE
             kind = :local_variable
@@ -379,6 +388,31 @@ module Scanners
           elsif scan(/\$/)
             kind = :content
           end
+        
+        when :class_expected
+          if scan(/\s+/)
+            kind = :space
+          elsif match = scan(/#{RE::IDENTIFIER}/o)
+            kind = :class
+            states.pop
+          else
+            states.pop
+            next
+          end
+        
+        when :function_expected
+          if scan(/\s+/)
+            kind = :space
+          elsif scan(/&/)
+            kind = :operator
+          elsif match = scan(/#{RE::IDENTIFIER}/o)
+            kind = :function
+            states.pop
+          else
+            states.pop
+            next
+          end
+        
         else
           raise_inspect 'Unknown state!', tokens, states
         end

@@ -25,7 +25,7 @@ comment(/**
  *  @package     fnord.bb
  *  @subpackage  archive
  */)
-reserved(class) constant(Zip) reserved(extends) constant(Archive) operator({)
+reserved(class) class(Zip) reserved(extends) constant(Archive) operator({)
  comment(/**
   *  Outputs the zip file
   *
@@ -40,7 +40,7 @@ reserved(class) constant(Zip) reserved(extends) constant(Archive) operator({)
   *
   *  @return bool|string       Returns either true if the fil is sucessfully created or the content of the zip file
   */)
-  reserved(function) ident(out)operator(()local_variable($filename) operator(=) pre_constant(false)operator(\)) operator({)
+  reserved(function) function(out)operator(()local_variable($filename) operator(=) pre_constant(false)operator(\)) operator({)
     comment(// Empty output)
     local_variable($file_data) operator(=) predefined(array)operator(()operator(\))operator(;) comment(// Data of the file part)
     local_variable($cd_data)   operator(=) predefined(array)operator(()operator(\))operator(;) comment(// Data of the central directory)
@@ -276,7 +276,7 @@ reserved(class) constant(Zip) reserved(extends) constant(Archive) operator({)
   *
   *  @return bool           Returns true if the file was loaded sucessfully
   */)
-  reserved(function) predefined(load_file)operator(()local_variable($file)operator(,) local_variable($reset) operator(=) pre_constant(true)operator(\)) operator({)
+  reserved(function) function(load_file)operator(()local_variable($file)operator(,) local_variable($reset) operator(=) pre_constant(true)operator(\)) operator({)
     comment(// Check whether the file exists)
     reserved(if)operator(()operator(!)predefined(file_exists)operator(()local_variable($file)operator(\))operator(\))
       reserved(return) pre_constant(false)operator(;)
@@ -304,7 +304,7 @@ reserved(class) constant(Zip) reserved(extends) constant(Archive) operator({)
   *
   *  @return bool            Returns true if the string was loaded sucessfully
   */)
-  reserved(function) ident(load_string)operator(()local_variable($string)operator(,) local_variable($reset) operator(=) pre_constant(true)operator(\)) operator({)
+  reserved(function) function(load_string)operator(()local_variable($string)operator(,) local_variable($reset) operator(=) pre_constant(true)operator(\)) operator({)
     comment(// Reset the zip?)
     reserved(if)operator(()local_variable($reset)operator(\)) operator({)
       local_variable($this)operator(->)ident(dirs)  operator(=) predefined(array)operator(()operator(\))operator(;)
@@ -491,7 +491,7 @@ reserved(class) constant(Zip) reserved(extends) constant(Archive) operator({)
   operator(})
 operator(})
 
-reserved(function) operator(&)ident(byref)operator(()operator(\)) operator({)
+reserved(function) operator(&)function(byref)operator(()operator(\)) operator({)
     local_variable($x) operator(=) predefined(array)operator(()operator(\))operator(;)
     reserved(return) local_variable($x)operator(;)
 operator(})

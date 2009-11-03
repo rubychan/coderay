@@ -51,6 +51,11 @@ task 'jruby19' do
 end
 task :j19 => :jruby19
 
+task 'jruby-nailgun' do
+  RUBY.replace 'jruby --ng'
+end
+task :jng => :'jruby-nailgun'
+
 task 'rubinius' do
   RUBY.replace 'rbx'
 end

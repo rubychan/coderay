@@ -411,8 +411,6 @@ module Scanners
             kind = :error
           elsif match = scan(/#{RE::VARIABLE}/o)
             kind = :local_variable
-            # $foo[bar] and $foo->bar kind of stuff
-            # TODO: highlight tokens separately!
             if check(/\[#{RE::IDENTIFIER}\]/o)
               tokens << [:open, :inline]
               tokens << [match, :local_variable]

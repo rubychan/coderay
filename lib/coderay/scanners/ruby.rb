@@ -175,7 +175,7 @@ module Scanners
                   kind = :constant
                 elsif kind == :reserved
                   state = patterns::DEF_NEW_STATE[match]
-                  value_expected = :set if patterns::VALUE_EXPECTING_KEYWORDS[match]
+                  value_expected = :set if patterns::KEYWORDS_EXPECTING_VALUE[match]
                 end
               end
               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)

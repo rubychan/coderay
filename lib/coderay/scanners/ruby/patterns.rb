@@ -142,7 +142,7 @@ module Scanners
       | #{CHARACTER}
       )
     /x
-    VALUE_EXPECTING_KEYWORDS = WordList.new.add(%w[
+    KEYWORDS_EXPECTING_VALUE = WordList.new.add(%w[
       and end in or unless begin
       defined? ensure redo super until
       break do next rescue then

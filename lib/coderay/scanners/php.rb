@@ -225,13 +225,15 @@ module Scanners
     
     def scan_tokens tokens, options
       
-      states = [:initial]
-      if match?(RE::PHP_START) ||  # starts with <?
+      if check(RE::PHP_START) ||  # starts with <?
        (match?(/\s*<\S/) && exist?(RE::PHP_START)) || # starts with tag and contains <?
-       exist?(RE::HTML_INDICATOR)
-        # is PHP inside HTML, so start with HTML
+       exist?(RE::HTML_INDICATOR) ||
+       check(/.{1,100}#{RE::PHP_START}/om)  # PHP start after max 100 chars
+        # is HTML with embedded PHP, so start with HTML
+        states = [:initial]
       else
-        states << :php
+        # is just PHP, so start with PHP surrounded by HTML
+        states = [:initial, :php]
       end
       
       heredoc_delimiter = nil
@@ -412,12 +414,23 @@ module Scanners
             # $foo[bar] and $foo->bar kind of stuff
             # TODO: highlight tokens separately!
             if check(/\[#{RE::IDENTIFIER}\]/o)
-              match << scan(/\[#{RE::IDENTIFIER}\]/o)
+              tokens << [:open, :inline]
+              tokens << [match, :local_variable]
+              tokens << [scan(/\[/), :operator]
+              tokens << [scan(/#{RE::IDENTIFIER}/o), :ident]
+              tokens << [scan(/\]/), :operator]
+              tokens << [:close, :inline]
+              next
             elsif check(/\[/)
               match << scan(/\[['"]?#{RE::IDENTIFIER}?['"]?\]?/o)
               kind = :error
             elsif check(/->#{RE::IDENTIFIER}/o)
-              match << scan(/->#{RE::IDENTIFIER}/o)
+              tokens << [:open, :inline]
+              tokens << [match, :local_variable]
+              tokens << [scan(/->/), :operator]
+              tokens << [scan(/#{RE::IDENTIFIER}/o), :ident]
+              tokens << [:close, :inline]
+              next
             elsif check(/->/)
               match << scan(/->/)
               kind = :error

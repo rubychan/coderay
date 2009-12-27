@@ -1,5 +1,5 @@
-constant(Single) ident(quoted)
-operator(<)operator(?)ident(php)
+plain(Single quoted
+)inline_delimiter(<?php)
 predefined(echo) string<delimiter(')content(this is a simple string)delimiter(')>operator(;)
 
 predefined(echo) string<delimiter(')content(You can also have embedded newlines in 
@@ -65,7 +65,7 @@ local_variable($foo) operator(=) reserved(new) ident(foo)operator(()operator(\))
 local_variable($name) operator(=) string<delimiter(')content(MyName)delimiter(')>operator(;)
 
 predefined(echo) string<delimiter(<<<EOT)content(
-)content(My name is ")local_variable($name)content(". I am printing some )local_variable($foo->foo)content(.)content(
+)content(My name is ")local_variable($name)content(". I am printing some )inline<local_variable($foo)operator(->)ident(foo)>content(.)content(
 )content(Now, I am printing some )inline<delimiter({)local_variable($foo)operator(->)ident(bar)operator([)integer(1)operator(])delimiter(})>content(.)content(
 )content(This should print a capital 'A': )char(\\x41)content(
 )delimiter(EOT)>operator(;)
@@ -199,7 +199,7 @@ predefined(error_reporting)operator(()exception(E_ALL)operator(\))operator(;)
 local_variable($fruits) operator(=) predefined(array)operator(()string<delimiter(')content(strawberry)delimiter(')> operator(=>) string<delimiter(')content(red)delimiter(')>operator(,) string<delimiter(')content(banana)delimiter(')> operator(=>) string<delimiter(')content(yellow)delimiter(')>operator(\))operator(;)
 
 comment(// Works, but note that this works differently outside a string)
-predefined(echo) string<delimiter(")content(A banana is )local_variable($fruits[banana])content(.)delimiter(")>operator(;)
+predefined(echo) string<delimiter(")content(A banana is )inline<local_variable($fruits)operator([)ident(banana)operator(])>content(.)delimiter(")>operator(;)
 
 comment(// Works)
 predefined(echo) string<delimiter(")content(A banana is )inline<delimiter({)local_variable($fruits)operator([)string<delimiter(')content(banana)delimiter(')>operator(])delimiter(})>content(.)delimiter(")>operator(;)
@@ -214,10 +214,10 @@ comment(// Works)
 predefined(echo) string<delimiter(")content(A banana is )delimiter(")> operator(.) local_variable($fruits)operator([)string<delimiter(')content(banana)delimiter(')>operator(]) operator(.) string<delimiter(")content(.)delimiter(")>operator(;)
 
 comment(// Works)
-predefined(echo) string<delimiter(")content(This square is )local_variable($square->width)content( meters broad.)delimiter(")>operator(;)
+predefined(echo) string<delimiter(")content(This square is )inline<local_variable($square)operator(->)ident(width)>content( meters broad.)delimiter(")>operator(;)
 
 comment(// Won't work. For a solution, see the complex syntax.)
-predefined(echo) string<delimiter(")content(This square is )local_variable($square->width00)content( centimeters broad.)delimiter(")>operator(;)
+predefined(echo) string<delimiter(")content(This square is )inline<local_variable($square)operator(->)ident(width00)>content( centimeters broad.)delimiter(")>operator(;)
 inline_delimiter(?>)
 plain(For anything more complex, you should use the complex syntax.
 

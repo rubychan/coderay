@@ -21,7 +21,7 @@ module Scanners
     MAGIC_VARIABLES = %w[ this arguments ]  # arguments was introduced in JavaScript 1.4
     
     KEYWORDS_EXPECTING_VALUE = WordList.new.add %w[
-      case delete in instanceof new return throw typeof while with
+      case delete in instanceof new return throw typeof with
     ]
     
     # Reserved for future use.

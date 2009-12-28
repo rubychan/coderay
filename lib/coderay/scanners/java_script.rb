@@ -21,7 +21,7 @@ module Scanners
     MAGIC_VARIABLES = %w[ this arguments ]  # arguments was introduced in JavaScript 1.4
     
     KEYWORDS_EXPECTING_VALUE = WordList.new.add %w[
-      case delete in instanceof new return throw typeof while with
+      case delete in instanceof new return throw typeof with
     ]
     
     # Reserved for future use.
@@ -108,6 +108,7 @@ module Scanners
           elsif match = scan(/ [$a-zA-Z_][A-Za-z_0-9$]* /x)
             kind = IDENT_KIND[match]
             value_expected = (kind == :keyword) && KEYWORDS_EXPECTING_VALUE[match]
+            # TODO: labels
             if kind == :ident
               if match.index(?$)  # $ allowed inside an identifier
                 kind = :predefined

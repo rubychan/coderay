@@ -1,0 +1,34 @@
+inline_delimiter(<?php)
+reserved(goto) ident(a)operator(;)
+predefined(echo) string<delimiter(')content(Foo)delimiter(')>operator(;)
+ 
+label(a)operator(:)
+predefined(echo) string<delimiter(')content(Bar)delimiter(')>operator(;)
+inline_delimiter(?>)
+
+inline_delimiter(<?php)
+
+local_variable($headers) operator(=) predefined(Array)operator(()string<delimiter(')content(subject)delimiter(')>operator(,) string<delimiter(')content(bcc)delimiter(')>operator(,) string<delimiter(')content(to)delimiter(')>operator(,) string<delimiter(')content(cc)delimiter(')>operator(,) string<delimiter(')content(date)delimiter(')>operator(,) string<delimiter(')content(sender)delimiter(')>operator(\))operator(;)
+local_variable($position) operator(=) integer(0)operator(;)
+
+label(hIterator)operator(:) operator({)
+
+    local_variable($c) operator(=) integer(0)operator(;)
+    predefined(echo) local_variable($headers)operator([)local_variable($position)operator(]) operator(.) pre_constant(PHP_EOL)operator(;)
+
+    label(cIterator)operator(:) operator({)
+        predefined(echo) string<delimiter(')content( )delimiter(')> operator(.) local_variable($headers)operator([)local_variable($position)operator(])operator([)local_variable($c)operator(]) operator(.) pre_constant(PHP_EOL)operator(;)
+
+        reserved(if)operator(()operator(!)predefined(isset)operator(()local_variable($headers)operator([)local_variable($position)operator(])operator([)operator(++)local_variable($c)operator(])operator(\))operator(\)) operator({)
+            reserved(goto) ident(cIteratorExit)operator(;)
+        operator(})
+        reserved(goto) ident(cIterator)operator(;)
+    operator(})
+
+    label(cIteratorExit)operator(:) operator({)
+        reserved(if)operator(()predefined(isset)operator(()local_variable($headers)operator([)operator(++)local_variable($position)operator(])operator(\))operator(\)) operator({)
+            reserved(goto) ident(hIterator)operator(;)
+        operator(})
+    operator(})
+operator(})
+inline_delimiter(?>)

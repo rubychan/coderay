@@ -113,3 +113,5 @@ namespace :gem do
   end
 
 end
+
+task :gem => 'gem:make'

@@ -5,8 +5,6 @@
 	<key>documents</key>
 	<array>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -26,7 +24,7 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2009-10-03T23:23:35Z</date>
+			<date>2009-11-03T21:45:55Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -88,7 +86,7 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2009-10-04T04:14:10Z</date>
+			<date>2009-11-03T21:45:47Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -97,8 +95,6 @@
 			<date>2009-10-03T23:52:27Z</date>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>functional</string>
 			<key>regexFolderFilter</key>
@@ -110,7 +106,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2009-10-13T06:53:20Z</date>
+			<date>2009-11-23T10:32:28Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -122,13 +118,43 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2009-06-07T15:13:02Z</date>
+			<date>2009-11-03T21:45:47Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
+		<key>../test/functional/vhdl.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>13</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>39</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>13</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+		</dict>
 		<key>../test/scanners/suite.rb</key>
 		<dict>
 			<key>caret</key>
@@ -147,6 +173,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{210, 4}, {1070, 768}}</string>
+	<string>{{209, 10}, {1070, 768}}</string>
 </dict>
 </plist>

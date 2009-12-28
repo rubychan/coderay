@@ -1,0 +1,360 @@
+plain(Single quoted
+)inline_delimiter(<?php)
+predefined(echo) string<delimiter(')content(this is a simple string)delimiter(')>operator(;)
+
+predefined(echo) string<delimiter(')content(You can also have embedded newlines in 
+strings this way as it is
+okay to do)delimiter(')>operator(;)
+
+comment(// Outputs: Arnold once said: "I'll be back")
+predefined(echo) string<delimiter(')content(Arnold once said: "I)char(\\')content(ll be back")delimiter(')>operator(;)
+
+comment(// Outputs: You deleted C:\\*.*?)
+predefined(echo) string<delimiter(')content(You deleted C:)char(\\\\)content(*.*?)delimiter(')>operator(;)
+
+comment(// Outputs: You deleted C:\\*.*?)
+predefined(echo) string<delimiter(')content(You deleted C:)content(\\*)content(.*?)delimiter(')>operator(;)
+
+comment(// Outputs: This will not expand: \\n a newline)
+predefined(echo) string<delimiter(')content(This will not expand: )content(\\n)content( a newline)delimiter(')>operator(;)
+
+comment(// Outputs: Variables do not $expand $either)
+predefined(echo) string<delimiter(')content(Variables do not $expand $either)delimiter(')>operator(;)
+inline_delimiter(?>)
+
+plain(Double quoted
+
+)inline_delimiter(<?php)
+local_variable($escape_sequences) operator(=) string<delimiter(")char(\\n)char(\\r)char(\\t)char(\\v)char(\\f)char(\\\\)char(\\$)char(\\")char(\\000)content(-)char(\\777)char(\\x0)content(-)char(\\xFF)delimiter(")>operator(;)
+inline_delimiter(?>)
+
+plain(Heredoc
+
+Example #1 Invalid example
+)inline_delimiter(<?php)
+reserved(class) class(foo) operator({)
+    reserved(public) local_variable($bar) operator(=) string<delimiter(<<<EOT)content(
+)content(bar)content(
+)delimiter(EOT)>operator(;)
+operator(})
+inline_delimiter(?>)
+
+plain(Example #2 Heredoc string quoting example
+
+)inline_delimiter(<?php)
+local_variable($str) operator(=) string<delimiter(<<<EOD)content(
+)content(Example of string)content(
+)content(spanning multiple lines)content(
+)content(using heredoc syntax.)content(
+)delimiter(EOD)>operator(;)
+
+comment(/* More complex example, with variables. */)
+reserved(class) class(foo)
+operator({)
+    reserved(var) local_variable($foo)operator(;)
+    reserved(var) local_variable($bar)operator(;)
+
+    reserved(function) function(foo)operator(()operator(\))
+    operator({)
+        local_variable($this)operator(->)ident(foo) operator(=) string<delimiter(')content(Foo)delimiter(')>operator(;)
+        local_variable($this)operator(->)ident(bar) operator(=) predefined(array)operator(()string<delimiter(')content(Bar1)delimiter(')>operator(,) string<delimiter(')content(Bar2)delimiter(')>operator(,) string<delimiter(')content(Bar3)delimiter(')>operator(\))operator(;)
+    operator(})
+operator(})
+
+local_variable($foo) operator(=) reserved(new) ident(foo)operator(()operator(\))operator(;)
+local_variable($name) operator(=) string<delimiter(')content(MyName)delimiter(')>operator(;)
+
+predefined(echo) string<delimiter(<<<EOT)content(
+)content(My name is ")local_variable($name)content(". I am printing some )inline<local_variable($foo)operator(->)ident(foo)>content(.)content(
+)content(Now, I am printing some )inline<delimiter({)local_variable($foo)operator(->)ident(bar)operator([)integer(1)operator(])delimiter(})>content(.)content(
+)content(This should print a capital 'A': )char(\\x41)content(
+)delimiter(EOT)>operator(;)
+inline_delimiter(?>)
+
+plain(The above example will output:
+
+My name is "MyName". I am printing some Foo.
+Now, I am printing some Bar2.
+This should print a capital 'A': A
+
+Example #3 Heredoc in arguments example
+
+)inline_delimiter(<?php)
+predefined(var_dump)operator(()predefined(array)operator(()string<delimiter(<<<EOD)content(
+)content(foobar!)content(
+)delimiter(EOD)>
+operator(\))operator(\))operator(;)
+inline_delimiter(?>)
+
+plain(Example #4 Using Heredoc to initialize static values
+
+)inline_delimiter(<?php)
+comment(// Static variables)
+reserved(function) function(foo)operator(()operator(\))
+operator({)
+    reserved(static) local_variable($bar) operator(=) string<delimiter(<<<LABEL)content(
+)content(Nothing in here...)content(
+)delimiter(LABEL)>operator(;)
+operator(})
+
+comment(// Class properties/constants)
+reserved(class) class(foo)
+operator({)
+    reserved(const) constant(BAR) operator(=) string<delimiter(<<<FOOBAR)content(
+)content(Constant example)content(
+)delimiter(FOOBAR)>operator(;)
+
+    reserved(public) local_variable($baz) operator(=) string<delimiter(<<<FOOBAR)content(
+)content(Property example)content(
+)delimiter(FOOBAR)>operator(;)
+operator(})
+inline_delimiter(?>)
+
+plain(Example #5 Using double quotes in Heredoc
+
+)inline_delimiter(<?php)
+predefined(echo) string<delimiter(<<<"FOOBAR")content(
+)content(Hello )local_variable($World)content(!)content(
+)delimiter(FOOBAR)>operator(;)
+inline_delimiter(?>)
+
+plain(Nowdoc
+
+Example #6 Nowdoc string quoting example
+
+)inline_delimiter(<?php)
+local_variable($str) operator(=) string<delimiter(<<<'EOD')content(
+)content(Example of string)content(
+)content(spanning multiple lines)content(
+)content(using nowdoc syntax.)content(
+)delimiter(EOD)>operator(;)
+
+comment(/* More complex example, with variables. */)
+reserved(class) class(foo)
+operator({)
+    reserved(public) local_variable($foo)operator(;)
+    reserved(public) local_variable($bar)operator(;)
+
+    reserved(function) function(foo)operator(()operator(\))
+    operator({)
+        local_variable($this)operator(->)ident(foo) operator(=) string<delimiter(')content(Foo)delimiter(')>operator(;)
+        local_variable($this)operator(->)ident(bar) operator(=) predefined(array)operator(()string<delimiter(')content(Bar1)delimiter(')>operator(,) string<delimiter(')content(Bar2)delimiter(')>operator(,) string<delimiter(')content(Bar3)delimiter(')>operator(\))operator(;)
+    operator(})
+operator(})
+
+local_variable($foo) operator(=) reserved(new) ident(foo)operator(()operator(\))operator(;)
+local_variable($name) operator(=) string<delimiter(')content(MyName)delimiter(')>operator(;)
+
+predefined(echo) string<delimiter(<<<'EOT')content(
+)content(My name is "$name". I am printing some $foo->foo.)content(
+)content(Now, I am printing some {$foo->bar[1]}.)content(
+)content(This should not print a capital 'A': )content(\\x)content(41)content(
+)delimiter(EOT)>operator(;)
+inline_delimiter(?>)
+plain(The above example will output:
+
+My name is "$name". I am printing some $foo-)error(>)plain(foo.
+Now, I am printing some {$foo-)error(>)plain(bar[1]}.
+This should not print a capital 'A': \\x41
+
+Example #7 Static data example
+
+)inline_delimiter(<?php)
+reserved(class) class(foo) operator({)
+    reserved(public) local_variable($bar) operator(=) string<delimiter(<<<'EOT')content(
+)content(bar)content(
+)delimiter(EOT)>operator(;)
+operator(})
+inline_delimiter(?>)
+
+plain(Variable parsing
+
+When a string is specified in double quotes or with heredoc, variables are parsed within it.
+
+There are two types of syntax: a simple one and a complex one. The simple syntax is the most common and convenient. It provides a way to embed a variable, an array value, or an object property in a string with a minimum of effort.
+
+The complex syntax was introduced in PHP 4, and can be recognised by the curly braces surrounding the expression.
+
+Simple syntax
+
+If a dollar sign ($\) is encountered, the parser will greedily take as many tokens as possible to form a valid variable name. Enclose the variable name in curly braces to explicitly specify the end of the name.
+
+)inline_delimiter(<?php)
+local_variable($beer) operator(=) string<delimiter(')content(Heineken)delimiter(')>operator(;)
+predefined(echo) string<delimiter(")local_variable($beer)content('s taste is great)delimiter(")>operator(;) comment(// works; "'" is an invalid character for variable names)
+predefined(echo) string<delimiter(")content(He drank some )local_variable($beers)delimiter(")>operator(;)   comment(// won't work; 's' is a valid character for variable names but the variable is "$beer")
+predefined(echo) string<delimiter(")content(He drank some )local_variable(${beer})content(s)delimiter(")>operator(;) comment(// works)
+predefined(echo) string<delimiter(")content(He drank some )inline<delimiter({)local_variable($beer)delimiter(})>content(s)delimiter(")>operator(;) comment(// works)
+inline_delimiter(?>)
+plain(Similarly, an array index or an object property can be parsed. With array indices, the closing square bracket (]\) marks the end of the index. The same rules apply to object properties as to simple variables.
+
+)inline_delimiter(<?php)
+comment(// These examples are specific to using arrays inside of strings.)
+comment(// When outside of a string, always quote array string keys and do not use)
+comment(// {braces}.)
+
+comment(// Show all errors)
+predefined(error_reporting)operator(()exception(E_ALL)operator(\))operator(;)
+
+local_variable($fruits) operator(=) predefined(array)operator(()string<delimiter(')content(strawberry)delimiter(')> operator(=>) string<delimiter(')content(red)delimiter(')>operator(,) string<delimiter(')content(banana)delimiter(')> operator(=>) string<delimiter(')content(yellow)delimiter(')>operator(\))operator(;)
+
+comment(// Works, but note that this works differently outside a string)
+predefined(echo) string<delimiter(")content(A banana is )inline<local_variable($fruits)operator([)ident(banana)operator(])>content(.)delimiter(")>operator(;)
+
+comment(// Works)
+predefined(echo) string<delimiter(")content(A banana is )inline<delimiter({)local_variable($fruits)operator([)string<delimiter(')content(banana)delimiter(')>operator(])delimiter(})>content(.)delimiter(")>operator(;)
+
+comment(// Works, but PHP looks for a constant named banana first, as described below.)
+predefined(echo) string<delimiter(")content(A banana is )inline<delimiter({)local_variable($fruits)operator([)ident(banana)operator(])delimiter(})>content(.)delimiter(")>operator(;)
+
+comment(// Won't work, use braces.  This results in a parse error.)
+predefined(echo) string<delimiter(")content(A banana is )error($fruits['banana'])content(.)delimiter(")>operator(;)
+
+comment(// Works)
+predefined(echo) string<delimiter(")content(A banana is )delimiter(")> operator(.) local_variable($fruits)operator([)string<delimiter(')content(banana)delimiter(')>operator(]) operator(.) string<delimiter(")content(.)delimiter(")>operator(;)
+
+comment(// Works)
+predefined(echo) string<delimiter(")content(This square is )inline<local_variable($square)operator(->)ident(width)>content( meters broad.)delimiter(")>operator(;)
+
+comment(// Won't work. For a solution, see the complex syntax.)
+predefined(echo) string<delimiter(")content(This square is )inline<local_variable($square)operator(->)ident(width00)>content( centimeters broad.)delimiter(")>operator(;)
+inline_delimiter(?>)
+plain(For anything more complex, you should use the complex syntax.
+
+Complex (curly\) syntax
+
+This isn't called complex because the syntax is complex, but because it allows for the use of complex expressions.
+
+In fact, any value in the namespace can be included in a string with this syntax. Simply write the expression the same way as it would appear outside the string, and then wrap it in { and }. Since { can not be escaped, this syntax will only be recognised when the $ immediately follows the {. Use {\\$ to get a literal {$. Some examples to make it clear:
+
+)inline_delimiter(<?php)
+comment(// Show all errors)
+predefined(error_reporting)operator(()exception(E_ALL)operator(\))operator(;)
+
+local_variable($great) operator(=) string<delimiter(')content(fantastic)delimiter(')>operator(;)
+
+comment(// Won't work, outputs: This is { fantastic})
+predefined(echo) string<delimiter(")content(This is )string({)content( )local_variable($great)content(})delimiter(")>operator(;)
+
+comment(// Works, outputs: This is fantastic)
+predefined(echo) string<delimiter(")content(This is )inline<delimiter({)local_variable($great)delimiter(})>delimiter(")>operator(;)
+predefined(echo) string<delimiter(")content(This is )local_variable(${great})delimiter(")>operator(;)
+
+comment(// Works)
+predefined(echo) string<delimiter(")content(This square is )inline<delimiter({)local_variable($square)operator(->)ident(width)delimiter(})>content(00 centimeters broad.)delimiter(")>operator(;) 
+
+comment(// Works)
+predefined(echo) string<delimiter(")content(This works: )inline<delimiter({)local_variable($arr)operator([)integer(4)operator(])operator([)integer(3)operator(])delimiter(})>delimiter(")>operator(;)
+
+comment(// This is wrong for the same reason as $foo[bar] is wrong  outside a string.)
+comment(// In other words, it will still work, but only because PHP first looks for a)
+comment(// constant named foo; an error of level E_NOTICE (undefined constant\) will be)
+comment(// thrown.)
+predefined(echo) string<delimiter(")content(This is wrong: )inline<delimiter({)local_variable($arr)operator([)ident(foo)operator(])operator([)integer(3)operator(])delimiter(})>delimiter(")>operator(;) 
+
+comment(// Works. When using multi-dimensional arrays, always use braces around arrays)
+comment(// when inside of strings)
+predefined(echo) string<delimiter(")content(This works: )inline<delimiter({)local_variable($arr)operator([)string<delimiter(')content(foo)delimiter(')>operator(])operator([)integer(3)operator(])delimiter(})>delimiter(")>operator(;)
+
+comment(// Works.)
+predefined(echo) string<delimiter(")content(This works: )delimiter(")> operator(.) local_variable($arr)operator([)string<delimiter(')content(foo)delimiter(')>operator(])operator([)integer(3)operator(])operator(;)
+
+predefined(echo) string<delimiter(")content(This works too: )inline<delimiter({)local_variable($obj)operator(->)ident(values)operator([)integer(3)operator(])operator(->)ident(name)delimiter(})>delimiter(")>operator(;)
+
+predefined(echo) string<delimiter(")content(This is the value of the var named )local_variable($name)content(: )inline<delimiter({)operator($)operator({)local_variable($name)operator(})delimiter(})>delimiter(")>operator(;)
+
+predefined(echo) string<delimiter(")content(This is the value of the var named by the return value of getName(\): )inline<delimiter({)operator($)operator({)ident(getName)operator(()operator(\))operator(})delimiter(})>delimiter(")>operator(;)
+
+predefined(echo) string<delimiter(")content(This is the value of the var named by the return value of )char(\\$)content(object->getName(\): )inline<delimiter({)operator($)operator({)local_variable($object)operator(->)ident(getName)operator(()operator(\))operator(})delimiter(})>delimiter(")>operator(;)
+inline_delimiter(?>)
+plain(It is also possible to access class properties using variables within strings using this syntax.
+
+)inline_delimiter(<?php)
+reserved(class) class(foo) operator({)
+    reserved(var) local_variable($bar) operator(=) string<delimiter(')content(I am bar.)delimiter(')>operator(;)
+operator(})
+
+local_variable($foo) operator(=) reserved(new) ident(foo)operator(()operator(\))operator(;)
+local_variable($bar) operator(=) string<delimiter(')content(bar)delimiter(')>operator(;)
+local_variable($baz) operator(=) predefined(array)operator(()string<delimiter(')content(foo)delimiter(')>operator(,) string<delimiter(')content(bar)delimiter(')>operator(,) string<delimiter(')content(baz)delimiter(')>operator(,) string<delimiter(')content(quux)delimiter(')>operator(\))operator(;)
+predefined(echo) string<delimiter(")inline<delimiter({)local_variable($foo)operator(->)local_variable($bar)delimiter(})>char(\\n)delimiter(")>operator(;)
+predefined(echo) string<delimiter(")inline<delimiter({)local_variable($foo)operator(->)local_variable($baz)operator([)integer(1)operator(])delimiter(})>char(\\n)delimiter(")>operator(;)
+inline_delimiter(?>)
+plain(The above example will output:
+I am bar.
+I am bar.
+
+Note: Functions, method calls, static class variables, and class constants inside {$} work since PHP 5. However, the value accessed will be interpreted as the name of a variable in the scope in which the string is defined. Using single curly braces ({}\) will not work for accessing the return values of functions or methods or the values of class constants or static class variables. 
+)inline_delimiter(<?php)
+comment(// Show all errors.)
+predefined(error_reporting)operator(()exception(E_ALL)operator(\))operator(;)
+
+reserved(class) class(beers) operator({)
+    reserved(const) ident(softdrink) operator(=) string<delimiter(')content(rootbeer)delimiter(')>operator(;)
+    reserved(public) reserved(static) local_variable($ale) operator(=) string<delimiter(')content(ipa)delimiter(')>operator(;)
+operator(})
+
+local_variable($rootbeer) operator(=) string<delimiter(')content(A & W)delimiter(')>operator(;)
+local_variable($ipa) operator(=) string<delimiter(')content(Alexander Keith)char(\\')content(s)delimiter(')>operator(;)
+
+comment(// This works; outputs: I'd like an A & W)
+predefined(echo) string<delimiter(")content(I'd like an )inline<delimiter({)operator($)operator({)ident(beers)operator(::)ident(softdrink)operator(})delimiter(})>char(\\n)delimiter(")>operator(;)
+
+comment(// This works too; outputs: I'd like an Alexander Keith's)
+predefined(echo) string<delimiter(")content(I'd like an )inline<delimiter({)operator($)operator({)ident(beers)operator(::)local_variable($ale)operator(})delimiter(})>char(\\n)delimiter(")>operator(;)
+inline_delimiter(?>)
+plain(String access and modification by character
+
+Characters within strings may be accessed and modified by specifying the zero-based offset of the desired character after the string using square array brackets, as in $str[42]. Think of a string as an array of characters for this purpose.
+
+Note: Strings may also be accessed using braces, as in $str{42}, for the same purpose. However, this syntax is deprecated as of PHP 5.3.0. Use square brackets instead, such as $str[42].
+
+Warning
+Writing to an out of range offset pads the string with spaces. Non-integer types are converted to integer. Illegal offset type emits E_NOTICE. Negative offset emits E_NOTICE in write but reads empty string. Only the first character of an assigned string is used. Assigning empty string assigns NUL byte.
+
+Example #8 Some string examples
+)inline_delimiter(<?php)
+comment(// Get the first character of a string)
+local_variable($str) operator(=) string<delimiter(')content(This is a test.)delimiter(')>operator(;)
+local_variable($first) operator(=) local_variable($str)operator([)integer(0)operator(])operator(;)
+
+comment(// Get the third character of a string)
+local_variable($third) operator(=) local_variable($str)operator([)integer(2)operator(])operator(;)
+
+comment(// Get the last character of a string.)
+local_variable($str) operator(=) string<delimiter(')content(This is still a test.)delimiter(')>operator(;)
+local_variable($last) operator(=) local_variable($str)operator([)predefined(strlen)operator(()local_variable($str)operator(\))operator(-)integer(1)operator(])operator(;) 
+
+comment(// Modify the last character of a string)
+local_variable($str) operator(=) string<delimiter(')content(Look at the sea)delimiter(')>operator(;)
+local_variable($str)operator([)predefined(strlen)operator(()local_variable($str)operator(\))operator(-)integer(1)operator(]) operator(=) string<delimiter(')content(e)delimiter(')>operator(;)
+
+inline_delimiter(?>)
+
+plain(String conversion to numbers
+
+)inline_delimiter(<?php)
+local_variable($foo) operator(=) integer(1) operator(+) string<delimiter(")content(10.5)delimiter(")>operator(;)                comment(// $foo is float (11.5\))
+local_variable($foo) operator(=) integer(1) operator(+) string<delimiter(")content(-1.3e3)delimiter(")>operator(;)              comment(// $foo is float (-1299\))
+local_variable($foo) operator(=) integer(1) operator(+) string<delimiter(")content(bob-1.3e3)delimiter(")>operator(;)           comment(// $foo is integer (1\))
+local_variable($foo) operator(=) integer(1) operator(+) string<delimiter(")content(bob3)delimiter(")>operator(;)                comment(// $foo is integer (1\))
+local_variable($foo) operator(=) integer(1) operator(+) string<delimiter(")content(10 Small Pigs)delimiter(")>operator(;)       comment(// $foo is integer (11\))
+local_variable($foo) operator(=) integer(4) operator(+) string<delimiter(")content(10.2 Little Piggies)delimiter(")>operator(;) comment(// $foo is float (14.2\))
+local_variable($foo) operator(=) string<delimiter(")content(10.0 pigs )delimiter(")> operator(+) integer(1)operator(;)          comment(// $foo is float (11\))
+local_variable($foo) operator(=) string<delimiter(")content(10.0 pigs )delimiter(")> operator(+) float(1.0)operator(;)        comment(// $foo is float (11\)     )
+inline_delimiter(?>)
+
+inline_delimiter(<?php)
+predefined(echo) string<delimiter(")char(\\$)content(foo==)local_variable($foo)content(; type is )delimiter(")> operator(.) predefined(gettype) operator(()local_variable($foo)operator(\)) operator(.) string<delimiter(")content(<br />)char(\\n)delimiter(")>operator(;)
+inline_delimiter(?>)
+
+plain(If you want a parsed variable surrounded by curly braces, just double the curly braces: 
+
+)inline_delimiter(<?php) 
+  local_variable($foo) operator(=) string<delimiter(")content(bar)delimiter(")>operator(;) 
+  predefined(echo) string<delimiter(")string({)inline<delimiter({)local_variable($foo)delimiter(})>content(})delimiter(")>operator(;) 
+inline_delimiter(?>)
+
+plain(Although current documentation says 'A string literal can be specified in four different ways: ...', actually there is a fifth way to specify a (binary\) string: 
+
+)inline_delimiter(<?php) local_variable($binary) operator(=) string<modifier(b)delimiter(')content(This is a binary string)delimiter(')>operator(;) inline_delimiter(?>)

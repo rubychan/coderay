@@ -5,6 +5,9 @@ module CodeRay
     # Thanks to murphy for putting CodeRay into public.
     class Scheme < Scanner
       
+      # TODO: function defs
+      # TODO: built-in functions
+      
       register_for :scheme
       file_extension 'scm'
 

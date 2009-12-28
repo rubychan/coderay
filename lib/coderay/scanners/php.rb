@@ -38,7 +38,7 @@ module Scanners
         require require_once return print unset
       ]
       
-      CLASSES = %w[ Directory stdClass  __PHP_Incomplete_Class exception php_user_filter Closure ]
+      CLASSES = %w[ Directory stdClass __PHP_Incomplete_Class exception php_user_filter Closure ]
       
       # according to http://php.net/quickref.php on 2009-04-21;
       # all functions with _ excluded (module functions) and selected additional functions
@@ -117,6 +117,18 @@ module Scanners
         utf8_decode utf8_encode var_dump var_export
         version_compare
         zend_logo_guid zend_thread_id zend_version
+        create_function call_user_func_array
+        posix_access posix_ctermid posix_get_last_error posix_getcwd posix_getegid
+        posix_geteuid posix_getgid posix_getgrgid posix_getgrnam posix_getgroups
+        posix_getlogin posix_getpgid posix_getpgrp posix_getpid posix_getppid
+        posix_getpwnam posix_getpwuid posix_getrlimit posix_getsid posix_getuid
+        posix_initgroups posix_isatty posix_kill posix_mkfifo posix_mknod
+        posix_setegid posix_seteuid posix_setgid posix_setpgid posix_setsid
+        posix_setuid posix_strerror posix_times posix_ttyname posix_uname
+        pcntl_alarm pcntl_exec pcntl_fork pcntl_getpriority pcntl_setpriority
+        pcntl_signal pcntl_signal_dispatch pcntl_sigprocmask pcntl_sigtimedwait
+        pcntl_sigwaitinfo pcntl_wait pcntl_waitpid pcntl_wexitstatus pcntl_wifexited
+        pcntl_wifsignaled pcntl_wifstopped pcntl_wstopsig pcntl_wtermsig
       ]
       # TODO: more built-in PHP functions?
       
@@ -158,6 +170,12 @@ module Scanners
         LOG_NDELAY LOG_NOWAIT LOG_PERROR
       ]
       
+      PREDEFINED = %w[
+        $GLOBALS $_SERVER $_GET $_POST $_FILES $_REQUEST $_SESSION $_ENV
+        $_COOKIE $php_errormsg $HTTP_RAW_POST_DATA $http_response_header
+        $argc $argv
+      ]
+      
       IDENT_KIND = CaseIgnoringWordList.new(:ident, true).
         add(KEYWORDS, :reserved).
         add(TYPES, :pre_type).
@@ -166,6 +184,9 @@ module Scanners
         add(CLASSES, :pre_constant).
         add(EXCEPTIONS, :exception).
         add(CONSTANTS, :pre_constant)
+      
+      VARIABLE_KIND = WordList.new(:local_variable).
+        add(PREDEFINED, :predefined)
     end
     
     module RE
@@ -194,7 +215,8 @@ module Scanners
         \+\+ | -- |       # increment, decrement
         [,;?:()\[\]{}] |  # simple delimiters
         [-+*\/%&|^]=? |   # ordinary math, binary logic, assignment shortcuts
-        [~@$] |           # whatever
+        [~$] |            # whatever
+        =& |              # reference assignment
         [=!]=?=? | <> |   # comparison and assignment
         <<=? | >>=? | [<>]=?  # comparison and shift
       /x
@@ -203,17 +225,23 @@ module Scanners
     
     def scan_tokens tokens, options
       
-      states = [:initial]
-      if match?(RE::PHP_START) ||  # starts with <?
+      if check(RE::PHP_START) ||  # starts with <?
        (match?(/\s*<\S/) && exist?(RE::PHP_START)) || # starts with tag and contains <?
-       exist?(RE::HTML_INDICATOR)
-        # is PHP inside HTML, so start with HTML
+       exist?(RE::HTML_INDICATOR) ||
+       check(/.{1,100}#{RE::PHP_START}/om)  # PHP start after max 100 chars
+        # is HTML with embedded PHP, so start with HTML
+        states = [:initial]
       else
-        states << :php
+        # is just PHP, so start with PHP surrounded by HTML
+        states = [:initial, :php]
       end
       
-      # heredocdelim = nil
+      label_expected = true
+      case_expected = false
+      
+      heredoc_delimiter = nil
       delimiter = nil
+      modifier = nil
       
       until eos?
         
@@ -225,6 +253,7 @@ module Scanners
         when :initial  # HTML
           if scan RE::PHP_START
             kind = :inline_delimiter
+            label_expected = true
             states << :php
           else
             match = scan_until(/(?=#{RE::PHP_START})/o) || scan_until(/\z/)
@@ -233,70 +262,75 @@ module Scanners
           end
         
         when :php
-          if scan RE::PHP_END
-            kind = :inline_delimiter
-            states = [:initial]
+          if match = scan(/\s+/)
+            tokens << [match, :space]
+            next
           
-          elsif scan(/\s+/)
-            kind = :space
-          
-          elsif scan(/ \/\* (?: .*? \*\/ | .* ) /mx)
-            kind = :comment
-          
-          elsif scan(%r!(?://|#).*?(?=#{RE::PHP_END}|$)!o)
+          elsif scan(%r! (?m: \/\* (?: .*? \*\/ | .* ) ) | (?://|\#) .*? (?=#{RE::PHP_END}|$) !xo)
             kind = :comment
           
           elsif match = scan(RE::IDENTIFIER)
             kind = Words::IDENT_KIND[match]
-            if kind == :ident && check(/:(?!:)/) #&& tokens[-2][0] == 'case'
-              # FIXME: don't match a?b:c
+            if kind == :ident && label_expected && check(/:(?!:)/)
               kind = :label
-            elsif kind == :ident && match =~ /^[A-Z]/
-              kind = :constant
-            elsif kind == :reserved && match == 'class'
-              states << :class_expected
-            elsif kind == :reserved && match == 'function'
-              states << :function_expected
+              label_expected = true
+            else
+              label_expected = false
+              if kind == :ident && match =~ /^[A-Z]/
+                kind = :constant
+              elsif kind == :reserved
+                case match
+                when 'class'
+                  states << :class_expected
+                when 'function'
+                  states << :function_expected
+                when 'case', 'default'
+                  case_expected = true
+                end
+              elsif match == 'b' && check(/['"]/)  # binary string literal
+                modifier = match
+                next
+              end
             end
           
           elsif scan(/(?:\d+\.\d*|\d*\.\d+)(?:e[-+]?\d+)?|\d+e[-+]?\d+/i)
+            label_expected = false
             kind = :float
           
           elsif scan(/0x[0-9a-fA-F]+/)
+            label_expected = false
             kind = :hex
           
           elsif scan(/\d+/)
+            label_expected = false
             kind = :integer
           
           elsif scan(/'/)
             tokens << [:open, :string]
+            if modifier
+              tokens << [modifier, :modifier]
+              modifier = nil
+            end
             kind = :delimiter
             states.push :sqstring
           
           elsif match = scan(/["`]/)
             tokens << [:open, :string]
+            if modifier
+              tokens << [modifier, :modifier]
+              modifier = nil
+            end
             delimiter = match
             kind = :delimiter
             states.push :dqstring
           
-          # TODO: Heredocs
-          # See http://de2.php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc
-          elsif match = scan(/<<<(#{RE::IDENTIFIER})/o)
-            tokens << [:open, :string]
-            heredocdelim = Regexp.escape self[1]
-            tokens << [match, :delimiter]
-            next if eos?
-            tokens << [scan_until(/\n(?=#{heredocdelim};?$)|\z/), :content]
-            next if eos?
-            tokens << [scan(/#{heredocdelim}/), :delimiter]
-            tokens << [:close, :string]
-            next
-          
-          elsif scan RE::VARIABLE
-            kind = :local_variable
+          elsif match = scan(RE::VARIABLE)
+            label_expected = false
+            kind = Words::VARIABLE_KIND[match]
           
           elsif scan(/\{/)
             kind = :operator
+            label_expected = true
             states.push :php
           
           elsif scan(/\}/)
@@ -312,10 +346,32 @@ module Scanners
                 next
               else
                 kind = :operator
+                label_expected = true
               end
             end
           
-          elsif scan(/#{RE::OPERATOR}/o)
+          elsif scan(/@/)
+            label_expected = false
+            kind = :exception
+          
+          elsif scan RE::PHP_END
+            kind = :inline_delimiter
+            states = [:initial]
+          
+          elsif match = scan(/<<<(?:(#{RE::IDENTIFIER})|"(#{RE::IDENTIFIER})"|'(#{RE::IDENTIFIER})')/o)
+            tokens << [:open, :string]
+            warn 'heredoc in heredoc?' if heredoc_delimiter
+            heredoc_delimiter = Regexp.escape(self[1] || self[2] || self[3])
+            kind = :delimiter
+            states.push self[3] ? :sqstring : :dqstring
+            heredoc_delimiter = /#{heredoc_delimiter}(?=;?$)/
+          
+          elsif match = scan(/#{RE::OPERATOR}/o)
+            label_expected = match == ';'
+            if case_expected
+              label_expected = true if match == ':'
+              case_expected = false
+            end
             kind = :operator
           
           else
@@ -325,15 +381,27 @@ module Scanners
           end
         
         when :sqstring
-          if scan(/[^'\\]+/)
+          if scan(heredoc_delimiter ? /[^\\\n]+/ : /[^'\\]+/)
             kind = :content
-          elsif scan(/'/)
+          elsif !heredoc_delimiter && scan(/'/)
             tokens << [matched, :delimiter]
             tokens << [:close, :string]
             delimiter = nil
+            label_expected = false
             states.pop
             next
-          elsif scan(/\\[\\'\n]/)
+          elsif heredoc_delimiter && match = scan(/\n/)
+            kind = :content
+            if scan heredoc_delimiter
+              tokens << ["\n", :content]
+              tokens << [matched, :delimiter]
+              tokens << [:close, :string]
+              heredoc_delimiter = nil
+              label_expected = false
+              states.pop
+              next
+            end
+          elsif scan(heredoc_delimiter ? /\\\\/ : /\\[\\'\n]/)
             kind = :char
           elsif scan(/\\./m)
             kind = :content
@@ -342,17 +410,29 @@ module Scanners
           end
         
         when :dqstring
-          if scan(delimiter == '"' ? /[^"${\\]+/ : /[^`${\\]+/)
+          if scan(heredoc_delimiter ? /[^${\\\n]+/ : (delimiter == '"' ? /[^"${\\]+/ : /[^`${\\]+/))
             kind = :content
-          elsif scan(delimiter == '"' ? /"/ : /`/)
+          elsif !heredoc_delimiter && scan(delimiter == '"' ? /"/ : /`/)
             tokens << [matched, :delimiter]
             tokens << [:close, :string]
             delimiter = nil
+            label_expected = false
             states.pop
             next
-          elsif scan(/\\(?:x[0-9a-fA-F]{2}|\d{3})/)
+          elsif heredoc_delimiter && match = scan(/\n/)
+            kind = :content
+            if scan heredoc_delimiter
+              tokens << ["\n", :content]
+              tokens << [matched, :delimiter]
+              tokens << [:close, :string]
+              heredoc_delimiter = nil
+              label_expected = false
+              states.pop
+              next
+            end
+          elsif scan(/\\(?:x[0-9A-Fa-f]{1,2}|[0-7]{1,3})/)
             kind = :char
-          elsif scan(delimiter == '"' ? /\\["\\\nfnrtv]/ : /\\[`\\\nfnrtv]/)
+          elsif scan(heredoc_delimiter ? /\\[nrtvf\\$]/ : (delimiter == '"' ? /\\[nrtvf\\$"]/ : /\\[nrtvf\\$`]/))
             kind = :char
           elsif scan(/\\./m)
             kind = :content
@@ -360,15 +440,24 @@ module Scanners
             kind = :error
           elsif match = scan(/#{RE::VARIABLE}/o)
             kind = :local_variable
-            # $foo[bar] and $foo->bar kind of stuff
-            # TODO: highlight tokens separately!
             if check(/\[#{RE::IDENTIFIER}\]/o)
-              match << scan(/\[#{RE::IDENTIFIER}\]/o)
+              tokens << [:open, :inline]
+              tokens << [match, :local_variable]
+              tokens << [scan(/\[/), :operator]
+              tokens << [scan(/#{RE::IDENTIFIER}/o), :ident]
+              tokens << [scan(/\]/), :operator]
+              tokens << [:close, :inline]
+              next
             elsif check(/\[/)
-              match << scan(/\[#{RE::IDENTIFIER}?/o)
+              match << scan(/\[['"]?#{RE::IDENTIFIER}?['"]?\]?/o)
               kind = :error
             elsif check(/->#{RE::IDENTIFIER}/o)
-              match << scan(/->#{RE::IDENTIFIER}/o)
+              tokens << [:open, :inline]
+              tokens << [match, :local_variable]
+              tokens << [scan(/->/), :operator]
+              tokens << [scan(/#{RE::IDENTIFIER}/o), :ident]
+              tokens << [:close, :inline]
+              next
             elsif check(/->/)
               match << scan(/->/)
               kind = :error

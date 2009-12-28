@@ -142,7 +142,7 @@ module Scanners
       | #{CHARACTER}
       )
     /x
-    VALUE_EXPECTING_KEYWORDS = WordList.new.add(%w[
+    KEYWORDS_EXPECTING_VALUE = WordList.new.add(%w[
       and end in or unless begin
       defined? ensure redo super until
       break do next rescue then
@@ -182,7 +182,7 @@ module Scanners
 
       STRING_PATTERN = Hash.new do |h, k|
         delim, interpreted = *k
-        delim_pattern = Regexp.escape(delim)
+        delim_pattern = Regexp.escape(delim.dup)  # dup: Fix for x86_64-linux Ruby
         if closing_paren = CLOSING_PAREN[delim]
           delim_pattern = delim_pattern[0..-1] if defined? JRUBY_VERSION  # JRuby fix
           delim_pattern << Regexp.escape(closing_paren)

@@ -175,7 +175,7 @@ module Scanners
                   kind = :constant
                 elsif kind == :reserved
                   state = patterns::DEF_NEW_STATE[match]
-                  value_expected = :set if patterns::VALUE_EXPECTING_KEYWORDS[match]
+                  value_expected = :set if patterns::KEYWORDS_EXPECTING_VALUE[match]
                 end
               end
               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
@@ -287,7 +287,7 @@ module Scanners
               kind = :error
               match = (scan(/./mu) rescue nil) || getch
               if !unicode && match.size > 1
-                # warn 'Switchig to unicode mode: %p' % ['ä'[/#{patterns::METHOD_NAME}/uo]]
+                # warn 'Switchig to unicode mode for char %p' % [match]
                 unicode = true
                 unscan
                 next

@@ -182,7 +182,7 @@ module Scanners
 
       STRING_PATTERN = Hash.new do |h, k|
         delim, interpreted = *k
-        delim_pattern = Regexp.escape(delim)
+        delim_pattern = Regexp.escape(delim.dup)  # dup: Fix for x86_64-linux Ruby
         if closing_paren = CLOSING_PAREN[delim]
           delim_pattern = delim_pattern[0..-1] if defined? JRUBY_VERSION  # JRuby fix
           delim_pattern << Regexp.escape(closing_paren)

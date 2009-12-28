@@ -44,6 +44,9 @@ module Scanners
 
       state = :initial
       label_expected = true
+      case_expected = false
+      label_expected_before_preproc_line = nil
+      in_preproc_line = false
 
       until eos?
 
@@ -55,7 +58,10 @@ module Scanners
         when :initial
 
           if match = scan(/ \s+ | \\\n /x)
-            label_expected = true if !label_expected && match.index(?\n)
+            if in_preproc_line && match != "\\\n" && match.index(?\n)
+              in_preproc_line = false
+              label_expected = label_expected_before_preproc_line
+            end
             tokens << [match, :space]
             next
 
@@ -68,16 +74,23 @@ module Scanners
 
           elsif match = scan(/ [-+*=<>?:;,!&^|()\[\]{}~%]+ | \/=? | \.(?!\d) /x)
             label_expected = match =~ /[;\{\}]/
+            if case_expected
+              label_expected = true if match == ':'
+              case_expected = false
+            end
             kind = :operator
 
           elsif match = scan(/ [A-Za-z_][A-Za-z_0-9]* /x)
             kind = IDENT_KIND[match]
-            if kind == :ident && label_expected && scan(/:(?!:)/)
+            if kind == :ident && label_expected && !in_preproc_line && scan(/:(?!:)/)
               kind = :label
               match << matched
               label_expected = true
             else
               label_expected = false
+              if kind == :reserved
+                case_expected = match == 'case' || match == 'default'
+              end
             end
 
           elsif scan(/\$/)
@@ -94,6 +107,8 @@ module Scanners
 
           elsif scan(/#[ \t]*(\w*)/)
             kind = :preprocessor  # FIXME multiline preprocs
+            in_preproc_line = true
+            label_expected_before_preproc_line = label_expected
             state = :include_expected if self[1] == 'include'
 
           elsif scan(/ L?' (?: [^\'\n\\] | \\ #{ESCAPE} )? '? /ox)

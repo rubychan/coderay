@@ -17,3 +17,10 @@ label2: label3: a = b + c;
 if (1) {
   label4: a = b + c;
 }
+
+// Not a label.
+test(
+  a?
+  b:
+  c
+)

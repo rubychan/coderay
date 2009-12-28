@@ -1,4 +1,4 @@
-this?is+no:label
+This?is+no:label;
 
 // This is only one label:
 label: switch (TYPE(v)) {

@@ -89,7 +89,10 @@ module Scanners
             else
               label_expected = false
               if kind == :reserved
-                case_expected = match == 'case' || match == 'default'
+                case match
+                when 'case', 'default'
+                  case_expected = true
+                end
               end
             end
 

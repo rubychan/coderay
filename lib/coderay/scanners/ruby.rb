@@ -287,7 +287,7 @@ module Scanners
               kind = :error
               match = (scan(/./mu) rescue nil) || getch
               if !unicode && match.size > 1
-                # warn 'Switchig to unicode mode: %p' % ['ä'[/#{patterns::METHOD_NAME}/uo]]
+                # warn 'Switchig to unicode mode for char %p' % [match]
                 unicode = true
                 unscan
                 next

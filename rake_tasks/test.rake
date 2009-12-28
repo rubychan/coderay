@@ -42,7 +42,8 @@ namespace :test do
     $stdout.sync = true
     for task in %w(test 19 test jruby test)
       if task == 'test'
-        puts "\n\nTesting with #{RUBY}..."
+        print "\n\nTesting with "
+        ruby '-v'
         Rake::Task['test'].reenable
         Rake::Task['test:functional'].reenable
         Rake::Task['test:scanners'].reenable

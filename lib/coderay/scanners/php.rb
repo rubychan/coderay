@@ -38,7 +38,7 @@ module Scanners
         require require_once return print unset
       ]
       
-      CLASSES = %w[ Directory stdClass  __PHP_Incomplete_Class exception php_user_filter Closure ]
+      CLASSES = %w[ Directory stdClass __PHP_Incomplete_Class exception php_user_filter Closure ]
       
       # according to http://php.net/quickref.php on 2009-04-21;
       # all functions with _ excluded (module functions) and selected additional functions
@@ -236,6 +236,9 @@ module Scanners
         states = [:initial, :php]
       end
       
+      label_expected = true
+      case_expected = false
+      
       heredoc_delimiter = nil
       delimiter = nil
       modifier = nil
@@ -250,6 +253,7 @@ module Scanners
         when :initial  # HTML
           if scan RE::PHP_START
             kind = :inline_delimiter
+            label_expected = true
             states << :php
           else
             match = scan_until(/(?=#{RE::PHP_START})/o) || scan_until(/\z/)
@@ -258,35 +262,47 @@ module Scanners
           end
         
         when :php
-          if scan(/\s+/)
-            kind = :space
+          if match = scan(/\s+/)
+            tokens << [match, :space]
+            next
           
           elsif scan(%r! (?m: \/\* (?: .*? \*\/ | .* ) ) | (?://|\#) .*? (?=#{RE::PHP_END}|$) !xo)
             kind = :comment
           
           elsif match = scan(RE::IDENTIFIER)
             kind = Words::IDENT_KIND[match]
-            if kind == :ident && check(/:(?!:)/) #&& tokens[-2][0] == 'case'
-              # FIXME: don't match a?b:c
+            if kind == :ident && label_expected && check(/:(?!:)/)
               kind = :label
-            elsif kind == :ident && match =~ /^[A-Z]/
-              kind = :constant
-            elsif kind == :reserved && match == 'class'
-              states << :class_expected
-            elsif kind == :reserved && match == 'function'
-              states << :function_expected
-            elsif match == 'b' && check(/['"]/)  # binary string literal
-              modifier = match
-              next
+              label_expected = true
+            else
+              label_expected = false
+              if kind == :ident && match =~ /^[A-Z]/
+                kind = :constant
+              elsif kind == :reserved
+                case match
+                when 'class'
+                  states << :class_expected
+                when 'function'
+                  states << :function_expected
+                when 'case', 'default'
+                  case_expected = true
+                end
+              elsif match == 'b' && check(/['"]/)  # binary string literal
+                modifier = match
+                next
+              end
             end
           
           elsif scan(/(?:\d+\.\d*|\d*\.\d+)(?:e[-+]?\d+)?|\d+e[-+]?\d+/i)
+            label_expected = false
             kind = :float
           
           elsif scan(/0x[0-9a-fA-F]+/)
+            label_expected = false
             kind = :hex
           
           elsif scan(/\d+/)
+            label_expected = false
             kind = :integer
           
           elsif scan(/'/)
@@ -309,10 +325,12 @@ module Scanners
             states.push :dqstring
           
           elsif match = scan(RE::VARIABLE)
+            label_expected = false
             kind = Words::VARIABLE_KIND[match]
           
           elsif scan(/\{/)
             kind = :operator
+            label_expected = true
             states.push :php
           
           elsif scan(/\}/)
@@ -328,10 +346,12 @@ module Scanners
                 next
               else
                 kind = :operator
+                label_expected = true
               end
             end
           
           elsif scan(/@/)
+            label_expected = false
             kind = :exception
           
           elsif scan RE::PHP_END
@@ -346,7 +366,12 @@ module Scanners
             states.push self[3] ? :sqstring : :dqstring
             heredoc_delimiter = /#{heredoc_delimiter}(?=;?$)/
           
-          elsif scan(/#{RE::OPERATOR}/o)
+          elsif match = scan(/#{RE::OPERATOR}/o)
+            label_expected = match == ';'
+            if case_expected
+              label_expected = true if match == ':'
+              case_expected = false
+            end
             kind = :operator
           
           else
@@ -362,6 +387,7 @@ module Scanners
             tokens << [matched, :delimiter]
             tokens << [:close, :string]
             delimiter = nil
+            label_expected = false
             states.pop
             next
           elsif heredoc_delimiter && match = scan(/\n/)
@@ -371,6 +397,7 @@ module Scanners
               tokens << [matched, :delimiter]
               tokens << [:close, :string]
               heredoc_delimiter = nil
+              label_expected = false
               states.pop
               next
             end
@@ -389,6 +416,7 @@ module Scanners
             tokens << [matched, :delimiter]
             tokens << [:close, :string]
             delimiter = nil
+            label_expected = false
             states.pop
             next
           elsif heredoc_delimiter && match = scan(/\n/)
@@ -398,6 +426,7 @@ module Scanners
               tokens << [matched, :delimiter]
               tokens << [:close, :string]
               heredoc_delimiter = nil
+              label_expected = false
               states.pop
               next
             end

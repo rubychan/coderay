@@ -85,7 +85,6 @@ module Scanners
             if kind == :ident && label_expected && !in_preproc_line && scan(/:(?!:)/)
               kind = :label
               match << matched
-              label_expected = true
             else
               label_expected = false
               if kind == :reserved
@@ -109,7 +108,7 @@ module Scanners
             kind = :delimiter
 
           elsif scan(/#[ \t]*(\w*)/)
-            kind = :preprocessor  # FIXME multiline preprocs
+            kind = :preprocessor
             in_preproc_line = true
             label_expected_before_preproc_line = label_expected
             state = :include_expected if self[1] == 'include'

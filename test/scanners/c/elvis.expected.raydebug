@@ -1,7 +1,7 @@
-ident(this)operator(?)ident(is)operator(+)ident(no)operator(:)ident(label)
+ident(This)operator(?)ident(is)operator(+)ident(no)operator(:)ident(label)operator(;)
 
 comment(// This is only one label:)
-ident(label)operator(:) reserved(switch) operator(()ident(TYPE)operator(()ident(v)operator(\)\)) operator({)
+label(label:) reserved(switch) operator(()ident(TYPE)operator(()ident(v)operator(\)\)) operator({)
   reserved(case) ident(T_CLASS)operator(:) reserved(case) ident(T_MODULE)operator(:)
     ident(rb_str_append)operator(()ident(s)operator(,) ident(rb_inspect)operator(()ident(v)operator(\)\);)
     reserved(break)operator(;)

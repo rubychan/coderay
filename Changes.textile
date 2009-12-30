@@ -1,0 +1,221 @@
+h1=. CodeRay Version Changes
+ 
+p=. _This files lists all changes in the CodeRay library since the 0.8.4 release._
+ 
+h2. Changes in 0.9.1
+ 
+h3. Token classes
+ 
+* *NEW* token classes @:complex@, @:decorator@, @:imaginary@
+  (all for Python)
+* *REMOVED* token class @:procedure@
+  – use @:function@ or @:method@ instead.
+
+h3. @Tokens@
+ 
+* *NEW* method @#scanner@
+  
+  Stores the scanner.
+* *REMOVED* methods @.write_token@, @.read_token@, @.escape@, @.unescape@
+  
+  They were only used by the @Tokens@ encoder, which was removed also.
+
+h3. @Encoders::Encoder@
+ 
+* *REMOVED* Don't require the _stringio_ library.
+* *NEW* public methods @#open_token@, @#close_token@, @#begin_line@, @#end_line@
+  These methods are called automatically, like @#text_token@.
+* *NEW* proteced method @#append_encoded_token_to_output@
+
+h3. @Encoders::Tokens@
+ 
+* *REMOVED* – use @Tokens#dump@ and @Tokens.load@.
+
+h3. @Encoders::Filter@
+ 
+* *NEW*
+  A @Filter@ encoder has another @Tokens@ instance as output.
+
+h3. @Encoders::TokenClassFilter@
+ 
+* *NEW*
+  
+  It takes 2 options, @:exclude@ and @:include@, that specify which token classes
+  to include or exclude for the output. They can be a single token class,
+  an @Array@ of classes, or the value @:all@.
+
+h3. @Encoders::CommentFilter@
+ 
+* *NEW*
+  
+  Removes tokens of the @:comment@ class.
+  
+h3. @Encoders::LinesOfCode@
+
+* *NEW*
+  
+  Counts the lines of code according to the @KINDS_NOT_LOC@ token class list
+  defined by the scanner. It uses the new @TokenClassFilter@.
+
+h3. @Encoders::JSON@
+ 
+* *NEW*
+  
+  Outputs tokens in a simple JSON format.
+
+h3. @Encoders::Term@
+ 
+* *NEW* (beta, by Rob Aldred)
+  
+  Outputs code highlighted for a color terminal.
+
+h3. @Encoders::HTML@
+ 
+* *NEW* option @:title@ (default value is _CodeRay output_)
+  
+  Setting this changes the title of the HTML page.
+* *NEW* option @:highlight_lines@ (default: @nil@)
+  
+  Highlights the given set of line numbers.
+- *REMOVED* option @:level@
+  
+  It didn't do anything. CodeRay always outputs XHTML.
+
+h3. @Encoders::Text@
+ 
+* Uses @Encoder@ interface with @super@ and @#text_token@.
+
+h3. @Encoders::XML@
+ 
+* @FIXED@ ("#94":http://redmine.rubychan.de/issues/94)
+  
+  It didn't work at all.
+
+h3. Scanners
+ 
+* *NEW* Mapped @:h@ to @:c@, @:cplusplus@ and @:'c++'@ to @:cpp@,
+  @:ecma@, @:ecmascript@, @:ecma_script@ to @:java_script@,
+  @:pascal@ to @:delphi@, and @:plain@ to @:plaintext@.
+
+h3. @Scanners::Scanner@
+ 
+* *NEW* constant @KINDS_NOT_LOC@
+  
+  A list of all token classes not considered in LOC count.
+  Added appropriate values for scanners.
+* *FIXED* automatic, safe UTF-8 detection _[Ruby 1.9]_
+* *FIXED* column takes care of multibyte encodings _[Ruby 1.9]_
+
+h3. @Scanners::Cpp@
+ 
+* *NEW* (C++)
+
+h3. @Scanners::Groovy@
+ 
+* *NEW* (beta)
+
+h3. @Scanners::Python@
+ 
+* *NEW*
+
+h3. @Scanners::PHP@
+ 
+* *NEW* (based on Stefan Walk's work)
+
+h3. @Scanners::SQL@
+ 
+* *NEW* (based on code by Josh Goebel)
+
+h3. @Scanners::C@
+ 
+* *IMPROVED* added a list of @:directive@ tokens that were @:reserved@ before
+* *IMPROVED* detection of labels
+* *IMPROVED* allow @1L@ and @1LL@ style literals
+
+h3. @Scanners::CSS@
+ 
+* *IMPROVED* element selectors are highlighted as @:type@ instead of @:keyword@
+
+h3. @Scanners::Delphi@
+ 
+* *IMPROVED* Don't cache tokens in CaseIgnoringWordList.
+
+h3. @Scanners::Java@
+ 
+* *IMPROVED* @assert@ is highlighted as a @:keyword@ now
+* *IMPROVED* @const@ and @goto@ are highlighted as @:reserved@
+* *IMPROVED* @false@, @true@, and @null@ are highlighted as @:pre_constant@
+* *IMPROVED* @threadsafe@ is no longer a @:directive@
+* *IMPROVED* @String@ is highlighted as a @:pre_type@
+* *IMPROVED* built-in classes ending with _Error_ or _Exception_ are
+  highlighted as a @:exception@ instead of @:pre_type@
+
+h3. @Scanners::JavaScript@
+ 
+* *NEW* a list of @PREDEFINED_CONSTANTS@ to be highlighted as @:pre_constant@
+* *NEW* XML literals are recognized and highlighted
+* *NEW* function name highlighting
+* *IMPROVED* @.1@ is highlighted a number
+* *FIXED* strings close with the correct kind when terminated unexpectedly
+
+h3. @Scanners::JSON@
+ 
+* *IMPROVED* constants (@true@, @false@, @nil@) are highlighted as @:value@
+
+h3. @Scanners::Ruby@
+ 
+* *IMPROVED* @Patterns::KEYWORDS_EXPECTING_VALUE@ for more accurate
+  @value_expected@ detection
+* *IMPROVED* handling of @\@ as a string delimiter
+* *IMPROVED* handling of unicode strings; automatic switching to unicode
+* *IMPROVED* highlighting of @self.method@ definitions
+* *REMOVED* @Patterns::FANCY_START_SAVE@ (obsolete)
+* *FIXED* encoding issues [Ruby 1.9]
+* *FIXED* a problem in early Ruby 1.8.6 patch versions with @Regexp.escape@
+
+h3. @Scanners::YAML@
+ 
+* *IMPROVED* indentation detection
+
+h3. @Styles::Cycnus@
+ 
+* changed a few colors (exceptions, inline strings, predefined types)
+
+h3. @Plugin@
+ 
+* *NEW* method @#title@
+  
+  Set and get the plugin's title. Titles can be arbitrary strings.
+* *NEW* method *#helper* loads helpers from different plugins
+  
+  Use this syntax: @helper 'other_plugin/helper_name'@
+
+h3. @FileType@
+ 
+* *NEW* @FileType[]@ takes @Pathname@ instances
+* *NEW* regonizes @.pas@, @.dpr@ extensions (Delphi)
+* *NEW* regonizes @.gvy@, @.groovy@ extensions (Groovy)
+* *NEW* regonizes @.php@, @.php3@, @.php4@, @.php5@ extensions (PHP)
+* *NEW* regonizes @.py@, @.py3@, @.pyw@ extensions (Python)
+* *NEW* regonizes @.rxml@ extension (Ruby)
+* *NEW* regonizes @.sql@ extension (SQL)
+* File types list was sorted alphabetically.
+
+h3. @CaseIgnoringWordList@
+ 
+* *FIXED* ("#97":http://redmine.rubychan.de/issues/97)
+  
+  The default value is no longer ignored.
+
+h3. @ForRedCloth@
+ 
+* *FIXED* for RedCloth versions 4.2.0+ ("#119":http://redmine.rubychan.de/issues/119)
+
+h3. Cleanups
+ 
+* warnings about character classes _[Ruby 1.9]_
+* encoding issues _[Ruby 1.9]_
+* documentation, code
+
+
+

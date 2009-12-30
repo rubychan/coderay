@@ -124,19 +124,19 @@ module CodeRay
         @out = ''
       end
 
-      # Called with +text+ and +kind+ of the currently scanned token.
+      # Called with +content+ and +kind+ of the currently scanned token.
       # For simple scanners, it's enougth to implement this method.
       #
       # By default, it calls text_token or block_token, depending on
-      # whether +text+ is a String.
-      def token text, kind
+      # whether +content+ is a String.
+      def token content, kind
         encoded_token =
-          if text.is_a? ::String
-            text_token text, kind
-          elsif text.is_a? ::Symbol
-            block_token text, kind
+          if content.is_a? ::String
+            text_token content, kind
+          elsif content.is_a? ::Symbol
+            block_token content, kind
           else
-            raise 'Unknown token text type: %p' % text
+            raise 'Unknown token content type: %p' % [content]
           end
         append_encoded_token_to_output encoded_token
       end
@@ -149,7 +149,11 @@ module CodeRay
       def text_token text, kind
       end
       
-      # Called for each block (non-text) token ([action, kind]), where action is a Symbol.
+      # Called for each block (non-text) token ([action, kind]),
+      # where +action+ is a Symbol.
+      # 
+      # Calls open_token, close_token, begin_line, and end_line according to
+      # the value of +action+.
       def block_token action, kind
         case action
         when :open

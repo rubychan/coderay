@@ -64,7 +64,7 @@ module Encoders
   #
   # === :highlight_lines
   # 
-  # Highlights certain line numbers now by using the :highlight_lines option.
+  # Highlights certain line numbers.
   # Can be any Enumerable, typically just an Array or Range, of numbers.
   # 
   # Bolding is deactivated when :highlight_lines is set. It only makes sense
@@ -88,7 +88,6 @@ module Encoders
     DEFAULT_OPTIONS = {
       :tab_width => 8,
 
-      # :level => :xhtml,  # reserved for future use
       :css => :class,
 
       :style => :cycnus,

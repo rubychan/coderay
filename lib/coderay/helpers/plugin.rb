@@ -280,7 +280,9 @@ module Plugin
   def register_for *ids
     plugin_host.register self, *ids
   end
-
+  
+  # Returns the title of the plugin, or sets it to the
+  # optional argument +title+.
   def title title = nil
     if title
       @title = title.to_s
@@ -312,7 +314,7 @@ module Plugin
   # 
   # You can also load a helper from a different plugin:
   # 
-  #  helper 'other_plugin/other_helper'
+  #  helper 'other_plugin/helper_name'
   def helper *helpers
     for helper in helpers
       if helper.is_a?(String) && helper[/\//]

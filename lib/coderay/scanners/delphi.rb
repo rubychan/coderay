@@ -30,11 +30,11 @@ module Scanners
       'virtual', 'write', 'writeonly'
     ]
 
-    IDENT_KIND = CaseIgnoringWordList.new(:ident, caching=true).
+    IDENT_KIND = CaseIgnoringWordList.new(:ident).
       add(RESERVED_WORDS, :reserved).
       add(DIRECTIVES, :directive)
     
-    NAME_FOLLOWS = CaseIgnoringWordList.new(false, caching=true).
+    NAME_FOLLOWS = CaseIgnoringWordList.new(false).
       add(%w(procedure function .))
 
   private

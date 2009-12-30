@@ -176,7 +176,7 @@ module Scanners
         $argc $argv
       ]
       
-      IDENT_KIND = CaseIgnoringWordList.new(:ident, true).
+      IDENT_KIND = CaseIgnoringWordList.new(:ident).
         add(KEYWORDS, :reserved).
         add(TYPES, :pre_type).
         add(LANGUAGE_CONSTRUCTS, :reserved).

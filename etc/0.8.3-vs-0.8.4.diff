@@ -1,0 +1,73 @@
+Index: test/scanners/ruby/ruby19.expected.raydebug
+===================================================================
+--- test/scanners/ruby/ruby19.expected.raydebug	(.../0.8.3)	(revision 0)
++++ test/scanners/ruby/ruby19.expected.raydebug	(.../0.8.4)	(revision 411)
+@@ -0,0 +1,4 @@
++ident(block)operator(.)ident(()operator(*)ident(arguments)operator(\))  comment(# bovi's example)
++
++reserved(def) operator(()ident(foo)operator(\))operator(.)ident(bar)
++reserved(end)
+\ No newline at end of file
+Index: test/scanners/ruby/ruby19.in.rb
+===================================================================
+--- test/scanners/ruby/ruby19.in.rb	(.../0.8.3)	(revision 0)
++++ test/scanners/ruby/ruby19.in.rb	(.../0.8.4)	(revision 411)
+@@ -0,0 +1,4 @@
++block.(*arguments)  # bovi's example
++
++def (foo).bar
++end
+\ No newline at end of file
+Index: lib/coderay/for_redcloth.rb
+===================================================================
+--- lib/coderay/for_redcloth.rb	(.../0.8.3)	(revision 411)
++++ lib/coderay/for_redcloth.rb	(.../0.8.4)	(revision 411)
+@@ -15,7 +15,9 @@
+     def self.install
+       gem 'RedCloth', '>= 4.0.3' rescue nil
+       require 'redcloth'
+-      raise 'CodeRay.for_redcloth needs RedCloth 4.0.3 or later.' unless RedCloth::VERSION.to_s >= '4.0.3'
++      unless RedCloth::VERSION.to_s >= '4.0.3'
++        raise 'CodeRay.for_redcloth needs RedCloth version 4.0.3 or later.'
++      end
+       RedCloth::TextileDoc.send :include, ForRedCloth::TextileDoc
+       RedCloth::Formatters::HTML.module_eval do
+         def unescape(html)
+@@ -30,6 +32,11 @@
+         undef_method :code, :bc_open, :bc_close, :escape_pre
+         def code(opts)  # :nodoc:
+           opts[:block] = true
++          if !opts[:lang] && RedCloth::VERSION.to_s >= '4.2.0'
++            # simulating pre-4.2 behavior
++            opts[:text].sub!(/\A\[(\w+)\]/, '')
++            opts[:lang] = $1
++          end
+           if opts[:lang] && !filter_coderay
+             require 'coderay'
+             @in_bc ||= nil
+Index: lib/coderay/scanners/ruby.rb
+===================================================================
+--- lib/coderay/scanners/ruby.rb	(.../0.8.3)	(revision 411)
++++ lib/coderay/scanners/ruby.rb	(.../0.8.4)	(revision 411)
+@@ -175,7 +175,7 @@
+               ## experimental!
+               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
+             
+-            elsif last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}/o)
++            elsif last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}|\(/o)
+               kind = :ident
+               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
+ 
+Index: lib/README
+===================================================================
+--- lib/README	(.../0.8.3)	(revision 411)
++++ lib/README	(.../0.8.4)	(revision 411)
+@@ -18,7 +18,7 @@
+ * is what everybody should have on their website
+ * solves all your problems and makes the girls run after you
+ 
+-Version: 0.8.3
++Version: 0.8.4
+ Author:: murphy (Kornelius Kalnbach)
+ Contact:: murphy rubychan de
+ Website:: coderay.rubychan.de[http://coderay.rubychan.de]

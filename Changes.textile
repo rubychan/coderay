@@ -170,7 +170,7 @@ h3. @Scanners::Ruby@
 * *IMPROVED* handling of unicode strings; automatic switching to unicode
 * *IMPROVED* highlighting of @self.method@ definitions
 * *REMOVED* @Patterns::FANCY_START_SAVE@ (obsolete)
-* *FIXED* encoding issues [Ruby 1.9]
+* *FIXED* encoding issues _[Ruby 1.9]_
 * *FIXED* a problem in early Ruby 1.8.6 patch versions with @Regexp.escape@
 
 h3. @Scanners::YAML@
@@ -216,6 +216,5 @@ h3. Cleanups
 * warnings about character classes _[Ruby 1.9]_
 * encoding issues _[Ruby 1.9]_
 * documentation, code
-
 
 

@@ -26,8 +26,19 @@ namespace :test do
   end
   
   desc 'run all scanner tests'
-  task :scanners do
+  task :scanner do
     ruby "./test/scanners/suite.rb"
+  end
+  
+  namespace :scanners do
+    Dir['./test/scanners/*'].each do |scanner|
+      next unless File.directory? scanner
+      lang = File.basename(scanner)
+      desc "run all scanner tests for #{lang}"
+      task lang do
+        ruby "./test/scanners/suite.rb #{lang}"
+      end
+    end
   end
   
   desc 'clean test output files'

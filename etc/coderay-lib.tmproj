@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>currentDocument</key>
+	<string>../test/scanners/coderay_suite.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -30,9 +32,7 @@
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2009-12-30T07:42:08Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2009-12-30T08:13:30Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -106,7 +106,9 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2009-12-28T05:09:43Z</date>
+			<date>2009-12-30T09:08:29Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -311,20 +313,6 @@
 				<integer>178</integer>
 			</dict>
 		</dict>
-		<key>../lib/coderay/scanners/ruby.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>346</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>329</integer>
-		</dict>
 		<key>../lib/coderay/scanners/ruby/patterns.rb</key>
 		<dict>
 			<key>caret</key>
@@ -427,6 +415,20 @@
 				<integer>0</integer>
 			</dict>
 		</dict>
+		<key>../test/scanners/coderay_suite.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>6</integer>
+				<key>line</key>
+				<integer>211</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>198</integer>
+		</dict>
 		<key>../test/scanners/suite.rb</key>
 		<dict>
 			<key>caret</key>
@@ -442,6 +444,10 @@
 			<integer>0</integer>
 		</dict>
 	</dict>
+	<key>openDocuments</key>
+	<array>
+		<string>../test/scanners/coderay_suite.rb</string>
+	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>

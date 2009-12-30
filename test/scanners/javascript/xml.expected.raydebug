@@ -1,0 +1,2 @@
+keyword(var) ident(link) operator(=) tag(<a) attribute_name(href)operator(=)string<delimiter(")content(http://coderay.rubychan.de)delimiter(")>tag(>)plain(CodeRay)tag(</a>)operator(;)
+keyword(var) ident(link) operator(=) tag(<div>)tag(<div>)tag(</div>)tag(</div>)operator(;)

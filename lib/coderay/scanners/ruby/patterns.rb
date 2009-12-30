@@ -182,7 +182,7 @@ module Scanners
 
       STRING_PATTERN = Hash.new do |h, k|
         delim, interpreted = *k
-        delim_pattern = Regexp.escape(delim.dup)  # dup: Fix for x86_64-linux Ruby
+        delim_pattern = Regexp.escape(delim.dup)  # dup: workaround for old Ruby
         if closing_paren = CLOSING_PAREN[delim]
           delim_pattern = delim_pattern[0..-1] if defined? JRUBY_VERSION  # JRuby fix
           delim_pattern << Regexp.escape(closing_paren)
@@ -207,7 +207,7 @@ module Scanners
 
       HEREDOC_PATTERN = Hash.new do |h, k|
         delim, interpreted, indented = *k
-        delim_pattern = Regexp.escape(delim.dup)
+        delim_pattern = Regexp.escape(delim.dup)  # dup: workaround for old Ruby
         delim_pattern = / \n #{ '(?>[\ \t]*)' if indented } #{ Regexp.new delim_pattern } $ /x
         h[k] =
           if interpreted

@@ -97,7 +97,7 @@ ol.CodeRay li { white-space: pre }
 .pc { color:#038; font-weight:bold }
 .pd { color:#369; font-weight:bold }
 .pp { color:#579; }
-.ps { color:#00C; font-weight:bold; }
+.ps { color:#00C; font-weight:bold }
 .pt { color:#074; font-weight:bold }
 .r, .kw  { color:#080; font-weight:bold }
 

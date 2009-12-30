@@ -14,7 +14,7 @@ module CodeRay
   #
   #   [:comment, '# It looks like this']
   #   [:float, '3.1415926']
-  #   [:error, 'הצü']
+  #   [:error, '$^']
   #
   # Some scanners also yield some kind of sub-tokens, represented by special
   # token texts, namely :open and :close .

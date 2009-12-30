@@ -20,7 +20,7 @@ module Scanners
     TYPES = %w[
       boolean byte char class double enum float int interface long
       short void
-    ] << '[]'  # String[] should be highlighted as a type
+    ] << '[]'  # because int[] should be highlighted as a type
     DIRECTIVES = %w[
       abstract extends final implements native private protected public
       static strictfp synchronized throws transient volatile

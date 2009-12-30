@@ -287,7 +287,7 @@ module Scanners
               kind = :error
               match = (scan(/./mu) rescue nil) || getch
               if !unicode && match.size > 1
-                # warn 'Switchig to unicode mode for char %p' % [match]
+                # warn 'Switching to unicode mode because of char %p' % [match]
                 unicode = true
                 unscan
                 next
@@ -342,12 +342,8 @@ module Scanners
             end
 
           elsif state == :alias_expected
-            begin
-              match = scan(unicode ? /(#{patterns::METHOD_NAME_OR_SYMBOL})([ \t]+)(#{patterns::METHOD_NAME_OR_SYMBOL})/uo :
-                                     /(#{patterns::METHOD_NAME_OR_SYMBOL})([ \t]+)(#{patterns::METHOD_NAME_OR_SYMBOL})/o)
-            rescue EncodingError
-              raise if $DEBUG
-            end
+            match = scan(unicode ? /(#{patterns::METHOD_NAME_OR_SYMBOL})([ \t]+)(#{patterns::METHOD_NAME_OR_SYMBOL})/uo :
+                                   /(#{patterns::METHOD_NAME_OR_SYMBOL})([ \t]+)(#{patterns::METHOD_NAME_OR_SYMBOL})/o)
             
             if match
               tokens << [self[1], (self[1][0] == ?: ? :symbol : :method)]

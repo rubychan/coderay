@@ -98,6 +98,8 @@ class CaseIgnoringWordList < WordList
   # Creates a new case-insensitive WordList with +default+ as default value.
   # 
   # You can activate caching to store the results for every [] request.
+  # This speeds up subsequent lookups for the same word, but also
+  # uses memory.
   def initialize default = false, caching = false
     if caching
       super(default, false) do |h, k|
@@ -105,9 +107,13 @@ class CaseIgnoringWordList < WordList
       end
     else
       super(default, false)
-      def self.[] key  # :nodoc:
-        super(key.downcase)
-      end
+      extend Uncached
+    end
+  end
+  
+  module Uncached  # :nodoc:
+    def [] key
+      super(key.downcase)
     end
   end
 
@@ -122,3 +128,11 @@ class CaseIgnoringWordList < WordList
 end
 
 end
+
+__END__
+# check memory consumption
+END {
+  ObjectSpace.each_object(CodeRay::CaseIgnoringWordList) do |wl|
+    p wl.inject(0) { |memo, key, value| memo + key.size + 24 }
+  end
+}

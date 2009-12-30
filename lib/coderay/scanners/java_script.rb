@@ -90,7 +90,8 @@ module Scanners
             end
           
           elsif value_expected && match = scan(/<([[:alpha:]]\w*) (?: [^\/>]*\/> | .*?<\/\1>)/xim)
-            html_scanner.tokenize match
+            # FIXME: scan over nested tags
+            xml_scanner.tokenize match
             value_expected = false
             next
             
@@ -210,11 +211,11 @@ module Scanners
 
     def reset_instance
       super
-      @html_scanner.reset if defined? @html_scanner
+      @xml_scanner.reset if defined? @xml_scanner
     end
 
-    def html_scanner
-      @html_scanner ||= CodeRay.scanner :html, :tokens => @tokens, :keep_tokens => true, :keep_state => true
+    def xml_scanner
+      @xml_scanner ||= CodeRay.scanner :xml, :tokens => @tokens, :keep_tokens => true, :keep_state => true
     end
 
   end

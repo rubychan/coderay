@@ -49,13 +49,15 @@ h3. @Encoders::CommentFilter@
 * *NEW*
   
   Removes tokens of the @:comment@ class.
-  
+
 h3. @Encoders::LinesOfCode@
 
 * *NEW*
   
   Counts the lines of code according to the @KINDS_NOT_LOC@ token class list
   defined by the scanner. It uses the new @TokenClassFilter@.
+  
+  Alias: @:loc@, as in @tokens.loc@.
 
 h3. @Encoders::JSON@
  
@@ -105,6 +107,7 @@ h3. @Scanners::Scanner@
   Added appropriate values for scanners.
 * *FIXED* automatic, safe UTF-8 detection _[Ruby 1.9]_
 * *FIXED* column takes care of multibyte encodings _[Ruby 1.9]_
+* *FIXED* is dumpable (@Tokens@ store their scanner in an @@scanner@ variable)
 
 h3. @Scanners::Cpp@
  

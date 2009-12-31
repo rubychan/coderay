@@ -1,8 +1,10 @@
 module CodeRay
 module Encoders
 
-  map :stats => :statistic,
+  map \
+    :loc => :lines_of_code,
     :plain => :text,
+    :stats => :statistic,
     :tex => :latex
 
 end

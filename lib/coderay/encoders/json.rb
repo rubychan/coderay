@@ -10,7 +10,12 @@ module Encoders
     
   protected
     def setup options
-      require 'json'
+      begin
+        require 'json'
+      rescue LoadError
+        require 'rubygems'
+        require 'json'
+      end
       @out = []
     end
     

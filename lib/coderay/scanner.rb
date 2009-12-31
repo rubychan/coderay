@@ -114,9 +114,10 @@ module CodeRay
       #
       # Else, a Tokens object is used.
       def initialize code='', options = {}, &block
-        @options = self.class::DEFAULT_OPTIONS.merge options
         raise "I am only the basic Scanner class. I can't scan "\
           "anything. :( Use my subclasses." if self.class == Scanner
+        
+        @options = self.class::DEFAULT_OPTIONS.merge options
 
         super Scanner.normify(code)
 
@@ -198,6 +199,14 @@ module CodeRay
           string = @bin_string
         end
         pos - (string.rindex(?\n, pos) || 0)
+      end
+      
+      def marshal_dump
+        @options
+      end
+      
+      def marshal_load options
+        @options = options
       end
 
     protected

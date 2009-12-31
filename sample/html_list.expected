@@ -50,9 +50,11 @@ ol.CodeRay li { white-space: pre }
 .CodeRay .ch .dl { color:#039 }
 
 .CodeRay .cl { color:#B06; font-weight:bold }
+.CodeRay .cm { color:#A08; font-weight:bold }
 .CodeRay .co { color:#036; font-weight:bold }
 .CodeRay .cr { color:#0A0 }
 .CodeRay .cv { color:#369 }
+.CodeRay .de { color:#B0B; }
 .CodeRay .df { color:#099; font-weight:bold }
 .CodeRay .di { color:#088; font-weight:bold }
 .CodeRay .dl { color:black }
@@ -62,7 +64,7 @@ ol.CodeRay li { white-space: pre }
 .CodeRay .e  { color:#666; font-weight:bold }
 .CodeRay .en { color:#800; font-weight:bold }
 .CodeRay .er { color:#F00; background-color:#FAA }
-.CodeRay .ex { color:#F00; font-weight:bold }
+.CodeRay .ex { color:#C00; font-weight:bold }
 .CodeRay .fl { color:#60E; font-weight:bold }
 .CodeRay .fu { color:#06B; font-weight:bold }
 .CodeRay .gv { color:#d70; font-weight:bold }
@@ -70,10 +72,11 @@ ol.CodeRay li { white-space: pre }
 .CodeRay .i  { color:#00D; font-weight:bold }
 .CodeRay .ic { color:#B44; font-weight:bold }
 
-.CodeRay .il { background: #eee; color: black }
-.CodeRay .il .il { background: #ddd }
-.CodeRay .il .il .il { background: #ccc }
-.CodeRay .il .idl { font-weight: bold; color: #777 }
+.CodeRay .il { background: #ddd; color: black }
+.CodeRay .il .il { background: #ccc }
+.CodeRay .il .il .il { background: #bbb }
+.CodeRay .il .idl { background: #ddd; font-weight: bold; color: #666 }
+.CodeRay .idl { background-color: #bbb; font-weight: bold; color: #666; }
 
 .CodeRay .im { color:#f00; }
 .CodeRay .in { color:#B2B; font-weight:bold }
@@ -86,8 +89,8 @@ ol.CodeRay li { white-space: pre }
 .CodeRay .pc { color:#038; font-weight:bold }
 .CodeRay .pd { color:#369; font-weight:bold }
 .CodeRay .pp { color:#579; }
-.CodeRay .ps { color:#00C; font-weight: bold; }
-.CodeRay .pt { color:#349; font-weight:bold }
+.CodeRay .ps { color:#00C; font-weight:bold }
+.CodeRay .pt { color:#074; font-weight:bold }
 .CodeRay .r, .kw  { color:#080; font-weight:bold }
 
 .CodeRay .ke { color: #808; }

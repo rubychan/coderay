@@ -1,14 +1,1 @@
-ident	puts
-space	 
-integer	3
-space	 
-operator	+
-space	 
-integer	4
-operator	,
-space	 
-:open	string	
-delimiter	'
-content	3 + 4
-delimiter	'
-:close	string	
+[["puts", :ident], [" ", :space], ["3", :integer], [" ", :space], ["+", :operator], [" ", :space], ["4", :integer], [",", :operator], [" ", :space], [:open, :string], ["'", :delimiter], ["3 + 4", :content], ["'", :delimiter], [:close, :string]]

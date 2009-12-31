@@ -14,7 +14,7 @@ puts stats
 
 # alternative 1
 tokens = CodeRay.scan SAMPLE, :ruby
-encoder = CodeRay.encoder(:tokens)
+encoder = CodeRay.encoder(:json)
 textual = encoder.encode_tokens tokens
 puts
 puts 'Original text:'

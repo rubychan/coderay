@@ -28,16 +28,19 @@ class CodeRaySuite < TestCase
         name = File.basename(input, ".rb")
         output = name + '.expected'
         code = File.open(input, 'rb') { |f| break f.read }
-
+        
         result = `ruby -wI../lib #{input}`
-
+        
+        diff = output.sub '.expected', '.diff'
+        File.delete diff if File.exist? diff
+        computed = output.sub '.expected', '.actual'
         if File.exist? output
           expected = File.read output
           ok = expected == result
-          computed = output.sub('.expected', '.actual')
           unless ok
             File.open(computed, 'w') { |f| f.write result }
-            print `diff #{output} #{computed}` if $DEBUG
+            `diff #{output} #{computed} > #{diff}` if $DEBUG
+            puts "Test failed; output written to #{diff}."
           end
           assert(ok, "Output error: #{computed} != #{output}") unless $DEBUG
         else

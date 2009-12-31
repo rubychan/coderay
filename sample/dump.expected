@@ -1,5 +1,5 @@
 YAML: 2358 bytes
-Dump: 1058 bytes
+Dump: 1109 bytes
 undumped:
 <div class="CodeRay">
   <div class="code"><pre>require <span class="s"><span class="dl">'</span><span class="k">coderay</span><span class="dl">'</span></span>

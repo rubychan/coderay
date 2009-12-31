@@ -132,7 +132,7 @@ module CodeRay
   # Minor: feature milestone
   # Teeny: development state, 0 for pre-release
   # Revision: Subversion Revision number (generated on rake gem:make)
-  VERSION = '0.9.0'
+  VERSION = '0.9.1'
 
   require 'coderay/tokens'
   require 'coderay/token_classes'

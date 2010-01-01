@@ -152,6 +152,11 @@ module CodeRay
       alias code string
       alias code= string=
 
+      # Returns the Plugin ID for this scanner.
+      def lang
+        self.class.plugin_id
+      end
+
       # Scans the code and returns all tokens in a Tokens object.
       def tokenize new_string=nil, options = {}
         options = @options.merge(options)

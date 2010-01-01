@@ -105,6 +105,7 @@ h3. @Scanners::Scanner@
   
   A list of all token classes not considered in LOC count.
   Added appropriate values for scanners.
+* *NEW* method @#lang@ returns the scanner's lang, which is its @plugin_id@.
 * *FIXED* automatic, safe UTF-8 detection _[Ruby 1.9]_
 * *FIXED* column takes care of multibyte encodings _[Ruby 1.9]_
 * *FIXED* is dumpable (@Tokens@ store their scanner in an @@scanner@ variable)

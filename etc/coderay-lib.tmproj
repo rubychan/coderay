@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>currentDocument</key>
-	<string>../diff</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -28,15 +26,15 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-01-01T05:59:47Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2010-01-01T06:14:55Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-01-01T05:59:47Z</date>
+			<date>2010-01-01T06:18:17Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -112,7 +110,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-01-01T05:57:20Z</date>
+			<date>2010-01-01T06:09:10Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -131,20 +129,6 @@
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
-		<key>../diff</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>15</integer>
-				<key>line</key>
-				<integer>94</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>88</integer>
-		</dict>
 		<key>../lib/coderay/scanners/delphi.rb</key>
 		<dict>
 			<key>caret</key>
@@ -305,26 +289,7 @@
 				<integer>76</integer>
 			</dict>
 		</dict>
-		<key>../rake_tasks/test.rake</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>31</integer>
-				<key>line</key>
-				<integer>79</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>44</integer>
-		</dict>
 	</dict>
-	<key>openDocuments</key>
-	<array>
-		<string>../rake_tasks/test.rake</string>
-		<string>../diff</string>
-	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>

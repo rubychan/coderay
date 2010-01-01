@@ -51,7 +51,7 @@ h3. @Encoders::CommentFilter@
   Removes tokens of the @:comment@ class.
 
 h3. @Encoders::LinesOfCode@
-
+ 
 * *NEW*
   
   Counts the lines of code according to the @KINDS_NOT_LOC@ token class list
@@ -197,6 +197,9 @@ h3. @Plugin@
 h3. @FileType@
  
 * *NEW* @FileType[]@ takes @Pathname@ instances
+* *NEW* regonizes @.cc@, @.cpp@, @.cp@, @.cxx@, @.c++@, @.C@, @.hh@, @.hpp@, @.h++@, @.cu@ extensions (C++)
+  
+  Thanks to Sander Cox and the TextMate C bundle.
 * *NEW* regonizes @.pas@, @.dpr@ extensions (Delphi)
 * *NEW* regonizes @.gvy@, @.groovy@ extensions (Groovy)
 * *NEW* regonizes @.php@, @.php3@, @.php4@, @.php5@ extensions (PHP)

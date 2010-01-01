@@ -38,7 +38,9 @@ module FileType
       ext2 = filename.to_s[/\.(.*)/, 1]  # from first dot
 
       type =
+        TypeFromExt[ext] ||
         TypeFromExt[ext.downcase] ||
+        (TypeFromExt[ext2] if ext2) ||
         (TypeFromExt[ext2.downcase] if ext2) ||
         TypeFromName[name] ||
         TypeFromName[name.downcase]
@@ -82,7 +84,6 @@ module FileType
 
   TypeFromExt = {
     'c' => :c,
-    'cpp' => :cpp,
     'css' => :css,
     'diff' => :diff,
     'dpr' => :delphi,
@@ -119,6 +120,9 @@ module FileType
     'yaml' => :yaml,
     'yml' => :yaml,
   }
+  for cpp_alias in %w[cc cpp cp cxx c++ C hh hpp h++ cu]
+    TypeFromExt[cpp_alias] = :cpp
+  end
 
   TypeFromShebang = /\b(?:ruby|perl|python|sh)\b/
 
@@ -188,6 +192,17 @@ class FileTypeTests < Test::Unit::TestCase
     assert_not_equal :c, FileType['Makefile']
     assert_not_equal :c, FileType['set.h/set']
     assert_not_equal :c, FileType['~/projects/blabla/c']
+  end
+
+  def test_cpp
+    assert_equal :cpp, FileType['test.c++']
+    assert_equal :cpp, FileType['test.cxx']
+    assert_equal :cpp, FileType['test.hh']
+    assert_equal :cpp, FileType['test.hpp']
+    assert_equal :cpp, FileType['test.cu']
+    assert_equal :cpp, FileType['test.C']
+    assert_not_equal :cpp, FileType['test.c']
+    assert_not_equal :cpp, FileType['test.h']
   end
 
   def test_html

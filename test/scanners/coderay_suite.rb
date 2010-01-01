@@ -1,4 +1,5 @@
 require 'benchmark'
+require 'yaml'
 require 'fileutils'
 
 $mydir = File.dirname(__FILE__)
@@ -170,6 +171,7 @@ module CodeRay
           puts '%d'.yellow % examples.size + " example#{'s' if examples.size > 1} found.".green
         end
         for example_filename in examples
+          @known_issue_description = @known_issue_ticket_url = nil
           name = File.basename(example_filename, ".#{extension}")
           next if ENV['lang'] && ENV['only'] && ENV['only'] != name
           filesize_in_kb = File.size(example_filename) / 1024.0
@@ -177,7 +179,7 @@ module CodeRay
           
           tokens = example_test example_filename, name, scanner, max
           
-          if time = @time_for_encoding
+          if defined?(@time_for_encoding) && time = @time_for_encoding
             kilo_tokens_per_second = tokens.size / time / 1000
             print 'finished in '.green + '%5.2fs'.white % time
             if filesize_in_kb > 1
@@ -186,13 +188,25 @@ module CodeRay
             @time_for_encoding = nil
           end
           puts '.'.green
+          if @known_issue_description
+            print '            KNOWN ISSUE: '.cyan
+            print @known_issue_description.yellow
+            puts
+            print ' ' * 25
+            if @known_issue_ticket_url
+              puts 'See '.yellow + @known_issue_ticket_url.white + '.'.yellow
+            else
+              puts 'No ticket yet. Visit '.yellow +
+                'http://redmine.rubychan.de/projects/coderay/issues/new'.white + '.'.yellow
+            end
+          end
         end
       end
     end
     
     def example_test example_filename, name, scanner, max
       if File.size(example_filename) > MAX_CODE_SIZE_TO_TEST and not ENV['only']
-        print 'too big, '
+        print 'too big'
         return
       end
       code = File.open(example_filename, 'rb') { |f| break f.read }
@@ -218,6 +232,11 @@ module CodeRay
     end
     
     def random_test scanner, max
+      if defined?(JRUBY_VERSION) && JRUBY_VERSION == '1.4.0' && %w[ruby nitroxhtml rhtml].include?(scanner.lang)
+        puts 'Random test skipped due to a bug in JRuby. See http://redmine.rubychan.de/issues/136.'.red
+        @@warning_about_jruby_bug = true
+        return
+      end
       print "Random test...".yellow
       okay = true
       for size in (0..max).progress
@@ -317,7 +336,22 @@ module CodeRay
         assert(ok, "Scan error: unexpected output".red) if ENV['assert']
         
         print "\b" * 'complete...'.size
-        print 'complete, '.green_or_red(ok)
+        known_issue = expected_filename.sub(/\.expected\..*/, '.known-issue.yaml')
+        if !ok && File.exist?(known_issue)
+          known_issue = YAML.load_file(known_issue)
+          ticket_url = known_issue['ticket_url']
+          @known_issue_description = known_issue['description']
+          if ticket_url && ticket_url[/(\d+)\/?$/]
+            @known_issue_ticket_url = ticket_url
+            ticket_info = 'see #' + $1
+          else
+            ticket_info = 'ticket ?'
+          end
+          print ticket_info.rjust('complete'.size).red
+          print ', '.green
+        else
+          print 'complete, '.green_or_red(ok)
+        end
       else
         File.open(expected_filename, 'wb') { |f| f.write result }
         print "\b" * 'complete...'.size, "new test, ".blue

@@ -1,3 +1,3 @@
-class YAML < CodeRay::TestCase
+class YAML_ < CodeRay::TestCase
   @lang = :yaml
 end

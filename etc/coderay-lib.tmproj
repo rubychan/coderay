@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>currentDocument</key>
-	<string>../test/scanners/coderay_suite.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -26,13 +24,13 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2009-12-30T07:16:15Z</date>
+			<date>2009-12-31T04:25:13Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2009-12-30T08:13:30Z</date>
+			<date>2009-12-31T03:02:34Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -106,9 +104,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2009-12-30T09:08:29Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2009-12-30T20:08:02Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -127,48 +123,6 @@
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
-		<key>../lib/coderay/encoder.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>213</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>178</integer>
-		</dict>
-		<key>../lib/coderay/encoders/json.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>11</integer>
-				<key>line</key>
-				<integer>10</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>../lib/coderay/encoders/lines_of_code.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>4</integer>
-				<key>line</key>
-				<integer>15</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
 		<key>../lib/coderay/helpers/file_type.rb</key>
 		<dict>
 			<key>caret</key>
@@ -182,20 +136,6 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>205</integer>
-		</dict>
-		<key>../lib/coderay/scanner.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>42</integer>
-				<key>line</key>
-				<integer>59</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>40</integer>
 		</dict>
 		<key>../lib/coderay/scanners/_map.rb</key>
 		<dict>
@@ -415,20 +355,6 @@
 				<integer>0</integer>
 			</dict>
 		</dict>
-		<key>../test/scanners/coderay_suite.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>6</integer>
-				<key>line</key>
-				<integer>211</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>198</integer>
-		</dict>
 		<key>../test/scanners/suite.rb</key>
 		<dict>
 			<key>caret</key>
@@ -444,10 +370,6 @@
 			<integer>0</integer>
 		</dict>
 	</dict>
-	<key>openDocuments</key>
-	<array>
-		<string>../test/scanners/coderay_suite.rb</string>
-	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>

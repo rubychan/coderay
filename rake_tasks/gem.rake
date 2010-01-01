@@ -3,7 +3,8 @@ require 'rake/gempackagetask.rb'
 def gemspec
   Gem::Specification.new do |s|
     # Basic Information
-    s.name = s.rubyforge_project = 'coderay'
+    # s.name will be set later
+    s.rubyforge_project = 'coderay'
     s.version = '0'
 
     s.platform = Gem::Platform::RUBY
@@ -24,14 +25,11 @@ def gemspec
   fully featured, complete, fast and efficient.
 
   Usage is simple:
-    require 'coderay'
-    code = 'some %q(weird (Ruby) can\'t shock) me!'
-    puts CodeRay.scan(code, :ruby).html
+    CodeRay.scan(code, :ruby).div
     EOF
 
     # Files
     s.require_path = 'lib'
-    # s.autorequire = 'coderay'
     s.executables = [ 'coderay', 'coderay_stylesheet' ]
 
     s.files = nil  # defined later
@@ -51,7 +49,7 @@ namespace :gem do
   end
 
   desc 'Create the gem again'
-  task :make => [:make_gemspec, :clean, :gem, :prepare_server]
+  task :make => [:make_gemspec, :clean, :gem]
 
   desc 'Delete previously created Gems'
   task :clean do
@@ -60,6 +58,7 @@ namespace :gem do
 
   desc 'Find out the current CodeRay version'
   task :get_version do
+    $gem_name = 'coderay'
     unless $version
       $: << './lib'
       require 'coderay'
@@ -68,7 +67,8 @@ namespace :gem do
     puts 'Current Version: %s' % $version
     if $version[/.0$/]
       sh 'svn up --ignore-externals'
-      $version << '.' << (`svn info`[/Revision: (\d+)/,1])
+      $version << '.' << `svn info`[/Revision: (\d+)/,1]
+      $gem_name << '-beta'
     end
   end
 
@@ -82,36 +82,7 @@ namespace :gem do
     s = gemtask.gem_spec
     s.files = candidates #.delete_if { |item| item[/(?:CVS|rdoc)|~$/] }
     gemtask.version = s.version = $version
-  end
-
-  GEMDIR = 'gem_server/gems'
-  task :prepare_server => :get_version do
-    $gemfile = "coderay-#$version.gem"
-    Dir[GEMDIR + '/*.gem'].each { |g| rm g }
-    cp "pkg/#$gemfile", GEMDIR
-    system 'gem generate_index -d gem_server'
-  end
-
-  desc 'Upload gemfile to ' + FTP_DOMAIN
-  task :upload => :make do
-    gn 'Uploading gem:'
-    cYcnus_ftp do |ftp|
-      Dir.chdir 'gem_server' do
-        uploader = uploader_for ftp
-        ftp.chdir FTP_CODERAY_DIR
-        %w(yaml).each(&uploader)
-        Dir.chdir 'gems' do
-          ftp.chdir 'gems'
-          uploader.call $gemfile
-        end
-      end
-    end
-    gn 'Gem successfully uploaded.'
-  end
-
-  desc 'Build the Gem and install it locally'
-  task :install => :make do
-    system "gem install --no-rdoc pkg/#{$gemfile}"
+    gemtask.name = s.name = $gem_name
   end
 
 end

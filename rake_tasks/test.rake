@@ -25,6 +25,11 @@ namespace :test do
     end
   end
   
+  desc 'run for_redcloth tests'
+  task :for_redcloth do
+    ruby "./test/functional/for_redcloth.rb"
+  end
+  
   desc 'run all scanner tests'
   task :scanners do
     ruby "./test/scanners/suite.rb"
@@ -60,6 +65,7 @@ namespace :test do
         ruby '-v'
         Rake::Task['test'].reenable
         Rake::Task['test:functional'].reenable
+        Rake::Task['test:for_redcloth'].reenable
         Rake::Task['test:scanners'].reenable
         Rake::Task['test'].invoke
       else
@@ -70,5 +76,5 @@ namespace :test do
   
 end
 
-task :test => %w( test:functional test:scanners )
+task :test => %w( test:functional test:for_redcloth test:scanners )
 task :samples => 'test:samples'

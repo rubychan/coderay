@@ -14,7 +14,7 @@
 # 
 # Here's a fancy graphic to light up this gray docu:
 # 
-# http://rd.cYcnus.de/coderay/scheme.png
+# http://cycnus.de/raindark/coderay/scheme.png
 # 
 # == Documentation
 #

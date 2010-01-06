@@ -237,7 +237,7 @@ module Encoders
       super
     end
 
-    def token text, type = :plain
+    def token text, type
       case text
       
       when nil

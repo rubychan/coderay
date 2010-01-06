@@ -11,8 +11,7 @@ module Scanners
     KINDS_NOT_LOC = [:plain]
     
     def scan_tokens tokens, options
-      text = (scan_until(/\z/) || '')
-      tokens << [text, :plain]
+      tokens << [string, :plain]
     end
 
   end

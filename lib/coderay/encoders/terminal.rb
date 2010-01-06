@@ -1,4 +1,3 @@
-# encoders/term.rb
 # By Rob Aldred (http://robaldred.co.uk)
 # Based on idea by Nathan Weizenbaum (http://nex-3.com)
 # MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -8,8 +7,9 @@
 
 module CodeRay
   module Encoders
-    class Term < Encoder
-      register_for :term
+    class Terminal < Encoder
+      
+      register_for :terminal
 
       TOKEN_COLORS = {
         :attribute_name => '33',
@@ -61,13 +61,13 @@ module CodeRay
         :type => '1;34',
         :variable => '34'
       }
-      TOKEN_COLORS[:procedure] = TOKEN_COLORS[:method] = TOKEN_COLORS[:function]
+      TOKEN_COLORS[:method] = TOKEN_COLORS[:function]
       TOKEN_COLORS[:open] = TOKEN_COLORS[:close] = TOKEN_COLORS[:nesting_delimiter] = TOKEN_COLORS[:escape] = TOKEN_COLORS[:delimiter]
 
       protected
 
       def setup(options)
-        @out = ''
+        super
         @opened = [nil]
         @subcolors = nil
       end
@@ -76,11 +76,11 @@ module CodeRay
         super
       end
     
-      def token text, type = :plain
+      def token text, type
         case text
       
         when nil
-          # raise 'Token with nil as text was given: %p' % [[text, type]] 
+          # raise 'Token with nil as text was given: %p' % [[text, type]]
       
         when String
         

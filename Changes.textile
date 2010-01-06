@@ -2,6 +2,24 @@ h1=. CodeRay Version Changes
  
 p=. _This files lists all changes in the CodeRay library since the 0.8.4 release._
  
+h2. Changes in 1.0
+ 
+h3. @Encoders::HTML@
+ 
+* @#token@'s second parameter is no longer optional.
+
+h3. @Encoders::Terminal@
+ 
+* *RENAMED* from @Encoders::Term@, added @:term@ alias
+* Cleanup: Use @#setup@'s @super@, don't use @:procedure@ token class.
+* @#token@'s second parameter is no longer optional.
+
+h3. @Scanners::Plaintext@
+ 
+* *IMPROVED* Just returns the string without scanning.
+ 
+ This is much faster than scanning until @/\z/@ in Ruby 1.8.
+
 h2. Changes in 0.9.1
  
 h3. Token classes

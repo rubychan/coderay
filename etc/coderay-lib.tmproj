@@ -2,11 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>currentDocument</key>
+	<string>speedup/current.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -32,9 +32,7 @@
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-01-01T06:18:17Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2010-01-01T07:33:23Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -51,6 +49,8 @@
 			<string>../ftp.yaml</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>etc</string>
 			<key>regexFolderFilter</key>
@@ -97,8 +97,6 @@
 			<date>2010-01-01T05:57:27Z</date>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>functional</string>
 			<key>regexFolderFilter</key>
@@ -110,13 +108,13 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-01-01T06:09:10Z</date>
+			<date>2010-01-06T09:17:36Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../test/scanners/suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-01-01T05:50:18Z</date>
+			<date>2010-01-04T01:36:09Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -126,7 +124,7 @@
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>200</integer>
+	<integer>151</integer>
 	<key>metaData</key>
 	<dict>
 		<key>../lib/coderay/scanners/delphi.rb</key>
@@ -181,20 +179,6 @@
 				<integer>0</integer>
 				<key>line</key>
 				<integer>0</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>../lib/coderay/scanners/json.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>25</integer>
-				<key>line</key>
-				<integer>15</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -289,10 +273,59 @@
 				<integer>76</integer>
 			</dict>
 		</dict>
+		<key>speedup/current.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>38</integer>
+				<key>line</key>
+				<integer>115</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>95</integer>
+		</dict>
+		<key>speedup/direct-stream.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>151</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>139</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>150</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>151</integer>
+			</dict>
+		</dict>
 	</dict>
+	<key>openDocuments</key>
+	<array>
+		<string>speedup/direct-stream.rb</string>
+		<string>speedup/current.rb</string>
+	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{203, 5}, {1067, 773}}</string>
+	<string>{{161, 4}, {1119, 774}}</string>
 </dict>
 </plist>

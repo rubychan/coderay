@@ -32,7 +32,7 @@ module Encoders
     end
 
     def close_token kind
-      ">"
+      '>'
     end
 
     def begin_line kind
@@ -40,7 +40,7 @@ module Encoders
     end
 
     def end_line kind
-      "]"
+      ']'
     end
 
   end

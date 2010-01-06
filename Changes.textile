@@ -190,7 +190,7 @@ h3. @Plugin@
 * *NEW* method @#title@
   
   Set and get the plugin's title. Titles can be arbitrary strings.
-* *NEW* method *#helper* loads helpers from different plugins
+* *NEW* method @#helper@ loads helpers from different plugins
   
   Use this syntax: @helper 'other_plugin/helper_name'@
 

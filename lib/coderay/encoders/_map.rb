@@ -5,6 +5,7 @@ module Encoders
     :loc => :lines_of_code,
     :plain => :text,
     :stats => :statistic,
+    :terminal => :term,
     :tex => :latex
 
 end

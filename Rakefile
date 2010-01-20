@@ -1,3 +1,4 @@
+$: << File.dirname(__FILE__) unless $:.include? '.'
 require 'rake_helpers/ftp.rb'
 
 verbose false

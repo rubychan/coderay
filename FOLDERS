@@ -1,4 +1,4 @@
-= CodeRay - Trunk folder structure
+= CodeRay - folder structure
 
 == bench - Benchmarking system
 
@@ -16,6 +16,8 @@ Run <code>rake bench</code> to perform an example benchmark.
 
 Executional files for CodeRay.
 
+coderay:: The CodeRay executable.
+coderay_stylesheet:: Prints the default stylesheet.
 
 == demo - Demos and functional tests
 
@@ -27,11 +29,6 @@ Run them as functional tests with <code>rake test:demos</code>.
 == etc - Lots of stuff
 
 Some addidtional files for CodeRay, mainly graphics and Vim scripts.
-
-
-== gem_server - Gem output folder
-
-For <code>rake gem</code>.
 
 
 == lib - CodeRay library code
@@ -46,8 +43,7 @@ Some files to enhance Rake, including the Autumnal Rdoc template and some script
 
 == test - Tests
 
-Tests for the scanners.
-
+In the subfolder scanners/ are the scanners tests.
 Each language has its own subfolder and sub-suite.
 
 Run with <code>rake test</code>.

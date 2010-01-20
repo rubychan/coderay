@@ -22,7 +22,7 @@ module Encoders
       if text =~ /#{HTML_ESCAPE_PATTERN}/o
         text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
       end
-      k = Tokens::ClassOfKind[kind]
+      k = Tokens::AbbreviationForKind[kind]
       if k == :NO_HIGHLIGHT
         text
       else
@@ -31,7 +31,7 @@ module Encoders
     end
 
     def open_token kind
-      "\\CR#{Tokens::ClassOfKind[kind]}{"
+      "\\CR#{Tokens::AbbreviationForKind[kind]}{"
     end
 
     def close_token kind

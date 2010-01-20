@@ -8,12 +8,12 @@ def set_rdoc_info rd
   rd.title = "CodeRay Documentation"
   rd.options << '--line-numbers' << '--inline-source' << '--tab-width' << '2'
   rd.options << '--fmt' << ENV.fetch('format', 'html_coderay')
-  rd.options << '--all'
+  # rd.options << '--all'
   
   rd.template = ENV.fetch('template', CODERAY_TEMPLATE)
   rd.rdoc_files.add(*EXTRA_FILES.in(ROOT))
-  rd.rdoc_files.add(*Dir[File.join(LIB_ROOT, '*.rb')])
   rd.rdoc_files.add(*Dir[File.join(LIB_ROOT, 'coderay', '**', '*.rb')])
+  rd.rdoc_files.add(*Dir[File.join(LIB_ROOT, '*.rb')])
 end
 
 desc 'Generate documentation for CodeRay'

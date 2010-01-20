@@ -354,7 +354,7 @@ module CodeRay
         end
       else
         File.open(expected_filename, 'wb') { |f| f.write result }
-        print "\b" * 'complete...'.size, "new test, ".blue
+        print "\b" * 'complete...'.size, "new test".blue, ", ".green
         ok = true
       end
       

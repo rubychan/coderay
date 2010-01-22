@@ -28,7 +28,7 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-01-12T00:13:02Z</date>
+			<date>2010-01-20T02:08:54Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -114,7 +114,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-01-08T23:35:03Z</date>
+			<date>2010-01-20T02:49:19Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -134,7 +134,7 @@
 	<key>metaData</key>
 	<dict/>
 	<key>showFileHierarchyDrawer</key>
-	<false/>
+	<true/>
 	<key>windowFrame</key>
 	<string>{{0, 4}, {850, 774}}</string>
 </dict>

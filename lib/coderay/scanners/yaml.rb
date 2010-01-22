@@ -21,14 +21,7 @@ module Scanners
         
         kind = nil
         match = nil
-        
-        if bol?
-          key_indent = nil
-          if $DEBUG
-            indent = check(/ +/) ? matched.size : 0
-            tokens << [indent.to_s, :debug]
-          end
-        end
+        key_indent = nil if bol?
         
         if match = scan(/ +[\t ]*/)
           kind = :space

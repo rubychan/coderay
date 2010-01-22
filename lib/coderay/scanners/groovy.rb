@@ -123,6 +123,7 @@ module Scanners
                 next
               end
             end
+            kind = :operator
           
           elsif check(/[\d.]/)
             after_def = value_expected = false

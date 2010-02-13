@@ -20,7 +20,7 @@ module CodeRay
       end
       RedCloth::TextileDoc.send :include, ForRedCloth::TextileDoc
       RedCloth::Formatters::HTML.module_eval do
-        def unescape(html)
+        def unescape(html)  # :nodoc:
           replacements = {
             '&amp;' => '&',
             '&quot;' => '"',
@@ -64,7 +64,7 @@ module CodeRay
           @in_bc = nil
           opts[:lang] ? '' : "</pre>\n"
         end
-        def escape_pre(text)
+        def escape_pre(text)  # :nodoc:
           if @in_bc ||= nil
             text
           else

@@ -69,11 +69,15 @@ module CodeRay
         def normify code
           code = code.to_s
           if code.respond_to? :force_encoding
+            debug, $DEBUG = $DEBUG, false
             begin
               code.force_encoding 'utf-8'
               code[/\z/]  # raises an ArgumentError when code contains a non-UTF-8 char
             rescue ArgumentError
+              $DEBUG = debug
               code.force_encoding 'binary'
+            ensure
+              $DEBUG = debug
             end
           end
           code.to_unix

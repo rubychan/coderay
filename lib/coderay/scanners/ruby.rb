@@ -370,7 +370,7 @@ module Scanners
             last_token_dot = last_token_dot == :set
           end
           
-          if $DEBUG and not kind
+          if $CODERAY_DEBUG and not kind
             raise_inspect 'Error token %p in line %d' %
               [[match, kind], line], tokens, state
           end

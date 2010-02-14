@@ -126,13 +126,15 @@
 # If you want to re-use scanners and encoders (because that is faster), see
 # CodeRay::Duo for the most convenient (and recommended) interface.
 module CodeRay
-
+  
+  $CODERAY_DEBUG ||= false
+  
   # Version: Major.Minor.Teeny[.Revision]
   # Major: 0 for pre-stable, 1 for stable
   # Minor: feature milestone
   # Teeny: development state, 0 for pre-release
   # Revision: Subversion Revision number (generated on rake gem:make)
-  VERSION = '0.9.1'
+  VERSION = '0.9.2'
 
   require 'coderay/tokens'
   require 'coderay/token_classes'

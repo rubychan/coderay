@@ -4,6 +4,9 @@ p=. _This files lists all changes in the CodeRay library since the 0.8.4 release
  
 h2. Changes in 0.9.2
  
+* *FIXED* Use @$CODERAY_DEBUG@ for debugging instead of @$DEBUG@.
+  ("#192":http://redmine.rubychan.de/issues/192)
+
 h3. @Encoders::Term@
  
 * *FIXED* strings are closed correctly

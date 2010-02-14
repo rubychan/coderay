@@ -264,7 +264,7 @@ module Encoders
         if @opened.empty?
           # nothing to close
         else
-          if $DEBUG and (@opened.size == 1 or @opened.last != type)
+          if $CODERAY_DEBUG and (@opened.size == 1 or @opened.last != type)
             raise 'Malformed token stream: Trying to close a token (%p) \
               that is not open. Open are: %p.' % [type, @opened[1..-1]]
           end
@@ -285,7 +285,7 @@ module Encoders
         if @opened.empty?
           # nothing to close
         else
-          if $DEBUG and (@opened.size == 1 or @opened.last != type)
+          if $CODERAY_DEBUG and (@opened.size == 1 or @opened.last != type)
             raise 'Malformed token stream: Trying to close a line (%p) \
               that is not open. Open are: %p.' % [type, @opened[1..-1]]
           end

@@ -1,3 +1,4 @@
+$VERBOSE = $DEBUG = $CODERAY_DEBUG = true
 require 'benchmark'
 require 'yaml'
 require 'fileutils'
@@ -6,8 +7,6 @@ $mydir = File.dirname(__FILE__)
 $:.unshift File.join($mydir, '..', '..', 'lib')
 
 require 'coderay'
-
-debug, $DEBUG = $DEBUG, false
 
 require 'term/ansicolor' unless ENV['nocolor']
 
@@ -32,7 +31,6 @@ else
     end
   end
 end
-$DEBUG = debug
 
 unless defined? Term::ANSIColor
   puts 'You should gem install term-ansicolor.'
@@ -453,7 +451,6 @@ module CodeRay
       
       def run
         load
-        $VERBOSE = true
         $stdout.sync = true
         require 'test/unit/ui/console/testrunner'
         Test::Unit::UI::Console::TestRunner.run @suite

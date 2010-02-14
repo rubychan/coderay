@@ -32,8 +32,8 @@ module Scanners
             opened_tokens << kind
             match = :open
             
-          elsif scan(/ > /x)
-            kind = opened_tokens.pop
+          elsif !opened_tokens.empty? && scan(/ > /x)
+            kind = opened_tokens.pop || :error
             match = :close
             
           else

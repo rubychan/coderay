@@ -70,6 +70,10 @@ namespace :gem do
       $version << '.' << `svn info`[/Revision: (\d+)/,1]
       $gem_name << '-beta'
     end
+    if ENV['pre']
+      $version << '.' << `svn info`[/Revision: (\d+)/,1]
+      $version << '.pre'
+    end
   end
 
   task :make_gemspec => :get_version do

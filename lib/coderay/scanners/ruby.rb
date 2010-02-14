@@ -284,14 +284,23 @@ module Scanners
               kind = :class_variable
 
             else
-              kind = :error
-              match = (scan(/./mu) rescue nil) || getch
-              if !unicode && match.size > 1
-                # warn 'Switching to unicode mode because of char %p' % [match]
-                unicode = true
-                unscan
-                next
+              if !unicode
+                # check for unicode
+                debug, $DEBUG = $DEBUG, false
+                begin
+                  if check(/./mu).size > 1
+                    # seems like we should try again with unicode
+                    unicode = true
+                    next
+                  end
+                rescue
+                  # bad unicode char; use getch
+                ensure
+                  $DEBUG = debug
+                end
               end
+              kind = :error
+              match = getch
 
             end
 

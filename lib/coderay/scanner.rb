@@ -74,7 +74,6 @@ module CodeRay
               code.force_encoding 'utf-8'
               code[/\z/]  # raises an ArgumentError when code contains a non-UTF-8 char
             rescue ArgumentError
-              $DEBUG = debug
               code.force_encoding 'binary'
             ensure
               $DEBUG = debug
@@ -204,7 +203,7 @@ module CodeRay
         return 0 if pos <= 0
         string = string()
         if string.respond_to?(:bytesize) && (defined?(@bin_string) || string.bytesize != string.size)
-          @bin_string ||= string.dup.force_encoding(:binary)
+          @bin_string ||= string.dup.force_encoding('binary')
           string = @bin_string
         end
         pos - (string.rindex(?\n, pos) || 0)

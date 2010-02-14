@@ -315,7 +315,7 @@ module CodeRay
           #   raise "result has non-ASCII-8BIT character in line #{result[0,i].count(?\n) + 1}" if char.bytesize != 1
           # end
           # UTF-8 encoded result; comparison needs to be done on binary level
-          result.force_encoding(:binary)
+          result.force_encoding('binary')
         end
         ok = expected == result
         unless ok

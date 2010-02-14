@@ -17,6 +17,10 @@ h3. @Encoders::Term@
   
   *NOTE:* This encoder will be renamed to @Encoders::Terminal@ in the next release.
 
+h3. @Scanners::Debug@
+ 
+* *FIXED* Don't close tokens that are not open. Send @:error@ token instead.
+
 h3. @Scanners::Groovy@
  
 * *FIXED* token kind of closing brackets is @:operator@ instead of @nil@

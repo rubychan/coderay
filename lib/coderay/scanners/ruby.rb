@@ -291,13 +291,13 @@ module Scanners
                   if check(/./mu).size > 1
                     # seems like we should try again with unicode
                     unicode = true
-                    next
                   end
                 rescue
                   # bad unicode char; use getch
                 ensure
                   $DEBUG = debug
                 end
+                next if unicode
               end
               kind = :error
               match = getch

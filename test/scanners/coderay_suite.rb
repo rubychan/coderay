@@ -8,7 +8,10 @@ $:.unshift File.join($mydir, '..', '..', 'lib')
 
 require 'coderay'
 
+$:.unshift File.join($mydir, '..', 'lib')
 require 'term/ansicolor' unless ENV['nocolor']
+
+require 'test/unit'
 
 if defined? Term::ANSIColor
   class String
@@ -88,11 +91,6 @@ module Enumerable
 end
 
 module CodeRay
-  
-  if RUBY_VERSION >= '1.9'
-    $:.unshift File.join($mydir, '..', 'lib')
-  end
-  require 'test/unit'
   
   class TestCase < Test::Unit::TestCase
     

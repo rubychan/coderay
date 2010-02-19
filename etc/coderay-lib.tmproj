@@ -26,13 +26,13 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-01-01T06:14:55Z</date>
+			<date>2010-02-19T23:20:00Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-02-14T09:28:27Z</date>
+			<date>2010-02-19T21:45:11Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -43,10 +43,6 @@
 			<string>../TODO</string>
 			<key>lastUsed</key>
 			<date>2009-10-03T23:52:27Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>../ftp.yaml</string>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -73,6 +69,8 @@
 			<string>../LICENSE</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>rake_helpers</string>
 			<key>regexFolderFilter</key>
@@ -81,6 +79,8 @@
 			<string>../rake_helpers</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>rake_tasks</string>
 			<key>regexFolderFilter</key>
@@ -92,7 +92,7 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2010-01-01T05:57:27Z</date>
+			<date>2010-02-19T22:57:31Z</date>
 		</dict>
 		<dict>
 			<key>expanded</key>
@@ -108,7 +108,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-02-14T09:23:25Z</date>
+			<date>2010-02-19T21:42:31Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -189,6 +189,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{203, 5}, {1067, 773}}</string>
+	<string>{{201, 5}, {1067, 773}}</string>
 </dict>
 </plist>

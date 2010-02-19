@@ -18,7 +18,7 @@ And with line numbers.
 * is what everybody should have on their website
 * solves all your problems and makes the girls run after you
 
-Version: 0.9.1
+Version: 0.9.2
 Author:: murphy (Kornelius Kalnbach)
 Contact:: murphy rubychan de
 Website:: coderay.rubychan.de[http://coderay.rubychan.de]
@@ -82,14 +82,18 @@ Please report errors in this documentation to <murphy rubychan de>.
 * Andreas Schwarz for finding out that CaseIgnoringWordList was not case
   ignoring! Such things really make you write tests.
 * closure for the first version of the Scheme scanner.
-* Stefan Walk for the first version of the JavaScript scanner.
-* Josh Goebel for another version of the JavaScript scanner and a Diff scanner.
+* Stefan Walk for the first version of the JavaScript and PHP scanners.
+* Josh Goebel for another version of the JavaScript scanner, a SQL and a Diff scanner.
 * Jonathan Younger for pointing out the licence confusion caused by wrong LICENSE file.
 * Jeremy Hinegardner for finding the shebang-on-empty-file bug in FileType.
 * Charles Oliver Nutter and Yehuda Katz for helping me benchmark CodeRay on JRuby.
 * Andreas Neuhaus for pointing out a markup bug in coderay/for_redcloth.
 * 0xf30fc7 for the FileType patch concerning Delphi file extensions.
 * The folks at redmine.org - thank you for using and fixing CodeRay!
+* Keith Pitt for his SQL scanners
+* Rob Aldred for the terminal encoder
+* Trans for pointing out $DEBUG dependencies
+* Flameeyes for finding that Term::ANSIColor was obsolete
 * matz and all Ruby gods and gurus
 * The inventors of: the computer, the internet, the true color display, HTML &
   CSS, VIM, Ruby, pizza, microwaves, guitars, scouting, programming, anime, 

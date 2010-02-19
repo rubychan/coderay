@@ -11,15 +11,26 @@ class BasicTest < Test::Unit::TestCase
   
   RUBY_TEST_CODE = 'puts "Hello, World!"'
   
+  RUBY_TEST_TOKENS = [
+    ['puts', :ident],
+    [' ', :space],
+    [:open, :string],
+      ['"', :delimiter],
+      ['Hello, World!', :content],
+      ['"', :delimiter],
+    [:close, :string]
+  ]
   def test_simple_scan
     assert_nothing_raised do
-      CodeRay.scan(RUBY_TEST_CODE, :ruby)
+      assert_equal RUBY_TEST_TOKENS, CodeRay.scan(RUBY_TEST_CODE, :ruby).to_ary
     end
   end
   
+  RUBY_TEST_HTML = 'puts <span class="s"><span class="dl">&quot;</span>' + 
+    '<span class="k">Hello, World!</span><span class="dl">&quot;</span></span>'
   def test_simple_highlight
     assert_nothing_raised do
-      CodeRay.scan(RUBY_TEST_CODE, :ruby).html
+      assert_equal RUBY_TEST_HTML, CodeRay.scan(RUBY_TEST_CODE, :ruby).html
     end
   end
   

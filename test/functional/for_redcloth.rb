@@ -5,7 +5,7 @@ begin
   gem 'RedCloth', '>= 4.0.3' rescue nil
   require 'redcloth'
 rescue LoadError
-  $stderr.puts 'RedCloth not found - skipping for_redcloth tests.'
+  warn 'RedCloth not found - skipping for_redcloth tests.'
 end
 
 class BasicTest < Test::Unit::TestCase

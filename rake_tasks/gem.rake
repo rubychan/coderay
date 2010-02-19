@@ -48,7 +48,7 @@ namespace :gem do
     pkg.need_tar = true
   end
 
-  desc 'Create the gem again'
+  desc 'Create the Gem again'
   task :make => [:make_gemspec, :clean, :gem]
 
   desc 'Delete previously created Gems'
@@ -77,18 +77,24 @@ namespace :gem do
   end
 
   task :make_gemspec => :get_version do
-    candidates = Dir['./lib/**/*.rb'] +
-      Dir['./demo/*.rb'] +
-      #    Dir['./bin/*'] +
-      #    Dir['./demo/bench/*'] +
-      #    Dir['./test/*'] +
-      %w( ./lib/README ./LICENSE)
     s = gemtask.gem_spec
-    s.files = candidates #.delete_if { |item| item[/(?:CVS|rdoc)|~$/] }
+    s.files = Dir['./lib/**/*.rb'] +
+      Dir['./demo/*.rb'] +
+      Dir['./Rakefile'] +
+      Dir['./test/functional/*'] +
+      %w(./lib/README ./LICENSE)
+    s.test_file = './test/functional/suite.rb'
     gemtask.version = s.version = $version
     gemtask.name = s.name = $gem_name
   end
-
+  
+  task :set_pre do
+    ENV['pre'] = 'true'
+  end
+  
+  desc 'Make a prerelease Gem.'
+  task :prerelease => [:set_pre, :make]
+  
 end
 
 task :gem => 'gem:make'

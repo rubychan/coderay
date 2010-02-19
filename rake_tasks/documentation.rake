@@ -1,6 +1,13 @@
 require 'rake/rdoctask'
 require 'pathname'
 
+EXTRA_FILES = %w(lib/README FOLDERS)
+def EXTRA_FILES.in folder
+  map do |file_name|
+    File.join folder, file_name
+  end
+end
+
 CODERAY_TEMPLATE = Pathname.new(File.dirname(__FILE__)).join('..', 'rake_helpers', 'coderay_rdoc_template.rb').expand_path.to_s
 
 def set_rdoc_info rd

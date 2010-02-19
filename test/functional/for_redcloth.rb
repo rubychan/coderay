@@ -1,13 +1,7 @@
-require "test/unit"
-
-require 'pathname'
-MYDIR = File.dirname(__FILE__)
-LIBDIR = Pathname.new(MYDIR).join('..', '..', 'lib').cleanpath.to_s
-$LOAD_PATH.unshift LIBDIR
-require "coderay"
+load File.join(File.dirname(__FILE__), 'suite.rb')
 
 begin
-  require 'rubygems'
+  require 'rubygems' unless defined? Gem
   gem 'RedCloth', '>= 4.0.3' rescue nil
   require 'redcloth'
 rescue LoadError

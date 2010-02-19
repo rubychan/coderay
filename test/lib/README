@@ -1,2 +1,3 @@
 Contents:
 - test/unit: We need the old Test::Unit for the scanner test suite to work with Ruby 1.9.
+- term/ansicolor: Used for colorful output of the scanner tests.

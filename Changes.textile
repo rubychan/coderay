@@ -4,11 +4,11 @@ p=. _This files lists all changes in the CodeRay library since the 0.8.4 release
  
 h2. Changes in 0.9.2
  
-* *FIXED* Use @$CODERAY_DEBUG@ for debugging instead of @$DEBUG@.
+* *FIXED* Use @$CODERAY_DEBUG@ for debugging instead of @$DEBUG@. [Trans]
   ("#192":http://redmine.rubychan.de/issues/192)
-
-* *REMOVED* Term::Ansicolor was bundled under lib/, but not used.
+* *REMOVED* @Term::Ansicolor@ was bundled under _lib/_, but not used. [Flameeyes]
   ("#195":http://redmine.rubychan.de/issues/195)
+* *NEW* Basic tests and a _Rakefile_ are now included in the Gem. [Flameeyes]
 
 h3. @Encoders::Term@
  
@@ -31,7 +31,7 @@ h3. @Scanners::Groovy@
 
 h3. @Scanners::YAML@
  
-* *FIXED* doesn't send debug tokens when @$DEBUG@ is true
+* *FIXED* doesn't send debug tokens when @$DEBUG@ is true [Trans]
   ("#149":http://redmine.rubychan.de/issues/149)
 
 

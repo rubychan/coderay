@@ -303,7 +303,7 @@ ENDIF:cvsurl
     </table>
   </td>
   <td class="ruby-chan">
-	  <a href="http://ruby.cYcnus.de"><img src="http://ruby.cYcnus.de/pics/ruby-doc-chan.gif" alt="Ruby-Chan" style="border: 0px" /></a>
+	  <a href="http://rubychan.de"><img src="http://cycnus.de/ruby/pics/ruby-doc-chan.gif" alt="Ruby-Chan" style="border: 0px" /></a>
   </td>
  </tr>
 </table><br />
@@ -316,7 +316,7 @@ CLASS_PAGE = <<HTML
 	<tr>
   	<td class="file-title"><span class="file-title-prefix">%classmod%</span> %full_name%</td>
 		<td rowspan="2" class="ruby-chan">
-			<a href="http://ruby.cYcnus.de"><img src="http://ruby.cYcnus.de/pics/ruby-doc-chan.gif" alt="Ruby-Chan" style="border: 0px" /></a>
+	  <a href="http://rubychan.de"><img src="http://cycnus.de/ruby/pics/ruby-doc-chan.gif" alt="Ruby-Chan" style="border: 0px" /></a>
 		</td>
 	</tr>
 	<tr>

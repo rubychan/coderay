@@ -32,7 +32,9 @@
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-02-19T21:45:11Z</date>
+			<date>2010-02-20T00:42:48Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -189,6 +191,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{201, 5}, {1067, 773}}</string>
+	<string>{{203, 5}, {1067, 773}}</string>
 </dict>
 </plist>

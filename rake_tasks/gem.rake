@@ -12,8 +12,8 @@ def gemspec
     s.requirements = []
     s.date = Time.now.strftime '%Y-%m-%d'
     s.has_rdoc = true
-    s.rdoc_options = '-SNw2', '-mlib/README', '-a', '-t CodeRay Documentation'
-    s.extra_rdoc_files = EXTRA_FILES.in('./')
+    s.rdoc_options = '-SNw2', '-mlib/README', '-t CodeRay Documentation'
+    s.extra_rdoc_files = EXTRA_RDOC_FILES
 
     # Description
     s.summary = <<-EOF

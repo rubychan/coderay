@@ -1,5 +1,5 @@
-require "test/unit"
-require "coderay"
+require 'test/unit'
+require 'coderay'
 
 class WordListTest < Test::Unit::TestCase
   

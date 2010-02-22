@@ -1,5 +1,5 @@
-require "test/unit"
-require "coderay"
+require 'test/unit'
+require 'coderay'
 
 class BasicTest < Test::Unit::TestCase
   

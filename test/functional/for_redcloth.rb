@@ -1,4 +1,6 @@
-load File.join(File.dirname(__FILE__), 'suite.rb')
+require 'test/unit'
+$: << 'lib'
+require 'coderay'
 
 begin
   require 'rubygems' unless defined? Gem

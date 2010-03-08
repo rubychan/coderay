@@ -17,15 +17,11 @@ def gemspec
 
     # Description
     s.summary = <<-EOF
-  CodeRay is a fast syntax highlighter engine for many languages.
+Fast syntax highlighting for selected languages.
     EOF
     s.description = <<-EOF
-  CodeRay is a Ruby library for syntax highlighting.
-  I try to make CodeRay easy to use and intuitive, but at the same time
-  fully featured, complete, fast and efficient.
-
-  Usage is simple:
-    CodeRay.scan(code, :ruby).div
+Fast and easy syntax highlighting for selected languages, written in Ruby.
+Comes with RedCloth integration and LOC counter.
     EOF
 
     # Files

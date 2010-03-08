@@ -4,12 +4,14 @@ p=. _This files lists all changes in the CodeRay library since the 0.8.4 release
  
 h2. Changes in 0.9.2
  
+* *NEW* Basic tests and a _Rakefile_ are now included in the Gem. [Flameeyes]
+  A @doc@ task is also included.
 * *FIXED* Use @$CODERAY_DEBUG@ for debugging instead of @$DEBUG@. [Trans]
   ("#192":http://redmine.rubychan.de/issues/192)
 * *REMOVED* @Term::Ansicolor@ was bundled under _lib/_, but not used. [Flameeyes]
-  ("#195":http://redmine.rubychan.de/issues/195)
-* *NEW* Basic tests and a _Rakefile_ are now included in the Gem. [Flameeyes]
-
+  ("#205":http://redmine.rubychan.de/issues/205)
+* *WORKAROUND* for Ruby bug "#2745":http://redmine.ruby-lang.org/issues/show/2745
+ 
 h3. @Encoders::Term@
  
 * *FIXED* strings are closed correctly

@@ -26,15 +26,15 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-02-19T23:20:00Z</date>
+			<date>2010-02-22T05:05:20Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
 			<date>2010-02-20T00:42:48Z</date>
-			<key>selected</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -94,7 +94,7 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2010-02-19T22:57:31Z</date>
+			<date>2010-02-22T04:48:56Z</date>
 		</dict>
 		<dict>
 			<key>expanded</key>
@@ -116,7 +116,7 @@
 			<key>filename</key>
 			<string>../test/scanners/suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-01-01T05:50:18Z</date>
+			<date>2010-02-22T04:37:29Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>

@@ -37,6 +37,11 @@ Comes with RedCloth integration and LOC counter.
   end
 end
 
+def svn_head_revision
+  sh 'svn up --ignore-externals'
+  `svn info`[/Revision: (\d+)/,1]
+end
+
 namespace :gem do
 
   gemtask = Rake::GemPackageTask.new(gemspec) do |pkg|
@@ -62,12 +67,11 @@ namespace :gem do
     end
     puts 'Current Version: %s' % $version
     if $version[/.0$/]
-      sh 'svn up --ignore-externals'
-      $version << '.' << `svn info`[/Revision: (\d+)/,1]
+      $version << '.' << svn_head_revision
       $gem_name << '-beta'
     end
     if ENV['pre']
-      $version << '.' << `svn info`[/Revision: (\d+)/,1]
+      $version << '.' << svn_head_revision
       $version << '.pre'
     end
   end

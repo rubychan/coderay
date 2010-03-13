@@ -13,7 +13,6 @@ end
 class BasicTest < Test::Unit::TestCase
   
   def test_for_redcloth
-    require 'rubygems'
     require 'coderay/for_redcloth'
     assert_equal "<p><span lang=\"ruby\" class=\"CodeRay\">puts <span style=\"background-color:#fff0f0;color:#D20\"><span style=\"color:#710\">&quot;</span><span style=\"\">Hello, World!</span><span style=\"color:#710\">&quot;</span></span></span></p>",
       RedCloth.new('@[ruby]puts "Hello, World!"@').to_html
@@ -26,7 +25,6 @@ class BasicTest < Test::Unit::TestCase
   end
   
   def test_for_redcloth_no_lang
-    require 'rubygems'
     require 'coderay/for_redcloth'
     assert_equal "<p><code>puts \"Hello, World!\"</code></p>",
       RedCloth.new('@puts "Hello, World!"@').to_html
@@ -37,7 +35,6 @@ class BasicTest < Test::Unit::TestCase
   end
   
   def test_for_redcloth_style
-    require 'rubygems'
     require 'coderay/for_redcloth'
     assert_equal <<-BLOCKCODE.chomp,
 <pre style=\"color: red;\"><code style=\"color: red;\">puts \"Hello, World!\"</code></pre>
@@ -46,7 +43,6 @@ class BasicTest < Test::Unit::TestCase
   end
   
   def test_for_redcloth_escapes
-    require 'rubygems'
     require 'coderay/for_redcloth'
     assert_equal '<p><span lang="ruby" class="CodeRay">&gt;</span></p>',
       RedCloth.new('@[ruby]>@').to_html
@@ -59,7 +55,6 @@ class BasicTest < Test::Unit::TestCase
   end
   
   def test_for_redcloth_escapes2
-    require 'rubygems'
     require 'coderay/for_redcloth'
     assert_equal "<p><span lang=\"c\" class=\"CodeRay\"><span style=\"color:#579\">#include</span> <span style=\"color:#B44;font-weight:bold\">&lt;test.h&gt;</span></span></p>",
       RedCloth.new('@[c]#include <test.h>@').to_html
@@ -67,7 +62,6 @@ class BasicTest < Test::Unit::TestCase
   
   # See http://jgarber.lighthouseapp.com/projects/13054/tickets/124-code-markup-does-not-allow-brackets.
   def test_for_redcloth_false_positive
-    require 'rubygems'
     require 'coderay/for_redcloth'
     assert_equal '<p><code>[project]_dff.skjd</code></p>',
       RedCloth.new('@[project]_dff.skjd@').to_html

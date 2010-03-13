@@ -13,10 +13,20 @@ module CodeRay
   module ForRedCloth
     
     def self.install
-      gem 'RedCloth', '>= 4.0.3' rescue nil
+      gem 'RedCloth', '>= 4.0.3' if defined? gem
       require 'redcloth'
       unless RedCloth::VERSION.to_s >= '4.0.3'
-        raise 'CodeRay.for_redcloth needs RedCloth version 4.0.3 or later.'
+        if defined? gem
+          raise 'CodeRay.for_redcloth needs RedCloth version 4.0.3 or later. ' +
+            "You have #{RedCloth::VERSION}. Please gem install RedCloth."
+        else
+          $".delete 'redcloth.rb'  # sorry, but it works
+          require 'rubygems'
+          return install  # retry
+        end
+      end
+      unless RedCloth::VERSION.to_s >= '4.2.2'
+        warn 'CodeRay.for_redcloth works best with RedCloth version 4.2.2 or later.'
       end
       RedCloth::TextileDoc.send :include, ForRedCloth::TextileDoc
       RedCloth::Formatters::HTML.module_eval do

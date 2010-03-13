@@ -26,13 +26,15 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-03-08T21:45:06Z</date>
+			<date>2010-03-11T04:30:22Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-03-09T02:48:36Z</date>
+			<date>2010-03-13T18:26:34Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -93,8 +95,6 @@
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
 			<date>2010-03-09T02:48:36Z</date>
-			<key>selected</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>expanded</key>
@@ -110,7 +110,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-02-19T21:42:31Z</date>
+			<date>2010-03-11T06:50:29Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -156,36 +156,6 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>116</integer>
-		</dict>
-		<key>../lib/coderay/token_classes.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>12</integer>
-				<key>line</key>
-				<integer>76</integer>
-			</dict>
-			<key>columnSelection</key>
-			<false/>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>44</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>7</integer>
-				<key>line</key>
-				<integer>76</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>12</integer>
-				<key>line</key>
-				<integer>76</integer>
-			</dict>
 		</dict>
 	</dict>
 	<key>showFileHierarchyDrawer</key>

@@ -10,7 +10,8 @@ h2. Changes in 0.9.2
   ("#192":http://redmine.rubychan.de/issues/192)
 * *REMOVED* @Term::Ansicolor@ was bundled under _lib/_, but not used. [Flameeyes]
   ("#205":http://redmine.rubychan.de/issues/205)
-* *WORKAROUND* for Ruby bug "#2745":http://redmine.ruby-lang.org/issues/show/2745
+* *WORKAROUND* for Ruby bug 
+  "#2745":http://redmine.ruby-lang.org/issues/show/2745
  
 h3. @Encoders::Term@
  
@@ -30,6 +31,11 @@ h3. @Scanners::Groovy@
  
 * *FIXED* token kind of closing brackets is @:operator@ instead of @nil@
   ("#148":http://redmine.rubychan.de/issues/148)
+
+h3. @Scanners::PHP@
+ 
+* *FIXED* allow @\@ operator (namespace separator)
+  ("#209":http://redmine.rubychan.de/issues/209)
 
 h3. @Scanners::YAML@
  

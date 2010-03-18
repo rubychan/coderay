@@ -7,29 +7,30 @@ module CodeRay
   #
   # A token is not a special object, just a two-element Array
   # consisting of
+  # * the _token_ _text_ (the original source of the token in a String) or
+  #   a _token_ _action_ (:open, :close, :begin_line, :end_line)
   # * the _token_ _kind_ (a Symbol representing the type of the token)
-  # * the _token_ _text_ (the original source of the token in a String)
   #
   # A token looks like this:
   #
-  #   [:comment, '# It looks like this']
-  #   [:float, '3.1415926']
-  #   [:error, '$^']
+  #   ['# It looks like this', :comment]
+  #   ['3.1415926', :float]
+  #   ['$^', :error]
   #
-  # Some scanners also yield some kind of sub-tokens, represented by special
-  # token texts, namely :open and :close .
+  # Some scanners also yield sub-tokens, represented by special
+  # token actions, namely :open and :close.
   #
   # The Ruby scanner, for example, splits "a string" into:
   #
   #  [
   #   [:open, :string],
-  #   [:delimiter, '"'],
-  #   [:content, 'a string'],
-  #   [:delimiter, '"'],
+  #   ['"', :delimiter],
+  #   ['a string', :content],
+  #   ['"', :delimiter],
   #   [:close, :string]
   #  ]
   #
-  # Tokens is also the interface between Scanners and Encoders:
+  # Tokens is the interface between Scanners and Encoders:
   # The input is split and saved into a Tokens object. The Encoder
   # then builds the output from this object.
   #
@@ -43,6 +44,9 @@ module CodeRay
   # Tokens gives you the power to handle pre-scanned code very easily:
   # You can convert it to a webpage, a YAML file, or dump it into a gzip'ed string
   # that you put in your DB.
+  # 
+  # It also allows you to generate tokens directly (without using a scanner),
+  # to load them from a file, and still use any Encoder that CodeRay provides.
   #
   # Tokens' subclass TokenStream allows streaming to save memory.
   class Tokens < Array
@@ -301,11 +305,11 @@ module CodeRay
     #
     #   require 'coderay'
     #   
-    #   token_stream = CodeRay::TokenStream.new do |kind, text|
+    #   token_stream = CodeRay::TokenStream.new do |text, kind|
     #     puts 'kind: %s, text size: %d.' % [kind, text.size]
     #   end
     #   
-    #   token_stream << [:regexp, '/\d+/']
+    #   token_stream << ['/\d+/', :regexp]
     #   #-> kind: rexpexp, text size: 5.
     #
     def initialize &block

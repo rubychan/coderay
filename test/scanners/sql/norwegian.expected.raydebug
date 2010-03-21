@@ -1,0 +1,48 @@
+class(select) integer(1) reserved(from)comment(-- Skapa en ny tabell med de endast de språkkoder vi accepterar)
+class(CREATE) type(TABLE) ident(public)operator(.)ident(languages) operator(()
+    ident(language_code) pre_type(char)operator(()integer(2)operator(\)) reserved(PRIMARY) reserved(KEY)
+operator(\))operator(;)
+class(INSERT) class(INTO) ident(public)operator(.)ident(languages) reserved(VALUES) operator(()string<delimiter(')content(sv)delimiter(')>operator(\))operator(,)operator(()string<delimiter(')content(de)delimiter(')>operator(\))operator(,)operator(()string<delimiter(')content(da)delimiter(')>operator(\))operator(,)operator(()string<delimiter(')content(no)delimiter(')>operator(\))operator(,)operator(()string<delimiter(')content(fi)delimiter(')>operator(\))operator(;)
+class(COMMENT) reserved(ON) type(COLUMN) ident(public)operator(.)ident(languages)operator(.)ident(language_code) reserved(IS) string<delimiter(')content(Codes according to ISO 639)delimiter(')>operator(;)
+class(GRANT) class(SELECT) reserved(ON) ident(public)operator(.)ident(languages) reserved(TO) reserved(GROUP) ident(readonly)operator(;)
+class(GRANT) reserved(ALL)    reserved(ON) ident(public)operator(.)ident(languages) reserved(TO) reserved(GROUP) ident(readwrite)operator(;)
+
+comment(-- Lägg till en ny column i color_description som hanterar language_code instället för)
+comment(-- locale som idag.)
+comment(--   1. Lägg till kolumnen.)
+comment(--   2. Fyll den med data från locale kolumnen.)
+comment(--   3. Ändra så att columnen inte får vara tom)
+comment(--   4. Lägg till constraint mot tidigare skapade tabellen languages.)
+comment(--   5. Sätt kommentar på locale kolumnen om att den inte bör användas.)
+class(ALTER) type(TABLE) ident(products)operator(.)ident(color_description) class(ADD) type(COLUMN) ident(language_code) pre_type(char)operator(()integer(2)operator(\))operator(;)
+class(UPDATE) ident(products)operator(.)ident(color_description)
+class(SET) ident(language_code) operator(=) operator(()reserved(CASE) reserved(WHEN) ident(locale) reserved(like) string<delimiter(')content(ty%)delimiter(')>
+                        reserved(THEN) string<delimiter(')content(de)delimiter(')>
+                        reserved(ELSE) predefined(SUBSTRING)operator(()ident(locale) reserved(FROM) integer(1) reserved(FOR) integer(2)operator(\)) reserved(END)operator(\))operator(;)
+class(ALTER) type(TABLE) ident(products)operator(.)ident(color_description) class(ALTER) type(COLUMN) ident(language_code) class(SET) reserved(NOT) pre_constant(NULL)operator(;)
+class(ALTER) type(TABLE) ident(products)operator(.)ident(color_description)
+    class(ADD) reserved(CONSTRAINT) ident(products_color_description_lang_ref)
+    reserved(FOREIGN) reserved(KEY) operator(()ident(language_code)operator(\)) reserved(REFERENCES) ident(public)operator(.)ident(languages)operator(()ident(language_code)operator(\))operator(;)
+class(COMMENT) reserved(ON) type(COLUMN) ident(products)operator(.)ident(color_description)operator(.)ident(locale)
+reserved(IS) string<delimiter(')content(<¡> PAHSE OUT, use language_code instead)delimiter(')>operator(;)
+
+
+
+comment(-- Lägg till en ny column i frame_description som hanterar language_code instället för)
+comment(-- locale som idag.)
+comment(--   1. Lägg till kolumnen.)
+comment(--   2. Fyll den med data från locale kolumnen.)
+comment(--   3. Ändra så att columnen inte får vara tom)
+comment(--   4. Lägg till constraint mot tidigare skapade tabellen languages.)
+comment(--   5. Sätt kommentar på locale kolumnen om att den inte bör användas.)
+class(ALTER) type(TABLE) ident(products)operator(.)ident(frame_description) class(ADD) type(COLUMN) ident(language_code) pre_type(char)operator(()integer(2)operator(\))operator(;)
+class(UPDATE) ident(products)operator(.)ident(frame_description)
+class(SET) ident(language_code) operator(=) operator(()reserved(CASE) reserved(WHEN) ident(locale) reserved(like) string<delimiter(')content(ty%)delimiter(')>
+                        reserved(THEN) string<delimiter(')content(de)delimiter(')>
+                        reserved(ELSE) predefined(SUBSTRING)operator(()ident(locale) reserved(FROM) integer(1) reserved(FOR) integer(2)operator(\)) reserved(END)operator(\))operator(;)
+class(ALTER) type(TABLE) ident(products)operator(.)ident(frame_description) class(ALTER) type(COLUMN) ident(language_code) class(SET) reserved(NOT) pre_constant(NULL)operator(;)
+class(ALTER) type(TABLE) ident(products)operator(.)ident(frame_description)
+    class(ADD) reserved(CONSTRAINT) ident(products_frame_description_lang_ref)
+    reserved(FOREIGN) reserved(KEY) operator(()ident(language_code)operator(\)) reserved(REFERENCES) ident(public)operator(.)ident(languages)operator(()ident(language_code)operator(\))operator(;)
+class(COMMENT) reserved(ON) type(COLUMN) ident(products)operator(.)ident(frame_description)operator(.)ident(locale)
+reserved(IS) string<delimiter(')content(<¡> PAHSE OUT, use language_code instead)delimiter(')>operator(;)

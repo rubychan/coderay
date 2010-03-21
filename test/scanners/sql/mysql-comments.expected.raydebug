@@ -1,0 +1,2 @@
+class(SELECT) directive(/*! STRAIGHT_JOIN */) ident(col1) reserved(FROM) ident(table1)operator(,)ident(table2) reserved(WHERE) operator(.)operator(.)operator(.)
+class(CREATE) directive(/*!32302 TEMPORARY */) type(TABLE) ident(t) operator(()ident(a) pre_type(INT)operator(\))operator(;)

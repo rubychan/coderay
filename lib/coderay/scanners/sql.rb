@@ -6,12 +6,21 @@ module CodeRay module Scanners
     register_for :sql
     
     RESERVED_WORDS = %w(
-      create database table index trigger drop primary key set select
-      insert update delete replace into
-      on from values before and or if exists case when
-      then else as group order by avg where
-      join inner outer union engine not
-      like end using collate show columns begin
+      all and as before begin by case collate
+      constraint create else end engine exists
+      for foreign from group if inner is join key
+      like not on or order outer primary references replace
+      then to trigger union using values when where
+      left
+    )
+    
+    OBJECTS = %w(
+      database databases table tables column columns index
+    )
+    
+    COMMANDS = %w(
+      add alter comment create delete drop grant insert into select update set
+      show
     )
     
     PREDEFINED_TYPES = %w(
@@ -22,14 +31,16 @@ module CodeRay module Scanners
       bool boolean hex bin oct
     )
     
-    PREDEFINED_FUNCTIONS = %w( sum cast abs pi count min max avg )
+    PREDEFINED_FUNCTIONS = %w( sum cast substring abs pi count min max avg )
     
     DIRECTIVES = %w( auto_increment unique default charset )
-
+    
     PREDEFINED_CONSTANTS = %w( null true false )
     
     IDENT_KIND = CaseIgnoringWordList.new(:ident).
       add(RESERVED_WORDS, :reserved).
+      add(OBJECTS, :type).
+      add(COMMANDS, :class).
       add(PREDEFINED_TYPES, :pre_type).
       add(PREDEFINED_CONSTANTS, :pre_constant).
       add(PREDEFINED_FUNCTIONS, :predefined).
@@ -59,8 +70,8 @@ module CodeRay module Scanners
           elsif scan(/^(?:--\s?|#).*/)
             kind = :comment
             
-          elsif scan(%r! /\* (?: .*? \*/ | .* ) !mx)
-            kind = :comment
+          elsif scan(%r( /\* (!)? (?: .*? \*/ | .* ) )mx)
+            kind = self[1] ? :directive : :comment
             
           elsif scan(/ [-+*\/=<>;,!&^|()\[\]{}~%] | \.(?!\d) /x)
             kind = :operator
@@ -88,6 +99,9 @@ module CodeRay module Scanners
             
           elsif scan(/\d[fF]|\d*\.\d+(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+/)
             kind = :float
+          
+          elsif scan(/\\N/)
+            kind = :pre_constant
             
           else
             getch

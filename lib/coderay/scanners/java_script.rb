@@ -1,6 +1,9 @@
 module CodeRay
 module Scanners
-
+  
+  # Scanner for JavaScript.
+  # 
+  # Aliases: +ecmascript+, +ecma_script+, +javascript+
   class JavaScript < Scanner
 
     include Streamable
@@ -13,16 +16,16 @@ module Scanners
       break case catch continue default delete do else
       finally for function if in instanceof new
       return switch throw try typeof var void while with
-    ]
+    ]  # :nodoc:
     PREDEFINED_CONSTANTS = %w[
-      false null true undefined
-    ]
+      false null true undefined NaN Infinity
+    ]  # :nodoc:
     
-    MAGIC_VARIABLES = %w[ this arguments ]  # arguments was introduced in JavaScript 1.4
+    MAGIC_VARIABLES = %w[ this arguments ]  # :nodoc: arguments was introduced in JavaScript 1.4
     
     KEYWORDS_EXPECTING_VALUE = WordList.new.add %w[
       case delete in instanceof new return throw typeof with
-    ]
+    ]  # :nodoc:
     
     # Reserved for future use.
     RESERVED_WORDS = %w[
@@ -30,29 +33,31 @@ module Scanners
       final float goto implements import int interface long native package
       private protected public short static super synchronized throws transient
       volatile
-    ]
+    ]  # :nodoc:
     
     IDENT_KIND = WordList.new(:ident).
       add(RESERVED_WORDS, :reserved).
       add(PREDEFINED_CONSTANTS, :pre_constant).
       add(MAGIC_VARIABLES, :local_variable).
-      add(KEYWORDS, :keyword)
+      add(KEYWORDS, :keyword)  # :nodoc:
 
-    ESCAPE = / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
-    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x
-    REGEXP_ESCAPE =  / [bBdDsSwW] /x
+    ESCAPE = / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x  # :nodoc:
+    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x  # :nodoc:
+    REGEXP_ESCAPE =  / [bBdDsSwW] /x  # :nodoc:
     STRING_CONTENT_PATTERN = {
       "'" => /[^\\']+/,
       '"' => /[^\\"]+/,
       '/' => /[^\\\/]+/,
-    }
+    }  # :nodoc:
     KEY_CHECK_PATTERN = {
       "'" => / [^\\']* (?: \\.? [^\\']* )* '? \s* : /x,
       '"' => / [^\\"]* (?: \\.? [^\\"]* )* "? \s* : /x,
-    }
-
+    }  # :nodoc:
+    
+  protected
+    
     def scan_tokens tokens, options
-
+      
       state = :initial
       string_delimiter = nil
       value_expected = true
@@ -190,7 +195,7 @@ module Scanners
         end
 
         match ||= matched
-        if $DEBUG and not kind
+        if $CODERAY_DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens
         end
@@ -215,7 +220,7 @@ module Scanners
     end
 
     def xml_scanner
-      @xml_scanner ||= CodeRay.scanner :xml, :tokens => @tokens, :keep_tokens => true, :keep_state => true
+      @xml_scanner ||= CodeRay.scanner :xml, :tokens => @tokens, :keep_tokens => true, :keep_state => false
     end
 
   end

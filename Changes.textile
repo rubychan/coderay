@@ -32,6 +32,11 @@ h3. @Scanners::JavaScript@
 * *IMPROVED* Added @NaN@ and @Infinity@ to list of predefined constants.
 * *FIXED* Don't keep state of XML scanner between calls for E4X literals.
 
+h3. @Scanners::Debug@
+ 
+* *NEW*: Support for line tokens (@begin_line@ and @end_line@ represented by @[@ and @]@.)
+* *FIXED*: Doesn't send @:error@ and @nil@ tokens for bugy input any more.
+
 h3. @Scanners::Plaintext@
  
 * *IMPROVED* Just returns the string without scanning (faster).

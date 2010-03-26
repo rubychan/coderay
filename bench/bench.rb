@@ -91,7 +91,6 @@ Benchmark.bm(20) do |bm|
       :wrap => :page,
       :css => $style ? :style : :class,
     }
-    options[:debug] = $DEBUG
     $hl = CodeRay.encoder(format, options) unless $dump_output
     N.times do
       if $stream

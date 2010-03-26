@@ -8,6 +8,13 @@ h2. Changes in 1.0
 * *FIXED* some image links in the documentation
 * *IMPROVED* Ruby 1.9 support (_._ not in @$LOAD_PATH@)
  
+h3. @coderay@ executable
+ 
+* *NEW* automatic TTY detection, uses @Terminal@ encoder.
+* *NEW* optional 3rd parameter for the filename.
+* *FIXED*: Warn about generated files.
+* *FIXED*: Ensure linebreak after the output (was problematic for LoC counter).
+
 h3. @Encoders::Terminal@
  
 * *RENAMED* from @Encoders::Term@, added @:term@ alias.

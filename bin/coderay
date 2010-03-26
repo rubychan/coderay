@@ -8,6 +8,14 @@ def err msg
   $stderr.puts msg
 end
 
+def read
+  if file = ARGV[2]
+    File.read file
+  else
+    $stdin.read
+  end
+end
+
 begin
   require 'coderay'
 
@@ -28,11 +36,11 @@ Example:
   if first
     if first[/-(\w+)/] == first
       lang = $1
-      input = $stdin.read
+      input = read
       tokens = :scan
     elsif first == '-'
       lang = $1
-      input = $stdin.read
+      input = read
       tokens = :scan
     else
       file = first
@@ -48,11 +56,15 @@ Example:
     if second[/-(\w+)/] == second
       format = $1
     else
-      raise 'Invalid format (must be -xxx).'
+      raise 'invalid format (must be -xxx)'
     end
   else
-    $stderr.puts 'No format given; setting to default (HTML Page)'
-    format = :page
+    if $stdout.tty?
+      format = :term
+    else
+      $stderr.puts 'No format given; setting to default (HTML Page).'
+      format = :page
+    end
   end
   
   # TODO: allow streaming
@@ -69,9 +81,10 @@ Example:
       exit
     else
       out = File.open output_filename, 'w'
+      puts "Writing to #{output_filename}..."
     end
   end
-  out.print output
+  out.puts output
 
 rescue => boom
   err "Error: #{boom.message}\n"

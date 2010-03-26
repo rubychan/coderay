@@ -2,6 +2,10 @@ module CodeRay
 module Scanners
 
   # HTML Scanner
+  # 
+  # Alias: +xhtml+
+  # 
+  # See also: Scanners::XML
   class HTML < Scanner
 
     include Streamable
@@ -11,13 +15,12 @@ module Scanners
       :comment, :doctype, :preprocessor,
       :tag, :attribute_name, :operator,
       :attribute_value, :delimiter, :content,
-      :plain, :entity, :error
-    ]
-
-    ATTR_NAME = /[\w.:-]+/
-    ATTR_VALUE_UNQUOTED = ATTR_NAME
-    TAG_END = /\/?>/
-    HEX = /[0-9a-fA-F]/
+      :plain, :entity, :error,
+    ]  # :nodoc:
+    
+    ATTR_NAME = /[\w.:-]+/  # :nodoc:
+    TAG_END = /\/?>/  # :nodoc:
+    HEX = /[0-9a-fA-F]/  # :nodoc:
     ENTITY = /
       &
       (?:
@@ -31,19 +34,21 @@ module Scanners
         )
       )
       ;
-    /ox
-
+    /ox  # :nodoc:
+    
     PLAIN_STRING_CONTENT = {
       "'" => /[^&'>\n]+/,
       '"' => /[^&">\n]+/,
-    }
-
-    def reset
+    }  # :nodoc:
+    
+    def reset  # :nodoc:
+      # FIXME: why not overwrite reset_instance?
       super
       @state = :initial
     end
-
-  private
+    
+  protected
+    
     def setup
       @state = :initial
       @plain_string_content = nil
@@ -117,7 +122,7 @@ module Scanners
             end
 
           when :attribute_value
-            if scan(/#{ATTR_VALUE_UNQUOTED}/o)
+            if scan(/#{ATTR_NAME}/o)
               kind = :attribute_value
               state = :attribute
             elsif match = scan(/["']/)
@@ -159,7 +164,7 @@ module Scanners
         end
 
         match ||= matched
-        if $DEBUG and not kind
+        if $CODERAY_DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens, state
         end

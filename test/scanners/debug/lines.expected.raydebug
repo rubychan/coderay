@@ -1,0 +1,27 @@
+head[head(===================================================================)]
+head[head(--- )plain(/Users/jgoebel/rails/pastie/app/controllers/pastes_controller.rb  (revision 1431\))]
+head[head(+++ )plain(/Users/jgoebel/rails/pastie/app/controllers/pastes_controller.rb  (revision 1437\))]
+change[change(@@)plain( -1,6 +1,10 )change(@@)]
+insert[insert(+)plain(require 'login_system')]
+comment( require 'coderay')
+comment( )
+comment( class PastesController < ApplicationController)
+insert[insert(+)plain(  include LoginSystem)]
+insert[insert(+)]
+insert[insert(+)plain(  before_filter :attempt_cookie_login)]
+comment( )
+comment( #  caches_action :recent)
+comment( )
+change[change(@@)plain( -10,11 +14,7 )change(@@)]
+comment( )
+comment(   def show)
+comment(     @paste = Paste.find(params[:id]\))
+delete[delete(-)plain(    if params[:key] and params[:key]==User.new(@paste.nick\).magic_mojo)]
+delete[delete(-)plain(        session[:login]=@paste.nick)]
+delete[delete(-)plain(        return redirect_to(:action => 'show', :id => @paste.id\))]
+delete[delete(-)plain(    end)]
+delete[delete(-)plain(    )]
+insert[insert(+)plain(    attempt_key_login if not logged_in?)]
+comment(     unless @paste.asset or not @paste.body.blank?)
+comment(       render :action => "edit")
+comment(     end)

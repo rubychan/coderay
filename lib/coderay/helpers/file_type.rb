@@ -5,21 +5,16 @@ module CodeRay
 #
 # A simple filetype recognizer.
 #
-# Copyright (c) 2006 by murphy (Kornelius Kalnbach) <murphy rubychan de>
-#
-# License:: LGPL / ask the author
-# Version:: 0.1 (2005-09-01)
-#
-# == Documentation
+# == Usage
 #
 #  # determine the type of the given
-#   lang = FileType[ARGV.first]
-#  
-#   # return :plaintext if the file type is unknown
-#   lang = FileType.fetch ARGV.first, :plaintext
-#  
-#   # try the shebang line, too
-#   lang = FileType.fetch ARGV.first, :plaintext, true
+#  lang = FileType[ARGV.first]
+# 
+#  # return :plaintext if the file type is unknown
+#  lang = FileType.fetch ARGV.first, :plaintext
+# 
+#  # try the shebang line, too
+#  lang = FileType.fetch ARGV.first, :plaintext, true
 module FileType
 
   UnknownFileType = Class.new Exception
@@ -49,20 +44,6 @@ module FileType
       type
     end
 
-    def shebang filename
-      begin
-        File.open filename, 'r' do |f|
-          if first_line = f.gets
-            if type = first_line[TypeFromShebang]
-              type.to_sym
-            end
-          end
-        end
-      rescue IOError
-        nil
-      end
-    end
-
     # This works like Hash#fetch.
     #
     # If the filetype cannot be found, the +default+ value
@@ -79,6 +60,22 @@ module FileType
       end
       type
     end
+    
+  protected
+    
+    def shebang filename
+      begin
+        File.open filename, 'r' do |f|
+          if first_line = f.gets
+            if type = first_line[TypeFromShebang]
+              type.to_sym
+            end
+          end
+        end
+      rescue IOError
+        nil
+      end
+    end
 
   end
 
@@ -87,6 +84,7 @@ module FileType
     'css' => :css,
     'diff' => :diff,
     'dpr' => :delphi,
+    'gemspec' => :ruby,
     'groovy' => :groovy,
     'gvy' => :groovy,
     'h' => :c,
@@ -111,6 +109,8 @@ module FileType
     'rb' => :ruby,
     'rbw' => :ruby,
     'rhtml' => :rhtml,
+    'rjs' => :ruby,
+    'rpdf' => :ruby,
     'rxml' => :ruby,
     'sch' => :scheme,
     'sql' => :sql,
@@ -127,6 +127,7 @@ module FileType
   TypeFromShebang = /\b(?:ruby|perl|python|sh)\b/
 
   TypeFromName = {
+    'Capfile' => :ruby,
     'Rakefile' => :ruby,
     'Rantfile' => :ruby,
   }

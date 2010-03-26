@@ -58,7 +58,7 @@ private
     stats = Hash.new 0
 
     Dir[directory].each do |file_name|
-      p "Scanning #{file_name}..." if $DEBUG
+      p "Scanning #{file_name}..." if $VERBOSE
       next unless file_name =~ pattern
 
       lines = codelines = classes = modules = methods = 0

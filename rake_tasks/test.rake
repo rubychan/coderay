@@ -54,6 +54,9 @@ namespace :test do
     for file in Dir['test/scanners/**/*.debug.diff']
       rm file
     end
+    for file in Dir['test/scanners/**/*.debug.diff.html']
+      rm file
+    end
     for file in Dir['test/scanners/**/*.expected.html']
       rm file
     end

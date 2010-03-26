@@ -1,6 +1,7 @@
 module CodeRay
 module Scanners
   
+  # Scanner for JSON (JavaScript Object Notation).
   class JSON < Scanner
     
     include Streamable
@@ -11,13 +12,15 @@ module Scanners
     KINDS_NOT_LOC = [
       :float, :char, :content, :delimiter,
       :error, :integer, :operator, :value,
-    ]
+    ]  # :nodoc:
     
-    CONSTANTS = %w( true false null )
-    IDENT_KIND = WordList.new(:key).add(CONSTANTS, :value)
+    CONSTANTS = %w( true false null )  # :nodoc:
+    IDENT_KIND = WordList.new(:key).add(CONSTANTS, :value)  # :nodoc:
     
-    ESCAPE = / [bfnrt\\"\/] /x
-    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} /x
+    ESCAPE = / [bfnrt\\"\/] /x  # :nodoc:
+    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} /x  # :nodoc:
+    
+  protected
     
     def scan_tokens tokens, options
       
@@ -89,7 +92,7 @@ module Scanners
         end
         
         match ||= matched
-        if $DEBUG and not kind
+        if $CODERAY_DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens
         end

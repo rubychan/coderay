@@ -5,13 +5,15 @@ module Scanners
   load :ruby
 
   # Nitro XHTML Scanner
+  # 
+  # Alias: +nitro+
   class NitroXHTML < Scanner
 
     include Streamable
     register_for :nitro_xhtml
     file_extension :xhtml
     title 'Nitro XHTML'
-
+    
     KINDS_NOT_LOC = HTML::KINDS_NOT_LOC
     
     NITRO_RUBY_BLOCK = /
@@ -35,7 +37,7 @@ module Scanners
         (?> %(?!>) [^%]* )*
       )
       (?: %> )?
-    /mx
+    /mx  # :nodoc:
 
     NITRO_VALUE_BLOCK = /
       \#
@@ -52,28 +54,27 @@ module Scanners
       | \[ [^\]]* \]?
       | \\ [^\\]* \\?
       )
-    /x
+    /x  # :nodoc:
 
     NITRO_ENTITY = /
       % (?: \#\d+ | \w+ ) ;
-    /
+    /  # :nodoc:
 
     START_OF_RUBY = /
       (?=[<\#%])
       < (?: \?r | % | ruby> )
     | \# [{(|]
     | % (?: \#\d+ | \w+ ) ;
-    /x
+    /x  # :nodoc:
 
-    CLOSING_PAREN = Hash.new do |h, p|
-      h[p] = p
-    end.update( {
+    CLOSING_PAREN = Hash.new { |h, p| h[p] = p }  # :nodoc:
+    CLOSING_PAREN.update( {
       '(' => ')',
       '[' => ']',
       '{' => '}',
     } )
 
-  private
+  protected
 
     def setup
       @ruby_scanner = CodeRay.scanner :ruby, :tokens => @tokens, :keep_tokens => true

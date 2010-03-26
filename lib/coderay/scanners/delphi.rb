@@ -1,8 +1,11 @@
 module CodeRay
 module Scanners
   
+  # Scanner for the Delphi language (Object Pascal).
+  # 
+  # Alias: +pascal+
   class Delphi < Scanner
-
+    
     register_for :delphi
     file_extension 'pas'
     
@@ -16,9 +19,9 @@ module Scanners
       'procedure', 'program', 'property', 'raise', 'record', 'repeat',
       'resourcestring', 'set', 'shl', 'shr', 'string', 'then', 'threadvar',
       'to', 'try', 'type', 'unit', 'until', 'uses', 'var', 'while', 'with',
-      'xor', 'on'
-    ]
-
+      'xor', 'on',
+    ]  # :nodoc:
+    
     DIRECTIVES = [
       'absolute', 'abstract', 'assembler', 'at', 'automated', 'cdecl',
       'contains', 'deprecated', 'dispid', 'dynamic', 'export',
@@ -27,19 +30,20 @@ module Scanners
       'package', 'pascal', 'platform', 'private', 'protected', 'public',
       'published', 'read', 'readonly', 'register', 'reintroduce',
       'requires', 'resident', 'safecall', 'stdcall', 'stored', 'varargs',
-      'virtual', 'write', 'writeonly'
-    ]
-
+      'virtual', 'write', 'writeonly',
+    ]  # :nodoc:
+    
     IDENT_KIND = CaseIgnoringWordList.new(:ident).
       add(RESERVED_WORDS, :reserved).
-      add(DIRECTIVES, :directive)
+      add(DIRECTIVES, :directive)  # :nodoc:
     
     NAME_FOLLOWS = CaseIgnoringWordList.new(false).
-      add(%w(procedure function .))
-
-  private
+      add(%w(procedure function .))  # :nodoc:
+    
+  protected
+    
     def scan_tokens tokens, options
-
+      
       state = :initial
       last_token = ''
 
@@ -130,7 +134,7 @@ module Scanners
         end
         
         match ||= matched
-        if $DEBUG and not kind
+        if $CODERAY_DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens, state
         end

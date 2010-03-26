@@ -3,6 +3,8 @@ module Scanners
   
   load :html
   
+  # Scanner for PHP.
+  # 
   # Original by Stefan Walk.
   class PHP < Scanner
     
@@ -10,6 +12,8 @@ module Scanners
     file_extension 'php'
     
     KINDS_NOT_LOC = HTML::KINDS_NOT_LOC
+    
+  protected
     
     def setup
       @html_scanner = CodeRay.scanner :html, :tokens => @tokens, :keep_tokens => true, :keep_state => true
@@ -20,7 +24,7 @@ module Scanners
       @html_scanner.reset
     end
     
-    module Words
+    module Words  # :nodoc:
       
       # according to http://www.php.net/manual/en/reserved.keywords.php
       KEYWORDS = %w[
@@ -189,7 +193,7 @@ module Scanners
         add(PREDEFINED, :predefined)
     end
     
-    module RE
+    module RE  # :nodoc:
       
       PHP_START = /
         <script\s+[^>]*?language\s*=\s*"php"[^>]*?> |
@@ -222,6 +226,8 @@ module Scanners
       /x
       
     end
+    
+  protected
     
     def scan_tokens tokens, options
       
@@ -507,7 +513,7 @@ module Scanners
         end
         
         match ||= matched
-        if $DEBUG and not kind
+        if $CODERAY_DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens, states
         end

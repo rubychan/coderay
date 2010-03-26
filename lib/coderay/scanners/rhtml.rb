@@ -4,7 +4,7 @@ module Scanners
   load :html
   load :ruby
 
-  # RHTML Scanner
+  # Scanner for HTML ERB templates.
   class RHTML < Scanner
 
     include Streamable
@@ -23,13 +23,13 @@ module Scanners
         )*
       )
       (?: -?%> )?
-    /x
+    /x  # :nodoc:
 
     START_OF_ERB = /
       <%(?!%)
-    /x
+    /x  # :nodoc:
 
-  private
+  protected
 
     def setup
       @ruby_scanner = CodeRay.scanner :ruby, :tokens => @tokens, :keep_tokens => true

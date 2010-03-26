@@ -1,6 +1,9 @@
 module CodeRay
 module Scanners
 
+  # Scanner for C++.
+  # 
+  # Aliases: +cplusplus+, c++
   class CPlusPlus < Scanner
 
     include Streamable
@@ -9,7 +12,7 @@ module Scanners
     file_extension 'cpp'
     title 'C++'
     
-    # http://www.cppreference.com/wiki/keywords/start
+    #-- http://www.cppreference.com/wiki/keywords/start
     RESERVED_WORDS = [
       'and', 'and_eq', 'asm', 'bitand', 'bitor', 'break',
       'case', 'catch', 'class', 'compl', 'const_cast',
@@ -18,36 +21,38 @@ module Scanners
       'not', 'not_eq', 'or', 'or_eq', 'reinterpret_cast', 'return',
       'sizeof', 'static_cast', 'struct', 'switch', 'template',
       'throw', 'try', 'typedef', 'typeid', 'typename', 'union',
-      'while', 'xor', 'xor_eq'
-    ]
-
+      'while', 'xor', 'xor_eq',
+    ]  # :nodoc:
+    
     PREDEFINED_TYPES = [
       'bool', 'char', 'double', 'float', 'int', 'long',
-      'short', 'signed', 'unsigned', 'wchar_t', 'string'
-    ]
+      'short', 'signed', 'unsigned', 'wchar_t', 'string',
+    ]  # :nodoc:
     PREDEFINED_CONSTANTS = [
       'false', 'true',
       'EOF', 'NULL',
-    ]
+    ]  # :nodoc:
     PREDEFINED_VARIABLES = [
-      'this'
-    ]
+      'this',
+    ]  # :nodoc:
     DIRECTIVES = [
       'auto', 'const', 'explicit', 'extern', 'friend', 'inline', 'mutable', 'operator',
       'private', 'protected', 'public', 'register', 'static', 'using', 'virtual', 'void',
-      'volatile'
-    ]
-
+      'volatile',
+    ]  # :nodoc:
+    
     IDENT_KIND = WordList.new(:ident).
       add(RESERVED_WORDS, :reserved).
       add(PREDEFINED_TYPES, :pre_type).
       add(PREDEFINED_VARIABLES, :local_variable).
       add(DIRECTIVES, :directive).
-      add(PREDEFINED_CONSTANTS, :pre_constant)
+      add(PREDEFINED_CONSTANTS, :pre_constant)  # :nodoc:
 
-    ESCAPE = / [rbfntv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
-    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x
-
+    ESCAPE = / [rbfntv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x  # :nodoc:
+    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x  # :nodoc:
+    
+  protected
+    
     def scan_tokens tokens, options
 
       state = :initial
@@ -205,7 +210,7 @@ module Scanners
         end
 
         match ||= matched
-        if $DEBUG and not kind
+        if $CODERAY_DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens
         end

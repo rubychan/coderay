@@ -3,7 +3,7 @@ module Scanners
 
   load :html
 
-  # XML Scanner
+  # Scanner for XML.
   #
   # Currently this is the same scanner as Scanners::HTML.
   class XML < HTML

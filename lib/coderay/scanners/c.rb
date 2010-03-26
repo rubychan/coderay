@@ -1,45 +1,50 @@
 module CodeRay
 module Scanners
-
+  
+  # Scanner for C.
+  # 
+  # Alias: +h+
   class C < Scanner
 
     include Streamable
     
     register_for :c
     file_extension 'c'
-
+    
     RESERVED_WORDS = [
       'asm', 'break', 'case', 'continue', 'default', 'do',
       'else', 'enum', 'for', 'goto', 'if', 'return',
       'sizeof', 'struct', 'switch', 'typedef', 'union', 'while',
       'restrict',  # added in C99
-    ]
+    ]  # :nodoc:
 
     PREDEFINED_TYPES = [
       'int', 'long', 'short', 'char',
       'signed', 'unsigned', 'float', 'double',
       'bool', 'complex',  # added in C99
-    ]
+    ]  # :nodoc:
 
     PREDEFINED_CONSTANTS = [
       'EOF', 'NULL',
       'true', 'false',  # added in C99
-    ]
+    ]  # :nodoc:
     DIRECTIVES = [
       'auto', 'extern', 'register', 'static', 'void',
       'const', 'volatile',  # added in C89
       'inline',  # added in C99
-    ]
+    ]  # :nodoc:
 
     IDENT_KIND = WordList.new(:ident).
       add(RESERVED_WORDS, :reserved).
       add(PREDEFINED_TYPES, :pre_type).
       add(DIRECTIVES, :directive).
-      add(PREDEFINED_CONSTANTS, :pre_constant)
+      add(PREDEFINED_CONSTANTS, :pre_constant)  # :nodoc:
 
-    ESCAPE = / [rbfntv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
-    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x
-
+    ESCAPE = / [rbfntv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x  # :nodoc:
+    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x  # :nodoc:
+    
+  protected
+    
     def scan_tokens tokens, options
 
       state = :initial
@@ -180,7 +185,7 @@ module Scanners
         end
 
         match ||= matched
-        if $DEBUG and not kind
+        if $CODERAY_DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens
         end

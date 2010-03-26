@@ -1,7 +1,9 @@
 module CodeRay
 module Scanners
   
-  # Bases on pygments' PythonLexer, see
+  # Scanner for Python. Supports Python 3.
+  # 
+  # Based on pygments' PythonLexer, see
   # http://dev.pocoo.org/projects/pygments/browser/pygments/lexers/agile.py.
   class Python < Scanner
     
@@ -16,11 +18,11 @@ module Scanners
       'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'not',
       'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield',
       'nonlocal',  # new in Python 3
-    ]
+    ]  # :nodoc:
     
     OLD_KEYWORDS = [
       'exec', 'print',  # gone in Python 3
-    ]
+    ]  # :nodoc:
     
     PREDEFINED_METHODS_AND_TYPES = %w[
       __import__ abs all any apply basestring bin bool buffer
@@ -32,7 +34,7 @@ module Scanners
       raw_input reduce reload repr reversed round set setattr slice
       sorted staticmethod str sum super tuple type unichr unicode
       vars xrange zip
-    ]
+    ]  # :nodoc:
     
     PREDEFINED_EXCEPTIONS = %w[
       ArithmeticError AssertionError AttributeError
@@ -47,23 +49,23 @@ module Scanners
       TypeError UnboundLocalError UnicodeDecodeError
       UnicodeEncodeError UnicodeError UnicodeTranslateError
       UnicodeWarning UserWarning ValueError Warning ZeroDivisionError
-    ]
+    ]  # :nodoc:
     
     PREDEFINED_VARIABLES_AND_CONSTANTS = [
-      'False', 'True', 'None', # "keywords" since Python 3
+      'False', 'True', 'None',  # "keywords" since Python 3
       'self', 'Ellipsis', 'NotImplemented',
-    ]
+    ]  # :nodoc:
     
     IDENT_KIND = WordList.new(:ident).
       add(KEYWORDS, :keyword).
       add(OLD_KEYWORDS, :old_keyword).
       add(PREDEFINED_METHODS_AND_TYPES, :predefined).
       add(PREDEFINED_VARIABLES_AND_CONSTANTS, :pre_constant).
-      add(PREDEFINED_EXCEPTIONS, :exception)
+      add(PREDEFINED_EXCEPTIONS, :exception)  # :nodoc:
     
-    NAME = / [^\W\d] \w* /x
-    ESCAPE = / [abfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
-    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} | N\{[-\w ]+\} /x
+    NAME = / [^\W\d] \w* /x  # :nodoc:
+    ESCAPE = / [abfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x  # :nodoc:
+    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} | N\{[-\w ]+\} /x  # :nodoc:
     
     OPERATOR = /
       \.\.\. |          # ellipsis
@@ -73,26 +75,28 @@ module Scanners
       [-+*\/%&|^]=? |   # ordinary math and binary logic
       [~`] |            # binary complement and inspection
       <<=? | >>=? | [<>=]=? | !=  # comparison and assignment
-    /x
+    /x  # :nodoc:
     
-    STRING_DELIMITER_REGEXP = Hash.new do |h, delimiter|
-      h[delimiter] = Regexp.union delimiter
-    end
+    STRING_DELIMITER_REGEXP = Hash.new { |h, delimiter|
+      h[delimiter] = Regexp.union delimiter  # :nodoc:
+    }
     
-    STRING_CONTENT_REGEXP = Hash.new do |h, delimiter|
-      h[delimiter] = / [^\\\n]+? (?= \\ | $ | #{Regexp.escape(delimiter)} ) /x
-    end
+    STRING_CONTENT_REGEXP = Hash.new { |h, delimiter|
+      h[delimiter] = / [^\\\n]+? (?= \\ | $ | #{Regexp.escape(delimiter)} ) /x  # :nodoc:
+    }
     
     DEF_NEW_STATE = WordList.new(:initial).
       add(%w(def), :def_expected).
       add(%w(import from), :include_expected).
-      add(%w(class), :class_expected)
+      add(%w(class), :class_expected)  # :nodoc:
     
     DESCRIPTOR = /
       #{NAME}
       (?: \. #{NAME} )*
       | \*
-    /x
+    /x  # :nodoc:
+    
+  protected
     
     def scan_tokens tokens, options
       
@@ -260,7 +264,7 @@ module Scanners
         end
         
         match ||= matched
-        if $DEBUG and not kind
+        if $CODERAY_DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens, state
         end

@@ -1,6 +1,7 @@
 module CodeRay
 module Scanners
-
+  
+  # Scanner for Java.
   class Java < Scanner
 
     include Streamable
@@ -13,18 +14,18 @@ module Scanners
       finally for if instanceof import new package
       return switch throw try typeof while
       debugger export
-    ]
-    RESERVED = %w[ const goto ]
-    CONSTANTS = %w[ false null true ]
-    MAGIC_VARIABLES = %w[ this super ]
+    ]  # :nodoc:
+    RESERVED = %w[ const goto ]  # :nodoc:
+    CONSTANTS = %w[ false null true ]  # :nodoc:
+    MAGIC_VARIABLES = %w[ this super ]  # :nodoc:
     TYPES = %w[
       boolean byte char class double enum float int interface long
       short void
-    ] << '[]'  # because int[] should be highlighted as a type
+    ] << '[]'  # :nodoc: because int[] should be highlighted as a type
     DIRECTIVES = %w[
       abstract extends final implements native private protected public
       static strictfp synchronized throws transient volatile
-    ]
+    ]  # :nodoc:
     
     IDENT_KIND = WordList.new(:ident).
       add(KEYWORDS, :keyword).
@@ -34,16 +35,18 @@ module Scanners
       add(TYPES, :type).
       add(BuiltinTypes::List, :pre_type).
       add(BuiltinTypes::List.select { |builtin| builtin[/(Error|Exception)$/] }, :exception).
-      add(DIRECTIVES, :directive)
+      add(DIRECTIVES, :directive)  # :nodoc:
 
-    ESCAPE = / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
-    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x
+    ESCAPE = / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x  # :nodoc:
+    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x  # :nodoc:
     STRING_CONTENT_PATTERN = {
       "'" => /[^\\']+/,
       '"' => /[^\\"]+/,
       '/' => /[^\\\/]+/,
-    }
-    IDENT = /[a-zA-Z_][A-Za-z_0-9]*/
+    }  # :nodoc:
+    IDENT = /[a-zA-Z_][A-Za-z_0-9]*/  # :nodoc:
+    
+  protected
     
     def scan_tokens tokens, options
 
@@ -151,7 +154,7 @@ module Scanners
         end
 
         match ||= matched
-        if $DEBUG and not kind
+        if $CODERAY_DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens
         end

@@ -2,28 +2,29 @@ module CodeRay
 module Scanners
 
   load :java
-
+  
+  # Scanner for Groovy.
   class Groovy < Java
 
     include Streamable
     register_for :groovy
     
-    # TODO: Check this!
+    # TODO: check list of keywords
     GROOVY_KEYWORDS = %w[
       as assert def in
-    ]
+    ]  # :nodoc:
     KEYWORDS_EXPECTING_VALUE = WordList.new.add %w[
       case instanceof new return throw typeof while as assert in
-    ]
-    GROOVY_MAGIC_VARIABLES = %w[ it ]
+    ]  # :nodoc:
+    GROOVY_MAGIC_VARIABLES = %w[ it ]  # :nodoc:
     
     IDENT_KIND = Java::IDENT_KIND.dup.
       add(GROOVY_KEYWORDS, :keyword).
-      add(GROOVY_MAGIC_VARIABLES, :local_variable)
+      add(GROOVY_MAGIC_VARIABLES, :local_variable)  # :nodoc:
     
-    ESCAPE = / [bfnrtv$\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
-    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} /x  # no 4-byte unicode chars? U[a-fA-F0-9]{8}
-    REGEXP_ESCAPE =  / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} | \d | [bBdDsSwW\/] /x
+    ESCAPE = / [bfnrtv$\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x  # :nodoc:
+    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} /x  # :nodoc: no 4-byte unicode chars? U[a-fA-F0-9]{8}
+    REGEXP_ESCAPE =  / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} | \d | [bBdDsSwW\/] /x  # :nodoc:
     
     # TODO: interpretation inside ', ", /
     STRING_CONTENT_PATTERN = {
@@ -32,10 +33,12 @@ module Scanners
       "'''" => /(?>[^\\']+|'(?!''))+/,
       '"""' => /(?>[^\\$"]+|"(?!""))+/,
       '/' => /[^\\$\/\n]+/,
-    }
+    }  # :nodoc:
+    
+  protected
     
     def scan_tokens tokens, options
-
+      
       state = :initial
       inline_block_stack = []
       inline_block_paren_depth = nil
@@ -123,6 +126,7 @@ module Scanners
                 next
               end
             end
+            kind = :operator
           
           elsif check(/[\d.]/)
             after_def = value_expected = false
@@ -143,7 +147,7 @@ module Scanners
             string_delimiter = match
             kind = :delimiter
           
-          # TODO: record.'name'
+          # TODO: record.'name' syntax
           elsif match = scan(/["']/)
             after_def = value_expected = false
             state = match == '/' ? :regexp : :string
@@ -238,7 +242,7 @@ module Scanners
         end
 
         match ||= matched
-        if $DEBUG and not kind
+        if $CODERAY_DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens
         end

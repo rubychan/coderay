@@ -1,7 +1,7 @@
 module CodeRay
 module Scanners
   
-  # YAML Scanner
+  # Scanner for YAML.
   #
   # Based on the YAML scanner from Syntax by Jamis Buck.
   class YAML < Scanner
@@ -10,6 +10,8 @@ module Scanners
     file_extension 'yml'
     
     KINDS_NOT_LOC = :all
+    
+  protected
     
     def scan_tokens tokens, options
       
@@ -21,14 +23,7 @@ module Scanners
         
         kind = nil
         match = nil
-        
-        if bol?
-          key_indent = nil
-          if $DEBUG
-            indent = check(/ +/) ? matched.size : 0
-            tokens << [indent.to_s, :debug]
-          end
-        end
+        key_indent = nil if bol?
         
         if match = scan(/ +[\t ]*/)
           kind = :space
@@ -128,7 +123,10 @@ module Scanners
         
         match ||= matched
         
-        raise_inspect 'Error token %p in line %d' % [[match, kind], line], tokens if $DEBUG && !kind
+        if $CODERAY_DEBUG and not kind
+          raise_inspect 'Error token %p in line %d' %
+            [[match, kind], line], tokens
+        end
         raise_inspect 'Empty token', tokens unless match
         
         tokens << [match, kind]

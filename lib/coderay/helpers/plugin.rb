@@ -214,7 +214,7 @@ protected
     mapfile = path_to '_map'
     if File.exist? mapfile
       require mapfile
-    elsif $DEBUG
+    elsif $VERBOSE
       warn 'no _map.rb found for %s' % name
     end
   end

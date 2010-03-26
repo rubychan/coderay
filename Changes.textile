@@ -10,15 +10,30 @@ h2. Changes in 1.0
  
 h3. @Encoders::Terminal@
  
-* *RENAMED* from @Encoders::Term@, added @:term@ alias
-* Cleanup: Use @#setup@'s @super@, don't use @:procedure@ token class.
-* @#token@'s second parameter is no longer optional.
+* *RENAMED* from @Encoders::Term@, added @:term@ alias.
+* *CLEANUP*: Use @#setup@'s @super@, don't use @:procedure@ token class.
+* *CHANGED*: @#token@'s second parameter is no longer optional.
+
+h3. @Scanners@
+ 
+* *FIXED*: @scan_tokens@ and @setup@ methods are protected now.
+* *NEW* Mapped @:patch@ to @:diff@.
+* *REMOVED* @:ecma@ and @:h@ - not language names
+
+h3. @Scanners::JavaScript@
+ 
+* *IMPROVED* Added @NaN@ and @Infinity@ to list of predefined constants.
+* *FIXED* Don't keep state of XML scanner between calls for E4X literals.
 
 h3. @Scanners::Plaintext@
  
 * *IMPROVED* Just returns the string without scanning (faster).
  
  This is much faster than scanning until @/\z/@ in Ruby 1.8.
+
+h3. @Scanners::Scheme@
+ 
+* *CHANGED*: Does use @:opertor@ instead of @:opertor_fat@ now.
 
 h3. @Styles::Alpha@
  

@@ -2,8 +2,6 @@ module CodeRay
 module Scanners
   
   # Scanner for C.
-  # 
-  # Alias: +h+
   class C < Scanner
 
     include Streamable

@@ -1,13 +1,13 @@
+$VERBOSE = $CODERAY_DEBUG = true
 require 'benchmark'
 require 'yaml'
 require 'fileutils'
 
 $mydir = File.dirname(__FILE__)
 $:.unshift File.join($mydir, '..', '..', 'lib')
-
 require 'coderay'
 
-debug, $DEBUG = $DEBUG, false
+$:.unshift File.join($mydir, '..', 'lib')
 
 require 'term/ansicolor' unless ENV['nocolor']
 
@@ -32,7 +32,6 @@ else
     end
   end
 end
-$DEBUG = debug
 
 unless defined? Term::ANSIColor
   puts 'You should gem install term-ansicolor.'
@@ -91,9 +90,6 @@ end
 
 module CodeRay
   
-  if RUBY_VERSION >= '1.9'
-    $:.unshift File.join($mydir, '..', 'lib')
-  end
   require 'test/unit'
   
   class TestCase < Test::Unit::TestCase
@@ -174,25 +170,39 @@ module CodeRay
           @known_issue_description = @known_issue_ticket_url = nil
           name = File.basename(example_filename, ".#{extension}")
           next if ENV['lang'] && ENV['only'] && ENV['only'] != name
-          filesize_in_kb = File.size(example_filename) / 1024.0
-          print '%15s'.cyan % name + ' %6.1fK: '.yellow % filesize_in_kb
+          print '%20s'.cyan % name + ' '
+          filesize = File.size(example_filename)
+          amount = filesize
+          human_filesize =
+            if amount < 1024
+              '%6.0f B   ' % [amount]
+            else
+              amount /= 1024.0
+              if amount < 1024
+                '%6.1f KiB ' % [amount]
+              else
+                amount /= 1024.0
+                '%6.1f MiB ' % [amount]
+              end
+            end
+          print human_filesize.yellow
           
           tokens = example_test example_filename, name, scanner, max
           
           if defined?(@time_for_encoding) && time = @time_for_encoding
             kilo_tokens_per_second = tokens.size / time / 1000
             print 'finished in '.green + '%5.2fs'.white % time
-            if filesize_in_kb > 1
+            if filesize >= 1024
               print ' ('.green + '%4.0f Ktok/s'.white % kilo_tokens_per_second + ')'.green
             end
             @time_for_encoding = nil
           end
           puts '.'.green
           if @known_issue_description
-            print '            KNOWN ISSUE: '.cyan
+            print '                 KNOWN ISSUE: '.cyan
             print @known_issue_description.yellow
             puts
-            print ' ' * 25
+            print ' ' * 30
             if @known_issue_ticket_url
               puts 'See '.yellow + @known_issue_ticket_url.white + '.'.yellow
             else
@@ -317,7 +327,7 @@ module CodeRay
           #   raise "result has non-ASCII-8BIT character in line #{result[0,i].count(?\n) + 1}" if char.bytesize != 1
           # end
           # UTF-8 encoded result; comparison needs to be done on binary level
-          result.force_encoding(:binary)
+          result.force_encoding('binary')
         end
         ok = expected == result
         unless ok
@@ -326,7 +336,12 @@ module CodeRay
           diff = expected_filename.sub(/\.expected\..*/, '.debug.diff')
           system "diff --unified=0 --text #{expected_filename} #{actual_filename} > #{diff}"
           changed_lines = []
-          File.read(diff).scan(/^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/) do |offset, size|
+          debug_diff = File.read diff
+          File.open diff + '.html', 'wb' do |f|
+            f.write Highlighter.encode_tokens(CodeRay.scan(debug_diff, :diff),
+              :title => "#{self.class.name[/\w+$/]}: #{name}, differences from expected output")
+          end
+          debug_diff.scan(/^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/) do |offset, size|
             offset = offset.to_i
             size = (size || 1).to_i
             changed_lines.concat Array(offset...offset + size)
@@ -380,22 +395,44 @@ module CodeRay
       :line_numbers => :table,
       :wrap => :page,
       :hint => :debug,
-      :css => :class
+      :css => :class,
+      :style => :alpha
     )
     
     def highlight_test tokens, name, okay, changed_lines
+      
+      actual_html = name + '.actual.html'
+      title = "Testing #{self.class.name[/\w+$/]}: #{name}"
       report 'highlighting' do
         begin
-          highlighted = Highlighter.encode_tokens tokens, :highlight_lines => changed_lines,
-            :title => "Testing #{self.class.name[/\w+$/]}: #{name} [#{'NOT ' unless okay}OKAY]"
+          highlighted = Highlighter.encode_tokens tokens,
+            :highlight_lines => changed_lines,
+            :title => title + "[#{'NOT ' unless okay}OKAY]"
         rescue
-          flunk 'highlighting test failed!' if ENV['assert']
+          raise
           return false
         end
-        File.open(name + '.actual.html', 'w') { |f| f.write highlighted }
-        FileUtils.copy(name + '.actual.html', name + '.expected.html') if okay
-        true
+        File.open(actual_html, 'w') { |f| f.write highlighted }
       end
+      
+      expected_html = name + '.expected.html'
+      if okay
+        FileUtils.copy actual_html, expected_html
+      else
+        expected_raydebug = name + '.expected.raydebug'
+        if File.exist? expected_raydebug
+          latest_change = File.ctime expected_raydebug
+          if !File.exist?(expected_html) || latest_change > File.ctime(expected_html)
+            tokens = CodeRay.scan_file expected_raydebug, :debug
+            highlighted = Highlighter.encode_tokens tokens,
+              :highlight_lines => changed_lines,
+              :title => title
+            File.open(expected_html, 'w') { |f| f.write highlighted }
+          end
+        end
+      end
+      
+      true
     end
     
     def report task
@@ -453,7 +490,6 @@ module CodeRay
       
       def run
         load
-        $VERBOSE = true
         $stdout.sync = true
         require 'test/unit/ui/console/testrunner'
         Test::Unit::UI::Console::TestRunner.run @suite

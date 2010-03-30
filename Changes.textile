@@ -42,6 +42,11 @@ h3. @Scanners@
 * *NEW* Mapped @:patch@ to @:diff@.
 * *REMOVED* @:ecma@ and @:h@ - not language names
 
+h3. @Scanners::Scanner@
+ 
+* *FIXED* Ruby 1.9.2 compatibility problem (see revision 463).
+* *REMOVED* @String#to_unix@.
+
 h3. @Scanners::JavaScript@
  
 * *IMPROVED* Added @NaN@ and @Infinity@ to list of predefined constants.

@@ -67,16 +67,22 @@ module CodeRay
         end
 
         def normify code
-          code = code.to_s
+          code = code.to_s.dup
+          # try using UTF-8
           if code.respond_to? :force_encoding
+            debug, $DEBUG = $DEBUG, false
             begin
-              code.force_encoding 'utf-8'
+              code.force_encoding 'UTF-8'
               code[/\z/]  # raises an ArgumentError when code contains a non-UTF-8 char
             rescue ArgumentError
               code.force_encoding 'binary'
+            ensure
+              $DEBUG = debug
             end
           end
-          code.to_unix
+          # convert the string to UNIX newline format
+          code.gsub!(/\r\n?/, "\n") if code.index ?\r
+          code
         end
         
         def file_extension extension = nil
@@ -136,7 +142,9 @@ module CodeRay
 
         setup
       end
-
+      
+      # Sets back the scanner. Subclasses are to define the reset_instance
+      # method.
       def reset
         super
         reset_instance
@@ -170,7 +178,8 @@ module CodeRay
             scan_tokens @tokens, options
           end
       end
-
+      
+      # Caches the result of tokenize.
       def tokens
         @cached_tokens ||= tokenize
       end
@@ -196,21 +205,22 @@ module CodeRay
         string[0..pos].count("\n") + 1
       end
       
+      # The current column position of the scanner. See #line.
       def column pos = self.pos
         return 0 if pos <= 0
         string = string()
         if string.respond_to?(:bytesize) && (defined?(@bin_string) || string.bytesize != string.size)
-          @bin_string ||= string.dup.force_encoding(:binary)
+          @bin_string ||= string.dup.force_encoding('binary')
           string = @bin_string
         end
         pos - (string.rindex(?\n, pos) || 0)
       end
       
-      def marshal_dump
+      def marshal_dump  # :nodoc:
         @options
       end
       
-      def marshal_load options
+      def marshal_load options  # :nodoc:
         @options = options
       end
 
@@ -221,7 +231,7 @@ module CodeRay
       #
       # Use reset for initialization that has to be done once per
       # scan.
-      def setup
+      def setup  # :doc:
       end
 
       # This is the central method, and commonly the only one a
@@ -229,11 +239,12 @@ module CodeRay
       #
       # Subclasses must implement this method; it must return +tokens+
       # and must only use Tokens#<< for storing scanned tokens!
-      def scan_tokens tokens, options
+      def scan_tokens tokens, options  # :doc:
         raise NotImplementedError,
           "#{self.class}#scan_tokens not implemented."
       end
-
+      
+      # Resets the scanner.
       def reset_instance
         @tokens.clear unless @options[:keep_tokens]
         @cached_tokens = nil
@@ -274,16 +285,5 @@ surrounding code:
 
     end
 
-  end
-end
-
-class String
-  # I love this hack. It seems to silence all dos/unix/mac newline problems.
-  def to_unix
-    if index ?\r
-      gsub(/\r\n?/, "\n")
-    else
-      self
-    end
   end
 end

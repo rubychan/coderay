@@ -101,7 +101,6 @@ module CodeRay
       encoder.encode_tokens self, options
     end
 
-
     # Turn into a string using Encoders::Text.
     #
     # +options+ are passed to the encoder if given.
@@ -129,7 +128,7 @@ module CodeRay
     # for example, consecutive //-comment lines could already be
     # joined in one comment token by the Scanner.
     def optimize
-      print ' Tokens#optimize: before: %d - ' % size if $DEBUG
+      # print ' Tokens#optimize: before: %d - ' % size
       last_kind = last_text = nil
       new = self.class.new
       for text, kind in self
@@ -148,8 +147,7 @@ module CodeRay
         end
       end
       new << [last_text, last_kind] if last_kind
-      print 'after: %d (%d saved = %2.0f%%)' %
-        [new.size, size - new.size, 1.0 - (new.size.to_f / size)] if $DEBUG
+      # print 'after: %d (%d saved = %2.0f%%)' % [new.size, size - new.size, 1.0 - (new.size.to_f / size)]
       new
     end
 

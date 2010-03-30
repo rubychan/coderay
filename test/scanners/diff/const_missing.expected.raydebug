@@ -1,0 +1,75 @@
+head[head(Index: )plain(error.c)]
+head[head(===================================================================)filename()]
+head[head(--- )filename(error.c)plain(	(revision 26674\))]
+head[head(+++ )filename(error.c)plain(	(working copy\))]
+change<change(@@)plain( -402,4 +402,6 )change(@@)> ident(VALUE) ident(rb_eSyntaxError)operator(;)
+ ident(VALUE) ident(rb_eLoadError)operator(;)
+ 
+insert[insert(+)ident(VALUE) ident(rb_eNoConstantError)operator(;)]
+insert[insert(+)]
+ ident(VALUE) ident(rb_eSystemCallError)operator(;)
+ ident(VALUE) ident(rb_mErrno)operator(;)
+change<change(@@)plain( -1143,4 +1145,5 )change(@@)> ident(Init_Exception)operator(()directive(void)operator(\))
+     ident(rb_define_method)operator(()ident(rb_eNoMethodError)operator(,) string<delimiter(")content(initialize)delimiter(")>operator(,) ident(nometh_err_initialize)operator(,) operator(-)integer(1)operator(\);)
+     ident(rb_define_method)operator(()ident(rb_eNoMethodError)operator(,) string<delimiter(")content(args)delimiter(")>operator(,) ident(nometh_err_args)operator(,) integer(0)operator(\);)
+insert[insert(+)    ident(rb_eNoConstantError) operator(=) ident(rb_define_class)operator(()string<delimiter(")content(NoConstantError)delimiter(")>operator(,) ident(rb_eNameError)operator(\);)]
+ 
+     ident(rb_eRuntimeError) operator(=) ident(rb_define_class)operator(()string<delimiter(")content(RuntimeError)delimiter(")>operator(,) ident(rb_eStandardError)operator(\);)
+head[head(Index: )plain(variable.c)]
+head[head(===================================================================)filename()]
+head[head(--- )filename(variable.c)plain(	(revision 26674\))]
+head[head(+++ )filename(variable.c)plain(	(working copy\))]
+change<change(@@)plain( -1356,7 +1356,29 )change(@@)> ident(uninitialized_constant)operator(()ident(VALUE) ident(klass)operator(,) ident(ID) ident(i)
+ 
+ directive(static) ident(VALUE)
+insert[insert(+)ident(const_missing_call)operator(()ident(VALUE) ident(arg)operator(\))]
+insert[insert(+)operator({)]
+insert[insert(+)    ident(VALUE) operator(*)ident(args) operator(=) operator(()ident(VALUE) operator(*\))ident(arg)operator(;)]
+insert[insert(+)    ident(ID) ident(const_missing_id)operator(;)]
+insert[insert(+)    ident(CONST_ID)operator(()ident(const_missing_id)operator(,) string<delimiter(")content(const_missing)delimiter(")>operator(\);)]
+insert[insert(+)    reserved(return) ident(rb_check_funcall)operator(()ident(args)operator([)integer(0)operator(],) ident(const_missing_id)operator(,) integer(1)operator(,) operator(&)ident(args)operator([)integer(1)operator(]\);)]
+insert[insert(+)operator(})]
+insert[insert(+)]
+insert[insert(+)directive(static) ident(VALUE)]
+insert[insert(+)ident(const_missing_rescue)operator(()ident(VALUE) ident(arg)operator(,) ident(VALUE) ident(errinfo)operator(\))]
+insert[insert(+)operator({)]
+insert[insert(+)    reserved(return) ident(arg)operator(;)]
+insert[insert(+)operator(})]
+insert[insert(+)]
+insert[insert(+)directive(extern) ident(VALUE) ident(rb_eNoConstantError)operator(;)]
+insert[insert(+)]
+insert[insert(+)directive(static) ident(VALUE)]
+ ident(const_missing)operator(()ident(VALUE) ident(klass)operator(,) ident(ID) ident(id)operator(\))
+ operator({)
+delete[delete(-)    reserved(return) ident(rb_funcall)operator(()ident(klass)operator(,) ident(rb_intern)operator(()string<delimiter(")content(const_missing)delimiter(")>operator(\),) integer(1)operator(,) ident(ID2SYM)operator(()ident(id)operator(\)\);)]
+insert[insert(+)    ident(VALUE) ident(args)operator([)integer(2)operator(];)]
+insert[insert(+)    ident(args)operator([)integer(0)operator(]) operator(=) ident(klass)operator(;)]
+insert[insert(+)    ident(args)operator([)integer(1)operator(]) operator(=) ident(ID2SYM)operator(()ident(id)operator(\);)]
+insert[insert(+)    reserved(return) ident(rb_rescue2)operator(()ident(const_missing_call)operator(,) operator(()ident(VALUE)operator(\))ident(args)operator(,)]
+insert[insert(+)		      ident(const_missing_rescue)operator(,) operator(()ident(VALUE)operator(\))ident(Qundef)operator(,)]
+insert[insert(+)		      ident(rb_eNoConstantError)operator(,) operator(()ident(VALUE)operator(\))integer(0)operator(\);)]
+ operator(})
+ 
+change<change(@@)plain( -1598,5 +1620,21 )change(@@)> ident(rb_const_get_0)operator(()ident(VALUE) ident(klass)operator(,) ident(ID) ident(id)operator(,) pre_type(int) ident(e)
+     operator(})
+ 
+delete[delete(-)    ident(value) operator(=) ident(const_missing)operator(()ident(klass)operator(,) ident(id)operator(\);)]
+insert[insert(+)    reserved(if) operator((()ident(value) operator(=) ident(const_missing)operator(()ident(tmp)operator(,) ident(id)operator(\)\)) operator(==) ident(Qundef)operator(\)) operator({)]
+insert[insert(+)	ident(NODE) operator(*)ident(rb_vm_cref)operator(()directive(void)operator(\);)]
+insert[insert(+)	ident(NODE) operator(*)ident(cref) operator(=) ident(rb_vm_cref)operator((\);)]
+insert[insert(+)	reserved(while) operator(()ident(cref) operator(&&) ident(cref)operator(->)ident(nd_next) operator(&&)]
+insert[insert(+)	       operator((()ident(cref)operator(->)ident(flags) operator(&) ident(NODE_FL_CREF_PUSHED_BY_EVAL)operator(\)) operator(||)]
+insert[insert(+)		ident(NIL_P)operator(()ident(tmp) operator(=) ident(cref)operator(->)ident(nd_clss)operator(\)) operator(||)]
+insert[insert(+)		operator(()ident(value) operator(=) ident(const_missing)operator(()ident(tmp)operator(,) ident(id)operator(\)\)) operator(==) ident(Qundef)operator(\)\)) operator({)]
+insert[insert(+)	    ident(cref) operator(=) ident(cref)operator(->)ident(nd_next)operator(;)]
+insert[insert(+)	operator(})]
+insert[insert(+)	reserved(if) operator(()ident(value) operator(==) ident(Qundef)operator(\)) operator({)]
+insert[insert(+)	    reserved(if) operator((!)ident(exclude) operator(&&) ident(BUILTIN_TYPE)operator(()ident(klass)operator(\)) operator(==) ident(T_MODULE) operator(&&)]
+insert[insert(+)		operator(()ident(value) operator(=) ident(const_missing)operator(()ident(rb_cObject)operator(,) ident(id)operator(\)\)) operator(==) ident(Qundef)operator(\)) operator({)]
+insert[insert(+)		ident(uninitialized_constant)operator(()ident(klass)operator(,) ident(id)operator(\);)]
+insert[insert(+)	    operator(})]
+insert[insert(+)	operator(})]
+insert[insert(+)    operator(})]
+insert[insert(+)]
+     ident(rb_vm_inc_const_missing_count)operator((\);)
+     reserved(return) ident(value)operator(;)

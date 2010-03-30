@@ -1,0 +1,75 @@
+Index: error.c
+===================================================================
+--- error.c	(revision 26674)
++++ error.c	(working copy)
+@@ -402,4 +402,6 @@ VALUE rb_eSyntaxError;
+ VALUE rb_eLoadError;
+ 
++VALUE rb_eNoConstantError;
++
+ VALUE rb_eSystemCallError;
+ VALUE rb_mErrno;
+@@ -1143,4 +1145,5 @@ Init_Exception(void)
+     rb_define_method(rb_eNoMethodError, "initialize", nometh_err_initialize, -1);
+     rb_define_method(rb_eNoMethodError, "args", nometh_err_args, 0);
++    rb_eNoConstantError = rb_define_class("NoConstantError", rb_eNameError);
+ 
+     rb_eRuntimeError = rb_define_class("RuntimeError", rb_eStandardError);
+Index: variable.c
+===================================================================
+--- variable.c	(revision 26674)
++++ variable.c	(working copy)
+@@ -1356,7 +1356,29 @@ uninitialized_constant(VALUE klass, ID i
+ 
+ static VALUE
++const_missing_call(VALUE arg)
++{
++    VALUE *args = (VALUE *)arg;
++    ID const_missing_id;
++    CONST_ID(const_missing_id, "const_missing");
++    return rb_check_funcall(args[0], const_missing_id, 1, &args[1]);
++}
++
++static VALUE
++const_missing_rescue(VALUE arg, VALUE errinfo)
++{
++    return arg;
++}
++
++extern VALUE rb_eNoConstantError;
++
++static VALUE
+ const_missing(VALUE klass, ID id)
+ {
+-    return rb_funcall(klass, rb_intern("const_missing"), 1, ID2SYM(id));
++    VALUE args[2];
++    args[0] = klass;
++    args[1] = ID2SYM(id);
++    return rb_rescue2(const_missing_call, (VALUE)args,
++		      const_missing_rescue, (VALUE)Qundef,
++		      rb_eNoConstantError, (VALUE)0);
+ }
+ 
+@@ -1598,5 +1620,21 @@ rb_const_get_0(VALUE klass, ID id, int e
+     }
+ 
+-    value = const_missing(klass, id);
++    if ((value = const_missing(tmp, id)) == Qundef) {
++	NODE *rb_vm_cref(void);
++	NODE *cref = rb_vm_cref();
++	while (cref && cref->nd_next &&
++	       ((cref->flags & NODE_FL_CREF_PUSHED_BY_EVAL) ||
++		NIL_P(tmp = cref->nd_clss) ||
++		(value = const_missing(tmp, id)) == Qundef)) {
++	    cref = cref->nd_next;
++	}
++	if (value == Qundef) {
++	    if (!exclude && BUILTIN_TYPE(klass) == T_MODULE &&
++		(value = const_missing(rb_cObject, id)) == Qundef) {
++		uninitialized_constant(klass, id);
++	    }
++	}
++    }
++
+     rb_vm_inc_const_missing_count();
+     return value;

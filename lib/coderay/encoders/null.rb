@@ -9,7 +9,7 @@ module Encoders
     include Streamable
     register_for :null
 
-    # Defined for faster processing
+    # Defined for faster processing.
     def to_proc
       proc {}
     end

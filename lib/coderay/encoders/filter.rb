@@ -2,6 +2,10 @@
 module CodeRay
 module Encoders
   
+  # A Filter encoder has another Tokens instance as output.
+  # It is used to select and delete tokens from the stream.
+  # 
+  # See also: TokenKindFilter
   class Filter < Encoder
     
     register_for :filter

@@ -126,7 +126,7 @@ module Encoders
         Output.make_stylesheet @css, in_tag
       end
 
-      class Template < String
+      class Template < String  # :nodoc:
 
         def self.wrap! str, template, target
           target = Regexp.new(Regexp.escape("<%#{target}%>"))
@@ -147,7 +147,7 @@ module Encoders
           end
         end
 
-        module Simple
+        module Simple  # :nodoc:
           def ` str  #` <-- for stupid editors
             Template.new str
           end

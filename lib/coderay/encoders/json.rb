@@ -2,7 +2,20 @@
 module CodeRay
 module Encoders
   
-  # = JSON Encoder
+  # A simple JSON Encoder.
+  # 
+  # Example:
+  #  CodeRay.scan('puts "Hello world!"', :ruby).json
+  # yields
+  #  [
+  #    {"type"=>"text", "text"=>"puts", "kind"=>"ident"},
+  #    {"type"=>"text", "text"=>" ", "kind"=>"space"},
+  #    {"type"=>"block", "action"=>"open", "kind"=>"string"},
+  #    {"type"=>"text", "text"=>"\"", "kind"=>"delimiter"},
+  #    {"type"=>"text", "text"=>"Hello world!", "kind"=>"content"},
+  #    {"type"=>"text", "text"=>"\"", "kind"=>"delimiter"},
+  #    {"type"=>"block", "action"=>"close", "kind"=>"string"},
+  #  ]
   class JSON < Encoder
     
     register_for :json
@@ -50,10 +63,7 @@ require 'rubygems' if RUBY_VERSION < '1.9'
 class JSONEncoderTest < Test::Unit::TestCase
   
   def test_json_output
-    tokens = CodeRay.scan <<-RUBY, :ruby
-puts "Hello world!"
-    RUBY
-    require 'json'
+    json = CodeRay.scan('puts "Hello world!"', :ruby).json
     assert_equal [
       {"type"=>"text", "text"=>"puts", "kind"=>"ident"},
       {"type"=>"text", "text"=>" ", "kind"=>"space"},
@@ -62,8 +72,7 @@ puts "Hello world!"
       {"type"=>"text", "text"=>"Hello world!", "kind"=>"content"},
       {"type"=>"text", "text"=>"\"", "kind"=>"delimiter"},
       {"type"=>"block", "action"=>"close", "kind"=>"string"},
-      {"type"=>"text", "text"=>"\n", "kind"=>"space"}
-    ], JSON.load(tokens.json)
+    ], JSON.load(json)
   end
   
 end

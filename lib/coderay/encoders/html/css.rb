@@ -2,7 +2,7 @@ module CodeRay
 module Encoders
 
   class HTML
-    class CSS
+    class CSS  # :nodoc:
 
       attr :stylesheet
 
@@ -24,10 +24,10 @@ module Encoders
         cl = @classes[styles.first]
         return '' unless cl
         style = ''
-        1.upto(styles.size) do |offset|
+        1.upto styles.size do |offset|
           break if style = cl[styles[offset .. -1]]
         end
-        $stderr.puts 'Style not found: %p' % [styles] if $DEBUG and style.empty?
+        # warn 'Style not found: %p' % [styles] if style.empty?
         return style
       end
 

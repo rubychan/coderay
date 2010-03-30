@@ -2,16 +2,18 @@ module CodeRay
 module Encoders
 
   # Makes a statistic for the given tokens.
+  # 
+  # Alias: +stats+
   class Statistic < Encoder
 
     include Streamable
     register_for :stats, :statistic
 
-    attr_reader :type_stats, :real_token_count
+    attr_reader :type_stats, :real_token_count  # :nodoc:
+
+    TypeStats = Struct.new :count, :size  # :nodoc:
 
   protected
-
-    TypeStats = Struct.new :count, :size
 
     def setup options
       @type_stats = Hash.new { |h, k| h[k] = TypeStats.new 0, 0 }
@@ -37,7 +39,7 @@ module Encoders
       @type_stats['open/close'].count += 1
     end
 
-    STATS = <<-STATS
+    STATS = <<-STATS  # :nodoc:
 
 Code Statistics
 
@@ -51,7 +53,7 @@ Token Types (%d):
 %s
       STATS
 # space                    12007   33.81 %     1.7
-    TOKEN_TYPES_ROW = <<-TKR
+    TOKEN_TYPES_ROW = <<-TKR  # :nodoc:
   %-20s  %8d  %6.2f %%   %5.1f
       TKR
 

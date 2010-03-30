@@ -47,9 +47,15 @@ h3. @Scanners::Scheme@
  
 * *CHANGED*: Does use @:opertor@ instead of @:opertor_fat@ now.
 
+h3. @Scanners::SQL@
+ 
+* *IMPROVED*: Extended list of keywords and functions (thanks to Joshua Galvez).
+  See "#221":http://redmine.rubychan.de/issues/221.
+
 h3. @Styles::Alpha@
  
 * *NEW* A style that uses transparent HSLA colors as defined in CSS 3.
+  See "#199":http://redmine.rubychan.de/issues/199.
 
 h3. @FileType@
  
@@ -61,7 +67,6 @@ h3. @FileType@
 h3. Internal API changes
  
 * *FIXED* @Encoders::HTML#token@'s second parameter is no longer optional.
-  See "#119":http://redmine.rubychan.de/issues/199.
 
 
 h2. Changes in 0.9.2

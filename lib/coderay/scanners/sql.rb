@@ -11,7 +11,7 @@ module CodeRay module Scanners
       for foreign from group if inner is join key
       like not on or order outer primary references replace
       then to trigger union using values when where
-      left
+      left right distinct
     )
     
     OBJECTS = %w(
@@ -31,7 +31,7 @@ module CodeRay module Scanners
       bool boolean hex bin oct
     )
     
-    PREDEFINED_FUNCTIONS = %w( sum cast substring abs pi count min max avg )
+    PREDEFINED_FUNCTIONS = %w( sum cast substring abs pi count min max avg now )
     
     DIRECTIVES = %w( auto_increment unique default charset )
     
@@ -86,6 +86,7 @@ module CodeRay module Scanners
             kind = :delimiter
             
           elsif match = scan(/ @? [A-Za-z_][A-Za-z_0-9]* /x)
+            # FIXME: Don't match keywords after "."
             kind = match[0] == ?@ ? :variable : IDENT_KIND[match.downcase]
             
           elsif scan(/0[xX][0-9A-Fa-f]+/)

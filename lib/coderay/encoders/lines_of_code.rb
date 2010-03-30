@@ -4,7 +4,7 @@ module Encoders
   
   # Counts the LoC (Lines of Code). Returns an Integer >= 0.
   # 
-  # Alias: :loc
+  # Alias: +loc+
   # 
   # Everything that is not comment, markup, doctype/shebang, or an empty line,
   # is considered to be code.
@@ -25,10 +25,10 @@ module Encoders
       if scanner = tokens.scanner
         kinds_not_loc = scanner.class::KINDS_NOT_LOC
       else
-        warn ArgumentError, 'Tokens have no scanner.' if $DEBUG
+        warn ArgumentError, 'Tokens have no scanner.' if $VERBOSE
         kinds_not_loc = CodeRay::Scanners::Scanner::KINDS_NOT_LOC
       end
-      code = tokens.token_class_filter :exclude => kinds_not_loc
+      code = tokens.token_kind_filter :exclude => kinds_not_loc
       @loc = code.text.scan(NON_EMPTY_LINE).size
     end
     

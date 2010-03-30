@@ -15,11 +15,22 @@ h3. @coderay@ executable
 * *FIXED*: Warn about generated files.
 * *FIXED*: Ensure linebreak after the output (was problematic for LoC counter).
 
+h3. @Tokens::AbbreviationForKind@
+ 
+* *RENAMED* from @ClassOfKind@. The term "token class" is no longer used in CodeRay. Instead, tokens have _kinds_.
+  See "#122":http://redmine.rubychan.de/issues/122.
+* *REMOVED* token kinds @:attribute_name_fat@, @:attribute_value_fat@, @:operator_fat@, @:tag_fat@, and @:xml_text@.
+* *ADDED* token kind @:filename@.
+
 h3. @Encoders::Terminal@
  
 * *RENAMED* from @Encoders::Term@, added @:term@ alias.
 * *CLEANUP*: Use @#setup@'s @super@, don't use @:procedure@ token class.
 * *CHANGED*: @#token@'s second parameter is no longer optional.
+
+h3. @TokenKindFilter@
+ 
+* *RENAMED* from @TokenClassFilter@.
 
 h3. @Scanners@
  

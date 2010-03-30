@@ -1,6 +1,7 @@
 module CodeRay
 module Styles
 
+  # A alternative color theme.
   class Murphy < Style
 
     register_for :murphy
@@ -10,7 +11,7 @@ module Styles
     border_color = 'silver'
     normal_color = '#C0C0C0'
 
-    CSS_MAIN_STYLES = <<-MAIN
+    CSS_MAIN_STYLES = <<-MAIN  # :nodoc:
 .CodeRay {
   background-color: #{code_background};
   border: 1px solid #{border_color};
@@ -42,10 +43,8 @@ ol.CodeRay li { white-space: pre; }
     MAIN
 
     TOKEN_COLORS = <<-'TOKENS'
-.af { color:#00C; }
 .an { color:#007; }
 .av { color:#700; }
-.aw { color:#C00; }
 .bi { color:#509; font-weight:bold; }
 .c  { color:#555; background-color: black; }
 
@@ -77,7 +76,6 @@ ol.CodeRay li { white-space: pre; }
 .la { color:#970; font-weight:bold; }
 .lv { color:#963; }
 .oc { color:#40E; font-weight:bold; }
-.of { color:#000; font-weight:bold; }
 .op { }
 .pc { color:#08f; font-weight:bold; }
 .pd { color:#369; font-weight:bold; }
@@ -109,7 +107,6 @@ ol.CodeRay li { white-space: pre; }
 .sy .dl { color:#F84; }
 
 .ta { color:#070; }
-.tf { color:#070; font-weight:bold; }
 .ts { color:#D70; font-weight:bold; }
 .ty { color:#339; font-weight:bold; }
 .v  { color:#036; }

@@ -1,14 +1,12 @@
 module CodeRay
   class Tokens
-    ClassOfKind = Hash.new do |h, k|
-      h[k] = k.to_s
+    AbbreviationForKind = Hash.new do |h, k|  # :nodoc:
+      raise 'Undefined Token kind: %p' % [k]  # :nodoc:
     end
-    ClassOfKind.update with = {
+    AbbreviationForKind.update with = {  # :nodoc:
       :annotation => 'at',
       :attribute_name => 'an',
-      :attribute_name_fat => 'af',
       :attribute_value => 'av',
-      :attribute_value_fat => 'aw',
       :bin => 'bi',
       :char => 'ch',
       :class => 'cl',
@@ -29,6 +27,7 @@ module CodeRay
       :error => 'er',
       :escape => 'e',
       :exception => 'ex',
+      :filename => 'filename',
       :float => 'fl',
       :function => 'fu',
       :global_variable => 'gv',
@@ -41,17 +40,16 @@ module CodeRay
       :instance_variable => 'iv',
       :integer => 'i',
       :interpreted => 'in',
-      :keyword => 'kw',
       :key => 'ke',
+      :keyword => 'kw',
       :label => 'la',
       :local_variable => 'lv',
       :modifier => 'mod',
       :oct => 'oc',
-      :operator_fat => 'of',
-      :pre_constant => 'pc',
-      :pre_type => 'pt',
       :predefined => 'pd',
       :preprocessor => 'pp',
+      :pre_constant => 'pc',
+      :pre_type => 'pt',
       :pseudo_class => 'ps',
       :regexp => 'rx',
       :reserved => 'r',
@@ -59,12 +57,10 @@ module CodeRay
       :string => 's',
       :symbol => 'sy',
       :tag => 'ta',
-      :tag_fat => 'tf',
       :tag_special => 'ts',
       :type => 'ty',
-      :variable => 'v',
       :value => 'vl',
-      :xml_text => 'xt',
+      :variable => 'v',
       
       :insert => 'ins',
       :delete => 'del',
@@ -77,10 +73,10 @@ module CodeRay
       :space => :NO_HIGHLIGHT,  # 'sp'
       :plain => :NO_HIGHLIGHT,
     }
-    ClassOfKind[:method] = ClassOfKind[:function]
-    ClassOfKind[:open] = ClassOfKind[:close] = ClassOfKind[:delimiter]
-    ClassOfKind[:nesting_delimiter] = ClassOfKind[:delimiter]
-    ClassOfKind[:escape] = ClassOfKind[:delimiter]
-    #ClassOfKind.default = ClassOfKind[:error] or raise 'no class found for :error!'
+    AbbreviationForKind[:method] = AbbreviationForKind[:function]
+    AbbreviationForKind[:open] = AbbreviationForKind[:close] = AbbreviationForKind[:delimiter]
+    AbbreviationForKind[:nesting_delimiter] = AbbreviationForKind[:delimiter]
+    AbbreviationForKind[:escape] = AbbreviationForKind[:delimiter]
+    #AbbreviationForKind.default = AbbreviationForKind[:error] or raise 'no class found for :error!'
   end
 end

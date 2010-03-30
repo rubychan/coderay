@@ -27,6 +27,7 @@ module Encoders
   #
   # === :tab_width
   # Convert \t characters to +n+ spaces (a number.)
+  # 
   # Default: 8
   #
   # === :css
@@ -125,7 +126,7 @@ module Encoders
     #HTML_ESCAPE_PATTERN = /[\t&"><\0-\x8\xB-\x1f\x7f-\xff]/
     HTML_ESCAPE_PATTERN = /[\t"&><\0-\x8\xB-\x1f]/
 
-    TOKEN_KIND_TO_INFO = Hash.new { |h, kind|
+    TOKEN_KIND_TO_INFO = Hash.new do |h, kind|
       h[kind] =
         case kind
         when :pre_constant
@@ -133,24 +134,24 @@ module Encoders
         else
           kind.to_s.gsub(/_/, ' ').gsub(/\b\w/) { $&.capitalize }
         end
-    }
+    end
 
     TRANSPARENT_TOKEN_KINDS = [
       :delimiter, :modifier, :content, :escape, :inline_delimiter,
     ].to_set
 
-    # Generate a hint about the given +classes+ in a +hint+ style.
+    # Generate a hint about the given +kinds+ in a +hint+ style.
     #
     # +hint+ may be :info, :info_long or :debug.
-    def self.token_path_to_hint hint, classes
+    def self.token_path_to_hint hint, kinds
       title =
         case hint
         when :info
-          TOKEN_KIND_TO_INFO[classes.first]
+          TOKEN_KIND_TO_INFO[kinds.first]
         when :info_long
-          classes.reverse.map { |kind| TOKEN_KIND_TO_INFO[kind] }.join('/')
+          kinds.reverse.map { |kind| TOKEN_KIND_TO_INFO[kind] }.join('/')
         when :debug
-          classes.inspect
+          kinds.inspect
         end
       title ? " title=\"#{title}\"" : ''
     end
@@ -174,7 +175,7 @@ module Encoders
 
       when :class
         @css_style = Hash.new do |h, k|
-          c = CodeRay::Tokens::ClassOfKind[k.first]
+          c = CodeRay::Tokens::AbbreviationForKind[k.first]
           if c == :NO_HIGHLIGHT and not hint
             h[k.dup] = false
           else
@@ -199,7 +200,7 @@ module Encoders
             styles = [k]
           end
           type = styles.first
-          classes = styles.map { |c| Tokens::ClassOfKind[c] }
+          classes = styles.map { |c| Tokens::AbbreviationForKind[c] }
           if classes.first == :NO_HIGHLIGHT and not hint
             h[k] = false
           else
@@ -261,13 +262,13 @@ module Encoders
         @out << (@css_style[@opened] || '<span>')
         @opened << type
       when :close
+        if $CODERAY_DEBUG and @opened.last != type
+          warn 'Malformed token stream: Trying to close a token (%p) ' \
+            'that is not open. Open are: %p.' % [type, @opened[1..-1]]
+        end
         if @opened.empty?
           # nothing to close
         else
-          if $DEBUG and (@opened.size == 1 or @opened.last != type)
-            raise 'Malformed token stream: Trying to close a token (%p) \
-              that is not open. Open are: %p.' % [type, @opened[1..-1]]
-          end
           @out << '</span>'
           @opened.pop
         end
@@ -282,13 +283,13 @@ module Encoders
         end
         @opened << type
       when :end_line
+        if $CODERAY_DEBUG and @opened.last != type
+          warn 'Malformed token stream: Trying to close a line (%p) ' \
+            'that is not open. Open are: %p.' % [type, @opened[1..-1]]
+        end
         if @opened.empty?
           # nothing to close
         else
-          if $DEBUG and (@opened.size == 1 or @opened.last != type)
-            raise 'Malformed token stream: Trying to close a line (%p) \
-              that is not open. Open are: %p.' % [type, @opened[1..-1]]
-          end
           @out << '</div>'
           @opened.pop
         end

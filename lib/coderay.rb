@@ -126,21 +126,22 @@
 # If you want to re-use scanners and encoders (because that is faster), see
 # CodeRay::Duo for the most convenient (and recommended) interface.
 module CodeRay
-
+  
+  $CODERAY_DEBUG ||= false
+  
   # Version: Major.Minor.Teeny[.Revision]
   # Major: 0 for pre-stable, 1 for stable
   # Minor: feature milestone
   # Teeny: development state, 0 for pre-release
   # Revision: Subversion Revision number (generated on rake gem:make)
-  VERSION = '0.9.1'
+  VERSION = '1.0.0'
 
   require 'coderay/tokens'
-  require 'coderay/token_classes'
+  require 'coderay/token_kinds'
   require 'coderay/scanner'
   require 'coderay/encoder'
   require 'coderay/duo'
   require 'coderay/style'
-
 
   class << self
 
@@ -295,16 +296,20 @@ module CodeRay
   # This Exception is raised when you try to stream with something that is not
   # capable of streaming.
   class NotStreamableError < Exception
+    
+    # +obj+ is the object that is not streamable.
     def initialize obj
       @obj = obj
     end
-
-    def to_s
+    
+    def to_s  # :nodoc:
       '%s is not Streamable!' % @obj.class
     end
+    
   end
 
-  # A dummy module that is included by subclasses of CodeRay::Scanner an CodeRay::Encoder
+  # A dummy module that is included by subclasses of
+  # CodeRay::Scanners::Scanner and CodeRay::Encoders::Encoder
   # to show that they are able to handle streams.
   module Streamable
   end

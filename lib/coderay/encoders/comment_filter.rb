@@ -2,9 +2,18 @@
 module CodeRay
 module Encoders
   
-  load :token_class_filter
+  load :token_kind_filter
   
-  class CommentFilter < TokenClassFilter
+  # A simple Filter that removes all tokens of the :comment kind.
+  # 
+  # Alias: +remove_comments+
+  # 
+  # Usage:
+  #  CodeRay.scan('print # foo', :ruby).remove_comments.text
+  #  #-> "print "
+  # 
+  # See also: TokenKindFilter, LinesOfCode
+  class CommentFilter < TokenKindFilter
     
     register_for :comment_filter
     

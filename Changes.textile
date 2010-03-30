@@ -40,10 +40,21 @@ h3. @Encoders::TokenKindFilter@
 
 h3. @Scanners@
  
-* *FIXED* @Scanner.normify@ doesn't output errors in @$DEBUG@ mode any more.
-* *FIXED*: @scan_tokens@ and @setup@ methods are protected now.
-* *NEW* Mapped @:patch@ to @:diff@.
-* *REMOVED* @:ecma@ and @:h@ - not language names
+* *NEW*: Highlighting of code based on file names.
+  See ticket "#52":http://redmine.rubychan.de/issues/52.
+  
+  This is a very original feature. It enables multi-language highlighting for
+  diff files, which is especially helpful for CodeRay development itself. The
+  updated version of the scanner test suite generated .debug.diff.html files
+  using this.
+  
+  Note: This is still buggy for multi-line tokens.
+* *NEW*: Highlighting of the file name in the change headers as @:filename@.
+
+h3. @Scanners::Diff@
+ 
+* *FIXED* Ruby 1.9.2 compatibility problem (see revision 463).
+* *REMOVED* @String#to_unix@.
 
 h3. @Scanners::Scanner@
  

@@ -1,15 +1,24 @@
 module CodeRay
 module Scanners
   
+  # Scanner for output of the diff command.
+  # 
+  # Alias: +patch+
   class Diff < Scanner
     
     register_for :diff
     title 'diff output'
     
+  protected
+    
+    require 'coderay/helpers/file_type'
+    
     def scan_tokens tokens, options
       
       line_kind = nil
       state = :initial
+      # TODO: Cache scanners
+      content_lang = nil
       
       until eos?
         kind = match = nil
@@ -29,6 +38,10 @@ module Scanners
           if match = scan(/--- |\+\+\+ |=+|_+/)
             tokens << [:begin_line, line_kind = :head]
             tokens << [match, :head]
+            if filename = scan(/.*?(?=$|[\t\n\x00]|  \(revision)/)
+              tokens << [filename, :filename]
+              content_lang = FileType.fetch filename, :plaintext
+            end
             next unless match = scan(/.+/)
             kind = :plain
           elsif match = scan(/Index: |Property changes on: /)
@@ -47,25 +60,34 @@ module Scanners
             tokens << [match, :change]
             next unless match = scan(/.+/)
             kind = :plain
-          elsif scan(/(@@)((?>[^@\n]*))(@@)/)
-            tokens << [:begin_line, line_kind = :change]
-            tokens << [self[1], :change]
-            tokens << [self[2], :plain]
-            tokens << [self[3], :change]
-            next unless match = scan(/.+/)
-            kind = :plain
+          elsif match = scan(/@@(?>[^@\n]*)@@/)
+            if check(/\n|$/)
+              tokens << [:begin_line, line_kind = :change]
+            else
+              tokens << [:open, :change]
+            end
+            tokens << [match[0,2], :change]
+            tokens << [match[2...-2], :plain] if match.size > 4
+            tokens << [match[-2,2], :change]
+            tokens << [:close, :change] unless line_kind
+            next unless code = scan(/.+/)
+            CodeRay.scan code, content_lang, :tokens => tokens
+            next
           elsif match = scan(/\+/)
             tokens << [:begin_line, line_kind = :insert]
             tokens << [match, :insert]
             next unless match = scan(/.+/)
-            kind = :plain
+            CodeRay.scan match, content_lang, :tokens => tokens
+            next
           elsif match = scan(/-/)
             tokens << [:begin_line, line_kind = :delete]
             tokens << [match, :delete]
-            next unless match = scan(/.+/)
-            kind = :plain
-          elsif scan(/ .*/)
-            kind = :comment
+            next unless code = scan(/.+/)
+            CodeRay.scan code, content_lang, :tokens => tokens
+            next
+          elsif code = scan(/ .*/)
+            CodeRay.scan code, content_lang, :tokens => tokens
+            next
           elsif scan(/.+/)
             tokens << [:begin_line, line_kind = :head]
             kind = :plain
@@ -86,7 +108,7 @@ module Scanners
         end
         
         match ||= matched
-        if $DEBUG and not kind
+        if $CODERAY_DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens
         end

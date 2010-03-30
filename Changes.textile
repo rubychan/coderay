@@ -31,6 +31,8 @@ h3. @Encoders::Terminal@
 * *RENAMED* from @Encoders::Term@, added @:term@ alias.
 * *CLEANUP*: Use @#setup@'s @super@, don't use @:procedure@ token class.
 * *CHANGED*: @#token@'s second parameter is no longer optional.
+* *REMOVED* colors for obsolete token kinds.
+* *FIXED* handling of line tokens.
 
 h3. @Encoders::TokenKindFilter@
  
@@ -38,6 +40,7 @@ h3. @Encoders::TokenKindFilter@
 
 h3. @Scanners@
  
+* *FIXED* @Scanner.normify@ doesn't output errors in @$DEBUG@ mode any more.
 * *FIXED*: @scan_tokens@ and @setup@ methods are protected now.
 * *NEW* Mapped @:patch@ to @:diff@.
 * *REMOVED* @:ecma@ and @:h@ - not language names
@@ -80,7 +83,7 @@ h3. @Styles::Alpha@
 h3. @FileType@
  
 * *REMOVED* @FileType#shebang@ is a protected method now.
-* *NEW*: Regonizes @.gemspec@, @.rjs@, @.rpdf@ extensions and @Capfile@  as Ruby.
+* *NEW*: Regonizes @.gemspec@, @.rjs@, @.rpdf@ extensions and @Capfile@ as Ruby.
   
   Thanks to the authors of the TextMate Ruby bundle!
 

@@ -22,13 +22,17 @@ h3. @Tokens::AbbreviationForKind@
 * *REMOVED* token kinds @:attribute_name_fat@, @:attribute_value_fat@, @:operator_fat@, @:tag_fat@, and @:xml_text@.
 * *ADDED* token kind @:filename@.
 
+h3. @Encoders::CommentFilter@
+ 
+* *NEW* alias @:remove_comments@.
+
 h3. @Encoders::Terminal@
  
 * *RENAMED* from @Encoders::Term@, added @:term@ alias.
 * *CLEANUP*: Use @#setup@'s @super@, don't use @:procedure@ token class.
 * *CHANGED*: @#token@'s second parameter is no longer optional.
 
-h3. @TokenKindFilter@
+h3. @Encoders::TokenKindFilter@
  
 * *RENAMED* from @TokenClassFilter@.
 

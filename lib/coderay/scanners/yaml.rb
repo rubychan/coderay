@@ -125,9 +125,9 @@ module Scanners
         
         if $CODERAY_DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens
+            [[match, kind], line], tokens, state
         end
-        raise_inspect 'Empty token', tokens unless match
+        raise_inspect 'Empty token', tokens, state unless match
         
         tokens << [match, kind]
         

@@ -19,6 +19,7 @@ module CodeRay
       register_for :terminal
       
       TOKEN_COLORS = {
+        :annotation => '35',
         :attribute_name => '33',
         :attribute_value => '31',
         :bin => '1;35',
@@ -29,10 +30,13 @@ module CodeRay
         :class_variable => '36',
         :color => '32',
         :comment => '37',
+        :complex => '34',
         :constant => ['34', '4'],
+        :decoration => '35',
         :definition => '1;32',
         :directive => ['32', '4'],
         :doc => '46',
+        :doctype => '1;30',
         :doc_string => ['31', '4'],
         :entity => '33',
         :error => ['1;33', '41'],
@@ -44,6 +48,7 @@ module CodeRay
         :include => '33',
         :integer => '1;34',
         :interpreted => '1;35',
+        :key => '35',
         :label => '1;15',
         :local_variable => '33',
         :oct => '1;35',
@@ -52,6 +57,7 @@ module CodeRay
         :pre_type => '1;30',
         :predefined => ['4', '1;34'],
         :preprocessor => '36',
+        :pseudo_class => '34',
         :regexp => {
           :self => '31',
           :content => '31',
@@ -60,20 +66,32 @@ module CodeRay
           :function => '1;29'
         },
         :reserved => '1;31',
-        :shell => {:self => '42', :content => '1;29'},
-        :string => '32',
+        :shell => {
+          :self => '42',
+          :content => '1;29',
+          :delimiter => '37',
+        },
+        :string => {
+          :self => '32',
+          :modifier => '1;32',
+          :escape => '1;36',
+          :delimiter => '1;32',
+        },
         :symbol => '1;32',
         :tag => '34',
         :tag_special => ['34', '4'],
         :type => '1;34',
+        :value => '36',
         :variable => '34',
         
         :insert => '42',
         :delete => '41',
         :change => '44',
-        :head => '41'
+        :head => '45'
       }
+      TOKEN_COLORS[:keyword] = TOKEN_COLORS[:reserved]
       TOKEN_COLORS[:method] = TOKEN_COLORS[:function]
+      TOKEN_COLORS[:imaginary] = TOKEN_COLORS[:complex]
       TOKEN_COLORS[:open] = TOKEN_COLORS[:close] = TOKEN_COLORS[:nesting_delimiter] = TOKEN_COLORS[:escape] = TOKEN_COLORS[:delimiter]
 
     protected

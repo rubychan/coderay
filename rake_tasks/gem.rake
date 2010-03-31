@@ -12,20 +12,16 @@ def gemspec
     s.requirements = []
     s.date = Time.now.strftime '%Y-%m-%d'
     s.has_rdoc = true
-    s.rdoc_options = '-SNw2', '-mlib/README', '-a', '-t CodeRay Documentation'
-    s.extra_rdoc_files = EXTRA_FILES.in('./')
+    s.rdoc_options = '-SNw2', '-mlib/README', '-t CodeRay Documentation'
+    s.extra_rdoc_files = EXTRA_RDOC_FILES
 
     # Description
     s.summary = <<-EOF
-  CodeRay is a fast syntax highlighter engine for many languages.
+Fast syntax highlighting for selected languages.
     EOF
     s.description = <<-EOF
-  CodeRay is a Ruby library for syntax highlighting.
-  I try to make CodeRay easy to use and intuitive, but at the same time
-  fully featured, complete, fast and efficient.
-
-  Usage is simple:
-    CodeRay.scan(code, :ruby).div
+Fast and easy syntax highlighting for selected languages, written in Ruby.
+Comes with RedCloth integration and LOC counter.
     EOF
 
     # Files
@@ -41,6 +37,11 @@ def gemspec
   end
 end
 
+def svn_head_revision
+  sh 'svn up --ignore-externals'
+  `svn info`[/Revision: (\d+)/,1]
+end
+
 namespace :gem do
 
   gemtask = Rake::GemPackageTask.new(gemspec) do |pkg|
@@ -48,7 +49,7 @@ namespace :gem do
     pkg.need_tar = true
   end
 
-  desc 'Create the gem again'
+  desc 'Create the Gem again'
   task :make => [:make_gemspec, :clean, :gem]
 
   desc 'Delete previously created Gems'
@@ -66,25 +67,34 @@ namespace :gem do
     end
     puts 'Current Version: %s' % $version
     if $version[/.0$/]
-      sh 'svn up --ignore-externals'
-      $version << '.' << `svn info`[/Revision: (\d+)/,1]
+      $version << '.' << svn_head_revision
       $gem_name << '-beta'
+    end
+    if ENV['pre']
+      $version << '.' << svn_head_revision
+      $version << '.pre'
     end
   end
 
   task :make_gemspec => :get_version do
-    candidates = Dir['./lib/**/*.rb'] +
-      Dir['./demo/*.rb'] +
-      #    Dir['./bin/*'] +
-      #    Dir['./demo/bench/*'] +
-      #    Dir['./test/*'] +
-      %w( ./lib/README ./LICENSE)
     s = gemtask.gem_spec
-    s.files = candidates #.delete_if { |item| item[/(?:CVS|rdoc)|~$/] }
+    s.files = Dir['./lib/**/*.rb'] +
+      Dir['./demo/*.rb'] +
+      Dir['./Rakefile'] +
+      Dir['./test/functional/*'] +
+      %w(./lib/README ./LICENSE)
+    s.test_file = './test/functional/suite.rb'
     gemtask.version = s.version = $version
     gemtask.name = s.name = $gem_name
   end
-
+  
+  task :set_pre do
+    ENV['pre'] = 'true'
+  end
+  
+  desc 'Make a prerelease Gem.'
+  task :prerelease => [:set_pre, :make]
+  
 end
 
 task :gem => 'gem:make'

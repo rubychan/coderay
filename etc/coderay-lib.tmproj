@@ -53,10 +53,6 @@
 			<date>2009-10-03T23:52:27Z</date>
 		</dict>
 		<dict>
-			<key>filename</key>
-			<string>../ftp.yaml</string>
-		</dict>
-		<dict>
 			<key>name</key>
 			<string>etc</string>
 			<key>regexFolderFilter</key>
@@ -81,8 +77,12 @@
 		<dict>
 			<key>filename</key>
 			<string>../LICENSE</string>
+			<key>lastUsed</key>
+			<date>2010-03-08T22:53:09Z</date>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>rake_helpers</string>
 			<key>regexFolderFilter</key>

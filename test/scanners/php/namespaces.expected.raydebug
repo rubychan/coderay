@@ -1,0 +1,9 @@
+inline_delimiter(<?php)
+reserved(namespace) ident(foo)operator(;)
+reserved(use) ident(blah)operator(\\)ident(blah) reserved(as) ident(foo)operator(;)
+
+local_variable($a) operator(=) reserved(new) ident(my)operator(\\)ident(name)operator(()operator(\))operator(;) comment(// instantiates "foo\\my\\name" class)
+ident(foo)operator(\\)ident(bar)operator(::)ident(name)operator(()operator(\))operator(;) comment(// calls static method "name" in class "blah\\blah\\bar")
+ident(my)operator(\\)ident(bar)operator(()operator(\))operator(;) comment(// calls function "foo\\my\\bar")
+local_variable($a) operator(=) ident(my)operator(\\)constant(BAR)operator(;) comment(// sets $a to the value of constant "foo\\my\\BAR")
+inline_delimiter(?>)

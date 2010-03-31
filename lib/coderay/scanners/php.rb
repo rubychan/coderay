@@ -216,6 +216,7 @@ module Scanners
         \.(?!\d)=? |      # dot that is not decimal point, string concatenation
         && | \|\| |       # logic
         :: | -> | => |    # scope, member, dictionary
+        \\(?!\n) |        # namespace
         \+\+ | -- |       # increment, decrement
         [,;?:()\[\]{}] |  # simple delimiters
         [-+*\/%&|^]=? |   # ordinary math, binary logic, assignment shortcuts

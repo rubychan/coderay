@@ -1,10 +1,12 @@
 require 'test/unit'
 
-require 'pathname'
 MYDIR = File.dirname(__FILE__)
-LIBDIR = Pathname.new(MYDIR).join('..', '..', 'lib').cleanpath.to_s
-$LOAD_PATH.unshift MYDIR, LIBDIR
 
-require 'basic'
-require 'load_plugin_scanner'
-require 'word_list'
+$: << 'lib'
+require 'coderay'
+puts "Running basic CodeRay #{CodeRay::VERSION} tests..."
+
+suite = %w(basic load_plugin_scanner word_list)
+for test_case in suite
+  load File.join(MYDIR, test_case + '.rb')
+end

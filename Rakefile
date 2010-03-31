@@ -1,71 +1,36 @@
 $: << File.dirname(__FILE__) unless $:.include? '.'
-require 'rake_helpers/ftp.rb'
-
-verbose false
+require 'rake/rdoctask'
 
 ROOT = '.'
 LIB_ROOT = File.join ROOT, 'lib'
-RUBY = ENV.fetch 'ruby', 'ruby'
-
-EXTRA_FILES = %w(lib/README FOLDERS)
-def EXTRA_FILES.in folder
-  map do |file_name|
-    File.join folder, file_name
-  end
-end
+EXTRA_RDOC_FILES = %w(lib/README FOLDERS)
 
 task :default => :test
 
-task :upload => %w( gem:upload doc:upload example:upload )
-
-def ruby command
-  params =
-    if RUBY == 'rbx'
-      '-I/usr/local/lib/ruby/1.8'
-    else
-      '-w'
-    end
-  cmd = "#{RUBY} #{params} #{command}"
-  puts cmd if verbose
-  system cmd
+if File.directory? 'rake_tasks'
+  
+  # load rake tasks from subfolder
+  for task_file in Dir['rake_tasks/*.rake'].sort
+    load task_file
+  end
+  
+else
+  
+  # fallback tasks when rake_tasks folder is not present
+  desc 'Run CodeRay tests (basic)'
+  task :test do
+    ruby './test/functional/suite.rb'
+    ruby './test/functional/for_redcloth.rb'
+  end
+  
+  desc 'Generate documentation for CodeRay'
+  Rake::RDocTask.new :doc do |rd|
+    rd.title = 'CodeRay Documentation'
+    rd.main = 'lib/README'
+    rd.rdoc_files.add Dir['lib']
+    rd.rdoc_files.add 'lib/README'
+    rd.rdoc_files.add 'FOLDERS'
+    rd.rdoc_dir = 'doc'
+  end
+  
 end
-
-task '19' do
-  RUBY.replace 'ruby19'
-end
-
-task '18' do
-  RUBY.replace 'ruby18'
-end
-
-task '187' do
-  RUBY.replace 'ruby187'
-end
-
-task 'jruby' do
-  RUBY.replace 'jruby'
-end
-task :j => :jruby
-
-task 'jruby19' do
-  RUBY.replace 'jruby --1.9'
-end
-task :j19 => :jruby19
-
-task 'jruby-nailgun' do
-  RUBY.replace 'jruby --ng'
-end
-task :jng => :'jruby-nailgun'
-
-task 'rubinius' do
-  RUBY.replace 'rbx'
-end
-
-task 'ee' do
-  RUBY.replace 'rubyee'
-end
-
-for task_file in Dir['rake_tasks/*.rake']
-  load task_file
-end
-

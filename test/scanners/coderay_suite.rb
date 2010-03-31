@@ -11,6 +11,8 @@ $:.unshift File.join($mydir, '..', 'lib')
 
 require 'term/ansicolor' unless ENV['nocolor']
 
+require 'test/unit'
+
 if defined? Term::ANSIColor
   class String
     include Term::ANSIColor
@@ -413,6 +415,13 @@ module CodeRay
           return false
         end
         File.open(actual_html, 'w') { |f| f.write highlighted }
+        if okay
+          debug = $DEBUG
+          $DEBUG = false
+          FileUtils.copy(actual_html, name + '.expected.html')
+          $DEBUG = debug
+        end
+        true
       end
       
       expected_html = name + '.expected.html'

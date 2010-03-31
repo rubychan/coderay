@@ -1,5 +1,5 @@
-require "test/unit"
-require "coderay"
+require 'test/unit'
+require 'coderay'
 
 class BasicTest < Test::Unit::TestCase
   
@@ -103,7 +103,7 @@ more code  # and another comment, in-line.
   
   def test_rubygems_not_loaded
     assert_equal nil, defined? Gem
-  end unless RUBY_VERSION >= '1.9'
+  end if ENV['check_rubygems'] && RUBY_VERSION < '1.9'
   
   def test_list_of_encoders
     assert_kind_of(Array, CodeRay::Encoders.list)

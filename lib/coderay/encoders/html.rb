@@ -262,7 +262,7 @@ module Encoders
         @out << (@css_style[@opened] || '<span>')
         @opened << type
       when :close
-        if $CODERAY_DEBUG and @opened.last != type
+        if $CODERAY_DEBUG and (@opened.size == 1 or @opened.last != type)
           warn 'Malformed token stream: Trying to close a token (%p) ' \
             'that is not open. Open are: %p.' % [type, @opened[1..-1]]
         end
@@ -283,7 +283,7 @@ module Encoders
         end
         @opened << type
       when :end_line
-        if $CODERAY_DEBUG and @opened.last != type
+        if $CODERAY_DEBUG and (@opened.size == 1 or @opened.last != type)
           warn 'Malformed token stream: Trying to close a line (%p) ' \
             'that is not open. Open are: %p.' % [type, @opened[1..-1]]
         end

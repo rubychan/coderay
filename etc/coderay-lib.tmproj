@@ -5,8 +5,6 @@
 	<key>documents</key>
 	<array>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -15,8 +13,6 @@
 			<string>../lib</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>bin</string>
 			<key>regexFolderFilter</key>
@@ -28,21 +24,21 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-03-30T01:50:37Z</date>
+			<date>2010-03-31T21:23:15Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../lib.diff</string>
 			<key>lastUsed</key>
-			<date>2010-03-30T01:52:53Z</date>
+			<date>2010-03-31T19:58:45Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-03-30T01:52:53Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2010-03-31T21:22:49Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -61,8 +57,6 @@
 			<string>../ftp.yaml</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>etc</string>
 			<key>regexFolderFilter</key>
@@ -81,14 +75,14 @@
 		<dict>
 			<key>filename</key>
 			<string>../IDEA</string>
+			<key>lastUsed</key>
+			<date>2010-03-31T03:59:05Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../LICENSE</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>rake_helpers</string>
 			<key>regexFolderFilter</key>
@@ -97,8 +91,6 @@
 			<string>../rake_helpers</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>rake_tasks</string>
 			<key>regexFolderFilter</key>
@@ -124,7 +116,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-03-30T01:52:15Z</date>
+			<date>2010-03-30T23:48:57Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>

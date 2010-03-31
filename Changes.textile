@@ -26,6 +26,10 @@ h3. @Encoders::CommentFilter@
  
 * *NEW* alias @:remove_comments@.
 
+h3. @Encoders::HTML@
+ 
+* *CHANGED* the default style to @:alpha@.
+
 h3. @Encoders::Terminal@
  
 * *RENAMED* from @Encoders::Term@, added @:term@ alias.

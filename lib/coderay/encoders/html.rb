@@ -91,7 +91,7 @@ module Encoders
 
       :css => :class,
 
-      :style => :cycnus,
+      :style => :alpha,
       :wrap => nil,
       :title => 'CodeRay output',
 

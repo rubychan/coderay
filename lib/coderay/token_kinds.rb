@@ -1,7 +1,11 @@
 module CodeRay
   class Tokens
     AbbreviationForKind = Hash.new do |h, k|  # :nodoc:
-      raise 'Undefined Token kind: %p' % [k]  # :nodoc:
+      if $CODERAY_DEBUG
+        raise 'Undefined Token kind: %p' % [k]  # :nodoc:
+      else
+        :NO_HIGHLIGHT
+      end
     end
     AbbreviationForKind.update with = {  # :nodoc:
       :annotation => 'at',

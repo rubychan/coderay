@@ -90,7 +90,7 @@ ol.CodeRay li { white-space: pre }
 .lv { color:#963 }
 .oc { color:#40E; font-weight:bold }
 .op { }
-.pc { color:#038; font-weight:bold }
+.pc { color:#058; font-weight:bold }
 .pd { color:#369; font-weight:bold }
 .pp { color:#579; }
 .ps { color:#00C; font-weight:bold }
@@ -102,8 +102,8 @@ ol.CodeRay li { white-space: pre }
 .ke .ch { color: #80f; }
 .vl { color: #088; }
 
-.rx { background-color:hsla(300,100%,50%,0.1); }
-.rx .k { color:#808 }
+.rx { background-color:hsla(300,100%,50%,0.1); color:#808 }
+.rx .k { }
 .rx .dl { color:#404 }
 .rx .mod { color:#C2C }
 .rx .fu  { color:#404; font-weight: bold }

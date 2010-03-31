@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # CodeRay Executable
 #
-# Version: 0.1
+# Version: 0.2
 # Author: murphy
 
 def err msg
@@ -27,6 +27,7 @@ Usage:
   coderay file [-<format>]
 Example:
   coderay -ruby -statistic < foo.rb
+  coderay -ruby < foo.rb  # colorized output on terminal
   coderay codegen.c  # generates codegen.c.html
     USAGE
   end

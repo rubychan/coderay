@@ -89,7 +89,7 @@ module Scanners
             CodeRay.scan code, content_lang, :tokens => tokens
             next
           elsif scan(/.+/)
-            tokens << [:begin_line, line_kind = :head]
+            tokens << [:begin_line, line_kind = :comment]
             kind = :plain
           else
             raise_inspect 'else case rached'

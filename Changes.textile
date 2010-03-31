@@ -43,18 +43,10 @@ h3. @Encoders::TokenKindFilter@
  
 * *RENAMED* from @TokenClassFilter@.
 
-h3. @Scanners@
+h3. @Scanners::Scanner@
  
-* *NEW*: Highlighting of code based on file names.
-  See ticket "#52":http://redmine.rubychan.de/issues/52.
-  
-  This is a very original feature. It enables multi-language highlighting for
-  diff files, which is especially helpful for CodeRay development itself. The
-  updated version of the scanner test suite generated .debug.diff.html files
-  using this.
-  
-  Note: This is still buggy for multi-line tokens.
-* *NEW*: Highlighting of the file name in the change headers as @:filename@.
+* *FIXED* Ruby 1.9.2 compatibility problem (see revision 463).
+* *REMOVED* @String#to_unix@.
 
 h3. @Scanners::Debug@
  
@@ -65,13 +57,17 @@ h3. @Scanners::Debug@
 
 h3. @Scanners::Diff@
  
-* *FIXED* Ruby 1.9.2 compatibility problem (see revision 463).
-* *REMOVED* @String#to_unix@.
-
-h3. @Scanners::Scanner@
- 
-* *FIXED* Ruby 1.9.2 compatibility problem (see revision 463).
-* *REMOVED* @String#to_unix@.
+* *NEW*: Highlighting of code based on file names.
+  See ticket "#52":http://redmine.rubychan.de/issues/52.
+  
+  This is a very original feature. It enables multi-language highlighting for
+  diff files, which is especially helpful for CodeRay development itself. The
+  updated version of the scanner test suite generated .debug.diff.html files
+  using this.
+  
+  Note: This is still buggy for multi-line tokens.
+* *NEW*: Highlight the file name in the change headers as @:filename@.
+* *CHANGED*: Highlight unknown lines as @:comment@ instead of @:head@.
 
 h3. @Scanners::JavaScript@
  

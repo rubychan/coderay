@@ -90,6 +90,9 @@ h3. @Scanners::Ruby@
   (eg. GL.PushMatrix).
 * *NEW*: Highlight buggy floats (like .5) as @:error@.
 * *CLEANUP* of documentation, names of constants and variables, state handling.
+* *NEW*: Complicated rule for recognition of @foo=@ style method names.
+  
+  Actually, Ruby checks if there is @[~>=]@, but not @=>@ following the name.
 
 h3. @Scanners::Scheme@
  

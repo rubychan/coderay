@@ -4,10 +4,10 @@ reserved(class) class(Class)
 reserved(end)
 reserved(end)
 comment(#def String(x\) x.to_s end #it's already built-in. duh!)
-reserved(def) constant(String)operator(.)ident(*)operator(()ident(right)operator(\)) operator([)pre_constant(self)operator(,)ident(right)operator(]) reserved(end)
-reserved(def) constant(String)operator(.)ident(<<)operator(()ident(right)operator(\)) operator([)pre_constant(self)operator(,)symbol(:<<)operator(,)ident(right)operator(]) reserved(end)
-reserved(def) constant(String)operator(.)ident(/)operator(()ident(right)operator(\)) operator([)pre_constant(self)operator(,)symbol(:/)operator(,)ident(right)operator(]) reserved(end)
-reserved(def) constant(String)operator(.)ident([])operator(()ident(right)operator(\)) operator([)pre_constant(self)operator(,)symbol(:[])operator(,)ident(right)operator(]) reserved(end)
+reserved(def) constant(String)operator(.)method(*)operator(()ident(right)operator(\)) operator([)pre_constant(self)operator(,)ident(right)operator(]) reserved(end)
+reserved(def) constant(String)operator(.)method(<<)operator(()ident(right)operator(\)) operator([)pre_constant(self)operator(,)symbol(:<<)operator(,)ident(right)operator(]) reserved(end)
+reserved(def) constant(String)operator(.)method(/)operator(()ident(right)operator(\)) operator([)pre_constant(self)operator(,)symbol(:/)operator(,)ident(right)operator(]) reserved(end)
+reserved(def) constant(String)operator(.)method([])operator(()ident(right)operator(\)) operator([)pre_constant(self)operator(,)symbol(:[])operator(,)ident(right)operator(]) reserved(end)
 ident(p)operator(()constant(String)operator(::)constant(Class)operator(\))
 ident(p)operator(()constant(String)operator(::) constant(Class)operator(\))
 ident(p)operator(()constant(String) operator(::)constant(Class)operator(\))
@@ -110,10 +110,10 @@ ident(p) operator(/) integer(5)operator(/)ident(mix)
 reserved(module) class(M33)
   ident(p)operator(=)string<delimiter(")content(var:)delimiter(")>
   constant(Q)operator(=)string<delimiter(")content(func:)delimiter(")>
-  reserved(def) constant(Q)operator(.)ident(method_missing)operator(()ident(name)operator(,)operator(*)ident(args)operator(\))
+  reserved(def) constant(Q)operator(.)method(method_missing)operator(()ident(name)operator(,)operator(*)ident(args)operator(\))
     pre_constant(self)operator(+)ident(name)operator(.)ident(to_s)operator(+)operator(()ident(args)operator(.)ident(join)string<delimiter(')content( )delimiter(')>operator(\))
   reserved(end)
-  reserved(def) ident(p)operator(.)ident(method_missing)operator(()ident(name)operator(,)operator(*)ident(args)operator(\))
+  reserved(def) ident(p)operator(.)method(method_missing)operator(()ident(name)operator(,)operator(*)ident(args)operator(\))
     pre_constant(self)operator(+)ident(name)operator(.)ident(to_s)operator(+)operator(()ident(args)operator(.)ident(join)string<delimiter(')content( )delimiter(')>operator(\))
   reserved(end)
   reserved(def) pre_constant(self)operator(.)method(p)operator(()operator(*)ident(a)operator(\))operator(;) reserved(super)operator(;) constant(Q) reserved(end)
@@ -402,8 +402,8 @@ ident(a)operator(=)integer(5)
 ident(p) ident(p) integer(+5)
 ident(p) ident(a) integer(+5)
 
-reserved(def) pre_constant(nil)operator(.)ident(+)operator(()ident(x)operator(\)) operator(~)ident(x) reserved(end)
-reserved(def) pre_constant(nil)operator(.)ident([])operator(()operator(*)ident(x)operator(\)) operator([)ident(x)operator(]) reserved(end)
+reserved(def) pre_constant(nil)operator(.)method(+)operator(()ident(x)operator(\)) operator(~)ident(x) reserved(end)
+reserved(def) pre_constant(nil)operator(.)method([])operator(()operator(*)ident(x)operator(\)) operator([)ident(x)operator(]) reserved(end)
 ident(p)operator(() ident(p) operator(+) integer(5) operator(\))
 ident(p)operator(() ident(p) integer(+5) operator(\))
 ident(p)operator(() ident(p)operator(+)integer(5) operator(\))
@@ -490,7 +490,7 @@ ident(p) operator(-)operator(()integer(4)operator(\))
 ident(p) symbol<symbol(:)delimiter(')char(\\\\)delimiter(')>
 
 reserved(class) class(Foop)
-  reserved(def) constant(Foop)operator(.)ident(bar) ident(a)operator(,)ident(b)
+  reserved(def) constant(Foop)operator(.)method(bar) ident(a)operator(,)ident(b)
     ident(p) ident(a)operator(,)ident(b)
   reserved(end)
 reserved(end)
@@ -499,7 +499,7 @@ constant(Foop)operator(::)ident(bar) integer(3)operator(,)integer(4)
 
 
 reserved(class) class(Foop)
-  reserved(def) constant(Foop)operator(::)ident(baz) ident(a)operator(,)ident(b)
+  reserved(def) constant(Foop)operator(::)method(baz) ident(a)operator(,)ident(b)
     ident(p) symbol(:baz)operator(,)ident(a)operator(,)ident(b)
   reserved(end)
 reserved(end)
@@ -792,7 +792,7 @@ reserved(def) method(params_quoted)operator(()ident(field_name)operator(,) ident
   reserved(if) ident(block_given?) reserved(then) reserved(yield) ident(field_name) reserved(else) ident(default) reserved(end)
 reserved(end)
 reserved(def) method(==)operator(()ident(o)operator(\)) integer(444) reserved(end)
-reserved(def) constant(String)operator(.)ident(ffff4)operator(()operator(\)) pre_constant(self)operator(.)ident(to_s)operator(+)string<delimiter(")content(ffff)delimiter(")> reserved(end)
+reserved(def) constant(String)operator(.)method(ffff4)operator(()operator(\)) pre_constant(self)operator(.)ident(to_s)operator(+)string<delimiter(")content(ffff)delimiter(")> reserved(end)
 
 ident(p) operator(*)operator([)operator(])
 reserved(for) ident(i) reserved(in) \
@@ -996,7 +996,7 @@ the quick brown fox jumped over the lazy dog
 stuff
 =end)
 
-ident(p) constant(ENV)operator([)string<delimiter(")content(AmritaCacheDir)delimiter(")>operator(])
+ident(p) pre_constant(ENV)operator([)string<delimiter(")content(AmritaCacheDir)delimiter(")>operator(])
 ident(p) string<delimiter(<<-BEGIN)> operator(+) string<delimiter(<<-END)>string<content(
           def element_downcase(attributes = {}\))delimiter(
         BEGIN)>string<content(

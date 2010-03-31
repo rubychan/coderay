@@ -197,7 +197,7 @@ ident(print) string<delimiter(')content(Just )delimiter(')> string<delimiter(')c
 
 ident(print) constant(File)operator(.)ident(dirname)operator(()string<delimiter(')content(Just another Ruby hacker,/Just another Ruby porter,)delimiter(')>operator(\))
 
-reserved(def) global_variable($_)operator(.)ident(singleton_method_added)operator(()operator(*)operator(\)) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end)
+reserved(def) global_variable($_)operator(.)method(singleton_method_added)operator(()operator(*)operator(\)) ident(print) string<delimiter(')content(Just another Ruby hacker,)delimiter(')> reserved(end)
 
 ident(print) operator([)string<delimiter(')content(Just another Ruby hacker,)delimiter(')>operator(])operator(.)ident(delete_at)operator(()integer(0)operator(\))
 

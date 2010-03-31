@@ -27,7 +27,7 @@ def [];end
 def def;end
 def end?;end
 def a(*) end
-def !; end  # Ruby 1.9
+def !; end  # Ruby 1.9.1
 
 
 # singleton methods
@@ -39,6 +39,9 @@ def self.method
 end
 
 def object.method
+end
+
+def object.Method
 end
 
 def $~.method

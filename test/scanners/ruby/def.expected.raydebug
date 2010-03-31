@@ -32,13 +32,16 @@ reserved(def) method(!)operator(;) reserved(end)  comment(# Ruby 1.9)
 
 comment(# singleton methods)
 
-reserved(def) constant(Class)operator(.)ident(method)
+reserved(def) constant(Class)operator(.)method(method)
 reserved(end)
 
 reserved(def) pre_constant(self)operator(.)method(method)
 reserved(end)
 
 reserved(def) ident(object)operator(.)method(method)
+reserved(end)
+
+reserved(def) ident(object)operator(.)method(Method)
 reserved(end)
 
 reserved(def) global_variable($~)operator(.)method(method)

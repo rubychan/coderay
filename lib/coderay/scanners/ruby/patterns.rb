@@ -2,7 +2,7 @@
 module CodeRay
 module Scanners
 
-  module Ruby::Patterns  # :nodoc:
+  module Ruby::Patterns  # :nodoc: all
 
     RESERVED_WORDS = %w[
       and def end in or unless begin
@@ -13,24 +13,27 @@ module Scanners
       undef yield
     ]
 
-    DEF_KEYWORDS = %w[ def ]
-    UNDEF_KEYWORDS = %w[ undef ]
-    ALIAS_KEYWORDS = %w[ alias ]
-    MODULE_KEYWORDS = %w[class module]
-    DEF_NEW_STATE = WordList.new(:initial).
-      add(DEF_KEYWORDS, :def_expected).
-      add(UNDEF_KEYWORDS, :undef_expected).
-      add(ALIAS_KEYWORDS, :alias_expected).
-      add(MODULE_KEYWORDS, :module_expected)
-
+    # See http://murfy.de/ruby-constants.
     PREDEFINED_CONSTANTS = %w[
       nil true false self
-      DATA ARGV ARGF __FILE__ __LINE__
+      DATA ARGV ARGF ENV
+      FALSE TRUE NIL
+      STDERR STDIN STDOUT
+      TOPLEVEL_BINDING
+      RUBY_COPYRIGHT RUBY_DESCRIPTION RUBY_ENGINE RUBY_PATCHLEVEL
+      RUBY_PLATFORM RUBY_RELEASE_DATE RUBY_REVISION RUBY_VERSION
+      __FILE__ __LINE__ __ENCODING__
     ]
 
     IDENT_KIND = WordList.new(:ident).
       add(RESERVED_WORDS, :reserved).
       add(PREDEFINED_CONSTANTS, :pre_constant)
+
+    KEYWORD_NEW_STATE = WordList.new(:initial).
+      add(%w[ def ], :def_expected).
+      add(%w[ undef ], :undef_expected).
+      add(%w[ alias ], :alias_expected).
+      add(%w[ class module ], :module_expected)
 
     IDENT = 'ä'[/[[:alpha:]]/] == 'ä' ? /[[:alpha:]_][[:alnum:]_]*/ : /[^\W\d]\w*/
 
@@ -45,7 +48,9 @@ module Scanners
       | ===? | =~     # simple equality, case equality, match
       | ![~=@]?       # negation with and without at sign, not-equal and not-match
     /ox
-    METHOD_NAME_EX = / #{IDENT} (?:[?!]|=(?!>))? | #{METHOD_NAME_OPERATOR} /ox
+    METHOD_SUFFIX = / (?: [?!] | = (?![~>]|=(?!>)) ) /x
+    METHOD_NAME_EX = / #{IDENT} #{METHOD_SUFFIX}? | #{METHOD_NAME_OPERATOR} /ox
+    METHOD_AFTER_DOT = / #{IDENT} [?!]? | #{METHOD_NAME_OPERATOR} /ox
     INSTANCE_VARIABLE = / @ #{IDENT} /ox
     CLASS_VARIABLE = / @@ #{IDENT} /ox
     OBJECT_VARIABLE = / @@? #{IDENT} /ox
@@ -59,7 +64,7 @@ module Scanners
     }
     QUOTE_TO_TYPE.default = :string
 
-    REGEXP_MODIFIERS = /[mixounse]*/
+    REGEXP_MODIFIERS = /[mousenix]*/
     REGEXP_SYMBOLS = /[|?*+(){}\[\].^$]/
 
     DECIMAL = /\d+(?:_\d+)*/
@@ -131,6 +136,8 @@ module Scanners
       (?: \Z | (?=^\#CODE) )
     /mx
     
+    RUBYDOC_OR_DATA = / #{RUBYDOC} | #{DATA} /xo
+
     # Checks for a valid value to follow. This enables
     # value_expected in method calls without parentheses.
     VALUE_FOLLOWS = /
@@ -141,7 +148,7 @@ module Scanners
       | [-+] \d
       | #{CHARACTER}
       )
-    /x
+    /ox
     KEYWORDS_EXPECTING_VALUE = WordList.new.add(%w[
       and end in or unless begin
       defined? ensure redo super until
@@ -151,11 +158,7 @@ module Scanners
       yield
     ])
 
-    RUBYDOC_OR_DATA = / #{RUBYDOC} | #{DATA} /xo
-
-    RDOC_DATA_START = / ^=begin (?!\S) | ^__END__$ /x
-
-    FANCY_START_CORRECT = / % ( [qQwWxsr] | (?![a-zA-Z0-9]) ) ([^a-zA-Z0-9]) /mx
+    FANCY_START = / % ( [qQwWxsr] | (?![a-zA-Z0-9]) ) ([^a-zA-Z0-9]) /mx
 
     FancyStringType = {
       'q' => [:string, false],
@@ -168,7 +171,7 @@ module Scanners
     FancyStringType['W'] = FancyStringType[''] = FancyStringType['Q']
 
     class StringState < Struct.new :type, :interpreted, :delim, :heredoc,
-      :paren, :paren_depth, :pattern, :next_state
+      :opening_paren, :paren_depth, :pattern, :next_state
 
       CLOSING_PAREN = Hash[ *%w[
         ( )
@@ -223,12 +226,13 @@ module Scanners
           delim = nil
         else
           pattern = STRING_PATTERN[ [delim, interpreted] ]
-          if paren = CLOSING_PAREN[delim]
-            delim, paren = paren, delim
+          if closing_paren = CLOSING_PAREN[delim]
+            opening_paren = delim
+            delim = closing_paren
             paren_depth = 1
           end
         end
-        super kind, interpreted, delim, heredoc, paren, paren_depth, pattern, :initial
+        super kind, interpreted, delim, heredoc, opening_paren, paren_depth, pattern, :initial
       end
     end unless defined? StringState
 

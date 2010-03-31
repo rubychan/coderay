@@ -13,11 +13,11 @@ reserved(module) class(Bytes)
         constant(FactorOfSuffix)operator([)ident(c)operator([)integer(0)operator(,)integer(1)operator(])operator(]) operator(=) ident(const_get) ident(c)
     reserved(end)
    
-    reserved(def) constant(Bytes)operator(.)ident(factor_of_suffix) ident(suff)
+    reserved(def) constant(Bytes)operator(.)method(factor_of_suffix) ident(suff)
         constant(FactorOfSuffix)operator([)ident(suff)operator(])
     reserved(end)
    
-    reserved(def) constant(Bytes)operator(.)ident([]) ident(str)
+    reserved(def) constant(Bytes)operator(.)method([]) ident(str)
         ident(n)operator(,) ident(fac) operator(=) ident(str) operator(/) regexp<delimiter(/)content((.+\)([A-Z]\))delimiter(/)>
         ident(n) operator(=) ident(n)operator(.)ident(to_i)
         ident(fac) operator(=) ident(factor_of_suffix) ident(fac)
@@ -676,12 +676,12 @@ reserved(module) class(Chess)
             string<delimiter(')content(Position(%p, %p\))delimiter(')> operator(%) operator([)ident(x)operator(,) ident(y)operator(])
         reserved(end)
        
-        reserved(def) constant(Position)operator(.)ident(decode) ident(pos)
+        reserved(def) constant(Position)operator(.)method(decode) ident(pos)
             ident(x)operator(,) ident(y) operator(=) ident(pos)operator(.)ident(split)operator(()string<delimiter(')delimiter(')>operator(\))
             reserved(return) ident(x)operator(.)ident(upcase)operator([)integer(0)operator(]) operator(-) integer(?A) operator(+) integer(1)operator(,) instance_variable(@y) operator(=) ident(y)operator([)integer(0)operator(]) operator(-) integer(?0)
         reserved(end)
        
-        reserved(def) constant(Position)operator(.)ident(valid?) ident(x)operator(,) ident(y)
+        reserved(def) constant(Position)operator(.)method(valid?) ident(x)operator(,) ident(y)
             constant(BOARD_RANGE)operator(.)ident(include?) ident(x) reserved(and) constant(BOARD_RANGE)operator(.)ident(include?) ident(y)
         reserved(end)
     reserved(end)

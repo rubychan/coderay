@@ -55,6 +55,11 @@ h3. @Scanners@
   Note: This is still buggy for multi-line tokens.
 * *NEW*: Highlighting of the file name in the change headers as @:filename@.
 
+h3. @Scanners::Debug@
+ 
+* *NEW*: Support for line tokens (@begin_line@ and @end_line@ represented by @[@ and @]@.)
+* *FIXED*: Doesn't send @:error@ and @nil@ tokens for buggy input any more.
+
 h3. @Scanners::Diff@
  
 * *FIXED* Ruby 1.9.2 compatibility problem (see revision 463).
@@ -70,20 +75,25 @@ h3. @Scanners::JavaScript@
 * *IMPROVED* Added @NaN@ and @Infinity@ to list of predefined constants.
 * *FIXED* Don't keep state of XML scanner between calls for E4X literals.
 
-h3. @Scanners::Debug@
- 
-* *NEW*: Support for line tokens (@begin_line@ and @end_line@ represented by @[@ and @]@.)
-* *FIXED*: Doesn't send @:error@ and @nil@ tokens for bugy input any more.
-
 h3. @Scanners::Plaintext@
  
 * *IMPROVED* Just returns the string without scanning (faster).
  
  This is much faster than scanning until @/\z/@ in Ruby 1.8.
 
+h3. @Scanners::Ruby@
+ 
+* *ADDED* more predefined keywords (see http://murfy.de/ruby-constants).
+* *IMPROVED* support for singleton method definitions.
+  See "#147":http://redmine.rubychan.de/issues/147.
+* *FIXED*: Don't highlight methods with a capital letter as constants
+  (eg. GL.PushMatrix).
+* *NEW*: Highlight buggy floats (like .5) as @:error@.
+* *CLEANUP* of documentation, names of constants and variables, state handling.
+
 h3. @Scanners::Scheme@
  
-* *CHANGED*: Does use @:opertor@ instead of @:opertor_fat@ now.
+* *CHANGED*: Does use @:operator@ instead of @:operator_fat@ now.
 
 h3. @Scanners::SQL@
  
@@ -98,7 +108,7 @@ h3. @Styles::Alpha@
 h3. @FileType@
  
 * *REMOVED* @FileType#shebang@ is a protected method now.
-* *NEW*: Regonizes @.gemspec@, @.rjs@, @.rpdf@ extensions and @Capfile@ as Ruby.
+* *NEW*: Recognizes @.gemspec@, @.rjs@, @.rpdf@ extensions and @Capfile@ as Ruby.
   
   Thanks to the authors of the TextMate Ruby bundle!
 

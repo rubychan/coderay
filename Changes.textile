@@ -59,7 +59,9 @@ h3. @Scanners@
 h3. @Scanners::Debug@
  
 * *NEW*: Support for line tokens (@begin_line@ and @end_line@ represented by @[@ and @]@.)
-* *FIXED*: Doesn't send @:error@ and @nil@ tokens for buggy input any more.
+* *FIXED*: Don't send @:error@ and @nil@ tokens for buggy input any more.
+* *FIXED*: Closes unclosed tokens at the end of @scan_tokens@.
+* *IMPROVED*: Highlight unknown tokens as @:error@.
 
 h3. @Scanners::Diff@
  

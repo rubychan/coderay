@@ -500,7 +500,7 @@ keyword(print) string<delimiter(")content(0123456789)delimiter(")> operator(*) i
 keyword(print) ident(wrapper)operator(.)ident(fill)operator(()ident(txt)operator(\))
 
 comment(#-----------------------------)
-string<delimiter(""")content(Expected result:)content(
+docstring<delimiter(""")content(Expected result:)content(
 )content(
 )content(01234567890123456789)content(
 )content(    Folding and)content(
@@ -593,7 +593,7 @@ comment(#-----------------------------)
 comment(# @@PLEAC@@_1.16)
 comment(#-----------------------------)
 keyword(def) method(soundex)operator(()ident(name)operator(,) ident(len)operator(=)integer(4)operator(\))operator(:)
-    string<delimiter(""")content( soundex module conforming to Knuth's algorithm)content(
+    docstring<delimiter(""")content( soundex module conforming to Knuth's algorithm)content(
 )content(        implementation 2000-12-24 by Gregory Jorgensen)content(
 )content(        public domain)content(
 )content(    )delimiter(""")>
@@ -710,7 +710,7 @@ keyword(class) class(PsLineMatch)operator(:)
     keyword(def) method(new_line)operator(()pre_constant(self)operator(,) ident(ln)operator(\))operator(:)
         pre_constant(self)operator(.)ident(_ln) operator(=) ident(ln)operator(.)ident(rstrip)operator(()operator(\))
         comment(# ps header for option "wwaxl" (different than in the perl code\))
-        string<delimiter(""")content(
+        docstring<delimiter(""")content(
 )content(          F   UID   PID  PPID PRI  NI   VSZ  RSS WCHAN  STAT TTY        TIME COMMAND")content(
 )content(        004     0     1     0  15   0   448  236 schedu S    ?          0:07 init")content(
 )content(        .   .     .     .     .   .   .     .    .      .    .    .          .)content(
@@ -2668,7 +2668,7 @@ comment(#-----------------------------)
 comment(# @@PLEAC@@_5.6)
 comment(#-----------------------------)
 keyword(class) class(SequenceDict)operator(()predefined(dict)operator(\))operator(:)
-    string<delimiter(""")content(
+    docstring<delimiter(""")content(
 )content(    Dictionary that remembers the insertion order.)content(
 )content(    The lists returned by keys(\), values(\) and items(\) are)content(
 )content(    in the insertion order.)content(
@@ -3337,7 +3337,7 @@ comment(# FASTER using string.)
 ident(lastfish) operator(=) ident(pond)operator(.)ident(rfind)operator(()string<delimiter(")content(fish)delimiter(")>operator(\))
 ident(color) operator(=) ident(pond)operator([)operator(:)ident(lastfish)operator(])operator(.)ident(split)operator(()operator(\))operator([)operator(-)integer(1)operator(])
 comment(##-----------------------------)
-string<modifier(r)delimiter(""")content((?x\))content(
+docstring<modifier(r)delimiter(""")content((?x\))content(
 )content(    A             # find some pattern A)content(
 )content(    (?!           # mustn't be able to find)content(
 )content(      .*          # something)content(
@@ -3837,7 +3837,7 @@ keyword(if) ident(re)operator(.)ident(match)operator(()ident(pat1)operator(,) id
     ident(something)operator(()operator(\))
 comment(##-----------------------------)
 comment(# DON'T DO THIS.)
-string<delimiter(""")content(minigrep - trivial grep)delimiter(""")>
+docstring<delimiter(""")content(minigrep - trivial grep)delimiter(""")>
 keyword(import) include(sys)operator(,) include(re)
 
 ident(pat) operator(=) ident(sys)operator(.)ident(argv)operator([)integer(1)operator(])
@@ -6001,7 +6001,7 @@ comment(#     that it works under any future Python version.)
 keyword(import) include(inspect)operator(,)include(dis)
 
 keyword(def) method(expecting)operator(()operator(\))operator(:)
-    string<delimiter(""")content(Return how many values the caller is expecting)delimiter(""")>
+    docstring<delimiter(""")content(Return how many values the caller is expecting)delimiter(""")>
     ident(f) operator(=) ident(inspect)operator(.)ident(currentframe)operator(()operator(\))operator(.)ident(f_back)operator(.)ident(f_back)
     ident(bytecode) operator(=) ident(f)operator(.)ident(f_code)operator(.)ident(co_code)
     ident(i) operator(=) ident(f)operator(.)ident(f_lasti)
@@ -8866,7 +8866,7 @@ comment(# Show ASCII values for keypresses)
 
 comment(# _Getch is from http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/134892)
 keyword(class) class(_Getch)operator(:)
-    string<delimiter(""")content(Gets a single character from standard input.  Doesn't echo to screen.)delimiter(""")>
+    docstring<delimiter(""")content(Gets a single character from standard input.  Doesn't echo to screen.)delimiter(""")>
     keyword(def) method(__init__)operator(()pre_constant(self)operator(\))operator(:)
         keyword(try)operator(:)
             pre_constant(self)operator(.)ident(impl) operator(=) ident(_GetchWindows)operator(()operator(\))

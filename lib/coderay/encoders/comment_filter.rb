@@ -18,7 +18,7 @@ module Encoders
     register_for :comment_filter
     
     DEFAULT_OPTIONS = superclass::DEFAULT_OPTIONS.merge \
-      :exclude => [:comment]
+      :exclude => [:comment, :docstring]
     
   end
   
@@ -47,6 +47,34 @@ puts "Hello world!"
 
 puts "Hello world!"
     RUBY_FILTERED
+  end
+  
+  def test_filtering_docstrings
+    tokens = CodeRay.scan <<-PYTHON, :python
+'''
+Assuming this is file mymodule.py then this string, being the
+first statement in the file will become the mymodule modules
+docstring when the file is imported
+'''
+
+class Myclass():
+    """The class's docstring"""
+
+    def mymethod(self):
+        "The method's docstring"
+
+def myfunction():
+    "The function's docstring"
+    PYTHON
+    assert_equal <<-PYTHON_FILTERED.chomp, tokens.comment_filter.text
+
+class Myclass():
+    
+    def mymethod(self):
+        
+def myfunction():
+    
+PYTHON_FILTERED
   end
   
 end

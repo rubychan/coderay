@@ -82,6 +82,7 @@ module CodeRay
     AbbreviationForKind[:open] = AbbreviationForKind[:close] = AbbreviationForKind[:delimiter]
     AbbreviationForKind[:nesting_delimiter] = AbbreviationForKind[:delimiter]
     AbbreviationForKind[:escape] = AbbreviationForKind[:delimiter]
+    AbbreviationForKind[:docstring] = AbbreviationForKind[:comment]
     #AbbreviationForKind.default = AbbreviationForKind[:error] or raise 'no class found for :error!'
   end
 end

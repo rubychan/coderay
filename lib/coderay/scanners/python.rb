@@ -103,6 +103,8 @@ module Scanners
       state = :initial
       string_delimiter = nil
       string_raw = false
+      string_type = nil
+      docstring_coming = false
       import_clause = class_name_follows = last_token_dot = false
       unicode = string.respond_to?(:encoding) && string.encoding.name == 'UTF-8'
       from_import_state = []
@@ -115,7 +117,8 @@ module Scanners
         if state == :string
           if scan(STRING_DELIMITER_REGEXP[string_delimiter])
             tokens << [matched, :delimiter]
-            tokens << [:close, :string]
+            tokens << [:close, string_type]
+            string_type = nil
             state = :initial
             next
           elsif string_delimiter.size == 3 && scan(/\n/)
@@ -129,20 +132,20 @@ module Scanners
           elsif scan(/ \\ . /x)
             kind = :content
           elsif scan(/ \\ | $ /x)
-            tokens << [:close, :string]
+            tokens << [:close, string_type]
+            string_type = nil
             kind = :error
             state = :initial
           else
             raise_inspect "else case \" reached; %p not handled." % peek(1), tokens, state
           end
         
-        elsif match = scan(/ [ \t]+ | \\\n /x)
+        elsif match = scan(/ [ \t]+ | \\?\n /x)
           tokens << [match, :space]
-          next
-        
-        elsif match = scan(/\n/)
-          tokens << [match, :space]
-          state = :initial if state == :include_expected
+          if match == "\n"
+            state = :initial if state == :include_expected
+            docstring_coming = true if match?(/[ \t]*u?r?"""/)
+          end
           next
         
         elsif match = scan(/ \# [^\n]* /mx)
@@ -155,8 +158,10 @@ module Scanners
             kind = :operator
           
           elsif match = scan(/(u?r?|b)?("""|"|'''|')/i)
-            tokens << [:open, :string]
             string_delimiter = self[2]
+            string_type = docstring_coming ? :docstring : :string
+            docstring_coming = false if docstring_coming
+            tokens << [:open, string_type]
             string_raw = false
             modifiers = self[1]
             unless modifiers.empty?
@@ -277,7 +282,7 @@ module Scanners
       end
       
       if state == :string
-        tokens << [:close, :string]
+        tokens << [:close, string_type]
       end
       
       tokens

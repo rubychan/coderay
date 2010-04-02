@@ -45,6 +45,8 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .av { color:#700 }
 .bi { color:#509; font-weight:bold }
 .c  { color:#888; }
+.c .dl { color:#444; }
+.c .ch { color:#444; }
 
 .ch { color:#04D }
 .ch .k { color:#04D }

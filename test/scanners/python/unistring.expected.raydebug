@@ -1,5 +1,5 @@
 comment(# -*- coding: utf-8 -*-)
-string<delimiter(""")content(
+docstring<delimiter(""")content(
 )content(    pygments.unistring)content(
 )content(    ~~~~~~~~~~~~~~~~~~)content(
 )content(

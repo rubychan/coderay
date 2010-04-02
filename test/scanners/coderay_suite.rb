@@ -336,7 +336,7 @@ module CodeRay
           actual_filename = expected_filename.sub('.expected.', '.actual.')
           File.open(actual_filename, 'wb') { |f| f.write result }
           diff = expected_filename.sub(/\.expected\..*/, '.debug.diff')
-          system "diff --unified=0 --text #{expected_filename} #{actual_filename} > #{diff}"
+          system "diff --unified=1 --text #{expected_filename} #{actual_filename} > #{diff}"
           changed_lines = []
           debug_diff = File.read diff
           File.open diff + '.html', 'wb' do |f|

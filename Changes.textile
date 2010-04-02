@@ -90,6 +90,11 @@ h3. @Scanners::Java@
 
 h3. @Scanners::Plaintext@
  
+* *CHANGED*: Docstrings are highlighted as @:comment@.
+  See "#190":http://redmine.rubychan.de/issues/190.
+
+h3. @Scanners::Python@
+ 
 * *IMPROVED*: Just returns the string without scanning (faster).
  
  This is much faster than scanning until @/\z/@ in Ruby 1.8.

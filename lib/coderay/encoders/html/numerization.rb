@@ -77,11 +77,9 @@ module Encoders
           # FIXME Still not working perfect for Mr. Internet Exploder
           line_numbers = (start ... start + line_count).to_a.map(&bolding).join("\n")
           line_numbers << "\n"  # also for Mr. MS Internet Exploder :-/
-          line_numbers.gsub!(/\n/) { "<tt>\n</tt>" }
 
           line_numbers_table_tpl = TABLE.apply('LINE_NUMBERS', line_numbers)
           gsub!(/<\/div>\n/) { '</div>' }
-          gsub!(/\n/) { "<tt>\n</tt>" }
           wrap_in! line_numbers_table_tpl
           @wrapped_in = :div
 

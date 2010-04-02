@@ -79,7 +79,7 @@ ol.CodeRay li { white-space: pre }
 .i  { color:#00D; font-weight:bold }
 .ic { color:#B44; font-weight:bold }
 
-.il { background: hsla(0,0%,0%,0.1); color: black }
+.il { background-color: hsla(0,0%,0%,0.1); color: black }
 .il .idl { font-weight: bold; color: #666 }
 .idl { font-weight: bold; color: #666; }
 

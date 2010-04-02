@@ -49,6 +49,7 @@ module CodeRay
       :label => 'la',
       :local_variable => 'lv',
       :modifier => 'mod',
+      :namespace => 'ns',
       :oct => 'oc',
       :predefined => 'pd',
       :preprocessor => 'pp',

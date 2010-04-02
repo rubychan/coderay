@@ -52,7 +52,9 @@ module Scanners
 
       state = :initial
       string_delimiter = nil
-      import_clause = class_name_follows = last_token_dot = false
+      package_name_expected = false
+      class_name_follows = false
+      last_token_dot = false
 
       until eos?
 
@@ -71,8 +73,8 @@ module Scanners
             tokens << [match, :comment]
             next
           
-          elsif import_clause && scan(/ #{IDENT} (?: \. #{IDENT} )* /ox)
-            kind = :include
+          elsif package_name_expected && scan(/ #{IDENT} (?: \. #{IDENT} )* /ox)
+            kind = package_name_expected
           
           elsif match = scan(/ #{IDENT} | \[\] /ox)
             kind = IDENT_KIND[match]
@@ -82,15 +84,21 @@ module Scanners
               kind = :class
               class_name_follows = false
             else
-              import_clause = true if match == 'import'
-              class_name_follows = true if match == 'class' || match == 'interface'
+              case match
+              when 'import'
+                package_name_expected = :include
+              when 'package'
+                package_name_expected = :namespace
+              when 'class', 'interface'
+                class_name_follows = true
+              end
             end
           
           elsif scan(/ \.(?!\d) | [,?:()\[\]}] | -- | \+\+ | && | \|\| | \*\*=? | [-+*\/%^~&|<>=!]=? | <<<?=? | >>>?=? /x)
             kind = :operator
           
           elsif scan(/;/)
-            import_clause = false
+            package_name_expected = false
             kind = :operator
           
           elsif scan(/\{/)

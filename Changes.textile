@@ -20,7 +20,7 @@ h3. @Tokens::AbbreviationForKind@
 * *RENAMED* from @ClassOfKind@. The term "token class" is no longer used in CodeRay. Instead, tokens have _kinds_.
   See "#122":http://redmine.rubychan.de/issues/122.
 * *REMOVED* token kinds @:attribute_name_fat@, @:attribute_value_fat@, @:operator_fat@, @:tag_fat@, and @:xml_text@.
-* *ADDED* token kind @:filename@.
+* *ADDED* token kinds @:filename@ and @:namespace@.
 * *CHANGED*: Don't raise error for unknown token kinds unless in @$CODERAY_DEBUG@ mode.
 
 h3. @Encoders::CommentFilter@
@@ -80,12 +80,17 @@ h3. @Scanners::Diff@
 
 h3. @Scanners::JavaScript@
  
-* *IMPROVED* Added @NaN@ and @Infinity@ to list of predefined constants.
-* *FIXED* Don't keep state of XML scanner between calls for E4X literals.
+* *IMPROVED*: Added @NaN@ and @Infinity@ to list of predefined constants.
+* *FIXED*: Don't keep state of XML scanner between calls for E4X literals.
+
+h3. @Scanners::Java@
+ 
+* *NEW*: Package names are highlighted as @:namespace@.
+  See "#210":http://redmine.rubychan.de/issues/210.
 
 h3. @Scanners::Plaintext@
  
-* *IMPROVED* Just returns the string without scanning (faster).
+* *IMPROVED*: Just returns the string without scanning (faster).
  
  This is much faster than scanning until @/\z/@ in Ruby 1.8.
 

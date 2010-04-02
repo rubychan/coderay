@@ -1,0 +1,12 @@
+keyword(package) namespace(pl.silvermedia.ws)operator(;)
+keyword(import) include(java.util.List)operator(;)
+
+keyword(import) include(javax.jws.WebParam)operator(;)
+keyword(import) include(javax.jws.WebService)operator(;)
+
+annotation(@WebService)
+directive(public) type(interface) class(ContactUsService) operator({)
+  pre_type(List)operator(<)ident(Message)operator(>) ident(getMessages)operator(()operator(\))operator(;)
+  ident(Message) ident(getFirstMessage)operator(()operator(\))operator(;)
+    type(void) ident(postMessage)operator(()annotation(@WebParam)operator(()ident(name) operator(=) string<delimiter(")content(message)delimiter(")>operator(\)) ident(Message) ident(message)operator(\))operator(;)
+operator(})

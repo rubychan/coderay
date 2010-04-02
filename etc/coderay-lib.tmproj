@@ -5,6 +5,8 @@
 	<key>documents</key>
 	<array>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -24,15 +26,15 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-03-31T21:23:15Z</date>
+			<date>2010-03-31T22:10:55Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../lib.diff</string>
 			<key>lastUsed</key>
 			<date>2010-03-31T19:58:45Z</date>
-			<key>selected</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -51,6 +53,10 @@
 			<string>../TODO</string>
 			<key>lastUsed</key>
 			<date>2009-10-03T23:52:27Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>../ftp.yaml</string>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -77,12 +83,8 @@
 		<dict>
 			<key>filename</key>
 			<string>../LICENSE</string>
-			<key>lastUsed</key>
-			<date>2010-03-08T22:53:09Z</date>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>rake_helpers</string>
 			<key>regexFolderFilter</key>
@@ -102,7 +104,7 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2010-01-07T00:13:10Z</date>
+			<date>2010-03-31T21:53:39Z</date>
 		</dict>
 		<dict>
 			<key>name</key>

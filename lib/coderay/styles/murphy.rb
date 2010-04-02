@@ -20,8 +20,6 @@ module Styles
 }
 .CodeRay pre { margin: 0px; }
 
-div.CodeRay { }
-
 span.CodeRay { white-space: pre; border: 0px; padding: 2px; }
 
 table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px; }
@@ -32,13 +30,9 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
   color: gray;
   text-align: right;
 }
-.CodeRay .line_numbers tt { font-weight: bold; }
+.CodeRay .line_numbers .highlighted, .CodeRay .no .highlighted { color: red; }
 .CodeRay .no { padding: 0px 4px; }
 .CodeRay .code { width: 100%; }
-
-ol.CodeRay { font-size: 10pt; }
-ol.CodeRay li { white-space: pre; }
-
 .CodeRay .code pre { overflow: auto; }
     MAIN
 

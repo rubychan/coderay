@@ -30,6 +30,15 @@ h3. @Encoders::CommentFilter@
 h3. @Encoders::HTML@
  
 * *CHANGED* the default style to @:alpha@.
+* *NEW*: HTML 5 and CSS 3 compatible, IE incompatible.
+  See "#215":http://redmine.rubychan.de/issues/215.
+* *ADDED* support for @:line_number_anchors@.
+  See "#208":http://redmine.rubychan.de/issues/208.
+* *CHANGED*: Use double click to toggle line numbers in table mode (as single 
+  click jumps to an anchor.)
+* *REMOVED* support for @:line_numbers => :list@.
+* *FIXED* splitting of lines for @:line_numbers => :inline@, so that the line
+  numbers don't get colored, too.
 
 h3. @Encoders::Terminal@
  

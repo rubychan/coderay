@@ -168,17 +168,11 @@ module Encoders
 
       TABLE = <<-`TABLE`
 <table class="CodeRay"><tr>
-  <td class="line_numbers" title="click to toggle" onclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><%LINE_NUMBERS%></pre></td>
+  <td class="line_numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><%LINE_NUMBERS%></pre></td>
   <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><%CONTENT%></pre></td>
 </tr></table>
       TABLE
       # title="double click to expand"
-
-      LIST = <<-`LIST`
-<ol class="CodeRay">
-<%CONTENT%>
-</ol>
-      LIST
 
       PAGE = <<-`PAGE`
 <!DOCTYPE html>
@@ -187,6 +181,10 @@ module Encoders
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title></title>
   <style type="text/css">
+.CodeRay .line_numbers a, .CodeRay .no a {
+  text-decoration: inherit;
+  color: inherit;
+}
 <%CSS%>
   </style>
 </head>

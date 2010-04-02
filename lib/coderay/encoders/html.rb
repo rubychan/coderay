@@ -49,9 +49,17 @@ module Encoders
   # Default: 'CodeRay output'
   #
   # === :line_numbers
-  # Include line numbers in :table, :inline, :list or nil (no line numbers)
+  # Include line numbers in :table, :inline, or nil (no line numbers)
   #
   # Default: nil
+  #
+  # === :line_number_anchors
+  # Adds anchors and links to the line numbers. Can be false (off), true (on),
+  # or a prefix string that will be prepended to the anchor name.
+  #
+  # The prefix must consist only of letters, digits, and underscores.
+  #
+  # Default: true, default prefix name: "line"
   #
   # === :line_number_start
   # Where to start with line number counting.
@@ -96,6 +104,7 @@ module Encoders
       :title => 'CodeRay output',
 
       :line_numbers => nil,
+      :line_number_anchors => 'n',
       :line_number_start => 1,
       :bold_every => 10,
       :highlight_lines => nil,

@@ -66,13 +66,12 @@ namespace :gem do
       $version = CodeRay::VERSION
     end
     puts 'Current Version: %s' % $version
-    if $version[/.0$/]
-      $version << '.' << svn_head_revision
-      $gem_name << '-beta'
-    end
     if ENV['pre']
       $version << '.' << svn_head_revision
       $version << '.pre'
+    elsif $version[/.0$/]
+      $version << '.' << svn_head_revision
+      $gem_name << '-beta'
     end
   end
 

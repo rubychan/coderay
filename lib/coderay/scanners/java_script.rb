@@ -215,7 +215,7 @@ module Scanners
     end
 
     def xml_scanner
-      @xml_scanner ||= CodeRay.scanner :xml, :tokens => @tokens, :keep_tokens => true, :keep_state => true
+      @xml_scanner ||= CodeRay.scanner :xml, :tokens => @tokens, :keep_tokens => true, :keep_state => false
     end
 
   end

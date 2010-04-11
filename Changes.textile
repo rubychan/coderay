@@ -6,7 +6,7 @@ h2. Changes in 0.9.3
  
 * *FIXED*: Documentation of Tokens.
   ("#218":http://redmine.rubychan.de/issues/218)
-
+ 
 h3. @coderay@ executable
  
 * *NEW*: automatic TTY detection (uses @Term@ encoder)

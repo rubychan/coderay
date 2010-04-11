@@ -1,4 +1,4 @@
-h1=. CodeRay Version Changes
+h1=. CodeRay Version History
  
 p=. _This files lists all changes in the CodeRay library since the 0.8.4 release._
  
@@ -8,13 +8,6 @@ h2. Changes in 1.0
 * *FIXED* some image links in the documentation
 * *IMPROVED* Ruby 1.9 support (_._ not in @$LOAD_PATH@)
  
-h3. @coderay@ executable
- 
-* *NEW* automatic TTY detection, uses @Terminal@ encoder.
-* *NEW* optional 3rd parameter for the filename.
-* *FIXED*: Warn about generated files.
-* *FIXED*: Ensure linebreak after the output (was problematic for LoC counter).
-
 h3. @Tokens::AbbreviationForKind@
  
 * *RENAMED* from @ClassOfKind@. The term "token class" is no longer used in CodeRay. Instead, tokens have _kinds_.
@@ -54,7 +47,6 @@ h3. @Encoders::TokenKindFilter@
 
 h3. @Scanners::Scanner@
  
-* *FIXED* Ruby 1.9.2 compatibility problem (see revision 463).
 * *REMOVED* @String#to_unix@.
 
 h3. @Scanners::Debug@
@@ -81,7 +73,6 @@ h3. @Scanners::Diff@
 h3. @Scanners::JavaScript@
  
 * *IMPROVED*: Added @NaN@ and @Infinity@ to list of predefined constants.
-* *FIXED*: Don't keep state of XML scanner between calls for E4X literals.
 
 h3. @Scanners::Java@
  
@@ -136,6 +127,24 @@ h3. @FileType@
 h3. Internal API changes
  
 * *FIXED* @Encoders::HTML#token@'s second parameter is no longer optional.
+
+
+h2. Changes in 0.9.3
+ 
+* *FIXED*: Documentation of Tokens.
+  ("#218":http://redmine.rubychan.de/issues/218)
+ 
+h3. @coderay@ executable
+ 
+* *NEW*: automatic TTY detection (uses @Term@ encoder)
+* *NEW*: optional 3rd parameter for the filename
+* *FIXED*: Converted to UNIX format.
+* *FIXED*: Warn about generated files.
+* *FIXED*: Ensure line break after the output (especially for LoC counter).
+
+h3. @Scanners::JavaScript@
+ 
+* *FIXED*: Don't keep state of XML scanner between calls for E4X literals.
 
 
 h2. Changes in 0.9.2

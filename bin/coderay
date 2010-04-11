@@ -22,12 +22,16 @@ begin
   if ARGV.empty?
     puts <<-USAGE
 CodeRay #{CodeRay::VERSION} (http://coderay.rubychan.de)
+
 Usage:
   coderay -<lang> [-<format>] < file > output
   coderay file [-<format>]
-Example:
+
+Examples:
   coderay -ruby -statistic < foo.rb
-  coderay -ruby < foo.rb  # colorized output on terminal
+  coderay -ruby < foo.rb  # colorized output to terminal
+  coderay -ruby -page foo.rb  # HTML page output to terminal
+  coderay -ruby -page foo.rb > foo.html  # HTML page output to file
   coderay codegen.c  # generates codegen.c.html
     USAGE
   end

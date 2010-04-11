@@ -416,8 +416,7 @@ module CodeRay
         end
         File.open(actual_html, 'w') { |f| f.write highlighted }
         if okay
-          debug = $DEBUG
-          $DEBUG = false
+          debug, $DEBUG = $DEBUG, false
           FileUtils.copy(actual_html, name + '.expected.html')
           $DEBUG = debug
         end

@@ -1,0 +1,55 @@
+/* See http://reference.sitepoint.com/css/content. */
+@media print {
+  a[href]:after {
+    content: "<" attr(href) ">";
+  }
+}
+
+a:link:after, a:visited:after {content:" (" attr(href) ")";font-size:90%;}
+ol {
+  counter-reset: item;
+  margin: 0;
+  padding: 0;
+}
+ol>li {
+  counter-increment: item;
+  list-style: none inside;
+}
+ol>li:before {
+  content: counters(item, ".") " - ";
+}
+
+body {
+  counter-reset: chapter;
+}
+h1 {
+  counter-increment: chapter;
+  counter-reset: section;
+}
+h2 {
+  counter-increment: section;
+}
+h1:before {
+  content: "Chapter " counter(chapter) ": ";
+}
+h2:before {
+  content: counter(chapter) "." counter(section) " ";
+}
+
+blockquote p {
+  margin: 0;
+  text-indent: 1em;
+  quotes: "\201c" "\201d";
+}
+blockquote p:first-of-type {
+  text-indent: 0;
+}
+blockquote p::before {
+  content: open-quote;
+}
+blockquote p::after {
+  content: no-close-quote;
+}
+blockquote p:last-of-type::after {
+  content: close-quote;
+}

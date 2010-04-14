@@ -41,7 +41,7 @@ module Scanners
       Dimension = /#{Num}#{Unit}/
 
       Comment = %r! /\* (?: .*? \*/ | .* ) !mx
-      Function = /(?:url|alpha)\((?:[^)\n\r\f]|\\\))*\)?/
+      Function = /(?:url|alpha|attr|counters?)\((?:[^)\n\r\f]|\\\))*\)?/
 
       Id = /##{Name}/
       Class = /\.#{Name}/
@@ -76,11 +76,9 @@ module Scanners
               kind = :pseudo_class
             elsif match = scan(RE::AttributeSelector)
               # TODO: Improve highlighting inside of attribute selectors.
-              tokens << [:open, :string]
-              tokens << [match[0,1], :delimiter]
-              tokens << [match[1..-2], :content] if match.size > 2
-              tokens << [match[-1,1], :delimiter] if match[-1] == ?]
-              tokens << [:close, :string]
+              tokens << [match[0,1], :operator]
+              tokens << [match[1..-2], :attribute_name] if match.size > 2
+              tokens << [match[-1,1], :operator] if match[-1] == ?]
               next
             elsif match = scan(/@media/)
               kind = :directive
@@ -171,7 +169,7 @@ module Scanners
         elsif scan(/! *important/)
           kind = :important
 
-        elsif scan(/rgb\([^()\n]*\)?/)
+        elsif scan(/(?:rgb|hsl)a?\([^()\n]*\)?/)
           kind = :color
 
         elsif scan(/#{RE::AtKeyword}/o)

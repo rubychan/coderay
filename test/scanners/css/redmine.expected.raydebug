@@ -281,7 +281,7 @@ class(.tabular)class(.settings) type(label)operator({) key(margin-left)operator(
 class(.required) operator({)key(color)operator(:) color(#bb0000)operator(;)operator(})
 class(.summary) operator({)key(font-style)operator(:) value(italic)operator(;)operator(})
 
-constant(#attachments_fields) type(input)string<delimiter([)content(type=text)delimiter(])> operator({)key(margin-left)operator(:) float(8px)operator(;) operator(})
+constant(#attachments_fields) type(input)operator([)attribute_name(type=text)operator(]) operator({)key(margin-left)operator(:) float(8px)operator(;) operator(})
 
 type(div)class(.attachments) operator({) key(margin-top)operator(:) float(12px)operator(;) operator(})
 type(div)class(.attachments) type(p) operator({) key(margin)operator(:)float(4px) float(0) float(2px) float(0)operator(;) operator(})

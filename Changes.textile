@@ -8,17 +8,18 @@ h2. Changes in 1.0
 * *FIXED* some image links in the documentation
 * *IMPROVED* Ruby 1.9 support (_._ not in @$LOAD_PATH@)
  
-h3. @Tokens::AbbreviationForKind@
+h3. *RENAMED*: @Tokens::AbbreviationForKind@
  
-* *RENAMED* from @ClassOfKind@. The term "token class" is no longer used in CodeRay. Instead, tokens have _kinds_.
-  See "#122":http://redmine.rubychan.de/issues/122.
+Renamed from @ClassOfKind@; the term "token class" is no longer used in CodeRay. Instead, tokens have _kinds_.
+See "#122":http://redmine.rubychan.de/issues/122.
+
 * *REMOVED* token kinds @:attribute_name_fat@, @:attribute_value_fat@, @:operator_fat@, @:tag_fat@, and @:xml_text@.
 * *ADDED* token kinds @:filename@ and @:namespace@.
 * *CHANGED*: Don't raise error for unknown token kinds unless in @$CODERAY_DEBUG@ mode.
 
 h3. @Encoders::CommentFilter@
  
-* *NEW* alias @:remove_comments@.
+* *NEW* alias @:remove_comments@
 
 h3. @Encoders::HTML@
  
@@ -48,6 +49,13 @@ h3. @Encoders::TokenKindFilter@
 h3. @Scanners::Scanner@
  
 * *REMOVED* @String#to_unix@.
+
+h3. @Scanners::CSS@
+ 
+* *NEW*: Rudimentary support for the @attr@, @counter@, and @counters@ functions.
+  See "#224":http://redmine.rubychan.de/issues/224.
+* *NEW*: Rudimentary support for CSS 3 colors.
+* *CHANGED*: Attribute selectors are highlighted as @:attribute_name@ instead of @:string@.
 
 h3. @Scanners::Debug@
  
@@ -112,10 +120,10 @@ h3. @Scanners::SQL@
 * *IMPROVED*: Extended list of keywords and functions (thanks to Joshua Galvez).
   See "#221":http://redmine.rubychan.de/issues/221.
 
-h3. @Styles::Alpha@
+h3. *NEW*: @Styles::Alpha@
  
-* *NEW* A style that uses transparent HSLA colors as defined in CSS 3.
-  See "#199":http://redmine.rubychan.de/issues/199.
+A style that uses transparent HSLA colors as defined in CSS 3.
+See "#199":http://redmine.rubychan.de/issues/199.
 
 h3. @FileType@
  

@@ -336,17 +336,19 @@ module CodeRay
           actual_filename = expected_filename.sub('.expected.', '.actual.')
           File.open(actual_filename, 'wb') { |f| f.write result }
           diff = expected_filename.sub(/\.expected\..*/, '.debug.diff')
-          system "diff --unified=1 --text #{expected_filename} #{actual_filename} > #{diff}"
-          changed_lines = []
+          system "diff --unified=0 --text #{expected_filename} #{actual_filename} > #{diff}"
           debug_diff = File.read diff
-          File.open diff + '.html', 'wb' do |f|
-            f.write Highlighter.encode_tokens(CodeRay.scan(debug_diff, :diff),
-              :title => "#{self.class.name[/\w+$/]}: #{name}, differences from expected output")
-          end
+          changed_lines = []
           debug_diff.scan(/^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/) do |offset, size|
             offset = offset.to_i
             size = (size || 1).to_i
             changed_lines.concat Array(offset...offset + size)
+          end
+          system "diff --unified=0 --text #{expected_filename} #{actual_filename} > #{diff}"
+          debug_diff = File.read diff
+          File.open diff + '.html', 'wb' do |f|
+            f.write Highlighter.encode_tokens(CodeRay.scan(debug_diff, :diff),
+              :title => "#{self.class.name[/\w+$/]}: #{name}, differences from expected output")
           end
         end
         

@@ -39,8 +39,8 @@ module Scanners
       heredocs = nil
       inline_block_stack = nil
       inline_block_curly_depth = 0
-      def_object_stack = nil
-      def_object_paren_depth = 0
+      # def_object_stack = nil
+      # def_object_paren_depth = 0
       unicode = string.respond_to?(:encoding) && string.encoding.name == 'UTF-8'
       
       patterns = Patterns  # avoid constant lookup
@@ -402,6 +402,15 @@ module Scanners
               next
             end
 
+          elsif state == :undef_comma_expected
+            if match = scan(/,/)
+              kind = :operator
+              state = :undef_expected
+            else
+              state = :initial
+              next
+            end
+
           elsif state == :alias_expected
             match = scan(unicode ? /(#{patterns::METHOD_NAME_OR_SYMBOL})([ \t]+)(#{patterns::METHOD_NAME_OR_SYMBOL})/uo :
                                    /(#{patterns::METHOD_NAME_OR_SYMBOL})([ \t]+)(#{patterns::METHOD_NAME_OR_SYMBOL})/o)
@@ -413,15 +422,6 @@ module Scanners
             end
             state = :initial
             next
-
-          elsif state == :undef_comma_expected
-            if match = scan(/,/)
-              kind = :operator
-              state = :undef_expected
-            else
-              state = :initial
-              next
-            end
 
           end
           

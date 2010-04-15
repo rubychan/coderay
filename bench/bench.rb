@@ -60,10 +60,6 @@ end
 
 n = ARGV.find { |a| a[/^N/] }
 N = if n then n[/\d+/].to_i else 1 end
-o = ARGV.find { |a| a[/^O/] }
-Offset = if o then o[/\d+/].to_i else 1 end
-b = ARGV.find { |a| a[/^B/] }
-BoldEvery = if b then b[/\d+/].to_i else 10 end
 $filename = ARGV.include?('strange') ? 'strange' : 'example'
 
 (compare ? 1 : 5).times do
@@ -85,9 +81,6 @@ Benchmark.bm(20) do |bm|
   time = bm.report('CodeRay') do
     options = {
       :tab_width => 2,
-      :line_numbers => :inline,
-      :line_numbers_offset => Offset,
-      :bold_every => BoldEvery,
       :wrap => :page,
       :css => $style ? :style : :class,
     }

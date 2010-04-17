@@ -13,9 +13,6 @@ module Scanners
       :error, :integer, :operator, :value,
     ]
     
-    CONSTANTS = %w( true false null )
-    IDENT_KIND = WordList.new(:key).add(CONSTANTS, :value)
-    
     ESCAPE = / [bfnrt\\"\/] /x
     UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} /x
     
@@ -23,7 +20,6 @@ module Scanners
       
       state = :initial
       stack = []
-      string_delimiter = nil
       key_expected = false
       
       until eos?
@@ -47,7 +43,7 @@ module Scanners
             when '}', ']' then stack.pop  # no error recovery, but works for valid JSON
             end
           elsif match = scan(/ true | false | null /x)
-            kind = IDENT_KIND[match]
+            kind = :value
           elsif match = scan(/-?(?:0|[1-9]\d*)/)
             kind = :integer
             if scan(/\.\d+(?:[eE][-+]?\d+)?|[eE][-+]?\d+/)
@@ -76,7 +72,7 @@ module Scanners
           elsif scan(/\\./m)
             kind = :content
           elsif scan(/ \\ | $ /x)
-            tokens << [:close, :delimiter]
+            tokens << [:close, state]
             kind = :error
             state = :initial
           else

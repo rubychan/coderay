@@ -149,7 +149,7 @@ module Scanners
           elsif scan(/\\./m)
             kind = :content
           elsif scan(/ \\ | $ /x)
-            tokens << [:close, :delimiter]
+            tokens << [:close, state]
             kind = :error
             state = :initial
           else

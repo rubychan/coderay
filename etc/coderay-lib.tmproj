@@ -3,10 +3,12 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>../lib/coderay/scanners/diff.rb</string>
+	<string>speedup/direct-stream.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -15,8 +17,6 @@
 			<string>../lib</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>bin</string>
 			<key>regexFolderFilter</key>
@@ -28,15 +28,13 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-04-11T23:04:37Z</date>
+			<date>2010-04-15T00:18:50Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-04-11T23:14:08Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2010-04-15T00:12:51Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -55,6 +53,8 @@
 			<string>../ftp.yaml</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>etc</string>
 			<key>regexFolderFilter</key>
@@ -89,6 +89,8 @@
 			<string>../rake_helpers</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>rake_tasks</string>
 			<key>regexFolderFilter</key>
@@ -114,59 +116,58 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-04-11T21:08:06Z</date>
+			<date>2010-04-15T23:26:11Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../test/scanners/suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-03-26T05:02:45Z</date>
+			<date>2010-04-14T23:56:18Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2010-03-26T04:44:40Z</date>
+			<date>2010-04-15T01:40:12Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>213</integer>
 	<key>metaData</key>
 	<dict>
-		<key>../lib/coderay/scanners/diff.rb</key>
+		<key>speedup/current.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>34</integer>
-				<key>line</key>
 				<integer>38</integer>
+				<key>line</key>
+				<integer>115</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>17</integer>
-			<key>selectFrom</key>
+			<integer>90</integer>
+		</dict>
+		<key>speedup/direct-stream.rb</key>
+		<dict>
+			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>23</integer>
+				<integer>27</integer>
 				<key>line</key>
-				<integer>38</integer>
+				<integer>150</integer>
 			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>34</integer>
-				<key>line</key>
-				<integer>38</integer>
-			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>132</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>../lib/coderay/scanners/diff.rb</string>
+		<string>speedup/current.rb</string>
+		<string>speedup/direct-stream.rb</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>

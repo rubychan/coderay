@@ -243,9 +243,7 @@ module CodeRay
       size
     end
 
-    # The total size of the tokens.
-    # Should be equal to the input size before
-    # scanning.
+    # Return all text tokens joined into a single string.
     def text
       map { |t, k| t if t.is_a? ::String }.join
     end

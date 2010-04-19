@@ -81,6 +81,8 @@
 			<string>../rake_helpers</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>rake_tasks</string>
 			<key>regexFolderFilter</key>
@@ -92,7 +94,7 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2010-03-13T19:35:02Z</date>
+			<date>2010-04-18T07:19:12Z</date>
 		</dict>
 		<dict>
 			<key>expanded</key>

@@ -61,7 +61,7 @@ namespace :gem do
   task :get_version do
     $gem_name = 'coderay'
     unless $version
-      $: << './lib'
+      $:.unshift './lib'
       require 'coderay'
       $version = CodeRay::VERSION
     end

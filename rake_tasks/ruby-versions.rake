@@ -16,6 +16,10 @@ task '19' do
   RUBY.replace 'ruby19'
 end
 
+task '191' do
+  RUBY.replace 'ruby191'
+end
+
 task '18' do
   RUBY.replace 'ruby18'
 end

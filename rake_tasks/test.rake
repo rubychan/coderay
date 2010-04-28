@@ -15,7 +15,7 @@ namespace :test do
     desc 'run all functional tests on all supported Ruby platforms'
     task :all do
       $stdout.sync = true
-      for task in %w(test:functional 19 test:functional jruby test:functional ee test:functional)
+      for task in %w(test:functional 187 test:functional ee test:functional 19 test:functional 191 test:functional jruby test:functional)
         if task == 'test:functional'
           puts "\n\nTesting with #{RUBY}..."
           Rake::Task['test:functional'].reenable

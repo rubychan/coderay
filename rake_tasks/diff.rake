@@ -15,17 +15,21 @@ class Differ < Hash
   
   def scan(path = @path)
     Dir.chdir path do
-      system 'svn diff > diff'
-      if File.size? 'diff'
+      diff_file_name = 'diff'
+      if File.directory? 'diff'
+        diff_file_name = 'diff.diff'
+      end
+      system "svn diff > #{diff_file_name}"
+      if File.size? diff_file_name
         puts FORMAT %
           [
             path,
-            count(:LOC, `wc -l diff`.to_i),
-            count(:changes, `grep ^@@ diff | wc -l`.to_i),
-            count(:files, `grep ^Index diff | wc -l`.to_i),
+            count(:LOC, `wc -l #{diff_file_name}`.to_i),
+            count(:changes, `grep ^@@ #{diff_file_name} | wc -l`.to_i),
+            count(:files, `grep ^Index #{diff_file_name} | wc -l`.to_i),
           ]
       else
-        rm 'diff'
+        rm diff_file_name
       end
     end
   end
@@ -39,7 +43,8 @@ class Differ < Hash
   
   def clean(path = @path)
     Dir.chdir path do
-      rm 'diff' if File.exist? 'diff'
+      rm 'diff' if File.file? 'diff'
+      rm 'diff.diff' if File.file? 'diff.diff'
     end
   end
   

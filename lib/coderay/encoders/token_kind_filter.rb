@@ -76,28 +76,28 @@ class TokenKindFilterTest < Test::Unit::TestCase
   def test_filtering_text_tokens
     tokens = CodeRay::Tokens.new
     for i in 1..10
-      tokens << [i.to_s, :index]
-      tokens << [' ', :space] if i < 10
+      tokens.text_token i.to_s, :index
+      tokens.text_token ' ', :space if i < 10
     end
-    assert_equal 10, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :exclude => :space).size
-    assert_equal 10, tokens.token_kind_filter(:exclude => :space).size
-    assert_equal 9, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :include => :space).size
-    assert_equal 9, tokens.token_kind_filter(:include => :space).size
-    assert_equal 0, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :exclude => :all).size
-    assert_equal 0, tokens.token_kind_filter(:exclude => :all).size
+    assert_equal 10, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :exclude => :space).count
+    assert_equal 10, tokens.token_kind_filter(:exclude => :space).count
+    assert_equal 9, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :include => :space).count
+    assert_equal 9, tokens.token_kind_filter(:include => :space).count
+    assert_equal 0, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :exclude => :all).count
+    assert_equal 0, tokens.token_kind_filter(:exclude => :all).count
   end
   
   def test_filtering_block_tokens
     tokens = CodeRay::Tokens.new
     10.times do |i|
-      tokens << [:open, :index]
-      tokens << [i.to_s, :content]
-      tokens << [:close, :index]
+      tokens.begin_group :index
+      tokens.text_token i.to_s, :content
+      tokens.end_group :index
     end
-    assert_equal 20, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :include => :blubb).size
-    assert_equal 20, tokens.token_kind_filter(:include => :blubb).size
-    assert_equal 30, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :exclude => :index).size
-    assert_equal 30, tokens.token_kind_filter(:exclude => :index).size
+    assert_equal 20, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :include => :blubb).count
+    assert_equal 20, tokens.token_kind_filter(:include => :blubb).count
+    assert_equal 30, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :exclude => :index).count
+    assert_equal 30, tokens.token_kind_filter(:exclude => :index).count
   end
   
 end

@@ -83,7 +83,7 @@ module Encoders
   #
   # === :hint
   # Include some information into the output using the title attribute.
-  # Can be :info (show token type on mouse-over), :info_long (with full path)
+  # Can be :info (show token kind on mouse-over), :info_long (with full path)
   # or :debug (via inspect).
   #
   # Default: false
@@ -153,12 +153,18 @@ module Encoders
     #
     # +hint+ may be :info, :info_long or :debug.
     def self.token_path_to_hint hint, kinds
+      # FIXME: TRANSPARENT_TOKEN_KINDS?
+      # if TRANSPARENT_TOKEN_KINDS.include? kinds.first
+      #   kinds = kinds[1..-1]
+      # else
+      #   kinds = kinds[1..-1] + kinds.first
+      # end
       title =
         case hint
         when :info
           TOKEN_KIND_TO_INFO[kinds.first]
         when :info_long
-          kinds.reverse.map { |kind| TOKEN_KIND_TO_INFO[kind] }.join('/')
+          kinds.map { |kind| TOKEN_KIND_TO_INFO[kind] }.join('/')
         when :debug
           kinds.inspect
         end
@@ -167,13 +173,13 @@ module Encoders
 
     def setup options
       super
-
+      
       @HTML_ESCAPE = HTML_ESCAPE.dup
       @HTML_ESCAPE["\t"] = ' ' * options[:tab_width]
-
+      
       @opened = [nil]
       @css = CSS.new options[:style]
-
+      
       hint = options[:hint]
       if hint and not [:debug, :info, :info_long].include? hint
         raise ArgumentError, "Unknown value %p for :hint; \
@@ -184,45 +190,33 @@ module Encoders
 
       when :class
         @css_style = Hash.new do |h, k|
-          c = CodeRay::Tokens::AbbreviationForKind[k.first]
-          if c == :NO_HIGHLIGHT and not hint
-            h[k.dup] = false
-          else
-            title = if hint
-              HTML.token_path_to_hint(hint, k[1..-1] << k.first)
-            else
-              ''
+          c = Tokens::AbbreviationForKind[k.first]
+          h[k.dup] = 
+            if c != :NO_HIGHLIGHT or hint
+              if hint
+                title = HTML.token_path_to_hint hint, k
+              end
+              if c == :NO_HIGHLIGHT
+                '<span%s>' % [title]
+              else
+                '<span%s class="%s">' % [title, c]
+              end
             end
-            if c == :NO_HIGHLIGHT
-              h[k.dup] = '<span%s>' % [title]
-            else
-              h[k.dup] = '<span%s class="%s">' % [title, c]
-            end
-          end
         end
 
       when :style
         @css_style = Hash.new do |h, k|
-          if k.is_a? ::Array
-            styles = k.dup
-          else
-            styles = [k]
-          end
-          type = styles.first
-          classes = styles.map { |c| Tokens::AbbreviationForKind[c] }
-          if classes.first == :NO_HIGHLIGHT and not hint
-            h[k] = false
-          else
-            styles.shift if TRANSPARENT_TOKEN_KINDS.include? styles.first
-            title = HTML.token_path_to_hint hint, styles
-            style = @css[*classes]
-            h[k] =
+          classes = k.map { |c| Tokens::AbbreviationForKind[c] }
+          h[k.dup] =
+            if classes.first != :NO_HIGHLIGHT or hint
+              if hint
+                title = HTML.token_path_to_hint hint, k
+              end
+              style = @css[*classes]
               if style
                 '<span%s style="%s">' % [title, style]
-              else
-                false
               end
-          end
+            end
         end
 
       else
@@ -233,80 +227,81 @@ module Encoders
 
     def finish options
       not_needed = @opened.shift
-      @out << '</span>' * @opened.size
       unless @opened.empty?
         warn '%d tokens still open: %p' % [@opened.size, @opened]
+        @out << '</span>' * @opened.size
       end
-
+      
       @out.extend Output
       @out.css = @css
       @out.numerize! options[:line_numbers], options
       @out.wrap! options[:wrap]
       @out.apply_title! options[:title]
-
+      
       super
     end
-
-    def token text, type
-      case text
-      
-      when nil
-        # raise 'Token with nil as text was given: %p' % [[text, type]] 
-      
-      when String
-        if text =~ /#{HTML_ESCAPE_PATTERN}/o
-          text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
-        end
-        @opened[0] = type
-        if text != "\n" && style = @css_style[@opened]
-          @out << style << text << '</span>'
-        else
-          @out << text
-        end
-        
-      
-      # token groups, eg. strings
-      when :open
-        @opened[0] = type
-        @out << (@css_style[@opened] || '<span>')
-        @opened << type
-      when :close
-        if $CODERAY_DEBUG and (@opened.size == 1 or @opened.last != type)
-          warn 'Malformed token stream: Trying to close a token (%p) ' \
-            'that is not open. Open are: %p.' % [type, @opened[1..-1]]
-        end
-        if @opened.empty?
-          # nothing to close
-        else
-          @out << '</span>'
-          @opened.pop
-        end
-      
-      # whole lines to be highlighted, eg. a deleted line in a diff
-      when :begin_line
-        @opened[0] = type
-        if style = @css_style[@opened]
-          @out << style.sub('<span', '<div')
-        else
-          @out << '<div>'
-        end
-        @opened << type
-      when :end_line
-        if $CODERAY_DEBUG and (@opened.size == 1 or @opened.last != type)
-          warn 'Malformed token stream: Trying to close a line (%p) ' \
-            'that is not open. Open are: %p.' % [type, @opened[1..-1]]
-        end
-        if @opened.empty?
-          # nothing to close
-        else
-          @out << '</div>'
-          @opened.pop
-        end
-      
-      else
-        raise 'unknown token kind: %p' % [text]
-        
+    
+  public
+    
+    def text_token text, kind
+      if text =~ /#{HTML_ESCAPE_PATTERN}/o
+        text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
       end
+      @opened[0] = kind
+      @out <<
+        if style = @css_style[@opened]
+          style + text + '</span>'
+        else
+          text
+        end
+    end
+    
+    # token groups, eg. strings
+    def begin_group kind
+      @opened[0] = kind
+      @opened << kind
+      @out << (@css_style[@opened] || '<span>')
+    end
+    
+    def end_group kind
+      if $CODERAY_DEBUG and (@opened.size == 1 or @opened.last != kind)
+        warn 'Malformed token stream: Trying to close a token (%p) ' \
+          'that is not open. Open are: %p.' % [kind, @opened[1..-1]]
+      end
+      @out << 
+        if @opened.empty?
+          '' # nothing to close
+        else
+          @opened.pop
+          '</span>'
+        end
+    end
+    
+    # whole lines to be highlighted, eg. a deleted line in a diff
+    def begin_line kind
+      @opened[0] = kind
+      style = @css_style[@opened]
+      @opened << kind
+      @out <<
+        if style
+          style.sub '<span', '<div'
+        else
+          '<div>'
+        end
+    end
+    
+    def end_line kind
+      if $CODERAY_DEBUG and (@opened.size == 1 or @opened.last != kind)
+        warn 'Malformed token stream: Trying to close a line (%p) ' \
+          'that is not open. Open are: %p.' % [kind, @opened[1..-1]]
+      end
+      @out <<
+        if @opened.empty?
+          ''  # nothing to close
+        else
+          @opened.pop
+          '</div>'
+        end
     end
 
   end

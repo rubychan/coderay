@@ -13,7 +13,7 @@ module Scanners
     
     require 'coderay/helpers/file_type'
     
-    def scan_tokens tokens, options
+    def scan_tokens encoder, options
       
       line_kind = nil
       state = :initial
@@ -21,14 +21,13 @@ module Scanners
       content_lang = nil
       
       until eos?
-        kind = match = nil
         
         if match = scan(/\n/)
           if line_kind
-            tokens << [:end_line, line_kind]
+            encoder.end_line line_kind
             line_kind = nil
           end
-          tokens << [match, :space]
+          encoder.text_token match, :space
           next
         end
         
@@ -36,89 +35,82 @@ module Scanners
         
         when :initial
           if match = scan(/--- |\+\+\+ |=+|_+/)
-            tokens << [:begin_line, line_kind = :head]
-            tokens << [match, :head]
-            if filename = scan(/.*?(?=$|[\t\n\x00]|  \(revision)/)
-              tokens << [filename, :filename]
-              content_lang = FileType.fetch filename, :plaintext
+            encoder.begin_line line_kind = :head
+            encoder.text_token match, :head
+            if match = scan(/.*?(?=$|[\t\n\x00]|  \(revision)/)
+              encoder.text_token match, :filename
+              content_lang = FileType.fetch match, :plaintext
             end
             next unless match = scan(/.+/)
-            kind = :plain
+            encoder.text_token match, :plain
           elsif match = scan(/Index: |Property changes on: /)
-            tokens << [:begin_line, line_kind = :head]
-            tokens << [match, :head]
+            encoder.begin_line line_kind = :head
+            encoder.text_token match, :head
             next unless match = scan(/.+/)
-            kind = :plain
+            encoder.text_token match, :plain
           elsif match = scan(/Added: /)
-            tokens << [:begin_line, line_kind = :head]
-            tokens << [match, :head]
+            encoder.begin_line line_kind = :head
+            encoder.text_token match, :head
             next unless match = scan(/.+/)
-            kind = :plain
+            encoder.text_token match, :plain
             state = :added
           elsif match = scan(/\\ /)
-            tokens << [:begin_line, line_kind = :change]
-            tokens << [match, :change]
+            encoder.begin_line line_kind = :change
+            encoder.text_token match, :change
             next unless match = scan(/.+/)
-            kind = :plain
+            encoder.text_token match, :plain
           elsif match = scan(/@@(?>[^@\n]*)@@/)
             if check(/\n|$/)
-              tokens << [:begin_line, line_kind = :change]
+              encoder.begin_line line_kind = :change
             else
-              tokens << [:open, :change]
+              encoder.begin_group :change
             end
-            tokens << [match[0,2], :change]
-            tokens << [match[2...-2], :plain] if match.size > 4
-            tokens << [match[-2,2], :change]
-            tokens << [:close, :change] unless line_kind
-            next unless code = scan(/.+/)
-            CodeRay.scan code, content_lang, :tokens => tokens
+            encoder.text_token match[0,2], :change
+            encoder.text_token match[2...-2], :plain if match.size > 4
+            encoder.text_token match[-2,2], :change
+            encoder.end_group :change unless line_kind
+            next unless match = scan(/.+/)
+            CodeRay.scan match, content_lang, :tokens => encoder
             next
           elsif match = scan(/\+/)
-            tokens << [:begin_line, line_kind = :insert]
-            tokens << [match, :insert]
+            encoder.begin_line line_kind = :insert
+            encoder.text_token match, :insert
             next unless match = scan(/.+/)
-            CodeRay.scan match, content_lang, :tokens => tokens
+            CodeRay.scan match, content_lang, :tokens => encoder
             next
           elsif match = scan(/-/)
-            tokens << [:begin_line, line_kind = :delete]
-            tokens << [match, :delete]
-            next unless code = scan(/.+/)
-            CodeRay.scan code, content_lang, :tokens => tokens
+            encoder.begin_line line_kind = :delete
+            encoder.text_token match, :delete
+            next unless match = scan(/.+/)
+            CodeRay.scan match, content_lang, :tokens => encoder
             next
-          elsif code = scan(/ .*/)
-            CodeRay.scan code, content_lang, :tokens => tokens
+          elsif match = scan(/ .*/)
+            CodeRay.scan match, content_lang, :tokens => encoder
             next
-          elsif scan(/.+/)
-            tokens << [:begin_line, line_kind = :comment]
-            kind = :plain
+          elsif match = scan(/.+/)
+            encoder.begin_line line_kind = :comment
+            encoder.text_token match, :plain
           else
             raise_inspect 'else case rached'
           end
         
         when :added
           if match = scan(/   \+/)
-            tokens << [:begin_line, line_kind = :insert]
-            tokens << [match, :insert]
+            encoder.begin_line line_kind = :insert
+            encoder.text_token match, :insert
             next unless match = scan(/.+/)
-            kind = :plain
+            encoder.text_token match, :plain
           else
             state = :initial
             next
           end
         end
         
-        match ||= matched
-        if $CODERAY_DEBUG and not kind
-          raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens
-        end
-        raise_inspect 'Empty token', tokens unless match
-        
-        tokens << [match, kind]
       end
       
-      tokens << [:end_line, line_kind] if line_kind
-      tokens
+      encoder.end_line line_kind if line_kind
+      
+      encoder
     end
     
   end

@@ -23,14 +23,14 @@ module Encoders
       :separator => ''
     }
 
+    def text_token text, kind
+      @out << text + @sep
+    end
+
   protected
     def setup options
       super
       @sep = options[:separator]
-    end
-
-    def text_token text, kind
-      text + @sep
     end
 
     def finish options

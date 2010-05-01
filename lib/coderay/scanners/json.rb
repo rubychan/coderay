@@ -19,7 +19,7 @@ module Scanners
     
   protected
     
-    def scan_tokens tokens, options
+    def scan_tokens encoder, options
       
       state = :initial
       stack = []
@@ -27,82 +27,67 @@ module Scanners
       
       until eos?
         
-        kind = nil
-        match = nil
-        
         case state
         
         when :initial
-          if match = scan(/ \s+ | \\\n /x)
-            tokens << [match, :space]
-            next
+          if match = scan(/ \s+ /x)
+            encoder.text_token match, :space
+          elsif match = scan(/"/)
+            state = key_expected ? :key : :string
+            encoder.begin_group state
+            encoder.text_token match, :delimiter
           elsif match = scan(/ [:,\[{\]}] /x)
-            kind = :operator
+            encoder.text_token match, :operator
             case match
-            when '{' then stack << :object; key_expected = true
-            when '[' then stack << :array
             when ':' then key_expected = false
             when ',' then key_expected = true if stack.last == :object
+            when '{' then stack << :object; key_expected = true
+            when '[' then stack << :array
             when '}', ']' then stack.pop  # no error recovery, but works for valid JSON
             end
           elsif match = scan(/ true | false | null /x)
-            kind = :value
-          elsif match = scan(/-?(?:0|[1-9]\d*)/)
+             encoder.text_token match, :value
+          elsif match = scan(/ -? (?: 0 | [1-9]\d* ) /x)
             kind = :integer
-            if scan(/\.\d+(?:[eE][-+]?\d+)?|[eE][-+]?\d+/)
+            if scan(/ \.\d+ (?:[eE][-+]?\d+)? | [eE][-+]? \d+ /x)
               match << matched
               kind = :float
             end
-          elsif match = scan(/"/)
-            state = key_expected ? :key : :string
-            tokens << [:open, state]
-            kind = :delimiter
+            encoder.text_token match, kind
           else
-            getch
-            kind = :error
+            encoder.text_token getch, :error
           end
           
         when :string, :key
-          if scan(/[^\\"]+/)
-            kind = :content
-          elsif scan(/"/)
-            tokens << ['"', :delimiter]
-            tokens << [:close, state]
+          if match = scan(/[^\\"]+/)
+            encoder.text_token match, :content
+          elsif match = scan(/"/)
+            encoder.text_token match, :delimiter
+            encoder.end_group state
             state = :initial
-            next
-          elsif scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
-            kind = :char
-          elsif scan(/\\./m)
-            kind = :content
-          elsif scan(/ \\ | $ /x)
-            tokens << [:close, state]
-            kind = :error
+          elsif match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
+            encoder.text_token match, :char
+          elsif match = scan(/\\./m)
+            encoder.text_token match, :content
+          elsif match = scan(/ \\ | $ /x)
+            encoder.end_group state
+            encoder.text_token match, :error
             state = :initial
           else
-            raise_inspect "else case \" reached; %p not handled." % peek(1), tokens
+            raise_inspect "else case \" reached; %p not handled." % peek(1), encoder
           end
           
         else
-          raise_inspect 'Unknown state', tokens
+          raise_inspect 'Unknown state', encoder
           
         end
-        
-        match ||= matched
-        if $CODERAY_DEBUG and not kind
-          raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens
-        end
-        raise_inspect 'Empty token', tokens unless match
-        
-        tokens << [match, kind]
-        
       end
       
       if [:string, :key].include? state
-        tokens << [:close, state]
+        encoder.end_group state
       end
       
-      tokens
+      encoder
     end
     
   end

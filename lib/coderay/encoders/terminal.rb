@@ -92,41 +92,72 @@ module CodeRay
       TOKEN_COLORS[:keyword] = TOKEN_COLORS[:reserved]
       TOKEN_COLORS[:method] = TOKEN_COLORS[:function]
       TOKEN_COLORS[:imaginary] = TOKEN_COLORS[:complex]
-      TOKEN_COLORS[:open] = TOKEN_COLORS[:close] = TOKEN_COLORS[:nesting_delimiter] = TOKEN_COLORS[:escape] = TOKEN_COLORS[:delimiter]
+      TOKEN_COLORS[:begin_group] = TOKEN_COLORS[:end_group] =
+        TOKEN_COLORS[:nesting_delimiter] = TOKEN_COLORS[:escape] =
+        TOKEN_COLORS[:delimiter]
 
     protected
 
       def setup(options)
         super
         @opened = []
+        @subcolors = nil
       end
-
-      def finish(options)
-        super
-      end
-    
-      def text_token text, type
-        if color = (@subcolors || TOKEN_COLORS)[type]
+      
+    public
+      
+      def text_token text, kind
+        if color = (@subcolors || TOKEN_COLORS)[kind]
           if Hash === color
             if color[:self]
               color = color[:self]
             else
-              return text
+              @out << text
+              return
             end
           end
-
-          out = ansi_colorize(color)
-          out << text.gsub("\n", ansi_clear + "\n" + ansi_colorize(color))
-          out << ansi_clear
-          out << ansi_colorize(@subcolors[:self]) if @subcolors && @subcolors[:self]
-          out
+          
+          @out << ansi_colorize(color)
+          @out << text.gsub("\n", ansi_clear + "\n" + ansi_colorize(color))
+          @out << ansi_clear
+          @out << ansi_colorize(@subcolors[:self]) if @subcolors && @subcolors[:self]
         else
-          text
+          @out << text
         end
       end
       
-      def open_token type
-        if color = TOKEN_COLORS[type]
+      def begin_group kind
+        @opened << kind
+        @out << open_token(kind)
+      end
+      alias begin_line begin_group
+      
+      def end_group kind
+        if @opened.empty?
+          # nothing to close
+        else
+          @opened.pop
+          @out << ansi_clear
+          @out << open_token(@opened.last)
+        end
+      end
+      
+      def end_line kind
+        if @opened.empty?
+          # nothing to close
+        else
+          @opened.pop
+          # whole lines to be highlighted,
+          # eg. added/modified/deleted lines in a diff
+          @out << "\t" * 100 + ansi_clear
+          @out << open_token(@opened.last)
+        end
+      end
+      
+    private
+      
+      def open_token kind
+        if color = TOKEN_COLORS[kind]
           if Hash === color
             @subcolors = color
             ansi_colorize(color[:self]) if color[:self]
@@ -139,34 +170,6 @@ module CodeRay
           ''
         end
       end
-      
-      def block_token action, type
-        case action
-          
-        when :open, :begin_line
-          @opened << type
-          open_token type
-        when :close, :end_line
-          if @opened.empty?
-            # nothing to close
-          else
-            @opened.pop
-            if action == :end_line
-              # whole lines to be highlighted,
-              # eg. added/modified/deleted lines in a diff
-              "\t" * 100 + ansi_clear
-            else
-              ansi_clear
-            end +
-              open_token(@opened.last)
-          end
-          
-        else
-          raise 'unknown token kind: %p' % [text]
-        end
-      end
-      
-    private
       
       def ansi_colorize(color)
         Array(color).map { |c| "\e[#{c}m" }.join

@@ -14,12 +14,12 @@ class BasicTest < Test::Unit::TestCase
   RUBY_TEST_TOKENS = [
     ['puts', :ident],
     [' ', :space],
-    [:open, :string],
+    [:begin_group, :string],
       ['"', :delimiter],
       ['Hello, World!', :content],
       ['"', :delimiter],
-    [:close, :string]
-  ]
+    [:end_group, :string]
+  ].flatten
   def test_simple_scan
     assert_nothing_raised do
       assert_equal RUBY_TEST_TOKENS, CodeRay.scan(RUBY_TEST_CODE, :ruby).to_ary

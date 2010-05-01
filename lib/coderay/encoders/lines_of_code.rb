@@ -79,9 +79,9 @@ puts "Hello world!"
   
   def test_filtering_block_tokens
     tokens = CodeRay::Tokens.new
-    tokens << ["Hello\n", :world]
-    tokens << ["Hello\n", :space]
-    tokens << ["Hello\n", :comment]
+    tokens.concat ["Hello\n", :world]
+    tokens.concat ["Hello\n", :space]
+    tokens.concat ["Hello\n", :comment]
     assert_equal 2, CodeRay::Encoders::LinesOfCode.new.encode_tokens(tokens)
     assert_equal 2, tokens.lines_of_code
     assert_equal 2, tokens.loc

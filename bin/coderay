@@ -72,15 +72,14 @@ Examples:
     end
   end
   
-  # TODO: allow streaming
   if tokens == :scan
-    output = CodeRay::Duo[lang => format].highlight input  #, :stream => true
+    output = CodeRay::Duo[lang => format].highlight input, :stream => true
   else
     output = tokens.encode format
   end
   out = $stdout
   if output_filename
-    output_filename += '.' + CodeRay::Encoders[format]::FILE_EXTENSION
+    output_filename += '.' + CodeRay::Encoders[format]::FILE_EXTENSION.to_s
     if File.exist? output_filename
       err 'File %s already exists.' % output_filename
       exit

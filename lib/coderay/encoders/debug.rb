@@ -19,31 +19,43 @@ module Encoders
     register_for :debug
 
     FILE_EXTENSION = 'raydebug'
+    
+    def initialize options = {}
+      super
+      @opened = []
+    end
 
-  protected
+  public
+  
     def text_token text, kind
       if kind == :space
-        text
+        @out << text
       else
         text = text.gsub(/[)\\]/, '\\\\\0')  # escape ) and \
-        "#{kind}(#{text})"
+        @out << kind.to_s << '(' << text << ')'
       end
     end
 
-    def open_token kind
-      "#{kind}<"
+    def begin_group kind
+      @opened << kind
+      @out << kind.to_s << '<'
     end
 
-    def close_token kind
-      '>'
+    def end_group kind
+      if @opened.last != kind
+        puts @out
+        raise "we are inside #{@opened.inspect}, not #{kind}"
+      end
+      @opened.pop
+      @out << '>'
     end
 
     def begin_line kind
-      "#{kind}["
+      @out << kind.to_s << '['
     end
 
     def end_line kind
-      ']'
+      @out << ']'
     end
 
   end
@@ -74,16 +86,16 @@ class DebugEncoderTest < Test::Unit::TestCase
   TEST_INPUT = CodeRay::Tokens[
     ['10', :integer],
     ['(\\)', :operator],
-    [:open, :string],
+    [:begin_group, :string],
     ['test', :content],
-    [:close, :string],
+    [:end_group, :string],
     [:begin_line, :test],
     ["\n", :space],
     ["\n  \t", :space],
     ["   \n", :space],
     ["[]", :method],
     [:end_line, :test],
-  ]
+  ].flatten
   TEST_OUTPUT = <<-'DEBUG'.chomp
 integer(10)operator((\\\))string<content(test)>test[
 

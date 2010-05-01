@@ -53,19 +53,19 @@ module Encoders
         end
       end
     end
-
-    def open_token kind
+    
+    def begin_group kind
       @node = @node.add_element kind.to_s
     end
-
-    def close_token kind
+    
+    def end_group kind
       if @node == @root
         raise 'no token to close!'
       end
       @node = @node.parent
     end
-
+    
   end
-
+  
 end
 end

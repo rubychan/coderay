@@ -33,11 +33,23 @@ module Encoders
     end
     
     def text_token text, kind
-      { :type => 'text', :text => text, :kind => kind }
+      @out << { :type => 'text', :text => text, :kind => kind }
     end
     
-    def block_token action, kind
-      { :type => 'block', :action => action, :kind => kind }
+    def begin_group kind
+      @out << { :type => 'block', :action => 'open', :kind => kind }
+    end
+    
+    def end_group kind
+      @out << { :type => 'block', :action => 'close', :kind => kind }
+    end
+    
+    def begin_line kind
+      @out << { :type => 'block', :action => 'begin_line', :kind => kind }
+    end
+    
+    def end_line kind
+      @out << { :type => 'block', :action => 'end_line', :kind => kind }
     end
     
     def finish options

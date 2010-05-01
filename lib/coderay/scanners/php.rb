@@ -230,7 +230,7 @@ module Scanners
     
   protected
     
-    def scan_tokens tokens, options
+    def scan_tokens encoder, options
       
       if check(RE::PHP_START) ||  # starts with <?
        (match?(/\s*<\S/) && exist?(RE::PHP_START)) || # starts with tag and contains <?
@@ -252,29 +252,24 @@ module Scanners
       
       until eos?
         
-        match = nil
-        kind = nil
-        
         case states.last
         
         when :initial  # HTML
-          if scan RE::PHP_START
-            kind = :inline_delimiter
+          if match = scan(RE::PHP_START)
+            encoder.text_token match, :inline_delimiter
             label_expected = true
             states << :php
           else
             match = scan_until(/(?=#{RE::PHP_START})/o) || scan_until(/\z/)
             @html_scanner.tokenize match unless match.empty?
-            next
           end
         
         when :php
           if match = scan(/\s+/)
-            tokens << [match, :space]
-            next
+            encoder.text_token match, :space
           
-          elsif scan(%r! (?m: \/\* (?: .*? \*\/ | .* ) ) | (?://|\#) .*? (?=#{RE::PHP_END}|$) !xo)
-            kind = :comment
+          elsif match = scan(%r! (?m: \/\* (?: .*? \*\/ | .* ) ) | (?://|\#) .*? (?=#{RE::PHP_END}|$) !xo)
+            encoder.text_token match, :comment
           
           elsif match = scan(RE::IDENTIFIER)
             kind = Words::IDENT_KIND[match]
@@ -299,77 +294,68 @@ module Scanners
                 next
               end
             end
+            encoder.text_token match, kind
           
-          elsif scan(/(?:\d+\.\d*|\d*\.\d+)(?:e[-+]?\d+)?|\d+e[-+]?\d+/i)
+          elsif match = scan(/(?:\d+\.\d*|\d*\.\d+)(?:e[-+]?\d+)?|\d+e[-+]?\d+/i)
             label_expected = false
-            kind = :float
+            encoder.text_token match, :float
           
-          elsif scan(/0x[0-9a-fA-F]+/)
+          elsif match = scan(/0x[0-9a-fA-F]+/)
             label_expected = false
-            kind = :hex
+            encoder.text_token match, :hex
           
-          elsif scan(/\d+/)
+          elsif match = scan(/\d+/)
             label_expected = false
-            kind = :integer
+            encoder.text_token match, :integer
           
-          elsif scan(/'/)
-            tokens << [:open, :string]
+          elsif match = scan(/['"`]/)
+            encoder.begin_group :string
             if modifier
-              tokens << [modifier, :modifier]
-              modifier = nil
-            end
-            kind = :delimiter
-            states.push :sqstring
-          
-          elsif match = scan(/["`]/)
-            tokens << [:open, :string]
-            if modifier
-              tokens << [modifier, :modifier]
+              encoder.text_token modifier, :modifier
               modifier = nil
             end
             delimiter = match
-            kind = :delimiter
-            states.push :dqstring
+            encoder.text_token match, :delimiter
+            states.push match == "'" ? :sqstring : :dqstring
           
           elsif match = scan(RE::VARIABLE)
             label_expected = false
-            kind = Words::VARIABLE_KIND[match]
+            encoder.text_token match, Words::VARIABLE_KIND[match]
           
-          elsif scan(/\{/)
-            kind = :operator
+          elsif match = scan(/\{/)
+            encoder.text_token match, :operator
             label_expected = true
             states.push :php
           
-          elsif scan(/\}/)
+          elsif match = scan(/\}/)
             if states.size == 1
-              kind = :error
+              encoder.text_token match, :error
             else
               states.pop
               if states.last.is_a?(::Array)
                 delimiter = states.last[1]
                 states[-1] = states.last[0]
-                tokens << [matched, :delimiter]
-                tokens << [:close, :inline]
-                next
+                encoder.text_token match, :delimiter
+                encoder.end_group :inline
               else
-                kind = :operator
+                encoder.text_token match, :operator
                 label_expected = true
               end
             end
           
-          elsif scan(/@/)
+          elsif match = scan(/@/)
             label_expected = false
-            kind = :exception
+            encoder.text_token match, :exception
           
-          elsif scan RE::PHP_END
-            kind = :inline_delimiter
+          elsif match = scan(RE::PHP_END)
+            encoder.text_token match, :inline_delimiter
             states = [:initial]
           
           elsif match = scan(/<<<(?:(#{RE::IDENTIFIER})|"(#{RE::IDENTIFIER})"|'(#{RE::IDENTIFIER})')/o)
-            tokens << [:open, :string]
+            encoder.begin_group :string
             warn 'heredoc in heredoc?' if heredoc_delimiter
             heredoc_delimiter = Regexp.escape(self[1] || self[2] || self[3])
-            kind = :delimiter
+            encoder.text_token match, :delimiter
             states.push self[3] ? :sqstring : :dqstring
             heredoc_delimiter = /#{heredoc_delimiter}(?=;?$)/
           
@@ -379,152 +365,141 @@ module Scanners
               label_expected = true if match == ':'
               case_expected = false
             end
-            kind = :operator
+            encoder.text_token match, :operator
           
           else
-            getch
-            kind = :error
+            encoder.text_token getch, :error
           
           end
         
         when :sqstring
-          if scan(heredoc_delimiter ? /[^\\\n]+/ : /[^'\\]+/)
-            kind = :content
-          elsif !heredoc_delimiter && scan(/'/)
-            tokens << [matched, :delimiter]
-            tokens << [:close, :string]
+          if match = scan(heredoc_delimiter ? /[^\\\n]+/ : /[^'\\]+/)
+            encoder.text_token match, :content
+          elsif !heredoc_delimiter && match = scan(/'/)
+            encoder.text_token match, :delimiter
+            encoder.end_group :string
             delimiter = nil
             label_expected = false
             states.pop
-            next
           elsif heredoc_delimiter && match = scan(/\n/)
-            kind = :content
             if scan heredoc_delimiter
-              tokens << ["\n", :content]
-              tokens << [matched, :delimiter]
-              tokens << [:close, :string]
+              encoder.text_token "\n", :content
+              encoder.text_token matched, :delimiter
+              encoder.end_group :string
               heredoc_delimiter = nil
               label_expected = false
               states.pop
-              next
+            else
+              encoder.text_token match, :content
             end
-          elsif scan(heredoc_delimiter ? /\\\\/ : /\\[\\'\n]/)
-            kind = :char
-          elsif scan(/\\./m)
-            kind = :content
-          elsif scan(/\\/)
-            kind = :error
+          elsif match = scan(heredoc_delimiter ? /\\\\/ : /\\[\\'\n]/)
+            encoder.text_token match, :char
+          elsif match = scan(/\\./m)
+            encoder.text_token match, :content
+          elsif match = scan(/\\/)
+            encoder.text_token match, :error
+          else
+            states.pop
           end
         
         when :dqstring
-          if scan(heredoc_delimiter ? /[^${\\\n]+/ : (delimiter == '"' ? /[^"${\\]+/ : /[^`${\\]+/))
-            kind = :content
-          elsif !heredoc_delimiter && scan(delimiter == '"' ? /"/ : /`/)
-            tokens << [matched, :delimiter]
-            tokens << [:close, :string]
+          if match = scan(heredoc_delimiter ? /[^${\\\n]+/ : (delimiter == '"' ? /[^"${\\]+/ : /[^`${\\]+/))
+            encoder.text_token match, :content
+          elsif !heredoc_delimiter && match = scan(delimiter == '"' ? /"/ : /`/)
+            encoder.text_token match, :delimiter
+            encoder.end_group :string
             delimiter = nil
             label_expected = false
             states.pop
-            next
           elsif heredoc_delimiter && match = scan(/\n/)
-            kind = :content
             if scan heredoc_delimiter
-              tokens << ["\n", :content]
-              tokens << [matched, :delimiter]
-              tokens << [:close, :string]
+              encoder.text_token "\n", :content
+              encoder.text_token matched, :delimiter
+              encoder.end_group :string
               heredoc_delimiter = nil
               label_expected = false
               states.pop
-              next
+            else
+              encoder.text_token match, :content
             end
-          elsif scan(/\\(?:x[0-9A-Fa-f]{1,2}|[0-7]{1,3})/)
-            kind = :char
-          elsif scan(heredoc_delimiter ? /\\[nrtvf\\$]/ : (delimiter == '"' ? /\\[nrtvf\\$"]/ : /\\[nrtvf\\$`]/))
-            kind = :char
-          elsif scan(/\\./m)
-            kind = :content
-          elsif scan(/\\/)
-            kind = :error
+          elsif match = scan(/\\(?:x[0-9A-Fa-f]{1,2}|[0-7]{1,3})/)
+            encoder.text_token match, :char
+          elsif match = scan(heredoc_delimiter ? /\\[nrtvf\\$]/ : (delimiter == '"' ? /\\[nrtvf\\$"]/ : /\\[nrtvf\\$`]/))
+            encoder.text_token match, :char
+          elsif match = scan(/\\./m)
+            encoder.text_token match, :content
+          elsif match = scan(/\\/)
+            encoder.text_token match, :error
           elsif match = scan(/#{RE::VARIABLE}/o)
-            kind = :local_variable
             if check(/\[#{RE::IDENTIFIER}\]/o)
-              tokens << [:open, :inline]
-              tokens << [match, :local_variable]
-              tokens << [scan(/\[/), :operator]
-              tokens << [scan(/#{RE::IDENTIFIER}/o), :ident]
-              tokens << [scan(/\]/), :operator]
-              tokens << [:close, :inline]
-              next
+              encoder.begin_group :inline
+              encoder.text_token match, :local_variable
+              encoder.text_token scan(/\[/), :operator
+              encoder.text_token scan(/#{RE::IDENTIFIER}/o), :ident
+              encoder.text_token scan(/\]/), :operator
+              encoder.end_group :inline
             elsif check(/\[/)
               match << scan(/\[['"]?#{RE::IDENTIFIER}?['"]?\]?/o)
-              kind = :error
+              encoder.text_token match, :error
             elsif check(/->#{RE::IDENTIFIER}/o)
-              tokens << [:open, :inline]
-              tokens << [match, :local_variable]
-              tokens << [scan(/->/), :operator]
-              tokens << [scan(/#{RE::IDENTIFIER}/o), :ident]
-              tokens << [:close, :inline]
-              next
+              encoder.begin_group :inline
+              encoder.text_token match, :local_variable
+              encoder.text_token scan(/->/), :operator
+              encoder.text_token scan(/#{RE::IDENTIFIER}/o), :ident
+              encoder.end_group :inline
             elsif check(/->/)
               match << scan(/->/)
-              kind = :error
+              encoder.text_token match, :error
+            else
+              encoder.text_token match, :local_variable
             end
           elsif match = scan(/\{/)
             if check(/\$/)
-              kind = :delimiter
+              encoder.begin_group :inline
               states[-1] = [states.last, delimiter]
               delimiter = nil
               states.push :php
-              tokens << [:open, :inline]
+              encoder.text_token match, :delimiter
             else
-              kind = :string
+              encoder.text_token match, :string
             end
-          elsif scan(/\$\{#{RE::IDENTIFIER}\}/o)
-            kind = :local_variable
-          elsif scan(/\$/)
-            kind = :content
+          elsif match = scan(/\$\{#{RE::IDENTIFIER}\}/o)
+            encoder.text_token match, :local_variable
+          elsif match = scan(/\$/)
+            encoder.text_token match, :content
+          else
+            states.pop
           end
         
         when :class_expected
-          if scan(/\s+/)
-            kind = :space
+          if match = scan(/\s+/)
+            encoder.text_token match, :space
           elsif match = scan(/#{RE::IDENTIFIER}/o)
-            kind = :class
+            encoder.text_token match, :class
             states.pop
           else
             states.pop
-            next
           end
         
         when :function_expected
-          if scan(/\s+/)
-            kind = :space
-          elsif scan(/&/)
-            kind = :operator
+          if match = scan(/\s+/)
+            encoder.text_token match, :space
+          elsif match = scan(/&/)
+            encoder.text_token match, :operator
           elsif match = scan(/#{RE::IDENTIFIER}/o)
-            kind = :function
+            encoder.text_token match, :function
             states.pop
           else
             states.pop
-            next
           end
         
         else
-          raise_inspect 'Unknown state!', tokens, states
+          raise_inspect 'Unknown state!', encoder, states
         end
-        
-        match ||= matched
-        if $CODERAY_DEBUG and not kind
-          raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens, states
-        end
-        raise_inspect 'Empty token', tokens, states unless match
-        
-        tokens << [match, kind]
         
       end
       
-      tokens
+      encoder
     end
     
   end

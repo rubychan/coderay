@@ -17,8 +17,9 @@ module Scanners
     
   protected
     
-    def scan_tokens tokens, options
-      tokens << [string, :plain]
+    def scan_tokens encoder, options
+      encoder.text_token string, :plain
+      encoder
     end
 
   end

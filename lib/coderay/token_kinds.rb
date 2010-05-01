@@ -79,7 +79,6 @@ module CodeRay
       :plain => :NO_HIGHLIGHT,
     }
     AbbreviationForKind[:method] = AbbreviationForKind[:function]
-    AbbreviationForKind[:open] = AbbreviationForKind[:close] = AbbreviationForKind[:delimiter]
     AbbreviationForKind[:nesting_delimiter] = AbbreviationForKind[:delimiter]
     AbbreviationForKind[:escape] = AbbreviationForKind[:delimiter]
     AbbreviationForKind[:docstring] = AbbreviationForKind[:comment]

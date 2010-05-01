@@ -2,7 +2,7 @@ require 'test/unit'
 
 MYDIR = File.dirname(__FILE__)
 
-$: << 'lib'
+$:.unshift 'lib'
 require 'coderay'
 puts "Running basic CodeRay #{CodeRay::VERSION} tests..."
 

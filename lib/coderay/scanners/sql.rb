@@ -51,7 +51,7 @@ module CodeRay module Scanners
     
     STRING_PREFIXES = /[xnb]|_\w+/i
     
-    def scan_tokens tokens, options
+    def scan_tokens encoder, options
       
       state = :initial
       string_type = nil
@@ -59,54 +59,50 @@ module CodeRay module Scanners
       
       until eos?
         
-        kind = nil
-        match = nil
-        
         if state == :initial
           
-          if scan(/ \s+ | \\\n /x)
-            kind = :space
+          if match = scan(/ \s+ | \\\n /x)
+            encoder.text_token match, :space
           
-          elsif scan(/^(?:--\s?|#).*/)
-            kind = :comment
+          elsif match = scan(/^(?:--\s?|#).*/)
+            encoder.text_token match, :comment
             
-          elsif scan(%r( /\* (!)? (?: .*? \*/ | .* ) )mx)
-            kind = self[1] ? :directive : :comment
+          elsif match = scan(%r( /\* (!)? (?: .*? \*/ | .* ) )mx)
+            encoder.text_token match, self[1] ? :directive : :comment
             
-          elsif scan(/ [-+*\/=<>;,!&^|()\[\]{}~%] | \.(?!\d) /x)
-            kind = :operator
+          elsif match = scan(/ [-+*\/=<>;,!&^|()\[\]{}~%] | \.(?!\d) /x)
+            encoder.text_token match, :operator
             
-          elsif scan(/(#{STRING_PREFIXES})?([`"'])/o)
+          elsif match = scan(/(#{STRING_PREFIXES})?([`"'])/o)
             prefix = self[1]
             string_type = self[2]
-            tokens << [:open, :string]
-            tokens << [prefix, :modifier] if prefix
+            encoder.begin_group :string
+            encoder.text_token prefix, :modifier if prefix
             match = string_type
             state = :string
-            kind = :delimiter
+            encoder.text_token match, :delimiter
             
           elsif match = scan(/ @? [A-Za-z_][A-Za-z_0-9]* /x)
             # FIXME: Don't match keywords after "."
-            kind = match[0] == ?@ ? :variable : IDENT_KIND[match.downcase]
+            encoder.text_token match, match[0] == ?@ ? :variable : IDENT_KIND[match.downcase]
             
-          elsif scan(/0[xX][0-9A-Fa-f]+/)
-            kind = :hex
+          elsif match = scan(/0[xX][0-9A-Fa-f]+/)
+            encoder.text_token match, :hex
             
-          elsif scan(/0[0-7]+(?![89.eEfF])/)
-            kind = :oct
+          elsif match = scan(/0[0-7]+(?![89.eEfF])/)
+            encoder.text_token match, :oct
             
-          elsif scan(/(?>\d+)(?![.eEfF])/)
-            kind = :integer
+          elsif match = scan(/(?>\d+)(?![.eEfF])/)
+            encoder.text_token match, :integer
             
-          elsif scan(/\d[fF]|\d*\.\d+(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+/)
-            kind = :float
+          elsif match = scan(/\d[fF]|\d*\.\d+(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+/)
+            encoder.text_token match, :float
           
-          elsif scan(/\\N/)
-            kind = :pre_constant
+          elsif match = scan(/\\N/)
+            encoder.text_token match, :pre_constant
             
           else
-            getch
-            kind = :error
+            encoder.text_token getch, :error
             
           end
           
@@ -121,54 +117,48 @@ module CodeRay module Scanners
                 next
               end
               unless string_content.empty?
-                tokens << [string_content, :content]
+                encoder.text_token string_content, :content
                 string_content = ''
               end
-              tokens << [matched, :delimiter]
-              tokens << [:close, :string]
+              encoder.text_token match, :delimiter
+              encoder.end_group :string
               state = :initial
               string_type = nil
-              next
             else
               string_content << match
             end
-            next
-          elsif scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
+          elsif match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
             unless string_content.empty?
-              tokens << [string_content, :content]
+              encoder.text_token string_content, :content
               string_content = ''
             end
-            kind = :char
+            encoder.text_token match, :char
           elsif match = scan(/ \\ . /mox)
             string_content << match
             next
-          elsif scan(/ \\ | $ /x)
+          elsif match = scan(/ \\ | $ /x)
             unless string_content.empty?
-              tokens << [string_content, :content]
+              encoder.text_token string_content, :content
               string_content = ''
             end
-            kind = :error
+            encoder.text_token match, :error
             state = :initial
           else
-            raise "else case \" reached; %p not handled." % peek(1), tokens
+            raise "else case \" reached; %p not handled." % peek(1), encoder
           end
           
         else
-          raise 'else-case reached', tokens
+          raise 'else-case reached', encoder
           
         end
         
-        match ||= matched
-        unless kind
-          raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens, state
-        end
-        raise_inspect 'Empty token', tokens unless match
-        
-        tokens << [match, kind]
-        
       end
-      tokens
+      
+      if state == :string
+        encoder.end_group state
+      end
+      
+      encoder
       
     end
     

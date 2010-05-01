@@ -1,6 +1,6 @@
 module CodeRay
 
-  # = Tokens
+  # = Tokens  TODO: Rewrite!
   #
   # The Tokens class represents a list of tokens returnd from
   # a Scanner.
@@ -8,7 +8,7 @@ module CodeRay
   # A token is not a special object, just a two-element Array
   # consisting of
   # * the _token_ _text_ (the original source of the token in a String) or
-  #   a _token_ _action_ (:open, :close, :begin_line, :end_line)
+  #   a _token_ _action_ (begin_group, end_group, begin_line, end_line)
   # * the _token_ _kind_ (a Symbol representing the type of the token)
   #
   # A token looks like this:
@@ -18,16 +18,16 @@ module CodeRay
   #   ['$^', :error]
   #
   # Some scanners also yield sub-tokens, represented by special
-  # token actions, namely :open and :close.
+  # token actions, namely begin_group and end_group.
   #
   # The Ruby scanner, for example, splits "a string" into:
   #
   #  [
-  #   [:open, :string],
+  #   [:begin_group, :string],
   #   ['"', :delimiter],
   #   ['a string', :content],
   #   ['"', :delimiter],
-  #   [:close, :string]
+  #   [:end_group, :string]
   #  ]
   #
   # Tokens is the interface between Scanners and Encoders:
@@ -47,20 +47,11 @@ module CodeRay
   # 
   # It also allows you to generate tokens directly (without using a scanner),
   # to load them from a file, and still use any Encoder that CodeRay provides.
-  #
-  # Tokens' subclass TokenStream allows streaming to save memory.
   class Tokens < Array
     
     # The Scanner instance that created the tokens.
     attr_accessor :scanner
     
-    # Whether the object is a TokenStream.
-    #
-    # Returns false.
-    def stream?
-      false
-    end
-
     # Iterates over all tokens.
     #
     # If a filter is given, only tokens of that kind are yielded.
@@ -76,7 +67,7 @@ module CodeRay
     end
 
     # Iterates over all text tokens.
-    # Range tokens like [:open, :string] are left out.
+    # Token actions are left out.
     #
     # Example:
     #   tokens.each_text_token { |text, kind| text.replace html_escape(text) }
@@ -117,9 +108,13 @@ module CodeRay
     # For example, if you call +tokens.html+, the HTML encoder
     # is used to highlight the tokens.
     def method_missing meth, options = {}
-      Encoders[meth].new(options).encode_tokens self
+      encode_with meth, options
     end
-
+    
+    def encode_with encoder, options = {}
+      Encoders[encoder].new(options).encode_tokens self
+    end
+    
     # Returns the tokens compressed by joining consecutive
     # tokens of the same kind.
     #
@@ -158,7 +153,7 @@ module CodeRay
       replace optimize
     end
     
-    # Ensure that all :open tokens have a correspondent :close one.
+    # Ensure that all begin_group tokens have a correspondent end_group.
     #
     # TODO: Test this!
     def fix
@@ -167,15 +162,15 @@ module CodeRay
       opened = []
       for type, kind in self
         case type
-        when :open
-          opened.push [:close, kind]
+        when :begin_group
+          opened.push [:begin_group, kind]
         when :begin_line
           opened.push [:end_line, kind]
-        when :close, :end_line
+        when :end_group, :end_line
           expected = opened.pop
           if [type, kind] != expected
-            # Unexpected :close; decide what to do based on the kind:
-            # - token was never opened: delete the :close (just skip it)
+            # Unexpected end; decide what to do based on the kind:
+            # - token was never opened: delete the end (just skip it)
             next unless opened.rindex expected
             # - token was opened earlier: also close tokens in between
             tokens << token until (token = opened.pop) == expected
@@ -230,6 +225,11 @@ module CodeRay
       dump = dump.gzip gzip_level
       dump.extend Undumping
     end
+    
+    # Return the actual number of tokens.
+    def count
+      size / 2
+    end
 
     # The total size of the tokens.
     # Should be equal to the input size before
@@ -242,9 +242,7 @@ module CodeRay
       size
     end
 
-    # The total size of the tokens.
-    # Should be equal to the input size before
-    # scanning.
+    # Return all text tokens joined into a single string.
     def text
       map { |t, k| t if t.is_a? ::String }.join
     end
@@ -271,77 +269,12 @@ module CodeRay
       @dump = Marshal.load dump
     end
 
-  end
-
-
-  # = TokenStream
-  #
-  # The TokenStream class is a fake Array without elements.
-  #
-  # It redirects the method << to a block given at creation.
-  #
-  # This allows scanners and Encoders to use streaming (no
-  # tokens are saved, the input is highlighted the same time it
-  # is scanned) with the same code.
-  #
-  # See CodeRay.encode_stream and CodeRay.scan_stream
-  class TokenStream < Tokens
-
-    # Whether the object is a TokenStream.
-    #
-    # Returns true.
-    def stream?
-      true
-    end
-
-    # The Array is empty, but size counts the tokens given by <<.
-    attr_reader :size
-
-    # Creates a new TokenStream that calls +block+ whenever
-    # its << method is called.
-    #
-    # Example:
-    #
-    #   require 'coderay'
-    #   
-    #   token_stream = CodeRay::TokenStream.new do |text, kind|
-    #     puts 'kind: %s, text size: %d.' % [kind, text.size]
-    #   end
-    #   
-    #   token_stream << ['/\d+/', :regexp]
-    #   #-> kind: rexpexp, text size: 5.
-    #
-    def initialize &block
-      raise ArgumentError, 'Block expected for streaming.' unless block
-      @callback = block
-      @size = 0
-    end
-
-    # Calls +block+ with +token+ and increments size.
-    #
-    # Returns self.
-    def << token
-      @callback.call(*token)
-      @size += 1
-      self
-    end
-
-    # This method is not implemented due to speed reasons. Use Tokens.
-    def text_size
-      raise NotImplementedError,
-        'This method is not implemented due to speed reasons.'
-    end
-
-    # A TokenStream cannot be dumped. Use Tokens.
-    def dump
-      raise NotImplementedError, 'A TokenStream cannot be dumped.'
-    end
-
-    # A TokenStream cannot be optimized. Use Tokens.
-    def optimize
-      raise NotImplementedError, 'A TokenStream cannot be optimized.'
-    end
-
+    alias text_token push
+    def begin_group kind; push :begin_group, kind end
+    def end_group kind; push :end_group, kind end
+    def begin_line kind; push :begin_line, kind end
+    def end_line kind; push :end_line, kind end
+    
   end
 
 end
@@ -369,17 +302,18 @@ class TokensTest < Test::Unit::TestCase
   def test_adding_tokens
     tokens = CodeRay::Tokens.new
     assert_nothing_raised do
-      tokens << ['string', :type]
-      tokens << ['()', :operator]
+      tokens.text_token 'string', :type
+      tokens.text_token '()', :operator
     end
-    assert_equal tokens.size, 2
+    assert_equal tokens.size, 4
+    assert_equal tokens.count, 2
   end
   
   def test_dump_undump
     tokens = CodeRay::Tokens.new
     assert_nothing_raised do
-      tokens << ['string', :type]
-      tokens << ['()', :operator]
+      tokens.text_token 'string', :type
+      tokens.text_token '()', :operator
     end
     tokens2 = nil
     assert_nothing_raised do

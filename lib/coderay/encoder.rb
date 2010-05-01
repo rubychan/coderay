@@ -31,11 +31,6 @@ module CodeRay
 
       class << self
 
-        # Returns if the Encoder can be used in streaming mode.
-        def streamable?
-          is_a? Streamable
-        end
-
         # If FILE_EXTENSION isn't defined, this method returns the
         # downcase class name instead.
         def const_missing sym
@@ -69,6 +64,7 @@ module CodeRay
         @options = self.class::DEFAULT_OPTIONS.merge options
         raise "I am only the basic Encoder class. I can't encode "\
           "anything. :( Use my subclasses." if self.class == Encoder
+        $ALREADY_WARNED_OLD_INTERFACE = false
       end
 
       # Encode a Tokens object.
@@ -95,23 +91,24 @@ module CodeRay
       # Encode the given +code+ using the Scanner for +lang+ in
       # streaming mode.
       def encode_stream code, lang, options = {}
-        raise NotStreamableError, self unless kind_of? Streamable
         options = @options.merge options
         setup options
         scanner_options = CodeRay.get_scanner_options options
+        scanner_options[:tokens] = self
         @token_stream =
-          CodeRay.scan_stream code, lang, scanner_options, &self
+          CodeRay.scan_stream code, lang, scanner_options
         finish options
-      end
-
-      # Behave like a proc. The token method is converted to a proc.
-      def to_proc
-        method(:token).to_proc
       end
 
       # Return the default file extension for outputs of this encoder.
       def file_extension
         self.class::FILE_EXTENSION
+      end
+      
+      def << token
+        warn 'Using old Tokens#<< interface.' unless $ALREADY_WARNED_OLD_INTERFACE
+        $ALREADY_WARNED_OLD_INTERFACE = true
+        self.token(*token)
       end
 
     protected
@@ -123,90 +120,80 @@ module CodeRay
       def setup options
         @out = ''
       end
-
+      
+    public
+      
       # Called with +content+ and +kind+ of the currently scanned token.
       # For simple scanners, it's enougth to implement this method.
       #
-      # By default, it calls text_token or block_token, depending on
-      # whether +content+ is a String.
+      # By default, it calls text_token, begin_group, end_group, begin_line,
+      # or end_line, depending on the +content+.
       def token content, kind
-        encoded_token =
-          if content.is_a? ::String
-            text_token content, kind
-          elsif content.is_a? ::Symbol
-            block_token content, kind
-          else
-            raise 'Unknown token content type: %p' % [content]
-          end
-        append_encoded_token_to_output encoded_token
-      end
-      
-      def append_encoded_token_to_output encoded_token
-        @out << encoded_token if encoded_token && defined?(@out) && @out
+        case content
+        when String
+          text_token content, kind
+        when :begin_group
+          begin_group kind
+        when :end_group
+          end_group kind
+        when :begin_line
+          begin_line kind
+        when :end_line
+          end_line kind
+        else
+          raise 'Unknown token content type: %p' % [content]
+        end
       end
       
       # Called for each text token ([text, kind]), where text is a String.
       def text_token text, kind
       end
       
-      # Called for each block (non-text) token ([action, kind]),
-      # where +action+ is a Symbol.
-      # 
-      # Calls open_token, close_token, begin_line, and end_line according to
-      # the value of +action+.
-      def block_token action, kind
-        case action
-        when :open
-          open_token kind
-        when :close
-          close_token kind
-        when :begin_line
-          begin_line kind
-        when :end_line
-          end_line kind
-        else
-          raise 'unknown block action: %p' % action
-        end
+      # Starts a token group with the given +kind+.
+      def begin_group kind
       end
       
-      # Called for each block token at the start of the block ([:open, kind]).
-      def open_token kind
+      # Ends a token group with the given +kind+.
+      def end_group kind
       end
       
-      # Called for each block token end of the block ([:close, kind]).
-      def close_token kind
-      end
-      
-      # Called for each line token block at the start of the line ([:begin_line, kind]).
+      # Starts a new line token group with the given +kind+.
       def begin_line kind
       end
       
-      # Called for each line token block at the end of the line ([:end_line, kind]).
+      # Ends a new line token group with the given +kind+.
       def end_line kind
       end
-
+      
+    protected
+      
       # Called with merged options after encoding starts.
       # The return value is the result of encoding, typically @out.
       def finish options
         @out
       end
-
+      
       # Do the encoding.
       #
-      # The already created +tokens+ object must be used; it can be a
-      # TokenStream or a Tokens object.
-      if RUBY_VERSION >= '1.9'
-        def compile tokens, options
-          for text, kind in tokens
-            token text, kind
+      # The already created +tokens+ object must be used; it must be a
+      # Tokens object.
+      def compile tokens, options = {}
+        content = nil
+        for item in tokens
+          if item.is_a? Array
+            warn 'two-element array tokens are deprecated'
+            content, item = *item
+          end
+          if content
+            token content, item
+            content = nil
+          else
+            content = item
           end
         end
-      else
-        def compile tokens, options
-          tokens.each(&self)
-        end
+        raise if content
       end
-
+      
     end
 
   end

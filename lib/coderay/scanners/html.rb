@@ -53,135 +53,125 @@ module Scanners
       @state = :initial
       @plain_string_content = nil
     end
-
-    def scan_tokens tokens, options
-
+    
+    def scan_tokens encoder, options
+      
       state = @state
       plain_string_content = @plain_string_content
-
+      
       until eos?
-
-        kind = nil
-        match = nil
-
-        if scan(/\s+/m)
-          kind = :space
-
+        
+        if match = scan(/\s+/m)
+          encoder.text_token match, :space
+          
         else
-
+          
           case state
-
+          
           when :initial
-            if scan(/<!--.*?-->/m)
-              kind = :comment
-            elsif scan(/<!DOCTYPE.*?>/m)
-              kind = :doctype
-            elsif scan(/<\?xml.*?\?>/m)
-              kind = :preprocessor
-            elsif scan(/<\?.*?\?>|<%.*?%>/m)
-              kind = :comment
-            elsif scan(/<\/[-\w.:]*>/m)
-              kind = :tag
+            if match = scan(/<!--.*?-->/m)
+              encoder.text_token match, :comment
+            elsif match = scan(/<!DOCTYPE.*?>/m)
+              encoder.text_token match, :doctype
+            elsif match = scan(/<\?xml.*?\?>/m)
+              encoder.text_token match, :preprocessor
+            elsif match = scan(/<\?.*?\?>|<%.*?%>/m)
+              encoder.text_token match, :comment
+            elsif match = scan(/<\/[-\w.:]*>/m)
+              encoder.text_token match, :tag
             elsif match = scan(/<[-\w.:]+>?/m)
-              kind = :tag
+              encoder.text_token match, :tag
               state = :attribute unless match[-1] == ?>
-            elsif scan(/[^<>&]+/)
-              kind = :plain
-            elsif scan(/#{ENTITY}/ox)
-              kind = :entity
-            elsif scan(/[<>&]/)
-              kind = :error
+            elsif match = scan(/[^<>&]+/)
+              encoder.text_token match, :plain
+            elsif match = scan(/#{ENTITY}/ox)
+              encoder.text_token match, :entity
+            elsif match = scan(/[<>&]/)
+              encoder.text_token match, :error
             else
-              raise_inspect '[BUG] else-case reached with state %p' % [state], tokens
+              raise_inspect '[BUG] else-case reached with state %p' % [state], encoder
             end
-
+            
           when :attribute
-            if scan(/#{TAG_END}/)
-              kind = :tag
+            if match = scan(/#{TAG_END}/)
+              encoder.text_token match, :tag
               state = :initial
-            elsif scan(/#{ATTR_NAME}/o)
-              kind = :attribute_name
+            elsif match = scan(/#{ATTR_NAME}/o)
+              encoder.text_token match, :attribute_name
               state = :attribute_equal
             else
-              kind = :error
-              getch
+              encoder.text_token getch, :error
             end
-
+            
           when :attribute_equal
-            if scan(/=/)
-              kind = :operator
+            if match = scan(/=/)
+              encoder.text_token match, :operator
               state = :attribute_value
-            elsif scan(/#{ATTR_NAME}/o)
-              kind = :attribute_name
-            elsif scan(/#{TAG_END}/o)
-              kind = :tag
-              state = :initial
-            elsif scan(/./)
-              kind = :error
-              state = :attribute
-            end
-
-          when :attribute_value
-            if scan(/#{ATTR_NAME}/o)
-              kind = :attribute_value
-              state = :attribute
-            elsif match = scan(/["']/)
-              tokens << [:open, :string]
-              state = :attribute_value_string
-              plain_string_content = PLAIN_STRING_CONTENT[match]
-              kind = :delimiter
-            elsif scan(/#{TAG_END}/o)
-              kind = :tag
+            elsif match = scan(/#{ATTR_NAME}/o)
+              encoder.text_token match, :attribute_name
+            elsif match = scan(/#{TAG_END}/o)
+              encoder.text_token match, :tag
               state = :initial
             else
-              kind = :error
-              getch
-            end
-
-          when :attribute_value_string
-            if scan(plain_string_content)
-              kind = :content
-            elsif scan(/['"]/)
-              tokens << [matched, :delimiter]
-              tokens << [:close, :string]
+              encoder.text_token getch, :error
               state = :attribute
-              next
-            elsif scan(/#{ENTITY}/ox)
-              kind = :entity
-            elsif scan(/&/)
-              kind = :content
-            elsif scan(/[\n>]/)
-              tokens << [:close, :string]
-              kind = :error
-              state = :initial
             end
-
+            
+          when :attribute_value
+            if match = scan(/#{ATTR_NAME}/o)
+              encoder.text_token match, :attribute_value
+              state = :attribute
+            elsif match = scan(/["']/)
+              encoder.begin_group :string
+              state = :attribute_value_string
+              plain_string_content = PLAIN_STRING_CONTENT[match]
+              encoder.text_token match, :delimiter
+            elsif scan(/#{TAG_END}/o)
+              encoder.text_token match, :tag
+              state = :initial
+            else
+              encoder.text_token getch, :error
+            end
+            
+          when :attribute_value_string
+            if match = scan(plain_string_content)
+              encoder.text_token match, :content
+            elsif match = scan(/['"]/)
+              encoder.text_token match, :delimiter
+              encoder.end_group :string
+              state = :attribute
+            elsif match = scan(/#{ENTITY}/ox)
+              encoder.text_token match, :entity
+            elsif match = scan(/&/)
+              encoder.text_token match, :content
+            elsif match = scan(/[\n>]/)
+              encoder.end_group :string
+              state = :initial
+              encoder.text_token match, :error
+            end
+            
           else
-            raise_inspect 'Unknown state: %p' % [state], tokens
-
+            raise_inspect 'Unknown state: %p' % [state], encoder
+            
           end
-
+          
         end
-
-        match ||= matched
-        if $CODERAY_DEBUG and not kind
-          raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens, state
-        end
-        raise_inspect 'Empty token', tokens unless match
-
-        tokens << [match, kind]
+        
       end
-
+      
       if options[:keep_state]
         @state = state
         @plain_string_content = plain_string_content
+      else
+        if state == :attribute_value_string
+          encoder.end_group :string
+        end
       end
-
-      tokens
+      
+      encoder
     end
-
+    
   end
-
+  
 end
 end

@@ -1,5 +1,6 @@
 require 'strscan'
 require 'benchmark'
+require 'thread'
 
 class Scanner < StringScanner
   
@@ -29,9 +30,9 @@ protected
       elsif matched = scan(/[,.]/)
         encoder.text_token matched, :op
       elsif scan(/\(/)
-        encoder.open :par
+        encoder.begin_group :par
       elsif scan(/\)/)
-        encoder.close :par
+        encoder.end_group :par
       else
         raise
       end
@@ -45,8 +46,20 @@ class Tokens < Array
   alias token push
   alias text_token push
   alias block_token push
-  def open kind; push :open, kind end
-  def close kind; push :close, kind end
+  def begin_group kind; push :begin_group, kind end
+  def end_group kind; push :end_group, kind end
+end
+
+class TokensQueue < Queue
+  def text_token text, kind
+    push [text, kind]
+  end
+  def begin_group kind
+    push [:begin_group, kind]
+  end
+  def end_group kind
+    push [:end_group, kind]
+  end
 end
 
 
@@ -76,6 +89,21 @@ class Encoder
     finish
   end
   
+  def encode_queue scanner
+    setup
+    queue = TokensQueue.new
+    Thread.new do
+      scanner.tokenize queue
+      queue << nil  # end
+    end.join
+    Thread.new do
+      while value = queue.pop
+        token(*value)
+      end
+    end.join
+    finish
+  end
+  
   def token content, kind
     if content.is_a? ::String
       text_token content, kind
@@ -98,21 +126,21 @@ class Encoder
   
   def block_token action, kind
     case action
-    when :open
-      open kind
-    when :close
-      close kind
+    when :begin_group
+      begin_group kind
+    when :end_group
+      end_group kind
     else
       raise
     end
   end
   
-  def open kind
+  def begin_group kind
     @opened << kind
     @out << "#{kind}<"
   end
   
-  def close kind
+  def end_group kind
     @opened.pop
     @out << '>'
   end
@@ -127,14 +155,14 @@ protected
         when ::String
           text_token content, item
           content = nil
-        when :open
-          open item
+        when :begin_group
+          begin_group item
           content = nil
-        when :close
-          close item
+        when :end_group
+          end_group item
           content = nil
         when ::Symbol
-          block_token content, kind
+          block_token content, item
           content = nil
         else
           raise
@@ -153,22 +181,28 @@ code = "  alpha, beta, (gamma).\n" * N
 scanner = Scanner.new code
 encoder = Encoder.new
 
-tokens = nil
-time_scanning = Benchmark.realtime do
-  tokens = scanner.tokenize
-end
-puts 'Scanning: %0.2fs -- %0.0f kTok/s' % [time_scanning, tokens.size / 2 / time_scanning / 1000]
+# tokens = nil
+# time_scanning = Benchmark.realtime do
+#   tokens = scanner.tokenize
+# end
+# puts 'Scanning: %0.2fs -- %0.0f kTok/s' % [time_scanning, tokens.size / 2 / time_scanning / 1000]
+# 
+# time_encoding = Benchmark.realtime do
+#   encoder.encode_tokens tokens
+# end
+# puts 'Encoding: %0.2fs -- %0.0f kTok/s' % [time_encoding, tokens.size / 2 / time_encoding / 1000]
+# 
+# time = time_scanning + time_encoding
+# puts 'Together: %0.2fs -- %0.0f kTok/s' % [time, tokens.size / 2 / time / 1000]
+# scanner.reset
 
-time_encoding = Benchmark.realtime do
-  encoder.encode_tokens tokens
-end
-puts 'Encoding: %0.2fs -- %0.0f kTok/s' % [time_encoding, tokens.size / 2 / time_encoding / 1000]
-
-time = time_scanning + time_encoding
-puts 'Together: %0.2fs -- %0.0f kTok/s' % [time, tokens.size / 2 / time / 1000]
-
-scanner.reset
 time = Benchmark.realtime do
   encoder.encode_stream scanner
 end
-puts 'Scanning + Encoding: %0.2fs -- %0.0f kTok/s' % [time, (N * 11 + 1) / time / 1000]
+puts 'Direct Streaming: %0.2fs -- %0.0f kTok/s' % [time, (N * 11 + 1) / time / 1000]
+
+scanner.reset
+time = Benchmark.realtime do
+  encoder.encode_queue scanner
+end
+puts 'Queue: %0.2fs -- %0.0f kTok/s' % [time, (N * 11 + 1) / time / 1000]

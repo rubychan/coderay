@@ -61,11 +61,6 @@ module CodeRay
 
       class << self
 
-        # Returns if the Scanner can be used in streaming mode.
-        def streamable?
-          is_a? Streamable
-        end
-
         def normify code
           code = code.to_s.dup
           # try using UTF-8
@@ -115,9 +110,6 @@ module CodeRay
       #   overwrite default options here.)
       # * +block+ is the callback for streamed highlighting.
       #
-      # If you set :stream to +true+ in the options, the Scanner uses a
-      # TokenStream with the +block+ as callback to handle the tokens.
-      #
       # Else, a Tokens object is used.
       def initialize code='', options = {}, &block
         raise "I am only the basic Scanner class. I can't scan "\
@@ -129,16 +121,13 @@ module CodeRay
 
         @tokens = options[:tokens]
         if @options[:stream]
-          warn "warning in CodeRay::Scanner.new: :stream is set, "\
-            "but no block was given" unless block_given?
-          raise NotStreamableError, self unless kind_of? Streamable
-          @tokens ||= TokenStream.new(&block)
+          raise NotImplementedError unless @tokens.is_a? Encoders::Encoder
         else
           warn "warning in CodeRay::Scanner.new: Block given, "\
             "but :stream is #{@options[:stream]}" if block_given?
           @tokens ||= Tokens.new
         end
-        @tokens.scanner = self
+        @tokens.scanner = self if @tokens.respond_to? :scanner=
 
         setup
       end
@@ -162,7 +151,7 @@ module CodeRay
 
       # Returns the Plugin ID for this scanner.
       def lang
-        self.class.plugin_id
+        self.class.plugin_id.to_s
       end
 
       # Scans the code and returns all tokens in a Tokens object.
@@ -191,8 +180,6 @@ module CodeRay
 
       # Traverses the tokens.
       def each &block
-        raise ArgumentError,
-          'Cannot traverse TokenStream.' if @options[:stream]
         tokens.each(&block)
       end
       include Enumerable
@@ -246,7 +233,7 @@ module CodeRay
       
       # Resets the scanner.
       def reset_instance
-        @tokens.clear unless @options[:keep_tokens]
+        @tokens.clear if @tokens.respond_to?(:clear) && !@options[:keep_tokens]
         @cached_tokens = nil
         @bin_string = nil if defined? @bin_string
       end

@@ -8,7 +8,7 @@
 # See README.
 # 
 # It consists mainly of
-# * the main engine: CodeRay (Scanners::Scanner, Tokens/TokenStream, Encoders::Encoder), PluginHost
+# * the main engine: CodeRay (Scanners::Scanner, Tokens, Encoders::Encoder), PluginHost
 # * the scanners in CodeRay::Scanners
 # * the encoders in CodeRay::Encoders
 # 
@@ -97,13 +97,6 @@
 # CodeRay.encode:: Scan and encode a string in a given language.
 # CodeRay.encode_tokens:: Encode the given tokens.
 # CodeRay.encode_file:: Scan a file, guess the language using FileType and encode it.
-#
-# == Streaming
-#
-# Streaming saves RAM by running Scanner and Encoder in some sort of
-# pipe mode; see TokenStream.
-#
-# CodeRay.scan_stream:: Scan in stream mode.
 #
 # == All-in-One Encoding
 #
@@ -291,21 +284,6 @@ module CodeRay
       options.fetch :scanner_options, {}
     end
 
-  end
-
-  # This Exception is raised when you try to stream with something that is not
-  # capable of streaming.
-  class NotStreamableError < Exception
-    
-    # +obj+ is the object that is not streamable.
-    def initialize obj
-      @obj = obj
-    end
-    
-    def to_s  # :nodoc:
-      '%s is not Streamable!' % @obj.class
-    end
-    
   end
 
   # A dummy module that is included by subclasses of

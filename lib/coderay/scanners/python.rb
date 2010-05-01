@@ -98,7 +98,7 @@ module Scanners
     
   protected
     
-    def scan_tokens tokens, options
+    def scan_tokens encoder, options
       
       state = :initial
       string_delimiter = nil
@@ -111,37 +111,34 @@ module Scanners
       
       until eos?
         
-        kind = nil
-        match = nil
-        
         if state == :string
-          if scan(STRING_DELIMITER_REGEXP[string_delimiter])
-            tokens << [matched, :delimiter]
-            tokens << [:close, string_type]
+          if match = scan(STRING_DELIMITER_REGEXP[string_delimiter])
+            encoder.text_token match, :delimiter
+            encoder.end_group string_type
             string_type = nil
             state = :initial
             next
-          elsif string_delimiter.size == 3 && scan(/\n/)
-            kind = :content
-          elsif scan(STRING_CONTENT_REGEXP[string_delimiter])
-            kind = :content
-          elsif !string_raw && scan(/ \\ #{ESCAPE} /ox)
-            kind = :char
-          elsif scan(/ \\ #{UNICODE_ESCAPE} /ox)
-            kind = :char
-          elsif scan(/ \\ . /x)
-            kind = :content
-          elsif scan(/ \\ | $ /x)
-            tokens << [:close, string_type]
+          elsif string_delimiter.size == 3 && match = scan(/\n/)
+            encoder.text_token match, :content
+          elsif match = scan(STRING_CONTENT_REGEXP[string_delimiter])
+            encoder.text_token match, :content
+          elsif !string_raw && match = scan(/ \\ #{ESCAPE} /ox)
+            encoder.text_token match, :char
+          elsif match = scan(/ \\ #{UNICODE_ESCAPE} /ox)
+            encoder.text_token match, :char
+          elsif match = scan(/ \\ . /x)
+            encoder.text_token match, :content
+          elsif match = scan(/ \\ | $ /x)
+            encoder.end_group string_type
             string_type = nil
-            kind = :error
+            encoder.text_token match, :error
             state = :initial
           else
-            raise_inspect "else case \" reached; %p not handled." % peek(1), tokens, state
+            raise_inspect "else case \" reached; %p not handled." % peek(1), encoder, state
           end
         
         elsif match = scan(/ [ \t]+ | \\?\n /x)
-          tokens << [match, :space]
+          encoder.text_token match, :space
           if match == "\n"
             state = :initial if state == :include_expected
             docstring_coming = true if match?(/[ \t]*u?r?"""/)
@@ -149,28 +146,28 @@ module Scanners
           next
         
         elsif match = scan(/ \# [^\n]* /mx)
-          tokens << [match, :comment]
+          encoder.text_token match, :comment
           next
         
         elsif state == :initial
           
-          if scan(/#{OPERATOR}/o)
-            kind = :operator
+          if match = scan(/#{OPERATOR}/o)
+            encoder.text_token match, :operator
           
           elsif match = scan(/(u?r?|b)?("""|"|'''|')/i)
             string_delimiter = self[2]
             string_type = docstring_coming ? :docstring : :string
             docstring_coming = false if docstring_coming
-            tokens << [:open, string_type]
+            encoder.begin_group string_type
             string_raw = false
             modifiers = self[1]
             unless modifiers.empty?
               string_raw = !!modifiers.index(?r)
-              tokens << [modifiers, :modifier]
+              encoder.text_token modifiers, :modifier
               match = string_delimiter
             end
             state = :string
-            kind = :delimiter
+            encoder.text_token match, :delimiter
           
           # TODO: backticks
           
@@ -186,43 +183,45 @@ module Scanners
               state = DEF_NEW_STATE[match]
               from_import_state << match.to_sym if state == :include_expected
             end
+            encoder.text_token match, kind
           
-          elsif scan(/@[a-zA-Z0-9_.]+[lL]?/)
-            kind = :decorator
+          elsif match = scan(/@[a-zA-Z0-9_.]+[lL]?/)
+            encoder.text_token match, :decorator
           
-          elsif scan(/0[xX][0-9A-Fa-f]+[lL]?/)
-            kind = :hex
+          elsif match = scan(/0[xX][0-9A-Fa-f]+[lL]?/)
+            encoder.text_token match, :hex
           
-          elsif scan(/0[bB][01]+[lL]?/)
-            kind = :bin
+          elsif match = scan(/0[bB][01]+[lL]?/)
+            encoder.text_token match, :bin
           
           elsif match = scan(/(?:\d*\.\d+|\d+\.\d*)(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+/)
-            kind = :float
             if scan(/[jJ]/)
               match << matched
-              kind = :imaginary
+              encoder.text_token match, :imaginary
+            else
+              encoder.text_token match, :float
             end
           
-          elsif scan(/0[oO][0-7]+|0[0-7]+(?![89.eE])[lL]?/)
-            kind = :oct
+          elsif match = scan(/0[oO][0-7]+|0[0-7]+(?![89.eE])[lL]?/)
+            encoder.text_token match, :oct
           
           elsif match = scan(/\d+([lL])?/)
-            kind = :integer
             if self[1] == nil && scan(/[jJ]/)
               match << matched
-              kind = :imaginary
+              encoder.text_token match, :imaginary
+            else
+              encoder.text_token match, :integer
             end
           
           else
-            getch
-            kind = :error
+            encoder.text_token getch, :error
           
           end
             
         elsif state == :def_expected
           state = :initial
           if match = scan(unicode ? /#{NAME}/uo : /#{NAME}/o)
-            kind = :method
+            encoder.text_token match, :method
           else
             next
           end
@@ -230,33 +229,34 @@ module Scanners
         elsif state == :class_expected
           state = :initial
           if match = scan(unicode ? /#{NAME}/uo : /#{NAME}/o)
-            kind = :class
+            encoder.text_token match, :class
           else
             next
           end
           
         elsif state == :include_expected
           if match = scan(unicode ? /#{DESCRIPTOR}/uo : /#{DESCRIPTOR}/o)
-            kind = :include
             if match == 'as'
-              kind = :keyword
+              encoder.text_token match, :keyword
               from_import_state << :as
             elsif from_import_state.first == :from && match == 'import'
-              kind = :keyword
+              encoder.text_token match, :keyword
               from_import_state << :import
             elsif from_import_state.last == :as
-              # kind = match[0,1][unicode ? /[[:upper:]]/u : /[[:upper:]]/] ? :class : :method
-              kind = :ident
+              # encoder.text_token match, match[0,1][unicode ? /[[:upper:]]/u : /[[:upper:]]/] ? :class : :method
+              encoder.text_token match, :ident
               from_import_state.pop
             elsif IDENT_KIND[match] == :keyword
               unscan
               match = nil
               state = :initial
               next
+            else
+              encoder.text_token match, :include
             end
           elsif match = scan(/,/)
             from_import_state.pop if from_import_state.last == :as
-            kind = :operator
+            encoder.text_token match, :operator
           else
             from_import_state = []
             state = :initial
@@ -264,28 +264,19 @@ module Scanners
           end
           
         else
-          raise_inspect 'Unknown state', tokens, state
+          raise_inspect 'Unknown state', encoder, state
           
         end
         
-        match ||= matched
-        if $CODERAY_DEBUG and not kind
-          raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens, state
-        end
-        raise_inspect 'Empty token', tokens, state unless match
-        
         last_token_dot = match == '.'
-        
-        tokens << [match, kind]
         
       end
       
       if state == :string
-        tokens << [:close, string_type]
+        encoder.end_group string_type
       end
       
-      tokens
+      encoder
     end
     
   end

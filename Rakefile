@@ -1,4 +1,4 @@
-$: << File.dirname(__FILE__) unless $:.include? '.'
+$:.unshift File.dirname(__FILE__) unless $:.include? '.'
 require 'rake/rdoctask'
 
 ROOT = '.'

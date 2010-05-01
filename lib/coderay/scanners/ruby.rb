@@ -30,7 +30,7 @@ module Scanners
     
   protected
     
-    def scan_tokens tokens, options
+    def scan_tokens encoder, options
       
       patterns = Patterns  # avoid constant lookup
       
@@ -50,20 +50,18 @@ module Scanners
       unicode = string.respond_to?(:encoding) && string.encoding.name == 'UTF-8'
       
       until eos?
-        match = nil
-        kind = nil
 
         if state.instance_of? patterns::StringState
 
           match = scan_until(state.pattern) || scan_until(/\z/)
-          tokens << [match, :content] unless match.empty?
+          encoder.text_token match, :content unless match.empty?
           break if eos?
 
           if state.heredoc and self[1]  # end of heredoc
             match = getch.to_s
             match << scan_until(/$/) unless eos?
-            tokens << [match, :delimiter]
-            tokens << [:close, state.type]
+            encoder.text_token match, :delimiter
+            encoder.end_group state.type
             state = state.next_state
             next
           end
@@ -74,34 +72,34 @@ module Scanners
             if state.paren_depth
               state.paren_depth -= 1
               if state.paren_depth > 0
-                tokens << [match, :nesting_delimiter]
+                encoder.text_token match, :nesting_delimiter
                 next
               end
             end
-            tokens << [match, :delimiter]
+            encoder.text_token match, :delimiter
             if state.type == :regexp and not eos?
               modifiers = scan(/#{patterns::REGEXP_MODIFIERS}/ox)
-              tokens << [modifiers, :modifier] unless modifiers.empty?
+              encoder.text_token modifiers, :modifier unless modifiers.empty?
             end
-            tokens << [:close, state.type]
+            encoder.end_group state.type
             value_expected = false
             state = state.next_state
 
           when '\\'
             if state.interpreted
               if esc = scan(/ #{patterns::ESCAPE} /ox)
-                tokens << [match + esc, :char]
+                encoder.text_token match + esc, :char
               else
-                tokens << [match, :error]
+                encoder.text_token match, :error
               end
             else
               case m = getch
               when state.delim, '\\'
-                tokens << [match + m, :char]
+                encoder.text_token match + m, :char
               when nil
-                tokens << [match, :error]
+                encoder.text_token match, :error
               else
-                tokens << [match + m, :content]
+                encoder.text_token match + m, :content
               end
             end
 
@@ -113,42 +111,38 @@ module Scanners
               value_expected = true
               state = :initial
               inline_block_curly_depth = 1
-              tokens << [:open, :inline]
-              tokens << [match + getch, :inline_delimiter]
+              encoder.begin_group :inline
+              encoder.text_token match + getch, :inline_delimiter
             when '$', '@'
-              tokens << [match, :escape]
+              encoder.text_token match, :escape
               last_state = state
               state = :initial
             else
               raise_inspect 'else-case # reached; #%p not handled' % 
-                [peek(1)], tokens
+                [peek(1)], encoder
             end
 
           when state.opening_paren
             state.paren_depth += 1
-            tokens << [match, :nesting_delimiter]
+            encoder.text_token match, :nesting_delimiter
 
           when /#{patterns::REGEXP_SYMBOLS}/ox
-            tokens << [match, :function]
+            encoder.text_token match, :function
 
           else
             raise_inspect 'else-case " reached; %p not handled, state = %p' %
-              [match, state], tokens
+              [match, state], encoder
 
           end
-          next
 
         else
 
           if match = scan(/[ \t\f]+/)
-            kind = :space
             match << scan(/\s*/) unless eos? || heredocs
             value_expected = true if match.index(?\n)
-            tokens << [match, kind]
-            next
+            encoder.text_token match, :space
             
           elsif match = scan(/\\?\n/)
-            kind = :space
             if match == "\n"
               value_expected = true
               state = :initial if state == :undef_comma_expected
@@ -156,24 +150,20 @@ module Scanners
             if heredocs
               unscan  # heredoc scanning needs \n at start
               state = heredocs.shift
-              tokens << [:open, state.type]
+              encoder.begin_group state.type
               heredocs = nil if heredocs.empty?
               next
             else
               match << scan(/\s*/) unless eos?
             end
-            tokens << [match, kind]
-            next
+            encoder.text_token match, :space
           
           elsif bol? && match = scan(/\#!.*/)
-            tokens << [match, :doctype]
-            next
+            encoder.text_token match, :doctype
             
           elsif match = scan(/\#.*/) or
              (bol? and match = scan(/#{patterns::RUBYDOC_OR_DATA}/o))
-            kind = :comment
-            tokens << [match, kind]
-            next
+            encoder.text_token match, :comment
 
           elsif state == :initial
 
@@ -192,16 +182,16 @@ module Scanners
                 value_expected = true if patterns::KEYWORDS_EXPECTING_VALUE[match]
               end
               value_expected = true if !value_expected && check(/#{patterns::VALUE_FOLLOWS}/o)
+              encoder.text_token match, kind
             
             elsif method_call_expected and
                match = scan(unicode ? /#{patterns::METHOD_AFTER_DOT}/uo :
                                       /#{patterns::METHOD_AFTER_DOT}/o)
-              kind =
-                if method_call_expected == '::' && match[/^[A-Z]/] && !match?(/\(/)
-                  :constant
-                else
-                  :ident
-                end
+              if method_call_expected == '::' && match[/^[A-Z]/] && !match?(/\(/)
+                encoder.text_token match, :constant
+              else
+                encoder.text_token match, :ident
+              end
               method_call_expected = false
               value_expected = check(/#{patterns::VALUE_FOLLOWS}/o)
 
@@ -209,7 +199,6 @@ module Scanners
             elsif not method_call_expected and match = scan(/ \.\.\.? | (\.|::) | [,\(\)\[\]\{\}] | ==?=? /x)
               value_expected = match !~ / [.\)\]\}] /x || match =~ /\A\.\./
               method_call_expected = self[1]
-              kind = :operator
               if inline_block_stack
                 case match
                 when '{'
@@ -220,35 +209,36 @@ module Scanners
                     state, inline_block_curly_depth, heredocs = inline_block_stack.pop
                     inline_block_stack = nil if inline_block_stack.empty?
                     heredocs = nil if heredocs && heredocs.empty?
-                    tokens << [match, :inline_delimiter]
-                    kind = :inline
-                    match = :close
+                    encoder.text_token match, :inline_delimiter
+                    encoder.end_group :inline
+                    next
                   end
                 end
               end
+              encoder.text_token match, :operator
 
             elsif match = scan(/ ['"] /mx)
-              tokens << [:open, :string]
-              kind = :delimiter
+              encoder.begin_group :string
+              encoder.text_token match, :delimiter
               state = patterns::StringState.new :string, match == '"', match  # important for streaming
 
             elsif match = scan(unicode ? /#{patterns::INSTANCE_VARIABLE}/uo :
                                          /#{patterns::INSTANCE_VARIABLE}/o)
               value_expected = false
-              kind = :instance_variable
+              encoder.text_token match, :instance_variable
 
             elsif value_expected and match = scan(/\//)
-              tokens << [:open, :regexp]
-              kind = :delimiter
+              encoder.begin_group :regexp
+              encoder.text_token match, :delimiter
               interpreted = true
               state = patterns::StringState.new :regexp, interpreted, match
 
-            elsif match = value_expected ? scan(/[-+]?#{patterns::NUMERIC}/o) : scan(/#{patterns::NUMERIC}/o)
+            elsif match = scan(value_expected ? /[-+]?#{patterns::NUMERIC}/o : /#{patterns::NUMERIC}/o)
               if method_call_expected
-                kind = :error
+                encoder.text_token match, :error
                 method_call_expected = false
               else
-                kind = self[1] ? :float : :integer
+                encoder.text_token match, self[1] ? :float : :integer
               end
               value_expected = false
 
@@ -256,28 +246,28 @@ module Scanners
                                          /#{patterns::SYMBOL}/o)
               case delim = match[1]
               when ?', ?"
-                tokens << [:open, :symbol]
-                tokens << [':', :symbol]
+                encoder.begin_group :symbol
+                encoder.text_token ':', :symbol
                 match = delim.chr
-                kind = :delimiter
+                encoder.text_token match, :delimiter
                 state = patterns::StringState.new :symbol, delim == ?", match
               else
-                kind = :symbol
+                encoder.text_token match, :symbol
                 value_expected = false
               end
 
             elsif match = scan(/ [-+!~^]=? | [*|&]{1,2}=? | >>? /x)
               value_expected = true
-              kind = :operator
+              encoder.text_token match, :operator
 
             elsif value_expected and match = scan(/#{patterns::HEREDOC_OPEN}/o)
               indented = self[1] == '-'
               quote = self[3]
               delim = self[quote ? 4 : 2]
               kind = patterns::QUOTE_TO_TYPE[quote]
-              tokens << [:open, kind]
-              tokens << [match, :delimiter]
-              match = :close
+              encoder.begin_group kind
+              encoder.text_token match, :delimiter
+              encoder.end_group kind
               heredoc = patterns::StringState.new kind, quote != '\'',
                 delim, (indented ? :indented : :linestart )
               heredocs ||= []  # create heredocs if empty
@@ -286,38 +276,38 @@ module Scanners
 
             elsif value_expected and match = scan(/#{patterns::FANCY_START}/o)
               kind, interpreted = *patterns::FancyStringType.fetch(self[1]) do
-                raise_inspect 'Unknown fancy string: %%%p' % k, tokens
+                raise_inspect 'Unknown fancy string: %%%p' % k, encoder
               end
-              tokens << [:open, kind]
+              encoder.begin_group kind
               state = patterns::StringState.new kind, interpreted, self[2]
-              kind = :delimiter
+              encoder.text_token match, :delimiter
 
             elsif value_expected and match = scan(/#{patterns::CHARACTER}/o)
               value_expected = false
-              kind = :integer
+              encoder.text_token match, :integer
 
             elsif match = scan(/ [\/%]=? | <(?:<|=>?)? | [?:;] /x)
               value_expected = true
-              kind = :operator
+              encoder.text_token match, :operator
 
             elsif match = scan(/`/)
               if method_call_expected
-                kind = :operator
+                encoder.text_token match, :operator
                 value_expected = true
               else
-                tokens << [:open, :shell]
-                kind = :delimiter
+                encoder.begin_group :shell
+                encoder.text_token match, :delimiter
                 state = patterns::StringState.new :shell, true, match
               end
 
             elsif match = scan(unicode ? /#{patterns::GLOBAL_VARIABLE}/uo :
                                          /#{patterns::GLOBAL_VARIABLE}/o)
-              kind = :global_variable
+              encoder.text_token match, :global_variable
               value_expected = false
 
             elsif match = scan(unicode ? /#{patterns::CLASS_VARIABLE}/uo :
                                          /#{patterns::CLASS_VARIABLE}/o)
-              kind = :class_variable
+              encoder.text_token match, :class_variable
               value_expected = false
 
             else
@@ -340,9 +330,9 @@ module Scanners
                 end
                 next if unicode
               end
-              kind = :error
-              match = getch
-
+              
+              encoder.text_token getch, :error
+              
             end
             
             if last_state
@@ -353,34 +343,30 @@ module Scanners
           elsif state == :def_expected
             if match = scan(unicode ? /(?>#{patterns::METHOD_NAME_EX})(?!\.|::)/uo :
                                       /(?>#{patterns::METHOD_NAME_EX})(?!\.|::)/o)
-              kind = :method
+              encoder.text_token match, :method
               state = :initial
             else
               last_state = :dot_expected
               state = :initial
-              next
             end
 
           elsif state == :dot_expected
             if match = scan(/\.|::/)
               # invalid definition
               state = :def_expected
-              kind = :operator
+              encoder.text_token match, :operator
             else
               state = :initial
-              next
             end
 
           elsif state == :module_expected
             if match = scan(/<</)
-              kind = :operator
+              encoder.text_token match, :operator
             else
               state = :initial
               if match = scan(unicode ? / (?:#{patterns::IDENT}::)* #{patterns::IDENT} /oux :
                                         / (?:#{patterns::IDENT}::)* #{patterns::IDENT} /ox)
-                kind = :class
-              else
-                next
+                encoder.text_token match, :class
               end
             end
 
@@ -388,31 +374,29 @@ module Scanners
             state = :undef_comma_expected
             if match = scan(unicode ? /(?>#{patterns::METHOD_NAME_EX})(?!\.|::)/uo :
                                       /(?>#{patterns::METHOD_NAME_EX})(?!\.|::)/o)
-              kind = :method
+              encoder.text_token match, :method
             elsif match = scan(/#{patterns::SYMBOL}/o)
               case delim = match[1]
               when ?', ?"
-                tokens << [:open, :symbol]
-                tokens << [':', :symbol]
+                encoder.begin_group :symbol
+                encoder.text_token ':', :symbol
                 match = delim.chr
-                kind = :delimiter
+                encoder.text_token match, :delimiter
                 state = patterns::StringState.new :symbol, delim == ?", match
                 state.next_state = :undef_comma_expected
               else
-                kind = :symbol
+                encoder.text_token match, :symbol
               end
             else
               state = :initial
-              next
             end
 
           elsif state == :undef_comma_expected
             if match = scan(/,/)
-              kind = :operator
+              encoder.text_token match, :operator
               state = :undef_expected
             else
               state = :initial
-              next
             end
 
           elsif state == :alias_expected
@@ -420,38 +404,30 @@ module Scanners
                                    /(#{patterns::METHOD_NAME_OR_SYMBOL})([ \t]+)(#{patterns::METHOD_NAME_OR_SYMBOL})/o)
             
             if match
-              tokens << [self[1], (self[1][0] == ?: ? :symbol : :method)]
-              tokens << [self[2], :space]
-              tokens << [self[3], (self[3][0] == ?: ? :symbol : :method)]
+              encoder.text_token self[1], (self[1][0] == ?: ? :symbol : :method)
+              encoder.text_token self[2], :space
+              encoder.text_token self[3], (self[3][0] == ?: ? :symbol : :method)
             end
             state = :initial
-            next
 
           end
           
-          if $CODERAY_DEBUG and not kind
-            raise_inspect 'Error token %p in line %d' %
-              [[match, kind], line], tokens, state
-          end
-          raise_inspect 'Empty token', tokens, state unless match
-
-          tokens << [match, kind]
         end
       end
 
       # cleaning up
       if state.is_a? patterns::StringState
-        tokens << [:close, state.type]
+        encoder.end_group state.type
       end
       if inline_block_stack
         until inline_block_stack.empty?
           state, *more = inline_block_stack.pop
-          tokens << [:close, :inline] if more
-          tokens << [:close, state.type]
+          encoder.end_group :inline if more
+          encoder.end_group state.type
         end
       end
 
-      tokens
+      encoder
     end
 
   end

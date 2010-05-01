@@ -14,67 +14,52 @@ module Scanners
     
   protected
     
-    def scan_tokens tokens, options
+    def scan_tokens encoder, options
 
       opened_tokens = []
 
       until eos?
 
-        kind = nil
-        match = nil
-
-          if scan(/\s+/)
-            tokens << [matched, :space]
-            next
-            
-          elsif scan(/ (\w+) \( ( [^\)\\]* ( \\. [^\)\\]* )* ) \)? /x)
-            kind = self[1].to_sym
-            match = self[2].gsub(/\\(.)/, '\1')
-            unless Tokens::AbbreviationForKind.has_key? kind
-              kind = :error
-              match = matched
-            end
-            
-          elsif scan(/ (\w+) ([<\[]) /x)
-            kind = self[1].to_sym
-            opened_tokens << kind
-            case self[2]
-            when '<'
-              match = :open
-            when '['
-              match = :begin_line
-            else
-              raise
-            end
-            
-          elsif !opened_tokens.empty? && scan(/ > /x)
-            kind = opened_tokens.pop
-            match = :close
-            
-          elsif !opened_tokens.empty? && scan(/ \] /x)
-            kind = opened_tokens.pop
-            match = :end_line
-            
-          else
-            kind = :space
-            getch
-            
+        if match = scan(/\s+/)
+          encoder.text_token match, :space
+          
+        elsif match = scan(/ (\w+) \( ( [^\)\\]* ( \\. [^\)\\]* )* ) \)? /x)
+          kind = self[1].to_sym
+          match = self[2].gsub(/\\(.)/, '\1')
+          unless Tokens::AbbreviationForKind.has_key? kind
+            kind = :error
+            match = matched
           end
-        
-        match ||= matched
-        if $CODERAY_DEBUG and not kind
-          raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens
+          encoder.text_token match, kind
+          
+        elsif match = scan(/ (\w+) ([<\[]) /x)
+          kind = self[1].to_sym
+          opened_tokens << kind
+          case self[2]
+          when '<'
+            encoder.begin_group kind
+          when '['
+            encoder.begin_line kind
+          else
+            raise 'CodeRay bug: This case should not be reached.'
+          end
+          
+        elsif !opened_tokens.empty? && match = scan(/ > /x)
+          encoder.end_group opened_tokens.pop
+          
+        elsif !opened_tokens.empty? && match = scan(/ \] /x)
+          encoder.end_line opened_tokens.pop
+          
+        else
+          encoder.text_token getch, :space
+          
         end
-        raise_inspect 'Empty token', tokens unless match
-        
-        tokens << [match, kind]
         
       end
       
-      tokens << [:close, opened_tokens.pop] until opened_tokens.empty?
+      encoder.end_group opened_tokens.pop until opened_tokens.empty?
       
-      tokens
+      encoder
     end
 
   end
@@ -111,14 +96,14 @@ method([])]
   TEST_OUTPUT = CodeRay::Tokens[
     ['10', :integer],
     ['(\\)', :operator],
-    [:open, :string],
+    [:begin_group, :string],
     ['test', :content],
-    [:close, :string],
+    [:end_group, :string],
     [:begin_line, :test],
     ["\n\n  \t   \n", :space],
     ["[]", :method],
     [:end_line, :test],
-  ]
+  ].flatten
   
   def test_filtering_text_tokens
     assert_equal TEST_OUTPUT, CodeRay::Scanners::Debug.new.tokenize(TEST_INPUT)

@@ -1,11 +1,11 @@
 module CodeRay
 module Scanners
-
+  
   load :java
   
   # Scanner for Groovy.
   class Groovy < Java
-
+    
     include Streamable
     register_for :groovy
     
@@ -37,7 +37,7 @@ module Scanners
     
   protected
     
-    def scan_tokens tokens, options
+    def scan_tokens encoder, options
       
       state = :initial
       inline_block_stack = []
@@ -45,35 +45,32 @@ module Scanners
       string_delimiter = nil
       import_clause = class_name_follows = last_token = after_def = false
       value_expected = true
-
+      
       until eos?
-
-        kind = nil
-        match = nil
         
         case state
-
+        
         when :initial
-
+          
           if match = scan(/ \s+ | \\\n /x)
-            tokens << [match, :space]
+            encoder.text_token match, :space
             if match.index ?\n
               import_clause = after_def = false
               value_expected = true unless value_expected
             end
             next
           
-          elsif scan(%r! // [^\n\\]* (?: \\. [^\n\\]* )* | /\* (?: .*? \*/ | .* ) !mx)
+          elsif match = scan(%r! // [^\n\\]* (?: \\. [^\n\\]* )* | /\* (?: .*? \*/ | .* ) !mx)
             value_expected = true
             after_def = false
-            kind = :comment
+            encoder.text_token match, :comment
           
-          elsif bol? && scan(/ \#!.* /x)
-            kind = :doctype
+          elsif bol? && match = scan(/ \#!.* /x)
+            encoder.text_token match, :doctype
           
-          elsif import_clause && scan(/ (?!as) #{IDENT} (?: \. #{IDENT} )* (?: \.\* )? /ox)
+          elsif import_clause && match = scan(/ (?!as) #{IDENT} (?: \. #{IDENT} )* (?: \.\* )? /ox)
             after_def = value_expected = false
-            kind = :include
+            encoder.text_token match, :include
           
           elsif match = scan(/ #{IDENT} | \[\] /ox)
             kind = IDENT_KIND[match]
@@ -93,16 +90,17 @@ module Scanners
               import_clause = match == 'import'
               after_def = true if match == 'def'
             end
+            encoder.text_token match, kind
           
-          elsif scan(/;/)
+          elsif match = scan(/;/)
             import_clause = after_def = false
             value_expected = true
-            kind = :operator
+            encoder.text_token match, :operator
           
-          elsif scan(/\{/)
+          elsif match = scan(/\{/)
             class_name_follows = after_def = false
             value_expected = true
-            kind = :operator
+            encoder.text_token match, :operator
             if !inline_block_stack.empty?
               inline_block_paren_depth += 1
             end
@@ -113,155 +111,146 @@ module Scanners
             value_expected = true
             value_expected = :regexp if match == '~'
             after_def = false
-            kind = :operator
+            encoder.text_token match, :operator
           
           elsif match = scan(/ [)\]}] /x)
             value_expected = after_def = false
             if !inline_block_stack.empty? && match == '}'
               inline_block_paren_depth -= 1
               if inline_block_paren_depth == 0  # closing brace of inline block reached
-                tokens << [match, :inline_delimiter]
-                tokens << [:close, :inline]
+                encoder.text_token match, :inline_delimiter
+                encoder.end_group :inline
                 state, string_delimiter, inline_block_paren_depth = inline_block_stack.pop
                 next
               end
             end
-            kind = :operator
+            encoder.text_token match, :operator
           
           elsif check(/[\d.]/)
             after_def = value_expected = false
-            if scan(/0[xX][0-9A-Fa-f]+/)
-              kind = :hex
-            elsif scan(/(?>0[0-7]+)(?![89.eEfF])/)
-              kind = :oct
-            elsif scan(/\d+[fFdD]|\d*\.\d+(?:[eE][+-]?\d+)?[fFdD]?|\d+[eE][+-]?\d+[fFdD]?/)
-              kind = :float
-            elsif scan(/\d+[lLgG]?/)
-              kind = :integer
+            if match = scan(/0[xX][0-9A-Fa-f]+/)
+              encoder.text_token match, :hex
+            elsif match = scan(/(?>0[0-7]+)(?![89.eEfF])/)
+              encoder.text_token match, :oct
+            elsif match = scan(/\d+[fFdD]|\d*\.\d+(?:[eE][+-]?\d+)?[fFdD]?|\d+[eE][+-]?\d+[fFdD]?/)
+              encoder.text_token match, :float
+            elsif match = scan(/\d+[lLgG]?/)
+              encoder.text_token match, :integer
             end
-
+            
           elsif match = scan(/'''|"""/)
             after_def = value_expected = false
             state = :multiline_string
-            tokens << [:open, :string]
+            encoder.begin_group :string
             string_delimiter = match
-            kind = :delimiter
-          
+            encoder.text_token match, :delimiter
+            
           # TODO: record.'name' syntax
           elsif match = scan(/["']/)
             after_def = value_expected = false
             state = match == '/' ? :regexp : :string
-            tokens << [:open, state]
+            encoder.begin_group state
             string_delimiter = match
-            kind = :delimiter
-
-          elsif value_expected && (match = scan(/\//))
+            encoder.text_token match, :delimiter
+            
+          elsif value_expected && match = scan(/\//)
             after_def = value_expected = false
-            tokens << [:open, :regexp]
+            encoder.begin_group :regexp
             state = :regexp
             string_delimiter = '/'
-            kind = :delimiter
-
-          elsif scan(/ @ #{IDENT} /ox)
+            encoder.text_token match, :delimiter
+            
+          elsif match = scan(/ @ #{IDENT} /ox)
             after_def = value_expected = false
-            kind = :annotation
-
-          elsif scan(/\//)
+            encoder.text_token match, :annotation
+            
+          elsif match = scan(/\//)
             after_def = false
             value_expected = true
-            kind = :operator
-          
+            encoder.text_token match, :operator
+            
           else
-            getch
-            kind = :error
-
+            encoder.text_token getch, :error
+            
           end
-
+          
         when :string, :regexp, :multiline_string
-          if scan(STRING_CONTENT_PATTERN[string_delimiter])
-            kind = :content
+          if match = scan(STRING_CONTENT_PATTERN[string_delimiter])
+            encoder.text_token match, :content
             
           elsif match = scan(state == :multiline_string ? /'''|"""/ : /["'\/]/)
-            tokens << [match, :delimiter]
+            encoder.text_token match, :delimiter
             if state == :regexp
               # TODO: regexp modifiers? s, m, x, i?
               modifiers = scan(/[ix]+/)
-              tokens << [modifiers, :modifier] if modifiers && !modifiers.empty?
+              encoder.text_token modifiers, :modifier if modifiers && !modifiers.empty?
             end
             state = :string if state == :multiline_string
-            tokens << [:close, state]
+            encoder.end_group state
             string_delimiter = nil
             after_def = value_expected = false
             state = :initial
             next
-          
+            
           elsif (state == :string || state == :multiline_string) &&
               (match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox))
             if string_delimiter[0] == ?' && !(match == "\\\\" || match == "\\'")
-              kind = :content
+              encoder.text_token match, :content
             else
-              kind = :char
+              encoder.text_token match, :char
             end
-          elsif state == :regexp && scan(/ \\ (?: #{REGEXP_ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
-            kind = :char
-          
+          elsif state == :regexp && match = scan(/ \\ (?: #{REGEXP_ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
+            encoder.text_token match, :char
+            
           elsif match = scan(/ \$ #{IDENT} /mox)
-            tokens << [:open, :inline]
-            tokens << ['$', :inline_delimiter]
+            encoder.begin_group :inline
+            encoder.text_token '$', :inline_delimiter
             match = match[1..-1]
-            tokens << [match, IDENT_KIND[match]]
-            tokens << [:close, :inline]
+            encoder.text_token match, IDENT_KIND[match]
+            encoder.end_group :inline
             next
           elsif match = scan(/ \$ \{ /x)
-            tokens << [:open, :inline]
-            tokens << ['${', :inline_delimiter]
+            encoder.begin_group :inline
+            encoder.text_token match, :inline_delimiter
             inline_block_stack << [state, string_delimiter, inline_block_paren_depth]
             inline_block_paren_depth = 1
             state = :initial
             next
-          
-          elsif scan(/ \$ /mx)
-            kind = :content
-          
-          elsif scan(/ \\. /mx)
-            kind = :content
-          
-          elsif scan(/ \\ | \n /x)
-            tokens << [:close, state]
-            kind = :error
+            
+          elsif match = scan(/ \$ /mx)
+            encoder.text_token match, :content
+            
+          elsif match = scan(/ \\. /mx)
+            encoder.text_token match, :content  # FIXME: Shouldn't this be :error?
+            
+          elsif match = scan(/ \\ | \n /x)
+            encoder.end_group state
+            encoder.text_token match, :error
             after_def = value_expected = false
             state = :initial
-          
+            
           else
-            raise_inspect "else case \" reached; %p not handled." % peek(1), tokens
+            raise_inspect "else case \" reached; %p not handled." % peek(1), encoder
+            
           end
-
+          
         else
-          raise_inspect 'Unknown state', tokens
-
+          raise_inspect 'Unknown state', encoder
+          
         end
-
-        match ||= matched
-        if $CODERAY_DEBUG and not kind
-          raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens
-        end
-        raise_inspect 'Empty token', tokens unless match
         
         last_token = match unless [:space, :comment, :doctype].include? kind
         
-        tokens << [match, kind]
-
       end
-
+      
       if [:multiline_string, :string, :regexp].include? state
-        tokens << [:close, state]
+        encoder.end_group state
       end
-
-      tokens
+      
+      encoder
     end
-
+    
   end
-
+  
 end
 end

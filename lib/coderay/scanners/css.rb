@@ -51,129 +51,123 @@ module Scanners
     
   protected
     
-    def scan_tokens tokens, options
+    def scan_tokens encoder, options
       
       value_expected = nil
       states = [:initial]
 
       until eos?
 
-        kind = nil
-        match = nil
-
-        if scan(/\s+/)
-          kind = :space
+        if match = scan(/\s+/)
+          encoder.text_token match, :space
 
         elsif case states.last
           when :initial, :media
-            if scan(/(?>#{RE::Ident})(?!\()|\*/ox)
-              kind = :type
-            elsif scan RE::Class
-              kind = :class
-            elsif scan RE::Id
-              kind = :constant
-            elsif scan RE::PseudoClass
-              kind = :pseudo_class
+            if match = scan(/(?>#{RE::Ident})(?!\()|\*/ox)
+              encoder.text_token match, :type
+            elsif match = scan(RE::Class)
+              encoder.text_token match, :class
+            elsif match = scan(RE::Id)
+              encoder.text_token match, :constant
+            elsif match = scan(RE::PseudoClass)
+              encoder.text_token match, :pseudo_class
             elsif match = scan(RE::AttributeSelector)
               # TODO: Improve highlighting inside of attribute selectors.
-              tokens << [match[0,1], :operator]
-              tokens << [match[1..-2], :attribute_name] if match.size > 2
-              tokens << [match[-1,1], :operator] if match[-1] == ?]
-              next
+              encoder.text_token match[0,1], :operator
+              encoder.text_token match[1..-2], :attribute_name if match.size > 2
+              encoder.text_token match[-1,1], :operator if match[-1] == ?]
             elsif match = scan(/@media/)
-              kind = :directive
+              encoder.text_token match, :directive
               states.push :media_before_name
             end
           
           when :block
-            if scan(/(?>#{RE::Ident})(?!\()/ox)
+            if match = scan(/(?>#{RE::Ident})(?!\()/ox)
               if value_expected
-                kind = :value
+                encoder.text_token match, :value
               else
-                kind = :key
+                encoder.text_token match, :key
               end
             end
 
           when :media_before_name
-            if scan RE::Ident
-              kind = :type
+            if match = scan(RE::Ident)
+              encoder.text_token match, :type
               states[-1] = :media_after_name
             end
           
           when :media_after_name
-            if scan(/\{/)
-              kind = :operator
+            if match = scan(/\{/)
+              encoder.text_token match, :operator
               states[-1] = :media
             end
           
           when :comment
-            if scan(/(?:[^*\s]|\*(?!\/))+/)
-              kind = :comment
-            elsif scan(/\*\//)
-              kind = :comment
+            if match = scan(/(?:[^*\s]|\*(?!\/))+/)
+              encoder.text_token match, :comment
+            elsif match = scan(/\*\//)
+              encoder.text_token match, :comment
               states.pop
-            elsif scan(/\s+/)
-              kind = :space
+            elsif match = scan(/\s+/)
+              encoder.text_token match, :space
             end
 
           else
-            raise_inspect 'Unknown state', tokens
+            raise_inspect 'Unknown state', encoder
 
           end
 
-        elsif scan(/\/\*/)
-          kind = :comment
+        elsif match = scan(/\/\*/)
+          encoder.text_token match, :comment
           states.push :comment
 
-        elsif scan(/\{/)
+        elsif match = scan(/\{/)
           value_expected = false
-          kind = :operator
+          encoder.text_token match, :operator
           states.push :block
 
-        elsif scan(/\}/)
+        elsif match = scan(/\}/)
           value_expected = false
           if states.last == :block || states.last == :media
-            kind = :operator
+            encoder.text_token match, :operator
             states.pop
           else
-            kind = :error
+            encoder.text_token match, :error
           end
 
         elsif match = scan(/#{RE::String}/o)
-          tokens << [:open, :string]
-          tokens << [match[0, 1], :delimiter]
-          tokens << [match[1..-2], :content] if match.size > 2
-          tokens << [match[-1, 1], :delimiter] if match.size >= 2
-          tokens << [:close, :string]
-          next
+          encoder.begin_group :string
+          encoder.text_token match[0, 1], :delimiter
+          encoder.text_token match[1..-2], :content if match.size > 2
+          encoder.text_token match[-1, 1], :delimiter if match.size >= 2
+          encoder.end_group :string
 
         elsif match = scan(/#{RE::Function}/o)
-          tokens << [:open, :string]
+          encoder.begin_group :string
           start = match[/^\w+\(/]
-          tokens << [start, :delimiter]
+          encoder.text_token start, :delimiter
           if match[-1] == ?)
-            tokens << [match[start.size..-2], :content]
-            tokens << [')', :delimiter]
+            encoder.text_token match[start.size..-2], :content
+            encoder.text_token ')', :delimiter
           else
-            tokens << [match[start.size..-1], :content]
+            encoder.text_token match[start.size..-1], :content
           end
-          tokens << [:close, :string]
-          next
+          encoder.end_group :string
 
-        elsif scan(/(?: #{RE::Dimension} | #{RE::Percentage} | #{RE::Num} )/ox)
-          kind = :float
+        elsif match = scan(/(?: #{RE::Dimension} | #{RE::Percentage} | #{RE::Num} )/ox)
+          encoder.text_token match, :float
 
-        elsif scan(/#{RE::Color}/o)
-          kind = :color
+        elsif match = scan(/#{RE::Color}/o)
+          encoder.text_token match, :color
 
-        elsif scan(/! *important/)
-          kind = :important
+        elsif match = scan(/! *important/)
+          encoder.text_token match, :important
 
-        elsif scan(/(?:rgb|hsl)a?\([^()\n]*\)?/)
-          kind = :color
+        elsif match = scan(/(?:rgb|hsl)a?\([^()\n]*\)?/)
+          encoder.text_token match, :color
 
-        elsif scan(/#{RE::AtKeyword}/o)
-          kind = :directive
+        elsif match = scan(RE::AtKeyword)
+          encoder.text_token match, :directive
 
         elsif match = scan(/ [+>:;,.=()\/] /x)
           if match == ':'
@@ -181,26 +175,16 @@ module Scanners
           elsif match == ';'
             value_expected = false
           end
-          kind = :operator
+          encoder.text_token match, :operator
 
         else
-          getch
-          kind = :error
+          encoder.text_token getch, :error
 
         end
-
-        match ||= matched
-        if $CODERAY_DEBUG and not kind
-          raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens
-        end
-        raise_inspect 'Empty token', tokens unless match
-
-        tokens << [match, kind]
 
       end
 
-      tokens
+      encoder
     end
 
   end

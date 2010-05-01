@@ -53,7 +53,7 @@ module Scanners
     
   protected
     
-    def scan_tokens tokens, options
+    def scan_tokens encoder, options
 
       state = :initial
       label_expected = true
@@ -63,9 +63,6 @@ module Scanners
 
       until eos?
 
-        kind = nil
-        match = nil
-        
         case state
 
         when :initial
@@ -75,15 +72,14 @@ module Scanners
               in_preproc_line = false
               label_expected = label_expected_before_preproc_line
             end
-            tokens << [match, :space]
-            next
+            encoder.text_token match, :space
 
-          elsif scan(%r! // [^\n\\]* (?: \\. [^\n\\]* )* | /\* (?: .*? \*/ | .* ) !mx)
-            kind = :comment
+          elsif match = scan(%r! // [^\n\\]* (?: \\. [^\n\\]* )* | /\* (?: .*? \*/ | .* ) !mx)
+            encoder.text_token match, :comment
 
           elsif match = scan(/ \# \s* if \s* 0 /x)
             match << scan_until(/ ^\# (?:elif|else|endif) .*? $ | \z /xm) unless eos?
-            kind = :comment
+            encoder.text_token match, :comment
 
           elsif match = scan(/ [-+*=<>?:;,!&^|()\[\]{}~%]+ | \/=? | \.(?!\d) /x)
             label_expected = match =~ /[;\{\}]/
@@ -91,7 +87,7 @@ module Scanners
               label_expected = true if match == ':'
               case_expected = false
             end
-            kind = :operator
+            encoder.text_token match, :operator
 
           elsif match = scan(/ [A-Za-z_][A-Za-z_0-9]* /x)
             kind = IDENT_KIND[match]
@@ -109,122 +105,110 @@ module Scanners
                 end
               end
             end
+            encoder.text_token match, kind
 
-          elsif scan(/\$/)
-            kind = :ident
+          elsif match = scan(/\$/)
+            encoder.text_token match, :ident
           
           elsif match = scan(/L?"/)
-            tokens << [:open, :string]
+            encoder.begin_group :string
             if match[0] == ?L
-              tokens << ['L', :modifier]
+              encoder.text_token match, 'L', :modifier
               match = '"'
             end
             state = :string
-            kind = :delimiter
+            encoder.text_token match, :delimiter
 
-          elsif scan(/#[ \t]*(\w*)/)
-            kind = :preprocessor
+          elsif match = scan(/#[ \t]*(\w*)/)
+            encoder.text_token match, :preprocessor
             in_preproc_line = true
             label_expected_before_preproc_line = label_expected
             state = :include_expected if self[1] == 'include'
 
-          elsif scan(/ L?' (?: [^\'\n\\] | \\ #{ESCAPE} )? '? /ox)
+          elsif match = scan(/ L?' (?: [^\'\n\\] | \\ #{ESCAPE} )? '? /ox)
             label_expected = false
-            kind = :char
+            encoder.text_token match, :char
 
-          elsif scan(/0[xX][0-9A-Fa-f]+/)
+          elsif match = scan(/0[xX][0-9A-Fa-f]+/)
             label_expected = false
-            kind = :hex
+            encoder.text_token match, :hex
 
-          elsif scan(/(?:0[0-7]+)(?![89.eEfF])/)
+          elsif match = scan(/(?:0[0-7]+)(?![89.eEfF])/)
             label_expected = false
-            kind = :oct
+            encoder.text_token match, :oct
 
-          elsif scan(/(?:\d+)(?![.eEfF])L?L?/)
+          elsif match = scan(/(?:\d+)(?![.eEfF])L?L?/)
             label_expected = false
-            kind = :integer
+            encoder.text_token match, :integer
 
-          elsif scan(/\d[fF]?|\d*\.\d+(?:[eE][+-]?\d+)?[fF]?|\d+[eE][+-]?\d+[fF]?/)
+          elsif match = scan(/\d[fF]?|\d*\.\d+(?:[eE][+-]?\d+)?[fF]?|\d+[eE][+-]?\d+[fF]?/)
             label_expected = false
-            kind = :float
+            encoder.text_token match, :float
 
           else
-            getch
-            kind = :error
+            encoder.text_token getch, :error
 
           end
 
         when :string
-          if scan(/[^\\"]+/)
-            kind = :content
-          elsif scan(/"/)
-            tokens << ['"', :delimiter]
-            tokens << [:close, :string]
+          if match = scan(/[^\\"]+/)
+            encoder.text_token match, :content
+          elsif match = scan(/"/)
+            encoder.text_token match, :delimiter
+            encoder.end_group :string
             state = :initial
             label_expected = false
-            next
-          elsif scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
-            kind = :char
-          elsif scan(/ \\ | $ /x)
-            tokens << [:close, :string]
-            kind = :error
+          elsif match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
+            encoder.text_token match, :char
+          elsif match = scan(/ \\ | $ /x)
+            encoder.end_group :string
+            encoder.text_token match, :error
             state = :initial
             label_expected = false
           else
-            raise_inspect "else case \" reached; %p not handled." % peek(1), tokens
+            raise_inspect "else case \" reached; %p not handled." % peek(1), encoder
           end
 
         when :include_expected
-          if scan(/<[^>\n]+>?|"[^"\n\\]*(?:\\.[^"\n\\]*)*"?/)
-            kind = :include
+          if match = scan(/<[^>\n]+>?|"[^"\n\\]*(?:\\.[^"\n\\]*)*"?/)
+            encoder.text_token match, :include
             state = :initial
 
           elsif match = scan(/\s+/)
-            kind = :space
+            encoder.text_token match, :space
             state = :initial if match.index ?\n
 
           else
             state = :initial
-            next
 
           end
         
         when :class_name_expected
-          if scan(/ [A-Za-z_][A-Za-z_0-9]* /x)
-            kind = :class
+          if match = scan(/ [A-Za-z_][A-Za-z_0-9]* /x)
+            encoder.text_token match, :class
             state = :initial
 
           elsif match = scan(/\s+/)
-            kind = :space
+            encoder.text_token match, :space
 
           else
-            getch
-            kind = :error
+            encoder.text_token getch, :error
             state = :initial
 
           end
           
         else
-          raise_inspect 'Unknown state', tokens
+          raise_inspect 'Unknown state', encoder
 
         end
-
-        match ||= matched
-        if $CODERAY_DEBUG and not kind
-          raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens
-        end
-        raise_inspect 'Empty token', tokens unless match
-
-        tokens << [match, kind]
 
       end
 
       if state == :string
-        tokens << [:close, :string]
+        encoder.end_group :string
       end
 
-      tokens
+      encoder
     end
 
   end

@@ -16,15 +16,27 @@ module Encoders
     end
     
     def text_token text, kind
-      [text, kind] if include_text_token? text, kind
+      @out.text_token text, kind if include_text_token? text, kind
     end
     
     def include_text_token? text, kind
       true
     end
     
-    def block_token action, kind
-      [action, kind] if include_block_token? action, kind
+    def begin_group kind
+      @out.begin_group kind if include_block_token? :begin_group, kind
+    end
+    
+    def end_group kind
+      @out.end_group kind if include_block_token? :end_group, kind
+    end
+    
+    def begin_line kind
+      @out.begin_line kind if include_block_token? :begin_line, kind
+    end
+    
+    def end_line kind
+      @out.end_line kind if include_block_token? :end_line, kind
     end
     
     def include_block_token? action, kind
@@ -59,7 +71,7 @@ class FilterTest < Test::Unit::TestCase
   def test_filtering_text_tokens
     tokens = CodeRay::Tokens.new
     10.times do |i|
-      tokens << [i.to_s, :index]
+      tokens.text_token i.to_s, :index
     end
     assert_equal tokens, CodeRay::Encoders::Filter.new.encode_tokens(tokens)
     assert_equal tokens, tokens.filter
@@ -68,9 +80,9 @@ class FilterTest < Test::Unit::TestCase
   def test_filtering_block_tokens
     tokens = CodeRay::Tokens.new
     10.times do |i|
-      tokens << [:open, :index]
-      tokens << [i.to_s, :content]
-      tokens << [:close, :index]
+      tokens.begin_group :index
+      tokens.text_token i.to_s, :content
+      tokens.end_group :index
     end
     assert_equal tokens, CodeRay::Encoders::Filter.new.encode_tokens(tokens)
     assert_equal tokens, tokens.filter

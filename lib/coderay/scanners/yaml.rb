@@ -13,7 +13,7 @@ module Scanners
     
   protected
     
-    def scan_tokens tokens, options
+    def scan_tokens encoder, options
       
       value_expected = nil
       state = :initial
@@ -21,50 +21,48 @@ module Scanners
       
       until eos?
         
-        kind = nil
-        match = nil
         key_indent = nil if bol?
         
         if match = scan(/ +[\t ]*/)
-          kind = :space
+          encoder.text_token match, :space
           
         elsif match = scan(/\n+/)
-          kind = :space
+          encoder.text_token match, :space
           state = :initial if match.index(?\n)
           
         elsif match = scan(/#.*/)
-          kind = :comment
+          encoder.text_token match, :comment
           
         elsif bol? and case
           when match = scan(/---|\.\.\./)
-            tokens << [:open, :head]
-            tokens << [match, :head]
-            tokens << [:close, :head]
+            encoder.begin_group :head
+            encoder.text_token match, :head
+            encoder.end_group :head
             next
           when match = scan(/%.*/)
-            tokens << [match, :doctype]
+            encoder.text_token match, :doctype
             next
           end
         
         elsif state == :value and case
-          when !check(/(?:"[^"]*")(?=: |:$)/) && scan(/"/)
-            tokens << [:open, :string]
-            tokens << [matched, :delimiter]
-            tokens << [matched, :content] if scan(/ [^"\\]* (?: \\. [^"\\]* )* /mx)
-            tokens << [matched, :delimiter] if scan(/"/)
-            tokens << [:close, :string]
+          when !check(/(?:"[^"]*")(?=: |:$)/) && match = scan(/"/)
+            encoder.begin_group :string
+            encoder.text_token match, :delimiter
+            encoder.text_token match, :content if match = scan(/ [^"\\]* (?: \\. [^"\\]* )* /mx)
+            encoder.text_token match, :delimiter if match = scan(/"/)
+            encoder.end_group :string
             next
           when match = scan(/[|>][-+]?/)
-            tokens << [:open, :string]
-            tokens << [match, :delimiter]
+            encoder.begin_group :string
+            encoder.text_token match, :delimiter
             string_indent = key_indent || column(pos - match.size - 1)
-            tokens << [matched, :content] if scan(/(?:\n+ {#{string_indent + 1}}.*)+/)
-            tokens << [:close, :string]
+            encoder.text_token matched, :content if scan(/(?:\n+ {#{string_indent + 1}}.*)+/)
+            encoder.end_group :string
             next
           when match = scan(/(?![!"*&]).+?(?=$|\s+#)/)
-            tokens << [match, :string]
+            encoder.text_token match, :string
             string_indent = key_indent || column(pos - match.size - 1)
-            tokens << [matched, :string] if scan(/(?:\n+ {#{string_indent + 1}}.*)+/)
+            encoder.text_token matched, :string if scan(/(?:\n+ {#{string_indent + 1}}.*)+/)
             next
           end
           
@@ -72,68 +70,69 @@ module Scanners
           when match = scan(/[-:](?= |$)/)
             state = :value if state == :colon && (match == ':' || match == '-')
             state = :value if state == :initial && match == '-'
-            kind = :operator
+            encoder.text_token match, :operator
+            next
           when match = scan(/[,{}\[\]]/)
-            kind = :operator
+            encoder.text_token match, :operator
+            next
           when state == :initial && match = scan(/[\w.() ]*\S(?=: |:$)/)
-            kind = :key
+            encoder.text_token match, :key
             key_indent = column(pos - match.size - 1)
-            # tokens << [key_indent.inspect, :debug]
-            state = :colon
-          when match = scan(/(?:"[^"\n]*"|'[^'\n]*')(?=: |:$)/)
-            tokens << [:open, :key]
-            tokens << [match[0,1], :delimiter]
-            tokens << [match[1..-2], :content]
-            tokens << [match[-1,1], :delimiter]
-            tokens << [:close, :key]
-            key_indent = column(pos - match.size - 1)
-            # tokens << [key_indent.inspect, :debug]
+            # encoder.text_token key_indent.inspect, :debug
             state = :colon
             next
-          when scan(/(![\w\/]+)(:([\w:]+))?/)
-            tokens << [self[1], :type]
+          when match = scan(/(?:"[^"\n]*"|'[^'\n]*')(?=: |:$)/)
+            encoder.begin_group :key
+            encoder.text_token match[0,1], :delimiter
+            encoder.text_token match[1..-2], :content
+            encoder.text_token match[-1,1], :delimiter
+            encoder.end_group :key
+            key_indent = column(pos - match.size - 1)
+            # encoder.text_token key_indent.inspect, :debug
+            state = :colon
+            next
+          when match = scan(/(![\w\/]+)(:([\w:]+))?/)
+            encoder.text_token self[1], :type
             if self[2]
-              tokens << [':', :operator]
-              tokens << [self[3], :class]
+              encoder.text_token ':', :operator
+              encoder.text_token self[3], :class
             end
             next
-          when scan(/&\S+/)
-            kind = :variable
-          when scan(/\*\w+/)
-            kind = :global_variable
-          when scan(/<</)
-            kind = :class_variable
-          when scan(/\d\d:\d\d:\d\d/)
-            kind = :oct
-          when scan(/\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d(\.\d+)? [-+]\d\d:\d\d/)
-            kind = :oct
-          when scan(/:\w+/)
-            kind = :symbol
-          when scan(/[^:\s]+(:(?! |$)[^:\s]*)* .*/)
-            kind = :error
-          when scan(/[^:\s]+(:(?! |$)[^:\s]*)*/)
-            kind = :error
+          when match = scan(/&\S+/)
+            encoder.text_token match, :variable
+            next
+          when match = scan(/\*\w+/)
+            encoder.text_token match, :global_variable
+            next
+          when match = scan(/<</)
+            encoder.text_token match, :class_variable
+            next
+          when match = scan(/\d\d:\d\d:\d\d/)
+            encoder.text_token match, :oct
+            next
+          when match = scan(/\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d(\.\d+)? [-+]\d\d:\d\d/)
+            encoder.text_token match, :oct
+            next
+          when match = scan(/:\w+/)
+            encoder.text_token match, :symbol
+            next
+          when match = scan(/[^:\s]+(:(?! |$)[^:\s]*)* .*/)
+            encoder.text_token match, :error
+            next
+          when match = scan(/[^:\s]+(:(?! |$)[^:\s]*)*/)
+            encoder.text_token match, :error
+            next
           end
           
         else
-          getch
-          kind = :error
+          raise if eos?
+          encoder.text_token getch, :error
           
         end
         
-        match ||= matched
-        
-        if $CODERAY_DEBUG and not kind
-          raise_inspect 'Error token %p in line %d' %
-            [[match, kind], line], tokens, state
-        end
-        raise_inspect 'Empty token', tokens, state unless match
-        
-        tokens << [match, kind]
-        
       end
       
-      tokens
+      encoder
     end
     
   end

@@ -4,16 +4,41 @@ p=. _This files lists all changes in the CodeRay library since the 0.8.4 release
  
 h2. Changes in 1.0
  
+h3. Direct Streaming
+ 
+CodeRay 1.0 introduces _Direct Streaming_ as a faster and simpler alternative to Tokens. It means that all Scanners, Encoders and Filters had to be rewritten, and that older scanners using the Tokens API are no longer compatible with this version.
+ 
+The benefit of this change is more speed (benchmarks show 10% to 50% more tokens per second compared to CodeRay 0.9), a simpler API, and less code.
+ 
+Changes related to the new tokens handling include:
+* *CHANGED*: The Scanners now call Encoders directly; tokens are not added to a Tokens array, but are send to the Encoder as a method call. The Tokens representation (which can be seen as a cache now) is still present, but as a special case; Tokens just encodes the given tokens into an Array for later use.
+* *CHANGED*: The token actions (@text_token@, @begin_group@ etc.) are now public methods of @Encoder@ and @Tokens@.
+* *REWRITE* of all Scanners, Encoders, Filters, and Tokens.
+* *RENAMED* @:open@ and @:close@ actions to @:begin_group@ and @:end_group@.
+* *RENAMED* @open_token@ and @close_token@ methods to @begin_group@ and @end_group@.
+* *REMOVED* @TokenStream@ and the @Streamable@ API and all related features like @NotStreamableError@ are now obsolete and have been removed.
+
+h3. General changes
+ 
 * *IMPROVED* documentation in general; additions, corrections and cleanups
 * *FIXED* some image links in the documentation
 * *IMPROVED* Ruby 1.9 support (_._ not in @$LOAD_PATH@)
+
+h3. @Tokens@
  
+* *REMOVED* method @stream?@.
+* *NEW* methods @encode_with@, @count@, @begin_group@, @end_group@, @begin_line@, and @end_line@.
+
+h3. @TokenStream@
+ 
+Removed.
+
 h3. *RENAMED*: @Tokens::AbbreviationForKind@
  
 Renamed from @ClassOfKind@; the term "token class" is no longer used in CodeRay. Instead, tokens have _kinds_.
 See "#122":http://redmine.rubychan.de/issues/122.
-
-* *REMOVED* token kinds @:attribute_name_fat@, @:attribute_value_fat@, @:operator_fat@, @:tag_fat@, and @:xml_text@.
+ 
+* *REMOVED* token kinds @:attribute_name_fat@, @:attribute_value_fat@, @:operator_fat@, @:tag_fat@, @:xml_text@, @:open@, and @:close@.
 * *ADDED* token kinds @:filename@ and @:namespace@.
 * *CHANGED*: Don't raise error for unknown token kinds unless in @$CODERAY_DEBUG@ mode.
 
@@ -22,6 +47,8 @@ h3. @Encoders::CommentFilter@
 * *NEW* alias @:remove_comments@
 
 h3. @Encoders::HTML@
+ 
+The HTML encoder was cleaned up and simplified.
  
 * *CHANGED* the default style to @:alpha@.
 * *NEW*: HTML 5 and CSS 3 compatible, IE incompatible.
@@ -42,13 +69,18 @@ h3. @Encoders::Terminal@
 * *REMOVED* colors for obsolete token kinds.
 * *FIXED* handling of line tokens.
 
-h3. @Encoders::TokenKindFilter@
+h3. *RENAMED*: @Encoders::TokenKindFilter@
  
-* *RENAMED* from @TokenClassFilter@.
+Renamed from @TokenClassFilter@.
+
+h3. @Encoders::Statistic@
+ 
+* *CHANGED*: Tokens actions are counted separately.
 
 h3. @Scanners::Scanner@
  
-* *REMOVED* @String#to_unix@.
+* *REMOVED* helper method @String#to_unix@.
+* *REMOVED* method @streamable?@.
 
 h3. @Scanners::CSS@
  
@@ -63,6 +95,11 @@ h3. @Scanners::Debug@
 * *FIXED*: Don't send @:error@ and @nil@ tokens for buggy input any more.
 * *FIXED*: Closes unclosed tokens at the end of @scan_tokens@.
 * *IMPROVED*: Highlight unknown tokens as @:error@.
+* *CHANGED*: Raises an error when trying to end an invalid token group.
+
+h3. @Scanners::Delphi@
+ 
+* *FIXED*: Closes open string groups.
 
 h3. @Scanners::Diff@
  
@@ -77,6 +114,10 @@ h3. @Scanners::Diff@
   Note: This is still buggy for multi-line tokens.
 * *NEW*: Highlight the file name in the change headers as @:filename@.
 * *CHANGED*: Highlight unknown lines as @:comment@ instead of @:head@.
+
+h3. @Scanners::HTML@
+ 
+* *FIXED*: Closes open string groups.
 
 h3. @Scanners::JavaScript@
  
@@ -118,7 +159,9 @@ h3. @Scanners::Scheme@
 h3. @Scanners::SQL@
  
 * *IMPROVED*: Extended list of keywords and functions (thanks to Joshua Galvez).
+ 
   See "#221":http://redmine.rubychan.de/issues/221.
+* *FIXED*: Closes open string groups.
 
 h3. *NEW*: @Styles::Alpha@
  
@@ -131,6 +174,10 @@ h3. @FileType@
 * *NEW*: Recognizes @.gemspec@, @.rjs@, @.rpdf@ extensions and @Capfile@ as Ruby.
   
   Thanks to the authors of the TextMate Ruby bundle!
+
+h3. @Plugin@
+ 
+* *IMPROVED*: @register_for@ sets the @plugin_id@; it can now be a @Symbol@.
 
 h3. Internal API changes
  

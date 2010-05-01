@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>speedup/direct-stream.rb</string>
+	<string>../diff</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -28,13 +28,15 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-04-15T00:18:50Z</date>
+			<date>2010-04-28T14:08:29Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-04-15T00:12:51Z</date>
+			<date>2010-04-28T14:06:25Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -53,8 +55,6 @@
 			<string>../ftp.yaml</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>etc</string>
 			<key>regexFolderFilter</key>
@@ -89,8 +89,6 @@
 			<string>../rake_helpers</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>rake_tasks</string>
 			<key>regexFolderFilter</key>
@@ -116,7 +114,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-04-15T23:26:11Z</date>
+			<date>2010-04-28T12:38:44Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -128,46 +126,46 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2010-04-15T01:40:12Z</date>
+			<date>2010-04-28T14:04:10Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>213</integer>
 	<key>metaData</key>
 	<dict>
-		<key>speedup/current.rb</key>
+		<key>../Changes.textile</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>38</integer>
+				<integer>70</integer>
 				<key>line</key>
-				<integer>115</integer>
+				<integer>81</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>90</integer>
+			<integer>5</integer>
 		</dict>
-		<key>speedup/direct-stream.rb</key>
+		<key>../diff</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>27</integer>
+				<integer>44</integer>
 				<key>line</key>
-				<integer>150</integer>
+				<integer>663</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>132</integer>
+			<integer>642</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>speedup/current.rb</string>
-		<string>speedup/direct-stream.rb</string>
+		<string>../diff</string>
+		<string>../Changes.textile</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>

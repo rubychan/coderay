@@ -72,74 +72,63 @@ module CodeRay
       
     protected
       
-      def scan_tokens tokens, options
+      def scan_tokens encoder, options
         
         state = :initial
         ident_kind = IDENT_KIND
         
         until eos?
-          kind = match = nil
           
           case state
           when :initial
-            if scan(/ \s+ | \\\n /x)
-              kind = :space
-            elsif scan(/['\(\[\)\]]|#\(/)
-              kind = :operator  # FIXME: was :operator_fat
-            elsif scan(/;.*/)
-              kind = :comment
-            elsif scan(/#\\(?:newline|space|.?)/)
-              kind = :char
-            elsif scan(/#[ft]/)
-              kind = :pre_constant
-            elsif scan(/#{IDENTIFIER}/o)
-              kind = ident_kind[matched]
-            elsif scan(/\./)
-              kind = :operator
-            elsif scan(/"/)
-              tokens << [:open, :string]
+            if match = scan(/ \s+ | \\\n /x)
+              encoder.text_token match, :space
+            elsif match = scan(/['\(\[\)\]]|#\(/)
+              encoder.text_token match, :operator  # FIXME: was :operator_fat
+            elsif match = scan(/;.*/)
+              encoder.text_token match, :comment
+            elsif match = scan(/#\\(?:newline|space|.?)/)
+              encoder.text_token match, :char
+            elsif match = scan(/#[ft]/)
+              encoder.text_token match, :pre_constant
+            elsif match = scan(/#{IDENTIFIER}/o)
+              encoder.text_token match, ident_kind[matched]
+            elsif match = scan(/\./)
+              encoder.text_token match, :operator
+            elsif match = scan(/"/)
+              encoder.begin_group :string
+              encoder.text_token match, :delimiter
               state = :string
-              tokens << ['"', :delimiter]
-              next
-            elsif scan(/#{NUM}/o) and not matched.empty?
-              kind = :integer
-            elsif getch
-              kind = :error
+            elsif match = scan(/#{NUM}/o) and not matched.empty?
+              encoder.text_token match, :integer
+            else
+              encoder.text_token getch, :error
             end
             
           when :string
-            if scan(/[^"\\]+/) or scan(/\\.?/)
-              kind = :content
-            elsif scan(/"/)
-              tokens << ['"', :delimiter]
-              tokens << [:close, :string]
+            if match = scan(/[^"\\]+|\\.?/)
+              encoder.text_token match, :content
+            elsif match = scan(/"/)
+              encoder.text_token match, :delimiter
+              encoder.end_group :string
               state = :initial
-              next
             else
               raise_inspect "else case \" reached; %p not handled." % peek(1),
-                tokens, state
+                encoder, state
             end
             
           else
-            raise "else case reached"
+            raise 'else case reached'
+            
           end
-          
-          match ||= matched
-          if $CODERAY_DEBUG and not kind
-            raise_inspect 'Error token %p in line %d' %
-              [[match, kind], line], tokens
-          end
-          raise_inspect 'Empty token', tokens, state unless match
-          
-          tokens << [match, kind]
           
         end
         
         if state == :string
-          tokens << [:close, :string]
+          encoder.end_group state
         end
         
-        tokens
+        encoder
         
       end
     end

@@ -6,7 +6,7 @@ require 'profile' if ARGV.include? '-p'
 
 MYDIR = File.dirname(__FILE__)
 LIBDIR = Pathname.new(MYDIR).join('..', 'lib').cleanpath.to_s
-$LOAD_PATH.unshift MYDIR, LIBDIR
+$:.unshift MYDIR, LIBDIR
 require 'coderay'
 
 @size = ARGV.fetch(2, 100).to_i * 2**10  # 2**10 = 1 Ki
@@ -86,22 +86,22 @@ Benchmark.bm(20) do |bm|
     }
     $hl = CodeRay.encoder(format, options) unless $dump_output
     N.times do
-      if $stream
+      if $stream || true
         if $dump_input
           raise 'Can\'t stream dump.'
         elsif $dump_output
           raise 'Can\'t dump stream.'
         end
         $o = $hl.encode_stream(data, lang, options)
-        @token_count = $hl.token_stream.size
+        @token_count = 253528  #$hl.token_stream.count rescue 1
       else
         if $dump_input
           tokens = CodeRay::Tokens.load data
         else
           tokens = CodeRay.scan(data, lang)
-          @token_count = tokens.size
         end
-        @token_count = tokens.size
+        @token_count = tokens.count
+        p @token_count
         tokens.optimize! if $optimize
         if $dump_output
           $o = tokens.optimize.dump

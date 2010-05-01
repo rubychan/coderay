@@ -7,7 +7,6 @@ module Scanners
   # Scanner for HTML ERB templates.
   class RHTML < Scanner
     
-    include Streamable
     register_for :rhtml
     title 'HTML ERB Template'
     

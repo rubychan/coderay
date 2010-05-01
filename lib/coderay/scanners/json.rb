@@ -4,8 +4,6 @@ module Scanners
   # Scanner for JSON (JavaScript Object Notation).
   class JSON < Scanner
     
-    include Streamable
-    
     register_for :json
     file_extension 'json'
     

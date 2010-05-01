@@ -15,7 +15,6 @@ module Encoders
   # See also: Scanners::Debug
   class Debug < Encoder
 
-    include Streamable
     register_for :debug
 
     FILE_EXTENSION = 'raydebug'

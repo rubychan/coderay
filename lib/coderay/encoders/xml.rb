@@ -6,7 +6,6 @@ module Encoders
   # Uses REXML. Very slow.
   class XML < Encoder
 
-    include Streamable
     register_for :xml
 
     FILE_EXTENSION = 'xml'

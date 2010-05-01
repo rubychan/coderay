@@ -7,8 +7,6 @@ module Scanners
   # http://dev.pocoo.org/projects/pygments/browser/pygments/lexers/agile.py.
   class Python < Scanner
     
-    include Streamable
-    
     register_for :python
     file_extension 'py'
     

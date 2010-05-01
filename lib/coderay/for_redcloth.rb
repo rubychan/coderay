@@ -57,7 +57,7 @@ module CodeRay
             @in_bc ||= nil
             format = @in_bc ? :div : :span
             opts[:text] = unescape(opts[:text]) unless @in_bc
-            highlighted_code = CodeRay.encode opts[:text], opts[:lang], format, :stream => true
+            highlighted_code = CodeRay.encode opts[:text], opts[:lang], format
             highlighted_code.sub!(/\A<(span|div)/) { |m| m + pba(@in_bc || opts) }
             highlighted_code
           else

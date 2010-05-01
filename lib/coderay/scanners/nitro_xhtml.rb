@@ -9,7 +9,6 @@ module Scanners
   # Alias: +nitro+
   class NitroXHTML < Scanner
     
-    include Streamable
     register_for :nitro_xhtml
     file_extension :xhtml
     title 'Nitro XHTML'

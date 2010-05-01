@@ -17,8 +17,6 @@ module Scanners
   # Alias: +irb+
   class Ruby < Scanner
 
-    include Streamable
-
     register_for :ruby
     file_extension 'rb'
 

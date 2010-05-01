@@ -4,8 +4,6 @@ module Scanners
   # Scanner for C.
   class C < Scanner
 
-    include Streamable
-    
     register_for :c
     file_extension 'c'
     

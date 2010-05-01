@@ -73,7 +73,7 @@ Examples:
   end
   
   if tokens == :scan
-    output = CodeRay::Duo[lang => format].highlight input, :stream => true
+    output = CodeRay::Duo[lang => format].highlight input
   else
     output = tokens.encode format
   end

@@ -7,7 +7,6 @@ module Scanners
   # Parses the output of the Encoders::Debug encoder.
   class Debug < Scanner
 
-    include Streamable
     register_for :debug
     file_extension 'raydebug'
     title 'CodeRay Token Dump'

@@ -6,7 +6,6 @@ module Encoders
   # Does nothing and returns an empty string.
   class Null < Encoder
 
-    include Streamable
     register_for :null
 
     # Defined for faster processing.

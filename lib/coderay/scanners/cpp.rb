@@ -6,8 +6,6 @@ module Scanners
   # Aliases: +cplusplus+, c++
   class CPlusPlus < Scanner
 
-    include Streamable
-    
     register_for :cpp
     file_extension 'cpp'
     title 'C++'

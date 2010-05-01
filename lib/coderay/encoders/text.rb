@@ -14,7 +14,6 @@ module Encoders
   # Default: empty String
   class Text < Encoder
 
-    include Streamable
     register_for :text
 
     FILE_EXTENSION = 'txt'

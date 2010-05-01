@@ -23,9 +23,6 @@ module CodeRay
     # simple:
     #   CodeRay::Duo[:ruby, :page].highlight 'bla 42'
     # 
-    # streaming:
-    #   CodeRay::Duo[:ruby, :page].highlight 'bar 23', :stream => true
-    # 
     # with options:
     #   CodeRay::Duo[:ruby, :html, :hint => :debug].highlight '????::??'
     # 
@@ -64,18 +61,9 @@ module CodeRay
     end
     
     # Tokenize and highlight the code using +scanner+ and +encoder+.
-    #
-    # If the :stream option is set, the Duo will go into streaming mode,
-    # saving memory for the cost of time.
-    def encode code, options = { :stream => false }
-      stream = options.delete :stream
+    def encode code, options = {}
       options = @options.merge options
-      if stream
-        encoder.encode_stream(code, @lang, options)
-      else
-        scanner.code = code
-        encoder.encode_tokens(scanner.tokenize, options)
-      end
+      encoder.encode(code, @lang, options)
     end
     alias highlight encode
 

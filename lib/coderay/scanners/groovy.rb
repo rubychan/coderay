@@ -6,7 +6,6 @@ module Scanners
   # Scanner for Groovy.
   class Groovy < Java
     
-    include Streamable
     register_for :groovy
     
     # TODO: check list of keywords

@@ -7,7 +7,6 @@ module Encoders
   # Alias: +stats+
   class Statistic < Encoder
 
-    include Streamable
     register_for :stats, :statistic
 
     attr_reader :type_stats, :real_token_count  # :nodoc:

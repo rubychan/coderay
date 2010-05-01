@@ -29,10 +29,6 @@ h3. @Tokens@
 * *REMOVED* method @stream?@.
 * *NEW* methods @encode_with@, @count@, @begin_group@, @end_group@, @begin_line@, and @end_line@.
 
-h3. @TokenStream@
- 
-Removed.
-
 h3. *RENAMED*: @Tokens::AbbreviationForKind@
  
 Renamed from @ClassOfKind@; the term "token class" is no longer used in CodeRay. Instead, tokens have _kinds_.

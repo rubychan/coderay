@@ -27,8 +27,6 @@ module CodeRay
       extend Plugin
       plugin_host Encoders
 
-      attr_reader :token_stream
-
       class << self
 
         # If FILE_EXTENSION isn't defined, this method returns the
@@ -44,7 +42,7 @@ module CodeRay
       end
 
       # Subclasses are to store their default options in this constant.
-      DEFAULT_OPTIONS = { :stream => false }
+      DEFAULT_OPTIONS = { }
 
       # The options you gave the Encoder at creating.
       attr_accessor :options
@@ -56,7 +54,6 @@ module CodeRay
       # Encoder objects provide three encode methods:
       # - encode simply takes a +code+ string and a +lang+
       # - encode_tokens expects a +tokens+ object instead
-      # - encode_stream is like encode, but uses streaming mode.
       #
       # Each method has an optional +options+ parameter. These are
       # added to the options you passed at creation.
@@ -75,30 +72,19 @@ module CodeRay
         finish options
       end
 
-      # Encode the given +code+ after tokenizing it using the Scanner
-      # for +lang+.
+      # Encode the given +code+ using the Scanner for +lang+.
       def encode code, lang, options = {}
         options = @options.merge options
-        scanner_options = CodeRay.get_scanner_options(options)
-        tokens = CodeRay.scan code, lang, scanner_options
-        encode_tokens tokens, options
+        setup options
+        scanner_options = CodeRay.get_scanner_options options
+        scanner_options[:tokens] = self
+        CodeRay.scan code, lang, scanner_options
+        finish options
       end
 
       # You can use highlight instead of encode, if that seems
       # more clear to you.
       alias highlight encode
-
-      # Encode the given +code+ using the Scanner for +lang+ in
-      # streaming mode.
-      def encode_stream code, lang, options = {}
-        options = @options.merge options
-        setup options
-        scanner_options = CodeRay.get_scanner_options options
-        scanner_options[:tokens] = self
-        @token_stream =
-          CodeRay.scan_stream code, lang, scanner_options
-        finish options
-      end
 
       # Return the default file extension for outputs of this encoder.
       def file_extension

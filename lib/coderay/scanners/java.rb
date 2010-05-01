@@ -4,7 +4,6 @@ module Scanners
   # Scanner for Java.
   class Java < Scanner
 
-    include Streamable
     register_for :java
     helper :builtin_types
     

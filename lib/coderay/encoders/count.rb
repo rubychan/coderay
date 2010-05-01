@@ -7,7 +7,6 @@ module Encoders
   # Text and block tokens are counted.
   class Count < Encoder
     
-    include Streamable
     register_for :count
     
   protected

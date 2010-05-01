@@ -170,27 +170,6 @@ module CodeRay
       scan file, lang, options = {}, &block
     end
 
-    # Scan the +code+ (a string) with the scanner for +lang+.
-    #
-    # Calls scan.
-    #
-    # See CodeRay.scan.
-    def scan_stream code, lang, options = {}, &block
-      options[:stream] = true
-      scan code, lang, options, &block
-    end
-
-    # Encode a string in Streaming mode.
-    #
-    # This starts scanning +code+ with the the Scanner for +lang+
-    # while encodes the output with the Encoder for +format+.
-    # +options+ will be passed to the Encoder.
-    #
-    # See CodeRay::Encoder.encode_stream
-    def encode_stream code, lang, format, options = {}
-      encoder(format, options).encode_stream code, lang, options
-    end
-
     # Encode a string.
     #
     # This scans +code+ with the the Scanner for +lang+ and then
@@ -284,12 +263,6 @@ module CodeRay
       options.fetch :scanner_options, {}
     end
 
-  end
-
-  # A dummy module that is included by subclasses of
-  # CodeRay::Scanners::Scanner and CodeRay::Encoders::Encoder
-  # to show that they are able to handle streams.
-  module Streamable
   end
 
 end

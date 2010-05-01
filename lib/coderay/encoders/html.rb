@@ -89,7 +89,6 @@ module Encoders
   # Default: false
   class HTML < Encoder
 
-    include Streamable
     register_for :html
 
     FILE_EXTENSION = 'html'

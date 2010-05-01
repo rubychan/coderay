@@ -25,7 +25,6 @@ module Encoders
   # See also: CommentFilter
   class TokenKindFilter < Filter
 
-    include Streamable
     register_for :token_kind_filter
 
     DEFAULT_OPTIONS = {

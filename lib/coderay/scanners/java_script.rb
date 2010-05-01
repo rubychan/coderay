@@ -6,8 +6,6 @@ module Scanners
   # Aliases: +ecmascript+, +ecma_script+, +javascript+
   class JavaScript < Scanner
     
-    include Streamable
-    
     register_for :java_script
     file_extension 'js'
     

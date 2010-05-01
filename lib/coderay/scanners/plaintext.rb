@@ -11,8 +11,6 @@ module Scanners
     register_for :plaintext, :plain
     title 'Plain text'
     
-    include Streamable
-    
     KINDS_NOT_LOC = [:plain]  # :nodoc:
     
   protected

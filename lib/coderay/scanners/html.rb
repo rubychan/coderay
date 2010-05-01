@@ -8,7 +8,6 @@ module Scanners
   # See also: Scanners::XML
   class HTML < Scanner
 
-    include Streamable
     register_for :html
     
     KINDS_NOT_LOC = [

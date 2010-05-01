@@ -55,7 +55,7 @@ module CodeRay
       # The default options for all scanner classes.
       #
       # Define @default_options for subclasses.
-      DEFAULT_OPTIONS = { :stream => false }
+      DEFAULT_OPTIONS = { }
       
       KINDS_NOT_LOC = [:comment, :doctype]
 
@@ -108,10 +108,9 @@ module CodeRay
       # * +options+ is a Hash with Symbols as keys.
       #   It is merged with the default options of the class (you can
       #   overwrite default options here.)
-      # * +block+ is the callback for streamed highlighting.
       #
       # Else, a Tokens object is used.
-      def initialize code='', options = {}, &block
+      def initialize code='', options = {}
         raise "I am only the basic Scanner class. I can't scan "\
           "anything. :( Use my subclasses." if self.class == Scanner
         
@@ -119,14 +118,7 @@ module CodeRay
 
         super Scanner.normify(code)
 
-        @tokens = options[:tokens]
-        if @options[:stream]
-          raise NotImplementedError unless @tokens.is_a? Encoders::Encoder
-        else
-          warn "warning in CodeRay::Scanner.new: Block given, "\
-            "but :stream is #{@options[:stream]}" if block_given?
-          @tokens ||= Tokens.new
-        end
+        @tokens = options[:tokens] || Tokens.new
         @tokens.scanner = self if @tokens.respond_to? :scanner=
 
         setup
@@ -158,14 +150,9 @@ module CodeRay
       def tokenize new_string=nil, options = {}
         options = @options.merge(options)
         self.string = new_string if new_string
-        @cached_tokens =
-          if @options[:stream]  # :stream must have been set already
-            reset unless new_string
-            scan_tokens @tokens, options
-            @tokens
-          else
-            scan_tokens @tokens, options
-          end
+        reset unless new_string
+        scan_tokens @tokens, options
+        @cached_tokens = @tokens
       end
       
       # Caches the result of tokenize.
@@ -173,11 +160,6 @@ module CodeRay
         @cached_tokens ||= tokenize
       end
       
-      # Whether the scanner is in streaming mode.
-      def streaming?
-        !!@options[:stream]
-      end
-
       # Traverses the tokens.
       def each &block
         tokens.each(&block)

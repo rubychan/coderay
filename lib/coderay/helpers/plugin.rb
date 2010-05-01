@@ -278,6 +278,7 @@ module Plugin
   #
   # See PluginHost.register.
   def register_for *ids
+    @plugin_id = ids.first
     plugin_host.register self, *ids
   end
   
@@ -320,14 +321,14 @@ module Plugin
       if helper.is_a?(String) && helper[/\//]
         self::PLUGIN_HOST.require_helper $`, $'
       else
-        self::PLUGIN_HOST.require_helper plugin_id, helper.to_s
+        self::PLUGIN_HOST.require_helper plugin_id.to_s, helper.to_s
       end
     end
   end
 
   # Returns the pulgin id used by the engine.
   def plugin_id
-    name[/\w+$/].downcase
+    @plugin_id || name[/\w+$/].downcase
   end
 
 end

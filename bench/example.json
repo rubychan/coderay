@@ -1,0 +1,655 @@
+[
+  {
+    "import_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Storage\/import",
+    "type": "Neighbourhood",
+    "reflected": false,
+    "selected": true,
+    "export_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Storage\/export",
+    "snapshots_url": "http:\/\/localhost:3000\/snapshots",
+    "uri": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Storage\/lists",
+    "print_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Storage\/print",
+    "locked": false,
+    "name": "Lager",
+    "lists": [
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Manufacturers\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Manufacturers\/sort_key",
+        "name": "Hersteller",
+        "readable": true,
+        "id": "Lists::Manufacturers",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AManufacturers&type=Elements%3A%3AManufacturer",
+            "essential_attributes": [
+            ],
+            "name": "Hersteller",
+            "ask_for_email": false,
+            "id": "Elements::Manufacturer"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Categories\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Categories\/sort_key",
+        "name": "Rubriken",
+        "readable": true,
+        "id": "Lists::Categories",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3ACategories&type=Elements%3A%3ACategory",
+            "essential_attributes": [
+            ],
+            "name": "Rubrik",
+            "ask_for_email": false,
+            "id": "Elements::Category"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::ArticlesList\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::ArticlesList\/sort_key",
+        "name": "Artikel",
+        "readable": true,
+        "id": "Lists::ArticlesList",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AArticlesList&type=Elements%3A%3AArticle",
+            "essential_attributes": [
+            ],
+            "name": "Artikel",
+            "ask_for_email": false,
+            "id": "Elements::Article"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            },
+            {
+              "name": "Bestelldatum",
+              "id": "Date"
+            },
+            {
+              "name": "bestellt von",
+              "id": "OrderedBy"
+            },
+            {
+              "name": "Summe",
+              "id": "Total"
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Orders\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Orders\/sort_key",
+        "name": "Bestellungen",
+        "readable": true,
+        "id": "Lists::Orders",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AOrders&type=Elements%3A%3AOrder",
+            "essential_attributes": [
+            ],
+            "name": "Bestellung",
+            "ask_for_email": false,
+            "id": "Elements::Order"
+          }
+        ],
+        "writable": true
+      }
+    ],
+    "release_export_lock_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Storage\/release_export_lock",
+    "readable": true,
+    "replay_latest_snapshot_url": "http:\/\/localhost:3000\/snapshots\/replay_latest",
+    "id": "Neighbourhoods::Storage",
+    "writable": true
+  },
+  {
+    "import_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Administration\/import",
+    "type": "Neighbourhood",
+    "reflected": true,
+    "selected": false,
+    "export_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Administration\/export",
+    "snapshots_url": "http:\/\/localhost:3000\/snapshots",
+    "uri": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Administration\/lists",
+    "print_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Administration\/print",
+    "locked": false,
+    "name": "Verwaltung",
+    "lists": [
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Employees\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Employees\/sort_key",
+        "name": "Mitarbeiter",
+        "readable": true,
+        "id": "Lists::Employees",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AEmployees&type=Elements%3A%3APerson",
+            "essential_attributes": [
+            ],
+            "name": "Person",
+            "ask_for_email": true,
+            "id": "Elements::Person"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Departments\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Departments\/sort_key",
+        "name": "Abteilungen",
+        "readable": true,
+        "id": "Lists::Departments",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3ADepartments&type=Elements%3A%3ADepartment",
+            "essential_attributes": [
+            ],
+            "name": "Abteilung",
+            "ask_for_email": false,
+            "id": "Elements::Department"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Locations\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Locations\/sort_key",
+        "name": "Standorte",
+        "readable": true,
+        "id": "Lists::Locations",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3ALocations&type=Elements%3A%3ALocation",
+            "essential_attributes": [
+            ],
+            "name": "Standort",
+            "ask_for_email": false,
+            "id": "Elements::Location"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Stocktakings\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Stocktakings\/sort_key",
+        "name": "Inventuren",
+        "readable": true,
+        "id": "Lists::Stocktakings",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AStocktakings&type=Elements%3A%3AStocktaking",
+            "essential_attributes": [
+            ],
+            "name": "Inventur",
+            "ask_for_email": false,
+            "id": "Elements::Stocktaking"
+          }
+        ],
+        "writable": true
+      },
+      {
+        "type": "List",
+        "sort_keys": {
+          "options": [
+            {
+              "name": "Standardsortierung",
+              "id": null
+            }
+          ]
+        },
+        "uri": "http:\/\/localhost:3000\/lists\/Lists::Invoices\/elements.json",
+        "sort_key_uri": "http:\/\/localhost:3000\/lists\/Lists::Invoices\/sort_key",
+        "name": "Abrechnungen",
+        "readable": true,
+        "id": "Lists::Invoices",
+        "element_types": [
+          {
+            "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AInvoices&type=Elements%3A%3AInvoice",
+            "essential_attributes": [
+            ],
+            "name": "Abrechnung",
+            "ask_for_email": false,
+            "id": "Elements::Invoice"
+          }
+        ],
+        "writable": true
+      }
+    ],
+    "release_export_lock_url": "http:\/\/localhost:3000\/neighbourhoods\/Neighbourhoods::Administration\/release_export_lock",
+    "readable": true,
+    "replay_latest_snapshot_url": "http:\/\/localhost:3000\/snapshots\/replay_latest",
+    "id": "Neighbourhoods::Administration",
+    "writable": true
+  }
+]{
+  "url": "http:\/\/localhost:3000\/elements\/633\/attributes",
+  "name": "Bestellung: 3 <strong>Clovis Schwenger<\/strong> (\u20ac 12.10, 2008-10-08)",
+  "attributes": [
+    {
+      "color": "red",
+      "type": "state",
+      "uri": "http:\/\/localhost:3000\/elements\/633\/state",
+      "options": [
+        {
+          "color": "red",
+          "name": "neu",
+          "id": "new"
+        },
+        {
+          "color": "orange",
+          "name": "abgeschlossen",
+          "id": "closed"
+        },
+        {
+          "color": "green",
+          "name": "freigegeben",
+          "id": "approved"
+        },
+        {
+          "color": "",
+          "name": "verschickt",
+          "id": "shipped"
+        }
+      ],
+      "name": "Zustand",
+      "value": "new",
+      "readable": true,
+      "journals": [
+        {
+          "user": "CS",
+          "timestamp": "17:05 10\/07\/08",
+          "created": true
+        }
+      ],
+      "writable": false
+    },
+    {
+      "type": "boolean",
+      "mandatory": false,
+      "confirm": true,
+      "uri": "http:\/\/localhost:3000\/attributes\/5217",
+      "value": false,
+      "name": "abgeschlossen",
+      "readable": true,
+      "id": 5217,
+      "writable": true
+    },
+    {
+      "type": "boolean",
+      "mandatory": false,
+      "confirm": true,
+      "uri": "http:\/\/localhost:3000\/attributes\/5218",
+      "value": false,
+      "name": "freigegeben",
+      "readable": true,
+      "id": 5218,
+      "writable": false
+    },
+    {
+      "type": "boolean",
+      "mandatory": false,
+      "confirm": true,
+      "uri": "http:\/\/localhost:3000\/attributes\/5219",
+      "value": false,
+      "name": "verschickt",
+      "readable": true,
+      "id": 5219,
+      "writable": false
+    },
+    {
+      "type": "date",
+      "mandatory": true,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5220",
+      "value": "2008-10-08",
+      "name": "Bestelldatum",
+      "readable": true,
+      "id": 5220,
+      "writable": false
+    },
+    {
+      "type": "references",
+      "create_options": [
+        {
+          "create_element_url": "http:\/\/localhost:3000\/elements?list=Lists%3A%3AEmployees&source_id=5221&type=Elements%3A%3APerson",
+          "essential_attributes": [
+          ],
+          "names": {
+            "type": "Person",
+            "list": "Mitarbeiter"
+          },
+          "ask_for_email": true
+        }
+      ],
+      "maximum_reached": true,
+      "constraints": {
+        "neighbourhood": null,
+        "attribute": null,
+        "maximum": 1,
+        "element": [
+          "Elements::Person"
+        ],
+        "list": null,
+        "follow": null
+      },
+      "essential_attributes": [
+      ],
+      "mandatory": false,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5221",
+      "value": {
+        "elements": [
+          {
+            "color": null,
+            "type": "Elements::Person",
+            "has_predecessors": false,
+            "successors": "http:\/\/localhost:3000\/elements\/582\/successors",
+            "uri": "http:\/\/localhost:3000\/elements\/582",
+            "name": "Clovis Schwenger",
+            "attributes": "http:\/\/localhost:3000\/elements\/582\/attributes",
+            "link_url": "http:\/\/localhost:3000\/inbound_references\/457",
+            "state": null,
+            "readable": true,
+            "list": "Lists::Employees",
+            "id": 582,
+            "writable": true,
+            "family": "http:\/\/localhost:3000\/elements\/582\/family"
+          }
+        ]
+      },
+      "name": "bestellt von",
+      "candidates_uri": "http:\/\/localhost:3000\/attributes\/5221\/candidates",
+      "create_reference_uri": "http:\/\/localhost:3000\/inbound_references",
+      "readable": true,
+      "id": 5221,
+      "writable": false
+    },
+    {
+      "type": "text",
+      "mandatory": false,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5222",
+      "value": {
+        "language": null,
+        "version": 0,
+        "text": ""
+      },
+      "name": "Verwendungszweck",
+      "multiline": true,
+      "readable": true,
+      "id": 5222,
+      "languages": [
+      ],
+      "writable": true
+    },
+    {
+      "type": "references",
+      "create_options": [
+      ],
+      "maximum_reached": null,
+      "constraints": {
+        "neighbourhood": null,
+        "attribute": null,
+        "maximum": null,
+        "element": [
+          "Elements::Merchandise"
+        ],
+        "list": null,
+        "follow": "Article"
+      },
+      "essential_attributes": [
+        {
+          "name": "Menge",
+          "default": 1,
+          "id": "Amount"
+        }
+      ],
+      "mandatory": true,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5223",
+      "value": {
+        "elements": [
+          {
+            "color": null,
+            "type": "Elements::Merchandise",
+            "has_predecessors": true,
+            "successors": "http:\/\/localhost:3000\/elements\/627\/successors",
+            "uri": "http:\/\/localhost:3000\/elements\/627",
+            "name": "8 x <div class=\"thumbnail\"><img src=\"http:\/\/localhost:3000\/files\/875\/thumbnail?attribute_id=5001\" \/><\/div>#005 Stressball",
+            "attributes": "http:\/\/localhost:3000\/elements\/627\/attributes",
+            "link_url": "http:\/\/localhost:3000\/inbound_references\/458",
+            "state": null,
+            "readable": true,
+            "list": "Lists::OrderItems",
+            "id": 627,
+            "writable": true,
+            "family": "http:\/\/localhost:3000\/elements\/627\/family"
+          },
+          {
+            "color": null,
+            "type": "Elements::Merchandise",
+            "has_predecessors": true,
+            "successors": "http:\/\/localhost:3000\/elements\/628\/successors",
+            "uri": "http:\/\/localhost:3000\/elements\/628",
+            "name": "3 x <div class=\"thumbnail\"><img src=\"http:\/\/localhost:3000\/files\/881\/thumbnail?attribute_id=5091\" \/><\/div>#011 Post-It Block",
+            "attributes": "http:\/\/localhost:3000\/elements\/628\/attributes",
+            "link_url": "http:\/\/localhost:3000\/inbound_references\/459",
+            "state": null,
+            "readable": true,
+            "list": "Lists::OrderItems",
+            "id": 628,
+            "writable": true,
+            "family": "http:\/\/localhost:3000\/elements\/628\/family"
+          }
+        ]
+      },
+      "name": "Bestellpositionen",
+      "candidates_uri": "http:\/\/localhost:3000\/attributes\/5223\/candidates",
+      "create_reference_uri": "http:\/\/localhost:3000\/inbound_references",
+      "readable": true,
+      "id": 5223,
+      "writable": true
+    },
+    {
+      "type": "float",
+      "mandatory": false,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5224",
+      "value": "12,10",
+      "name": "Summe",
+      "readable": true,
+      "id": 5224,
+      "writable": false
+    },
+    {
+      "type": "document",
+      "files": [
+      ],
+      "mandatory": false,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5225",
+      "name": "Bestellschein",
+      "readable": true,
+      "id": 5225,
+      "writable": false
+    },
+    {
+      "type": "document",
+      "files": [
+      ],
+      "mandatory": false,
+      "confirm": false,
+      "uri": "http:\/\/localhost:3000\/attributes\/5226",
+      "name": "Empf\u00e4ngernachweis",
+      "readable": true,
+      "id": 5226,
+      "writable": false
+    }
+  ],
+  "writable": true
+}[
+   {
+      "precision": "zip",
+      "Latitude":  37.7668,
+      "Longitude": -122.3959,
+      "Address":   "",
+      "City":      "SAN FRANCISCO",
+      "State":     "CA",
+      "Zip":       "94107",
+      "Country":   "US"
+   },
+   {
+      "precision": "zip",
+      "Latitude":  37.371991,
+      "Longitude": -122.026020,
+      "Address":   "",
+      "City":      "SUNNYVALE",
+      "State":     "CA",
+      "Zip":       "94085",
+      "Country":   "US"
+   }
+]
+[
+    "JSON Test Pattern pass1",
+    {"object with 1 member":["array with 1 element"]},
+    {},
+    [],
+    -42,
+    true,
+    false,
+    null,
+    {
+        "integer": 1234567890,
+        "real": -9876.543210,
+        "e": 0.123456789e-12,
+        "E": 1.234567890E+34,
+        "":  23456789012E666,
+        "zero": 0,
+        "one": 1,
+        "space": " ",
+        "quote": "\"",
+        "backslash": "\\",
+        "controls": "\b\f\n\r\t",
+        "slash": "/ & \/",
+        "alpha": "abcdefghijklmnopqrstuvwyz",
+        "ALPHA": "ABCDEFGHIJKLMNOPQRSTUVWYZ",
+        "digit": "0123456789",
+        "special": "`1~!@#$%^&*()_+-={':[,]}|;.</>?",
+        "hex": "\u0123\u4567\u89AB\uCDEF\uabcd\uef4A",
+        "true": true,
+        "false": false,
+        "null": null,
+        "array":[  ],
+        "object":{  },
+        "address": "50 St. James Street",
+        "url": "http://www.JSON.org/",
+        "comment": "// /* <!-- --",
+        "# -- --> */": " ",
+        " s p a c e d " :[1,2 , 3
+
+,
+
+4 , 5        ,          6           ,7        ],
+        "compact": [1,2,3,4,5,6,7],
+        "jsontext": "{\"object with 1 member\":[\"array with 1 element\"]}",
+        "quotes": "&#34; \u0022 %22 0x22 034 &#x22;",
+        "\/\\\"\uCAFE\uBABE\uAB98\uFCDE\ubcda\uef4A\b\f\n\r\t`1~!@#$%^&*()_+-=[]{}|;:',./<>?"
+: "A key can be any string"
+    },
+    0.5 ,98.6
+,
+99.44
+,
+
+1066
+
+
+,"rosebud"]
+
+["Illegal backslash escape: \x15"]
+
+["Illegal backslash escape: \'"]
+
+["Illegal backslash escape: \017"]
+
+[[[[[[[[[[[[[[[[[[["Not too deep"]]]]]]]]]]]]]]]]]]]
+
+["tab\   character\   in\  string\  "]
+
+{
+    "JSON Test Pattern pass3": {
+        "The outermost value": "must be an object or array.",
+        "In this test": "It is an object."
+    }
+}

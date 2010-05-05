@@ -92,7 +92,7 @@ Benchmark.bm(20) do |bm|
         elsif $dump_output
           raise 'Can\'t dump stream.'
         end
-        $o = $hl.encode_stream(data, lang, options)
+        $o = $hl.encode(data, lang, options)
         @token_count = 253528  #$hl.token_stream.count rescue 1
       else
         if $dump_input

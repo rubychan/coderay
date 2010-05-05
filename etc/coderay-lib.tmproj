@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>../diff</string>
+	<string>../bench/bench.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -28,15 +28,13 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-04-28T14:08:29Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2010-05-01T03:27:36Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-04-28T14:06:25Z</date>
+			<date>2010-05-01T03:02:21Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -89,6 +87,8 @@
 			<string>../rake_helpers</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>rake_tasks</string>
 			<key>regexFolderFilter</key>
@@ -103,6 +103,8 @@
 			<date>2010-03-31T21:53:39Z</date>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>functional</string>
 			<key>regexFolderFilter</key>
@@ -114,7 +116,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-04-28T12:38:44Z</date>
+			<date>2010-05-01T03:02:07Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -126,46 +128,31 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2010-04-28T14:04:10Z</date>
+			<date>2010-05-05T11:41:28Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>213</integer>
 	<key>metaData</key>
 	<dict>
-		<key>../Changes.textile</key>
+		<key>../bench/bench.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>70</integer>
+				<integer>23</integer>
 				<key>line</key>
-				<integer>81</integer>
+				<integer>94</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>5</integer>
-		</dict>
-		<key>../diff</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>44</integer>
-				<key>line</key>
-				<integer>663</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>642</integer>
+			<integer>74</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>../diff</string>
-		<string>../Changes.textile</string>
+		<string>../bench/bench.rb</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>

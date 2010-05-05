@@ -15,12 +15,18 @@ module Encoders
       @out = Tokens.new
     end
     
-    def text_token text, kind
-      @out.text_token text, kind if include_text_token? text, kind
-    end
-    
     def include_text_token? text, kind
       true
+    end
+    
+    def include_block_token? action, kind
+      true
+    end
+    
+  public
+    
+    def text_token text, kind
+      @out.text_token text, kind if include_text_token? text, kind
     end
     
     def begin_group kind
@@ -37,10 +43,6 @@ module Encoders
     
     def end_line kind
       @out.end_line kind if include_block_token? :end_line, kind
-    end
-    
-    def include_block_token? action, kind
-      true
     end
     
   end

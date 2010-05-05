@@ -11,11 +11,37 @@ module Encoders
     FILE_EXTENSION = 'yaml'
 
   protected
-    def compile tokens, options
+    def setup options
       require 'yaml'
-      @out = tokens.to_a.to_yaml
+      @out = []
     end
-
+    
+    def finish options
+      @out.to_a.to_yaml
+    end
+    
+  public
+    
+    def text_token text, kind
+      @out << [text, kind]
+    end
+    
+    def begin_group kind
+      @out << [:begin_group, kind]
+    end
+    
+    def end_group kind
+      @out << [:end_group, kind]
+    end
+    
+    def begin_line kind
+      @out << [:begin_line, kind]
+    end
+    
+    def end_line kind
+      @out << [:end_line, kind]
+    end
+    
   end
 
 end

@@ -191,7 +191,7 @@ module Encoders
         @css_style = Hash.new do |h, k|
           c = Tokens::AbbreviationForKind[k.first]
           h[k.dup] = 
-            if c != :NO_HIGHLIGHT or hint
+            if c != :NO_HIGHLIGHT or (hint && k.first != :space)
               if hint
                 title = HTML.token_path_to_hint hint, k
               end
@@ -207,7 +207,7 @@ module Encoders
         @css_style = Hash.new do |h, k|
           classes = k.map { |c| Tokens::AbbreviationForKind[c] }
           h[k.dup] =
-            if classes.first != :NO_HIGHLIGHT or hint
+            if classes.first != :NO_HIGHLIGHT or (hint && k.first != :space)
               if hint
                 title = HTML.token_path_to_hint hint, k
               end

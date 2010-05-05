@@ -70,22 +70,22 @@ module Scanners
             encoder.text_token match[-2,2], :change
             encoder.end_group :change unless line_kind
             next unless match = scan(/.+/)
-            CodeRay.scan match, content_lang, :tokens => encoder
+            CodeRay.scan match, content_lang, :tokens => encoder, :keep_tokens => true
             next
           elsif match = scan(/\+/)
             encoder.begin_line line_kind = :insert
             encoder.text_token match, :insert
             next unless match = scan(/.+/)
-            CodeRay.scan match, content_lang, :tokens => encoder
+            CodeRay.scan match, content_lang, :tokens => encoder, :keep_tokens => true
             next
           elsif match = scan(/-/)
             encoder.begin_line line_kind = :delete
             encoder.text_token match, :delete
             next unless match = scan(/.+/)
-            CodeRay.scan match, content_lang, :tokens => encoder
+            CodeRay.scan match, content_lang, :tokens => encoder, :keep_tokens => true
             next
           elsif match = scan(/ .*/)
-            CodeRay.scan match, content_lang, :tokens => encoder
+            CodeRay.scan match, content_lang, :tokens => encoder, :keep_tokens => true
             next
           elsif match = scan(/.+/)
             encoder.begin_line line_kind = :comment

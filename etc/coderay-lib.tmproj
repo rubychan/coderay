@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>../bench/bench.rb</string>
+	<string>../test/functional/examples.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -28,31 +28,33 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-05-01T03:27:36Z</date>
+			<date>2010-05-09T22:10:48Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-05-01T03:02:21Z</date>
+			<date>2010-05-05T13:08:49Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../FOLDERS</string>
 			<key>lastUsed</key>
-			<date>2010-01-07T10:00:30Z</date>
+			<date>2010-05-12T09:03:46Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../TODO</string>
 			<key>lastUsed</key>
-			<date>2009-10-03T23:52:27Z</date>
+			<date>2010-05-12T09:03:26Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../ftp.yaml</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>etc</string>
 			<key>regexFolderFilter</key>
@@ -116,7 +118,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-05-01T03:02:07Z</date>
+			<date>2010-05-14T15:22:51Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -128,31 +130,31 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2010-05-05T11:41:28Z</date>
+			<date>2010-05-09T22:08:05Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>213</integer>
 	<key>metaData</key>
 	<dict>
-		<key>../bench/bench.rb</key>
+		<key>../test/functional/examples.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>23</integer>
 				<key>line</key>
-				<integer>94</integer>
+				<integer>34</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>74</integer>
+			<integer>9</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>../bench/bench.rb</string>
+		<string>../test/functional/examples.rb</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>

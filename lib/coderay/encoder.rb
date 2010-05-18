@@ -127,7 +127,7 @@ module CodeRay
         when :end_line
           end_line kind
         else
-          raise 'Unknown token content type: %p' % [content]
+          raise 'Unknown token content type: %p, kind = %p' % [content, kind]
         end
       end
       

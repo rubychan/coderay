@@ -57,7 +57,7 @@ module CodeRay
       # Define @default_options for subclasses.
       DEFAULT_OPTIONS = { }
       
-      KINDS_NOT_LOC = [:comment, :doctype]
+      KINDS_NOT_LOC = [:comment, :doctype, :docstring]
 
       class << self
 
@@ -149,6 +149,8 @@ module CodeRay
       # Scans the code and returns all tokens in a Tokens object.
       def tokenize new_string=nil, options = {}
         options = @options.merge(options)
+        @tokens = options[:tokens] || @tokens || Tokens.new
+        @tokens.scanner = self if @tokens.respond_to? :scanner=
         self.string = new_string if new_string
         reset unless new_string
         scan_tokens @tokens, options

@@ -9,7 +9,7 @@ module Encoders
   # Alias: +remove_comments+
   # 
   # Usage:
-  #  CodeRay.scan('print # foo', :ruby).remove_comments.text
+  #  CodeRay.scan('print # foo', :ruby).comment_filter.text
   #  #-> "print "
   # 
   # See also: TokenKindFilter, LinesOfCode
@@ -58,22 +58,28 @@ docstring when the file is imported
 '''
 
 class Myclass():
-    """The class's docstring"""
+    """
+    The class's docstring
+    """
 
     def mymethod(self):
-        "The method's docstring"
+        '''The method's docstring'''
 
 def myfunction():
-    "The function's docstring"
+    """The function's docstring"""
     PYTHON
     assert_equal <<-PYTHON_FILTERED.chomp, tokens.comment_filter.text
 
+
 class Myclass():
     
+
     def mymethod(self):
         
+
 def myfunction():
     
+
 PYTHON_FILTERED
   end
   

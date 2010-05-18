@@ -3,7 +3,17 @@ module CodeRay
 module Encoders
   
   # A Filter encoder has another Tokens instance as output.
-  # It is used to select and delete tokens from the stream.
+  # It can be subclass to select, remove, or modify tokens in the stream.
+  # 
+  # Subclasses of Filter are called "Filters" and can be chained.
+  # 
+  # == Options
+  # 
+  # === :tokens
+  # 
+  # The Tokens object which will receive the output.
+  # 
+  # Default: Tokens.new
   # 
   # See also: TokenKindFilter
   class Filter < Encoder
@@ -12,37 +22,29 @@ module Encoders
     
   protected
     def setup options
-      @out = Tokens.new
-    end
-    
-    def include_text_token? text, kind
-      true
-    end
-    
-    def include_block_token? action, kind
-      true
+      @out = options[:tokens] || Tokens.new
     end
     
   public
     
-    def text_token text, kind
-      @out.text_token text, kind if include_text_token? text, kind
+    def text_token text, kind  # :nodoc:
+      @out.text_token text, kind
     end
     
-    def begin_group kind
-      @out.begin_group kind if include_block_token? :begin_group, kind
+    def begin_group kind  # :nodoc:
+      @out.begin_group kind
     end
     
-    def end_group kind
-      @out.end_group kind if include_block_token? :end_group, kind
+    def begin_line kind  # :nodoc:
+      @out.begin_line kind
     end
     
-    def begin_line kind
-      @out.begin_line kind if include_block_token? :begin_line, kind
+    def end_group kind  # :nodoc:
+      @out.end_group kind
     end
     
-    def end_line kind
-      @out.end_line kind if include_block_token? :end_line, kind
+    def end_line kind  # :nodoc:
+      @out.end_line kind
     end
     
   end
@@ -85,6 +87,9 @@ class FilterTest < Test::Unit::TestCase
       tokens.begin_group :index
       tokens.text_token i.to_s, :content
       tokens.end_group :index
+      tokens.begin_line :index
+      tokens.text_token i.to_s, :content
+      tokens.end_line :index
     end
     assert_equal tokens, CodeRay::Encoders::Filter.new.encode_tokens(tokens)
     assert_equal tokens, tokens.filter

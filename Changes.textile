@@ -43,6 +43,12 @@ h3. @Encoders::CommentFilter@
  
 * *NEW* alias @:remove_comments@
 
+h3. @Encoders::Filter@
+ 
+* *NEW* option @tokens@.
+* *CHANGED*: Now it simply delegates to the output.
+* *REMOVED* @include_text_token?@ and @include_block_token?@ methods.
+
 h3. @Encoders::HTML@
  
 The HTML encoder was cleaned up and simplified.
@@ -58,6 +64,10 @@ The HTML encoder was cleaned up and simplified.
 * *FIXED* splitting of lines for @:line_numbers => :inline@, so that the line
   numbers don't get colored, too.
 
+h3. @Encoders::LinesOfCode@
+ 
+* *CHANGED*: @compile@ and @finish@ methods are now protected.
+
 h3. @Encoders::Terminal@
  
 * *RENAMED* from @Encoders::Term@, added @:term@ alias.
@@ -69,6 +79,10 @@ h3. @Encoders::Terminal@
 h3. *RENAMED*: @Encoders::TokenKindFilter@
  
 Renamed from @TokenClassFilter@.
+
+* *NEW*: Handles token groups.
+  See "#223":http://redmine.rubychan.de/issues/223.
+* *RENAMED* @include_block_token?@ to @include_group?@.
 
 h3. @Encoders::Statistic@
  

@@ -24,17 +24,18 @@ module Encoders
   # 
   # See also: CommentFilter
   class TokenKindFilter < Filter
-
+    
     register_for :token_kind_filter
-
+    
     DEFAULT_OPTIONS = {
       :exclude => [],
       :include => :all
     }
-
+    
   protected
     def setup options
       super
+      @group_excluded = false
       @exclude = options[:exclude]
       @exclude = Array(@exclude) unless @exclude == :all
       @include = options[:include]
@@ -42,12 +43,70 @@ module Encoders
     end
     
     def include_text_token? text, kind
+      include_group? kind
+    end
+    
+    def include_group? kind
        (@include == :all || @include.include?(kind)) &&
       !(@exclude == :all || @exclude.include?(kind))
     end
     
+  public
+    
+    # Add the token to the output stream if +kind+ matches the conditions.
+    def text_token text, kind
+      super if !@group_excluded && include_text_token?(text, kind)
+    end
+    
+    # Add the token group to the output stream if +kind+ matches the
+    # conditions.
+    # 
+    # If it does not, all tokens inside the group are excluded from the
+    # stream, even if their kinds match.
+    def begin_group kind
+      if @group_excluded
+        @group_excluded += 1
+      elsif include_group? kind
+        super
+      else
+        @group_excluded = 1
+      end
+    end
+    
+    # See +begin_group+.
+    def begin_line kind
+      if @group_excluded
+        @group_excluded += 1
+      elsif include_group? kind
+        super
+      else
+        @group_excluded = 1
+      end
+    end
+    
+    # Take care of re-enabling the delegation of tokens to the output stream
+    # if an exluded group has ended.
+    def end_group kind
+      if @group_excluded
+        @group_excluded -= 1
+        @group_excluded = false if @group_excluded.zero?
+      else
+        super
+      end
+    end
+    
+    # See +end_group+.
+    def end_line kind
+      if @group_excluded
+        @group_excluded -= 1
+        @group_excluded = false if @group_excluded.zero?
+      else
+        super
+      end
+    end
+    
   end
-
+  
 end
 end
 
@@ -92,11 +151,18 @@ class TokenKindFilterTest < Test::Unit::TestCase
       tokens.begin_group :index
       tokens.text_token i.to_s, :content
       tokens.end_group :index
+      tokens.begin_group :naught if i == 5
+      tokens.end_group :naught if i == 7
+      tokens.begin_line :blubb
+      tokens.text_token i.to_s, :content
+      tokens.end_line :blubb
     end
-    assert_equal 20, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :include => :blubb).count
-    assert_equal 20, tokens.token_kind_filter(:include => :blubb).count
-    assert_equal 30, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :exclude => :index).count
-    assert_equal 30, tokens.token_kind_filter(:exclude => :index).count
+    assert_equal 16, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :include => :blubb).count
+    assert_equal 16, tokens.token_kind_filter(:include => :blubb).count
+    assert_equal 24, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :include => [:blubb, :content]).count
+    assert_equal 24, tokens.token_kind_filter(:include => [:blubb, :content]).count
+    assert_equal 32, CodeRay::Encoders::TokenKindFilter.new.encode_tokens(tokens, :exclude => :index).count
+    assert_equal 32, tokens.token_kind_filter(:exclude => :index).count
   end
   
 end

@@ -21,6 +21,8 @@ module Encoders
     
     NON_EMPTY_LINE = /^\s*\S.*$/
     
+  protected
+    
     def compile tokens, options
       if scanner = tokens.scanner
         kinds_not_loc = scanner.class::KINDS_NOT_LOC

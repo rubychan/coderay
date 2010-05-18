@@ -4,12 +4,11 @@ module Scanners
 
   # = Debug Scanner
   # 
-  # Parses the output of the Encoders::Debug encoder.
+  # Interprets the output of the Encoders::Debug encoder.
   class Debug < Scanner
 
     register_for :debug
-    file_extension 'raydebug'
-    title 'CodeRay Token Dump'
+    title 'CodeRay Token Dump Import'
     
   protected
     

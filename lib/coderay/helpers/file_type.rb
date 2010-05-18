@@ -105,7 +105,7 @@ module FileType
     'py3' => :python,
     'pyw' => :python,
     'rake' => :ruby,
-    'raydebug' => :debug,
+    'raydebug' => :raydebug,
     'rb' => :ruby,
     'rbw' => :ruby,
     'rhtml' => :rhtml,

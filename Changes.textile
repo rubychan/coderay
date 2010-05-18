@@ -164,6 +164,7 @@ h3. @Scanners::Ruby@
 * *NEW*: Highlight buggy floats (like .5) as @:error@.
 * *CLEANUP* of documentation, names of constants and variables, state handling.
 * *NEW*: Complicated rule for recognition of @foo=@ style method names.
+* *NEW*: Handles @:keep_state@ option (a bit; experimental).
   
   Actually, Ruby checks if there is @[~>=]@, but not @=>@ following the name.
 

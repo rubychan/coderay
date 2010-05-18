@@ -28,11 +28,19 @@ module Scanners
     
   protected
     
+    def setup
+      @state = :initial
+    end
+    
     def scan_tokens encoder, options
       
       patterns = Patterns  # avoid constant lookup
       
-      state = :initial
+      state = @state
+      if state.instance_of? patterns::StringState
+        encoder.begin_group state.type
+      end
+      
       last_state = nil
       
       method_call_expected = false
@@ -414,6 +422,9 @@ module Scanners
       end
 
       # cleaning up
+      if options[:keep_state]
+        @state = state
+      end
       if state.is_a? patterns::StringState
         encoder.end_group state.type
       end

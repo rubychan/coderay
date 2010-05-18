@@ -109,6 +109,8 @@ module CodeRay
     # is used to highlight the tokens.
     def method_missing meth, options = {}
       encode_with meth, options
+    rescue PluginHost::PluginNotFound
+      super
     end
     
     def encode_with encoder, options = {}

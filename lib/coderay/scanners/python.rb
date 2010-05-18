@@ -94,6 +94,10 @@ module Scanners
       | \*
     /x  # :nodoc:
     
+    DOCSTRING_COMING = /
+      [ \t]* u?r? ("""|''')
+    /x  # :nodoc:
+    
   protected
     
     def scan_tokens encoder, options
@@ -102,7 +106,7 @@ module Scanners
       string_delimiter = nil
       string_raw = false
       string_type = nil
-      docstring_coming = false
+      docstring_coming = match?(/#{DOCSTRING_COMING}/o)
       import_clause = class_name_follows = last_token_dot = false
       unicode = string.respond_to?(:encoding) && string.encoding.name == 'UTF-8'
       from_import_state = []
@@ -139,7 +143,7 @@ module Scanners
           encoder.text_token match, :space
           if match == "\n"
             state = :initial if state == :include_expected
-            docstring_coming = true if match?(/[ \t]*u?r?"""/)
+            docstring_coming = true if match?(/#{DOCSTRING_COMING}/o)
           end
           next
         

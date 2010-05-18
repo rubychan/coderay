@@ -1,4 +1,3 @@
-($:.unshift '../..'; require 'coderay') unless defined? CodeRay
 module CodeRay
 module Scanners
 

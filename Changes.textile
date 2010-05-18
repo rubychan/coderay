@@ -154,6 +154,10 @@ h3. @Scanners::Python@
 * *CHANGED*: Docstrings are highlighted as @:comment@.
   See "#190":http://redmine.rubychan.de/issues/190.
 
+h3. *NEW*: @Scanners::Raydebug@
+ 
+Copied from @Scanners::Debug@, highlights the token dump instead of importing it. It also reacts to the @.raydebug@ file name suffix now.
+
 h3. @Scanners::Ruby@
  
 * *ADDED* more predefined keywords (see http://murfy.de/ruby-constants).

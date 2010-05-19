@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>currentDocument</key>
-	<string>../test/functional/examples.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -118,7 +116,9 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-05-14T15:22:51Z</date>
+			<date>2010-05-16T13:32:39Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -130,35 +130,16 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2010-05-09T22:08:05Z</date>
+			<date>2010-05-13T22:32:57Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>213</integer>
 	<key>metaData</key>
-	<dict>
-		<key>../test/functional/examples.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>23</integer>
-				<key>line</key>
-				<integer>34</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>9</integer>
-		</dict>
-	</dict>
-	<key>openDocuments</key>
-	<array>
-		<string>../test/functional/examples.rb</string>
-	</array>
+	<dict/>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{224, 5}, {1056, 773}}</string>
+	<string>{{333, 28}, {1282, 1368}}</string>
 </dict>
 </plist>

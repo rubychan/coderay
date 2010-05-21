@@ -75,20 +75,18 @@ module Scanners
           when match = scan(/[,{}\[\]]/)
             encoder.text_token match, :operator
             next
-          when state == :initial && match = scan(/[\w.() ]*\S(?=: |:$)/)
+          when state == :initial && match = scan(/[\w.() ]*\S(?= *:(?: |$))/)
             encoder.text_token match, :key
             key_indent = column(pos - match.size - 1)
-            # encoder.text_token key_indent.inspect, :debug
             state = :colon
             next
-          when match = scan(/(?:"[^"\n]*"|'[^'\n]*')(?=: |:$)/)
+          when match = scan(/(?:"[^"\n]*"|'[^'\n]*')(?= *:(?: |$))/)
             encoder.begin_group :key
             encoder.text_token match[0,1], :delimiter
             encoder.text_token match[1..-2], :content
             encoder.text_token match[-1,1], :delimiter
             encoder.end_group :key
             key_indent = column(pos - match.size - 1)
-            # encoder.text_token key_indent.inspect, :debug
             state = :colon
             next
           when match = scan(/(![\w\/]+)(:([\w:]+))?/)

@@ -183,6 +183,12 @@ h3. @Scanners::SQL@
   See "#221":http://redmine.rubychan.de/issues/221.
 * *FIXED*: Closes open string groups.
 
+h3. @Scanners::YAML@
+ 
+* *FIXED*: Allow spaces before colon in mappings.
+ 
+  See "#231":http://redmine.rubychan.de/issues/231.
+
 h3. *NEW*: @Styles::Alpha@
  
 A style that uses transparent HSLA colors as defined in CSS 3.

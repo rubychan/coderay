@@ -416,6 +416,8 @@ module Scanners
             end
             state = :initial
 
+          else
+            raise_inspect 'Unknown state: %p' % [state], encoder
           end
           
         end

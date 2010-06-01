@@ -9,6 +9,11 @@ module Scanners
     register_for :diff
     title 'diff output'
     
+    DEFAULT_OPTIONS = {
+      :highlight_code => true,
+      :inline_diff => true,
+    }
+    
   protected
     
     require 'coderay/helpers/file_type'
@@ -17,12 +22,17 @@ module Scanners
       
       line_kind = nil
       state = :initial
-      # TODO: Cache scanners
-      content_lang = nil
+      deleted_lines = 0
+      scanners = Hash.new do |h, lang|
+        h[lang] = Scanners[lang].new '', :keep_tokens => true, :keep_state => true
+      end
+      content_scanner = scanners[:plain]
+      content_scanner_entry_state = nil
       
       until eos?
         
         if match = scan(/\n/)
+          deleted_lines = 0 unless line_kind == :delete
           if line_kind
             encoder.end_line line_kind
             line_kind = nil
@@ -39,7 +49,10 @@ module Scanners
             encoder.text_token match, :head
             if match = scan(/.*?(?=$|[\t\n\x00]|  \(revision)/)
               encoder.text_token match, :filename
-              content_lang = FileType.fetch match, :plaintext
+              if options[:highlight_code]
+                content_scanner = scanners[FileType.fetch(match, :plaintext)]
+                content_scanner_entry_state = nil
+              end
             end
             next unless match = scan(/.+/)
             encoder.text_token match, :plain
@@ -60,6 +73,8 @@ module Scanners
             next unless match = scan(/.+/)
             encoder.text_token match, :plain
           elsif match = scan(/@@(?>[^@\n]*)@@/)
+            content_scanner.instance_variable_set(:@state, :initial) unless match?(/\n\+/)
+            content_scanner_entry_state = nil
             if check(/\n|$/)
               encoder.begin_line line_kind = :change
             else
@@ -70,22 +85,71 @@ module Scanners
             encoder.text_token match[-2,2], :change
             encoder.end_group :change unless line_kind
             next unless match = scan(/.+/)
-            CodeRay.scan match, content_lang, :tokens => encoder, :keep_tokens => true
+            if options[:highlight_code]
+              content_scanner.tokenize match, :tokens => encoder
+            else
+              encoder.text_token match, :plain
+            end
             next
           elsif match = scan(/\+/)
             encoder.begin_line line_kind = :insert
             encoder.text_token match, :insert
             next unless match = scan(/.+/)
-            CodeRay.scan match, content_lang, :tokens => encoder, :keep_tokens => true
+            if options[:highlight_code]
+              content_scanner.tokenize match, :tokens => encoder
+            else
+              encoder.text_token match, :plain
+            end
             next
           elsif match = scan(/-/)
+            deleted_lines += 1
             encoder.begin_line line_kind = :delete
             encoder.text_token match, :delete
-            next unless match = scan(/.+/)
-            CodeRay.scan match, content_lang, :tokens => encoder, :keep_tokens => true
+            if options[:inline_diff] && deleted_lines == 1 && check(/(?>.*)\n\+(?>.*)$(?!\n\+)/)
+              if content_scanner.instance_variable_defined?(:@state)
+                content_scanner_entry_state = content_scanner.instance_variable_get(:@state)
+              end
+              skip(/(.*)(.*?)(.*)\n\+\1(.*)\3$/)
+              pre, deleted, post = content_scanner.tokenize [self[1], self[2], self[3]], :tokens => Tokens.new
+              encoder.tokens pre
+              encoder.begin_group :eyecatcher
+              encoder.tokens deleted
+              encoder.end_group :eyecatcher
+              encoder.tokens post
+              encoder.end_line line_kind
+              encoder.text_token "\n", :space
+              encoder.begin_line line_kind = :insert
+              encoder.text_token '+', :insert
+              content_scanner.instance_variable_set(:@state, content_scanner_entry_state || :initial)
+              pre, inserted, post = content_scanner.tokenize [self[1], self[4], self[3]], :tokens => Tokens.new
+              encoder.tokens pre
+              encoder.begin_group :eyecatcher
+              encoder.tokens inserted
+              encoder.end_group :eyecatcher
+              encoder.tokens post
+            elsif match = scan(/.*/)
+              if options[:highlight_code]
+                if deleted_lines == 1 && content_scanner.instance_variable_defined?(:@state)
+                  content_scanner_entry_state = content_scanner.instance_variable_get(:@state)
+                end
+                content_scanner.tokenize match, :tokens => encoder unless match.empty?
+                if !match?(/\n-/)
+                  if match?(/\n\+/)
+                    content_scanner.instance_variable_set(:@state, content_scanner_entry_state || :initial)
+                  end
+                  content_scanner_entry_state = nil
+                end
+              else
+                encoder.text_token match, :plain
+              end
+            end
             next
           elsif match = scan(/ .*/)
-            CodeRay.scan match, content_lang, :tokens => encoder, :keep_tokens => true
+            if options[:highlight_code]
+              content_scanner.tokenize match, :tokens => encoder
+            else
+              encoder.text_token match, :plain
+            end
             next
           elsif match = scan(/.+/)
             encoder.begin_line line_kind = :comment

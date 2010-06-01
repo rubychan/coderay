@@ -132,12 +132,33 @@ h3. @Scanners::Diff@
 * *NEW*: Highlighting of code based on file names.
   See ticket "#52":http://redmine.rubychan.de/issues/52.
   
+  Use the @:highlight_code@ option to turn this feature off. It's enabled
+  by default.
+  
   This is a very original feature. It enables multi-language highlighting for
   diff files, which is especially helpful for CodeRay development itself. The
   updated version of the scanner test suite generated .debug.diff.html files
   using this.
   
-  Note: This is still buggy for multi-line tokens.
+  Note: This is still experimental. Tokens spanning more than one line
+  may get highlighted incorrectly. CodeRay tries to keep scanner states
+  between the lines and changes, but the quality of the results depend on
+  the scanner.
+* *NEW*: Inline change highlighting, as suggested by Eric Thomas.
+  See ticket "#227":http://redmine.rubychan.de/issues/227 for details.
+  
+  Use the @:inline_diff@ option to turn this feature off. It's enabled by
+  default.
+  
+  For single-line changes (that is, a single deleted line followed by a single
+  inserted line), this feature surrounds the changed parts with an
+  @:eyecatcher@ group which appears in a more saturated background color.
+  The implementation is quite complex, and highly experimental. The problem
+  with multi-layer tokenizing is that the tokens have to be split into parts.
+  If the inline change starts, say, in the middle of a string, then additional
+  @:end_group@ and @:begin_group@ tokens must be inserted to keep the group
+  nesting intact. The extended @Scanner#tokenize@ method and the new
+  @Tokens#split_into_parts@ method take care of this.
 * *NEW*: Highlight the file name in the change headers as @:filename@.
 * *CHANGED*: Highlight unknown lines as @:comment@ instead of @:head@.
 

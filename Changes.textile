@@ -63,6 +63,7 @@ The HTML encoder was cleaned up and simplified.
 * *REMOVED* support for @:line_numbers => :list@.
 * *FIXED* splitting of lines for @:line_numbers => :inline@, so that the line
   numbers don't get colored, too.
+* *RENAMED* @Output#numerize@ to @#number@, which is an actual English word.
 
 h3. @Encoders::LinesOfCode@
  

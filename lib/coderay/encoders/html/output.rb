@@ -13,8 +13,6 @@ module Encoders
     # TODO: more doc.
     module Output
 
-      require 'coderay/encoders/html/numerization.rb'
-
       attr_accessor :css
 
       class << self

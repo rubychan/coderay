@@ -3,13 +3,9 @@ module Encoders
 
   class HTML
 
-    module Output
+    module Output  # :nodoc:
 
-      def numerize *args
-        clone.numerize!(*args)
-      end
-
-      def numerize! mode = :table, options = {}
+      def number! mode = :table, options = {}
         return self unless mode
 
         options = DEFAULT_OPTIONS.merge options

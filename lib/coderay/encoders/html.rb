@@ -111,7 +111,7 @@ module Encoders
       :hint => false,
     }
 
-    helper :output, :css
+    helper :output, :numbering, :css
 
     attr_reader :css
 
@@ -233,7 +233,7 @@ module Encoders
       
       @out.extend Output
       @out.css = @css
-      @out.numerize! options[:line_numbers], options
+      @out.number! options[:line_numbers], options
       @out.wrap! options[:wrap]
       @out.apply_title! options[:title]
       

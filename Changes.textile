@@ -16,6 +16,7 @@ Changes related to the new tokens handling include:
 * *REWRITE* of all Scanners, Encoders, Filters, and Tokens.
 * *RENAMED* @:open@ and @:close@ actions to @:begin_group@ and @:end_group@.
 * *RENAMED* @open_token@ and @close_token@ methods to @begin_group@ and @end_group@.
+* *NEW* method @:tokens@ allows to add several tokens to the stream.
 * *CHANGED* The above name changes also affect the JSON, XML, and YAML encoders. CodeRay 1.0 output will be incompatible with earlier versions.
 * *REMOVED* @TokenStream@ and the @Streamable@ API and all related features like @NotStreamableError@ are now obsolete and have been removed.
 
@@ -27,7 +28,9 @@ h3. General changes
 
 h3. @Tokens@
  
-* *REMOVED* method @stream?@.
+* *REMOVED* methods @#stream?@, @#each_text_token@.
+* *REMOVED* @#text@ and @#text_size@ methods. Use the @Text@ encoder instead.
+* *REMOVED* special implementation of @#each@ taking a filter parameter. Use @TokenKindFilter@ instead.
 * *NEW* methods @encode_with@, @count@, @begin_group@, @end_group@, @begin_line@, and @end_line@.
 
 h3. *RENAMED*: @Tokens::AbbreviationForKind@

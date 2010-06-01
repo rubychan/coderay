@@ -52,32 +52,6 @@ module CodeRay
     # The Scanner instance that created the tokens.
     attr_accessor :scanner
     
-    # Iterates over all tokens.
-    #
-    # If a filter is given, only tokens of that kind are yielded.
-    def each kind_filter = nil, &block
-      unless kind_filter
-        super(&block)
-      else
-        super() do |text, kind|
-          next unless kind == kind_filter
-          yield text, kind
-        end
-      end
-    end
-
-    # Iterates over all text tokens.
-    # Token actions are left out.
-    #
-    # Example:
-    #   tokens.each_text_token { |text, kind| text.replace html_escape(text) }
-    def each_text_token
-      each do |text, kind|
-        next unless text.is_a? ::String
-        yield text, kind
-      end
-    end
-
     # Encode the tokens using encoder.
     #
     # encoder can be
@@ -129,6 +103,7 @@ module CodeRay
     # for example, consecutive //-comment lines could already be
     # joined in one comment token by the Scanner.
     def optimize
+      raise NotImplementedError, 'Tokens#optimize needs to be rewritten.'
       last_kind = last_text = nil
       new = self.class.new
       for text, kind in self
@@ -159,6 +134,7 @@ module CodeRay
     #
     # TODO: Test this!
     def fix
+      raise NotImplementedError, 'Tokens#fix needs to be rewritten.'
       tokens = self.class.new
       # Check token nesting using a stack of kinds.
       opened = []
@@ -205,6 +181,76 @@ module CodeRay
     def split_into_lines!
       replace split_into_lines
     end
+    
+    # Split the tokens into parts of the given +sizes+.
+    # 
+    # The result will be an Array of Tokens objects. The parts have
+    # the text size specified by the parameter. In addition, each
+    # part closes all opened tokens. This is useful to insert tokens
+    # betweem them.
+    # 
+    # This method is used by @Scanner#tokenize@ when called with an Array
+    # of source strings. The Diff encoder uses it for inline highlighting.
+    def split_into_parts *sizes
+      parts = []
+      opened = []
+      content = nil
+      part = Tokens.new
+      part_size = 0
+      size = sizes.first
+      i = 0
+      for item in self
+        case content
+        when nil
+          content = item
+        when String
+          if size && part_size + content.size > size  # token must be cut
+            if part_size < size  # some part of the token goes into this part
+              content = content.dup  # content may no be safe to change
+              part << content.slice!(0, size - part_size) << item
+            end
+            # close all open groups and lines...
+            closing = opened.reverse.flatten.map do |content_or_kind|
+              case content_or_kind
+              when :begin_group
+                :end_group
+              when :begin_line
+                :end_line
+              else
+                content_or_kind
+              end
+            end
+            parts << part.concat(closing)
+            part = Tokens.new
+            # ...and open them again.
+            part.concat opened.flatten
+            part_size = 0
+            size = sizes[i += 1]
+            redo unless content.empty?
+          else
+            part << content << item
+            part_size += content.size
+          end
+          content = nil
+        when Symbol
+          case content
+          when :begin_group, :begin_line
+            opened << [content, item]
+          when :end_group, :end_line
+            opened.pop
+          else
+            raise 'Unknown token action: %p, kind = %p' % [content, item]
+          end
+          part << content << item
+          content = nil
+        else
+          raise 'else case reached'
+        end
+      end
+      parts << part
+      parts << Tokens.new while parts.size < sizes.size
+      parts
+    end
 
     # Dumps the object into a String that can be saved
     # in files or databases.
@@ -231,22 +277,6 @@ module CodeRay
     # Return the actual number of tokens.
     def count
       size / 2
-    end
-
-    # The total size of the tokens.
-    # Should be equal to the input size before
-    # scanning.
-    def text_size
-      size = 0
-      each_text_token do |t, k|
-        size + t.size
-      end
-      size
-    end
-
-    # Return all text tokens joined into a single string.
-    def text
-      map { |t, k| t if t.is_a? ::String }.join
     end
 
     # Include this module to give an object an #undump
@@ -276,6 +306,7 @@ module CodeRay
     def end_group kind; push :end_group, kind end
     def begin_line kind; push :begin_line, kind end
     def end_line kind; push :end_line, kind end
+    alias tokens concat
     
   end
 

@@ -76,6 +76,10 @@ h3. @Encoders::Terminal@
 * *REMOVED* colors for obsolete token kinds.
 * *FIXED* handling of line tokens.
 
+h3. @Encoders::Text@
+ 
+* *FIXED* default behavior of stripping the trailing newline.
+
 h3. *RENAMED*: @Encoders::TokenKindFilter@
  
 Renamed from @TokenClassFilter@.

@@ -77,7 +77,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 
 .il { background-color: hsla(0,0%,0%,0.1); color: black }
 .il .idl { font-weight: bold; color: #666 }
-.idl { font-weight: bold; color: #666; }
+.idl { font-weight: bold; background-color: hsla(0,0%,0%,0.1); color: #666; }
 
 .im { color:#f00; }
 .in { color:#B2B; font-weight:bold }
@@ -99,19 +99,19 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .ke .ch { color: #80f; }
 .vl { color: #088; }
 
-.rx { background-color:hsla(300,100%,50%,0.1); color:#808 }
-.rx .k { }
+.rx { background-color:hsla(300,100%,50%,0.1); }
+.rx .k { color:#808 }
 .rx .dl { color:#404 }
 .rx .mod { color:#C2C }
 .rx .fu  { color:#404; font-weight: bold }
 
-.s { background-color:hsla(0,100%,50%,0.1); color: #D20; }
-.s .k { }
+.s { background-color:hsla(0,100%,50%,0.1); }
+.s .k { color: #D20; }
 .s .ch { color: #b0b; }
 .s .dl { color: #710; }
 
-.sh { background-color:hsla(120,100%,50%,0.1); color:#2B2 }
-.sh .k { }
+.sh { background-color:hsla(120,100%,50%,0.1); }
+.sh .k { color:#2B2 }
 .sh .dl { color:#161 }
 
 .sy { color:#A60 }
@@ -124,14 +124,17 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .v  { color:#036 }
 .xt { color:#444 }
 
-.ins { background: #afa; }
-.del { background: #faa; }
+.ins { background: hsla(120,100%,50%,0.2) }
+.del { background: hsla(0,100%,50%,0.2) }
 .chg { color: #aaf; background: #007; }
 .head { color: #f8f; background: #505 }
 .head .filename { color: white; }
 
-.ins .ins { color: #080; font-weight:bold }
-.del .del { color: #800; font-weight:bold }
+.ins .eye { background-color: hsla(120,100%,50%,0.2) }
+.del .eye { background-color: hsla(0,100%,50%,0.2) }
+
+.ins .ins { color: #080; background:transparent; font-weight:bold }
+.del .del { color: #800; background:transparent; font-weight:bold }
 .chg .chg { color: #66f; }
 .head .head { color: #f4f; }
     TOKENS

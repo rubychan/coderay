@@ -8,7 +8,7 @@ class ExamplesTest < Test::Unit::TestCase
     div = CodeRay.scan('puts "Hello, world!"', :ruby).div
     assert_equal <<-DIV, div
 <div class="CodeRay">
-  <div class="code"><pre>puts <span style="background-color:hsla(0,100%,50%,0.1);color:#D20"><span style="color:#710">&quot;</span><span style="">Hello, world!</span><span style="color:#710">&quot;</span></span></pre></div>
+  <div class="code"><pre>puts <span style="background-color:hsla(0,100%,50%,0.1)"><span style="color:#710">&quot;</span><span style="color:#D20">Hello, world!</span><span style="color:#710">&quot;</span></span></pre></div>
 </div>
     DIV
     
@@ -25,7 +25,7 @@ end
 <a href="#n3" name="n3">3</a>
 </pre></td>
   <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><span style="color:#00D;font-weight:bold">5</span>.times <span style="color:#080;font-weight:bold">do</span>
-  puts <span style="background-color:hsla(0,100%,50%,0.1);color:#D20"><span style="color:#710">'</span><span style="">Hello, world!</span><span style="color:#710">'</span></span>
+  puts <span style="background-color:hsla(0,100%,50%,0.1)"><span style="color:#710">'</span><span style="color:#D20">Hello, world!</span><span style="color:#710">'</span></span>
 <span style="color:#080;font-weight:bold">end</span></pre></td>
 </tr></table>
     DIV
@@ -116,7 +116,7 @@ Token Types (5):
     div = ruby_highlighter.encode('puts "Hello, world!"')
     assert_equal <<-DIV, div
 <div class="CodeRay">
-  <div class="code"><pre>puts <span style="background-color:hsla(0,100%,50%,0.1);color:#D20"><span style="color:#710">&quot;</span><span style="">Hello, world!</span><span style="color:#710">&quot;</span></span></pre></div>
+  <div class="code"><pre>puts <span style="background-color:hsla(0,100%,50%,0.1)"><span style="color:#710">&quot;</span><span style="color:#D20">Hello, world!</span><span style="color:#710">&quot;</span></span></pre></div>
 </div>
     DIV
   end

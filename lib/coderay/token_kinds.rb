@@ -71,7 +71,9 @@ module CodeRay
       :delete => 'del',
       :change => 'chg',
       :head => 'head',
-
+      
+      :eyecatcher => 'eye',
+      
       :ident => :NO_HIGHLIGHT, # 'id'
       #:operator => 'op',
       :operator => :NO_HIGHLIGHT,  # 'op'

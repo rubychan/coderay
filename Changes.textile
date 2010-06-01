@@ -39,7 +39,7 @@ Renamed from @ClassOfKind@; the term "token class" is no longer used in CodeRay.
 See "#122":http://redmine.rubychan.de/issues/122.
  
 * *REMOVED* token kinds @:attribute_name_fat@, @:attribute_value_fat@, @:operator_fat@, @:tag_fat@, @:xml_text@, @:open@, and @:close@.
-* *ADDED* token kinds @:filename@ and @:namespace@.
+* *ADDED* token kinds @:filename@, @:namespace@, and @:eyecatcher@.
 * *CHANGED*: Don't raise error for unknown token kinds unless in @$CODERAY_DEBUG@ mode.
 
 h3. @Encoders::CommentFilter@

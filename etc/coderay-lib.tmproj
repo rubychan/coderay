@@ -31,8 +31,6 @@
 			<string>../test/scanners/diff.diff</string>
 			<key>lastUsed</key>
 			<date>2010-06-01T21:58:22Z</date>
-			<key>selected</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -53,14 +51,12 @@
 			<date>2010-05-12T09:03:26Z</date>
 		</dict>
 		<dict>
-			<key>filename</key>
-			<string>../ftp.yaml</string>
-		</dict>
-		<dict>
 			<key>name</key>
 			<string>etc</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle|log|aux))$</string>
+			<key>selected</key>
+			<true/>
 			<key>sourceDirectory</key>
 			<string></string>
 		</dict>
@@ -138,6 +134,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{333, 28}, {1282, 1368}}</string>
+	<string>{{216, 4}, {1054, 774}}</string>
 </dict>
 </plist>

@@ -167,8 +167,7 @@ module CodeRay
         content = nil
         for item in tokens
           if item.is_a? Array
-            warn 'two-element array tokens are deprecated'
-            content, item = *item
+            raise ArgumentError, 'Two-element array tokens are no longer supported.'
           end
           if content
             token content, item
@@ -177,8 +176,11 @@ module CodeRay
             content = item
           end
         end
-        raise if content
+        raise 'odd number list for Tokens' if content
       end
+    
+      alias tokens compile
+      public :tokens
       
     end
 

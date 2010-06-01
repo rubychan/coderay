@@ -103,7 +103,7 @@ module Scanners
               when state.delim, '\\'
                 encoder.text_token match + m, :char
               when nil
-                encoder.text_token match, :error
+                encoder.text_token match, :content
               else
                 encoder.text_token match + m, :content
               end
@@ -237,7 +237,7 @@ module Scanners
               encoder.begin_group :regexp
               encoder.text_token match, :delimiter
               interpreted = true
-              state = patterns::StringState.new :regexp, interpreted, match
+              state = patterns::StringState.new :regexp, interpreted, '/'
 
             elsif match = scan(value_expected ? /[-+]?#{patterns::NUMERIC}/o : /#{patterns::NUMERIC}/o)
               if method_call_expected
@@ -315,6 +315,9 @@ module Scanners
                                          /#{patterns::CLASS_VARIABLE}/o)
               encoder.text_token match, :class_variable
               value_expected = false
+
+            elsif match = scan(/\\\z/)
+              encoder.text_token match, :space
 
             else
               if method_call_expected

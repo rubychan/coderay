@@ -104,6 +104,9 @@ h3. @Scanners::Scanner@
  
 * *REMOVED* helper method @String#to_unix@.
 * *REMOVED* method @streamable?@.
+* *NEW*: The @#tokenize@ method also takes an Array of Strings as source. The
+  code is highlighted as one and split into parts of the input lengths
+  after that using @Tokens#split_into_parts@.
 
 h3. @Scanners::CSS@
  

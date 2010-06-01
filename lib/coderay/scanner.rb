@@ -147,14 +147,27 @@ module CodeRay
       end
 
       # Scans the code and returns all tokens in a Tokens object.
-      def tokenize new_string=nil, options = {}
+      def tokenize source = nil, options = {}
         options = @options.merge(options)
         @tokens = options[:tokens] || @tokens || Tokens.new
         @tokens.scanner = self if @tokens.respond_to? :scanner=
-        self.string = new_string if new_string
-        reset unless new_string
+        case source
+        when String
+          self.string = source
+        when Array
+          self.string = source.join
+        when nil
+          reset
+        else
+          raise ArgumentError, 'expected String, Array, or nil'
+        end
         scan_tokens @tokens, options
         @cached_tokens = @tokens
+        if source.is_a? Array
+          @tokens.split_into_parts(*source.map { |part| part.size })
+        else
+          @tokens
+        end
       end
       
       # Caches the result of tokenize.

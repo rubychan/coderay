@@ -68,7 +68,7 @@ Benchmark.bm(20) do |bm|
   data = nil
   File.open(here("#$filename." + lang), 'rb') { |f| data = f.read }
   if $dump_input
-    @size = CodeRay::Tokens.load(data).text_size
+    @size = CodeRay::Tokens.load(data).text.size
   else
     raise 'Example file is empty.' if data.empty?
     unless @size.zero?

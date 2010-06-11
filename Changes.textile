@@ -2,6 +2,8 @@ h1=. CodeRay Version History
  
 p=. _This files lists all changes in the CodeRay library since the 0.8.4 release._
  
+{{toc}}
+ 
 h2. Changes in 1.0
  
 h3. Direct Streaming
@@ -87,7 +89,7 @@ h3. @Encoders::Text@
 h3. *RENAMED*: @Encoders::TokenKindFilter@
  
 Renamed from @TokenClassFilter@.
-
+ 
 * *NEW*: Handles token groups.
   See "#223":http://redmine.rubychan.de/issues/223.
 * *RENAMED* @include_block_token?@ to @include_group?@.
@@ -526,6 +528,5 @@ h3. Cleanups
 * warnings about character classes _[Ruby 1.9]_
 * encoding issues _[Ruby 1.9]_
 * documentation, code
-
 
 

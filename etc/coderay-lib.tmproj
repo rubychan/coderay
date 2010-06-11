@@ -5,6 +5,8 @@
 	<key>documents</key>
 	<array>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -13,6 +15,8 @@
 			<string>../lib</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>bin</string>
 			<key>regexFolderFilter</key>
@@ -55,8 +59,6 @@
 			<string>etc</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle|log|aux))$</string>
-			<key>selected</key>
-			<true/>
 			<key>sourceDirectory</key>
 			<string></string>
 		</dict>
@@ -109,6 +111,16 @@
 			<string>../test/functional</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
+			<key>name</key>
+			<string>executable</string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|vendor/plugins|index|doc|public/images|_darcs|_MTN|\{arch\}|blib|coverage|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle|log|aux|gem))$</string>
+			<key>sourceDirectory</key>
+			<string>../test/executable</string>
+		</dict>
+		<dict>
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
@@ -118,7 +130,7 @@
 			<key>filename</key>
 			<string>../test/scanners/suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-04-14T23:56:18Z</date>
+			<date>2010-06-02T02:27:42Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>

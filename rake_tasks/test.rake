@@ -76,7 +76,12 @@ namespace :test do
     end
   end
   
+  desc 'test the CodeRay executable'
+  task :exe do
+    ruby './test/executable/suite.rb'
+  end
+  
 end
 
-task :test => %w( test:functional test:scanners )
+task :test => %w( test:functional test:exe test:scanners )
 task :samples => 'test:samples'

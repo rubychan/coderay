@@ -67,7 +67,7 @@ namespace :generate do
       svn_ignore = <<-SVN_IGNORE
 *.actual.*
 *.expected.html
-*.debug.diff
+*.debug.diff*
       SVN_IGNORE
       sh "svn pset svn:ignore '#{svn_ignore}' #{test_dir}"
     end

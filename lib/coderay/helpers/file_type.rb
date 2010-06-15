@@ -81,6 +81,7 @@ module FileType
 
   TypeFromExt = {
     'c' => :c,
+    'clj' => :clojure,
     'css' => :css,
     'diff' => :diff,
     'dpr' => :delphi,

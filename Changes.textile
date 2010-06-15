@@ -59,7 +59,7 @@ h3. @Encoders::HTML@
 The HTML encoder was cleaned up and simplified.
  
 * *CHANGED* the default style to @:alpha@.
-* *NEW*: HTML 5 and CSS 3 compatible, IE incompatible.
+* *NEW*: HTML5 and CSS 3 compatible.
   See "#215":http://redmine.rubychan.de/issues/215.
 * *ADDED* support for @:line_number_anchors@.
   See "#208":http://redmine.rubychan.de/issues/208.
@@ -109,6 +109,10 @@ h3. @Scanners::Scanner@
 * *NEW*: The @#tokenize@ method also takes an Array of Strings as source. The
   code is highlighted as one and split into parts of the input lengths
   after that using @Tokens#split_into_parts@.
+
+h3. *NEW*: @Scanners::Clojure@
+ 
+Thanks to Licenser, CodeRay now supports the Clojure language.
 
 h3. @Scanners::CSS@
  

@@ -109,6 +109,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .s .k { color: #D20; }
 .s .ch { color: #b0b; }
 .s .dl { color: #710; }
+.s .mod { color: #E40; }
 
 .sh { background-color:hsla(120,100%,50%,0.1); }
 .sh .k { color:#2B2 }

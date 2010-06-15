@@ -461,7 +461,7 @@ module Scanners
               states.push :php
               encoder.text_token match, :delimiter
             else
-              encoder.text_token match, :string
+              encoder.text_token match, :content
             end
           elsif match = scan(/\$\{#{RE::IDENTIFIER}\}/o)
             encoder.text_token match, :local_variable

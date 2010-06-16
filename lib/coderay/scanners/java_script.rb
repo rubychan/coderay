@@ -134,7 +134,7 @@ module Scanners
             string_delimiter = match
             encoder.text_token match, :delimiter
             
-          elsif value_expected && (match = scan(/\/(?=\S)/))
+          elsif value_expected && (match = scan(/\//))
             encoder.begin_group :regexp
             state = :regexp
             string_delimiter = '/'

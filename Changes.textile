@@ -175,6 +175,7 @@ h3. @Scanners::HTML@
 h3. @Scanners::JavaScript@
  
 * *IMPROVED*: Added @NaN@ and @Infinity@ to list of predefined constants.
+* *IMPROVED* recognition of RegExp literals with leading spaces.
 
 h3. @Scanners::Java@
  

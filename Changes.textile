@@ -27,6 +27,7 @@ h3. General changes
 * *IMPROVED* documentation in general; additions, corrections and cleanups
 * *FIXED* some image links in the documentation
 * *IMPROVED* Ruby 1.9 support (_._ not in @$LOAD_PATH@)
+* *NEW*: Extended support and usage of HTML5 and CSS 3 features.
 
 h3. @Tokens@
  
@@ -232,6 +233,9 @@ h3. *NEW*: @Styles::Alpha@
  
 A style that uses transparent HSLA colors as defined in CSS 3.
 See "#199":http://redmine.rubychan.de/issues/199.
+ 
+It also uses the CSS 3 property @user-select: none@ to keep the user from selecting the line numbers. This is especially nice for @:inline@ line numbers.
+See "#226":http://redmine.rubychan.de/issues/226.
 
 h3. @FileType@
  

@@ -60,9 +60,11 @@ module Scanners
             encoder.end_group :string
             next
           when match = scan(/(?![!"*&]).+?(?=$|\s+#)/)
-            encoder.text_token match, :string
+            encoder.begin_group :string
+            encoder.text_token match, :content
             string_indent = key_indent || column(pos - match.size - 1)
-            encoder.text_token matched, :string if scan(/(?:\n+ {#{string_indent + 1}}.*)+/)
+            encoder.text_token matched, :content if scan(/(?:\n+ {#{string_indent + 1}}.*)+/)
+            encoder.end_group :string
             next
           end
           

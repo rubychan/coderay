@@ -79,8 +79,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .ic { color:#B44; font-weight:bold }
 
 .il { background-color: hsla(0,0%,0%,0.1); color: black }
-.il .idl { font-weight: bold; color: #666 }
-.idl { font-weight: bold; background-color: hsla(0,0%,0%,0.1); color: #666; }
+.idl { font-weight: bold; color: #666 }
 
 .im { color:#f00 }
 .in { color:#B2B; font-weight:bold }

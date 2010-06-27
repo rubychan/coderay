@@ -167,7 +167,7 @@ Benchmark.bm(20) do |bm|
         Dir.chdir File.expand_path('~/Python/pygments') do
           File.open('input-data', 'wb') { |f| f.write data }
           N.times do
-            `pygmentize -O encoding=utf-8 -l#{lang} -fhtml input-data > /dev/null`
+            `pygmentize -O encoding=utf-8 -l#{lang} -fhtml -Ofull input-data > /dev/null`
           end
         end
       end

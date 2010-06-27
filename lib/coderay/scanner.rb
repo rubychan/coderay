@@ -181,7 +181,7 @@ module CodeRay
       end
       include Enumerable
 
-      # The current line position of the scanner.
+      # The current line position of the scanner. See also #column.
       #
       # Beware, this is implemented inefficiently. It should be used
       # for debugging only.
@@ -189,7 +189,10 @@ module CodeRay
         string[0..pos].count("\n") + 1
       end
       
-      # The current column position of the scanner. See #line.
+      # The current column position of the scanner. See also #line.
+      #
+      # Beware, this is implemented inefficiently. It should be used
+      # for debugging only.
       def column pos = self.pos
         return 0 if pos <= 0
         string = string()

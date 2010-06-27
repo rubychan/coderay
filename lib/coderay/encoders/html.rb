@@ -176,7 +176,8 @@ module Encoders
       @HTML_ESCAPE = HTML_ESCAPE.dup
       @HTML_ESCAPE["\t"] = ' ' * options[:tab_width]
       
-      @opened = [nil]
+      @opened = []
+      @last_opened = nil
       @css = CSS.new options[:style]
       
       hint = options[:hint]
@@ -189,9 +190,10 @@ module Encoders
 
       when :class
         @css_style = Hash.new do |h, k|
-          c = Tokens::AbbreviationForKind[k.first]
-          h[k.dup] = 
-            if c != :NO_HIGHLIGHT or (hint && k.first != :space)
+          kind = k.is_a?(Symbol) ? k : k.first
+          c = Tokens::AbbreviationForKind[kind]
+          h[k.is_a?(Symbol) ? k : k.dup] =
+            if c != :NO_HIGHLIGHT or (hint && kind != :space)
               if hint
                 title = HTML.token_path_to_hint hint, k
               end
@@ -205,9 +207,16 @@ module Encoders
 
       when :style
         @css_style = Hash.new do |h, k|
-          classes = k.map { |c| Tokens::AbbreviationForKind[c] }
-          h[k.dup] =
-            if classes.first != :NO_HIGHLIGHT or (hint && k.first != :space)
+          if k.is_a?(Symbol)
+            kind = k
+            ks = [kind]
+          else
+            kind = k.first
+            ks = k
+          end
+          classes = ks.map { |c| Tokens::AbbreviationForKind[c] }
+          h[k.is_a?(Symbol) ? k : k.dup] =
+            if classes.first != :NO_HIGHLIGHT or (hint && kind != :space)
               if hint
                 title = HTML.token_path_to_hint hint, k
               end
@@ -225,10 +234,10 @@ module Encoders
     end
 
     def finish options
-      not_needed = @opened.shift
       unless @opened.empty?
         warn '%d tokens still open: %p' % [@opened.size, @opened]
-        @out << '</span>' * @opened.size
+        @out << '</span>' while @opened.pop
+        @last_opened = nil
       end
       
       @out.extend Output
@@ -246,61 +255,51 @@ module Encoders
       if text =~ /#{HTML_ESCAPE_PATTERN}/o
         text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
       end
-      @opened[0] = kind
-      @out <<
-        if style = @css_style[@opened]
-          style + text + '</span>'
-        else
-          text
-        end
+      if style = @css_style[@last_opened ? [kind, *@opened] : kind]
+        @out << style << text << '</span>'
+      else
+        @out << text
+      end
     end
     
     # token groups, eg. strings
     def begin_group kind
-      @opened[0] = kind
+      @out << (@css_style[@last_opened ? [kind, *@opened] : kind] || '<span>')
       @opened << kind
-      @out << (@css_style[@opened] || '<span>')
+      @last_opened = kind if @options[:css] == :style
     end
     
     def end_group kind
-      if $CODERAY_DEBUG and (@opened.size == 1 or @opened.last != kind)
+      if $CODERAY_DEBUG && (@opened.empty? || @opened.last != kind)
         warn 'Malformed token stream: Trying to close a token (%p) ' \
           'that is not open. Open are: %p.' % [kind, @opened[1..-1]]
       end
-      @out << 
-        if @opened.empty?
-          '' # nothing to close
-        else
-          @opened.pop
-          '</span>'
-        end
+      if @opened.pop
+        @out << '</span>'
+        @last_opened = @opened.last if @last_opened
+      end
     end
     
     # whole lines to be highlighted, eg. a deleted line in a diff
     def begin_line kind
-      @opened[0] = kind
-      style = @css_style[@opened]
+      if style = @css_style[@last_opened ? [kind, *@opened] : kind]
+        @out << style.sub('<span', '<div')
+      else
+        @out << '<div>'
+      end
       @opened << kind
-      @out <<
-        if style
-          style.sub '<span', '<div'
-        else
-          '<div>'
-        end
+      @last_opened = kind if @options[:css] == :style
     end
     
     def end_line kind
-      if $CODERAY_DEBUG and (@opened.size == 1 or @opened.last != kind)
+      if $CODERAY_DEBUG && (@opened.empty? || @opened.last != kind)
         warn 'Malformed token stream: Trying to close a line (%p) ' \
           'that is not open. Open are: %p.' % [kind, @opened[1..-1]]
       end
-      @out <<
-        if @opened.empty?
-          ''  # nothing to close
-        else
-          @opened.pop
-          '</div>'
-        end
+      if @opened.pop
+        @out << '</div'
+        @last_opened = @opened.last if @last_opened
+      end
     end
 
   end

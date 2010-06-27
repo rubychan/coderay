@@ -185,45 +185,29 @@ module Encoders
         raise ArgumentError, "Unknown value %p for :hint; \
           expected :info, :debug, false, or nil." % hint
       end
-
+      
+      css_classes = Tokens::AbbreviationForKind
       case options[:css]
 
       when :class
         @css_style = Hash.new do |h, k|
           kind = k.is_a?(Symbol) ? k : k.first
-          c = Tokens::AbbreviationForKind[kind]
           h[k.is_a?(Symbol) ? k : k.dup] =
-            if c != :NO_HIGHLIGHT or (hint && kind != :space)
-              if hint
-                title = HTML.token_path_to_hint hint, k
-              end
-              if c == :NO_HIGHLIGHT
-                '<span%s>' % [title]
-              else
-                '<span%s class="%s">' % [title, c]
-              end
+            if kind != :space && (hint || css_classes[kind])
+              title = HTML.token_path_to_hint hint, k if hint
+              css_class = css_classes[k]
+              "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
             end
         end
 
       when :style
         @css_style = Hash.new do |h, k|
-          if k.is_a?(Symbol)
-            kind = k
-            ks = [kind]
-          else
-            kind = k.first
-            ks = k
-          end
-          classes = ks.map { |c| Tokens::AbbreviationForKind[c] }
+          kind = k.is_a?(Symbol) ? k : k.first
           h[k.is_a?(Symbol) ? k : k.dup] =
-            if classes.first != :NO_HIGHLIGHT or (hint && kind != :space)
-              if hint
-                title = HTML.token_path_to_hint hint, k
-              end
-              style = @css[*classes]
-              if style
-                '<span%s style="%s">' % [title, style]
-              end
+            if kind != :space && (hint || css_classes[kind])
+              title = HTML.token_path_to_hint hint, k if hint
+              style = @css.get_style Array(k).map { |c| css_classes[c] }
+              "<span#{title}#{" style=\"#{style}\"" if style}>"
             end
         end
 

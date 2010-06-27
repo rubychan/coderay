@@ -4,7 +4,7 @@ module CodeRay
       if $CODERAY_DEBUG
         raise 'Undefined Token kind: %p' % [k]  # :nodoc:
       else
-        :NO_HIGHLIGHT
+        false
       end
     end
     AbbreviationForKind.update with = {  # :nodoc:
@@ -74,11 +74,11 @@ module CodeRay
       
       :eyecatcher => 'eye',
       
-      :ident => :NO_HIGHLIGHT, # 'id'
-      #:operator => 'op',
-      :operator => :NO_HIGHLIGHT,  # 'op'
-      :space => :NO_HIGHLIGHT,  # 'sp'
-      :plain => :NO_HIGHLIGHT,
+      :ident => false, # 'id'
+      :operator => false,  # 'op'
+      
+      :space => false,  # 'sp'
+      :plain => false,
     }
     AbbreviationForKind[:method] = AbbreviationForKind[:function]
     AbbreviationForKind[:nesting_delimiter] = AbbreviationForKind[:delimiter]

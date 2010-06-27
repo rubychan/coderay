@@ -26,7 +26,7 @@ module Encoders
               "<a href=\"##{anchor}\" name=\"#{anchor}\">#{line}</a>"
             end
           else
-            proc { |line| line.to_s }
+            proc { |line| line.to_s }  # :to_s.to_proc in Ruby 1.8.7+
           end
         
         bold_every = options[:bold_every]
@@ -80,11 +80,11 @@ module Encoders
           end
 
         when :table
-          line_numbers = (start ... start + line_count).to_a.map(&bolding).join("\n")
+          line_numbers = (start ... start + line_count).map(&bolding).join("\n")
           line_numbers << "\n"
-
           line_numbers_table_template = TABLE.apply('LINE_NUMBERS', line_numbers)
-          gsub!(/<\/div>\n/) { '</div>' }
+
+          gsub!(/<\/div>\n/, '</div>')
           wrap_in! line_numbers_table_template
           @wrapped_in = :div
 
@@ -101,7 +101,7 @@ module Encoders
 
       def line_count
         line_count = count("\n")
-        position_of_last_newline = rindex(?\n)
+        position_of_last_newline = rindex(RUBY_VERSION >= '1.9' ? /\n/ : ?\n)
         if position_of_last_newline
           after_last_newline = self[position_of_last_newline + 1 .. -1]
           ends_with_newline = after_last_newline[/\A(?:<\/span>)*\z/]

@@ -20,7 +20,7 @@ module Encoders
         parse style::TOKEN_COLORS
       end
 
-      def [] *styles
+      def get_style styles
         cl = @classes[styles.first]
         return '' unless cl
         style = ''

@@ -8,6 +8,7 @@ begin
   require 'redcloth'
 rescue LoadError
   warn 'RedCloth not found - skipping for_redcloth tests.'
+  undef RedCloth if defined? RedCloth
 end
 
 class BasicTest < Test::Unit::TestCase

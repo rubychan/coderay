@@ -39,6 +39,11 @@ module Encoders
       @out = []
     end
     
+    def finish options
+      @out.to_json
+    end
+    
+  public
     def text_token text, kind
       @out << { :type => 'text', :text => text, :kind => kind }
     end
@@ -57,10 +62,6 @@ module Encoders
     
     def end_line kind
       @out << { :type => 'block', :action => 'end_line', :kind => kind }
-    end
-    
-    def finish options
-      @out.to_json
     end
     
   end

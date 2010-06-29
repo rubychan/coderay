@@ -27,6 +27,28 @@ namespace :test do
     end
   end
   
+  desc 'run unit tests'
+  task :units do
+    ENV['check_rubygems'] = 'true'
+    ruby './test/unit/suite.rb'
+  end
+  
+  namespace :units do
+    desc 'run all unit tests on all supported Ruby platforms'
+    task :all do
+      $stdout.sync = true
+      for task in %w(test:units 187 test:units ee test:units 19 test:units 191 test:units jruby test:units)
+        if task == 'test:units'
+          puts "\n\nTesting with #{RUBY}..."
+          Rake::Task['test:units'].reenable
+          Rake::Task['test:units'].invoke
+        else
+          Rake::Task[task].invoke
+        end
+      end
+    end
+  end
+  
   desc 'run all scanner tests'
   task :scanners do
     ruby "./test/scanners/suite.rb"
@@ -67,7 +89,9 @@ namespace :test do
         print "\n\nTesting with "
         ruby '-v'
         Rake::Task['test'].reenable
+        Rake::Task['test:exe'].reenable
         Rake::Task['test:functional'].reenable
+        Rake::Task['test:units'].reenable
         Rake::Task['test:scanners'].reenable
         Rake::Task['test'].invoke
       else
@@ -83,5 +107,5 @@ namespace :test do
   
 end
 
-task :test => %w( test:functional test:exe test:scanners )
+task :test => %w( test:functional test:exe test:units )
 task :samples => 'test:samples'

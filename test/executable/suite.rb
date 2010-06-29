@@ -1,11 +1,11 @@
 require 'test/unit'
 require 'pathname'
+$:.unshift 'lib'
+require 'coderay'
 
 MYDIR = File.dirname(__FILE__)
 
-$:.unshift 'lib'
-require 'coderay'
-puts "Running basic CodeRay #{CodeRay::VERSION} executable tests..."
+puts "Running CodeRay #{CodeRay::VERSION} executable tests..."
 
 class TestCodeRayExecutable < Test::Unit::TestCase
   

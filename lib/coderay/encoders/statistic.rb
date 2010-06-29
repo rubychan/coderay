@@ -23,37 +23,7 @@ module Encoders
       @tokens = tokens
       super
     end
-
-    def text_token text, kind
-      @real_token_count += 1 unless kind == :space
-      @type_stats[kind].count += 1
-      @type_stats[kind].size += text.size
-      @type_stats['TOTAL'].size += text.size
-      @type_stats['TOTAL'].count += 1
-    end
-
-    # TODO Hierarchy handling
-    def begin_group kind
-      block_token 'begin_group'
-    end
-
-    def end_group kind
-      block_token 'end_group'
-    end
-
-    def begin_line kind
-      block_token 'begin_line'
-    end
-
-    def end_line kind
-      block_token 'end_line'
-    end
-    
-    def block_token action
-      @type_stats['TOTAL'].count += 1
-      @type_stats[action].count += 1
-    end
-
+  
     STATS = <<-STATS  # :nodoc:
 
 Code Statistics
@@ -86,6 +56,38 @@ Token Types (%d):
         @type_stats.delete_if { |k, v| k.is_a? String }.size,
         types_stats
       ]
+    end
+
+  public
+    
+    def text_token text, kind
+      @real_token_count += 1 unless kind == :space
+      @type_stats[kind].count += 1
+      @type_stats[kind].size += text.size
+      @type_stats['TOTAL'].size += text.size
+      @type_stats['TOTAL'].count += 1
+    end
+
+    # TODO Hierarchy handling
+    def begin_group kind
+      block_token 'begin_group'
+    end
+
+    def end_group kind
+      block_token 'end_group'
+    end
+
+    def begin_line kind
+      block_token 'begin_line'
+    end
+
+    def end_line kind
+      block_token 'end_line'
+    end
+    
+    def block_token action
+      @type_stats['TOTAL'].count += 1
+      @type_stats[action].count += 1
     end
 
   end

@@ -24,10 +24,16 @@ Changes related to the new tokens handling include:
 
 h3. General changes
  
-* *IMPROVED* documentation in general; additions, corrections and cleanups
-* *FIXED* some image links in the documentation
-* *IMPROVED* Ruby 1.9 support (_._ not in @$LOAD_PATH@)
+* *IMPROVED* documentation in general; additions, corrections and cleanups.
 * *NEW*: Extended support and usage of HTML5 and CSS 3 features.
+* *IMPROVED* Ruby 1.9 support (_._ not in @$LOAD_PATH@)
+* *IMPROVED* speed of HTML encoding when using CSS classes.
+* *IMPROVED*: Faster startup by replacing @require@ with @autoload@. CodeRay
+  features will now only be loaded when they're needed.
+* *FIXED* some image links in the documentation.
+* *ADDED* a lot of tests.
+* *MOVED* GZip library into @CodeRay@ namespace, removed the @String@ 
+  extensions. Moved the library file from @gzip.rb@ to @gzip_simple.rb@.
 
 h3. @Tokens@
  
@@ -249,10 +255,14 @@ h3. @FileType@
 h3. @Plugin@
  
 * *IMPROVED*: @register_for@ sets the @plugin_id@; it can now be a @Symbol@.
+* *ADDED* @PluginHost#const_missing@ method: Plugins are loaded automatically.
+  Using @Scanners::JavaScript@ in your code loads @scanners/java_script.rb@.
 
 h3. Internal API changes
  
 * *FIXED* @Encoders::HTML#token@'s second parameter is no longer optional.
+* *CHANGED* @Encoders::HTML::Output@'s API.
+* *REMOVED* lots of unused methods.
 
 
 h2. Changes in 0.9.3

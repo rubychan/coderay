@@ -1,12 +1,13 @@
 require 'test/unit'
-
-MYDIR = File.dirname(__FILE__)
-
 $:.unshift 'lib'
 require 'coderay'
-puts "Running basic CodeRay #{CodeRay::VERSION} tests..."
 
-suite = %w(basic examples load_plugin_scanner word_list)
+MYDIR = File.dirname(__FILE__)
+suite = Dir[File.join(MYDIR, '*.rb')].
+  map { |tc| File.basename(tc).sub(/\.rb$/, '') } - %w'suite for_redcloth'
+
+puts "Running basic CodeRay #{CodeRay::VERSION} tests: #{suite.join(', ')}"
+
 for test_case in suite
   load File.join(MYDIR, test_case + '.rb')
 end

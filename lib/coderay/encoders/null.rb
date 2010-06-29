@@ -8,11 +8,6 @@ module Encoders
 
     register_for :null
 
-    # Defined for faster processing.
-    def to_proc
-      proc {}
-    end
-
   protected
 
     def token(*)

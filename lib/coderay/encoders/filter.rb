@@ -1,4 +1,3 @@
-($:.unshift '../..'; require 'coderay') unless defined? CodeRay
 module CodeRay
 module Encoders
   
@@ -50,49 +49,4 @@ module Encoders
   end
   
 end
-end
-
-if $0 == __FILE__
-  $VERBOSE = true
-  $: << File.join(File.dirname(__FILE__), '..')
-  eval DATA.read, nil, $0, __LINE__ + 4
-end
-
-__END__
-require 'test/unit'
-
-class FilterTest < Test::Unit::TestCase
-  
-  def test_creation
-    assert CodeRay::Encoders::Filter < CodeRay::Encoders::Encoder
-    filter = nil
-    assert_nothing_raised do
-      filter = CodeRay.encoder :filter
-    end
-    assert_kind_of CodeRay::Encoders::Encoder, filter
-  end
-  
-  def test_filtering_text_tokens
-    tokens = CodeRay::Tokens.new
-    10.times do |i|
-      tokens.text_token i.to_s, :index
-    end
-    assert_equal tokens, CodeRay::Encoders::Filter.new.encode_tokens(tokens)
-    assert_equal tokens, tokens.filter
-  end
-  
-  def test_filtering_block_tokens
-    tokens = CodeRay::Tokens.new
-    10.times do |i|
-      tokens.begin_group :index
-      tokens.text_token i.to_s, :content
-      tokens.end_group :index
-      tokens.begin_line :index
-      tokens.text_token i.to_s, :content
-      tokens.end_line :index
-    end
-    assert_equal tokens, CodeRay::Encoders::Filter.new.encode_tokens(tokens)
-    assert_equal tokens, tokens.filter
-  end
-  
 end

@@ -63,8 +63,3 @@ module Encoders
 
 end
 end
-
-if $0 == __FILE__
-  require 'pp'
-  pp CodeRay::Encoders::HTML::CSS.new
-end

@@ -1,4 +1,3 @@
-($:.unshift '../..'; require 'coderay') unless defined? CodeRay
 module CodeRay
 module Scanners
 
@@ -63,49 +62,4 @@ module Scanners
   end
 
 end
-end
-
-if $0 == __FILE__
-  $VERBOSE = true
-  $: << File.join(File.dirname(__FILE__), '..')
-  eval DATA.read, nil, $0, __LINE__ + 4
-end
-
-__END__
-require 'test/unit'
-
-class DebugScannerTest < Test::Unit::TestCase
-  
-  def test_creation
-    assert CodeRay::Scanners::Debug < CodeRay::Scanners::Scanner
-    debug = nil
-    assert_nothing_raised do
-      debug = CodeRay.scanner :debug
-    end
-    assert_kind_of CodeRay::Scanners::Scanner, debug
-  end
-  
-  TEST_INPUT = <<-'DEBUG'.chomp
-integer(10)operator((\\\))string<content(test)>test[
-
-  	   
-method([])]
-  DEBUG
-  TEST_OUTPUT = CodeRay::Tokens[
-    ['10', :integer],
-    ['(\\)', :operator],
-    [:begin_group, :string],
-    ['test', :content],
-    [:end_group, :string],
-    [:begin_line, :test],
-    ["\n\n  \t   \n", :space],
-    ["[]", :method],
-    [:end_line, :test],
-  ].flatten
-  
-  def test_filtering_text_tokens
-    assert_equal TEST_OUTPUT, CodeRay::Scanners::Debug.new.tokenize(TEST_INPUT)
-    assert_equal TEST_OUTPUT, CodeRay.scan(TEST_INPUT, :debug)
-  end
-  
 end

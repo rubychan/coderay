@@ -1,4 +1,3 @@
-($:.unshift '../..'; require 'coderay') unless defined? CodeRay
 module CodeRay
 module Encoders
   
@@ -24,7 +23,7 @@ module Encoders
     }
 
     def text_token text, kind
-      @out << text
+      super
       @out << @sep if @sep
     end
 
@@ -41,25 +40,4 @@ module Encoders
   end
 
 end
-end
-
-if $0 == __FILE__
-  $VERBOSE = true
-  $: << File.join(File.dirname(__FILE__), '..')
-  eval DATA.read, nil, $0, __LINE__ + 4
-end
-
-__END__
-require 'test/unit'
-
-class CountTest < Test::Unit::TestCase
-  
-  def test_count
-    ruby = <<-RUBY
-puts "Hello world!"
-    RUBY
-    tokens = CodeRay.scan ruby, :ruby
-    assert_equal ruby, tokens.encode_with(:text)
-  end
-  
 end

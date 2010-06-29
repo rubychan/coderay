@@ -3,9 +3,9 @@ module Encoders
 
   class HTML
 
-    module Output  # :nodoc:
+    module Numbering  # :nodoc:
 
-      def number! mode = :table, options = {}
+      def self.number! output, mode = :table, options = {}
         return self unless mode
 
         options = DEFAULT_OPTIONS.merge options
@@ -56,12 +56,20 @@ module Encoders
             raise ArgumentError, 'Invalid value %p for :bolding; false or Integer expected.' % bold_every
           end
         
+        line_count = output.count("\n")
+        position_of_last_newline = output.rindex(RUBY_VERSION >= '1.9' ? /\n/ : ?\n)
+        if position_of_last_newline
+          after_last_newline = output[position_of_last_newline + 1 .. -1]
+          ends_with_newline = after_last_newline[/\A(?:<\/span>)*\z/]
+          line_count += 1 if not ends_with_newline
+        end
+        
         case mode
         when :inline
           max_width = (start + line_count).to_s.size
           line_number = start
           opened_tags = []
-          gsub!(/^.*$\n?/) do |line|
+          output.gsub!(/^.*$\n?/) do |line|
             line.chomp!
             open = opened_tags.join
             line.scan(%r!<(/)?span[^>]*>?!) do |close,|
@@ -82,11 +90,11 @@ module Encoders
         when :table
           line_numbers = (start ... start + line_count).map(&bolding).join("\n")
           line_numbers << "\n"
-          line_numbers_table_template = TABLE.apply('LINE_NUMBERS', line_numbers)
+          line_numbers_table_template = Output::TABLE.apply('LINE_NUMBERS', line_numbers)
 
-          gsub!(/<\/div>\n/, '</div>')
-          wrap_in! line_numbers_table_template
-          @wrapped_in = :div
+          output.gsub!(/<\/div>\n/, '</div>')
+          output.wrap_in! line_numbers_table_template
+          output.wrapped_in = :div
 
         when :list
           raise NotImplementedError, 'The :list option is no longer available. Use :table.'
@@ -96,18 +104,7 @@ module Encoders
             [mode, [:table, :inline]]
         end
 
-        self
-      end
-
-      def line_count
-        line_count = count("\n")
-        position_of_last_newline = rindex(RUBY_VERSION >= '1.9' ? /\n/ : ?\n)
-        if position_of_last_newline
-          after_last_newline = self[position_of_last_newline + 1 .. -1]
-          ends_with_newline = after_last_newline[/\A(?:<\/span>)*\z/]
-          line_count += 1 if not ends_with_newline
-        end
-        line_count
+        output
       end
 
     end

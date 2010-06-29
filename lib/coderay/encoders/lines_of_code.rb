@@ -1,4 +1,3 @@
-($:.unshift '../..'; require 'coderay') unless defined? CodeRay
 module CodeRay
 module Encoders
   
@@ -27,11 +26,11 @@ module Encoders
       if scanner = tokens.scanner
         kinds_not_loc = scanner.class::KINDS_NOT_LOC
       else
-        warn 'Tokens have no scanner.' if $VERBOSE
+        warn "Tokens have no associated scanner, counting all nonempty lines." if $VERBOSE
         kinds_not_loc = CodeRay::Scanners::Scanner::KINDS_NOT_LOC
       end
       code = tokens.token_kind_filter :exclude => kinds_not_loc
-      @loc = code.text.scan(NON_EMPTY_LINE).size
+      @loc = code.to_s.scan(NON_EMPTY_LINE).size
     end
     
     def finish options
@@ -41,52 +40,4 @@ module Encoders
   end
   
 end
-end
-
-if $0 == __FILE__
-  $VERBOSE = true
-  $: << File.join(File.dirname(__FILE__), '..')
-  eval DATA.read, nil, $0, __LINE__ + 4
-end
-
-__END__
-require 'test/unit'
-
-class LinesOfCodeTest < Test::Unit::TestCase
-  
-  def test_creation
-    assert CodeRay::Encoders::LinesOfCode < CodeRay::Encoders::Encoder
-    filter = nil
-    assert_nothing_raised do
-      filter = CodeRay.encoder :loc
-    end
-    assert_kind_of CodeRay::Encoders::LinesOfCode, filter
-    assert_nothing_raised do
-      filter = CodeRay.encoder :lines_of_code
-    end
-    assert_kind_of CodeRay::Encoders::LinesOfCode, filter
-  end
-  
-  def test_lines_of_code
-    tokens = CodeRay.scan <<-RUBY, :ruby
-#!/usr/bin/env ruby
-
-# a minimal Ruby program
-puts "Hello world!"
-    RUBY
-    assert_equal 1, CodeRay::Encoders::LinesOfCode.new.encode_tokens(tokens)
-    assert_equal 1, tokens.lines_of_code
-    assert_equal 1, tokens.loc
-  end
-  
-  def test_filtering_block_tokens
-    tokens = CodeRay::Tokens.new
-    tokens.concat ["Hello\n", :world]
-    tokens.concat ["Hello\n", :space]
-    tokens.concat ["Hello\n", :comment]
-    assert_equal 2, CodeRay::Encoders::LinesOfCode.new.encode_tokens(tokens)
-    assert_equal 2, tokens.lines_of_code
-    assert_equal 2, tokens.loc
-  end
-  
 end

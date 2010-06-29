@@ -82,6 +82,7 @@ Benchmark.bm(20) do |bm|
     options = {
       :tab_width => 2,
       :wrap => :page,
+      :line_numbers => :table,
       :css => $style ? :style : :class,
     }
     $hl = CodeRay.encoder(format, options) unless $dump_output

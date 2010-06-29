@@ -129,12 +129,20 @@ module CodeRay
   # Revision: Subversion Revision number (generated on rake gem:make)
   VERSION = '1.0.0'
 
-  require 'coderay/tokens'
-  require 'coderay/token_kinds'
-  require 'coderay/scanner'
-  require 'coderay/encoder'
-  require 'coderay/duo'
-  require 'coderay/style'
+  # Tokens
+  autoload :Tokens, 'coderay/tokens'
+  
+  # Plugin system
+  autoload :PluginHost, 'coderay/helpers/plugin'
+  autoload :Plugin, 'coderay/helpers/plugin'
+  
+  # Plugins
+  autoload :Scanners, 'coderay/scanner'
+  autoload :Encoders, 'coderay/encoder'
+  autoload :Styles, 'coderay/style'
+  
+  # Convenience access / reusable Encoder/Scanner pair
+  autoload :Duo, 'coderay/duo'
 
   class << self
 
@@ -265,12 +273,4 @@ module CodeRay
 
   end
 
-end
-
-# Run a test script.
-if $0 == __FILE__
-  $stderr.print 'Press key to print demo.'; gets
-  # Just use this file as an example of Ruby code.
-  code = File.read(__FILE__)[/module CodeRay.*/m]
-  print CodeRay.scan(code, :ruby).html
 end

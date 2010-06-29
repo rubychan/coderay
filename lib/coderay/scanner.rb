@@ -1,7 +1,9 @@
 module CodeRay
 
-  require 'coderay/helpers/plugin'
-
+  autoload :WordList, 'coderay/helpers/word_list'
+  # FIXME: Rename CaseIgnoringWordList to WordList::CaseIgnoring.
+  autoload :CaseIgnoringWordList, 'coderay/helpers/word_list'
+  
   # = Scanners
   #
   # This module holds the Scanner class and its subclasses.
@@ -49,8 +51,6 @@ module CodeRay
 
       # Raised if a Scanner fails while scanning
       ScanError = Class.new(Exception)
-
-      require 'coderay/helpers/word_list'
 
       # The default options for all scanner classes.
       #

@@ -110,8 +110,10 @@ module Encoders
 
       :hint => false,
     }
-
-    helper :output, :numbering, :css
+    
+    # TODO: Make Plugin use autoload, too.
+    helper :output, :css
+    autoload :Numbering, 'coderay/encoders/html/numbering'
 
     attr_reader :css
 
@@ -144,9 +146,9 @@ module Encoders
         end
     end
 
-    TRANSPARENT_TOKEN_KINDS = [
+    TRANSPARENT_TOKEN_KINDS = Set[
       :delimiter, :modifier, :content, :escape, :inline_delimiter,
-    ].to_set
+    ]
 
     # Generate a hint about the given +kinds+ in a +hint+ style.
     #
@@ -226,7 +228,9 @@ module Encoders
       
       @out.extend Output
       @out.css = @css
-      @out.number! options[:line_numbers], options
+      if options[:line_numbers]
+        Numbering.number! @out, options[:line_numbers], options
+      end
       @out.wrap! options[:wrap]
       @out.apply_title! options[:title]
       

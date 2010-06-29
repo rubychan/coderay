@@ -1,5 +1,8 @@
 module CodeRay
 
+  # GZip library for writing and reading token dumps.
+  autoload :GZip, 'coderay/helpers/gzip'
+  
   # = Tokens  TODO: Rewrite!
   #
   # The Tokens class represents a list of tokens returnd from
@@ -49,6 +52,8 @@ module CodeRay
   # to load them from a file, and still use any Encoder that CodeRay provides.
   class Tokens < Array
     
+    autoload :AbbreviationForKind, 'coderay/token_kinds'
+    
     # The Scanner instance that created the tokens.
     attr_accessor :scanner
     
@@ -73,8 +78,8 @@ module CodeRay
     # Turn into a string using Encoders::Text.
     #
     # +options+ are passed to the encoder if given.
-    def to_s options = {}
-      encode :text, options
+    def to_s
+      encode Encoders::Encoder.new
     end
 
     # Redirects unknown methods to encoder calls.
@@ -251,7 +256,7 @@ module CodeRay
       parts << Tokens.new while parts.size < sizes.size
       parts
     end
-
+    
     # Dumps the object into a String that can be saved
     # in files or databases.
     #
@@ -268,9 +273,8 @@ module CodeRay
     #
     # See GZip module.
     def dump gzip_level = 7
-      require 'coderay/helpers/gzip_simple'
       dump = Marshal.dump self
-      dump = dump.gzip gzip_level
+      dump = GZip.gzip dump, gzip_level
       dump.extend Undumping
     end
     
@@ -296,8 +300,7 @@ module CodeRay
     # The result is commonly a Tokens object, but
     # this is not guaranteed.
     def Tokens.load dump
-      require 'coderay/helpers/gzip_simple'
-      dump = dump.gunzip
+      dump = GZip.gunzip dump
       @dump = Marshal.load dump
     end
 
@@ -310,49 +313,4 @@ module CodeRay
     
   end
 
-end
-
-if $0 == __FILE__
-  $VERBOSE = true
-  $: << File.join(File.dirname(__FILE__), '..')
-  eval DATA.read, nil, $0, __LINE__ + 4
-end
-
-__END__
-require 'test/unit'
-
-class TokensTest < Test::Unit::TestCase
-  
-  def test_creation
-    assert CodeRay::Tokens < Array
-    tokens = nil
-    assert_nothing_raised do
-      tokens = CodeRay::Tokens.new
-    end
-    assert_kind_of Array, tokens
-  end
-  
-  def test_adding_tokens
-    tokens = CodeRay::Tokens.new
-    assert_nothing_raised do
-      tokens.text_token 'string', :type
-      tokens.text_token '()', :operator
-    end
-    assert_equal tokens.size, 4
-    assert_equal tokens.count, 2
-  end
-  
-  def test_dump_undump
-    tokens = CodeRay::Tokens.new
-    assert_nothing_raised do
-      tokens.text_token 'string', :type
-      tokens.text_token '()', :operator
-    end
-    tokens2 = nil
-    assert_nothing_raised do
-      tokens2 = tokens.dump.undump
-    end
-    assert_equal tokens, tokens2
-  end
-  
 end

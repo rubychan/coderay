@@ -91,7 +91,7 @@ module Scanners
             end
 
           when :attribute
-            if scan(/#{TAG_END}/)
+            if scan(/#{TAG_END}/o)
               kind = :tag
               state = :initial
             elsif scan(/#{ATTR_NAME}/o)

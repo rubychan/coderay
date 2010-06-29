@@ -33,7 +33,7 @@ module CodeRay
         # downcase class name instead.
         def const_missing sym
           if sym == :FILE_EXTENSION
-            plugin_id
+            plugin_id.to_s
           else
             super
           end
@@ -59,8 +59,6 @@ module CodeRay
       # added to the options you passed at creation.
       def initialize options = {}
         @options = self.class::DEFAULT_OPTIONS.merge options
-        raise "I am only the basic Encoder class. I can't encode "\
-          "anything. :( Use my subclasses." if self.class == Encoder
         $ALREADY_WARNED_OLD_INTERFACE = false
       end
 
@@ -133,6 +131,7 @@ module CodeRay
       
       # Called for each text token ([text, kind]), where text is a String.
       def text_token text, kind
+        @out << text
       end
       
       # Starts a token group with the given +kind+.

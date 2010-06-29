@@ -17,26 +17,13 @@ module Encoders
 
       class << self
 
-        # This makes Output look like a class.
-        #
-        # Example:
-        #
-        #  a = Output.new '<span class="co">Code</span>'
-        #  a.wrap! :page
-        def new string, css = CSS.new, element = nil
-          output = string.clone.extend self
-          output.wrapped_in = element
-          output.css = css
-          output
-        end
-
         # Raises an exception if an object that doesn't respond to to_str is extended by Output,
         # to prevent users from misuse. Use Module#remove_method to disable.
-        def extended o
+        def extended o  # :nodoc:
           warn "The Output module is intended to extend instances of String, not #{o.class}." unless o.respond_to? :to_str
         end
 
-        def make_stylesheet css, in_tag = false
+        def make_stylesheet css, in_tag = false  # :nodoc:
           sheet = css.stylesheet
           sheet = <<-CSS if in_tag
 <style type="text/css">
@@ -46,26 +33,12 @@ module Encoders
           sheet
         end
 
-        def page_template_for_css css
+        def page_template_for_css css  # :nodoc:
           sheet = make_stylesheet css
           PAGE.apply 'CSS', sheet
         end
 
-        # Define a new wrapper. This is meta programming.
-        def wrapper *wrappers
-          wrappers.each do |wrapper|
-            define_method wrapper do |*args|
-              wrap wrapper, *args
-            end
-            define_method "#{wrapper}!".to_sym do |*args|
-              wrap! wrapper, *args
-            end
-          end
-        end
-
       end
-
-      wrapper :div, :span, :page
 
       def wrapped_in? element
         wrapped_in == element
@@ -76,16 +49,13 @@ module Encoders
       end
       attr_writer :wrapped_in
 
-      def wrap_in template
-        clone.wrap_in! template
-      end
-
       def wrap_in! template
         Template.wrap! self, template, 'CONTENT'
         self
       end
       
       def apply_title! title
+        # FIXME: This may change the output!
         self.sub!(/(<title>)(<\/title>)/) { $1 + title + $2 }
         self
       end
@@ -116,13 +86,11 @@ module Encoders
         self
       end
 
-      def wrap *args
-        clone.wrap!(*args)
-      end
-
       def stylesheet in_tag = false
         Output.make_stylesheet @css, in_tag
       end
+
+#-- don't include the templates in docu
 
       class Template < String  # :nodoc:
 
@@ -145,34 +113,24 @@ module Encoders
           end
         end
 
-        module Simple  # :nodoc:
-          def ` str  #` <-- for stupid editors
-            Template.new str
-          end
-        end
       end
 
-      extend Template::Simple
+      SPAN = Template.new '<span class="CodeRay"><%CONTENT%></span>'
 
-#-- don't include the templates in docu
-
-      SPAN = `<span class="CodeRay"><%CONTENT%></span>`
-
-      DIV = <<-`DIV`
+      DIV = Template.new <<-DIV
 <div class="CodeRay">
   <div class="code"><pre><%CONTENT%></pre></div>
 </div>
       DIV
 
-      TABLE = <<-`TABLE`
+      TABLE = Template.new <<-TABLE
 <table class="CodeRay"><tr>
   <td class="line_numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><%LINE_NUMBERS%></pre></td>
   <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><%CONTENT%></pre></td>
 </tr></table>
       TABLE
-      # title="double click to expand"
 
-      PAGE = <<-`PAGE`
+      PAGE = Template.new <<-PAGE
 <!DOCTYPE html>
 <html>
 <head>

@@ -188,6 +188,21 @@ module CodeRay
       end
     end
     
+    # Returns an array of all Plugins.
+    # 
+    # Note: This loads all plugins using load_all.
+    def all_plugins
+      load_all
+      plugin_hash.values.grep(Class)
+    end
+    
+    # Returns an array of all plugin titles.
+    # 
+    # Note: This loads all plugins using load_all.
+    def all_titles
+      all_plugins.map { |plugin| plugin.title }
+    end
+    
     # Makes a map of all loaded plugins.
     def inspect
       map = plugin_hash.dup

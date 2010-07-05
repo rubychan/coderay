@@ -257,6 +257,8 @@ h3. @Plugin@
 * *IMPROVED*: @register_for@ sets the @plugin_id@; it can now be a @Symbol@.
 * *ADDED* @PluginHost#const_missing@ method: Plugins are loaded automatically.
   Using @Scanners::JavaScript@ in your code loads @scanners/java_script.rb@.
+* *ADDED* @#all_plugins@ and @#all_titles@ methods to simplify getting 
+  information about all available plugins (suggested by bnhymn).
 
 h3. Internal API changes
  

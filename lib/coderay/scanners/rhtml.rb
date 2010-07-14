@@ -48,12 +48,16 @@ module Scanners
           @html_scanner.tokenize match, :tokens => encoder
           
         elsif match = scan(/#{ERB_RUBY_BLOCK}/o)
-          start_tag = match[/\A<%[-=]?/]
+          start_tag = match[/\A<%[-=#]?/]
           end_tag = match[/-?%?>?\z/]
           encoder.begin_group :inline
           encoder.text_token start_tag, :inline_delimiter
           code = match[start_tag.size .. -1 - end_tag.size]
-          @ruby_scanner.tokenize code
+          if start_tag[/\A<%#/]
+            encoder.text_token code, :comment
+          else
+            @ruby_scanner.tokenize code
+          end unless code.empty?
           encoder.text_token end_tag, :inline_delimiter unless end_tag.empty?
           encoder.end_group :inline
           

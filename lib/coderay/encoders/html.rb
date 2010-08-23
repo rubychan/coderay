@@ -163,7 +163,7 @@ module Encoders
       title =
         case hint
         when :info
-          TOKEN_KIND_TO_INFO[kinds.first]
+          TOKEN_KIND_TO_INFO[Array(kinds).first]
         when :info_long
           kinds.map { |kind| TOKEN_KIND_TO_INFO[kind] }.join('/')
         when :debug

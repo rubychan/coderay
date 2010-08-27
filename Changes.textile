@@ -4,10 +4,15 @@ p=. _This files lists all changes in the CodeRay library since the 0.8.4 release
  
 h2. Changes in 0.9.4
  
+Updated command line interface and a minor performance tweak for the HTML scanner.
+
 h3. @coderay@ executable
  
 * *FIXED*: Rewritten, simplified, fixed.
 
+h3. @Scanners::HTML@
+ 
+* *FIXED* a missing regexp modifier that slowed down the scanning.
 
 h2. Changes in 0.9.3
  

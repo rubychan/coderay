@@ -1,4 +1,4 @@
-$VERBOSE = $DEBUG = $CODERAY_DEBUG = true
+$VERBOSE = $CODERAY_DEBUG = true
 require 'benchmark'
 require 'yaml'
 require 'fileutils'

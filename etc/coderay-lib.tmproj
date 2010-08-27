@@ -106,7 +106,9 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-03-11T06:50:29Z</date>
+			<date>2010-05-16T13:32:40Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>

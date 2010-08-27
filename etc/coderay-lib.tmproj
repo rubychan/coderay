@@ -26,13 +26,15 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-04-17T00:04:19Z</date>
+			<date>2010-06-29T23:01:28Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-04-16T23:04:42Z</date>
+			<date>2010-06-29T23:02:12Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -71,8 +73,6 @@
 			<date>2010-03-08T22:53:09Z</date>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>rake_helpers</string>
 			<key>regexFolderFilter</key>
@@ -81,8 +81,6 @@
 			<string>../rake_helpers</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>rake_tasks</string>
 			<key>regexFolderFilter</key>
@@ -94,11 +92,9 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2010-04-18T07:19:12Z</date>
+			<date>2010-03-09T02:48:36Z</date>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>functional</string>
 			<key>regexFolderFilter</key>
@@ -122,7 +118,7 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2009-11-03T21:45:47Z</date>
+			<date>2010-06-29T22:49:47Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>

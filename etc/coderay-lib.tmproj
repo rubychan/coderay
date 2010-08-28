@@ -2,11 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>currentDocument</key>
-	<string>../diff</string>
 	<key>documents</key>
 	<array>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -26,7 +26,7 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-06-29T07:30:20Z</date>
+			<date>2010-08-24T11:50:44Z</date>
 			<key>selected</key>
 			<true/>
 		</dict>
@@ -40,7 +40,7 @@
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-06-29T06:56:52Z</date>
+			<date>2010-07-05T07:34:56Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -125,13 +125,13 @@
 					<key>filename</key>
 					<string>../test/scanners/coderay_suite.rb</string>
 					<key>lastUsed</key>
-					<date>2010-06-27T05:41:29Z</date>
+					<date>2010-08-22T06:45:59Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>../test/scanners/suite.rb</string>
 					<key>lastUsed</key>
-					<date>2010-06-28T21:11:28Z</date>
+					<date>2010-07-05T07:34:57Z</date>
 				</dict>
 			</array>
 			<key>name</key>
@@ -153,31 +153,12 @@
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>213</integer>
+	<integer>204</integer>
 	<key>metaData</key>
-	<dict>
-		<key>../diff</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>17</integer>
-				<key>line</key>
-				<integer>71</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>59</integer>
-		</dict>
-	</dict>
-	<key>openDocuments</key>
-	<array>
-		<string>../diff</string>
-	</array>
+	<dict/>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{421, 60}, {1065, 1358}}</string>
+	<string>{{216, 4}, {1054, 774}}</string>
 </dict>
 </plist>

@@ -47,11 +47,16 @@ module Scanners
             tokens << [match, :change]
             next unless match = scan(/.+/)
             kind = :plain
-          elsif scan(/(@@)((?>[^@\n]*))(@@)/)
-            tokens << [:begin_line, line_kind = :change]
-            tokens << [self[1], :change]
-            tokens << [self[2], :plain]
-            tokens << [self[3], :change]
+          elsif match = scan(/@@(?>[^@\n]*)@@/)
+            if check(/\n|$/)
+              tokens << [:begin_line, line_kind = :change]
+            else
+              tokens << [:open, :change]
+            end
+            tokens << [match[0,2], :change]
+            tokens << [match[2...-2], :plain]
+            tokens << [match[-2,2], :change]
+            tokens << [:close, :change] unless line_kind
             next unless match = scan(/.+/)
             kind = :plain
           elsif match = scan(/\+/)

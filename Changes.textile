@@ -9,19 +9,22 @@ Updated command line interface and minor scanner fixes for the Diff, HTML, and R
 h3. @coderay@ executable
  
 * *FIXED*: Partly rewritten, simplified, fixed.
+  ("#244":http://redmine.rubychan.de/issues/244)
 
 h3. @Scanners::Diff@
  
 * *FIXED* handling of change headers with code on the same line as the @@ marker.
+  ("#247":http://redmine.rubychan.de/issues/242)
 
 h3. @Scanners::HTML@
  
 * *FIXED* a missing regexp modifier that slowed down the scanning.
+  ("#245":http://redmine.rubychan.de/issues/245)
 
 h3. @Scanners::RHTML@
  
 * *FIXED* highlighting of ERB comment blocks.
-  ("#242":http://redmine.rubychan.de/issues/242)
+  ("#246":http://redmine.rubychan.de/issues/246)
 
 
 h2. Changes in 0.9.3

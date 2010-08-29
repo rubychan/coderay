@@ -1,0 +1,19 @@
+inline<inline_delimiter(<%#)comment(
+  university = select[:university]
+  
+  label_id = :university_id
+)inline_delimiter(%>)>
+inline<inline_delimiter(<%#)comment(= label_tag label_id, label_text, :class => ('required' if select[:required]\) )inline_delimiter(%>)>
+
+
+inline<inline_delimiter(<%#)comment(- content_tag 'select',
+  :name => "organisation" do )inline_delimiter(-%>)>
+inline<inline_delimiter(<%#)comment(= options_for_select([], selected = nil\)  )inline_delimiter(%>)>
+inline<inline_delimiter(<%#)comment(- end )inline_delimiter(-%>)>
+
+inline<inline_delimiter(<%#)comment(= render :partial => '' )inline_delimiter(%>)>
+
+tag(<div) attribute_name(id)operator(=)string<delimiter(")content(new_university_div)inline<inline_delimiter(<%#)comment(= "_#{count}" if count )inline_delimiter(%>)>delimiter(")> attribute_name(style)operator(=)string<delimiter(")content(display:none;)delimiter(")>tag(>)tag(<div>)
+inline<inline_delimiter(<%#)comment(= label_tag id = "new", I18n.t('terms.university'\) )inline_delimiter(%>)>
+tag(<div) attribute_name(class)operator(=)string<delimiter(")content(text)delimiter(")>tag(>)inline<inline_delimiter(<%#)comment(= I18n.t 'helper' )inline_delimiter(%>)>tag(</div>)
+

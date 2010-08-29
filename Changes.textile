@@ -4,15 +4,24 @@ p=. _This files lists all changes in the CodeRay library since the 0.8.4 release
  
 h2. Changes in 0.9.4
  
-Updated command line interface and a minor performance tweak for the HTML scanner.
+Updated command line interface and minor scanner fixes for the Diff, HTML, and RHTML scanners.
 
 h3. @coderay@ executable
  
-* *FIXED*: Rewritten, simplified, fixed.
+* *FIXED*: Partly rewritten, simplified, fixed.
+
+h3. @Scanners::Diff@
+ 
+* *FIXED* handling of change headers with code on the same line as the @@ marker.
 
 h3. @Scanners::HTML@
  
 * *FIXED* a missing regexp modifier that slowed down the scanning.
+
+h3. @Scanners::RHTML@
+ 
+* *FIXED* highlighting of ERB comment blocks.
+  ("#242":http://redmine.rubychan.de/issues/242)
 
 h2. Changes in 0.9.3
  

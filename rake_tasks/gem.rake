@@ -70,9 +70,9 @@ namespace :gem do
       $version << '.' << svn_head_revision
       $gem_name << '-beta'
     end
-    if ENV['pre']
-      $version << '.' << svn_head_revision
-      $version << '.pre'
+    if ENV['PRE']
+      # $version << '.' << svn_head_revision
+      $version << ".#{ENV['PRE']}"
     end
   end
 
@@ -89,7 +89,7 @@ namespace :gem do
   end
   
   task :set_pre do
-    ENV['pre'] = 'true'
+    ENV['PRE'] = 'pre'
   end
   
   desc 'Make a prerelease Gem.'

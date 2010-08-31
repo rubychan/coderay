@@ -2,14 +2,14 @@ head[head(Index: )plain(error.c)]
 head[head(===================================================================)]
 head[head(--- )plain(error.c	(revision 26674\))]
 head[head(+++ )plain(error.c	(working copy\))]
-change[change(@@)plain( -402,4 +402,6 )change(@@)plain( VALUE rb_eSyntaxError;)]
+change<change(@@)plain( -402,4 +402,6 )change(@@)>plain( VALUE rb_eSyntaxError;)
 comment( VALUE rb_eLoadError;)
 comment( )
 insert[insert(+)plain(VALUE rb_eNoConstantError;)]
 insert[insert(+)]
 comment( VALUE rb_eSystemCallError;)
 comment( VALUE rb_mErrno;)
-change[change(@@)plain( -1143,4 +1145,5 )change(@@)plain( Init_Exception(void\))]
+change<change(@@)plain( -1143,4 +1145,5 )change(@@)>plain( Init_Exception(void\))
 comment(     rb_define_method(rb_eNoMethodError, "initialize", nometh_err_initialize, -1\);)
 comment(     rb_define_method(rb_eNoMethodError, "args", nometh_err_args, 0\);)
 insert[insert(+)plain(    rb_eNoConstantError = rb_define_class("NoConstantError", rb_eNameError\);)]
@@ -19,7 +19,7 @@ head[head(Index: )plain(variable.c)]
 head[head(===================================================================)]
 head[head(--- )plain(variable.c	(revision 26674\))]
 head[head(+++ )plain(variable.c	(working copy\))]
-change[change(@@)plain( -1356,7 +1356,29 )change(@@)plain( uninitialized_constant(VALUE klass, ID i)]
+change<change(@@)plain( -1356,7 +1356,29 )change(@@)>plain( uninitialized_constant(VALUE klass, ID i)
 comment( )
 comment( static VALUE)
 insert[insert(+)plain(const_missing_call(VALUE arg\))]
@@ -50,7 +50,7 @@ insert[insert(+)plain(		      const_missing_rescue, (VALUE\)Qundef,)]
 insert[insert(+)plain(		      rb_eNoConstantError, (VALUE\)0\);)]
 comment( })
 comment( )
-change[change(@@)plain( -1598,5 +1620,21 )change(@@)plain( rb_const_get_0(VALUE klass, ID id, int e)]
+change<change(@@)plain( -1598,5 +1620,21 )change(@@)>plain( rb_const_get_0(VALUE klass, ID id, int e)
 comment(     })
 comment( )
 delete[delete(-)plain(    value = const_missing(klass, id\);)]

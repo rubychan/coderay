@@ -13,10 +13,11 @@ module Scanners
     ]  # :nodoc:
     
     ESCAPE = / [bfnrt\\"\/] /x  # :nodoc:
-    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} /x  # :nodoc:
+    UNICODE_ESCAPE = / u[a-fA-F0-9]{4} /x  # :nodoc:
     
   protected
     
+    # See http://json.org/ for a definition of the JSON lexic/grammar.
     def scan_tokens encoder, options
       
       state = :initial
@@ -44,14 +45,14 @@ module Scanners
             when '}', ']' then stack.pop  # no error recovery, but works for valid JSON
             end
           elsif match = scan(/ true | false | null /x)
-             encoder.text_token match, :value
+            encoder.text_token match, :value
           elsif match = scan(/ -? (?: 0 | [1-9]\d* ) /x)
-            kind = :integer
             if scan(/ \.\d+ (?:[eE][-+]?\d+)? | [eE][-+]? \d+ /x)
               match << matched
-              kind = :float
+              encoder.text_token match, :float
+            else
+              encoder.text_token match, :integer
             end
-            encoder.text_token match, kind
           else
             encoder.text_token getch, :error
           end
@@ -76,7 +77,7 @@ module Scanners
           end
           
         else
-          raise_inspect 'Unknown state', encoder
+          raise_inspect 'Unknown state: %p' % [state], encoder
           
         end
       end

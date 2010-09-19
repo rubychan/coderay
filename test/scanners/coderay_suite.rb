@@ -219,7 +219,7 @@ module CodeRay
       
       identity_test scanner, tokens
       
-      unless ENV['nohighlighting'] or (code.size > MAX_CODE_SIZE_TO_HIGHLIGHT and not ENV['only'])
+      unless ENV['nohighlight'] or (code.size > MAX_CODE_SIZE_TO_HIGHLIGHT and not ENV['only'])
         highlight_test tokens, name, ok, changed_lines
       else
         print '-- skipped -- '.concealed
@@ -384,8 +384,12 @@ module CodeRay
         begin
           highlighted = Highlighter.encode_tokens tokens, :highlight_lines => changed_lines,
             :title => "Testing #{self.class.name[/\w+$/]}: #{name} [#{'NOT ' unless okay}OKAY]"
-        rescue
-          flunk 'highlighting test failed!' if ENV['assert']
+        rescue => boom
+          if ENV['assert']
+            puts boom.message
+            puts boom.backtrace
+            flunk 'highlighting test failed!'
+          end
           return false
         end
         File.open(name + '.actual.html', 'w') { |f| f.write highlighted }

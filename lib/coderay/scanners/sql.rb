@@ -56,7 +56,7 @@ module CodeRay module Scanners
           if scan(/ \s+ | \\\n /x)
             kind = :space
           
-          elsif scan(/^(?:--\s?|#).*/)
+          elsif scan(/(?:--\s?|#).*/)
             kind = :comment
             
           elsif scan(%r! /\* (?: .*? \*/ | .* ) !mx)

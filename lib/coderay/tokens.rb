@@ -282,7 +282,7 @@ module CodeRay
     def count
       size / 2
     end
-
+    
     # Include this module to give an object an #undump
     # method.
     #
@@ -293,7 +293,7 @@ module CodeRay
         Tokens.load self
       end
     end
-
+    
     # Undump the object using Marshal.load, then
     # unzip it using GZip.gunzip.
     #
@@ -303,12 +303,30 @@ module CodeRay
       dump = GZip.gunzip dump
       @dump = Marshal.load dump
     end
-
-    alias text_token push
-    def begin_group kind; push :begin_group, kind end
-    def end_group kind; push :end_group, kind end
-    def begin_line kind; push :begin_line, kind end
-    def end_line kind; push :end_line, kind end
+    
+    if defined?(RUBY_ENGINE) && RUBY_ENGINE['rbx']
+      def text_token text, kind
+        self << text << kind
+      end
+      def begin_group kind
+        self << :begin_group << kind
+      end
+      def end_group kind
+        self << :end_group << kind
+      end
+      def begin_line kind
+        self << :begin_line << kind
+      end
+      def end_line kind
+        self << :end_line << kind
+      end
+    else
+      alias text_token push
+      def begin_group kind; push :begin_group, kind end
+      def end_group kind; push :end_group, kind end
+      def begin_line kind; push :begin_line, kind end
+      def end_line kind; push :end_line, kind end
+    end
     alias tokens concat
     
   end

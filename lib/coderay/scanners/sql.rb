@@ -64,7 +64,7 @@ module CodeRay module Scanners
           if match = scan(/ \s+ | \\\n /x)
             encoder.text_token match, :space
           
-          elsif match = scan(/^(?:--\s?|#).*/)
+          elsif match = scan(/(?:--\s?|#).*/)
             encoder.text_token match, :comment
             
           elsif match = scan(%r( /\* (!)? (?: .*? \*/ | .* ) )mx)

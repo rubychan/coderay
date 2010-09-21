@@ -78,14 +78,14 @@ Benchmark.bm(20) do |bm|
     @size = data.size
   end
 
+  options = {
+    :tab_width => 2,
+    :wrap => :page,
+    :line_numbers => :table,
+    :css => $style ? :style : :class,
+  }
+  $hl = CodeRay.encoder(format, options) unless $dump_output
   time = bm.report('CodeRay') do
-    options = {
-      :tab_width => 2,
-      :wrap => :page,
-      :line_numbers => :table,
-      :css => $style ? :style : :class,
-    }
-    $hl = CodeRay.encoder(format, options) unless $dump_output
     N.times do
       if $stream || true
         if $dump_input
@@ -111,11 +111,11 @@ Benchmark.bm(20) do |bm|
         end
       end
     end
-    $file_created = here('test.' +
-      ($dump_output ? 'dump' : $hl.file_extension))
-    File.open($file_created, 'wb') do |f|
-      f.write $o
-    end
+  end
+  $file_created = here('test.' +
+    ($dump_output ? 'dump' : $hl.file_extension))
+  File.open($file_created, 'wb') do |f|
+    f.write $o
   end
   Dir.chdir(here) do
     FileUtils.copy 'test.dump', 'example.dump' if $dump_output

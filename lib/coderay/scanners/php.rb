@@ -225,6 +225,12 @@ module Scanners
     end
     
     def scan_tokens tokens, options
+      if string.respond_to?(:encoding)
+        unless string.encoding == Encoding::ASCII_8BIT
+          self.string = string.encode Encoding::ASCII_8BIT,
+            :invalid => :replace, :undef => :replace, :replace => '?'
+        end
+      end
       
       if check(RE::PHP_START) ||  # starts with <?
        (match?(/\s*<\S/) && exist?(RE::PHP_START)) || # starts with tag and contains <?

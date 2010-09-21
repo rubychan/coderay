@@ -14,12 +14,11 @@ module Scanners
     ]
     
     module RE
-      NonASCII = /[\x80-\xFF]/
       Hex = /[0-9a-fA-F]/
       Unicode = /\\#{Hex}{1,6}(?:\r\n|\s)?/ # differs from standard because it allows uppercase hex too
       Escape = /#{Unicode}|\\[^\r\n\f0-9a-fA-F]/
-      NMChar = /[-_a-zA-Z0-9]|#{NonASCII}|#{Escape}/
-      NMStart = /[_a-zA-Z]|#{NonASCII}|#{Escape}/
+      NMChar = /[-_a-zA-Z0-9]|#{Escape}/
+      NMStart = /[_a-zA-Z]|#{Escape}/
       NL = /\r\n|\r|\n|\f/
       String1 = /"(?:[^\n\r\f\\"]|\\#{NL}|#{Escape})*"?/  # FIXME: buggy regexp
       String2 = /'(?:[^\n\r\f\\']|\\#{NL}|#{Escape})*'?/  # FIXME: buggy regexp

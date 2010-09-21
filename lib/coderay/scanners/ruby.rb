@@ -1,3 +1,4 @@
+# encoding: utf-8
 module CodeRay
 module Scanners
 
@@ -28,6 +29,16 @@ module Scanners
 
   private
     def scan_tokens tokens, options
+      if string.respond_to?(:encoding)
+        unless string.encoding == Encoding::UTF_8
+          self.string = string.encode Encoding::UTF_8,
+            :invalid => :replace, :undef => :replace, :replace => '?'
+        end
+        unicode = false
+      else
+        unicode = exist?(/[^\x00-\x7f]/)
+      end
+      
       last_token_dot = false
       value_expected = true
       heredocs = nil
@@ -35,7 +46,7 @@ module Scanners
       state = :initial
       depth = nil
       inline_block_stack = []
-      unicode = string.respond_to?(:encoding) && string.encoding.name == 'UTF-8'
+      
       
       patterns = Patterns  # avoid constant lookup
       
@@ -171,8 +182,13 @@ module Scanners
                 kind = if match[/^[A-Z]/] and not match?(/\(/) then :constant else :ident end
               else
                 kind = patterns::IDENT_KIND[match]
-                if kind == :ident and match[/^[A-Z]/] and not match[/[!?]$/] and not match?(/\(/)
-                  kind = :constant
+                if kind == :ident
+                  if match[/^[A-Z]/] and not match[/[!?]$/] and not match?(/\(/)
+                    kind = :constant
+                  elsif scan(/:(?= )/)
+                    match << ':'
+                    kind = :symbol
+                  end
                 elsif kind == :reserved
                   state = patterns::DEF_NEW_STATE[match]
                   value_expected = :set if patterns::KEYWORDS_EXPECTING_VALUE[match]
@@ -182,7 +198,8 @@ module Scanners
             
             elsif last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}|\(/o)
               kind = :ident
-              value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
+              value_expected = :set if check(unicode ? /#{patterns::VALUE_FOLLOWS}/uo :
+                                                       /#{patterns::VALUE_FOLLOWS}/o)
 
             # OPERATORS #
             elsif not last_token_dot and match = scan(/ \.\.\.? | (?:\.|::)() | [,\(\)\[\]\{\}] | ==?=? /x)
@@ -212,7 +229,8 @@ module Scanners
               kind = :delimiter
               state = patterns::StringState.new :string, match == '"', match  # important for streaming
 
-            elsif match = scan(/#{patterns::INSTANCE_VARIABLE}/o)
+            elsif match = scan(unicode ? /#{patterns::INSTANCE_VARIABLE}/uo :
+                                         /#{patterns::INSTANCE_VARIABLE}/o)
               kind = :instance_variable
 
             elsif value_expected and match = scan(/\//)
@@ -225,7 +243,8 @@ module Scanners
             elsif match = value_expected ? scan(/[-+]?#{patterns::NUMERIC}/o) : scan(/#{patterns::NUMERIC}/o)
               kind = self[1] ? :float : :integer
 
-            elsif match = scan(/#{patterns::SYMBOL}/o)
+            elsif match = scan(unicode ? /#{patterns::SYMBOL}/uo :
+                                         /#{patterns::SYMBOL}/o)
               case delim = match[1]
               when ?', ?"
                 tokens << [:open, :symbol]
@@ -237,11 +256,12 @@ module Scanners
                 kind = :symbol
               end
 
-            elsif match = scan(/ [-+!~^]=? | [*|&]{1,2}=? | >>? /x)
+            elsif match = scan(/ -[>=]? | [+!~^]=? | [*|&]{1,2}=? | >>? /x)
               value_expected = :set
               kind = :operator
 
-            elsif value_expected and match = scan(/#{patterns::HEREDOC_OPEN}/o)
+            elsif value_expected and match = scan(unicode ? /#{patterns::HEREDOC_OPEN}/uo :
+                                                            /#{patterns::HEREDOC_OPEN}/o)
               indented = self[1] == '-'
               quote = self[3]
               delim = self[quote ? 4 : 2]
@@ -261,7 +281,8 @@ module Scanners
               state = patterns::StringState.new kind, interpreted, self[2]
               kind = :delimiter
 
-            elsif value_expected and match = scan(/#{patterns::CHARACTER}/o)
+            elsif value_expected and match = scan(unicode ? /#{patterns::CHARACTER}/uo :
+                                                            /#{patterns::CHARACTER}/o)
               kind = :integer
 
             elsif match = scan(/ [\/%]=? | <(?:<|=>?)? | [?:;] /x)
@@ -277,14 +298,16 @@ module Scanners
                 state = patterns::StringState.new :shell, true, match
               end
 
-            elsif match = scan(/#{patterns::GLOBAL_VARIABLE}/o)
+            elsif match = scan(unicode ? /#{patterns::GLOBAL_VARIABLE}/uo :
+                                         /#{patterns::GLOBAL_VARIABLE}/o)
               kind = :global_variable
 
-            elsif match = scan(/#{patterns::CLASS_VARIABLE}/o)
+            elsif match = scan(unicode ? /#{patterns::CLASS_VARIABLE}/uo :
+                                         /#{patterns::CLASS_VARIABLE}/o)
               kind = :class_variable
 
             else
-              if !unicode
+              if !unicode && !string.respond_to?(:encoding)
                 # check for unicode
                 debug, $DEBUG = $DEBUG, false
                 begin
@@ -300,7 +323,7 @@ module Scanners
                 next if unicode
               end
               kind = :error
-              match = getch
+              match = scan(unicode ? /./mu : /./m)
 
             end
 
@@ -322,7 +345,8 @@ module Scanners
               kind = :operator
             else
               state = :initial
-              if match = scan(/ (?:#{patterns::IDENT}::)* #{patterns::IDENT} /ox)
+              if match = scan(unicode ? /(?:#{patterns::IDENT}::)*#{patterns::IDENT}/uo :
+                                        /(?:#{patterns::IDENT}::)*#{patterns::IDENT}/o)
                 kind = :class
               else
                 next
@@ -331,9 +355,11 @@ module Scanners
 
           elsif state == :undef_expected
             state = :undef_comma_expected
-            if match = scan(/#{patterns::METHOD_NAME_EX}/o)
+            if match = scan(unicode ? /#{patterns::METHOD_NAME_EX}/uo :
+                                      /#{patterns::METHOD_NAME_EX}/o)
               kind = :method
-            elsif match = scan(/#{patterns::SYMBOL}/o)
+            elsif match = scan(unicode ? /#{patterns::SYMBOL}/uo :
+                                         /#{patterns::SYMBOL}/o)
               case delim = match[1]
               when ?', ?"
                 tokens << [:open, :symbol]

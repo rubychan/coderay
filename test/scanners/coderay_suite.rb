@@ -205,7 +205,7 @@ module CodeRay
         print 'too big'
         return
       end
-      code = File.open(example_filename, 'rb') { |f| break f.read }
+      code = File.open(example_filename, 'r') { |f| break f.read }
       
       incremental_test scanner, code, max unless ENV['noincremental']
       
@@ -316,13 +316,19 @@ module CodeRay
           result.force_encoding('binary')
         end
         ok = expected == result
+        if !ok && expected.respond_to?(:encoding) && expected.encoding != result.encoding
+          # warn "Encodings do not match: expected is %p, result is %p" % [expected.encoding, result.encoding]
+          ok = true if expected.force_encoding(result.encoding) == result
+        end
         unless ok
           actual_filename = expected_filename.sub('.expected.', '.actual.')
           File.open(actual_filename, 'wb') { |f| f.write result }
           diff = expected_filename.sub(/\.expected\..*/, '.debug.diff')
           system "diff --unified=0 --text #{expected_filename} #{actual_filename} > #{diff}"
           changed_lines = []
-          File.read(diff).scan(/^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/) do |offset, size|
+          File.open(diff, 'rb') { |file| diff = file.read }
+          # diff.force_encoding('ASCII-8BIT') if diff.respond_to?(:encode)
+          diff.scan(/^@@ -\d+(?:,\d+)? \+(\d+)(?:,(\d+))? @@/) do |offset, size|
             offset = offset.to_i
             size = (size || 1).to_i
             changed_lines.concat Array(offset...offset + size)

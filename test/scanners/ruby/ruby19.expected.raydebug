@@ -2,3 +2,64 @@ ident(block)operator(.)ident(()operator(*)ident(arguments)operator(\))  comment(
 
 reserved(def) operator(()ident(foo)operator(\))operator(.)ident(bar)
 reserved(end)
+
+comment(# from http://slideshow.rubyforge.org/ruby19.html#34)
+
+operator({) symbol(a:) ident(b) operator(})
+ident(redirect_to) symbol(action:) ident(show)
+operator({)symbol(:a) operator(=)operator(>) ident(b)operator(})
+ident(redirect_to) symbol(:action) operator(=)operator(>) ident(show)
+
+operator([)integer(1)operator(,)integer(2)operator(])operator(.)ident(each) operator({)operator(|)ident(value)operator(;) ident(t)operator(|) ident(t)operator(=)ident(value)operator(*)ident(value)operator(})
+
+operator([)integer(1)operator(,)integer(2)operator(])operator(.)ident(inject)operator(()symbol(:+)operator(\))
+operator([)integer(1)operator(,)integer(2)operator(])operator(.)ident(inject) operator({)operator(|)ident(a)operator(,)ident(b)operator(|) ident(a)operator(+)ident(b)operator(})
+
+ident(short_enum) operator(=) operator([)integer(1)operator(,) integer(2)operator(,) integer(3)operator(])operator(.)ident(to_enum)
+ident(long_enum) operator(=) operator(()string<delimiter(')content(a)delimiter(')>operator(..)string<delimiter(')content(z)delimiter(')>operator(\))operator(.)ident(to_enum)
+ident(loop) reserved(do)
+  ident(puts) string<delimiter(")inline<inline_delimiter(#{)ident(short_enum)operator(.)ident(next)inline_delimiter(})>content( )inline<inline_delimiter(#{)ident(long_enum)operator(.)ident(next)inline_delimiter(})>delimiter(")>
+reserved(end)
+
+ident(e) operator(=) operator([)integer(1)operator(,)integer(2)operator(,)integer(3)operator(])operator(.)ident(each)
+
+ident(p) operator(=) operator(->) ident(a)operator(,)ident(b)operator(,)ident(c) operator({)ident(a)operator(+)ident(b)operator(+)ident(c)operator(})
+ident(puts) ident(p)operator(.)ident(()integer(1)operator(,)integer(2)operator(,)integer(3)operator(\))
+ident(puts) ident(p)operator([)integer(1)operator(,)integer(2)operator(,)integer(3)operator(])
+ident(p) operator(=) ident(lambda) operator({)operator(|)ident(a)operator(,)ident(b)operator(,)ident(c)operator(|) ident(a)operator(+)ident(b)operator(+)ident(c)operator(})
+ident(puts) ident(p)operator(.)ident(call)operator(()integer(1)operator(,)integer(2)operator(,)integer(3)operator(\))
+
+ident(Complex)operator(()integer(3)operator(,)integer(4)operator(\)) operator(==) integer(3) operator(+) integer(4)operator(.)ident(im)
+
+ident(irb)operator(()ident(main)operator(\))operator(:)integer(001)operator(:)integer(0)operator(>) float(1.2)operator(-)float(1.1)
+operator(=)operator(>) float(0.0999999999999999)
+
+regexp<delimiter(/)char(\\p)content({Space})delimiter(/)>
+regexp<delimiter(/)content([:space:])delimiter(/)>
+
+reserved(def) method(foo)operator(()ident(first)operator(,) operator(*)ident(middle)operator(,) ident(last)operator(\))
+operator(()operator(->)ident(a)operator(,) operator(*)ident(b)operator(,) ident(c) operator({)ident(p) ident(a)operator(-)ident(c)operator(})operator(\))operator(.)ident(()operator(*)integer(5)operator(.)ident(downto)operator(()integer(1)operator(\))operator(\))
+
+ident(f) operator(=) constant(Fiber)operator(.)ident(new) reserved(do)
+  ident(a)operator(,)ident(b) operator(=) integer(0)operator(,)integer(1)
+  constant(Fiber)operator(.)ident(yield) ident(a)
+  constant(Fiber)operator(.)ident(yield) ident(b)
+  ident(loop) reserved(do)
+    ident(a)operator(,)ident(b) operator(=) ident(b)operator(,)ident(a)operator(+)ident(b)
+    constant(Fiber)operator(.)ident(yield) ident(b)
+  reserved(end)
+reserved(end)
+integer(10)operator(.)ident(times) operator({)ident(puts) ident(f)operator(.)ident(resume)operator(})
+
+ident(match) operator(=)
+   reserved(while) ident(line) operator(=) ident(gets)
+     reserved(next) reserved(if) ident(line) operator(=)operator(~) regexp<delimiter(/)content(^#)delimiter(/)>
+     reserved(break) ident(line) reserved(if) ident(line)operator(.)ident(find)operator(()string<delimiter(')content(ruby)delimiter(')>operator(\))
+   reserved(end)
+
+reserved(def) method(toggle)
+  reserved(def) method(toggle)
+    string<delimiter(")content(subsequent times)delimiter(")>
+  reserved(end)
+  string<delimiter(")content(first time)delimiter(")>
+reserved(end)

@@ -473,7 +473,7 @@ ident(srand)operator(()ident(val)operator(\))   comment(# for repeatable behavio
 comment(# @@PLEAC@@_2.9)
 comment(# from the randomr lib: )
 comment(# http://raa.ruby-lang.org/project/randomr/)
-operator(-)operator(-)operator(-)operator(-)operator(>) ident(http)symbol(:/)operator(/)ident(raa)operator(.)ident(ruby)operator(-)ident(lang)operator(.)ident(org)operator(/)ident(project)operator(/)ident(randomr)operator(/)
+operator(-)operator(-)operator(-)operator(->) ident(http)symbol(:/)operator(/)ident(raa)operator(.)ident(ruby)operator(-)ident(lang)operator(.)ident(org)operator(/)ident(project)operator(/)ident(randomr)operator(/)
 
 ident(require) string<delimiter(')content(random/mersenne_twister)delimiter(')>
 ident(mers) operator(=) constant(Random)operator(::)constant(MersenneTwister)operator(.)ident(new) integer(123456789)

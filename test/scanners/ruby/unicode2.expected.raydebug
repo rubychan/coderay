@@ -1,0 +1,22 @@
+reserved(def) method(straße)
+  ident(amélie) operator(=) operator(*)ident(ø)
+reserved(end)
+
+constant(Grün) operator(=) integer(12)
+
+instance_variable(@áñç)  operator(=) integer(?ä)
+class_variable(@@áñç) operator(=) symbol(:ö)
+global_variable($áñç)  operator(=) operator([)symbol(:täst)operator(,) symbol<symbol(:)delimiter(")content(täst)delimiter(")>operator(])
+
+reserved(module) class(ASÄ::OSÖ)
+  reserved(def) method(bäume) ident(äste)
+  reserved(end)
+  reserved(undef) method(bäume)
+  reserved(alias) symbol(:äste) symbol(:zweige)
+  reserved(alias) method(äste) method(zweige)
+reserved(end)
+
+string<delimiter(<<-DÖS)> comment(#work)string<delimiter(
+DÖS)>
+
+ident(here)operator(.)ident(comes)operator(.)ident(more)operator(.)ident(naïve)operator(.)ident(code)

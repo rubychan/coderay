@@ -32,7 +32,18 @@ module Scanners
       add(RESERVED_WORDS, :reserved).
       add(PREDEFINED_CONSTANTS, :pre_constant)
 
-    IDENT = 'ä'[/[[:alpha:]]/] == 'ä' ? /[[:alpha:]_][[:alnum:]_]*/ : /[^\W\d]\w*/
+    if /\w/u === '∑'
+      # MRI 1.8.6, 1.8.6
+      IDENT = /[^\W\d]\w*/
+    else
+      if //.respond_to? :encoding
+        # MRI 1.9.1, 1.9.2
+        IDENT = Regexp.new '[\p{L}\p{M}\p{Pc}\p{Sm}&&[^\x00-\x40\x5b-\x5e\x60\x7b-\x7f]][\p{L}\p{M}\p{N}\p{Pc}\p{Sm}&&[^\x00-\x2f\x3a-\x40\x5b-\x5e\x60\x7b-\x7f]]*'
+      else
+        # JRuby, Rubinius
+        IDENT = /[^\x00-\x40\x5b-\x5e\x60\x7b-\x7f][^\x00-\x2f\x3a-\x40\x5b-\x5e\x60\x7b-\x7f]*/
+      end
+    end
 
     METHOD_NAME = / #{IDENT} [?!]? /ox
     METHOD_NAME_OPERATOR = /
@@ -109,10 +120,12 @@ module Scanners
 
     # NOTE: This is not completely correct, but
     # nobody needs heredoc delimiters ending with \n.
+    # Also, delimiters starting with numbers are allowed.
+    # but they are more often than not a false positive.
     HEREDOC_OPEN = /
       << (-)?              # $1 = float
       (?:
-        ( [A-Za-z_0-9]+ )  # $2 = delim
+        ( #{IDENT} )       # $2 = delim
       |
         ( ["'`\/] )        # $3 = quote, type
         ( [^\n]*? ) \3     # $4 = delim

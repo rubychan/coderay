@@ -33,7 +33,7 @@ module Scanners
       add(PREDEFINED_CONSTANTS, :pre_constant)
 
     if /\w/u === '∑'
-      # MRI 1.8.6, 1.8.6
+      # MRI 1.8.6, 1.8.7
       IDENT = /[^\W\d]\w*/
     else
       if //.respond_to? :encoding

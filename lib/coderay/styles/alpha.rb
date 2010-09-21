@@ -34,11 +34,11 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
   -webkit-user-select: none;
 }
 .CodeRay .line_numbers a, .CodeRay .no a {
-  background-color: #{numbers_background} ! important;
-  color: gray ! important;
-  text-decoration: none ! important;
+  background-color: #{numbers_background} !important;
+  color: gray !important;
+  text-decoration: none !important;
 }
-.CodeRay .line_numbers a:target, .CodeRay .no a:target { color: blue; }
+.CodeRay .line_numbers a:target, .CodeRay .no a:target { color: blue !important; }
 .CodeRay .line_numbers .highlighted, .CodeRay .no .highlighted { color: red; }
 .CodeRay .no { padding: 0px 4px; }
 .CodeRay .code { width: 100%; }
@@ -46,7 +46,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
     MAIN
 
     TOKEN_COLORS = <<-'TOKENS'
-.debug { color:white ! important; background:blue ! important; }
+.debug { color: white !important; background: blue !important; }
 
 .an { color:#007 }
 .at { color:#f08 }

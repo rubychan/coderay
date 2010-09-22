@@ -41,6 +41,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .CodeRay .line_numbers a:target, .CodeRay .no a:target { color: blue !important; }
 .CodeRay .line_numbers .highlighted, .CodeRay .no .highlighted { color: red; }
 .CodeRay .no { padding: 0px 4px; }
+.CodeRay .line { display: block; float: left; width: 100%; }
 .CodeRay .code { width: 100%; }
 .CodeRay .code pre { overflow: auto; }
     MAIN

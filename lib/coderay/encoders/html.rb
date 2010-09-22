@@ -271,9 +271,9 @@ module Encoders
     # whole lines to be highlighted, eg. a deleted line in a diff
     def begin_line kind
       if style = @css_style[@last_opened ? [kind, *@opened] : kind]
-        @out << style.sub('<span', '<div')
+        @out << style.sub('<span class="', '<span class="line ')
       else
-        @out << '<div>'
+        @out << '<span class="line">'
       end
       @opened << kind
       @last_opened = kind if @options[:css] == :style
@@ -285,7 +285,7 @@ module Encoders
           'that is not open. Open are: %p.' % [kind, @opened[1..-1]]
       end
       if @opened.pop
-        @out << '</div'
+        @out << '</span>'
         @last_opened = @opened.last if @last_opened
       end
     end

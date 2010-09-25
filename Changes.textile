@@ -22,6 +22,10 @@ h3. @Scanners::CSS@
  
 * *FIXED*: Don't use non-ASCII regexps.
 
+h3. @Scanners::Diff@
+ 
+* *FIXED*: Highlight unexpected lines as @:comment@.
+
 h3. @Scanners::PHP@
  
 * *FIXED*: Use @ASCII-8BIT@ encoding for now.

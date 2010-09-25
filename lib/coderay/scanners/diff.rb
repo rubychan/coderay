@@ -72,7 +72,7 @@ module Scanners
           elsif scan(/ .*/)
             kind = :comment
           elsif scan(/.+/)
-            tokens << [:begin_line, line_kind = :head]
+            tokens << [:begin_line, line_kind = :comment]
             kind = :plain
           else
             raise_inspect 'else case rached'

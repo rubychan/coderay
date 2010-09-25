@@ -276,9 +276,13 @@ module Encoders
       when :begin_line
         @opened[0] = type
         if style = @css_style[@opened]
-          @out << style.sub('<span', '<div')
+          if style['class="']
+            @out << style.sub('class="', 'class="line ')
+          else
+            @out << style.sub('>', ' class="line">')
+          end
         else
-          @out << '<div>'
+          @out << '<span class="line">'
         end
         @opened << type
       when :end_line
@@ -289,7 +293,7 @@ module Encoders
             raise 'Malformed token stream: Trying to close a line (%p) \
               that is not open. Open are: %p.' % [type, @opened[1..-1]]
           end
-          @out << '</div>'
+          @out << '</span>'
           @opened.pop
         end
       

@@ -5,7 +5,12 @@ p=. _This files lists all changes in the CodeRay library since the 0.8.4 release
 h2. Changes in 0.9.5 "Germany.rb"
  
 Support for Rubinius, improved mutlibyte handling and Ruby 1.9 syntax support.
-
+ 
+h3. @Encoders::HTML@
+ 
+* *FIXED*: Line tokens use @span@ with @display: block@ instead of @div@,
+  which was invalid HTML.
+ 
 h3. @Scanner::Scanner@
  
 * *IMPROVED* handling of encodings in Ruby 1.9: UTF-8 and Windows-1252 are checked.

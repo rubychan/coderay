@@ -2,21 +2,19 @@ h1=. CodeRay Version History
  
 p=. _This files lists all changes in the CodeRay library since the 0.8.4 release._
  
-h2. Changes in 0.9.5 "Germany.rb"
+h2. Changes in 0.9.5 "Germany.rb" [2010-09-28]
  
-Support for Rubinius, improved mutlibyte handling and Ruby 1.9 syntax support.
+Support for Rubinius ("#251":http://redmine.rubychan.de/issues/251), improved mutlibyte handling, Ruby 1.9 syntax, and valid HTML.
  
 h3. @Encoders::HTML@
  
-* *FIXED*: Line tokens use @span@ with @display: block@ instead of @div@,
-  which was invalid HTML.
+* *FIXED*: Line tokens use @span@ with @display: block@ instead of @div@, which was invalid HTML ("#255":http://redmine.rubychan.de/issues/255).
  
 h3. @Scanner::Scanner@
  
 * *IMPROVED* handling of encodings in Ruby 1.9: UTF-8 and Windows-1252 are checked.
 * *NEW*: Invalid chars will be converted to @?@ in Ruby 1.9.
-* *FIXED* @string=@ method for Rubinius.
-  See "issue 481":http://github.com/evanphx/rubinius/issues/481 on their site.
+* *FIXED* @string=@ method for Rubinius. See "issue 481":http://github.com/evanphx/rubinius/issues/481 on their site.
 
 h3. @Scanners::CSS@
  
@@ -32,22 +30,21 @@ h3. @Scanners::PHP@
 
 h3. @Scanners::Ruby@
  
-* *ADDED* support for some Ruby 1.9 syntax:
+* *ADDED* support for some Ruby 1.9 syntax ("#254":http://redmine.rubychan.de/issues/254):
 ** the @->@ lambda shortcut
 ** new Hash syntax using colons (@{ a: b }@)
 * *FIXED*: Use @UTF-8@ encoding.
-* *IMPROVED* unicode support on Ruby 1.8.
-  ("#253":http://redmine.rubychan.de/issues/253)
-* *FIXED* recognition of non-ASCII identifiers in Ruby 1.9, JRuby, and Rubinius.
-  ("#253":http://redmine.rubychan.de/issues/253)
+* *IMPROVED* unicode support on Ruby 1.8 ("#253":http://redmine.rubychan.de/issues/253).
+* *FIXED* recognition of non-ASCII identifiers in Ruby 1.9, JRuby, and Rubinius ("#253":http://redmine.rubychan.de/issues/253).
 * *CHANGED* heredoc recognition to ignore delimiters starting with a digit. This is incorrect, but causes less false positives.
 
 h3. @Scanners::SQL@
  
 * *FIXED* scanning of comments; nice catch, Rubinius!
+  ("#252":http://redmine.rubychan.de/issues/252)
 
 
-h2. Changes in 0.9.4 "Ramadan"
+h2. Changes in 0.9.4 "Ramadan" [2010-08-31]
  
 Updated command line interface and minor scanner fixes for the Diff, HTML, and RHTML scanners.
  
@@ -72,7 +69,7 @@ h3. @Scanners::RHTML@
   ("#246":http://redmine.rubychan.de/issues/246)
 
 
-h2. Changes in 0.9.3 "Eyjafjallajökull"
+h2. Changes in 0.9.3 "Eyjafjallajökull" [2010-04-18]
  
 * *FIXED*: Documentation of Tokens.
   ("#218":http://redmine.rubychan.de/issues/218)
@@ -94,7 +91,7 @@ h3. @Scanners::Java@, @Scanners::JSON@
 * *FIXED*: Close unfinished strings with the correct token kind.
 
 
-h2. Changes in 0.9.2 "Flameeyes"
+h2. Changes in 0.9.2 "Flameeyes" [2010-03-14]
  
 * *NEW* Basic tests and a _Rakefile_ are now included in the Gem. [Flameeyes]
   A @doc@ task is also included.
@@ -135,7 +132,7 @@ h3. @Scanners::YAML@
   ("#149":http://redmine.rubychan.de/issues/149)
 
 
-h2. Changes in 0.9.1
+h2. Changes in 0.9.1 [2009-12-31]
  
 h3. Token classes
  

@@ -147,7 +147,7 @@ module CodeRay
 
       def string= code
         code = Scanner.normify(code)
-        if defined?(RUBY_ENGINE) && RUBY_ENGINE['rbx']
+        if defined?(RUBY_DESCRIPTION) && RUBY_DESCRIPTION['rubinius 1.0.1']
           reset_state
           @string = code
         else

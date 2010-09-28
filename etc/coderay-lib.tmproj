@@ -26,15 +26,13 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-06-29T23:01:28Z</date>
+			<date>2010-09-21T22:03:19Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-06-29T23:02:12Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2010-09-21T22:03:19Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -107,8 +105,6 @@
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
 			<date>2010-05-16T13:32:40Z</date>
-			<key>selected</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -140,20 +136,6 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-		</dict>
-		<key>../lib/coderay/styles/cycnus.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>37</integer>
-				<key>line</key>
-				<integer>138</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>116</integer>
 		</dict>
 	</dict>
 	<key>showFileHierarchyDrawer</key>

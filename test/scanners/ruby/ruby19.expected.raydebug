@@ -5,8 +5,8 @@ reserved(end)
 
 comment(# from http://slideshow.rubyforge.org/ruby19.html#34)
 
-operator({) symbol(a:) ident(b) operator(})
-ident(redirect_to) symbol(action:) ident(show)
+operator({) key(a)operator(:) ident(b) operator(})
+ident(redirect_to) key(action)operator(:) ident(show)
 operator({)symbol(:a) operator(=)operator(>) ident(b)operator(})
 ident(redirect_to) symbol(:action) operator(=)operator(>) ident(show)
 
@@ -29,15 +29,14 @@ ident(puts) ident(p)operator([)integer(1)operator(,)integer(2)operator(,)integer
 ident(p) operator(=) ident(lambda) operator({)operator(|)ident(a)operator(,)ident(b)operator(,)ident(c)operator(|) ident(a)operator(+)ident(b)operator(+)ident(c)operator(})
 ident(puts) ident(p)operator(.)ident(call)operator(()integer(1)operator(,)integer(2)operator(,)integer(3)operator(\))
 
-ident(Complex)operator(()integer(3)operator(,)integer(4)operator(\)) operator(==) integer(3) operator(+) integer(4)operator(.)ident(im)
+ident(p) ident(Complex)operator(()integer(3)operator(,)integer(4)operator(\)) operator(==) integer(3) operator(+) integer(4)operator(.)ident(im)
 
-ident(irb)operator(()ident(main)operator(\))operator(:)integer(001)operator(:)integer(0)operator(>) float(1.2)operator(-)float(1.1)
-operator(=)operator(>) float(0.0999999999999999)
+ident(puts) float(1.2) operator(-) float(1.1) comment(# => 0.0999999999999999)
 
-regexp<delimiter(/)char(\\p)content({Space})delimiter(/)>
-regexp<delimiter(/)content([:space:])delimiter(/)>
+ident(foo) operator(=) regexp<delimiter(/)char(\\p)content({Space})delimiter(/)>
+ident(bar) operator(=) regexp<delimiter(/)content([[:space:]])delimiter(/)>
 
-reserved(def) method(foo)operator(()ident(first)operator(,) operator(*)ident(middle)operator(,) ident(last)operator(\))
+reserved(def) method(foo)operator(()ident(first)operator(,) operator(*)ident(middle)operator(,) ident(last)operator(\))operator(;) reserved(end)
 operator(()operator(->)ident(a)operator(,) operator(*)ident(b)operator(,) ident(c) operator({)ident(p) ident(a)operator(-)ident(c)operator(})operator(\))operator(.)ident(()operator(*)integer(5)operator(.)ident(downto)operator(()integer(1)operator(\))operator(\))
 
 ident(f) operator(=) constant(Fiber)operator(.)ident(new) reserved(do)
@@ -63,3 +62,16 @@ reserved(def) method(toggle)
   reserved(end)
   string<delimiter(")content(first time)delimiter(")>
 reserved(end)
+
+comment(# WoNáDos example)
+ident(s)operator(.)ident(encode)operator(()string<delimiter(")content(utf-16BE)delimiter(")>operator(,) string<delimiter(")content(utf-8)delimiter(")>operator(,) key(invalid)operator(:) symbol(:replace)operator(,) key(undef)operator(:) symbol(:replace)operator(\))operator(.)ident(encode)operator(()string<delimiter(")content(utf-8)delimiter(")>operator(,) string<delimiter(")content(utf-16BE)delimiter(")>operator(\))operator(.)ident(delete)operator(()string<delimiter(")char(\\u)content(FFFD)delimiter(")>operator(\))
+operator({)
+  key(and)operator(:) integer(0)operator(,) key(def)operator(:) integer(0)operator(,) key(end)operator(:) integer(0)operator(,) key(in)operator(:) integer(0)operator(,) key(or)operator(:) integer(0)operator(,) key(unless)operator(:) integer(0)operator(,) key(begin)operator(:) integer(0)operator(,) key(defined?)operator(:) integer(0)operator(,)
+  key(ensure)operator(:) integer(0)operator(,) key(module)operator(:) integer(0)operator(,) key(redo)operator(:) integer(0)operator(,) key(super)operator(:) integer(0)operator(,) key(until)operator(:) integer(0)operator(,) key(BEGIN)operator(:) integer(0)operator(,) key(break)operator(:) integer(0)operator(,)
+  key(do)operator(:) integer(0)operator(,) key(next)operator(:) integer(0)operator(,) key(rescue)operator(:) integer(0)operator(,) key(then)operator(:) integer(0)operator(,) key(when)operator(:) integer(0)operator(,) key(END)operator(:) integer(0)operator(,) key(case)operator(:) integer(0)operator(,) key(else)operator(:) integer(0)operator(,)
+  key(for)operator(:) integer(0)operator(,) key(retry)operator(:) integer(0)operator(,) key(while)operator(:) integer(0)operator(,) key(alias)operator(:) integer(0)operator(,) key(class)operator(:) integer(0)operator(,) key(elsif)operator(:) integer(0)operator(,) key(if)operator(:) integer(0)operator(,) key(not)operator(:) integer(0)operator(,)
+  key(return)operator(:) integer(0)operator(,) key(undef)operator(:) integer(0)operator(,) key(yield)operator(:) integer(0)operator(,)
+  key(nil)operator(:) integer(0)operator(,) key(true)operator(:) integer(0)operator(,) key(false)operator(:) integer(0)operator(,) key(self)operator(:) integer(0)operator(,)
+  key(DATA)operator(:) integer(0)operator(,) key(ARGV)operator(:) integer(0)operator(,) key(ARGF)operator(:) integer(0)operator(,) key(__FILE__)operator(:) integer(0)operator(,) key(__LINE__)operator(:) integer(0)operator(,) key(__ENCODING__)operator(:) integer(0)operator(,)
+  key(foo!)operator(:) integer(0)operator(,) key(foo?)operator(:) integer(0)operator(,) key(Foo)operator(:) integer(0)operator(,) key(_)operator(:) integer(0)operator(,)
+operator(})

@@ -181,17 +181,20 @@ module Scanners
               if last_token_dot
                 kind = if match[/^[A-Z]/] and not match?(/\(/) then :constant else :ident end
               else
-                kind = patterns::IDENT_KIND[match]
-                if kind == :ident
-                  if match[/^[A-Z]/] and not match[/[!?]$/] and not match?(/\(/)
-                    kind = :constant
-                  elsif scan(/:(?= )/)
-                    match << ':'
-                    kind = :symbol
+                if value_expected != :expect_colon && scan(/:(?= )/)
+                  tokens << [match, :key]
+                  match = ':'
+                  kind = :operator
+                else
+                  kind = patterns::IDENT_KIND[match]
+                  if kind == :ident
+                    if match[/\A[A-Z]/] and not match[/[!?]$/] and not match?(/\(/)
+                      kind = :constant
+                    end
+                  elsif kind == :reserved
+                    state = patterns::DEF_NEW_STATE[match]
+                    value_expected = :set if patterns::KEYWORDS_EXPECTING_VALUE[match]
                   end
-                elsif kind == :reserved
-                  state = patterns::DEF_NEW_STATE[match]
-                  value_expected = :set if patterns::KEYWORDS_EXPECTING_VALUE[match]
                 end
               end
               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)
@@ -401,7 +404,9 @@ module Scanners
 # }}}
           
           unless kind == :error
-            value_expected = value_expected == :set
+            if value_expected = value_expected == :set
+              value_expected = :expect_colon if match == '?' || match == 'when'
+            end
             last_token_dot = last_token_dot == :set
           end
           

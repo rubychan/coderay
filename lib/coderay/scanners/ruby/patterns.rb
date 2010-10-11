@@ -16,7 +16,7 @@ module Scanners
     DEF_KEYWORDS = %w[ def ]
     UNDEF_KEYWORDS = %w[ undef ]
     ALIAS_KEYWORDS = %w[ alias ]
-    MODULE_KEYWORDS = %w[class module]
+    MODULE_KEYWORDS = %w[ class module ]
     DEF_NEW_STATE = WordList.new(:initial).
       add(DEF_KEYWORDS, :def_expected).
       add(UNDEF_KEYWORDS, :undef_expected).
@@ -25,7 +25,8 @@ module Scanners
 
     PREDEFINED_CONSTANTS = %w[
       nil true false self
-      DATA ARGV ARGF __FILE__ __LINE__
+      DATA ARGV ARGF
+      __FILE__ __LINE__ __ENCODING__
     ]
 
     IDENT_KIND = WordList.new(:ident).

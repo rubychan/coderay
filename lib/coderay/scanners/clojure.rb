@@ -86,8 +86,8 @@ module CodeRay
         add(CORE_FORMS, :reserved).
         add(PREDEFINED_CONSTANTS, :pre_constant)
       
-      BASIC_IDENTIFYER = /[a-zA-Z$%*\/_+!?&<>\-=][a-zA-Z0-9§$&*+!\/_?<>\-\#]*/
-      IDENTIFIER = /(?:[@']?(?:#{BASIC_IDENTIFYER}\.)*#{BASIC_IDENTIFYER}(?:\/#{BASIC_IDENTIFYER})?\.?)|\.\.?/
+      BASIC_IDENTIFIER = /[a-zA-Z$%*\/_+!?&<>\-=][a-zA-Z0-9$&*+!\/_?<>\-\#]*/
+      IDENTIFIER = /(?:[@']?(?:#{BASIC_IDENTIFIER}\.)*#{BASIC_IDENTIFIER}(?:\/#{BASIC_IDENTIFIER})?\.?)|\.\.?/
       SYMBOL = /::?#{IDENTIFIER}/o
       DIGIT = /\d/
       DIGIT10 = DIGIT

@@ -2,7 +2,7 @@ require 'set'
 
 module CodeRay
 module Encoders
-
+  
   # = HTML Encoder
   #
   # This is CodeRay's most important highlighter:
@@ -88,44 +88,43 @@ module Encoders
   #
   # Default: false
   class HTML < Encoder
-
+    
     register_for :html
-
+    
     FILE_EXTENSION = 'html'
-
+    
     DEFAULT_OPTIONS = {
       :tab_width => 8,
-
+      
       :css => :class,
-
       :style => :alpha,
       :wrap => nil,
       :title => 'CodeRay output',
-
+      
       :line_numbers => nil,
       :line_number_anchors => 'n',
       :line_number_start => 1,
       :bold_every => 10,
       :highlight_lines => nil,
-
+      
       :hint => false,
     }
     
     # TODO: Make Plugin use autoload, too.
     helper :output, :css
     autoload :Numbering, 'coderay/encoders/html/numbering'
-
+    
     attr_reader :css
-
+    
   protected
-
+    
     HTML_ESCAPE = {  #:nodoc:
       '&' => '&amp;',
       '"' => '&quot;',
       '>' => '&gt;',
       '<' => '&lt;',
     }
-
+    
     # This was to prevent illegal HTML.
     # Strange chars should still be avoided in codes.
     evil_chars = Array(0x00...0x20) - [?\n, ?\t, ?\s]
@@ -135,7 +134,7 @@ module Encoders
     # \x9 (\t) and \xA (\n) not included
     #HTML_ESCAPE_PATTERN = /[\t&"><\0-\x8\xB-\x1f\x7f-\xff]/
     HTML_ESCAPE_PATTERN = /[\t"&><\0-\x8\xB-\x1f]/
-
+    
     TOKEN_KIND_TO_INFO = Hash.new do |h, kind|
       h[kind] =
         case kind
@@ -145,11 +144,11 @@ module Encoders
           kind.to_s.gsub(/_/, ' ').gsub(/\b\w/) { $&.capitalize }
         end
     end
-
+    
     TRANSPARENT_TOKEN_KINDS = Set[
       :delimiter, :modifier, :content, :escape, :inline_delimiter,
     ]
-
+    
     # Generate a hint about the given +kinds+ in a +hint+ style.
     #
     # +hint+ may be :info, :info_long or :debug.
@@ -171,7 +170,7 @@ module Encoders
         end
       title ? " title=\"#{title}\"" : ''
     end
-
+    
     def setup options
       super
       
@@ -183,16 +182,15 @@ module Encoders
       @css = CSS.new options[:style]
       
       hint = options[:hint]
-      if hint and not [:debug, :info, :info_long].include? hint
+      if hint && ![:debug, :info, :info_long].include?(hint)
         raise ArgumentError, "Unknown value %p for :hint; \
           expected :info, :debug, false, or nil." % hint
       end
       
       css_classes = Tokens::AbbreviationForKind
       case options[:css]
-
       when :class
-        @css_style = Hash.new do |h, k|
+        @span_for_kind = Hash.new do |h, k|
           kind = k.is_a?(Symbol) ? k : k.first
           h[k.is_a?(Symbol) ? k : k.dup] =
             if kind != :space && (hint || css_classes[kind])
@@ -201,9 +199,8 @@ module Encoders
               "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
             end
         end
-
       when :style
-        @css_style = Hash.new do |h, k|
+        @span_for_kind = Hash.new do |h, k|
           kind = k.is_a?(Symbol) ? k : k.first
           h[k.is_a?(Symbol) ? k : k.dup] =
             if kind != :space && (hint || css_classes[kind])
@@ -212,13 +209,11 @@ module Encoders
               "<span#{title}#{" style=\"#{style}\"" if style}>"
             end
         end
-
       else
         raise ArgumentError, "Unknown value %p for :css." % options[:css]
-
       end
     end
-
+    
     def finish options
       unless @opened.empty?
         warn '%d tokens still open: %p' % [@opened.size, @opened]
@@ -243,7 +238,7 @@ module Encoders
       if text =~ /#{HTML_ESCAPE_PATTERN}/o
         text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
       end
-      if style = @css_style[@last_opened ? [kind, *@opened] : kind]
+      if style = @span_for_kind[@last_opened ? [kind, *@opened] : kind]
         @out << style << text << '</span>'
       else
         @out << text
@@ -252,7 +247,7 @@ module Encoders
     
     # token groups, eg. strings
     def begin_group kind
-      @out << (@css_style[@last_opened ? [kind, *@opened] : kind] || '<span>')
+      @out << (@span_for_kind[@last_opened ? [kind, *@opened] : kind] || '<span>')
       @opened << kind
       @last_opened = kind if @options[:css] == :style
     end
@@ -270,7 +265,7 @@ module Encoders
     
     # whole lines to be highlighted, eg. a deleted line in a diff
     def begin_line kind
-      if style = @css_style[@last_opened ? [kind, *@opened] : kind]
+      if style = @span_for_kind[@last_opened ? [kind, *@opened] : kind]
         if style['class="']
           @out << style.sub('class="', 'class="line ')
         else
@@ -293,8 +288,8 @@ module Encoders
         @last_opened = @opened.last if @last_opened
       end
     end
-
+    
   end
-
+  
 end
 end

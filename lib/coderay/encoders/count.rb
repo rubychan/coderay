@@ -14,6 +14,8 @@ module Encoders
       @out = 0
     end
     
+  public
+    
     def text_token text, kind
       @out += 1
     end

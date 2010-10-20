@@ -59,7 +59,7 @@ Index: vendor/plugins/coderay-0.7.6.227/lib/coderay/scanners/lua.rb
 +	  'require', 'getfenv', 'setfenv', 'dofile',
 +	  'loadfile', 'loadstring', 'pcall', 'xpcall',
 +	  'assert', 'type', 'tostring', 'tonumber',
-+	  'select', 'upack', 'next', 'collectgarbage',
++	  'select', 'unpack', 'next', 'collectgarbage',
 +	  'module', 	
 +	]
 +	

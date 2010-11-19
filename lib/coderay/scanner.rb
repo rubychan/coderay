@@ -69,6 +69,7 @@ module CodeRay
         def normify code
           code = code.to_s
           if code.respond_to?(:encoding) && (code.encoding.name != 'UTF-8' || !code.valid_encoding?)
+            code = code.dup
             original_encoding = code.encoding
             code.force_encoding 'Windows-1252'
             unless code.valid_encoding?

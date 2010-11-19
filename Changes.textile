@@ -4,13 +4,16 @@ p=. _This files lists all changes in the CodeRay library since the 0.8.4 release
  
 h2. Changes in 0.9.6 "WoNáDo" [2010-10-11]
  
-Minor improvements to the Ruby scanner.
+Minor improvements to the Ruby scanner and a fix for Ruby 1.9.
  
 h3. @Scanners::Ruby@
  
 * *IMPROVED* handling of new hash syntax (keys are marked as @:key@ now,
   colon is a separate @:operator@ token, all idents can be used as keys)
+  See "#257":http://code.licenser.net/issues/257, thanks to WoNáDo!
 * *ADDED* @__ENCODING__@ magic constant (Ruby 1.9)
+* *FIXED*: Scanner no longer tries to modify the input string on Ruby 1.9.
+  See "#260":http://code.licenser.net/issues/260, thanks to Jan Lelis!
 
 
 h2. Changes in 0.9.5 "Germany.rb" [2010-09-28]

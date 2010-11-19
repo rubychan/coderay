@@ -11,22 +11,6 @@ namespace :test do
     ruby './test/functional/for_redcloth.rb'
   end
   
-  namespace :functional do
-    desc 'run all functional tests on all supported Ruby platforms'
-    task :all do
-      $stdout.sync = true
-      for task in %w(test:functional 19 test:functional jruby test:functional ee test:functional)
-        if task == 'test:functional'
-          puts "\n\nTesting with #{RUBY}..."
-          Rake::Task['test:functional'].reenable
-          Rake::Task['test:functional'].invoke
-        else
-          Rake::Task[task].invoke
-        end
-      end
-    end
-  end
-  
   desc 'run all scanner tests'
   task :scanners do
     ruby "./test/scanners/suite.rb"
@@ -50,23 +34,6 @@ namespace :test do
     end
     for file in Dir['test/scanners/**/*.expected.html']
       rm file
-    end
-  end
-  
-  desc 'run all tests on all supported Ruby platforms'
-  task :all do
-    $stdout.sync = true
-    for task in %w(test 19 test jruby test)
-      if task == 'test'
-        print "\n\nTesting with "
-        ruby '-v'
-        Rake::Task['test'].reenable
-        Rake::Task['test:functional'].reenable
-        Rake::Task['test:scanners'].reenable
-        Rake::Task['test'].invoke
-      else
-        Rake::Task[task].invoke
-      end
     end
   end
   

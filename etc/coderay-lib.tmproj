@@ -28,13 +28,13 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-10-11T05:04:32Z</date>
+			<date>2010-11-19T04:41:17Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-11-19T04:19:10Z</date>
+			<date>2010-11-19T04:41:17Z</date>
 			<key>selected</key>
 			<true/>
 		</dict>
@@ -132,9 +132,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>20</integer>
+				<integer>43</integer>
 				<key>line</key>
-				<integer>8</integer>
+				<integer>60</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>

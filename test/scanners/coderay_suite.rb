@@ -307,13 +307,9 @@ module CodeRay
       end
       
       if File.exist?(expected_filename) && !(ENV['lang'] && ENV['new'] && name == ENV['new'])
-        expected = File.open(expected_filename, 'rb') { |f| break f.read }
-        if result.respond_to?(:bytesize) && result.bytesize != result.size
-          # for char, i in result.chars.with_index
-          #   raise "result has non-ASCII-8BIT character in line #{result[0,i].count(?\n) + 1}" if char.bytesize != 1
-          # end
-          # UTF-8 encoded result; comparison needs to be done on binary level
-          result.force_encoding('binary')
+        expected = File.open(expected_filename, 'r') { |f| break f.read }
+        if expected.respond_to?(:encoding)
+          expected = Scanners::Scanner.normify(expected).encode 'UTF-8', :invalid => :replace, :undef => :replace, :replace => '?'
         end
         ok = expected == result
         if !ok && expected.respond_to?(:encoding) && expected.encoding != result.encoding

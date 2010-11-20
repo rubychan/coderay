@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>currentDocument</key>
-	<string>../test/scanners/coderay_suite.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -28,13 +26,13 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-11-19T04:41:17Z</date>
+			<date>2010-11-20T06:41:18Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-11-19T23:09:14Z</date>
+			<date>2010-11-19T23:10:16Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -106,9 +104,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-11-19T23:09:14Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2010-11-20T06:41:17Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -127,20 +123,6 @@
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
-		<key>../Changes.textile</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>0</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
 		<key>../lib/coderay/scanners/java/builtin_types.rb</key>
 		<dict>
 			<key>caret</key>
@@ -155,26 +137,7 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>../test/scanners/coderay_suite.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>32</integer>
-				<key>line</key>
-				<integer>320</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>301</integer>
-		</dict>
 	</dict>
-	<key>openDocuments</key>
-	<array>
-		<string>../Changes.textile</string>
-		<string>../test/scanners/coderay_suite.rb</string>
-	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>

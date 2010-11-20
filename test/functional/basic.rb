@@ -115,4 +115,8 @@ more code  # and another comment, in-line.
     assert CodeRay::Scanners.list.include?('plaintext')
   end
   
+  def test_scan_a_frozen_string
+    CodeRay.scan RUBY_VERSION, :ruby
+  end
+  
 end

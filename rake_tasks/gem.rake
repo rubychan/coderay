@@ -89,7 +89,7 @@ namespace :gem do
   end
   
   task :set_pre do
-    ENV['PRE'] = 'pre'
+    ENV['PRE'] ||= 'pre'
   end
   
   desc 'Make a prerelease Gem.'

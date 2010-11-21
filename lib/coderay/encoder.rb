@@ -1,5 +1,5 @@
 module CodeRay
-
+  
   # This module holds the Encoder class and its subclasses.
   # For example, the HTML encoder is named CodeRay::Encoders::HTML
   # can be found in coderay/encoders/html.
@@ -8,9 +8,10 @@ module CodeRay
   # mechanism and the [] method that returns the Encoder class
   # belonging to the given format.
   module Encoders
+    
     extend PluginHost
     plugin_path File.dirname(__FILE__), 'encoders'
-
+    
     # = Encoder
     #
     # The Encoder base class. Together with Scanner and
@@ -26,9 +27,9 @@ module CodeRay
     class Encoder
       extend Plugin
       plugin_host Encoders
-
+      
       class << self
-
+        
         # If FILE_EXTENSION isn't defined, this method returns the
         # downcase class name instead.
         def const_missing sym
@@ -38,15 +39,15 @@ module CodeRay
             super
           end
         end
-
+        
       end
-
+      
       # Subclasses are to store their default options in this constant.
       DEFAULT_OPTIONS = { }
-
+      
       # The options you gave the Encoder at creating.
       attr_accessor :options
-
+      
       # Creates a new Encoder.
       # +options+ is saved and used for all encode operations, as long
       # as you don't overwrite it there by passing additional options.
@@ -59,9 +60,9 @@ module CodeRay
       # added to the options you passed at creation.
       def initialize options = {}
         @options = self.class::DEFAULT_OPTIONS.merge options
-        $ALREADY_WARNED_OLD_INTERFACE = false
+        @@CODERAY_TOKEN_INTERFACE_DEPRECATION_WARNING_GIVEN = false
       end
-
+      
       # Encode a Tokens object.
       def encode_tokens tokens, options = {}
         options = @options.merge options
@@ -69,7 +70,7 @@ module CodeRay
         compile tokens, options
         finish options
       end
-
+      
       # Encode the given +code+ using the Scanner for +lang+.
       def encode code, lang, options = {}
         options = @options.merge options
@@ -79,33 +80,23 @@ module CodeRay
         CodeRay.scan code, lang, scanner_options
         finish options
       end
-
+      
       # You can use highlight instead of encode, if that seems
       # more clear to you.
       alias highlight encode
-
+      
       # Return the default file extension for outputs of this encoder.
       def file_extension
         self.class::FILE_EXTENSION
       end
       
       def << token
-        warn 'Using old Tokens#<< interface.' unless $ALREADY_WARNED_OLD_INTERFACE
-        $ALREADY_WARNED_OLD_INTERFACE = true
+        unless @@CODERAY_TOKEN_INTERFACE_DEPRECATION_WARNING_GIVEN
+          warn 'Using old Tokens#<< interface.'
+          @@CODERAY_TOKEN_INTERFACE_DEPRECATION_WARNING_GIVEN = true
+        end
         self.token(*token)
       end
-
-    protected
-
-      # Called with merged options before encoding starts.
-      # Sets @out to an empty string.
-      #
-      # See the HTML Encoder for an example of option caching.
-      def setup options
-        @out = ''
-      end
-      
-    public
       
       # Called with +content+ and +kind+ of the currently scanned token.
       # For simple scanners, it's enougth to implement this method.
@@ -125,7 +116,7 @@ module CodeRay
         when :end_line
           end_line kind
         else
-          raise 'Unknown token content type: %p, kind = %p' % [content, kind]
+          raise ArgumentError, 'Unknown token content type: %p, kind = %p' % [content, kind]
         end
       end
       
@@ -152,6 +143,14 @@ module CodeRay
       
     protected
       
+      # Called with merged options before encoding starts.
+      # Sets @out to an empty string.
+      #
+      # See the HTML Encoder for an example of option caching.
+      def setup options
+        @out = ''
+      end
+      
       # Called with merged options after encoding starts.
       # The return value is the result of encoding, typically @out.
       def finish options
@@ -177,11 +176,11 @@ module CodeRay
         end
         raise 'odd number list for Tokens' if content
       end
-    
+      
       alias tokens compile
       public :tokens
       
     end
-
+    
   end
 end

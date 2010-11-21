@@ -1,6 +1,6 @@
 module CodeRay
 module Scanners
-
+  
   map \
     :cplusplus => :cpp,
     :'c++' => :cpp,
@@ -15,8 +15,8 @@ module Scanners
     :plain => :plaintext,
     :xhtml => :html,
     :yml => :yaml
-
+  
   default :plain
-
+  
 end
 end

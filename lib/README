@@ -18,7 +18,7 @@ And with line numbers.
 * is what everybody should have on their website
 * solves all your problems and makes the girls run after you
 
-Version: 0.9.6
+Version: 0.9.7
 Author:: murphy (Kornelius Kalnbach)
 Contact:: murphy rubychan de
 Website:: coderay.rubychan.de[http://coderay.rubychan.de]
@@ -94,6 +94,7 @@ Please report errors in this documentation to <murphy rubychan de>.
 * Rob Aldred for the terminal encoder
 * Trans for pointing out $DEBUG dependencies
 * Flameeyes for finding that Term::ANSIColor was obsolete
+* Etienne Massip for reporting a serious bug in JavaScript scanner
 * matz and all Ruby gods and gurus
 * The inventors of: the computer, the internet, the true color display, HTML &
   CSS, VIM, Ruby, pizza, microwaves, guitars, scouting, programming, anime, 

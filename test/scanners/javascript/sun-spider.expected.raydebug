@@ -10377,7 +10377,7 @@ ident(sc_Tokenizer)operator(.)ident(prototype)operator(.)function(nextToken) ope
 		keyword(if) operator(()ident(entry)operator(\))
 		    keyword(return) keyword(new) ident(sc_Token)operator(()integer(20)comment(/*CHAR*/)operator(,) ident(entry)operator(\))operator(;)
 		keyword(else)
-		    keyword(return) keyword(new) ident(sc_Token)operator(()integer(13)comment(/*ERROR*/)operator(,) key<delimiter(")content(unknown character description: #)char(\\\\)delimiter(")> operator(+) ident(tmp)operator(\))operator(;)
+		    keyword(return) keyword(new) ident(sc_Token)operator(()integer(13)comment(/*ERROR*/)operator(,) string<delimiter(")content(unknown character description: #)char(\\\\)delimiter(")> operator(+) ident(tmp)operator(\))operator(;)
 	    operator(})
 	operator(})
 
@@ -10389,7 +10389,7 @@ ident(sc_Tokenizer)operator(.)ident(prototype)operator(.)function(nextToken) ope
 	keyword(case) string<delimiter(')content(f)delimiter(')>operator(:) ident(res) operator(=) keyword(new) ident(sc_Token)operator(()integer(16)comment(/*FALSE*/)operator(,) pre_constant(false)operator(\))operator(;) ident(needing) operator(=) string<delimiter(")delimiter(")>operator(;) keyword(break)operator(;)
 	keyword(case) string<delimiter(')content(u)delimiter(')>operator(:) ident(res) operator(=) keyword(new) ident(sc_Token)operator(()integer(17)comment(/*UNSPECIFIED*/)operator(,) pre_constant(undefined)operator(\))operator(;) ident(needing) operator(=) string<delimiter(")content(nspecified)delimiter(")>operator(;) keyword(break)operator(;)
 	keyword(default)operator(:)
-	    keyword(return) keyword(new) ident(sc_Token)operator(()integer(13)comment(/*ERROR*/)operator(,) key<delimiter(")content(bad #-pattern3: )delimiter(")> operator(+) ident(c)operator(\))operator(;)
+	    keyword(return) keyword(new) ident(sc_Token)operator(()integer(13)comment(/*ERROR*/)operator(,) string<delimiter(")content(bad #-pattern3: )delimiter(")> operator(+) ident(c)operator(\))operator(;)
 	operator(})
 	keyword(while)operator(()pre_constant(true)operator(\)) operator({)
 	    ident(c) operator(=) ident(port)operator(.)ident(peekChar)operator(()operator(\))operator(;)

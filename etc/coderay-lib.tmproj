@@ -26,13 +26,15 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-11-20T06:41:18Z</date>
+			<date>2011-01-14T10:04:16Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-11-19T23:10:16Z</date>
+			<date>2011-01-14T10:15:34Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -79,6 +81,8 @@
 			<string>../rake_helpers</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>rake_tasks</string>
 			<key>regexFolderFilter</key>
@@ -93,6 +97,8 @@
 			<date>2010-03-09T02:48:36Z</date>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>functional</string>
 			<key>regexFolderFilter</key>

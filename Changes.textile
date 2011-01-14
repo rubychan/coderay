@@ -2,6 +2,16 @@ h1=. CodeRay Version History
  
 p=. _This files lists all changes in the CodeRay library since the 0.8.4 release._
  
+h2. Changes in 0.9.7 "Etienne" [2011-01-14]
+ 
+Fixes a dangerous JavaScript scanner bug.
+ 
+h3. @Scanners::JavaScript@
+ 
+* *FIXED* @KEY_CHECK_PATTERN@ regexp
+  See "#264":http://redmine.rubychan.de/issues/264, thanks to Etienne Massip!
+
+
 h2. Changes in 0.9.6 "WoNáDo" [2010-11-25]
  
 Minor improvements to the Ruby scanner and a fix for Ruby 1.9.

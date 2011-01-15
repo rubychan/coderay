@@ -4,8 +4,12 @@ p=. _This files lists all changes in the CodeRay library since the 0.8.4 release
  
 h2. Changes in 0.9.7 "Etienne" [2011-01-14]
  
-Fixes a dangerous JavaScript scanner bug.
+Fixes a dangerous JavaScript scanner bug, and a testing problem with Ruby 1.9.1.
  
+h3. Tests
+ 
+* *FIXED* The functional tests now load the lib directory (instead of the gem) in Ruby 1.9.1.
+
 h3. @Scanners::JavaScript@
  
 * *FIXED* @KEY_CHECK_PATTERN@ regexp

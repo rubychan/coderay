@@ -1,5 +1,5 @@
 require 'test/unit'
-$: << 'lib'
+$:.unshift 'lib'
 require 'coderay'
 
 begin

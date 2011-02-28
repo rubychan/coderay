@@ -3,9 +3,10 @@ module Scanners
   
   # Scanner for Java.
   class Java < Scanner
-
+    
     register_for :java
-    helper :builtin_types
+    
+    autoload :BuiltinTypes, 'coderay/scanners/java/builtin_types'
     
     # http://java.sun.com/docs/books/tutorial/java/nutsandbolts/_keywords.html
     KEYWORDS = %w[

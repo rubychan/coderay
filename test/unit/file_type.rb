@@ -39,6 +39,7 @@ class FileTypeTests < Test::Unit::TestCase
   end
 
   def test_ruby
+    assert_equal :ruby, FileType[__FILE__]
     assert_equal :ruby, FileType['test.rb']
     assert_equal :ruby, FileType['test.java.rb']
     assert_equal :java, FileType['test.rb.java']
@@ -109,7 +110,11 @@ class FileTypeTests < Test::Unit::TestCase
     require 'tmpdir'
     tmpfile = File.join(Dir.tmpdir, 'bla')
     File.open(tmpfile, 'w') { }  # touch
-    assert_equal nil, FileType[tmpfile]
+    assert_equal nil, FileType[tmpfile, true]
+  end
+  
+  def test_shebang_no_file
+    assert_equal nil, FileType['i do not exist', true]
   end
   
   def test_shebang

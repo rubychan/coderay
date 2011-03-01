@@ -1,16 +1,21 @@
+# encoding: utf-8
+# Encoding.default_internal = 'UTF-8'
+
 # = CodeRay Library
 #
 # CodeRay is a Ruby library for syntax highlighting.
 #
-# I try to make CodeRay easy to use and intuitive, but at the same time fully featured, complete,
-# fast and efficient.
+# I try to make CodeRay easy to use and intuitive, but at the same time fully
+# featured, complete, fast and efficient.
 # 
 # See README.
 # 
 # It consists mainly of
-# * the main engine: CodeRay (Scanners::Scanner, Tokens, Encoders::Encoder), PluginHost
+# * the main engine: CodeRay (Scanners::Scanner, Tokens, Encoders::Encoder)
+# * the plugin system: PluginHost, Plugin
 # * the scanners in CodeRay::Scanners
 # * the encoders in CodeRay::Encoders
+# * the styles in CodeRay::Styles
 # 
 # Here's a fancy graphic to light up this gray docu:
 # 
@@ -22,8 +27,8 @@
 #
 # == Usage
 #
-# Remember you need RubyGems to use CodeRay, unless you have it in your load path. Run Ruby with
-# -rubygems option if required.
+# Remember you need RubyGems to use CodeRay, unless you have it in your load
+# path. Run Ruby with -rubygems option if required.
 #
 # === Highlight Ruby code in a string as html
 # 
@@ -128,9 +133,10 @@ module CodeRay
   # Teeny: development state, 0 for pre-release
   # Revision: Subversion Revision number (generated on rake gem:make)
   VERSION = '1.0.0'
-
+  
   # Tokens
   autoload :Tokens, 'coderay/tokens'
+  autoload :TokenKinds, 'coderay/token_kinds'
   
   # Plugin system
   autoload :PluginHost, 'coderay/helpers/plugin'
@@ -141,11 +147,11 @@ module CodeRay
   autoload :Encoders, 'coderay/encoder'
   autoload :Styles, 'coderay/style'
   
-  # Convenience access / reusable Encoder/Scanner pair
+  # Convenience access and reusable Encoder/Scanner pair
   autoload :Duo, 'coderay/duo'
-
+  
   class << self
-
+    
     # Scans the given +code+ (a String) with the Scanner for +lang+.
     #
     # This is a simple way to use CodeRay. Example:
@@ -189,16 +195,6 @@ module CodeRay
       encoder(format, options).encode code, lang, options
     end
 
-    # Highlight a string into a HTML <div>.
-    #
-    # CSS styles use classes, so you have to include a stylesheet
-    # in your output.
-    #
-    # See encode.
-    def highlight code, lang, options = { :css => :class }, format = :div
-      encode code, lang, format, options
-    end
-
     # Encode pre-scanned Tokens.
     # Use this together with CodeRay.scan:
     #
@@ -223,6 +219,16 @@ module CodeRay
     def encode_file filename, format, options = {}
       tokens = scan_file filename, :auto, get_scanner_options(options)
       encode_tokens tokens, format, options
+    end
+
+    # Highlight a string into a HTML <div>.
+    #
+    # CSS styles use classes, so you have to include a stylesheet
+    # in your output.
+    #
+    # See encode.
+    def highlight code, lang, options = { :css => :class }, format = :div
+      encode code, lang, format, options
     end
 
     # Highlight a file into a HTML <div>.

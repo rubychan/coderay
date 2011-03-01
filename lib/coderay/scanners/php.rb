@@ -10,6 +10,7 @@ module Scanners
     
     register_for :php
     file_extension 'php'
+    encoding 'BINARY'
     
     KINDS_NOT_LOC = HTML::KINDS_NOT_LOC
     

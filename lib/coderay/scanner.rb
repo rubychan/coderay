@@ -1,3 +1,6 @@
+# encoding: utf-8
+require 'strscan'
+
 module CodeRay
 
   autoload :WordList, 'coderay/helpers/word_list'
@@ -18,9 +21,8 @@ module CodeRay
   module Scanners
     extend PluginHost
     plugin_path File.dirname(__FILE__), 'scanners'
-
-    require 'strscan'
-
+    
+    
     # = Scanner
     #
     # The base class for all Scanners.
@@ -48,59 +50,82 @@ module CodeRay
       
       extend Plugin
       plugin_host Scanners
-
+      
       # Raised if a Scanner fails while scanning
-      ScanError = Class.new(Exception)
-
+      ScanError = Class.new Exception
+      
       # The default options for all scanner classes.
       #
       # Define @default_options for subclasses.
       DEFAULT_OPTIONS = { }
       
       KINDS_NOT_LOC = [:comment, :doctype, :docstring]
-
+      
       class << self
-
-        def normify code
-          code = code.to_s.dup
-          # try using UTF-8
-          if code.respond_to? :force_encoding
-            debug, $DEBUG = $DEBUG, false
-            begin
-              code.force_encoding 'UTF-8'
-              code[/\z/]  # raises an ArgumentError when code contains a non-UTF-8 char
-            rescue ArgumentError
-              code.force_encoding 'binary'
-            ensure
-              $DEBUG = debug
-            end
-          end
-          # convert the string to UNIX newline format
-          code.gsub!(/\r\n?/, "\n") if code.index ?\r
+        
+        # Normalizes the given code into a string with UNIX newlines, in the
+        # scanner's internal encoding, with invalid and undefined charachters
+        # replaced by placeholders. Always returns a new object.
+        def normalize code
+          original = code
+          code = code.to_s unless code.is_a? ::String
+          code = encode_with_encoding code, self.encoding if code.respond_to? :encoding
+          # code = to_unix code if code.index ?\r
+          # code = code.dup if code.eql? original
           code
         end
         
-        def file_extension extension = nil
-          if extension
-            @file_extension = extension.to_s
-          else
-            @file_extension ||= plugin_id.to_s
-          end
+        # The typical filename suffix for this scanner's language.
+        def file_extension extension = plugin_id
+          @file_extension ||= extension.to_s
         end
-
+        
+        # The encoding used internally by this scanner.
+        def encoding name = 'UTF-8'
+          @encoding ||= defined?(Encoding.find) && Encoding.find(name)
+        end
+        
+        # The lang of this Scanner class, which is equal to its Plugin ID.
+        alias lang plugin_id
+        
+      protected
+        
+        def encode_with_encoding code, target_encoding
+          if code.encoding == target_encoding
+            if code.valid_encoding?
+              return code
+            else
+              source_encoding = guess_encoding code
+            end
+          else
+            source_encoding = code.encoding
+          end
+          # print "encode_with_encoding from #{source_encoding} to #{target_encoding}"
+          code.encode target_encoding, source_encoding, :universal_newline => true, :undef => :replace, :invalid => :replace
+        end
+        
+        def to_unix code
+          print 'to_unix'
+          code.gsub(/\r\n?/, "\n")
+        end
+        
+        def guess_encoding s
+          #:nocov:
+          # print 'guess_encoding'
+          IO.popen("file -b --mime -", "w+") do |file|
+            file.write s[0, 1024]
+            file.close_write
+            begin
+              Encoding.find file.gets[/charset=([-\w]+)/, 1]
+            rescue ArgumentError
+              Encoding::BINARY
+            end
+          end
+          #:nocov:
+        end
+        
       end
-
-=begin
-## Excluded for speed reasons; protected seems to make methods slow.
-
-  # Save the StringScanner methods from being called.
-  # This would not be useful for highlighting.
-  strscan_public_methods =
-    StringScanner.instance_methods -
-    StringScanner.ancestors[1].instance_methods
-  protected(*strscan_public_methods)
-=end
-
+      
       # Create a new Scanner.
       #
       # * +code+ is the input String and is handled by the superclass
@@ -110,43 +135,46 @@ module CodeRay
       #   overwrite default options here.)
       #
       # Else, a Tokens object is used.
-      def initialize code='', options = {}
-        raise "I am only the basic Scanner class. I can't scan "\
-          "anything. :( Use my subclasses." if self.class == Scanner
+      def initialize code = '', options = {}
+        if self.class == Scanner
+          raise NotImplementedError, "I am only the basic Scanner class. I can't scan anything. :( Use my subclasses."
+        end
         
         @options = self.class::DEFAULT_OPTIONS.merge options
-
-        super Scanner.normify(code)
-
+        
+        super self.class.normalize(code)
+        
         @tokens = options[:tokens] || Tokens.new
         @tokens.scanner = self if @tokens.respond_to? :scanner=
-
+        
         setup
       end
       
-      # Sets back the scanner. Subclasses are to define the reset_instance
-      # method.
+      # Sets back the scanner. Subclasses should to define the reset_instance
+      # method instead of this one.
       def reset
         super
         reset_instance
       end
-
+      
+      # Set a new string to be scanned.
       def string= code
-        code = Scanner.normify(code)
+        code = self.class.normalize(code)
         super code
         reset_instance
       end
-
-      # More mnemonic accessor name for the input string.
-      alias code string
-      alias code= string=
-
-      # Returns the Plugin ID for this scanner.
+      
+      # the Plugin ID for this scanner
       def lang
-        self.class.plugin_id.to_s
+        self.class.lang
       end
-
-      # Scans the code and returns all tokens in a Tokens object.
+      
+      # the default file extension for this scanner
+      def file_extension
+        self.class.file_extension
+      end
+      
+      # Scan the code and returns all tokens in a Tokens object.
       def tokenize source = nil, options = {}
         options = @options.merge(options)
         @tokens = options[:tokens] || @tokens || Tokens.new
@@ -170,17 +198,17 @@ module CodeRay
         end
       end
       
-      # Caches the result of tokenize.
+      # Cache the result of tokenize.
       def tokens
         @cached_tokens ||= tokenize
       end
       
-      # Traverses the tokens.
+      # Traverse the tokens.
       def each &block
         tokens.each(&block)
       end
       include Enumerable
-
+      
       # The current line position of the scanner. See also #column.
       #
       # Beware, this is implemented inefficiently. It should be used
@@ -195,24 +223,17 @@ module CodeRay
       # for debugging only.
       def column pos = self.pos
         return 0 if pos <= 0
-        string = string()
-        if string.respond_to?(:bytesize) && (defined?(@bin_string) || string.bytesize != string.size)
-          @bin_string ||= string.dup.force_encoding('binary')
-          string = @bin_string
+        string = self.string
+        if string.respond_to?(:bytesize) && string.bytesize != string.size
+          #:nocov:
+          string = string.dup.force_encoding('binary')
+          #:nocov:
         end
         pos - (string.rindex(?\n, pos) || 0)
       end
       
-      def marshal_dump  # :nodoc:
-        @options
-      end
-      
-      def marshal_load options  # :nodoc:
-        @options = options
-      end
-
     protected
-
+      
       # Can be implemented by subclasses to do some initialization
       # that has to be done once per instance.
       #
@@ -220,15 +241,14 @@ module CodeRay
       # scan.
       def setup  # :doc:
       end
-
+      
       # This is the central method, and commonly the only one a
       # subclass implements.
       #
       # Subclasses must implement this method; it must return +tokens+
       # and must only use Tokens#<< for storing scanned tokens!
       def scan_tokens tokens, options  # :doc:
-        raise NotImplementedError,
-          "#{self.class}#scan_tokens not implemented."
+        raise NotImplementedError, "#{self.class}#scan_tokens not implemented."
       end
       
       # Resets the scanner.
@@ -237,7 +257,7 @@ module CodeRay
         @cached_tokens = nil
         @bin_string = nil if defined? @bin_string
       end
-
+      
       # Scanner error with additional status information
       def raise_inspect msg, tokens, state = 'No state given!', ambit = 30
         raise ScanError, <<-EOE % [
@@ -269,8 +289,8 @@ surrounding code:
           string[pos, ambit],
         ]
       end
-
+      
     end
-
+    
   end
 end

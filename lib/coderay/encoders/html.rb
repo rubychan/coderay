@@ -110,8 +110,8 @@ module Encoders
       :hint => false,
     }
     
-    # TODO: Make Plugin use autoload, too.
-    helper :output, :css
+    autoload :Output,    'coderay/encoders/html/output'
+    autoload :CSS,       'coderay/encoders/html/css'
     autoload :Numbering, 'coderay/encoders/html/numbering'
     
     attr_reader :css
@@ -138,7 +138,7 @@ module Encoders
     TOKEN_KIND_TO_INFO = Hash.new do |h, kind|
       h[kind] =
         case kind
-        when :pre_constant
+        when :pre_constant  # FIXME: rename to :predefined_constant
           'Predefined constant'
         else
           kind.to_s.gsub(/_/, ' ').gsub(/\b\w/) { $&.capitalize }
@@ -187,17 +187,23 @@ module Encoders
           expected :info, :debug, false, or nil." % hint
       end
       
-      css_classes = Tokens::AbbreviationForKind
+      css_classes = TokenKinds
       case options[:css]
       when :class
         @span_for_kind = Hash.new do |h, k|
-          kind = k.is_a?(Symbol) ? k : k.first
-          h[k.is_a?(Symbol) ? k : k.dup] =
-            if kind != :space && (hint || css_classes[kind])
-              title = HTML.token_path_to_hint hint, k if hint
-              css_class = css_classes[k]
-              "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
-            end
+          if k.is_a? ::Symbol
+            kind = k_dup = k
+          else
+            kind = k.first
+            k_dup = k.dup
+          end
+          if kind != :space && (hint || css_class = css_classes[kind])
+            title = HTML.token_path_to_hint hint, k if hint
+            css_class ||= css_classes[kind]
+            h[k_dup] = "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
+          else
+            h[k_dup] = nil
+          end
         end
       when :style
         @span_for_kind = Hash.new do |h, k|

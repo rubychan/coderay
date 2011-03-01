@@ -1,29 +1,29 @@
 module CodeRay
 module Scanners
-
+  
   # = Debug Scanner
   # 
   # Interprets the output of the Encoders::Debug encoder.
   class Debug < Scanner
-
+    
     register_for :debug
     title 'CodeRay Token Dump Import'
     
   protected
     
     def scan_tokens encoder, options
-
+      
       opened_tokens = []
-
+      
       until eos?
-
+        
         if match = scan(/\s+/)
           encoder.text_token match, :space
           
         elsif match = scan(/ (\w+) \( ( [^\)\\]* ( \\. [^\)\\]* )* ) \)? /x)
           kind = self[1].to_sym
-          match = self[2].gsub(/\\(.)/, '\1')
-          unless Tokens::AbbreviationForKind.has_key? kind
+          match = self[2].gsub(/\\(.)/m, '\1')
+          unless TokenKinds.has_key? kind
             kind = :error
             match = matched
           end
@@ -58,8 +58,8 @@ module Scanners
       
       encoder
     end
-
+    
   end
-
+  
 end
 end

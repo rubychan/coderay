@@ -81,7 +81,7 @@ module Scanners
               encoder.begin_group :change
             end
             encoder.text_token match[0,2], :change
-            encoder.text_token match[2...-2], :plain if match.size > 4
+            encoder.text_token match[2...-2], :plain
             encoder.text_token match[-2,2], :change
             encoder.end_group :change unless line_kind
             next unless match = scan(/.+/)
@@ -109,8 +109,9 @@ module Scanners
               if content_scanner.instance_variable_defined?(:@state)
                 content_scanner_entry_state = content_scanner.instance_variable_get(:@state)
               end
-              skip(/(.*)(.*?)(.*)\n\+\1(.*)\3$/)
-              pre, deleted, post = content_scanner.tokenize [self[1], self[2], self[3]], :tokens => Tokens.new
+              skip(/(.*)\n\+(.*)$/)
+              head, deletion, insertion, tail = diff self[1], self[2]
+              pre, deleted, post = content_scanner.tokenize [head, deletion, tail], :tokens => Tokens.new
               encoder.tokens pre
               encoder.begin_group :eyecatcher
               encoder.tokens deleted
@@ -121,7 +122,7 @@ module Scanners
               encoder.begin_line line_kind = :insert
               encoder.text_token '+', :insert
               content_scanner.instance_variable_set(:@state, content_scanner_entry_state || :initial)
-              pre, inserted, post = content_scanner.tokenize [self[1], self[4], self[3]], :tokens => Tokens.new
+              pre, inserted, post = content_scanner.tokenize [head, insertion, tail], :tokens => Tokens.new
               encoder.tokens pre
               encoder.begin_group :eyecatcher
               encoder.tokens inserted
@@ -175,6 +176,22 @@ module Scanners
       encoder.end_line line_kind if line_kind
       
       encoder
+    end
+    
+  private
+    
+    def diff a, b
+      # i will be the index of the leftmost difference from the left.
+      i_max = [a.size, b.size].min
+      i = 0
+      i += 1 while i < i_max && a[i] == b[i]
+      # j_min will be the index of the leftmost difference from the right.
+      j_min = i - i_max
+      # j will be the index of the rightmost difference from the right which
+      # does not precede the leftmost one from the left.
+      j = -1
+      j -= 1 while j >= j_min && a[j] == b[j]
+      return a[0...i], a[i..j], b[i..j], (j < -1) ? a[j+1..-1] : ''
     end
     
   end

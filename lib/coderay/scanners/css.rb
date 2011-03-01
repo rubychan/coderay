@@ -54,12 +54,12 @@ module Scanners
       
       value_expected = nil
       states = [:initial]
-
+      
       until eos?
-
+        
         if match = scan(/\s+/)
           encoder.text_token match, :space
-
+          
         elsif case states.last
           when :initial, :media
             if match = scan(/(?>#{RE::Ident})(?!\()|\*/ox)
@@ -101,24 +101,15 @@ module Scanners
               states[-1] = :media
             end
           
-          when :comment
-            if match = scan(/(?:[^*\s]|\*(?!\/))+/)
-              encoder.text_token match, :comment
-            elsif match = scan(/\*\//)
-              encoder.text_token match, :comment
-              states.pop
-            elsif match = scan(/\s+/)
-              encoder.text_token match, :space
-            end
-
           else
+            #:nocov:
             raise_inspect 'Unknown state', encoder
-
+            #:nocov:
+            
           end
-
-        elsif match = scan(/\/\*/)
+          
+        elsif match = scan(/\/\*(?:.*?\*\/|\z)/m)
           encoder.text_token match, :comment
-          states.push :comment
 
         elsif match = scan(/\{/)
           value_expected = false

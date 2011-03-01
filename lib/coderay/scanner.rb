@@ -69,8 +69,11 @@ module CodeRay
         def normalize code
           original = code
           code = code.to_s unless code.is_a? ::String
-          code = encode_with_encoding code, self.encoding if code.respond_to? :encoding
-          # code = to_unix code if code.index ?\r
+          if code.respond_to? :encoding
+            code = encode_with_encoding code, self.encoding
+          else
+            code = to_unix code if code.index ?\r
+          end
           # code = code.dup if code.eql? original
           code
         end
@@ -93,7 +96,7 @@ module CodeRay
         def encode_with_encoding code, target_encoding
           if code.encoding == target_encoding
             if code.valid_encoding?
-              return code
+              return to_unix code
             else
               source_encoding = guess_encoding code
             end
@@ -105,13 +108,11 @@ module CodeRay
         end
         
         def to_unix code
-          print 'to_unix'
           code.gsub(/\r\n?/, "\n")
         end
         
         def guess_encoding s
           #:nocov:
-          # print 'guess_encoding'
           IO.popen("file -b --mime -", "w+") do |file|
             file.write s[0, 1024]
             file.close_write

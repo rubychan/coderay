@@ -93,11 +93,10 @@ module CodeRay
       TOKEN_COLORS[:method] = TOKEN_COLORS[:function]
       TOKEN_COLORS[:imaginary] = TOKEN_COLORS[:complex]
       TOKEN_COLORS[:begin_group] = TOKEN_COLORS[:end_group] =
-        TOKEN_COLORS[:nesting_delimiter] = TOKEN_COLORS[:escape] =
-        TOKEN_COLORS[:delimiter]
-
+        TOKEN_COLORS[:escape] = TOKEN_COLORS[:delimiter]
+      
     protected
-
+      
       def setup(options)
         super
         @opened = []

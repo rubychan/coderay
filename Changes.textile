@@ -139,6 +139,7 @@ h3. @Scanners::CSS@
   See "#224":http://redmine.rubychan.de/issues/224.
 * *NEW*: Rudimentary support for CSS 3 colors.
 * *CHANGED*: Attribute selectors are highlighted as @:attribute_name@ instead of @:string@.
+* *CHANGED*: Comments are scanned as one token instead of three.
 
 h3. @Scanners::Debug@
  

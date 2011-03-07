@@ -8,6 +8,7 @@ task :stats do
     ['  Encoders', 'lib/coderay/encoders/**'],
     ['  Helpers', 'lib/coderay/helpers/**'],
     ['  Styles', 'lib/coderay/styles/**'],
+    ['Executable', 'bin', /coderay$/],
     ['Executable Tests', 'test/executable/**'],
     ['Functional Tests', 'test/functional/**'],
     ['Scanner Tests', 'test/scanners/**', /suite\.rb$/],

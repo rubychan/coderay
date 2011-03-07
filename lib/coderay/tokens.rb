@@ -1,5 +1,5 @@
 module CodeRay
-
+  
   # GZip library for writing and reading token dumps.
   autoload :GZip, 'coderay/helpers/gzip'
   
@@ -52,8 +52,6 @@ module CodeRay
   # to load them from a file, and still use any Encoder that CodeRay provides.
   class Tokens < Array
     
-    autoload :AbbreviationForKind, 'coderay/token_kinds'
-    
     # The Scanner instance that created the tokens.
     attr_accessor :scanner
     
@@ -67,21 +65,21 @@ module CodeRay
     # options are passed to the encoder.
     def encode encoder, options = {}
       unless encoder.is_a? Encoders::Encoder
-        unless encoder.is_a? Class
+        if encoder.respond_to? :to_sym
           encoder_class = Encoders[encoder]
         end
         encoder = encoder_class.new options
       end
       encoder.encode_tokens self, options
     end
-
+    
     # Turn into a string using Encoders::Text.
     #
     # +options+ are passed to the encoder if given.
     def to_s
-      encode Encoders::Encoder.new
+      encode CodeRay::Encoders::Encoder.new
     end
-
+    
     # Redirects unknown methods to encoder calls.
     #
     # For example, if you call +tokens.html+, the HTML encoder
@@ -109,27 +107,27 @@ module CodeRay
     # joined in one comment token by the Scanner.
     def optimize
       raise NotImplementedError, 'Tokens#optimize needs to be rewritten.'
-      last_kind = last_text = nil
-      new = self.class.new
-      for text, kind in self
-        if text.is_a? String
-          if kind == last_kind
-            last_text << text
-          else
-            new << [last_text, last_kind] if last_kind
-            last_text = text
-            last_kind = kind
-          end
-        else
-          new << [last_text, last_kind] if last_kind
-          last_kind = last_text = nil
-          new << [text, kind]
-        end
-      end
-      new << [last_text, last_kind] if last_kind
-      new
+      # last_kind = last_text = nil
+      # new = self.class.new
+      # for text, kind in self
+      #   if text.is_a? String
+      #     if kind == last_kind
+      #       last_text << text
+      #     else
+      #       new << [last_text, last_kind] if last_kind
+      #       last_text = text
+      #       last_kind = kind
+      #     end
+      #   else
+      #     new << [last_text, last_kind] if last_kind
+      #     last_kind = last_text = nil
+      #     new << [text, kind]
+      #   end
+      # end
+      # new << [last_text, last_kind] if last_kind
+      # new
     end
-
+    
     # Compact the object itself; see optimize.
     def optimize!
       replace optimize
@@ -140,30 +138,30 @@ module CodeRay
     # TODO: Test this!
     def fix
       raise NotImplementedError, 'Tokens#fix needs to be rewritten.'
-      tokens = self.class.new
-      # Check token nesting using a stack of kinds.
-      opened = []
-      for type, kind in self
-        case type
-        when :begin_group
-          opened.push [:begin_group, kind]
-        when :begin_line
-          opened.push [:end_line, kind]
-        when :end_group, :end_line
-          expected = opened.pop
-          if [type, kind] != expected
-            # Unexpected end; decide what to do based on the kind:
-            # - token was never opened: delete the end (just skip it)
-            next unless opened.rindex expected
-            # - token was opened earlier: also close tokens in between
-            tokens << token until (token = opened.pop) == expected
-          end
-        end
-        tokens << [type, kind]
-      end
-      # Close remaining opened tokens
-      tokens << token while token = opened.pop
-      tokens
+      # tokens = self.class.new
+      # # Check token nesting using a stack of kinds.
+      # opened = []
+      # for type, kind in self
+      #   case type
+      #   when :begin_group
+      #     opened.push [:begin_group, kind]
+      #   when :begin_line
+      #     opened.push [:end_line, kind]
+      #   when :end_group, :end_line
+      #     expected = opened.pop
+      #     if [type, kind] != expected
+      #       # Unexpected end; decide what to do based on the kind:
+      #       # - token was never opened: delete the end (just skip it)
+      #       next unless opened.rindex expected
+      #       # - token was opened earlier: also close tokens in between
+      #       tokens << token until (token = opened.pop) == expected
+      #     end
+      #   end
+      #   tokens << [type, kind]
+      # end
+      # # Close remaining opened tokens
+      # tokens << token while token = opened.pop
+      # tokens
     end
     
     def fix!
@@ -182,7 +180,7 @@ module CodeRay
     def split_into_lines
       raise NotImplementedError
     end
-
+    
     def split_into_lines!
       replace split_into_lines
     end
@@ -244,12 +242,12 @@ module CodeRay
           when :end_group, :end_line
             opened.pop
           else
-            raise 'Unknown token action: %p, kind = %p' % [content, item]
+            raise ArgumentError, 'Unknown token action: %p, kind = %p' % [content, item]
           end
           part << content << item
           content = nil
         else
-          raise 'else case reached'
+          raise ArgumentError, 'Token input junk: %p, kind = %p' % [content, item]
         end
       end
       parts << part
@@ -305,6 +303,7 @@ module CodeRay
     end
     
     if defined?(RUBY_ENGINE) && RUBY_ENGINE['rbx']
+      #:nocov:
       def text_token text, kind
         self << text << kind
       end
@@ -320,6 +319,7 @@ module CodeRay
       def end_line kind
         self << :end_line << kind
       end
+      #:nocov:
     else
       alias text_token push
       def begin_group kind; push :begin_group, kind end
@@ -330,5 +330,5 @@ module CodeRay
     alias tokens concat
     
   end
-
+  
 end

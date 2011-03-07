@@ -65,7 +65,6 @@ module Scanners
     QUOTE_TO_TYPE.default = :string
 
     REGEXP_MODIFIERS = /[mousenix]*/
-    REGEXP_SYMBOLS = /[|?*+(){}\[\].^$]/
 
     DECIMAL = /\d+(?:_\d+)*/
     OCTAL = /0_?[0-7]+(?:_[0-7]+)*/
@@ -91,7 +90,7 @@ module Scanners
         [abefnrstv]
       |  [0-7]{1,3}
       | x[0-9A-Fa-f]{1,2}
-      | .?
+      | .
     /mx
     
     CONTROL_META_ESCAPE = /
@@ -157,86 +156,20 @@ module Scanners
       while elsif if not return
       yield
     ])
-
-    FANCY_START = / % ( [qQwWxsr] | (?![a-zA-Z0-9]) ) ([^a-zA-Z0-9]) /mx
-
-    FancyStringType = {
-      'q' => [:string, false],
-      'Q' => [:string, true],
-      'r' => [:regexp, true],
-      's' => [:symbol, false],
-      'x' => [:shell, true]
-    }
-    FancyStringType['w'] = FancyStringType['q']
-    FancyStringType['W'] = FancyStringType[''] = FancyStringType['Q']
-
-    class StringState < Struct.new :type, :interpreted, :delim, :heredoc,
-      :opening_paren, :paren_depth, :pattern, :next_state
-
-      CLOSING_PAREN = Hash[ *%w[
-        ( )
-        [ ]
-        < >
-        { }
-      ] ]
-
-      CLOSING_PAREN.each { |k,v| k.freeze; v.freeze }  # debug, if I try to change it with <<
-      OPENING_PAREN = CLOSING_PAREN.invert
-
-      STRING_PATTERN = Hash.new do |h, k|
-        delim, interpreted = *k
-        delim_pattern = Regexp.escape(delim.dup)  # dup: workaround for old Ruby
-        if closing_paren = CLOSING_PAREN[delim]
-          delim_pattern = delim_pattern[0..-1] if defined? JRUBY_VERSION  # JRuby fix
-          delim_pattern << Regexp.escape(closing_paren)
-        end
-        delim_pattern << '\\\\' unless delim == '\\'
-        
-        special_escapes =
-          case interpreted
-          when :regexp_symbols
-            '| ' + REGEXP_SYMBOLS.source
-          when :words
-            '| \s'
-          end
-        
-        h[k] =
-          if interpreted and not delim == '#'
-            / (?= [#{delim_pattern}] | \# [{$@] #{special_escapes} ) /mx
-          else
-            / (?= [#{delim_pattern}] #{special_escapes} ) /mx
-          end
-      end
-
-      HEREDOC_PATTERN = Hash.new do |h, k|
-        delim, interpreted, indented = *k
-        delim_pattern = Regexp.escape(delim.dup)  # dup: workaround for old Ruby
-        delim_pattern = / \n #{ '(?>[\ \t]*)' if indented } #{ Regexp.new delim_pattern } $ /x
-        h[k] =
-          if interpreted
-            / (?= #{delim_pattern}() | \\ | \# [{$@] ) /mx  # $1 set == end of heredoc
-          else
-            / (?= #{delim_pattern}() | \\ ) /mx
-          end
-      end
-
-      def initialize kind, interpreted, delim, heredoc = false
-        if heredoc
-          pattern = HEREDOC_PATTERN[ [delim, interpreted, heredoc == :indented] ]
-          delim = nil
-        else
-          pattern = STRING_PATTERN[ [delim, interpreted] ]
-          if closing_paren = CLOSING_PAREN[delim]
-            opening_paren = delim
-            delim = closing_paren
-            paren_depth = 1
-          end
-        end
-        super kind, interpreted, delim, heredoc, opening_paren, paren_depth, pattern, :initial
-      end
-    end unless defined? StringState
-
+    
+    FANCY_STRING_START = / % ( [QqrsWwx] | (?![a-zA-Z0-9]) ) ([^a-zA-Z0-9]) /x
+    FANCY_STRING_KIND = Hash.new(:string).merge({
+      'r' => :regexp,
+      's' => :symbol,
+      'x' => :shell,
+    })
+    FANCY_STRING_INTERPRETED = Hash.new(true).merge({
+      'q' => false,
+      's' => false,
+      'w' => false,
+    })
+    
   end
-
+  
 end
 end

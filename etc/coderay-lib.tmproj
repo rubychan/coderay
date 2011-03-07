@@ -5,8 +5,6 @@
 	<key>documents</key>
 	<array>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -26,9 +24,7 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2010-08-24T11:50:44Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2011-03-07T22:50:28Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -40,7 +36,9 @@
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2010-07-05T07:34:56Z</date>
+			<date>2011-03-07T22:50:29Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -79,6 +77,8 @@
 		<dict>
 			<key>filename</key>
 			<string>../LICENSE</string>
+			<key>lastUsed</key>
+			<date>2010-09-19T16:21:59Z</date>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -100,7 +100,7 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2010-03-31T21:53:39Z</date>
+			<date>2010-11-21T14:08:49Z</date>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -125,13 +125,13 @@
 					<key>filename</key>
 					<string>../test/scanners/coderay_suite.rb</string>
 					<key>lastUsed</key>
-					<date>2010-08-22T06:45:59Z</date>
+					<date>2011-03-01T00:15:35Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>../test/scanners/suite.rb</string>
 					<key>lastUsed</key>
-					<date>2010-07-05T07:34:57Z</date>
+					<date>2011-03-01T00:06:06Z</date>
 				</dict>
 			</array>
 			<key>name</key>
@@ -149,7 +149,7 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2010-06-29T06:27:12Z</date>
+			<date>2011-02-20T05:36:12Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
@@ -159,6 +159,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{216, 4}, {1054, 774}}</string>
+	<string>{{214, 4}, {1066, 774}}</string>
 </dict>
 </plist>

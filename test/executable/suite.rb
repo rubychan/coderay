@@ -3,8 +3,6 @@ require 'pathname'
 $:.unshift 'lib'
 require 'coderay'
 
-MYDIR = File.dirname(__FILE__)
-
 puts "Running CodeRay #{CodeRay::VERSION} executable tests..."
 
 class TestCodeRayExecutable < Test::Unit::TestCase

@@ -22,6 +22,10 @@ module Encoders
     
   protected
     
+    def setup options
+      @out = 0
+    end
+    
     def compile tokens, options
       if scanner = tokens.scanner
         kinds_not_loc = scanner.class::KINDS_NOT_LOC
@@ -30,11 +34,11 @@ module Encoders
         kinds_not_loc = CodeRay::Scanners::Scanner::KINDS_NOT_LOC
       end
       code = tokens.token_kind_filter :exclude => kinds_not_loc
-      @loc = code.to_s.scan(NON_EMPTY_LINE).size
+      @out = code.to_s.scan(NON_EMPTY_LINE).size
     end
     
     def finish options
-      @loc
+      @out
     end
     
   end

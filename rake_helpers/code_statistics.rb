@@ -76,10 +76,14 @@ private
             in_comment_block = false
           when in_comment_block
             comment_lines += 1
-          when /^\s*class\b/: classes += 1
-          when /^\s*module\b/: modules += 1
-          when /^\s*def\b/: methods += 1
-          when /^\s*#/: comment_lines += 1
+          when /^\s*class\b/
+            classes += 1
+          when /^\s*module\b/
+            modules += 1
+          when /^\s*def\b/
+            methods += 1
+          when /^\s*#/
+            comment_lines += 1
           when /^=begin\b/
             in_comment_block = false
             comment_lines += 1

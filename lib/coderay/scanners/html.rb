@@ -88,7 +88,11 @@ module Scanners
                 code = scan_until(/(?=(?:\n\s*)?<\/script>)|\z/)
                 closing = false
               end
-              scan_java_script encoder, code
+              unless code.empty?
+                encoder.begin_group :inline
+                scan_java_script encoder, code
+                encoder.end_group :inline
+              end
               encoder.text_token closing, :comment if closing
             end
             next if eos?

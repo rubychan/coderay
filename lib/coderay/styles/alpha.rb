@@ -39,7 +39,8 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
   text-decoration: none !important;
 }
 .CodeRay .line_numbers a:target, .CodeRay .no a:target { color: blue !important; }
-.CodeRay .line_numbers .highlighted, .CodeRay .no .highlighted { color: red; }
+.CodeRay .line_numbers .highlighted, .CodeRay .no .highlighted { color: red !important; }
+.CodeRay .line_numbers .highlighted a, .CodeRay .no .highlighted a { color: red !important; }
 .CodeRay .no { padding: 0px 4px; }
 .CodeRay .line { display: block; float: left; width: 100%; }
 .CodeRay .code { width: 100%; }

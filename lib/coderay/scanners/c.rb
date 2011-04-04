@@ -65,10 +65,6 @@ module Scanners
           elsif match = scan(%r! // [^\n\\]* (?: \\. [^\n\\]* )* | /\* (?: .*? \*/ | .* ) !mx)
             encoder.text_token match, :comment
 
-          elsif match = scan(/ \# \s* if \s* 0 /x)
-            match << scan_until(/ ^\# (?:elif|else|endif) .*? $ | \z /xm) unless eos?
-            encoder.text_token match, :comment
-
           elsif match = scan(/ [-+*=<>?:;,!&^|()\[\]{}~%]+ | \/=? | \.(?!\d) /x)
             label_expected = match =~ /[;\{\}]/
             if case_expected
@@ -93,9 +89,6 @@ module Scanners
             end
             encoder.text_token match, kind
 
-          elsif match = scan(/\$/)
-            encoder.text_token match, :ident
-          
           elsif match = scan(/L?"/)
             encoder.begin_group :string
             if match[0] == ?L
@@ -104,6 +97,10 @@ module Scanners
             end
             encoder.text_token match, :delimiter
             state = :string
+
+          elsif match = scan(/ \# \s* if \s* 0 /x)
+            match << scan_until(/ ^\# (?:elif|else|endif) .*? $ | \z /xm) unless eos?
+            encoder.text_token match, :comment
 
           elsif match = scan(/#[ \t]*(\w*)/)
             encoder.text_token match, :preprocessor
@@ -115,6 +112,9 @@ module Scanners
             label_expected = false
             encoder.text_token match, :char
 
+          elsif match = scan(/\$/)
+            encoder.text_token match, :ident
+          
           elsif match = scan(/0[xX][0-9A-Fa-f]+/)
             label_expected = false
             encoder.text_token match, :hex

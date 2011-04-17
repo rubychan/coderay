@@ -90,7 +90,7 @@ module CodeRay
             elsif match = scan(/#\\(?:newline|space|.?)/)
               encoder.text_token match, :char
             elsif match = scan(/#[ft]/)
-              encoder.text_token match, :pre_constant
+              encoder.text_token match, :predefined_constant
             elsif match = scan(/#{IDENTIFIER}/o)
               encoder.text_token match, ident_kind[matched]
             elsif match = scan(/\./)

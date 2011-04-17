@@ -58,7 +58,7 @@ module Scanners
       add(KEYWORDS, :keyword).
       add(OLD_KEYWORDS, :old_keyword).
       add(PREDEFINED_METHODS_AND_TYPES, :predefined).
-      add(PREDEFINED_VARIABLES_AND_CONSTANTS, :pre_constant).
+      add(PREDEFINED_VARIABLES_AND_CONSTANTS, :predefined_constant).
       add(PREDEFINED_EXCEPTIONS, :exception)  # :nodoc:
     
     NAME = / [^\W\d] \w* /x  # :nodoc:

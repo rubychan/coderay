@@ -35,7 +35,7 @@ module Scanners
     
     IDENT_KIND = WordList.new(:ident).
       add(RESERVED_WORDS, :reserved).
-      add(PREDEFINED_CONSTANTS, :pre_constant).
+      add(PREDEFINED_CONSTANTS, :predefined_constant).
       add(MAGIC_VARIABLES, :local_variable).
       add(KEYWORDS, :keyword)  # :nodoc:
     

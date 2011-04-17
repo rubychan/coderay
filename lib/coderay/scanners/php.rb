@@ -183,12 +183,12 @@ module Scanners
       
       IDENT_KIND = CaseIgnoringWordList.new(:ident).
         add(KEYWORDS, :reserved).
-        add(TYPES, :pre_type).
+        add(TYPES, :predefined_type).
         add(LANGUAGE_CONSTRUCTS, :reserved).
         add(BUILTIN_FUNCTIONS, :predefined).
-        add(CLASSES, :pre_constant).
+        add(CLASSES, :predefined_constant).
         add(EXCEPTIONS, :exception).
-        add(CONSTANTS, :pre_constant)
+        add(CONSTANTS, :predefined_constant)
       
       VARIABLE_KIND = WordList.new(:local_variable).
         add(PREDEFINED, :predefined)

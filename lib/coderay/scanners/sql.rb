@@ -41,8 +41,8 @@ module CodeRay module Scanners
       add(RESERVED_WORDS, :reserved).
       add(OBJECTS, :type).
       add(COMMANDS, :class).
-      add(PREDEFINED_TYPES, :pre_type).
-      add(PREDEFINED_CONSTANTS, :pre_constant).
+      add(PREDEFINED_TYPES, :predefined_type).
+      add(PREDEFINED_CONSTANTS, :predefined_constant).
       add(PREDEFINED_FUNCTIONS, :predefined).
       add(DIRECTIVES, :directive)
     
@@ -99,7 +99,7 @@ module CodeRay module Scanners
             encoder.text_token match, :float
           
           elsif match = scan(/\\N/)
-            encoder.text_token match, :pre_constant
+            encoder.text_token match, :predefined_constant
             
           else
             encoder.text_token getch, :error

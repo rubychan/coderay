@@ -84,7 +84,7 @@ module CodeRay
       IDENT_KIND = CaseIgnoringWordList.new(:ident).
         add(SPECIAL_FORMS, :reserved).
         add(CORE_FORMS, :reserved).
-        add(PREDEFINED_CONSTANTS, :pre_constant)
+        add(PREDEFINED_CONSTANTS, :predefined_constant)
       
       BASIC_IDENTIFIER = /[a-zA-Z$%*\/_+!?&<>\-=][a-zA-Z0-9$&*+!\/_?<>\-\#]*/
       IDENTIFIER = /(?:[@']?(?:#{BASIC_IDENTIFIER}\.)*#{BASIC_IDENTIFIER}(?:\/#{BASIC_IDENTIFIER})?\.?)|\.\.?/
@@ -154,7 +154,7 @@ module CodeRay
             elsif match = scan(/\#\\(?:newline|space|.?)/)
               encoder.text_token match, :char
             elsif match = scan(/\#[ft]/)
-              encoder.text_token match, :pre_constant
+              encoder.text_token match, :predefined_constant
             elsif match = scan(/#{IDENTIFIER}/o)
               encoder.text_token match, ident_kind[matched]
             elsif match = scan(/#{SYMBOL}/o)

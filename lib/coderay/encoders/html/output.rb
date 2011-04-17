@@ -3,14 +3,14 @@ module Encoders
 
   class HTML
 
-    # This module is included in the output String from thew HTML Encoder.
+    # This module is included in the output String of the HTML Encoder.
     #
     # It provides methods like wrap, div, page etc.
     #
     # Remember to use #clone instead of #dup to keep the modules the object was
     # extended with.
     #
-    # TODO: more doc.
+    # TODO: Rewrite this without monkey patching.
     module Output
 
       attr_accessor :css
@@ -25,7 +25,7 @@ module Encoders
 
         def make_stylesheet css, in_tag = false  # :nodoc:
           sheet = css.stylesheet
-          sheet = <<-CSS if in_tag
+          sheet = <<-'CSS' if in_tag
 <style type="text/css">
 #{sheet}
 </style>

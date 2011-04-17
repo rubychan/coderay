@@ -55,8 +55,8 @@ module CodeRay
     :oct => 'oc',
     :predefined => 'pd',
     :preprocessor => 'pp',
-    :pre_constant => 'pc',  # FIXME: rename to :predefined_constant
-    :pre_type => 'pt',  # FIXME: rename to :predefined_type
+    :predefined_constant => 'pc',
+    :predefined_type => 'pt',
     :pseudo_class => 'ps',
     :regexp => 'rx',
     :reserved => 'r',

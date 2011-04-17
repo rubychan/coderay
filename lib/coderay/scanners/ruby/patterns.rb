@@ -27,7 +27,7 @@ module Scanners
 
     IDENT_KIND = WordList.new(:ident).
       add(RESERVED_WORDS, :reserved).
-      add(PREDEFINED_CONSTANTS, :pre_constant)
+      add(PREDEFINED_CONSTANTS, :predefined_constant)
 
     KEYWORD_NEW_STATE = WordList.new(:initial).
       add(%w[ def ], :def_expected).

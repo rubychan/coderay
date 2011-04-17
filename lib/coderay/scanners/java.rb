@@ -30,10 +30,10 @@ module Scanners
     IDENT_KIND = WordList.new(:ident).
       add(KEYWORDS, :keyword).
       add(RESERVED, :reserved).
-      add(CONSTANTS, :pre_constant).
+      add(CONSTANTS, :predefined_constant).
       add(MAGIC_VARIABLES, :local_variable).
       add(TYPES, :type).
-      add(BuiltinTypes::List, :pre_type).
+      add(BuiltinTypes::List, :predefined_type).
       add(BuiltinTypes::List.select { |builtin| builtin[/(Error|Exception)$/] }, :exception).
       add(DIRECTIVES, :directive)  # :nodoc:
 

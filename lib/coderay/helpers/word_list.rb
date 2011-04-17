@@ -37,8 +37,8 @@ module CodeRay
 #  # make a WordList
 #  IDENT_KIND = WordList.new(:ident).
 #    add(RESERVED_WORDS, :reserved).
-#    add(PREDEFINED_TYPES, :pre_type).
-#    add(PREDEFINED_CONSTANTS, :pre_constant)
+#    add(PREDEFINED_TYPES, :predefined_type).
+#    add(PREDEFINED_CONSTANTS, :predefined_constant)
 #
 #  ...
 #

@@ -62,8 +62,8 @@ n = ARGV.find { |a| a[/^N/] }
 N = if n then n[/\d+/].to_i else 1 end
 $filename = ARGV.include?('strange') ? 'strange' : 'example'
 
-(compare ? 1 : 5).times do
 Benchmark.bm(20) do |bm|
+N.times do
 
   data = nil
   File.open(here("#$filename." + lang), 'rb') { |f| data = f.read }
@@ -86,29 +86,27 @@ Benchmark.bm(20) do |bm|
   }
   $hl = CodeRay.encoder(format, options) unless $dump_output
   time = bm.report('CodeRay') do
-    N.times do
-      if $stream || true
-        if $dump_input
-          raise 'Can\'t stream dump.'
-        elsif $dump_output
-          raise 'Can\'t dump stream.'
-        end
-        $o = $hl.encode(data, lang, options)
-        @token_count = 253528  #$hl.token_stream.count rescue 1
+    if $stream || true
+      if $dump_input
+        raise 'Can\'t stream dump.'
+      elsif $dump_output
+        raise 'Can\'t dump stream.'
+      end
+      $o = $hl.encode(data, lang, options)
+      @token_count = 253528  #$hl.token_stream.count rescue 1
+    else
+      if $dump_input
+        tokens = CodeRay::Tokens.load data
       else
-        if $dump_input
-          tokens = CodeRay::Tokens.load data
-        else
-          tokens = CodeRay.scan(data, lang)
-        end
-        @token_count = tokens.count
-        p @token_count
-        tokens.optimize! if $optimize
-        if $dump_output
-          $o = tokens.optimize.dump
-        else
-          $o = tokens.encode($hl)
-        end
+        tokens = CodeRay.scan(data, lang)
+      end
+      @token_count = tokens.count
+      p @token_count
+      tokens.optimize! if $optimize
+      if $dump_output
+        $o = tokens.optimize.dump
+      else
+        $o = tokens.encode($hl)
       end
     end
   end
@@ -121,9 +119,9 @@ Benchmark.bm(20) do |bm|
     FileUtils.copy 'test.dump', 'example.dump' if $dump_output
   end
 
-  time_real = time.real / N
+  time_real = time.real
 
-  puts "\t%7.2f KB/s (%d.%d KB)\t%0.2f KTok/s" % [((@size / 1024.0) / time_real), @size / 1024, @size % 1024, ((@token_count / 1000.0) / time_real)]
+  puts "\t%7.2f KB/s (%d.%d KB)\t%0.2f KTok/s" % [((@size / 1000.0) / time_real), @size / 1000, @size % 1000, ((@token_count / 1000.0) / time_real)]
   puts $o if ARGV.include? '-o'
 
   if compare

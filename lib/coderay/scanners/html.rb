@@ -70,7 +70,7 @@ module Scanners
       
       until eos?
         
-        if match = scan(/\s+/m)
+        if state != :in_special_tag && match = scan(/\s+/m)
           encoder.text_token match, :space
           
         else
@@ -78,24 +78,6 @@ module Scanners
           case state
           
           when :initial
-            case in_tag
-            when 'script'
-              if scan(/(\s*<!--)(?:(.*?)(-->)|(.*))/m)
-                code = self[2] || self[4]
-                closing = self[3]
-                encoder.text_token self[1], :comment
-              else
-                code = scan_until(/(?=(?:\n\s*)?<\/script>)|\z/)
-                closing = false
-              end
-              unless code.empty?
-                encoder.begin_group :inline
-                scan_java_script encoder, code
-                encoder.end_group :inline
-              end
-              encoder.text_token closing, :comment if closing
-            end
-            next if eos?
             if match = scan(/<!--(?:.*?-->|.*)/m)
               encoder.text_token match, :comment
             elsif match = scan(/<!DOCTYPE(?:.*?>|.*)/m)
@@ -105,17 +87,22 @@ module Scanners
             elsif match = scan(/<\?(?:.*?\?>|.*)|<%(?:.*?%>|.*)/m)
               encoder.text_token match, :comment
             elsif match = scan(/<\/[-\w.:]*>?/m)
-              encoder.text_token match, :tag
               in_tag = nil
+              encoder.text_token match, :tag
             elsif match = scan(/<(?:(script)|[-\w.:]+)(>)?/m)
               encoder.text_token match, :tag
               in_tag = self[1]
-              state = :attribute unless self[2]
+              if self[2]
+                state = :in_special_tag if in_tag
+              else
+                state = :attribute
+              end
             elsif match = scan(/[^<>&]+/)
               encoder.text_token match, :plain
             elsif match = scan(/#{ENTITY}/ox)
               encoder.text_token match, :entity
             elsif match = scan(/[<>&]/)
+              in_tag = nil
               encoder.text_token match, :error
             else
               raise_inspect '[BUG] else-case reached with state %p' % [state], encoder
@@ -125,19 +112,24 @@ module Scanners
             if match = scan(/#{TAG_END}/o)
               encoder.text_token match, :tag
               in_attribute = nil
-              state = :initial
+              if in_tag
+                state = :in_special_tag
+              else
+                state = :initial
+              end
             elsif match = scan(/#{ATTR_NAME}/o)
               if match.downcase == 'onclick'
-                in_attribute = 'script'
+                in_attribute = :script
               end
               encoder.text_token match, :attribute_name
               state = :attribute_equal
             else
+              in_tag = nil
               encoder.text_token getch, :error
             end
             
           when :attribute_equal
-            if match = scan(/=/)
+            if match = scan(/=/)  #/
               encoder.text_token match, :operator
               state = :attribute_value
             elsif scan(/#{ATTR_NAME}/o) || scan(/#{TAG_END}/o)
@@ -153,10 +145,10 @@ module Scanners
               encoder.text_token match, :attribute_value
               state = :attribute
             elsif match = scan(/["']/)
-              if in_attribute == 'script'
+              if in_attribute == :script
                 encoder.begin_group :inline
                 encoder.text_token match, :inline_delimiter
-                if scan(/javascript:\s*/)
+                if scan(/javascript:[ \t]*/)
                   encoder.text_token matched, :comment
                 end
                 code = scan_until(match == '"' ? /(?="|\z)/ : /(?='|\z)/)
@@ -194,6 +186,29 @@ module Scanners
               encoder.end_group :string
               state = :initial
               encoder.text_token match, :error
+            end
+            
+          when :in_special_tag
+            case in_tag
+            when 'script'
+              encoder.text_token match, :space if match = scan(/[ \t]*\n/)
+              if scan(/(\s*<!--)(?:(.*?)(-->)|(.*))/m)
+                code = self[2] || self[4]
+                closing = self[3]
+                encoder.text_token self[1], :comment
+              else
+                code = scan_until(/(?=(?:\n\s*)?<\/script>)|\z/)
+                closing = false
+              end
+              unless code.empty?
+                encoder.begin_group :inline
+                scan_java_script encoder, code
+                encoder.end_group :inline
+              end
+              encoder.text_token closing, :comment if closing
+              state = :initial
+            else
+              raise 'unknown special tag: %p' % [in_tag]
             end
             
           else

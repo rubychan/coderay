@@ -14,7 +14,7 @@ module Encoders
   # 
   # A Scanner class should define the token kinds that are not code in the
   # KINDS_NOT_LOC constant, which defaults to [:comment, :doctype].
-  class LinesOfCode < Encoder
+  class LinesOfCode < TokenKindFilter
     
     register_for :lines_of_code
     
@@ -23,22 +23,19 @@ module Encoders
   protected
     
     def setup options
-      @out = 0
-    end
-    
-    def compile tokens, options
-      if scanner = tokens.scanner
+      if scanner
         kinds_not_loc = scanner.class::KINDS_NOT_LOC
       else
         warn "Tokens have no associated scanner, counting all nonempty lines." if $VERBOSE
         kinds_not_loc = CodeRay::Scanners::Scanner::KINDS_NOT_LOC
       end
-      code = tokens.token_kind_filter :exclude => kinds_not_loc
-      @out = code.to_s.scan(NON_EMPTY_LINE).size
+      
+      options[:exclude] = kinds_not_loc
+      super options
     end
     
     def finish options
-      @out
+      @out.to_s.scan(NON_EMPTY_LINE).size
     end
     
   end

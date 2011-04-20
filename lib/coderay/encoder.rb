@@ -46,7 +46,7 @@ module CodeRay
       DEFAULT_OPTIONS = { }
       
       # The options you gave the Encoder at creating.
-      attr_accessor :options
+      attr_accessor :options, :scanner
       
       # Creates a new Encoder.
       # +options+ is saved and used for all encode operations, as long
@@ -66,6 +66,7 @@ module CodeRay
       # Encode a Tokens object.
       def encode_tokens tokens, options = {}
         options = @options.merge options
+        @scanner = tokens.scanner if tokens.respond_to? :scanner
         setup options
         compile tokens, options
         finish options
@@ -74,10 +75,9 @@ module CodeRay
       # Encode the given +code+ using the Scanner for +lang+.
       def encode code, lang, options = {}
         options = @options.merge options
+        @scanner = Scanners[lang].new code, CodeRay.get_scanner_options(options).update(:tokens => self)
         setup options
-        scanner_options = CodeRay.get_scanner_options options
-        scanner_options[:tokens] = self
-        CodeRay.scan code, lang, scanner_options
+        @scanner.tokenize
         finish options
       end
       

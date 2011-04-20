@@ -33,16 +33,18 @@ Tokens                  11
   Non-Whitespace         4
 Bytes Total             20
 
-Token Types (5):
+Token Types (7):
   type                     count     ratio    size (average)
 -------------------------------------------------------------
   TOTAL                       11  100.00 %     1.8
   space                        3   27.27 %     3.0
-  begin_group                  1    9.09 %     0.0
-  begin_line                   1    9.09 %     0.0
+  string                       2   18.18 %     0.0
+  test                         2   18.18 %     0.0
+  :begin_group                 1    9.09 %     0.0
+  :begin_line                  1    9.09 %     0.0
+  :end_group                   1    9.09 %     0.0
+  :end_line                    1    9.09 %     0.0
   content                      1    9.09 %     4.0
-  end_group                    1    9.09 %     0.0
-  end_line                     1    9.09 %     0.0
   integer                      1    9.09 %     2.0
   method                       1    9.09 %     2.0
   operator                     1    9.09 %     3.0

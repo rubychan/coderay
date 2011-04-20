@@ -1,29 +1,29 @@
 module CodeRay
 module Encoders
-
+  
   # Makes a statistic for the given tokens.
   # 
   # Alias: +stats+
   class Statistic < Encoder
-
+    
     register_for :stats, :statistic
-
+    
     attr_reader :type_stats, :real_token_count  # :nodoc:
-
+    
     TypeStats = Struct.new :count, :size  # :nodoc:
-
+    
   protected
-
+    
     def setup options
       @type_stats = Hash.new { |h, k| h[k] = TypeStats.new 0, 0 }
       @real_token_count = 0
     end
-
+    
     def generate tokens, options
       @tokens = tokens
       super
     end
-  
+    
     STATS = <<-STATS  # :nodoc:
 
 Code Statistics
@@ -36,12 +36,12 @@ Token Types (%d):
   type                     count     ratio    size (average)
 -------------------------------------------------------------
 %s
-      STATS
-# space                    12007   33.81 %     1.7
+    STATS
+    
     TOKEN_TYPES_ROW = <<-TKR  # :nodoc:
   %-20s  %8d  %6.2f %%   %5.1f
-      TKR
-
+    TKR
+    
     def finish options
       all = @type_stats['TOTAL']
       all_count, all_size = all.count, all.size
@@ -57,7 +57,7 @@ Token Types (%d):
         types_stats
       ]
     end
-
+    
   public
     
     def text_token text, kind
@@ -67,30 +67,31 @@ Token Types (%d):
       @type_stats['TOTAL'].size += text.size
       @type_stats['TOTAL'].count += 1
     end
-
+    
     # TODO Hierarchy handling
     def begin_group kind
-      block_token 'begin_group'
-    end
-
-    def end_group kind
-      block_token 'end_group'
-    end
-
-    def begin_line kind
-      block_token 'begin_line'
-    end
-
-    def end_line kind
-      block_token 'end_line'
+      block_token ':begin_group', kind
     end
     
-    def block_token action
+    def end_group kind
+      block_token ':end_group', kind
+    end
+    
+    def begin_line kind
+      block_token ':begin_line', kind
+    end
+    
+    def end_line kind
+      block_token ':end_line', kind
+    end
+    
+    def block_token action, kind
       @type_stats['TOTAL'].count += 1
       @type_stats[action].count += 1
+      @type_stats[kind].count += 1
     end
-
+    
   end
-
+  
 end
 end

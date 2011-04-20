@@ -65,16 +65,18 @@ Tokens                  26
   Non-Whitespace        15
 Bytes Total             31
 
-Token Types (5):
+Token Types (7):
   type                     count     ratio    size (average)
 -------------------------------------------------------------
   TOTAL                       26  100.00 %     1.2
   delimiter                    6   23.08 %     1.0
   operator                     5   19.23 %     1.0
   space                        5   19.23 %     1.0
-  begin_group                  3   11.54 %     0.0
+  key                          4   15.38 %     0.0
+  :begin_group                 3   11.54 %     0.0
+  :end_group                   3   11.54 %     0.0
   content                      3   11.54 %     4.3
-  end_group                    3   11.54 %     0.0
+  string                       2    7.69 %     0.0
   integer                      1    3.85 %     2.0
 
     STATISTIC

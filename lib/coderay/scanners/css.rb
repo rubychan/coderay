@@ -9,7 +9,7 @@ module Scanners
       :comment,
       :class, :pseudo_class, :type,
       :constant, :directive,
-      :key, :value, :operator, :color, :float,
+      :key, :value, :operator, :color, :float, :string,
       :error, :important,
     ]  # :nodoc:
     

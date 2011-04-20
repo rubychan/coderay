@@ -13,7 +13,7 @@ module Scanners
     KINDS_NOT_LOC = [
       :comment, :doctype, :preprocessor,
       :tag, :attribute_name, :operator,
-      :attribute_value, :delimiter, :content,
+      :attribute_value, :string,
       :plain, :entity, :error,
     ]  # :nodoc:
     

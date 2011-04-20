@@ -17,6 +17,21 @@ module Scanners
       :plain, :entity, :error,
     ]  # :nodoc:
     
+    JAVASCRIPT_ATTRIBUTES = %w(
+      onabort onblur oncanplay oncanplaythrough onchange onclick oncontextmenu
+      oncuechange ondblclick ondrag ondragdrop ondragend ondragenter
+      ondragleave ondragover ondragstart ondrop ondurationchange onemptied
+      onended onerror onfocus oninput oninvalid onkeydown onkeypress onkeyup
+      onload onloadeddata onloadedmetadata onloadstart onmousedown onmousemove
+      onmouseout onmouseover onmouseup onmousewheel onmove onpause onplay
+      onplaying onprogress onratechange onreadystatechange onreset onresize
+      onseeked onseeking onselect onshow onstalled onsubmit onsuspend
+      ontimeupdate onunload onvolumechange onwaiting
+    )
+    
+    IN_ATTRIBUTE = CaseIgnoringWordList.new(nil).
+      add(JAVASCRIPT_ATTRIBUTES, :script)
+    
     ATTR_NAME = /[\w.:-]+/  # :nodoc:
     TAG_END = /\/?>/  # :nodoc:
     HEX = /[0-9a-fA-F]/  # :nodoc:
@@ -118,9 +133,7 @@ module Scanners
                 state = :initial
               end
             elsif match = scan(/#{ATTR_NAME}/o)
-              if match.downcase == 'onclick'
-                in_attribute = :script
-              end
+              in_attribute = IN_ATTRIBUTE[match]
               encoder.text_token match, :attribute_name
               state = :attribute_equal
             else

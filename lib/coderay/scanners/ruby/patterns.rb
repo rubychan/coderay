@@ -33,18 +33,7 @@ module Scanners
       add(RESERVED_WORDS, :reserved).
       add(PREDEFINED_CONSTANTS, :pre_constant)
 
-    if /\w/u === '∑'
-      # MRI 1.8.6, 1.8.7
-      IDENT = /[^\W\d]\w*/
-    else
-      if //.respond_to? :encoding
-        # MRI 1.9.1, 1.9.2
-        IDENT = Regexp.new '[\p{L}\p{M}\p{Pc}\p{Sm}&&[^\x00-\x40\x5b-\x5e\x60\x7b-\x7f]][\p{L}\p{M}\p{N}\p{Pc}\p{Sm}&&[^\x00-\x2f\x3a-\x40\x5b-\x5e\x60\x7b-\x7f]]*'
-      else
-        # JRuby, Rubinius
-        IDENT = /[^\x00-\x40\x5b-\x5e\x60\x7b-\x7f][^\x00-\x2f\x3a-\x40\x5b-\x5e\x60\x7b-\x7f]*/
-      end
-    end
+    IDENT = 'ä'[/[[:alpha:]]/] == 'ä' ? /[[:alpha:]_][[:alnum:]_]*/ : /[^\W\d]\w*/
 
     METHOD_NAME = / #{IDENT} [?!]? /ox
     METHOD_NAME_OPERATOR = /

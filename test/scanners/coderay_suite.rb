@@ -229,7 +229,7 @@ module CodeRay
     
     def random_test scanner, max
       if defined?(JRUBY_VERSION) && JRUBY_VERSION == '1.4.0' && %w[ruby nitroxhtml rhtml].include?(scanner.lang)
-        puts 'Random test skipped due to a bug in JRuby. See http://redmine.rubychan.de/issues/136.'.red
+        puts 'Random test skipped due to a bug in JRuby 1.4. See http://redmine.rubychan.de/issues/136.'.red
         @@warning_about_jruby_bug = true
         return
       end

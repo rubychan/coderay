@@ -263,7 +263,7 @@ module Scanners
             label_expected = true
             states << :php
           else
-            match = scan_until(/(?=#{RE::PHP_START})/o) || scan_until(/\z/)
+            match = scan_until(/(?=#{RE::PHP_START})/o) || scan_rest
             @html_scanner.tokenize match unless match.empty?
             next
           end

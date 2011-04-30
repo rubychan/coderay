@@ -280,6 +280,14 @@ surrounding code:
           string[pos, ambit],
         ]
       end
+      
+      # Shorthand for scan_until(/\z/).
+      # This method also avoids a JRuby 1.9 mode bug.
+      def scan_rest
+        rest = self.rest
+        terminate
+        rest
+      end
 
     end
 

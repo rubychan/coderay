@@ -56,7 +56,7 @@ module Scanners
 
         if state.instance_of? patterns::StringState
 # {{{
-          match = scan_until(state.pattern) || scan_until(/\z/)
+          match = scan_until(state.pattern) || scan_rest
           tokens << [match, :content] unless match.empty?
           break if eos?
 

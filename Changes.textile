@@ -2,6 +2,40 @@ h1=. CodeRay Version History
  
 p=. _This files lists all changes in the CodeRay library since the 0.8.4 release._
  
+h2. Changes in 0.9.8 "banister" [2011-05-01]
+ 
+Fixes for JRuby's 1.9 mode and minor issues.
+ 
+h3. Rake tasks
+ 
+* *REMOVED* obsolete @has_rdoc@ gem specification, fixing a warning.
+
+h3. @Scanners::Scanner@
+ 
+* *NEW* method @#scan_rest@ replaces @scan_until(/\z/)@, which is broken in JRuby 1.6 --1.9 mode.
+  See "#297":http://redmine.rubychan.de/issues/297.
+
+h3. @Scanners::CSS@
+ 
+* *FIXED* LOC counting (should be 0).
+  See "#296":http://redmine.rubychan.de/issues/296.
+
+h3. @Scanners::Ruby@
+ 
+* *FIXED* the @IDENT@ pattern not to use character properties, which are broken in JRuby 1.6 --1.9 mode.
+  See "#297":http://redmine.rubychan.de/issues/297, thanks to banister for reporting!
+
+h3. @Scanners::SQL@
+ 
+* *ADDED* more keywords: @between@, @databases@, @distinct@, @fields@, @full@, @having@, @is@, @prompt@, @tables@.
+  See "#221":http://redmine.rubychan.de/issues/221, thanks to Etienne Massip again.
+
+h3. @FileType@
+ 
+* *NEW* regonizes ColdFusion file type extensions @.cfm@ and @.cfc@ as XML.
+  See "#298":http://redmine.rubychan.de/issues/298, thanks to Emidio Stani.
+
+
 h2. Changes in 0.9.7 "Etienne" [2011-01-14]
  
 Fixes a dangerous JavaScript scanner bug, and a testing problem with Ruby 1.9.1.

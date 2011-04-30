@@ -6,26 +6,24 @@ module CodeRay module Scanners
     register_for :sql
     
     RESERVED_WORDS = %w(
-      create database table index trigger drop primary key set select
-      insert update delete replace into
-      on from values before and or if exists case when
-      then else as group order by avg where
-      join inner outer union engine not
-      like end using collate show columns begin
+      and as avg before begin between by case collate columns create database
+      databases delete distinct drop else end engine exists fields from full
+      group having if index inner insert into is join key like not on or order
+      outer primary prompt replace select set show table tables then trigger
+      union update using values when where
     )
     
     PREDEFINED_TYPES = %w(
-      char varchar enum binary text tinytext mediumtext
-      longtext blob tinyblob mediumblob longblob timestamp
-      date time datetime year double decimal float int
-      integer tinyint mediumint bigint smallint unsigned bit
-      bool boolean hex bin oct
+      bigint bin binary bit blob bool boolean char date datetime decimal
+      double enum float hex int integer longblob longtext mediumblob mediumint
+      mediumtext oct smallint text time timestamp tinyblob tinyint tinytext
+      unsigned varchar year
     )
     
     PREDEFINED_FUNCTIONS = %w( sum cast abs pi count min max avg )
     
     DIRECTIVES = %w( auto_increment unique default charset )
-
+    
     PREDEFINED_CONSTANTS = %w( null true false )
     
     IDENT_KIND = CaseIgnoringWordList.new(:ident).

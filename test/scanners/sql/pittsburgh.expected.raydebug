@@ -1,0 +1,115 @@
+comment(----CS1555 - DATABASE MANAGEMENT SYSTEMS (SPRING 2011\))
+comment(----DEPT. OF COMPUTER SCIENCE, UNIVERSITY OF PITTSBURGH)
+comment(----ASSIGMENT #2: SQL - SAMPLE SOLUTION - PART 2)
+comment(----Release: February 18, 2011)
+
+comment(-----------------------------------------------------------)
+comment(--Q4.a: List the names of all forests that have acid_level over 0.5.)
+
+reserved(prompt) ident(Q4)operator(.)ident(a) 
+
+reserved(SELECT) ident(Name) 
+reserved(FROM) ident(FOREST) 
+reserved(WHERE) ident(Acid_Level)operator(>)float(0.5)operator(;)
+
+
+comment(--------------------------)
+
+comment(--Q4.b: Find the names of all roads in the forest whose name is “Allegheny National Forest”.)
+ 
+reserved(prompt) ident(Q4)operator(.)ident(b) 
+reserved(SELECT) ident(R)operator(.)ident(Name) 
+reserved(FROM)	ident(ROAD) ident(R)operator(,) ident(INTERSECTION) ident(I)operator(,) ident(FOREST) ident(F) 
+reserved(WHERE) ident(R)operator(.)ident(Road_No)operator(=)ident(I)operator(.)ident(Road_No) reserved(and) ident(F)operator(.)ident(Forest_No)operator(=)ident(I)operator(.)ident(Forest_No) reserved(and)  
+ident(F)operator(.)ident(Name)operator(=)string<delimiter(')content(Allegheny National Forest)delimiter(')>operator(;)
+
+comment(-------------------------)
+comment(--Q4.c: List all the sensors along with the name of the workers who maintain them.)
+ 
+reserved(prompt) ident(Q4)operator(.)ident(c)
+
+reserved(SELECT) ident(s)operator(.)ident(Sensor_ID)operator(,) ident(w)operator(.)ident(Ssn)operator(,) ident(w)operator(.)ident(Name)
+reserved(from) ident(SENSOR) ident(s) ident(left) reserved(outer) reserved(join) ident(WORKER) ident(w) reserved(on) ident(s)operator(.)ident(Maintainer) operator(=) ident(w)operator(.)ident(ssn)operator(;) 
+
+comment(-------------------------------)
+comment(--Q4.d: List all the sensors which have not been assigned a maintainer. )
+reserved(prompt) ident(Q4)operator(.)ident(d)
+
+reserved(SELECT) operator(*)
+reserved(FROM) ident(SENSOR)
+reserved(WHERE) ident(Maintainer) reserved(is) pre_constant(null)operator(;)
+
+comment(------------------------------)
+comment(--Q4.e: Find the names of all forests such that no sensors in those forests reported anything between Jan 10, 2007 and Jan 11, 2007.)
+reserved(prompt) ident(Q4)operator(.)ident(e)
+
+reserved(SELECT) ident(Name) 
+reserved(FROM)   ident(FOREST)
+reserved(WHERE) reserved(NOT) reserved(EXISTS) operator(()reserved(SELECT) ident(Sensor_ID) 
+                  reserved(FROM) ident(SENSOR) ident(natural) reserved(join) ident(REPORT) 
+                  reserved(WHERE) operator(()ident(X) reserved(between) ident(MBR_XMin) reserved(and) ident(MBR_XMax)operator(\)) reserved(and) operator(()ident(Y) reserved(between) ident(MBR_YMin) reserved(and) ident(MBR_YMax)operator(\)) 
+                        reserved(and)  operator(()ident(Report_Time) reserved(between) string<delimiter(')content(10-JAN-07)delimiter(')> reserved(and) string<delimiter(')content(11-JAN-07)delimiter(')>operator(\))
+                 operator(\))operator(;)
+
+ 
+
+
+comment(------------------------------)
+comment(--Q4.f: List the pairs of states that share at least one forest (i.e., cover parts of the same forests\).)
+
+reserved(prompt) ident(Q4)operator(.)ident(f)
+
+reserved(SELECT) reserved(distinct) ident(c1)operator(.)ident(State)operator(,) ident(c2)operator(.)ident(State)
+reserved(FROM) ident(COVERAGE) ident(c1)operator(,) ident(COVERAGE) ident(c2)
+reserved(where) ident(c1)operator(.)ident(Forest_No) operator(=) ident(c2)operator(.)ident(Forest_No)
+     reserved(and) ident(c1)operator(.)ident(State) operator(<) ident(c2)operator(.)ident(State)operator(;)
+
+comment(------------------------------)
+comment(--Q4.g: For each forest, find its number of sensors and average temperature reported in January 2007. List them in descending order of the average temperatures.)
+
+reserved(prompt) ident(Q4)operator(.)ident(g)
+reserved(SELECT) ident(f)operator(.)ident(Forest_No)operator(,) predefined(COUNT)operator(()reserved(distinct) ident(s)operator(.)ident(Sensor_ID)operator(\)) reserved(as) ident(Num_Sensors)operator(,) predefined(AVG)operator(()ident(r)operator(.)ident(Temperature)operator(\)) reserved(as) ident(Avg_Temp)
+reserved(FROM) operator(()ident(FOREST) ident(f) ident(left) reserved(outer) reserved(join) ident(SENSOR) ident(s) reserved(on) operator(()ident(s)operator(.)ident(X) reserved(between) ident(f)operator(.)ident(MBR_XMin) reserved(and) ident(f)operator(.)ident(MBR_XMax)operator(\)) reserved(and) operator(()ident(s)operator(.)ident(Y) reserved(between) ident(f)operator(.)ident(MBR_YMin) reserved(and) ident(f)operator(.)ident(MBR_YMax)operator(\))operator(\))
+      ident(left) reserved(outer) reserved(join) operator(()reserved(select) operator(*) reserved(from) ident(Report) reserved(where) ident(Report_Time) reserved(between) string<delimiter(')content(1-JAN-07)delimiter(')> reserved(and) string<delimiter(')content(31-JAN-07)delimiter(')>operator(\)) ident(r) reserved(on) ident(s)operator(.)ident(Sensor_Id) operator(=) ident(r)operator(.)ident(Sensor_Id)
+reserved(GROUP) reserved(BY) ident(f)operator(.)ident(Forest_No)
+reserved(ORDER) reserved(BY) predefined(AVG)operator(()ident(r)operator(.)ident(Temperature)operator(\)) ident(desc)operator(;)
+
+comment(--Note that the left outer join is used instead of normal equi-join or theta-join in order to:)
+comment(--+ include the forest that does not have any sensor in it)
+comment(--+ include the forest whose sensors did not report anything in January 2007)
+
+comment(-----------------------------)
+
+comment(--Q4.h Find the states that have higher area of forest than Pennsylvania)
+reserved(prompt) ident(Q4)operator(.)ident(h)
+
+reserved(SELECT) ident(State)
+reserved(FROM) ident(coverage)
+reserved(GROUP) reserved(BY) ident(State)
+reserved(HAVING) predefined(sum)operator(()ident(area)operator(\)) operator(>) operator(()reserved(select) predefined(sum)operator(()ident(c)operator(.)ident(area)operator(\)) reserved(from) ident(State) ident(s) reserved(join) ident(Coverage) ident(c) reserved(on) ident(s)operator(.)ident(Abbreviation) operator(=) ident(c)operator(.)ident(State)
+                    reserved(where) ident(s)operator(.)ident(Name) operator(=) string<delimiter(')content(Pennsylvania)delimiter(')>operator(\)) operator(;)
+
+
+comment(------------------------------------)
+comment(--Q4.i: Find the states whose forests cover more than 30% of its area.)
+
+reserved(SELECT) ident(c)operator(.)ident(State) 
+reserved(FROM) ident(coverage) ident(c)
+reserved(GROUP) reserved(BY) ident(c)operator(.)ident(State)
+reserved(HAVING) predefined(sum)operator(()ident(c)operator(.)ident(area)operator(\)) operator(>) float(0.03)operator(*) operator(()reserved(select) ident(s)operator(.)ident(area) reserved(from) ident(State) ident(s) reserved(where) ident(s)operator(.)ident(Abbreviation) operator(=) ident(c)operator(.)ident(State)operator(\)) operator(;)
+
+comment(---------------------------------)
+comment(--Q4.j: Find the forest with the highest number of sensors)
+
+reserved(SELECT) ident(Forest_No)
+reserved(FROM) ident(Forest) reserved(join) ident(Sensor)  reserved(on) operator(()ident(X) reserved(between) ident(MBR_XMin) reserved(and) ident(MBR_XMax)operator(\)) reserved(and) operator(()ident(Y) reserved(between) ident(MBR_YMin) reserved(and) ident(MBR_YMax)operator(\))
+reserved(GROUP) reserved(BY) ident(Forest_No)
+reserved(HAVING) predefined(count)operator(()ident(sensor_ID)operator(\))  operator(=) operator(()reserved(SELECT) predefined(max)operator(()ident(num_sensors)operator(\)) 
+                              reserved(FROM) operator(()reserved(SELECT) predefined(count)operator(()ident(sensor_id)operator(\)) reserved(as) ident(num_sensors)
+                                    reserved(FROM) ident(Forest) reserved(join) ident(Sensor) reserved(on) operator(()ident(X) reserved(between) ident(MBR_XMin) reserved(and) ident(MBR_XMax)operator(\)) reserved(and) operator(()ident(Y) reserved(between) ident(MBR_YMin) reserved(and) ident(MBR_YMax)operator(\))
+                                    reserved(GROUP) reserved(BY) ident(Forest_No)operator(\))
+			   operator(\))operator(;)	
+ 
+
+
+

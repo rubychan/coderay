@@ -99,7 +99,7 @@ module Scanners
       state = :initial
       string_delimiter = nil
       string_raw = false
-      import_clause = class_name_follows = last_token_dot = false
+      last_token_dot = false
       unicode = string.respond_to?(:encoding) && string.encoding.name == 'UTF-8'
       from_import_state = []
       

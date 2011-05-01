@@ -26,15 +26,13 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2011-01-14T10:04:16Z</date>
+			<date>2011-04-30T23:07:15Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2011-01-14T10:15:34Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2011-04-30T13:11:34Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -81,8 +79,6 @@
 			<string>../rake_helpers</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>rake_tasks</string>
 			<key>regexFolderFilter</key>
@@ -97,8 +93,6 @@
 			<date>2010-03-09T02:48:36Z</date>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>functional</string>
 			<key>regexFolderFilter</key>
@@ -110,7 +104,7 @@
 			<key>filename</key>
 			<string>../test/scanners/coderay_suite.rb</string>
 			<key>lastUsed</key>
-			<date>2010-11-20T06:41:17Z</date>
+			<date>2011-04-30T13:42:15Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>

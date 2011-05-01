@@ -13,9 +13,8 @@ module Scanners
     
     def scan_tokens tokens, options
       
-      value_expected = nil
       state = :initial
-      key_indent = indent = 0
+      key_indent = 0
       
       until eos?
         

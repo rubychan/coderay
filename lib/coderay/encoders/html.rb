@@ -198,7 +198,6 @@ module Encoders
           else
             styles = [k]
           end
-          type = styles.first
           classes = styles.map { |c| Tokens::ClassOfKind[c] }
           if classes.first == :NO_HIGHLIGHT and not hint
             h[k] = false
@@ -222,7 +221,7 @@ module Encoders
     end
 
     def finish options
-      not_needed = @opened.shift
+      @opened.shift
       @out << '</span>' * @opened.size
       unless @opened.empty?
         warn '%d tokens still open: %p' % [@opened.size, @opened]

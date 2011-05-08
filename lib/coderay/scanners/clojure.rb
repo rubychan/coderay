@@ -14,7 +14,7 @@ module CodeRay
       ]  # :nodoc:
       
       CORE_FORMS = %w[
-        + - -> ->> .. / * < <= = == > >= accessor aclone add-classpath add-watch
+        + - -> ->> .. / * <= < = == >= > accessor aclone add-classpath add-watch
         agent agent-error agent-errors aget alength alias all-ns alter alter-meta!
         alter-var-root amap ancestors and apply areduce array-map aset aset-boolean
         aset-byte aset-char aset-double aset-float aset-int aset-long aset-short
@@ -74,20 +74,26 @@ module CodeRay
         with-in-str with-local-vars with-meta with-open with-out-str
         with-precision xml-seq zero? zipmap 
       ]  # :nodoc:
+      
       PREDEFINED_CONSTANTS = %w[
-        true false *1 *2 *3 *agent* *clojure-version* *command-line-args*
+        true false nil *1 *2 *3 *agent* *clojure-version* *command-line-args*
         *compile-files* *compile-path* *e *err* *file* *flush-on-newline*
         *in* *ns* *out* *print-dup* *print-length* *print-level* *print-meta*
         *print-readably* *read-eval* *warn-on-reflection*
       ]  # :nodoc:
       
-      IDENT_KIND = CaseIgnoringWordList.new(:ident).
+      IDENT_KIND = WordList.new(:ident).
         add(SPECIAL_FORMS, :reserved).
         add(CORE_FORMS, :reserved).
         add(PREDEFINED_CONSTANTS, :predefined_constant)
       
-      BASIC_IDENTIFIER = /[a-zA-Z$%*\/_+!?&<>\-=][a-zA-Z0-9$&*+!\/_?<>\-\#]*/
-      IDENTIFIER = /(?:[@']?(?:#{BASIC_IDENTIFIER}\.)*#{BASIC_IDENTIFIER}(?:\/#{BASIC_IDENTIFIER})?\.?)|\.\.?/
+      KEYWORD_NEXT_TOKEN_KIND = WordList.new(nil).
+        add(%w[ def defn defn- definline defmacro defmulti defmethod defstruct defonce declare ], :function).
+        add(%w[ ns ], :namespace).
+        add(%w[ defprotocol defrecord ], :class)
+      
+      BASIC_IDENTIFIER = /[a-zA-Z$%*\/_+!?&<>\-=]=?[a-zA-Z0-9$&*+!\/_?<>\-\#]*/
+      IDENTIFIER = /(?!-\d)(?:(?:#{BASIC_IDENTIFIER}\.)*#{BASIC_IDENTIFIER}(?:\/#{BASIC_IDENTIFIER})?\.?)|\.\.?/
       SYMBOL = /::?#{IDENTIFIER}/o
       DIGIT = /\d/
       DIGIT10 = DIGIT
@@ -139,7 +145,7 @@ module CodeRay
       def scan_tokens encoder, options
         
         state = :initial
-        ident_kind = IDENT_KIND
+        kind = nil
         
         until eos?
           
@@ -147,16 +153,23 @@ module CodeRay
           when :initial
             if match = scan(/ \s+ | \\\n | , /x)
               encoder.text_token match, :space
-            elsif match = scan(/['`\(\[\)\]\{\}]|\#[({]|~@?|@/)
-              encoder.text_token match, :operator  # FIXME: was :operator_fat
+            elsif match = scan(/['`\(\[\)\]\{\}]|\#[({]|~@?|[@\^]/)
+              encoder.text_token match, :operator
             elsif match = scan(/;.*/)
-              encoder.text_token match, :comment
-            elsif match = scan(/\#\\(?:newline|space|.?)/)
+              encoder.text_token match, :comment  # FIXME: recognize (comment ...) too
+            elsif match = scan(/\#?\\(?:newline|space|.?)/)
               encoder.text_token match, :char
             elsif match = scan(/\#[ft]/)
               encoder.text_token match, :predefined_constant
             elsif match = scan(/#{IDENTIFIER}/o)
-              encoder.text_token match, ident_kind[matched]
+              kind = IDENT_KIND[match]
+              encoder.text_token match, kind
+              if rest? && kind == :reserved
+                if kind = KEYWORD_NEXT_TOKEN_KIND[match]
+                  encoder.text_token match, :space if match = scan(/\s+/o)
+                  encoder.text_token match, kind if match = scan(/#{IDENTIFIER}/o)
+                end
+              end
             elsif match = scan(/#{SYMBOL}/o)
               encoder.text_token match, :symbol
             elsif match = scan(/\./)
@@ -168,7 +181,7 @@ module CodeRay
               encoder.begin_group state
               encoder.text_token match, :delimiter
             elsif match = scan(/#{NUM}/o) and not matched.empty?
-              encoder.text_token match, match[/[.e]/i] ? :float : :integer
+              encoder.text_token match, match[/[.e\/]/i] ? :float : :integer
             else
               encoder.text_token getch, :error
             end

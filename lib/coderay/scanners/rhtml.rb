@@ -44,7 +44,7 @@ module Scanners
       
       until eos?
         
-        if (match = scan_until(/(?=#{START_OF_ERB})/o) || scan_until(/\z/)) and not match.empty?
+        if (match = scan_until(/(?=#{START_OF_ERB})/o) || scan_rest) and not match.empty?
           @html_scanner.tokenize match, :tokens => encoder
           
         elsif match = scan(/#{ERB_RUBY_BLOCK}/o)

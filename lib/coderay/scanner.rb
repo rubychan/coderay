@@ -52,7 +52,7 @@ module CodeRay
       plugin_host Scanners
       
       # Raised if a Scanner fails while scanning
-      ScanError = Class.new Exception
+      ScanError = Class.new StandardError
       
       # The default options for all scanner classes.
       #
@@ -282,13 +282,21 @@ surrounding code:
         EOE
           File.basename(caller[0]),
           msg,
-          tokens.size,
-          tokens.last(10).map { |t| t.inspect }.join("\n"),
+          tokens.respond_to?(:size) ? tokens.size : 0,
+          tokens.respond_to?(:last) ? tokens.last(10).map { |t| t.inspect }.join("\n") : '',
           line, column, pos,
           matched, state, bol?, eos?,
           string[pos - ambit, ambit],
           string[pos, ambit],
         ]
+      end
+      
+      # Shorthand for scan_until(/\z/).
+      # This method also avoids a JRuby 1.9 mode bug.
+      def scan_rest
+        rest = self.rest
+        terminate
+        rest
       end
       
     end

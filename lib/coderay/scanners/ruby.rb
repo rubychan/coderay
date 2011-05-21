@@ -8,13 +8,6 @@ module Scanners
   #
   # It is optimized for HTML highlighting, and is not very useful for
   # parsing or pretty printing.
-  #
-  # For now, I think it's better than the scanners in VIM or Syntax, or
-  # any highlighter I was able to find, except Caleb's RubyLexer.
-  #
-  # I hope it's also better than the rdoc/irb lexer.
-  # 
-  # Alias: +irb+
   class Ruby < Scanner
     
     register_for :ruby
@@ -31,10 +24,8 @@ module Scanners
     
     def scan_tokens encoder, options
       
-      patterns = Patterns  # avoid constant lookup
-      
       state = @state
-      if state.instance_of? self.class::StringState
+      if state && state.instance_of?(self.class::StringState)
         encoder.begin_group state.type
       end
       
@@ -49,6 +40,8 @@ module Scanners
       
       # def_object_stack = nil
       # def_object_paren_depth = 0
+      
+      patterns = Patterns  # avoid constant lookup
       
       unicode = string.respond_to?(:encoding) && string.encoding.name == 'UTF-8'
       
@@ -339,7 +332,7 @@ module Scanners
           
         else  # StringState
           
-          match = scan_until(state.pattern) || scan_until(/\z/)
+          match = scan_until(state.pattern) || scan_rest
           unless match.empty?
             encoder.text_token match, :content
             break if eos?

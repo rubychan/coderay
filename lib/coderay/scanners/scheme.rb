@@ -84,7 +84,7 @@ module CodeRay
             if match = scan(/ \s+ | \\\n /x)
               encoder.text_token match, :space
             elsif match = scan(/['\(\[\)\]]|#\(/)
-              encoder.text_token match, :operator  # FIXME: was :operator_fat
+              encoder.text_token match, :operator
             elsif match = scan(/;.*/)
               encoder.text_token match, :comment
             elsif match = scan(/#\\(?:newline|space|.?)/)

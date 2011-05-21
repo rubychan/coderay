@@ -17,20 +17,23 @@ module Scanners
       :plain, :entity, :error,
     ]  # :nodoc:
     
-    JAVASCRIPT_ATTRIBUTES = %w(
-      onabort onblur oncanplay oncanplaythrough onchange onclick oncontextmenu
-      oncuechange ondblclick ondrag ondragdrop ondragend ondragenter
-      ondragleave ondragover ondragstart ondrop ondurationchange onemptied
-      onended onerror onfocus oninput oninvalid onkeydown onkeypress onkeyup
-      onload onloadeddata onloadedmetadata onloadstart onmousedown onmousemove
-      onmouseout onmouseover onmouseup onmousewheel onmove onpause onplay
-      onplaying onprogress onratechange onreadystatechange onreset onresize
-      onseeked onseeking onselect onshow onstalled onsubmit onsuspend
-      ontimeupdate onunload onvolumechange onwaiting
+    EVENT_ATTRIBUTES = %w(
+      onabort onafterprint onbeforeprint onbeforeunload onblur oncanplay
+      oncanplaythrough onchange onclick oncontextmenu oncuechange ondblclick
+      ondrag ondragdrop ondragend ondragenter ondragleave ondragover
+      ondragstart ondrop ondurationchange onemptied onended onerror onfocus
+      onformchange onforminput onhashchange oninput oninvalid onkeydown
+      onkeypress onkeyup onload onloadeddata onloadedmetadata onloadstart
+      onmessage onmousedown onmousemove onmouseout onmouseover onmouseup
+      onmousewheel onmove onoffline ononline onpagehide onpageshow onpause
+      onplay onplaying onpopstate onprogress onratechange onreadystatechange
+      onredo onreset onresize onscroll onseeked onseeking onselect onshow
+      onstalled onstorage onsubmit onsuspend ontimeupdate onundo onunload
+      onvolumechange onwaiting
     )
     
     IN_ATTRIBUTE = CaseIgnoringWordList.new(nil).
-      add(JAVASCRIPT_ATTRIBUTES, :script)
+      add(EVENT_ATTRIBUTES, :script)
     
     ATTR_NAME = /[\w.:-]+/  # :nodoc:
     TAG_END = /\/?>/  # :nodoc:

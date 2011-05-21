@@ -203,7 +203,7 @@ h3. @Scanners::Java@
 * *NEW*: Package names are highlighted as @:namespace@.
   See "#210":http://redmine.rubychan.de/issues/210.
 
-h3. @Scanners::Plaintext@
+h3. *RENAMED*: @Scanners::Text@ (was @Scanners::Plaintext@)
  
 * *IMPROVED*: Just returns the string without scanning (faster).
  
@@ -242,10 +242,12 @@ h3. @Scanners::Scheme@
 
 h3. @Scanners::SQL@
  
-* *IMPROVED*: Extended list of keywords and functions (thanks to Joshua Galvez).
+* *IMPROVED*: Extended list of keywords and functions (thanks to
+  Joshua Galvez, Etienne Massip, and others).
  
   See "#221":http://redmine.rubychan.de/issues/221.
 * *FIXED*: Closes open string groups.
+* *FIXED*: Words after @.@ are always recognized as @:ident@.
 
 h3. @Scanners::YAML@
  
@@ -261,6 +263,13 @@ See "#199":http://redmine.rubychan.de/issues/199.
 It also uses the CSS 3 property @user-select: none@ to keep the user from selecting the line numbers. This is especially nice for @:inline@ line numbers.
 See "#226":http://redmine.rubychan.de/issues/226.
 
+h3. @WordList@
+ 
+Stripped down to 19 LOC.
+
+* *REMOVED* caching option because it creates memory leaks.
+* *REMOVED* block option.
+
 h3. @FileType@
  
 * *REMOVED* @FileType#shebang@ is a protected method now.
@@ -273,7 +282,7 @@ h3. @Plugin@
 * *IMPROVED*: @register_for@ sets the @plugin_id@; it can now be a @Symbol@.
 * *ADDED* @PluginHost#const_missing@ method: Plugins are loaded automatically.
   Using @Scanners::JavaScript@ in your code loads @scanners/java_script.rb@.
-* *ADDED* @#all_plugins@ and @#all_titles@ methods to simplify getting 
+* *ADDED* @#all_plugins@ method to simplify getting 
   information about all available plugins (suggested by bnhymn).
 
 h3. @GZip@
@@ -289,7 +298,111 @@ h3. Internal API changes
 * *REMOVED* lots of unused methods.
 
 
-h2. Changes in 0.9.4
+h2. Changes in 0.9.8 "banister" [2011-05-01]
+ 
+Fixes for JRuby's 1.9 mode and minor issues.
+ 
+h3. Rake tasks
+ 
+* *REMOVED* obsolete @has_rdoc@ gem specification, fixing a warning.
+
+h3. @Scanners::Scanner@
+ 
+* *NEW* method @#scan_rest@ replaces @scan_until(/\z/)@, which is broken in JRuby 1.6 --1.9 mode.
+  See "#297":http://redmine.rubychan.de/issues/297.
+
+h3. @Scanners::CSS@
+ 
+* *FIXED* LOC counting (should be 0).
+  See "#296":http://redmine.rubychan.de/issues/296.
+
+h3. @Scanners::Ruby@
+ 
+* *FIXED* the @IDENT@ pattern not to use character properties, which are broken in JRuby 1.6 --1.9 mode.
+  See "#297":http://redmine.rubychan.de/issues/297, thanks to banister for reporting!
+
+h3. @Scanners::SQL@
+ 
+* *ADDED* more keywords: @between@, @databases@, @distinct@, @fields@, @full@, @having@, @is@, @prompt@, @tables@.
+  See "#221":http://redmine.rubychan.de/issues/221, thanks to Etienne Massip again.
+
+h3. @FileType@
+ 
+* *NEW* regonizes ColdFusion file type extensions @.cfm@ and @.cfc@ as XML.
+  See "#298":http://redmine.rubychan.de/issues/298, thanks to Emidio Stani.
+
+
+h2. Changes in 0.9.7 "Etienne" [2011-01-14]
+ 
+Fixes a dangerous JavaScript scanner bug, and a testing problem with Ruby 1.9.1.
+ 
+h3. Tests
+ 
+* *FIXED* The functional tests now load the lib directory (instead of the gem) in Ruby 1.9.1.
+
+h3. @Scanners::JavaScript@
+ 
+* *FIXED* @KEY_CHECK_PATTERN@ regexp
+  See "#264":http://redmine.rubychan.de/issues/264, thanks to Etienne Massip!
+
+
+h2. Changes in 0.9.6 "WoNáDo" [2010-11-25]
+ 
+Minor improvements to the Ruby scanner and a fix for Ruby 1.9.
+ 
+h3. @Scanners::Ruby@
+ 
+* *IMPROVED* handling of new hash syntax (keys are marked as @:key@ now,
+  colon is a separate @:operator@ token, all idents can be used as keys)
+  See "#257":http://code.licenser.net/issues/257, thanks to WoNáDo!
+* *ADDED* @__ENCODING__@ magic constant (Ruby 1.9)
+* *FIXED*: Scanner no longer tries to modify the input string on Ruby 1.9.
+  See "#260":http://code.licenser.net/issues/260, thanks to Jan Lelis!
+
+
+h2. Changes in 0.9.5 "Germany.rb" [2010-09-28]
+ 
+Support for Rubinius ("#251":http://redmine.rubychan.de/issues/251), improved mutlibyte handling, Ruby 1.9 syntax, and valid HTML.
+ 
+h3. @Encoders::HTML@
+ 
+* *FIXED*: Line tokens use @span@ with @display: block@ instead of @div@, which was invalid HTML ("#255":http://redmine.rubychan.de/issues/255).
+
+h3. @Scanner::Scanner@
+ 
+* *IMPROVED* handling of encodings in Ruby 1.9: UTF-8 and Windows-1252 are checked.
+* *NEW*: Invalid chars will be converted to @?@ in Ruby 1.9.
+* *FIXED* @string=@ method for Rubinius. See "issue 481":http://github.com/evanphx/rubinius/issues/481 on their site.
+
+h3. @Scanners::CSS@
+ 
+* *FIXED*: Don't use non-ASCII regexps.
+
+h3. @Scanners::Diff@
+ 
+* *FIXED*: Highlight unexpected lines as @:comment@.
+
+h3. @Scanners::PHP@
+ 
+* *FIXED*: Use @ASCII-8BIT@ encoding for now.
+
+h3. @Scanners::Ruby@
+ 
+* *ADDED* support for some Ruby 1.9 syntax ("#254":http://redmine.rubychan.de/issues/254):
+** the @->@ lambda shortcut
+** new Hash syntax using colons (@{ a: b }@)
+* *FIXED*: Use @UTF-8@ encoding.
+* *IMPROVED* unicode support on Ruby 1.8 ("#253":http://redmine.rubychan.de/issues/253).
+* *FIXED* recognition of non-ASCII identifiers in Ruby 1.9, JRuby, and Rubinius ("#253":http://redmine.rubychan.de/issues/253).
+* *CHANGED* heredoc recognition to ignore delimiters starting with a digit. This is incorrect, but causes less false positives.
+
+h3. @Scanners::SQL@
+ 
+* *FIXED* scanning of comments; nice catch, Rubinius!
+  ("#252":http://redmine.rubychan.de/issues/252)
+
+
+h2. Changes in 0.9.4 "Ramadan" [2010-08-31]
  
 Updated command line interface and minor scanner fixes for the Diff, HTML, and RHTML scanners.
  
@@ -314,7 +427,7 @@ h3. @Scanners::RHTML@
   ("#246":http://redmine.rubychan.de/issues/246)
 
 
-h2. Changes in 0.9.3
+h2. Changes in 0.9.3 "Eyjafjallajökull" [2010-04-18]
  
 * *FIXED*: Documentation of Tokens.
   ("#218":http://redmine.rubychan.de/issues/218)
@@ -336,7 +449,7 @@ h3. @Scanners::Java@, @Scanners::JSON@
 * *FIXED*: Close unfinished strings with the correct token kind.
 
 
-h2. Changes in 0.9.2
+h2. Changes in 0.9.2 "Flameeyes" [2010-03-14]
  
 * *NEW* Basic tests and a _Rakefile_ are now included in the Gem. [Flameeyes]
   A @doc@ task is also included.
@@ -377,7 +490,7 @@ h3. @Scanners::YAML@
   ("#149":http://redmine.rubychan.de/issues/149)
 
 
-h2. Changes in 0.9.1
+h2. Changes in 0.9.1 [2009-12-31]
  
 h3. Token classes
  

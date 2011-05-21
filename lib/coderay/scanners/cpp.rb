@@ -11,7 +11,7 @@ module Scanners
     title 'C++'
     
     #-- http://www.cppreference.com/wiki/keywords/start
-    RESERVED_WORDS = [
+    KEYWORDS = [
       'and', 'and_eq', 'asm', 'bitand', 'bitor', 'break',
       'case', 'catch', 'class', 'compl', 'const_cast',
       'continue', 'default', 'delete', 'do', 'dynamic_cast', 'else',
@@ -40,7 +40,7 @@ module Scanners
     ]  # :nodoc:
     
     IDENT_KIND = WordList.new(:ident).
-      add(RESERVED_WORDS, :reserved).
+      add(KEYWORDS, :keyword).
       add(PREDEFINED_TYPES, :predefined_type).
       add(PREDEFINED_VARIABLES, :local_variable).
       add(DIRECTIVES, :directive).
@@ -94,7 +94,7 @@ module Scanners
               match << matched
             else
               label_expected = false
-              if kind == :reserved
+              if kind == :keyword
                 case match
                 when 'class'
                   state = :class_name_expected

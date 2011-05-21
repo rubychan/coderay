@@ -7,7 +7,7 @@ module Scanners
     register_for :c
     file_extension 'c'
     
-    RESERVED_WORDS = [
+    KEYWORDS = [
       'asm', 'break', 'case', 'continue', 'default', 'do',
       'else', 'enum', 'for', 'goto', 'if', 'return',
       'sizeof', 'struct', 'switch', 'typedef', 'union', 'while',
@@ -31,7 +31,7 @@ module Scanners
     ]  # :nodoc:
 
     IDENT_KIND = WordList.new(:ident).
-      add(RESERVED_WORDS, :reserved).
+      add(KEYWORDS, :keyword).
       add(PREDEFINED_TYPES, :predefined_type).
       add(DIRECTIVES, :directive).
       add(PREDEFINED_CONSTANTS, :predefined_constant)  # :nodoc:
@@ -80,7 +80,7 @@ module Scanners
               match << matched
             else
               label_expected = false
-              if kind == :reserved
+              if kind == :keyword
                 case match
                 when 'case', 'default'
                   case_expected = true

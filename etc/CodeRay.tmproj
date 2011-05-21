@@ -5,6 +5,8 @@
 	<key>documents</key>
 	<array>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -24,7 +26,7 @@
 			<key>filename</key>
 			<string>../diff</string>
 			<key>lastUsed</key>
-			<date>2011-03-07T22:50:28Z</date>
+			<date>2011-05-08T07:53:59Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -36,9 +38,7 @@
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2011-03-07T22:50:29Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2011-05-08T09:37:51Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -53,6 +53,8 @@
 			<date>2010-06-27T05:41:28Z</date>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>etc</string>
 			<key>regexFolderFilter</key>
@@ -125,7 +127,7 @@
 					<key>filename</key>
 					<string>../test/scanners/coderay_suite.rb</string>
 					<key>lastUsed</key>
-					<date>2011-03-01T00:15:35Z</date>
+					<date>2011-05-08T16:19:54Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>

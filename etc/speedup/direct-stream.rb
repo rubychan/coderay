@@ -21,7 +21,7 @@ protected
         encoder.text_token matched, :space
       elsif matched = scan(/!/)
         encoder.text_token matched, :not_going_to_happen
-      elsif matched = scan(/=/)
+      elsif matched = scan(/=/)  #/
         encoder.text_token matched, :not_going_to_happen
       elsif matched = scan(/%/)
         encoder.text_token matched, :not_going_to_happen

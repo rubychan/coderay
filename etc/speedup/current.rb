@@ -21,7 +21,7 @@ protected
         tokens << [matched, :space]
       elsif matched = scan(/!/)
         tokens << [matched, :not_going_to_happen]
-      elsif matched = scan(/=/)
+      elsif matched = scan(/=/)  #/
         tokens << [matched, :not_going_to_happen]
       elsif matched = scan(/%/)
         tokens << [matched, :not_going_to_happen]

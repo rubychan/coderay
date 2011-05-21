@@ -119,20 +119,24 @@ end
 N = (5 ** (ARGV.first || 8).to_i)
 code = (1..N).map { |n| "#{n} alpha, beta, (gamma).\n" }.join
 
-time = Benchmark.realtime do
-  out = Encoder.new.encode(Scanner.new(code))
-end
-puts 'Current: %0.2fs -- %0.0f kTok/s' % [time, (N * 11 + 1) / time / 1000]
-
 slice_size = (ARGV[1] || 100).to_i
-time = Benchmark.realtime do
-  threads = []
-  code.lines.each_slice slice_size do |lines|
-    threads << Thread.new do
-      Thread.current[:out] = Encoder.new.encode(Scanner.new(lines.inject(&:+)))
+3.times do
+  time = Benchmark.realtime do
+    threads = []
+    code.lines.each_slice slice_size do |lines|
+      threads << Thread.new do
+        Thread.current[:out] = Encoder.new.encode(Scanner.new(lines.inject(&:+)))
+      end
     end
+    threads.each(&:join)
+    out = threads.map { |t| t[:out] }.join
   end
-  threads.each(&:join)
-  out = threads.map { |t| t[:out] }.join
+  puts 'Multi-Threaded: %0.2fs -- %0.0f kTok/s' % [time, (N * 11 + 1) / time / 1000]
 end
-puts 'Multi-Threaded: %0.2fs -- %0.0f kTok/s' % [time, (N * 11 + 1) / time / 1000]
+
+3.times do
+  time = Benchmark.realtime do
+    out = Encoder.new.encode(Scanner.new(code))
+  end
+  puts 'Current: %0.2fs -- %0.0f kTok/s' % [time, (N * 11 + 1) / time / 1000]
+end

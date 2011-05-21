@@ -45,7 +45,7 @@ module CodeRay
           if !opts[:lang] && RedCloth::VERSION.to_s >= '4.2.0'
             # simulating pre-4.2 behavior
             if opts[:text].sub!(/\A\[(\w+)\]/, '')
-              if CodeRay::Scanners[$1].plugin_id == :plaintext
+              if CodeRay::Scanners[$1].plugin_id == :text
                 opts[:text] = $& + opts[:text]
               else
                 opts[:lang] = $1

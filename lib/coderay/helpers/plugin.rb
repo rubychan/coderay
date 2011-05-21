@@ -120,14 +120,12 @@ module CodeRay
       end
     end
     
-    # Every plugin must register itself for one or more
-    # +ids+ by calling register_for, which calls this method.
+    # Every plugin must register itself for +id+ by calling register_for,
+    # which calls this method.
     #
     # See Plugin#register_for.
-    def register plugin, *ids
-      for id in ids
-        plugin_hash[validate_id(id)] = plugin
-      end
+    def register plugin, id
+      plugin_hash[validate_id(id)] = plugin
     end
     
     # A Hash of plugion_id => Plugin pairs.
@@ -152,13 +150,6 @@ module CodeRay
     def all_plugins
       load_all
       plugin_hash.values.grep(Class)
-    end
-    
-    # Returns an array of all plugin titles.
-    # 
-    # Note: This loads all plugins using load_all.
-    def all_titles
-      all_plugins.map { |plugin| plugin.title }
     end
     
   protected
@@ -239,7 +230,8 @@ module CodeRay
   #  See CodeRay::PluginHost for examples.
   module Plugin
     
-    # Register this class for the given langs.
+    # Register this class for the given +id+.
+    # 
     # Example:
     #   class MyPlugin < PluginHost::BaseClass
     #     register_for :my_id
@@ -247,9 +239,9 @@ module CodeRay
     #   end
     #
     # See PluginHost.register.
-    def register_for *ids
-      @plugin_id = ids.first
-      plugin_host.register self, *ids
+    def register_for id
+      @plugin_id = id
+      plugin_host.register self, id
     end
     
     # Returns the title of the plugin, or sets it to the

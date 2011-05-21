@@ -149,7 +149,7 @@ more code  # and another comment, in-line.
   
   def test_list_of_scanners
     assert_kind_of(Array, CodeRay::Scanners.list)
-    assert CodeRay::Scanners.list.include?(:plaintext)
+    assert CodeRay::Scanners.list.include?(:text)
   end
   
   def test_token_kinds

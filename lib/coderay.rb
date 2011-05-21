@@ -168,7 +168,7 @@ module CodeRay
     #
     # If +lang+ is :auto or omitted, the CodeRay::FileType module is used to
     # determine it. If it cannot find out what type it is, it uses
-    # CodeRay::Scanners::Plaintext.
+    # CodeRay::Scanners::Text.
     #
     # Calls CodeRay.scan.
     #
@@ -179,7 +179,7 @@ module CodeRay
       file = IO.read filename
       if lang == :auto
         require 'coderay/helpers/file_type'
-        lang = FileType.fetch filename, :plaintext, true
+        lang = FileType.fetch filename, :text, true
       end
       scan file, lang, options = {}, &block
     end

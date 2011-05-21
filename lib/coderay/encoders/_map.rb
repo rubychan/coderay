@@ -2,9 +2,11 @@ module CodeRay
 module Encoders
   
   map \
-    :loc => :lines_of_code,
+    :loc  => :lines_of_code,
     :term => :terminal,
+    :tty  => :terminal,
     :plain => :text,
+    :plaintext => :text,
     :remove_comments => :comment_filter,
     :stats => :statistic,
     :tex => :latex

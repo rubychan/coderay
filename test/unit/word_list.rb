@@ -25,7 +25,7 @@ class WordListTest < Test::Unit::TestCase
     add(RESERVED_WORDS, :reserved).
     add(PREDEFINED_TYPES, :predefined_type).
     add(PREDEFINED_CONSTANTS, :predefined_constant)
-
+  
   def test_word_list_example
     assert_equal :predefined_type, IDENT_KIND['void']
     # assert_equal :predefined_constant, IDENT_KIND['...']  # not specified
@@ -35,38 +35,23 @@ class WordListTest < Test::Unit::TestCase
     list = WordList.new(:ident).add(['foobar'], :reserved)
     assert_equal :reserved, list['foobar']
     assert_equal :ident, list['FooBar']
+    assert_equal 1, list.size
   end
-
-  def test_word_list_cached
-    list = WordList.new(:ident, true).add(['foobar'], :reserved)
-    assert_equal :reserved, list['foobar']
-    assert_equal :ident, list['FooBar']
-  end
-
+  
   def test_case_ignoring_word_list
     list = CaseIgnoringWordList.new(:ident).add(['foobar'], :reserved)
     assert_equal :ident, list['foo']
     assert_equal :reserved, list['foobar']
     assert_equal :reserved, list['FooBar']
-
+    assert_equal 1, list.size
+    
     list = CaseIgnoringWordList.new(:ident).add(['FooBar'], :reserved)
     assert_equal :ident, list['foo']
     assert_equal :reserved, list['foobar']
     assert_equal :reserved, list['FooBar']
+    assert_equal 1, list.size
   end
-
-  def test_case_ignoring_word_list_cached
-    list = CaseIgnoringWordList.new(:ident, true).add(['foobar'], :reserved)
-    assert_equal :ident, list['foo']
-    assert_equal :reserved, list['foobar']
-    assert_equal :reserved, list['FooBar']
-
-    list = CaseIgnoringWordList.new(:ident, true).add(['FooBar'], :reserved)
-    assert_equal :ident, list['foo']
-    assert_equal :reserved, list['foobar']
-    assert_equal :reserved, list['FooBar']
-  end
-
+  
   def test_dup
     list = WordList.new(:ident).add(['foobar'], :reserved)
     assert_equal :reserved, list['foobar']
@@ -75,5 +60,5 @@ class WordListTest < Test::Unit::TestCase
     assert_equal :keyword, list2['foobar']
     assert_equal :reserved, list['foobar']
   end
-
+  
 end

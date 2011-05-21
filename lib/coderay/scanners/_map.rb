@@ -12,11 +12,12 @@ module Scanners
     :nitro => :nitro_xhtml,
     :pascal => :delphi,
     :patch => :diff,
-    :plain => :plaintext,
+    :plain => :text,
+    :plaintext => :text,
     :xhtml => :html,
     :yml => :yaml
   
-  default :plain
+  default :text
   
 end
 end

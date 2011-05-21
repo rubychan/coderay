@@ -7,13 +7,13 @@ module CodeRay
   # == Usage
   #
   #  # determine the type of the given
-  #  lang = FileType[ARGV.first]
+  #  lang = FileType[file_name]
   #  
-  #  # return :plaintext if the file type is unknown
-  #  lang = FileType.fetch ARGV.first, :plaintext
+  #  # return :text if the file type is unknown
+  #  lang = FileType.fetch file_name, :text
   #  
   #  # try the shebang line, too
-  #  lang = FileType.fetch ARGV.first, :plaintext, true
+  #  lang = FileType.fetch file_name, :text, true
   module FileType
     
     UnknownFileType = Class.new Exception
@@ -77,46 +77,48 @@ module CodeRay
     end
     
     TypeFromExt = {
-      'c' => :c,
-      'clj' => :clojure,
-      'css' => :css,
-      'diff' => :diff,
-      'dpr' => :delphi,
-      'gemspec' => :ruby,
-      'groovy' => :groovy,
-      'gvy' => :groovy,
-      'h' => :c,
-      'htm' => :html,
-      'html' => :html,
+      'c'        => :c,
+      'cfc'      => :xml,
+      'cfm'      => :xml,
+      'clj'      => :clojure,
+      'css'      => :css,
+      'diff'     => :diff,
+      'dpr'      => :delphi,
+      'gemspec'  => :ruby,
+      'groovy'   => :groovy,
+      'gvy'      => :groovy,
+      'h'        => :c,
+      'htm'      => :html,
+      'html'     => :html,
       'html.erb' => :rhtml,
-      'java' => :java,
-      'js' => :java_script,
-      'json' => :json,
-      'mab' => :ruby,
-      'pas' => :delphi,
-      'patch' => :diff,
-      'php' => :php,
-      'php3' => :php,
-      'php4' => :php,
-      'php5' => :php,
-      'py' => :python,
-      'py3' => :python,
-      'pyw' => :python,
-      'rake' => :ruby,
+      'java'     => :java,
+      'js'       => :java_script,
+      'json'     => :json,
+      'mab'      => :ruby,
+      'pas'      => :delphi,
+      'patch'    => :diff,
+      'php'      => :php,
+      'php3'     => :php,
+      'php4'     => :php,
+      'php5'     => :php,
+      'py'       => :python,
+      'py3'      => :python,
+      'pyw'      => :python,
+      'rake'     => :ruby,
       'raydebug' => :raydebug,
-      'rb' => :ruby,
-      'rbw' => :ruby,
-      'rhtml' => :rhtml,
-      'rjs' => :ruby,
-      'rpdf' => :ruby,
-      'rxml' => :ruby,
-      'sch' => :scheme,
-      'sql' => :sql,
-      'ss' => :scheme,
-      'xhtml' => :xhtml,
-      'xml' => :xml,
-      'yaml' => :yaml,
-      'yml' => :yaml,
+      'rb'       => :ruby,
+      'rbw'      => :ruby,
+      'rhtml'    => :rhtml,
+      'rjs'      => :ruby,
+      'rpdf'     => :ruby,
+      'rxml'     => :ruby,
+      'sch'      => :scheme,
+      'sql'      => :sql,
+      'ss'       => :scheme,
+      'xhtml'    => :xhtml,
+      'xml'      => :xml,
+      'yaml'     => :yaml,
+      'yml'      => :yaml,
     }
     for cpp_alias in %w[cc cpp cp cxx c++ C hh hpp h++ cu]
       TypeFromExt[cpp_alias] = :cpp

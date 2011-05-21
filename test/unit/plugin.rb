@@ -31,7 +31,7 @@ class PluginScannerTest < Test::Unit::TestCase
   def test_load_all
     assert_instance_of Symbol, Plugins.load_all.first
     assert_operator Plugins.all_plugins.first, :<, Plugins::Plugin
-    assert_equal 'The Example', Plugins.all_titles.sort.first
+    assert_equal 'The Example', Plugins.all_plugins.map { |plugin| plugin.title }.sort.first
   end
   
   def test_default

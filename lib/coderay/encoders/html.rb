@@ -147,18 +147,14 @@ module Encoders
     #
     # +hint+ may be :info, :info_long or :debug.
     def self.token_path_to_hint hint, kinds
-      # FIXME: TRANSPARENT_TOKEN_KINDS?
-      # if TRANSPARENT_TOKEN_KINDS.include? kinds.first
-      #   kinds = kinds[1..-1]
-      # else
-      #   kinds = kinds[1..-1] + kinds.first
-      # end
+      kinds = Array kinds
       title =
         case hint
         when :info
-          TOKEN_KIND_TO_INFO[Array(kinds).first]
+          kinds = kinds[1..-1] if TRANSPARENT_TOKEN_KINDS.include? kinds.first
+          TOKEN_KIND_TO_INFO[kinds.first]
         when :info_long
-          kinds.map { |kind| TOKEN_KIND_TO_INFO[kind] }.join('/')
+          kinds.reverse.map { |kind| TOKEN_KIND_TO_INFO[kind] }.join('/')
         when :debug
           kinds.inspect
         end
@@ -178,7 +174,7 @@ module Encoders
       hint = options[:hint]
       if hint && ![:debug, :info, :info_long].include?(hint)
         raise ArgumentError, "Unknown value %p for :hint; \
-          expected :info, :debug, false, or nil." % hint
+          expected :info, :info_long, :debug, false, or nil." % hint
       end
       
       css_classes = TokenKinds
@@ -212,6 +208,8 @@ module Encoders
       else
         raise ArgumentError, "Unknown value %p for :css." % options[:css]
       end
+      
+      @set_last_opened = options[:hint] || options[:css] == :style
     end
     
     def finish options
@@ -249,7 +247,7 @@ module Encoders
     def begin_group kind
       @out << (@span_for_kind[@last_opened ? [kind, *@opened] : kind] || '<span>')
       @opened << kind
-      @last_opened = kind if @options[:css] == :style
+      @last_opened = kind if @set_last_opened
     end
     
     def end_group kind

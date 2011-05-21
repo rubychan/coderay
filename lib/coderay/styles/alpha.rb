@@ -30,8 +30,9 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
   background-color: #{numbers_background};
   color: gray;
   text-align: right;
-  -moz-user-select: none;
   -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 .CodeRay .line_numbers a, .CodeRay .no a {
   background-color: #{numbers_background} !important;
@@ -58,9 +59,9 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .c .dl { color:#444 }
 .c .ch { color:#444 }
 
-.ch { color:#04D }
-.ch .k { color:#04D }
-.ch .dl { color:#039 }
+.ch { color:#D20 }
+.ch .k { color:#D20 }
+.ch .dl { color:#710 }
 
 .cl { color:#B06; font-weight:bold }
 .cm { color:#A08 }
@@ -100,7 +101,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .pd { color:#369; font-weight:bold }
 .pp { color:#579 }
 .ps { color:#00C; font-weight:bold }
-.pt { color:#074; font-weight:bold }
+.pt { color:#0a5; font-weight:bold }
 .r  { color:#080; font-weight:bold }
 .kw { color:#080; font-weight:bold }
 
@@ -131,7 +132,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .ta { color:#070 }
 .ts { color:#D70; font-weight:bold }
 .ty { color:#339; font-weight:bold }
-.v  { color:#036 }
+.v  { color:#037 }
 .xt { color:#444 }
 
 .ins { background: hsla(120,100%,50%,0.2) }

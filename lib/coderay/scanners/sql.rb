@@ -5,26 +5,27 @@ module CodeRay module Scanners
 
     register_for :sql
     
-    RESERVED_WORDS = %w(
-      all and as before begin by case collate
-      constraint create else end engine exists
-      for foreign from group if inner is join key
-      like not on or order outer primary references replace
-      then to trigger union using values when where
+    KEYWORDS = %w(
+      all and any as before begin between by case check collate
+      each else end exists
+      for foreign from full group having if in inner is join
+      like not of on or order outer over references
+      then to union using values when where
       left right distinct
     )
     
     OBJECTS = %w(
-      database databases table tables column columns index
+      database databases table tables column columns fields index constraint
+      constraints transaction function procedure row key view trigger
     )
     
     COMMANDS = %w(
       add alter comment create delete drop grant insert into select update set
-      show
+      show prompt begin commit rollback replace truncate
     )
     
     PREDEFINED_TYPES = %w(
-      char varchar enum binary text tinytext mediumtext
+      char varchar varchar2 enum binary text tinytext mediumtext
       longtext blob tinyblob mediumblob longblob timestamp
       date time datetime year double decimal float int
       integer tinyint mediumint bigint smallint unsigned bit
@@ -33,12 +34,16 @@ module CodeRay module Scanners
     
     PREDEFINED_FUNCTIONS = %w( sum cast substring abs pi count min max avg now )
     
-    DIRECTIVES = %w( auto_increment unique default charset )
+    DIRECTIVES = %w( 
+      auto_increment unique default charset initially deferred
+      deferrable cascade immediate read write asc desc after
+      primary foreign return engine
+    )
     
     PREDEFINED_CONSTANTS = %w( null true false )
     
     IDENT_KIND = CaseIgnoringWordList.new(:ident).
-      add(RESERVED_WORDS, :reserved).
+      add(KEYWORDS, :keyword).
       add(OBJECTS, :type).
       add(COMMANDS, :class).
       add(PREDEFINED_TYPES, :predefined_type).
@@ -56,6 +61,7 @@ module CodeRay module Scanners
       state = :initial
       string_type = nil
       string_content = ''
+      name_expected = false
       
       until eos?
         
@@ -70,7 +76,8 @@ module CodeRay module Scanners
           elsif match = scan(%r( /\* (!)? (?: .*? \*/ | .* ) )mx)
             encoder.text_token match, self[1] ? :directive : :comment
             
-          elsif match = scan(/ [-+*\/=<>;,!&^|()\[\]{}~%] | \.(?!\d) /x)
+          elsif match = scan(/ [*\/=<>:;,!&^|()\[\]{}~%] | [-+\.](?!\d) /x)
+            name_expected = true if match == '.' && check(/[A-Za-z_]/)
             encoder.text_token match, :operator
             
           elsif match = scan(/(#{STRING_PREFIXES})?([`"'])/o)
@@ -83,8 +90,8 @@ module CodeRay module Scanners
             encoder.text_token match, :delimiter
             
           elsif match = scan(/ @? [A-Za-z_][A-Za-z_0-9]* /x)
-            # FIXME: Don't match keywords after "."
-            encoder.text_token match, match[0] == ?@ ? :variable : IDENT_KIND[match.downcase]
+            encoder.text_token match, name_expected ? :ident : (match[0] == ?@ ? :variable : IDENT_KIND[match])
+            name_expected = false
             
           elsif match = scan(/0[xX][0-9A-Fa-f]+/)
             encoder.text_token match, :hex
@@ -92,10 +99,10 @@ module CodeRay module Scanners
           elsif match = scan(/0[0-7]+(?![89.eEfF])/)
             encoder.text_token match, :oct
             
-          elsif match = scan(/(?>\d+)(?![.eEfF])/)
+          elsif match = scan(/[-+]?(?>\d+)(?![.eEfF])/)
             encoder.text_token match, :integer
             
-          elsif match = scan(/\d[fF]|\d*\.\d+(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+/)
+          elsif match = scan(/[-+]?(?:\d[fF]|\d*\.\d+(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+)/)
             encoder.text_token match, :float
           
           elsif match = scan(/\\N/)

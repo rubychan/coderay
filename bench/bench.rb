@@ -9,14 +9,14 @@ LIBDIR = Pathname.new(MYDIR).join('..', 'lib').cleanpath.to_s
 $:.unshift MYDIR, LIBDIR
 require 'coderay'
 
-@size = ARGV.fetch(2, 100).to_i * 2**10  # 2**10 = 1 Ki
+@size = ARGV.fetch(2, 100).to_i * 1000
 
 lang = ARGV.fetch(0) do
   puts <<-HELP
 Usage:
-  ruby bench.rb (c|ruby|dump) (null|text|tokens|count|statistic|yaml|html) [SIZE in KB] [stream]
+  ruby bench.rb (c|ruby|dump) (null|text|tokens|count|statistic|yaml|html) [size in kB] [stream]
 
-  SIZE defaults to 100.
+  SIZE defaults to 100 kB (= 100,000 bytes).
   SIZE = 0 means the whole input.
   SIZE is ignored when dump is input.
 

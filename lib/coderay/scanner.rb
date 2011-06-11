@@ -67,7 +67,7 @@ module CodeRay
         # scanner's internal encoding, with invalid and undefined charachters
         # replaced by placeholders. Always returns a new object.
         def normalize code
-          original = code
+          # original = code
           code = code.to_s unless code.is_a? ::String
           if code.respond_to? :encoding
             code = encode_with_encoding code, self.encoding

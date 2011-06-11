@@ -107,7 +107,7 @@ module Scanners
       string_raw = false
       string_type = nil
       docstring_coming = match?(/#{DOCSTRING_COMING}/o)
-      import_clause = class_name_follows = last_token_dot = false
+      last_token_dot = false
       unicode = string.respond_to?(:encoding) && string.encoding.name == 'UTF-8'
       from_import_state = []
       

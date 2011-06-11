@@ -1,15 +1,15 @@
 module CodeRay
 module Encoders
-
+  
   # = YAML Encoder
   #
   # Slow.
   class YAML < Encoder
-
+    
     register_for :yaml
-
+    
     FILE_EXTENSION = 'yaml'
-
+    
   protected
     def setup options
       require 'yaml'
@@ -21,7 +21,6 @@ module Encoders
     end
     
   public
-    
     def text_token text, kind
       @out << [text, kind]
     end
@@ -43,6 +42,6 @@ module Encoders
     end
     
   end
-
+  
 end
 end

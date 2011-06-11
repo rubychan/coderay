@@ -9,7 +9,7 @@ module CodeRay
   # speedup
   TokenKinds.compare_by_identity if TokenKinds.respond_to? :compare_by_identity
   
-  TokenKinds.update with = {  # :nodoc:
+  TokenKinds.update(  # :nodoc:
     :annotation => 'at',
     :attribute_name => 'an',
     :attribute_value => 'av',
@@ -80,8 +80,8 @@ module CodeRay
     :operator => false,  # 'op'
     
     :space => false,  # 'sp'
-    :plain => false,
-  }
+    :plain => false
+  )
   
   TokenKinds[:method]    = TokenKinds[:function]
   TokenKinds[:escape]    = TokenKinds[:delimiter]

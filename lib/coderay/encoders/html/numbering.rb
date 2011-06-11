@@ -68,18 +68,18 @@ module Encoders
         when :inline
           max_width = (start + line_count).to_s.size
           line_number = start
-          opened_tags = []
+          nesting = []
           output.gsub!(/^.*$\n?/) do |line|
             line.chomp!
-            open = opened_tags.join
+            open = nesting.join
             line.scan(%r!<(/)?span[^>]*>?!) do |close,|
               if close
-                opened_tags.pop
+                nesting.pop
               else
-                opened_tags << $&
+                nesting << $&
               end
             end
-            close = '</span>' * opened_tags.size
+            close = '</span>' * nesting.size
             
             line_number_text = bolding.call line_number
             indent = ' ' * (max_width - line_number.to_s.size)  # TODO: Optimize (10^x)

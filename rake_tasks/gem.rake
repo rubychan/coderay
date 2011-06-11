@@ -1,4 +1,4 @@
-require 'rake/gempackagetask.rb'
+require 'rubygems/package_task'
 
 def gemspec
   Gem::Specification.new do |s|
@@ -43,7 +43,7 @@ end
 
 namespace :gem do
 
-  gemtask = Rake::GemPackageTask.new(gemspec) do |pkg|
+  gemtask = Gem::PackageTask.new(gemspec) do |pkg|
     pkg.need_zip = true
     pkg.need_tar = true
   end

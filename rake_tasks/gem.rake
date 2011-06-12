@@ -1,7 +1,7 @@
 require 'rubygems/package_task'
 
 def svn_head_revision
-  @svn_head_revision ||= `svn up --ignore-externals && svn info`[/Revision: (\d+)/,1]
+  @svn_head_revision ||= `svnversion`.scan(/\d+/).map { |r| r.to_i }.max
 end
 
 def coderay_version

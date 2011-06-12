@@ -1,3 +1,6 @@
+gem 'rdoc' if defined? gem
+require 'rdoc/task'
+
 desc 'Generate documentation for CodeRay'
 Rake::RDocTask.new :doc do |rd|
   rd.main = 'lib/README'

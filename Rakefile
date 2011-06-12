@@ -1,6 +1,4 @@
 $:.unshift File.dirname(__FILE__) unless $:.include? '.'
-gem 'rdoc' if defined? gem
-require 'rdoc/task'
 
 ROOT = '.'
 LIB_ROOT = File.join ROOT, 'lib'

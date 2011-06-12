@@ -10,11 +10,11 @@ def coderay_version
     require 'coderay'
     
     version = CodeRay::VERSION
-    if ENV['pre']
-      version + ".#{svn_head_revision}.pre"
-    elsif version[/.0$/]
-      version + ".#{svn_head_revision}"
+    unless ENV['final']
+      version << ".#{svn_head_revision}.pre"
     end
+    
+    version
   end
 end
 
@@ -29,15 +29,19 @@ def gemspec
     s.summary     = 'Fast syntax highlighting for selected languages.'
     s.description = 'Fast and easy syntax highlighting for selected languages, written in Ruby. Comes with RedCloth integration and LOC counter.'
     
-    s.files         = Dir['lib/**/*.rb'] + %w(Rakefile lib/README LICENSE) + Dir['test/functional/*.rb']
+    s.files         = Dir['lib/**/*.rb'] + %w(Rakefile README.rdoc LICENSE) + Dir['test/functional/*.rb']
     s.test_files    = Dir['test/functional/*.rb']
     s.executables   = [ 'coderay', 'coderay_stylesheet' ]
     s.require_paths = ['lib']
     
     s.rubyforge_project = s.name
-    s.rdoc_options      = '-SNw2', '-mlib/README', '-t CodeRay Documentation'
+    s.rdoc_options      = '-SNw2', '-mREADME.rdoc', '-t CodeRay Documentation'
     s.extra_rdoc_files  = EXTRA_RDOC_FILES
   end
+end
+
+def gem_path
+  "pkg/coderay-#{coderay_version}.gem"
 end
 
 namespace :gem do
@@ -53,15 +57,21 @@ namespace :gem do
   
   desc 'Delete previously created Gems'
   task :clean do
-    Dir['pkg/*.gem'].each { |g| rm g }
+    rm_r Dir['pkg/*']
   end
   
-  task :set_pre do
-    ENV['pre'] = 'true'
+  desc 'Install the gem'
+  task :install => [:make] do
+    sh "gem install #{gem_path}"
   end
   
-  desc 'Make a prerelease Gem.'
-  task :prerelease => [:set_pre, :make]
+  desc 'Release the gem on rubygems.org'
+  task :release => [:make] do
+    print "Releasing CodeRay #{coderay_version}. Are you sure? "
+    if $stdin.gets.chomp == 'yes'
+      sh "gem push #{gem_path}"
+    end
+  end
 end
 
 task :gem => 'gem:make'

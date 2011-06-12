@@ -2,7 +2,7 @@ $:.unshift File.dirname(__FILE__) unless $:.include? '.'
 
 ROOT = '.'
 LIB_ROOT = File.join ROOT, 'lib'
-EXTRA_RDOC_FILES = %w(lib/README FOLDERS)
+EXTRA_RDOC_FILES = %w(README.rdoc FOLDERS)
 
 task :default => :test
 
@@ -22,13 +22,14 @@ else
     ruby './test/functional/for_redcloth.rb'
   end
   
+  gem 'rdoc' if defined? gem
+  require 'rdoc/task'
   desc 'Generate documentation for CodeRay'
   Rake::RDocTask.new :doc do |rd|
     rd.title = 'CodeRay Documentation'
-    rd.main = 'lib/README'
+    rd.main = 'README.rdoc'
     rd.rdoc_files.add Dir['lib']
-    rd.rdoc_files.add 'lib/README'
-    rd.rdoc_files.add 'FOLDERS'
+    rd.rdoc_files.add 'README.rdoc'
     rd.rdoc_dir = 'doc'
   end
   

@@ -19,7 +19,7 @@ module CodeRay
       ]  # :nodoc:
       
       IDENT_KIND = CaseIgnoringWordList.new(:ident).
-        add(CORE_FORMS, :reserved)  # :nodoc:
+        add(CORE_FORMS, :keyword)  # :nodoc:
       
       #IDENTIFIER_INITIAL = /[a-z!@\$%&\*\/\:<=>\?~_\^]/i
       #IDENTIFIER_SUBSEQUENT = /#{IDENTIFIER_INITIAL}|\d|\.|\+|-/

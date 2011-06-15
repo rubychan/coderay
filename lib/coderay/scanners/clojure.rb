@@ -83,8 +83,8 @@ module CodeRay
       ]  # :nodoc:
       
       IDENT_KIND = WordList.new(:ident).
-        add(SPECIAL_FORMS, :reserved).
-        add(CORE_FORMS, :reserved).
+        add(SPECIAL_FORMS, :keyword).
+        add(CORE_FORMS, :keyword).
         add(PREDEFINED_CONSTANTS, :predefined_constant)
       
       KEYWORD_NEXT_TOKEN_KIND = WordList.new(nil).
@@ -164,7 +164,7 @@ module CodeRay
             elsif match = scan(/#{IDENTIFIER}/o)
               kind = IDENT_KIND[match]
               encoder.text_token match, kind
-              if rest? && kind == :reserved
+              if rest? && kind == :keyword
                 if kind = KEYWORD_NEXT_TOKEN_KIND[match]
                   encoder.text_token match, :space if match = scan(/\s+/o)
                   encoder.text_token match, kind if match = scan(/#{IDENTIFIER}/o)

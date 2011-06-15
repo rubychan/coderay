@@ -9,7 +9,7 @@ module Scanners
     register_for :delphi
     file_extension 'pas'
     
-    RESERVED_WORDS = [
+    KEYWORDS = [
       'and', 'array', 'as', 'at', 'asm', 'at', 'begin', 'case', 'class',
       'const', 'constructor', 'destructor', 'dispinterface', 'div', 'do',
       'downto', 'else', 'end', 'except', 'exports', 'file', 'finalization',
@@ -34,7 +34,7 @@ module Scanners
     ]  # :nodoc:
     
     IDENT_KIND = CaseIgnoringWordList.new(:ident).
-      add(RESERVED_WORDS, :reserved).
+      add(KEYWORDS, :keyword).
       add(DIRECTIVES, :directive)  # :nodoc:
     
     NAME_FOLLOWS = CaseIgnoringWordList.new(false).

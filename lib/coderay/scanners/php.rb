@@ -182,9 +182,9 @@ module Scanners
       ]
       
       IDENT_KIND = CaseIgnoringWordList.new(:ident).
-        add(KEYWORDS, :reserved).
+        add(KEYWORDS, :keyword).
         add(TYPES, :predefined_type).
-        add(LANGUAGE_CONSTRUCTS, :reserved).
+        add(LANGUAGE_CONSTRUCTS, :keyword).
         add(BUILTIN_FUNCTIONS, :predefined).
         add(CLASSES, :predefined_constant).
         add(EXCEPTIONS, :exception).
@@ -281,7 +281,7 @@ module Scanners
               label_expected = false
               if kind == :ident && match =~ /^[A-Z]/
                 kind = :constant
-              elsif kind == :reserved
+              elsif kind == :keyword
                 case match
                 when 'class'
                   states << :class_expected

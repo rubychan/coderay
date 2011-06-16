@@ -90,7 +90,7 @@ module Scanners
                 if match[/\A[A-Z]/] && !(match[/[!?]$/] || match?(/\(/))
                   kind = :constant
                 end
-              elsif kind == :reserved
+              elsif kind == :keyword
                 state = patterns::KEYWORD_NEW_STATE[match]
                 value_expected = true if patterns::KEYWORDS_EXPECTING_VALUE[match]
               end

@@ -4,7 +4,7 @@ module Scanners
 
   module Ruby::Patterns  # :nodoc: all
 
-    RESERVED_WORDS = %w[
+    KEYWORDS = %w[
       and def end in or unless begin
       defined? ensure module redo super until
       BEGIN break do next rescue then
@@ -26,7 +26,7 @@ module Scanners
     ]
 
     IDENT_KIND = WordList.new(:ident).
-      add(RESERVED_WORDS, :reserved).
+      add(KEYWORDS, :keyword).
       add(PREDEFINED_CONSTANTS, :predefined_constant)
 
     KEYWORD_NEW_STATE = WordList.new(:initial).

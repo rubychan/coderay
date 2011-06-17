@@ -134,6 +134,9 @@ module CodeRay
   # Revision: Subversion Revision number (generated on rake gem:make)
   VERSION = '1.0.0'
   
+  # helpers
+  autoload :FileType, 'coderay/helpers/file_type'
+  
   # Tokens
   autoload :Tokens, 'coderay/tokens'
   autoload :TokenKinds, 'coderay/token_kinds'
@@ -178,7 +181,6 @@ module CodeRay
     def scan_file filename, lang = :auto, options = {}, &block
       file = IO.read filename
       if lang == :auto
-        require 'coderay/helpers/file_type'
         lang = FileType.fetch filename, :text, true
       end
       scan file, lang, options = {}, &block

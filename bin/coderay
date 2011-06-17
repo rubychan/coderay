@@ -1,99 +1,112 @@
 #!/usr/bin/env ruby
-# CodeRay Executable
-#
-# Version: 0.2
-# Author: murphy
+require 'coderay'
 
-def err msg
-  $stderr.puts msg
+$options, $args = ARGV.partition { |arg| arg[/^-[hv]$|--\w+/] }
+subcommand = $args.detect { |arg| arg[/^\w/] }
+subcommand = nil if subcommand && File.exist?(subcommand)
+$args.delete subcommand
+
+def option? *options
+  !($options & options).empty?
 end
 
-def read
-  if file = ARGV[2]
-    File.read file
-  else
-    $stdin.read
-  end
+def tty?
+  $stdout.tty? || option?('--tty')
 end
 
-begin
-  require 'coderay'
+def version
+  puts <<-USAGE
+CodeRay #{CodeRay::VERSION}
+  USAGE
+end
 
-  if ARGV.empty?
-    puts <<-USAGE
-CodeRay #{CodeRay::VERSION} (http://coderay.rubychan.de)
-
+def help
+  puts <<-HELP
 Usage:
-  coderay -<lang> [-<format>] < file > output
-  coderay file [-<format>]
+  coderay [-<language>] [input] [-<format>] [output]
 
 Examples:
-  coderay -ruby -statistic < foo.rb
-  coderay -ruby < foo.rb  # colorized output to terminal
-  coderay -ruby -page foo.rb  # HTML page output to terminal
-  coderay -ruby -page foo.rb > foo.html  # HTML page output to file
-  coderay codegen.c  # generates codegen.c.html
-    USAGE
-  end
+  coderay -ruby file -loc              # count lines of code in Ruby file
+  coderay -ruby < foo.rb               # colorized output to terminal
+  coderay -ruby foo.rb -page foo.html  # HTML page output to file
+  coderay stylesheet                   # CSS stylesheet
+  HELP
+end
 
-  first, second = ARGV
+def commands
+  puts <<-COMMANDS
+  General:
+    help        print some help
+    version     print CodeRay version
+    commands    print this list
+    stylesheet  print the CSS stylesheet with the given name
+  COMMANDS
+end
 
-  if first
-    if first[/-(\w+)/] == first
-      lang = $1
-      input = read
-      tokens = :scan
-    elsif first == '-'
-      lang = $1
-      input = read
-      tokens = :scan
-    else
-      file = first
-      tokens = CodeRay.scan_file file
-      output_filename, output_ext = file, /#{Regexp.escape(File.extname(file))}$/
-    end
-  else
-    puts 'No lang/file given.'
-    exit 1
-  end
+if option? '-v', '--version'
+  version
+end
 
-  if second
-    if second[/-(\w+)/] == second
-      format = $1
-    else
-      raise 'invalid format (must be -xxx)'
-    end
+if option? '-h', '--help'
+  help
+end
+
+case subcommand
+when 'highlight', nil
+  if ARGV.empty?
+    version
+    help
   else
-    if $stdout.tty?
-      format = :term
-    else
-      $stderr.puts 'No format given; setting to default (HTML Page).'
-      format = :page
-    end
-  end
-  
-  if tokens == :scan
-    output = CodeRay.encoder(format).encode(input, lang)
-  else
-    output = tokens.encode format
-  end
-  out = $stdout
-  if output_filename
-    output_filename += '.' + CodeRay::Encoders[format]::FILE_EXTENSION.to_s
-    if File.exist? output_filename
-      err 'File %s already exists.' % output_filename
+    signature = $args.map { |arg| arg[/^-/] ? '-' : 'f' }.join
+    names     = $args.map { |arg| arg.sub(/^-/, '') }
+    case signature
+    when /^$/
       exit
+    when /^ff?$/
+      input_file, output_file, = *names
+    when /^-ff?$/
+      input_filetype, input_file, output_file, = *names
+    when /^-f-f?$/
+      input_filetype, input_file, output_filetype, output_file, = *names
+    when /^--?f?$/
+      input_filetype, output_filetype, output_file, = *names
     else
-      out = File.open output_filename, 'w'
-      puts "Writing to #{output_filename}..."
+      raise signature
+    end
+    
+    if input_file
+      input_filetype ||= CodeRay::FileType.fetch input_file, :text, true
+    end
+    
+    if output_file
+      output_filetype ||= CodeRay::FileType[output_file]
+    else
+      output_filetype ||= tty? ? :term : :page
+    end
+    
+    if input_file
+      input = File.read input_file
+    else
+      input = $stdin.read
+    end
+    
+    output = CodeRay.scan(input, input_filetype).encode(output_filetype)
+    
+    if output_file
+      File.open output_file, 'w' do |file|
+        file.puts output
+      end
+    else
+      puts output
     end
   end
-  out.puts output
-
-rescue => boom
-  err "Error: #{boom.message}\n"
-  err boom.backtrace
-  err '-' * 50
-  err ARGV
-  exit 1
+when 'stylesheet'
+  puts CodeRay::Encoders[:html]::CSS.new($args.first).stylesheet
+when 'commands'
+  commands
+when 'help'
+  help
+else
+  puts "Unknown command: #{subcommand}"
+  help
 end

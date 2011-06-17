@@ -1,0 +1,1 @@
+class ClassName(): pass

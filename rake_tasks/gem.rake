@@ -31,7 +31,7 @@ def gemspec
     
     s.files         = Dir['lib/**/*.rb'] + %w(Rakefile README.rdoc LICENSE) + Dir['test/functional/*.rb']
     s.test_files    = Dir['test/functional/*.rb']
-    s.executables   = [ 'coderay', 'coderay_stylesheet' ]
+    s.executables   = ['coderay']
     s.require_paths = ['lib']
     
     s.rubyforge_project = s.name

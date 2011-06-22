@@ -23,8 +23,9 @@ module Scanners
     end
     
     def scan_tokens encoder, options
+      state, heredocs = @state
+      heredocs = heredocs.dup if heredocs.is_a?(Array)
       
-      state = @state
       if state && state.instance_of?(self.class::StringState)
         encoder.begin_group state.type
       end
@@ -34,9 +35,14 @@ module Scanners
       method_call_expected = false
       value_expected = true
       
-      heredocs = nil
       inline_block_stack = nil
       inline_block_curly_depth = 0
+      
+      if heredocs
+        state = heredocs.shift
+        encoder.begin_group state.type
+        heredocs = nil if heredocs.empty?
+      end
       
       # def_object_stack = nil
       # def_object_paren_depth = 0
@@ -421,11 +427,14 @@ module Scanners
       
       # cleaning up
       if options[:keep_state]
-        @state = state
+        heredocs = nil if heredocs && heredocs.empty?
+        @state = state, heredocs
       end
+      
       if state.is_a? self.class::StringState
         encoder.end_group state.type
       end
+      
       if inline_block_stack
         until inline_block_stack.empty?
           state, = *inline_block_stack.pop

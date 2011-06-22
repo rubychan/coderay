@@ -11,7 +11,7 @@ module Scanners
     
     DEFAULT_OPTIONS = {
       :highlight_code => true,
-      :inline_diff => true,
+      :inline_diff    => true,
     }
     
   protected
@@ -73,7 +73,7 @@ module Scanners
             next unless match = scan(/.+/)
             encoder.text_token match, :plain
           elsif match = scan(/@@(?>[^@\n]*)@@/)
-            content_scanner.instance_variable_set(:@state, :initial) unless match?(/\n\+/)
+            content_scanner.state = :initial unless match?(/\n\+/)
             content_scanner_entry_state = nil
             if check(/\n|$/)
               encoder.begin_line line_kind = :change
@@ -106,37 +106,39 @@ module Scanners
             encoder.begin_line line_kind = :delete
             encoder.text_token match, :delete
             if options[:inline_diff] && deleted_lines == 1 && check(/(?>.*)\n\+(?>.*)$(?!\n\+)/)
-              if content_scanner.instance_variable_defined?(:@state)
-                content_scanner_entry_state = content_scanner.instance_variable_get(:@state)
-              end
+              content_scanner_entry_state = content_scanner.state
               skip(/(.*)\n\+(.*)$/)
               head, deletion, insertion, tail = diff self[1], self[2]
               pre, deleted, post = content_scanner.tokenize [head, deletion, tail], :tokens => Tokens.new
               encoder.tokens pre
-              encoder.begin_group :eyecatcher
-              encoder.tokens deleted
-              encoder.end_group :eyecatcher
+              unless deleted.empty?
+                encoder.begin_group :eyecatcher
+                encoder.tokens deleted
+                encoder.end_group :eyecatcher
+              end
               encoder.tokens post
               encoder.end_line line_kind
               encoder.text_token "\n", :space
               encoder.begin_line line_kind = :insert
               encoder.text_token '+', :insert
-              content_scanner.instance_variable_set(:@state, content_scanner_entry_state || :initial)
+              content_scanner.state = content_scanner_entry_state || :initial
               pre, inserted, post = content_scanner.tokenize [head, insertion, tail], :tokens => Tokens.new
               encoder.tokens pre
-              encoder.begin_group :eyecatcher
-              encoder.tokens inserted
-              encoder.end_group :eyecatcher
+              unless inserted.empty?
+                encoder.begin_group :eyecatcher
+                encoder.tokens inserted
+                encoder.end_group :eyecatcher
+              end
               encoder.tokens post
             elsif match = scan(/.*/)
               if options[:highlight_code]
-                if deleted_lines == 1 && content_scanner.instance_variable_defined?(:@state)
-                  content_scanner_entry_state = content_scanner.instance_variable_get(:@state)
+                if deleted_lines == 1
+                  content_scanner_entry_state = content_scanner.state
                 end
                 content_scanner.tokenize match, :tokens => encoder unless match.empty?
                 if !match?(/\n-/)
                   if match?(/\n\+/)
-                    content_scanner.instance_variable_set(:@state, content_scanner_entry_state || :initial)
+                    content_scanner.state = content_scanner_entry_state || :initial
                   end
                   content_scanner_entry_state = nil
                 end

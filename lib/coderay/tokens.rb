@@ -223,12 +223,15 @@ module CodeRay
                 content_or_kind
               end
             end
-            parts << part.concat(closing)
-            part = Tokens.new
+            part.concat closing
+            begin
+              parts << part
+              part = Tokens.new
+              size = sizes[i += 1]
+            end until size.nil? || size > 0
             # ...and open them again.
             part.concat opened.flatten
             part_size = 0
-            size = sizes[i += 1]
             redo unless content.empty?
           else
             part << content << item

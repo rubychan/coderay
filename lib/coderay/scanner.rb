@@ -61,6 +61,8 @@ module CodeRay
       
       KINDS_NOT_LOC = [:comment, :doctype, :docstring]
       
+      attr_accessor :state
+      
       class << self
         
         # Normalizes the given code into a string with UNIX newlines, in the
@@ -190,7 +192,14 @@ module CodeRay
         else
           raise ArgumentError, 'expected String, Array, or nil'
         end
-        scan_tokens @tokens, options
+        
+        begin
+          scan_tokens @tokens, options
+        rescue => e
+          message = "Error in %s#scan_tokens, initial state was: %p" % [self.class, defined?(state) && state]
+          raise_inspect e.message, @tokens, message, 30, e.backtrace
+        end
+        
         @cached_tokens = @tokens
         if source.is_a? Array
           @tokens.split_into_parts(*source.map { |part| part.size })
@@ -260,7 +269,7 @@ module CodeRay
       end
       
       # Scanner error with additional status information
-      def raise_inspect msg, tokens, state = 'No state given!', ambit = 30
+      def raise_inspect msg, tokens, state = self.state || 'No state given!', ambit = 30, backtrace = caller
         raise ScanError, <<-EOE % [
 
 
@@ -288,7 +297,7 @@ surrounding code:
           matched, state, bol?, eos?,
           string[pos - ambit, ambit],
           string[pos, ambit],
-        ]
+        ], backtrace
       end
       
       # Shorthand for scan_until(/\z/).

@@ -96,16 +96,16 @@ module Encoders
     DEFAULT_OPTIONS = {
       :tab_width => 8,
       
-      :css => :class,
+      :css   => :class,
       :style => :alpha,
-      :wrap => nil,
+      :wrap  => nil,
       :title => 'CodeRay output',
       
-      :line_numbers => nil,
+      :line_numbers        => nil,
       :line_number_anchors => 'n',
-      :line_number_start => 1,
-      :bold_every => 10,
-      :highlight_lines => nil,
+      :line_number_start   => 1,
+      :bold_every          => 10,
+      :highlight_lines     => nil,
       
       :hint => false,
     }

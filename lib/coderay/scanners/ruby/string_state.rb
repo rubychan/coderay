@@ -55,7 +55,7 @@ module Scanners
       def heredoc_pattern delim, interpreted, indented
         # delim = delim.dup  # workaround for old Ruby
         delim_pattern = Regexp.escape(delim)
-        delim_pattern = / \n #{ '(?>[ \t]*)' if indented } #{ Regexp.new delim_pattern } $ /x
+        delim_pattern = / (?:\A|\n) #{ '(?>[ \t]*)' if indented } #{ Regexp.new delim_pattern } $ /x
         if interpreted
           / (?= #{delim_pattern}() | \\ | \# [{$@] ) /mx  # $1 set == end of heredoc
         else

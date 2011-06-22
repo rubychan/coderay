@@ -141,8 +141,8 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .head { color: #f8f; background: #505 }
 .head .filename { color: white; }
 
-.ins .eye { background-color: hsla(120,100%,50%,0.2) }
-.del .eye { background-color: hsla(0,100%,50%,0.2) }
+.del .eye { background-color: hsla(0,100%,50%,0.2); border: 1px solid hsla(0,100%,45%,0.5); margin: -1px; border-bottom: none; border-top-left-radius: 5px; border-top-right-radius: 5px; }
+.ins .eye { background-color: hsla(120,100%,50%,0.2); border: 1px solid hsla(120,100%,25%,0.5); margin: -1px; border-top: none; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
 
 .ins .ins { color: #080; background:transparent; font-weight:bold }
 .del .del { color: #800; background:transparent; font-weight:bold }

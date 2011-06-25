@@ -8,8 +8,7 @@ module Encoders
     :plain => :text,
     :plaintext => :text,
     :remove_comments => :comment_filter,
-    :stats => :statistic,
-    :tex => :latex
+    :stats => :statistic
   
   # No default because Tokens#nonsense would not raise NoMethodError.
   

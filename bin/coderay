@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 require 'coderay'
 
-$options, $args = ARGV.partition { |arg| arg[/^-[hv]$|--\w+/] }
-subcommand = $args.detect { |arg| arg[/^\w/] }
+$options, args = ARGV.partition { |arg| arg[/^-[hv]$|--\w+/] }
+subcommand = args.detect { |arg| arg[/^\w/] }
 subcommand = nil if subcommand && File.exist?(subcommand)
-$args.delete subcommand
+args.delete subcommand
 
 def option? *options
   !($options & options).empty?
@@ -22,24 +22,46 @@ end
 
 def help
   puts <<-HELP
-Usage:
-  coderay [-<language>] [input] [-<format>] [output]
+This is CodeRay #{CodeRay::VERSION}, a syntax highlighting tool for selected languages.
 
-Examples:
-  coderay -ruby file -loc              # count lines of code in Ruby file
-  coderay -ruby < foo.rb               # colorized output to terminal
-  coderay -ruby foo.rb -page foo.html  # HTML page output to file
-  coderay stylesheet                   # CSS stylesheet
+usage:
+  coderay [-language] [input] [-format] [output]
+  
+defaults:
+  language   detect from input file name or shebang; fall back to plain text
+  input      STDIN
+  format     detect from output file name or use terminal; fall back to HTML page
+  output     STDOUT
+
+common:
+  coderay file.rb                      # highlight file to terminal
+  coderay file.rb > file.html          # highlight file to HTML page
+  coderay file.rb -div > file.html     # highlight file to HTML snippet
+
+configure output:
+  coderay file.py output.json          # output tokens as JSON
+  coderay file.py -loc                 # count lines of code in Python file
+
+configure input:
+  coderay -python file                 # specify the input language
+  coderay -ruby                        # take input from STDIN
+
+more:
+  coderay stylesheet [style]           # print CSS stylesheet
   HELP
 end
 
 def commands
   puts <<-COMMANDS
-  General:
-    help        print some help
-    version     print CodeRay version
-    commands    print this list
+  general:
+    highlight   code highlighting (default command)
     stylesheet  print the CSS stylesheet with the given name
+  
+  about:
+    list [of]   list all available plugins (or just the scanners|encoders)
+    commands    print this list
+    help        show some help
+    version     print CodeRay version
   COMMANDS
 end
 
@@ -57,13 +79,15 @@ when 'highlight', nil
     version
     help
   else
-    signature = $args.map { |arg| arg[/^-/] ? '-' : 'f' }.join
-    names     = $args.map { |arg| arg.sub(/^-/, '') }
+    signature = args.map { |arg| arg[/^-/] ? '-' : 'f' }.join
+    names     = args.map { |arg| arg.sub(/^-/, '') }
     case signature
     when /^$/
       exit
     when /^ff?$/
       input_file, output_file, = *names
+    when /^f-f?$/
+      input_file, output_filetype, output_file, = *names
     when /^-ff?$/
       input_filetype, input_file, output_file, = *names
     when /^-f-f?$/
@@ -100,8 +124,28 @@ when 'highlight', nil
       puts output
     end
   end
+when 'list'
+  arg = args.first && args.first.downcase
+  if [nil, 's', 'sc', 'scanner', 'scanners'].include? arg
+    puts 'input languages (Scanners):'
+    scanners = CodeRay::Scanners.all_plugins.map do |plugin|
+      aliases = (plugin.aliases - [nil]).map { |key| "-#{key}" }.sort_by { |key| key.size }
+      "  #{plugin.lang}: #{plugin.title}#{" (.#{plugin.file_extension}; #{aliases.join(', ')})" unless aliases.empty?}"
+    end
+    puts scanners.sort
+    puts
+  end
+  
+  if [nil, 'e', 'en', 'enc', 'encoder', 'encoders'].include? arg
+    puts 'output formats (Encoders):'
+    encoders = CodeRay::Encoders.all_plugins.map do |plugin|
+      aliases = (plugin.aliases - [nil]).map { |key| "-#{key}" }.sort_by { |key| key.size }
+      "  #{plugin.plugin_id}: #{plugin.title}#{" (.#{plugin.file_extension}; #{aliases.join(', ')})" unless aliases.empty?}"
+    end
+    puts encoders.sort
+  end
 when 'stylesheet'
-  puts CodeRay::Encoders[:html]::CSS.new($args.first).stylesheet
+  puts CodeRay::Encoders[:html]::CSS.new(args.first).stylesheet
 when 'commands'
   commands
 when 'help'

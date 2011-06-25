@@ -34,10 +34,15 @@ module CodeRay
         # downcase class name instead.
         def const_missing sym
           if sym == :FILE_EXTENSION
-            plugin_id.to_s
+            (@plugin_id || name[/\w+$/].downcase).to_s
           else
             super
           end
+        end
+        
+        # The default file extension for output file of this encoder class.
+        def file_extension
+          self::FILE_EXTENSION
         end
         
       end
@@ -85,9 +90,9 @@ module CodeRay
       # more clear to you.
       alias highlight encode
       
-      # Return the default file extension for outputs of this encoder.
+      # The default file extension for this encoder.
       def file_extension
-        self.class::FILE_EXTENSION
+        self.class.file_extension
       end
       
       def << token

@@ -40,7 +40,7 @@ class TestCodeRayExecutable < Test::Unit::TestCase
     end
     should 'print version and help' do
       assert_match(/CodeRay #{CodeRay::VERSION}/, coderay(''))
-      assert_match(/Usage:/, coderay(''))
+      assert_match(/usage:/, coderay(''))
     end
   end
   
@@ -55,13 +55,13 @@ class TestCodeRayExecutable < Test::Unit::TestCase
   
   context 'help' do
     should 'be printed with -h' do
-      assert_match(/^Usage:/, coderay('-h'))
+      assert_match(/^usage:/, coderay('-h'))
     end
     should 'be printed with --help' do
-      assert_match(/^Usage:/, coderay('--help'))
+      assert_match(/^usage:/, coderay('--help'))
     end
     should 'be printed with subcommand help' do
-      assert_match(/^Usage:/, coderay('help'))
+      assert_match(/^usage:/, coderay('help'))
     end
   end
   

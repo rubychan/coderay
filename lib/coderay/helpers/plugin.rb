@@ -152,11 +152,25 @@ module CodeRay
       plugin_hash.values.grep(Class)
     end
     
+    # Loads the map file (see map).
+    #
+    # This is done automatically when plugin_path is called.
+    def load_plugin_map
+      mapfile = path_to '_map'
+      @plugin_map_loaded = true
+      if File.exist? mapfile
+        require mapfile
+        true
+      else
+        false
+      end
+    end
+    
   protected
     
     # Return a plugin hash that automatically loads plugins.
     def make_plugin_hash
-      map_loaded = false
+      @plugin_map_loaded ||= false
       Hash.new do |h, plugin_id|
         id = validate_id(plugin_id)
         path = path_to id
@@ -164,15 +178,14 @@ module CodeRay
           raise LoadError, "#{path} not found" unless File.exist? path
           require path
         rescue LoadError => boom
-          if map_loaded
+          if @plugin_map_loaded
             if h.has_key?(nil)  # default plugin
               h[nil]
             else
               raise PluginNotFound, 'Could not load plugin %p: %s' % [id, boom]
             end
           else
-            load_map
-            map_loaded = true
+            load_plugin_map
             h[plugin_id]
           end
         else
@@ -184,14 +197,6 @@ module CodeRay
           end
         end
       end
-    end
-    
-    # Loads the map file (see map).
-    #
-    # This is done automatically when plugin_path is called.
-    def load_map
-      mapfile = path_to '_map'
-      require mapfile if File.exist? mapfile
     end
     
     # Returns the expected path to the plugin file for the given id.
@@ -230,6 +235,8 @@ module CodeRay
   #  See CodeRay::PluginHost for examples.
   module Plugin
     
+    attr_reader :plugin_id
+    
     # Register this class for the given +id+.
     # 
     # Example:
@@ -262,9 +269,12 @@ module CodeRay
       self::PLUGIN_HOST
     end
     
-    # Returns the plugin id used by the engine.
-    def plugin_id
-      @plugin_id ||= name[/\w+$/].downcase
+    def aliases
+      plugin_host.load_plugin_map
+      plugin_host.plugin_hash.inject [] do |aliases, (key, value)|
+        aliases << key if plugin_host[key] == self
+        aliases
+      end
     end
     
   end

@@ -81,7 +81,7 @@ module CodeRay
         end
         
         # The typical filename suffix for this scanner's language.
-        def file_extension extension = plugin_id
+        def file_extension extension = lang
           @file_extension ||= extension.to_s
         end
         
@@ -91,7 +91,9 @@ module CodeRay
         end
         
         # The lang of this Scanner class, which is equal to its Plugin ID.
-        alias lang plugin_id
+        def lang
+          @plugin_id
+        end
         
       protected
         

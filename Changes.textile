@@ -273,7 +273,7 @@ Stripped down to 19 LOC.
 h3. @FileType@
  
 * *REMOVED* @FileType#shebang@ is a protected method now.
-* *NEW*: Recognizes @.gemspec@, @.rjs@, @.rpdf@ extensions and @Capfile@ as Ruby.
+* *NEW*: Recognizes @.gemspec@, @.rjs@, @.rpdf@ extensions, @Gemfile@, and @Capfile@ as Ruby.
   
   Thanks to the authors of the TextMate Ruby bundle!
 

@@ -21,7 +21,7 @@ module CodeRay
     # Create a new Duo, holding a lang and a format to highlight code.
     # 
     # simple:
-    #   CodeRay::Duo[:ruby, :page].highlight 'bla 42'
+    #   CodeRay::Duo[:ruby, :html].highlight 'bla 42'
     # 
     # with options:
     #   CodeRay::Duo[:ruby, :html, :hint => :debug].highlight '????::??'

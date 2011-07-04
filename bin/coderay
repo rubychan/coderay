@@ -30,7 +30,7 @@ usage:
 defaults:
   language   detect from input file name or shebang; fall back to plain text
   input      STDIN
-  format     detect from output file name or use terminal; fall back to HTML page
+  format     detect from output file name or use terminal; fall back to HTML
   output     STDOUT
 
 common:

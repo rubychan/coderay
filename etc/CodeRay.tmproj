@@ -133,7 +133,7 @@
 					<key>filename</key>
 					<string>../test/scanners/coderay_suite.rb</string>
 					<key>lastUsed</key>
-					<date>2011-05-08T16:19:54Z</date>
+					<date>2011-06-26T01:18:25Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
@@ -157,7 +157,7 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2011-02-20T05:36:12Z</date>
+			<date>2011-06-26T15:21:10Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>

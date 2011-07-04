@@ -64,7 +64,7 @@ class BasicTest < Test::Unit::TestCase
   end
   
   def test_highlight
-    assert_match '<div class="code"><pre>test</pre></div>', CodeRay.highlight('test', :python)
+    assert_match '<pre>test</pre>', CodeRay.highlight('test', :python)
   end
   
   def test_highlight_file
@@ -173,7 +173,7 @@ more code  # and another comment, in-line.
   
   def test_encoder_file_extension
     assert_nothing_raised do
-      assert_equal 'html', CodeRay::Encoders::HTML::FILE_EXTENSION
+      assert_equal 'html', CodeRay::Encoders::Page::FILE_EXTENSION
       assert_equal 'cocoa', Milk::FILE_EXTENSION
       assert_equal 'cocoa', Milk.new.file_extension
       assert_equal 'honeybee', HoneyBee::FILE_EXTENSION

@@ -91,7 +91,7 @@ module Encoders
     
     register_for :html
     
-    FILE_EXTENSION = 'html'
+    FILE_EXTENSION = 'snippet.html'
     
     DEFAULT_OPTIONS = {
       :tab_width => 8,

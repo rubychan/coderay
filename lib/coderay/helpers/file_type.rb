@@ -88,8 +88,8 @@ module CodeRay
       'groovy'   => :groovy,
       'gvy'      => :groovy,
       'h'        => :c,
-      'htm'      => :html,
-      'html'     => :html,
+      'htm'      => :page,
+      'html'     => :page,
       'html.erb' => :rhtml,
       'java'     => :java,
       'js'       => :java_script,
@@ -101,6 +101,7 @@ module CodeRay
       'php3'     => :php,
       'php4'     => :php,
       'php5'     => :php,
+      'prawn'    => :ruby,
       'py'       => :python,
       'py3'      => :python,
       'pyw'      => :python,
@@ -111,11 +112,12 @@ module CodeRay
       'rhtml'    => :rhtml,
       'rjs'      => :ruby,
       'rpdf'     => :ruby,
+      'ru'       => :ruby,
       'rxml'     => :ruby,
       'sch'      => :scheme,
       'sql'      => :sql,
       'ss'       => :scheme,
-      'xhtml'    => :xhtml,
+      'xhtml'    => :page,
       'xml'      => :xml,
       'yaml'     => :yaml,
       'yml'      => :yaml,
@@ -127,9 +129,10 @@ module CodeRay
     TypeFromShebang = /\b(?:ruby|perl|python|sh)\b/
     
     TypeFromName = {
-      'Capfile' => :ruby,
+      'Capfile'  => :ruby,
       'Rakefile' => :ruby,
       'Rantfile' => :ruby,
+      'Gemfile'  => :ruby,
     }
     
   end

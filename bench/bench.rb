@@ -39,8 +39,7 @@ require 'benchmark'
 require 'fileutils'
 
 if format == 'comp'
-  format = 'html'
-  compare = true
+  format = 'page'
   begin
     require 'syntax'
     require 'syntax/convertors/html.rb'
@@ -80,8 +79,6 @@ N.times do
 
   options = {
     :tab_width => 2,
-    :wrap => :page,
-    :line_numbers => :table,
     :css => $style ? :style : :class,
   }
   $hl = CodeRay.encoder(format, options) unless $dump_output
@@ -93,15 +90,12 @@ N.times do
         raise 'Can\'t dump stream.'
       end
       $o = $hl.encode(data, lang, options)
-      @token_count = 253528  #$hl.token_stream.count rescue 1
     else
       if $dump_input
         tokens = CodeRay::Tokens.load data
       else
         tokens = CodeRay.scan(data, lang)
       end
-      @token_count = tokens.count
-      p @token_count
       tokens.optimize! if $optimize
       if $dump_output
         $o = tokens.optimize.dump
@@ -121,59 +115,8 @@ N.times do
 
   time_real = time.real
 
-  puts "\t%7.2f KB/s (%d.%d KB)\t%0.2f KTok/s" % [((@size / 1000.0) / time_real), @size / 1000, @size % 1000, ((@token_count / 1000.0) / time_real)]
+  puts "\t%7.2f KB/s (%d.%d KB)" % [((@size / 1000.0) / time_real), @size / 1000, @size % 1000]
   puts $o if ARGV.include? '-o'
-
-  if compare
-    if defined? Syntax
-      time = bm.report('Syntax') do
-        c = Syntax::Convertors::HTML.for_syntax lang
-        puts 'No Syntax syntax found!' if c.tokenizer.is_a? Syntax::Default
-        begin
-          v = $VERBOSE
-          $VERBOSE = nil
-          N.times do
-            output = c.convert(data)
-          end
-          $VERBOSE = v
-        rescue => boom
-          output = boom.inspect
-        end
-        Dir.chdir(here) do
-          File.open('test.syntax.' + format, 'wb') do |f|
-            f.write '<html><head><style>%s</style></head><body><div class="ruby">%s</div></body></html>' % [DATA.read, output]
-          end
-        end
-        $file_created << ", test.syntax.#{format}"
-      end
-      puts "\t%7.2f KB/s" % ((@size / 1024.0) / time.real)
-    end
-
-=begin
-    time = bm.report('SilverCity') do
-      Dir.chdir(here) do
-        File.open('input-data', 'w') { |f| f.write data }
-        N.times do
-          `c:/Python/Scripts/source2html.pyo --generator=#{lang} input-data > test.silvercity.html`
-        end
-      end
-      $file_created << ", test.silvercity.#{format}"
-    end
-    puts "\t%7.2f KB/s" % ((@size / 1024.0) / time.real)
-=end
-    time = bm.report('Pygments') do
-      Dir.chdir(here) do
-        Dir.chdir File.expand_path('~/Python/pygments') do
-          File.open('input-data', 'wb') { |f| f.write data }
-          N.times do
-            `pygmentize -O encoding=utf-8 -l#{lang} -fhtml -Ofull input-data > /dev/null`
-          end
-        end
-      end
-      #$file_created << ", test.silvercity.#{format}"
-    end
-    puts "\t%7.2f KB/s" % ((@size / 1024.0) / time.real)
-  end
 
 end
 end

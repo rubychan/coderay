@@ -126,7 +126,7 @@ module Encoders
       TABLE = Template.new <<-TABLE
 <table class="CodeRay"><tr>
   <td class="line_numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><%LINE_NUMBERS%></pre></td>
-  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><%CONTENT%></pre></td>
+  <td class="code"><pre><%CONTENT%></pre></td>
 </tr></table>
       TABLE
 

@@ -24,7 +24,7 @@ end
 <a href="#n2" name="n2">2</a>
 <a href="#n3" name="n3">3</a>
 </pre></td>
-  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }"><span style="color:#00D">5</span>.times <span style="color:#080;font-weight:bold">do</span>
+  <td class="code"><pre><span style="color:#00D">5</span>.times <span style="color:#080;font-weight:bold">do</span>
   puts <span style="background-color:hsla(0,100%,50%,0.08)"><span style="color:#710">'</span><span style="color:#D20">Hello, world!</span><span style="color:#710">'</span></span>
 <span style="color:#080;font-weight:bold">end</span></pre></td>
 </tr></table>
@@ -38,7 +38,7 @@ end
 <table class="CodeRay"><tr>
   <td class="line_numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>
 </pre></td>
-  <td class="code"><pre ondblclick="with (this.style) { overflow = (overflow == 'auto' || overflow == '') ? 'visible' : 'auto' }">puts <span class="s"><span class="dl">&quot;</span><span class="k">Hello, world!</span><span class="dl">&quot;</span></span></pre></td>
+  <td class="code"><pre>puts <span class="s"><span class="dl">&quot;</span><span class="k">Hello, world!</span><span class="dl">&quot;</span></span></pre></td>
 </tr></table>
 
 </body>

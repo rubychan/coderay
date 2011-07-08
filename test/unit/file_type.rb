@@ -20,10 +20,6 @@ class FileTypeTests < Test::Unit::TestCase
   end
   
   def test_block_supersedes_default_warning
-    if defined? JRUBY_VERSION
-      $stderr.puts 'Skipped test because of JRUBY bug.'
-      return
-    end
     stderr, fake_stderr = $stderr, Object.new
     begin
       $err = ''

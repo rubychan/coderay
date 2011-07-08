@@ -271,7 +271,7 @@ module CodeRay
     
     def aliases
       plugin_host.load_plugin_map
-      plugin_host.plugin_hash.inject [] do |aliases, (key, value)|
+      plugin_host.plugin_hash.inject [] do |aliases, (key, _)|
         aliases << key if plugin_host[key] == self
         aliases
       end

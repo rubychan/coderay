@@ -354,7 +354,7 @@ module Scanners
           
           elsif match = scan(/<<<(?:(#{RE::IDENTIFIER})|"(#{RE::IDENTIFIER})"|'(#{RE::IDENTIFIER})')/o)
             encoder.begin_group :string
-            warn 'heredoc in heredoc?' if heredoc_delimiter
+            # warn 'heredoc in heredoc?' if heredoc_delimiter
             heredoc_delimiter = Regexp.escape(self[1] || self[2] || self[3])
             encoder.text_token match, :delimiter
             states.push self[3] ? :sqstring : :dqstring

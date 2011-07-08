@@ -39,21 +39,17 @@ puts "Hello world!"
     tokens.concat ["\n", :space]
     tokens.concat ["Hello\n", :comment]
     
-    if defined? JRUBY_VERSION
-      $stderr.puts 'Skipped test because of JRUBY bug.'
-    else
-      stderr, fake_stderr = $stderr, Object.new
-      begin
-        $err = ''
-        def fake_stderr.write x
-          $err << x
-        end
-        $stderr = fake_stderr
-        assert_equal 1, tokens.lines_of_code
-        assert_equal "Tokens have no associated scanner, counting all nonempty lines.\n", $err
-      ensure
-        $stderr = stderr
+    stderr, fake_stderr = $stderr, Object.new
+    begin
+      $err = ''
+      def fake_stderr.write x
+        $err << x
       end
+      $stderr = fake_stderr
+      assert_equal 1, tokens.lines_of_code
+      assert_equal "Tokens have no associated scanner, counting all nonempty lines.\n", $err
+    ensure
+      $stderr = stderr
     end
     
     tokens.scanner = ScannerMockup.new

@@ -22,7 +22,7 @@ module Encoders
     rescue LoadError
       begin
         require 'rubygems'
-        gem "json#{'-jruby' if defined? JRUBY_VERSION}"
+        gem "json"
         require 'json'
       rescue LoadError
         $stderr.puts "The JSON encoder needs the JSON library.\n" \

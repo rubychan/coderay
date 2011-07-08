@@ -52,10 +52,16 @@ namespace :test do
   
   desc 'test the CodeRay executable'
   task :exe do
-    ruby './test/executable/suite.rb'
+    if RUBY_VERSION >= '1.8.7'
+      ruby './test/executable/suite.rb'
+    else
+      puts
+      puts "Can't run executable tests because shoulda-context requires Ruby 1.8.7+."
+      puts "Skipping."
+    end
   end
   
 end
 
-task :test => %w( test:functional test:exe test:units )
+task :test => %w(test:functional test:units test:exe)
 task :samples => 'test:samples'

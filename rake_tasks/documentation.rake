@@ -1,5 +1,9 @@
-gem 'rdoc' if defined? gem
-require 'rdoc/task'
+if RUBY_VERSION >= '1.8.7'
+  gem 'rdoc' if defined? gem
+  require 'rdoc/task'
+else
+  require 'rake/rdoctask'
+end
 
 desc 'Generate documentation for CodeRay'
 Rake::RDocTask.new :doc do |rd|

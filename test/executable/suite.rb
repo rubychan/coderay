@@ -10,8 +10,7 @@ puts "Running CodeRay #{CodeRay::VERSION} executable tests..."
 
 class TestCodeRayExecutable < Test::Unit::TestCase
   
-  ruby = `ps -c #$$`[/\w+\Z/]
-  ruby = 'ruby' if ruby == 'java'
+  ruby = 'ruby'
   
   ROOT_DIR = Pathname.new(File.dirname(__FILE__)) + '..' + '..'
   EXECUTABLE = ROOT_DIR + 'bin' + 'coderay'

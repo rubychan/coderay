@@ -188,6 +188,7 @@ h3. @Scanners::Diff@
   @Tokens#split_into_parts@ method take care of this.
 * *NEW*: Highlight the file name in the change headers as @:filename@.
 * *CHANGED*: Highlight unknown lines as @:comment@ instead of @:head@.
+* *IMPROVED*: Background colors for Diff output have been optimized.
 
 h3. @Scanners::HTML@
  

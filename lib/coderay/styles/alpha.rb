@@ -135,8 +135,8 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .v  { color:#037 }
 .xt { color:#444 }
 
-.ins { background: hsla(120,100%,50%,0.2) }
-.del { background: hsla(0,100%,50%,0.2) }
+.ins { background: hsla(120,100%,50%,0.1) }
+.del { background: hsla(0,100%,50%,0.1) }
 .chg { color: #bbf; background: #007; }
 .head { color: #f8f; background: #505 }
 .head .filename { color: white; }

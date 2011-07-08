@@ -381,10 +381,10 @@ module Scanners
               end
             else
               case esc = getch
-              when state.delim, '\\'
-                encoder.text_token match + esc, :char
               when nil
                 encoder.text_token match, :content
+              when state.delim, '\\'
+                encoder.text_token match + esc, :char
               else
                 encoder.text_token match + esc, :content
               end

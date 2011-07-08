@@ -2,7 +2,6 @@ $:.unshift File.dirname(__FILE__) unless $:.include? '.'
 
 ROOT = '.'
 LIB_ROOT = File.join ROOT, 'lib'
-EXTRA_RDOC_FILES = %w(README.rdoc FOLDERS)
 
 task :default => :test
 

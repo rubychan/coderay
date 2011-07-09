@@ -127,12 +127,7 @@ module CodeRay
   
   $CODERAY_DEBUG ||= false
   
-  # Version: Major.Minor.Teeny[.Revision]
-  # Major: 0 for pre-stable, 1 for stable
-  # Minor: feature milestone
-  # Teeny: development state, 0 for pre-release
-  # Revision: Subversion Revision number (generated on rake gem:make)
-  VERSION = '1.0.0'
+  require 'coderay/version'
   
   # helpers
   autoload :FileType, 'coderay/helpers/file_type'
@@ -166,7 +161,7 @@ module CodeRay
       scanner = Scanners[lang].new code, options, &block
       scanner.tokenize
     end
-
+    
     # Scans +filename+ (a path to a code file) with the Scanner for +lang+.
     #
     # If +lang+ is :auto or omitted, the CodeRay::FileType module is used to
@@ -185,7 +180,7 @@ module CodeRay
       end
       scan file, lang, options = {}, &block
     end
-
+    
     # Encode a string.
     #
     # This scans +code+ with the the Scanner for +lang+ and then
@@ -196,7 +191,7 @@ module CodeRay
     def encode code, lang, format, options = {}
       encoder(format, options).encode code, lang, options
     end
-
+    
     # Encode pre-scanned Tokens.
     # Use this together with CodeRay.scan:
     #
@@ -209,7 +204,7 @@ module CodeRay
     def encode_tokens tokens, format, options = {}
       encoder(format, options).encode_tokens tokens, options
     end
-
+    
     # Encodes +filename+ (a path to a code file) with the Scanner for +lang+.
     #
     # See CodeRay.scan_file.
@@ -222,7 +217,7 @@ module CodeRay
       tokens = scan_file filename, :auto, get_scanner_options(options)
       encode_tokens tokens, format, options
     end
-
+    
     # Highlight a string into a HTML <div>.
     #
     # CSS styles use classes, so you have to include a stylesheet
@@ -232,7 +227,7 @@ module CodeRay
     def highlight code, lang, options = { :css => :class }, format = :div
       encode code, lang, format, options
     end
-
+    
     # Highlight a file into a HTML <div>.
     #
     # CSS styles use classes, so you have to include a stylesheet
@@ -242,7 +237,7 @@ module CodeRay
     def highlight_file filename, options = { :css => :class }, format = :div
       encode_file filename, format, options
     end
-
+    
     # Finds the Encoder class for +format+ and creates an instance, passing
     # +options+ to it.
     #
@@ -260,7 +255,7 @@ module CodeRay
     def encoder format, options = {}
       Encoders[format].new options
     end
-
+    
     # Finds the Scanner class for +lang+ and creates an instance, passing
     # +options+ to it.
     #
@@ -268,7 +263,7 @@ module CodeRay
     def scanner lang, options = {}
       Scanners[lang].new '', options
     end
-
+    
     # Extract the options for the scanner from the +options+ hash.
     #
     # Returns an empty Hash if <tt>:scanner_options</tt> is not set.
@@ -278,7 +273,7 @@ module CodeRay
     def get_scanner_options options
       options.fetch :scanner_options, {}
     end
-
+    
   end
-
+  
 end

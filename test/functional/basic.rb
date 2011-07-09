@@ -18,7 +18,7 @@ class BasicTest < Test::Unit::TestCase
   
   def test_version
     assert_nothing_raised do
-      assert_match(/\A\d\.\d\.\d\z/, CodeRay::VERSION)
+      assert_match(/\A\d\.\d\.\d?\z/, CodeRay::VERSION)
     end
   end
   

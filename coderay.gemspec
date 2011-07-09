@@ -1,33 +1,26 @@
-# -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
 
-def svn_head_revision
-  $svn_head_revision ||= `svnversion`.scan(/\d+/).map { |r| r.to_i }.max
-end
+require 'coderay/version'
 
-def coderay_version
-  $coderay_version ||= begin
-    $:.unshift './lib'
-    require 'coderay'
-    
-    version = CodeRay::VERSION
-    unless ENV['final']
-      version << ".#{svn_head_revision}.pre"
-    end
-    
-    version
+Gem::Specification.new do |s|
+  s.name = 'coderay'
+  
+  if ENV['final'] == 'yes'
+    s.version = CodeRay::VERSION
+  else
+    # thanks to @Argorak for this solution
+    revision = 134 + (`git log --oneline | wc -l`.to_i)
+    s.version = "#{CodeRay::VERSION}.#{revision}pre"
   end
-end
-
-$gemspec = Gem::Specification.new do |s|
-  s.name        = 'coderay'
-  s.version     = coderay_version
-  s.platform    = Gem::Platform::RUBY
+  
   s.authors     = ['Kornelius Kalnbach']
   s.email       = ['murphy@rubychan.de']
   s.homepage    = 'http://coderay.rubychan.de'
   s.summary     = 'Fast syntax highlighting for selected languages.'
   s.description = 'Fast and easy syntax highlighting for selected languages, written in Ruby. Comes with RedCloth integration and LOC counter.'
+  
+  s.platform              = Gem::Platform::RUBY
+  s.required_ruby_version = '>= 1.8.7'
   
   # s.add_dependency "paint", '~> 0.8.2'
   

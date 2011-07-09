@@ -1,4 +1,5 @@
+Gemfile.lock
+pkg
 test/executable/source.rb.html
 test/executable/source.rb.json
-pkg
-Gemfile.lock
+test/scanners

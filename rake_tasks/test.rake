@@ -18,9 +18,16 @@ namespace :test do
     ruby './test/unit/suite.rb'
   end
   
+  scanner_suite = './test/scanners/suite.rb'
+  task scanner_suite do
+    puts 'Scanner tests not found; downloading from Subversion...'
+    sh 'svn co http://svn.rubychan.de/coderay-scanner-tests/trunk/ test/scanners/'
+    puts 'Finished.'
+  end
+  
   desc 'run all scanner tests'
-  task :scanners do
-    ruby './test/scanners/suite.rb'
+  task :scanners => scanner_suite do
+    ruby scanner_suite
   end
   
   namespace :scanner do

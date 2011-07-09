@@ -1,56 +1,44 @@
 = CodeRay
 
-[- Tired of blue'n'gray? Try the original version of this documentation on
-coderay.rubychan.de[http://coderay.rubychan.de/doc/] (use Ctrl+Click to open it in its own frame.) -]
+Tired of blue'n'gray? Try the original version of this documentation on
+coderay.rubychan.de[http://coderay.rubychan.de/doc/] :-)
 
 == About
+
 CodeRay is a Ruby library for syntax highlighting.
 
-Syntax highlighting means: You put your code in, and you get it back colored;
-Keywords, strings, floats, comments - all in different colors.
-And with line numbers.
+You put your code in, and you get it back colored; Keywords, strings,
+floats, comments - all in different colors. And with line numbers.
 
 *Syntax* *Highlighting*...
 * makes code easier to read and maintain
 * lets you detect syntax errors faster
 * helps you to understand the syntax of a language
 * looks nice
-* is what everybody should have on their website
+* is what everybody wants to have on their website
 * solves all your problems and makes the girls run after you
 
-Version: 0.9.2
-Author:: murphy (Kornelius Kalnbach)
-Contact:: murphy rubychan de
-Website:: coderay.rubychan.de[http://coderay.rubychan.de]
-License:: GNU LGPL; see LICENSE file in the main directory.
 
 == Installation
-
-You need RubyGems[http://rubyforge.org/frs/?group_id=126].
 
  % gem install coderay
 
 
 === Dependencies
 
-CodeRay needs Ruby 1.8.6 or later. It also runs with Ruby 1.9.1+ and JRuby 1.1+.
+CodeRay needs Ruby 1.8.7+ or 1.9.2+. It also runs on Rubinius and JRuby.
 
 
 == Example Usage
-(Forgive me, but this is not highlighted.)
 
  require 'coderay'
  
- tokens = CodeRay.scan "puts 'Hello, world!'", :ruby
- page = tokens.html :line_numbers => :inline, :wrap => :page
- puts page
+ html = CodeRay.scan("puts 'Hello, world!'", :ruby).div(:line_numbers => :table)
 
 
 == Documentation
 
 See CodeRay.
-
-Please report errors in this documentation to <murphy rubychan de>.
 
 
 == Credits

@@ -237,9 +237,10 @@ h3. @Scanners::Ruby@
   
 * *REMOVED* @EncodingError@
 
-h3. @Scanners::Scheme@
+h3. *REMOVED* @Scanners::Scheme@
  
-* *CHANGED*: Does use @:operator@ instead of @:operator_fat@ now.
+* It is too buggy, and nobody was using it. To be added again when it's fixed.
+  See "#59":http://redmine.rubychan.de/issues/59.
 
 h3. @Scanners::SQL@
  

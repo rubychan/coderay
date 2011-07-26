@@ -18,16 +18,23 @@ namespace :test do
     ruby './test/unit/suite.rb'
   end
   
-  scanner_suite = './test/scanners/suite.rb'
+  scanner_suite = 'test/scanners/suite.rb'
   task scanner_suite do
-    puts 'Scanner tests not found; downloading from Subversion...'
-    sh 'svn co http://svn.rubychan.de/coderay-scanner-tests/trunk/ test/scanners/'
-    puts 'Finished.'
+    unless File.exist? scanner_suite
+      puts 'Scanner tests not found; downloading from Subversion...'
+      sh 'svn co http://svn.rubychan.de/coderay-scanner-tests/trunk/ test/scanners/'
+      puts 'Finished.'
+    end
   end
   
   desc 'run all scanner tests'
-  task :scanners => scanner_suite do
+  task :scanners => :update_scanner_suite do
     ruby scanner_suite
+  end
+  
+  desc 'update scanner test suite from SVN'
+  task :update_scanner_suite => scanner_suite do
+    sh "svn up #{File.dirname(scanner_suite)}"
   end
   
   namespace :scanner do
@@ -35,7 +42,7 @@ namespace :test do
       next unless File.directory? scanner
       lang = File.basename(scanner)
       desc "run all scanner tests for #{lang}"
-      task lang do
+      task lang => :update_scanner_suite do
         ruby "./test/scanners/suite.rb #{lang}"
       end
     end

@@ -21,7 +21,6 @@ module Encoders
   #    :line_numbers => :inline,
   #    :css => :style
   #  )
-  #  #-> <span class="no">1</span>  <span style="color:#036; font-weight:bold;">Some</span> code
   #
   # == Options
   #

@@ -70,10 +70,12 @@ Renamed from @Tokens::ClassOfKind@ (was also @Tokens::AbbreviationForKind@ for a
 The term "token class" is no longer used in CodeRay. Instead, tokens have _kinds_.
 See "#122":http://redmine.rubychan.de/issues/122.
  
+* *CHANGED* all token CSS classes to readable names.
 * *ADDED* token kinds @:filename@, @:namespace@, and @:eyecatcher@.
 * *RENAMED* @:pre_constant@ and @:pre_type@ to @:predefined_constant@ and @predefined_type@.
-* *REMOVED* token kinds @:attribute_name_fat@, @:attribute_value_fat@, @:operator_fat@,
-  @:tag_fat@, @:xml_text@, @:nesting_delimiter@, @:open@, and @:close@.
+* *RENAMED* @:oct@ and @:bin@ to @:octal@ and @binary@.
+* *REMOVED* token kinds @:attribute_name_fat@, @:attribute_value_fat@, @:operator_fat@, @interpreted@,
+  @:tag_fat@, @tag_special@, @:xml_text@, @:nesting_delimiter@, @:open@, and @:close@.
 * *CHANGED*: Don't raise error for unknown token kinds unless in @$CODERAY_DEBUG@ mode.
 * *CHANGED* the value for a token kind that is not highlighted from
   @:NO_HIGHLIGHT@ to @false@.
@@ -289,7 +291,7 @@ h3. @WordList@
  
 Stripped down to 19 LOC.
 
-* *RENAMED* @CaseIgnoringWordList@ to @WordList::CaseIgnoring@
+* *RENAMED* @CaseIgnoringWordList@ to @WordList::CaseIgnoring@.
 * *REMOVED* caching option because it creates memory leaks.
 * *REMOVED* block option.
 

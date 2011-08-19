@@ -81,7 +81,7 @@ module Scanners
             if match = scan(/0[xX][0-9A-Fa-f]+/)
               encoder.text_token match, :hex
             elsif match = scan(/(?>0[0-7]+)(?![89.eEfF])/)
-              encoder.text_token match, :oct
+              encoder.text_token match, :octal
             elsif match = scan(/\d+[fF]|\d*\.\d+(?:[eE][+-]?\d+)?[fF]?|\d+[eE][+-]?\d+[fF]?/)
               encoder.text_token match, :float
             elsif match = scan(/\d+/)

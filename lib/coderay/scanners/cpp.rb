@@ -133,7 +133,7 @@ module Scanners
 
           elsif match = scan(/(?:0[0-7]+)(?![89.eEfF])/)
             label_expected = false
-            encoder.text_token match, :oct
+            encoder.text_token match, :octal
 
           elsif match = scan(/(?:\d+)(?![.eEfF])L?L?/)
             label_expected = false

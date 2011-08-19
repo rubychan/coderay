@@ -174,7 +174,7 @@ class TestCodeRayExecutable < Test::Unit::TestCase
     
     should 'respect the file extension and highlight the input as Python' do
       target = coderay(command)
-      assert_equal %w(kw cl kw), target[pre, 1].scan(tag_class).flatten
+      assert_equal %w(keyword class keyword), target[pre, 1].scan(tag_class).flatten
     end
   end
   
@@ -189,7 +189,7 @@ class TestCodeRayExecutable < Test::Unit::TestCase
     
     should 'ignore the file extension and highlight the input as Ruby' do
       target = coderay(command)
-      assert_equal %w(kw cl), target[pre, 1].scan(tag_class).flatten
+      assert_equal %w(keyword class), target[pre, 1].scan(tag_class).flatten
     end
   end
   

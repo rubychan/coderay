@@ -108,10 +108,10 @@ module Scanners
             encoder.text_token match, :class_variable
             next
           when match = scan(/\d\d:\d\d:\d\d/)
-            encoder.text_token match, :oct
+            encoder.text_token match, :octal
             next
           when match = scan(/\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d(\.\d+)? [-+]\d\d:\d\d/)
-            encoder.text_token match, :oct
+            encoder.text_token match, :octal
             next
           when match = scan(/:\w+/)
             encoder.text_token match, :symbol

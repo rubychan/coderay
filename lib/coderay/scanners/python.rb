@@ -194,7 +194,7 @@ module Scanners
             encoder.text_token match, :hex
           
           elsif match = scan(/0[bB][01]+[lL]?/)
-            encoder.text_token match, :bin
+            encoder.text_token match, :binary
           
           elsif match = scan(/(?:\d*\.\d+|\d+\.\d*)(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+/)
             if scan(/[jJ]/)
@@ -205,7 +205,7 @@ module Scanners
             end
           
           elsif match = scan(/0[oO][0-7]+|0[0-7]+(?![89.eE])[lL]?/)
-            encoder.text_token match, :oct
+            encoder.text_token match, :octal
           
           elsif match = scan(/\d+([lL])?/)
             if self[1] == nil && scan(/[jJ]/)

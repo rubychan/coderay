@@ -22,7 +22,7 @@ end
     CODE
     assert_equal <<-DIV, div
 <table class="CodeRay"><tr>
-  <td class="line_numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><a href="#n1" name="n1">1</a>
+  <td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><a href="#n1" name="n1">1</a>
 <a href="#n2" name="n2">2</a>
 <a href="#n3" name="n3">3</a>
 </pre></td>
@@ -38,9 +38,9 @@ end
 <body style="background-color: white;">
 
 <table class="CodeRay"><tr>
-  <td class="line_numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>
+  <td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>
 </pre></td>
-  <td class="code"><pre>puts <span class="s"><span class="dl">&quot;</span><span class="k">Hello, world!</span><span class="dl">&quot;</span></span></pre></td>
+  <td class="code"><pre>puts <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello, world!</span><span class="delimiter">&quot;</span></span></pre></td>
 </tr></table>
 
 </body>
@@ -90,7 +90,7 @@ Token Types (7):
     div = tokens.div(:css => :class)
     assert_equal <<-DIV, div
 <div class="CodeRay">
-  <div class="code"><pre>{ <span class="ke"><span class="dl">&quot;</span><span class="k">just</span><span class="dl">&quot;</span></span>: <span class="s"><span class="dl">&quot;</span><span class="k">an</span><span class="dl">&quot;</span></span>, <span class="ke"><span class="dl">&quot;</span><span class="k">example</span><span class="dl">&quot;</span></span>: <span class="i">42</span> }</pre></div>
+  <div class="code"><pre>{ <span class="key"><span class="delimiter">&quot;</span><span class="content">just</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">an</span><span class="delimiter">&quot;</span></span>, <span class="key"><span class="delimiter">&quot;</span><span class="content">example</span><span class="delimiter">&quot;</span></span>: <span class="integer">42</span> }</pre></div>
 </div>
     DIV
     

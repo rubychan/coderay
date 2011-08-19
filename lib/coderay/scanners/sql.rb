@@ -97,7 +97,7 @@ module CodeRay module Scanners
             encoder.text_token match, :hex
             
           elsif match = scan(/0[0-7]+(?![89.eEfF])/)
-            encoder.text_token match, :oct
+            encoder.text_token match, :octal
             
           elsif match = scan(/[-+]?(?>\d+)(?![.eEfF])/)
             encoder.text_token match, :integer

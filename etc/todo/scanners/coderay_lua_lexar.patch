@@ -117,7 +117,7 @@ Index: vendor/plugins/coderay-0.7.6.227/lib/coderay/scanners/lua.rb
 +            kind = :hex
 +
 +          elsif scan(/(?:0[0-7]+)(?![89.eEfF])/)
-+            kind = :oct
++            kind = :octal
 +
 +          elsif scan(/(?:\d+)(?![.eEfF])/)
 +            kind = :integer

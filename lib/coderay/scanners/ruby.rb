@@ -178,7 +178,7 @@ module Scanners
                 encoder.text_token match, :error
                 method_call_expected = false
               else
-                encoder.text_token match, self[1] ? :float : :integer
+                encoder.text_token match, self[1] ? :float : :integer  # TODO: send :hex/:octal/:binary
               end
               value_expected = false
               

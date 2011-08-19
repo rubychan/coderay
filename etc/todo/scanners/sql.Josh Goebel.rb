@@ -83,7 +83,7 @@ module CodeRay module Scanners
             kind = :hex
             
           elsif scan(/(?:0[0-7]+)(?![89.eEfF])/)
-            kind = :oct
+            kind = :octal
             
           elsif scan(/(?:\d+)(?![.eEfF])/)
             kind = :integer

@@ -30,8 +30,8 @@ class BasicTest < Test::Unit::TestCase
     end
   end
   
-  RUBY_TEST_HTML = 'puts <span class="s"><span class="dl">&quot;</span>' + 
-    '<span class="k">Hello, World!</span><span class="dl">&quot;</span></span>'
+  RUBY_TEST_HTML = 'puts <span class="string"><span class="delimiter">&quot;</span>' + 
+    '<span class="content">Hello, World!</span><span class="delimiter">&quot;</span></span>'
   def test_simple_highlight
     assert_nothing_raised do
       assert_equal RUBY_TEST_HTML, CodeRay.scan(RUBY_TEST_CODE, :ruby).html
@@ -59,7 +59,7 @@ class BasicTest < Test::Unit::TestCase
   end
   
   def test_highlight_file
-    assert_match "require <span class=\"s\"><span class=\"dl\">'</span><span class=\"k\">test/unit</span><span class=\"dl\">'</span></span>\n", CodeRay.highlight_file(__FILE__)
+    assert_match "require <span class=\"string\"><span class=\"delimiter\">'</span><span class=\"content\">test/unit</span><span class=\"delimiter\">'</span></span>\n", CodeRay.highlight_file(__FILE__)
   end
   
   def test_duo
@@ -147,7 +147,7 @@ more code  # and another comment, in-line.
         assert_kind_of String, css_class, "TokenKinds[%p] == %p" % [kind, css_class]
       end
     end
-    assert_equal 'r', CodeRay::TokenKinds[:reserved]
+    assert_equal 'reserved', CodeRay::TokenKinds[:reserved]
     assert_equal false, CodeRay::TokenKinds[:shibboleet]
   end
   

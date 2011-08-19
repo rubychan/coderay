@@ -23,20 +23,40 @@
 		<dict>
 			<key>filename</key>
 			<string>../coderay.gemspec</string>
+			<key>lastUsed</key>
+			<date>2011-08-19T02:13:23Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes-1.0.textile</string>
 			<key>lastUsed</key>
-			<date>2011-08-19T01:04:06Z</date>
+			<date>2011-08-19T01:12:40Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>../README_INDEX.rdoc</string>
+			<key>lastUsed</key>
+			<date>2011-08-19T02:16:06Z</date>
+			<key>selected</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>../README.textile</string>
+			<key>lastUsed</key>
+			<date>2011-08-19T02:05:36Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>../.travis.yml</string>
+			<key>lastUsed</key>
+			<date>2011-08-19T02:05:37Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
 			<date>2011-08-19T01:04:06Z</date>
-			<key>selected</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -90,7 +110,7 @@
 			<key>filename</key>
 			<string>../Gemfile</string>
 			<key>lastUsed</key>
-			<date>2011-08-19T00:26:29Z</date>
+			<date>2011-08-19T01:16:24Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -100,7 +120,7 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2011-08-19T00:21:31Z</date>
+			<date>2011-08-19T02:10:22Z</date>
 		</dict>
 		<dict>
 			<key>name</key>
@@ -134,8 +154,6 @@
 					<date>2011-08-19T00:50:31Z</date>
 				</dict>
 			</array>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>scanners</string>
 		</dict>

@@ -289,6 +289,7 @@ h3. @WordList@
  
 Stripped down to 19 LOC.
 
+* *RENAMED* @CaseIgnoringWordList@ to @WordList::CaseIgnoring@
 * *REMOVED* caching option because it creates memory leaks.
 * *REMOVED* block option.
 

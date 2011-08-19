@@ -39,13 +39,13 @@ class WordListTest < Test::Unit::TestCase
   end
   
   def test_case_ignoring_word_list
-    list = CaseIgnoringWordList.new(:ident).add(['foobar'], :reserved)
+    list = WordList::CaseIgnoring.new(:ident).add(['foobar'], :reserved)
     assert_equal :ident, list['foo']
     assert_equal :reserved, list['foobar']
     assert_equal :reserved, list['FooBar']
     assert_equal 1, list.size
     
-    list = CaseIgnoringWordList.new(:ident).add(['FooBar'], :reserved)
+    list = WordList::CaseIgnoring.new(:ident).add(['FooBar'], :reserved)
     assert_equal :ident, list['foo']
     assert_equal :reserved, list['foobar']
     assert_equal :reserved, list['FooBar']

@@ -32,7 +32,7 @@ module Scanners
       onvolumechange onwaiting
     )
     
-    IN_ATTRIBUTE = CaseIgnoringWordList.new(nil).
+    IN_ATTRIBUTE = WordList::CaseIgnoring.new(nil).
       add(EVENT_ATTRIBUTES, :script)
     
     ATTR_NAME = /[\w.:-]+/  # :nodoc:
@@ -58,8 +58,7 @@ module Scanners
       '"' => /[^&">\n]+/,
     }  # :nodoc:
     
-    def reset  # :nodoc:
-      # FIXME: why not overwrite reset_instance?
+    def reset_instance  # :nodoc:
       super
       @state = :initial
     end

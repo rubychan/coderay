@@ -15,7 +15,7 @@ module CodeRay
   # WordList is optimized to be used in Scanners,
   # typically to decide whether a given ident is a special token.
   #
-  # For case insensitive words use CaseIgnoringWordList.
+  # For case insensitive words use WordList::CaseIgnoring.
   #
   # Example:
   #
@@ -60,9 +60,9 @@ module CodeRay
   end
   
   
-  # A CaseIgnoringWordList is like a WordList, only that
+  # A CaseIgnoring WordList is like a WordList, only that
   # keys are compared case-insensitively (normalizing keys using +downcase+).
-  class CaseIgnoringWordList < WordList
+  class WordList::CaseIgnoring < WordList
     
     def [] key
       super key.downcase

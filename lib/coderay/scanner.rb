@@ -4,8 +4,6 @@ require 'strscan'
 module CodeRay
 
   autoload :WordList, 'coderay/helpers/word_list'
-  # FIXME: Rename CaseIgnoringWordList to WordList::CaseIgnoring.
-  autoload :CaseIgnoringWordList, 'coderay/helpers/word_list'
   
   # = Scanners
   #
@@ -155,7 +153,7 @@ module CodeRay
         setup
       end
       
-      # Sets back the scanner. Subclasses should to define the reset_instance
+      # Sets back the scanner. Subclasses should redefine the reset_instance
       # method instead of this one.
       def reset
         super

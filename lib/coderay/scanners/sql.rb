@@ -42,7 +42,7 @@ module CodeRay module Scanners
     
     PREDEFINED_CONSTANTS = %w( null true false )
     
-    IDENT_KIND = CaseIgnoringWordList.new(:ident).
+    IDENT_KIND = WordList::CaseIgnoring.new(:ident).
       add(KEYWORDS, :keyword).
       add(OBJECTS, :type).
       add(COMMANDS, :class).

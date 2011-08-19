@@ -37,20 +37,20 @@
 			<string>../README_INDEX.rdoc</string>
 			<key>lastUsed</key>
 			<date>2011-08-19T02:16:06Z</date>
-			<key>selected</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../README.textile</string>
 			<key>lastUsed</key>
-			<date>2011-08-19T02:05:36Z</date>
+			<date>2011-08-19T02:29:46Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../.travis.yml</string>
 			<key>lastUsed</key>
-			<date>2011-08-19T02:05:37Z</date>
+			<date>2011-08-19T02:21:33Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>

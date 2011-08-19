@@ -129,10 +129,6 @@ more code  # and another comment, in-line.
     assert_equal 4, CodeRay.scan(rHTML, :erb).lines_of_code
   end
   
-  def test_rubygems_not_loaded
-    assert_equal nil, defined? Gem
-  end if ENV['check_rubygems'] && RUBY_VERSION < '1.9'
-  
   def test_list_of_encoders
     assert_kind_of(Array, CodeRay::Encoders.list)
     assert CodeRay::Encoders.list.include?(:count)

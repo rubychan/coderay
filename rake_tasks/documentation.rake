@@ -6,7 +6,7 @@ begin
     require 'rake/rdoctask'
   end
 rescue LoadError
-  puts 'Please gem install rdoc.'
+  warn 'Please gem install rdoc.'
 end
 
 desc 'Generate documentation for CodeRay'

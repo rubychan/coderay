@@ -10,5 +10,6 @@ group :development do
   gem "shoulda-context", "= 1.0.0.beta1"
   gem "RedCloth"
   gem "json" unless RUBY_VERSION >= '1.9.1'
+  gem "rdoc"
   gem "bundler", "~> 1.0.0"
 end

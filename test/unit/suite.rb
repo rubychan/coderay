@@ -1,4 +1,5 @@
 require 'test/unit'
+require 'rubygems'
 $:.unshift 'lib'
 
 mydir = File.dirname(__FILE__)

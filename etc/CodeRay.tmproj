@@ -2,13 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>currentDocument</key>
-	<string>../test/functional/for_redcloth.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -26,9 +22,21 @@
 		</dict>
 		<dict>
 			<key>filename</key>
+			<string>../coderay.gemspec</string>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>../Changes-1.0.textile</string>
+			<key>lastUsed</key>
+			<date>2011-08-19T01:04:06Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2011-08-16T18:06:14Z</date>
+			<date>2011-08-19T01:04:06Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -80,13 +88,21 @@
 		</dict>
 		<dict>
 			<key>filename</key>
-			<string>../Rakefile</string>
+			<string>../Gemfile</string>
 			<key>lastUsed</key>
-			<date>2011-08-01T01:19:43Z</date>
+			<date>2011-08-19T00:26:29Z</date>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
+			<key>filename</key>
+			<string>../Gemfile.lock</string>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>../Rakefile</string>
+			<key>lastUsed</key>
+			<date>2011-08-19T00:21:31Z</date>
+		</dict>
+		<dict>
 			<key>name</key>
 			<string>executable</string>
 			<key>regexFolderFilter</key>
@@ -95,8 +111,6 @@
 			<string>../test/executable</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>functional</string>
 			<key>regexFolderFilter</key>
@@ -111,21 +125,21 @@
 					<key>filename</key>
 					<string>../test/scanners/coderay_suite.rb</string>
 					<key>lastUsed</key>
-					<date>2011-08-01T01:19:42Z</date>
+					<date>2011-08-19T00:50:30Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
 					<string>../test/scanners/suite.rb</string>
 					<key>lastUsed</key>
-					<date>2011-03-01T00:06:06Z</date>
+					<date>2011-08-19T00:50:31Z</date>
 				</dict>
 			</array>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>scanners</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>unit</string>
 			<key>regexFolderFilter</key>
@@ -137,32 +151,13 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2011-07-11T22:05:29Z</date>
+			<date>2011-08-18T23:38:33Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>204</integer>
 	<key>metaData</key>
-	<dict>
-		<key>../test/functional/for_redcloth.rb</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>2</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>36</integer>
-		</dict>
-	</dict>
-	<key>openDocuments</key>
-	<array>
-		<string>../test/functional/for_redcloth.rb</string>
-	</array>
+	<dict/>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>

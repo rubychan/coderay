@@ -1,5 +1,7 @@
 = CodeRay
 
+https://secure.travis-ci.org/rubychan/coderay.png
+
 Tired of blue'n'gray? Try the original version of this documentation on
 coderay.rubychan.de[http://coderay.rubychan.de/doc/] :-)
 
@@ -111,6 +113,8 @@ Where would we be without all those people?
   less useless
 * Term::ANSIColor[http://term-ansicolor.rubyforge.org/]
 * PLEAC[http://pleac.sourceforge.net/] code examples
+* Github
+* Travis CI (http://travis-ci.org/rubychan/github)
 
 === Free
 

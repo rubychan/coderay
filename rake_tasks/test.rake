@@ -7,14 +7,12 @@ namespace :test do
   
   desc 'run functional tests'
   task :functional do
-    ENV['check_rubygems'] = 'true'
     ruby './test/functional/suite.rb'
     ruby './test/functional/for_redcloth.rb'
   end
   
   desc 'run unit tests'
   task :units do
-    ENV['check_rubygems'] = 'true'
     ruby './test/unit/suite.rb'
   end
   

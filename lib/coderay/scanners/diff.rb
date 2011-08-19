@@ -50,7 +50,9 @@ module Scanners
             if match = scan(/.*?(?=$|[\t\n\x00]|  \(revision)/)
               encoder.text_token match, :filename
               if options[:highlight_code]
-                content_scanner = scanners[FileType.fetch(match, :plaintext)]
+                file_type = FileType.fetch(match, :text)
+                file_type = :text if file_type == :diff
+                content_scanner = scanners[file_type]
                 content_scanner_entry_state = nil
               end
             end

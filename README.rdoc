@@ -1,6 +1,6 @@
 = CodeRay
 
-https://secure.travis-ci.org/rubychan/coderay.png
+http://travis-ci.org/rubychan/coderay.png
 
 Tired of blue'n'gray? Try the original version of this documentation on
 coderay.rubychan.de[http://coderay.rubychan.de/doc/] :-)

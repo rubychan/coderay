@@ -28,12 +28,14 @@ Gem::Specification.new do |s|
   # s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   # s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   # s.require_paths = ["lib"]
-  s.files         = Dir['lib/**/*.rb'] + %w(Rakefile README.rdoc LICENSE) + Dir['test/functional/*.rb']
+  readme_file = 'README_INDEX.rdoc'
+  
+  s.files         = Dir['lib/**/*.rb'] + %W(Rakefile #{readme_file} LICENSE) + Dir['test/functional/*.rb']
   s.test_files    = Dir['test/functional/*.rb']
   s.executables   = ['coderay']
   s.require_paths = ['lib']
   
   s.rubyforge_project = s.name
-  s.rdoc_options      = '-SNw2', '-mREADME.rdoc', '-t CodeRay Documentation'
-  s.extra_rdoc_files  = 'README.rdoc'
+  s.rdoc_options      = '-SNw2', "-m#{readme_file}", '-t CodeRay Documentation'
+  s.extra_rdoc_files  = readme_file
 end

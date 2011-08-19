@@ -14,7 +14,7 @@ if File.directory? 'rake_tasks'
   
 else
   
-  # fallback tasks when rake_tasks folder is not present
+  # fallback tasks when rake_tasks folder is not present (eg. in the distribution package)
   desc 'Run CodeRay tests (basic)'
   task :test do
     ruby './test/functional/suite.rb'
@@ -26,9 +26,9 @@ else
   desc 'Generate documentation for CodeRay'
   Rake::RDocTask.new :doc do |rd|
     rd.title = 'CodeRay Documentation'
-    rd.main = 'README.rdoc'
+    rd.main = 'README_INDEX.rdoc'
     rd.rdoc_files.add Dir['lib']
-    rd.rdoc_files.add 'README.rdoc'
+    rd.rdoc_files.add rd.main
     rd.rdoc_dir = 'doc'
   end
   

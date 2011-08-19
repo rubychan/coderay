@@ -20,7 +20,7 @@ Rake::RDocTask.new :doc do |rd|
   template = File.join ROOT, 'rake_helpers', 'coderay_rdoc_template.rb'
   rd.template = Pathname.new(template).expand_path.to_s
   
-  rd.rdoc_files.add 'README.rdoc'
+  rd.rdoc_files.add 'README_INDEX.rdoc'
   rd.rdoc_files.add Dir['lib']
   rd.rdoc_dir = 'doc'
 end if defined? Rake::RDocTask

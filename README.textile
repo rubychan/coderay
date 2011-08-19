@@ -30,6 +30,7 @@ bc.. require 'coderay'
 
 html = CodeRay.scan("puts 'Hello, world!'", :ruby).div(:line_numbers => :table)
 
+p. 
 
 h2. Documentation
 

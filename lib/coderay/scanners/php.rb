@@ -234,8 +234,8 @@ module Scanners
     def scan_tokens encoder, options
       
       if check(RE::PHP_START) ||  # starts with <?
-       (match?(/\s*<\S/) && check(/.{1,100}#{RE::PHP_START}/om)) || # starts with tag and contains <?
-       check(/.{1,100}#{RE::HTML_INDICATOR}/om) ||
+       (match?(/\s*<\S/) && check(/.{1,1000}#{RE::PHP_START}/om)) || # starts with tag and contains <?
+       check(/.{0,1000}#{RE::HTML_INDICATOR}/om) ||
        check(/.{1,100}#{RE::PHP_START}/om)  # PHP start after max 100 chars
         # is HTML with embedded PHP, so start with HTML
         states = [:initial]

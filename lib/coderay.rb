@@ -158,6 +158,7 @@ module CodeRay
     #
     # See also demo/demo_simple.
     def scan code, lang, options = {}, &block
+      # FIXME: return a proxy for direct-stream encoding
       scanner = Scanners[lang].new code, options, &block
       scanner.tokenize
     end
@@ -187,7 +188,7 @@ module CodeRay
     # encodes it with the Encoder for +format+.
     # +options+ will be passed to the Encoder.
     #
-    # See CodeRay::Encoder.encode
+    # See CodeRay::Encoder.encode.
     def encode code, lang, format, options = {}
       encoder(format, options).encode code, lang, options
     end

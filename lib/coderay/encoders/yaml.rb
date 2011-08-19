@@ -6,39 +6,44 @@ module Encoders
   # Slow.
   class YAML < Encoder
     
+    autoload :YAML, 'yaml'
+    
     register_for :yaml
     
     FILE_EXTENSION = 'yaml'
     
   protected
     def setup options
-      require 'yaml'
-      @out = []
+      super
+      
+      @data = []
     end
     
     def finish options
-      @out.to_a.to_yaml
+      YAML.dump @data, @out
+      
+      super
     end
     
   public
     def text_token text, kind
-      @out << [text, kind]
+      @data << [text, kind]
     end
     
     def begin_group kind
-      @out << [:begin_group, kind]
+      @data << [:begin_group, kind]
     end
     
     def end_group kind
-      @out << [:end_group, kind]
+      @data << [:end_group, kind]
     end
     
     def begin_line kind
-      @out << [:begin_line, kind]
+      @data << [:begin_line, kind]
     end
     
     def end_line kind
-      @out << [:end_line, kind]
+      @data << [:end_line, kind]
     end
     
   end

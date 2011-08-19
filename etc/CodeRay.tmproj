@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>currentDocument</key>
+	<string>../test/functional/for_redcloth.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -15,8 +17,6 @@
 			<string>../lib</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>bin</string>
 			<key>regexFolderFilter</key>
@@ -26,21 +26,9 @@
 		</dict>
 		<dict>
 			<key>filename</key>
-			<string>../diff</string>
-			<key>lastUsed</key>
-			<date>2011-05-21T05:54:27Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>../test/scanners/diff.diff</string>
-			<key>lastUsed</key>
-			<date>2010-06-27T00:11:50Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2011-05-21T04:50:20Z</date>
+			<date>2011-08-16T18:06:14Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -55,22 +43,12 @@
 			<date>2010-06-27T05:41:28Z</date>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>etc</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle|log|aux))$</string>
 			<key>sourceDirectory</key>
 			<string></string>
-		</dict>
-		<dict>
-			<key>name</key>
-			<string>gem_server</string>
-			<key>regexFolderFilter</key>
-			<string>!.*/(\.[^/]*|CVS|_darcs|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
-			<key>sourceDirectory</key>
-			<string>../gem_server</string>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -93,8 +71,6 @@
 			<string>../rake_helpers</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>rake_tasks</string>
 			<key>regexFolderFilter</key>
@@ -106,7 +82,7 @@
 			<key>filename</key>
 			<string>../Rakefile</string>
 			<key>lastUsed</key>
-			<date>2011-07-08T15:25:14Z</date>
+			<date>2011-08-01T01:19:43Z</date>
 		</dict>
 		<dict>
 			<key>expanded</key>
@@ -119,6 +95,8 @@
 			<string>../test/executable</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>functional</string>
 			<key>regexFolderFilter</key>
@@ -133,7 +111,7 @@
 					<key>filename</key>
 					<string>../test/scanners/coderay_suite.rb</string>
 					<key>lastUsed</key>
-					<date>2011-06-26T01:18:25Z</date>
+					<date>2011-08-01T01:19:42Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
@@ -146,6 +124,8 @@
 			<string>scanners</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>unit</string>
 			<key>regexFolderFilter</key>
@@ -157,28 +137,32 @@
 			<key>filename</key>
 			<string>../bench/bench.rb</string>
 			<key>lastUsed</key>
-			<date>2011-06-26T15:21:10Z</date>
+			<date>2011-07-11T22:05:29Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>204</integer>
 	<key>metaData</key>
 	<dict>
-		<key>../diff</key>
+		<key>../test/functional/for_redcloth.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>2</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>3</integer>
+			<integer>36</integer>
 		</dict>
 	</dict>
+	<key>openDocuments</key>
+	<array>
+		<string>../test/functional/for_redcloth.rb</string>
+	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>

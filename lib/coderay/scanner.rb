@@ -74,7 +74,7 @@ module CodeRay
           if code.respond_to? :encoding
             code = encode_with_encoding code, self.encoding
           else
-            code = to_unix code if code.index ?\r
+            code = to_unix code
           end
           # code = code.dup if code.eql? original
           code
@@ -100,7 +100,7 @@ module CodeRay
         def encode_with_encoding code, target_encoding
           if code.encoding == target_encoding
             if code.valid_encoding?
-              return to_unix(code)
+              return to_unix code
             else
               source_encoding = guess_encoding code
             end
@@ -112,7 +112,7 @@ module CodeRay
         end
         
         def to_unix code
-          code.gsub(/\r\n?/, "\n")
+          code.index(?\r) ? code.gsub(/\r\n?/, "\n") : code
         end
         
         def guess_encoding s
@@ -221,27 +221,39 @@ module CodeRay
       end
       include Enumerable
       
-      # The current line position of the scanner. See also #column.
+      # The current line position of the scanner, starting with 1.
+      # See also: #column.
       #
       # Beware, this is implemented inefficiently. It should be used
       # for debugging only.
-      def line
-        string[0..pos].count("\n") + 1
+      def line pos = self.pos
+        return 1 if pos <= 0
+        binary_string[0...pos].count("\n") + 1
       end
       
-      # The current column position of the scanner. See also #line.
+      # The current column position of the scanner, starting with 1.
+      # See also: #line.
       #
       # Beware, this is implemented inefficiently. It should be used
       # for debugging only.
       def column pos = self.pos
-        return 0 if pos <= 0
-        string = self.string
-        if string.respond_to?(:bytesize) && string.bytesize != string.size
-          #:nocov:
-          string = string.dup.force_encoding('binary')
-          #:nocov:
-        end
-        pos - (string.rindex(?\n, pos) || 0)
+        return 1 if pos <= 0
+        pos - (binary_string.rindex(?\n, pos - 1) || -1)
+      end
+      
+      # The string in binary encoding.
+      # 
+      # To be used with #pos, which is the index of the byte the scanner
+      # will scan next.
+      def binary_string
+        @binary_string ||=
+          if string.respond_to?(:bytesize) && string.bytesize != string.size
+            #:nocov:
+            string.dup.force_encoding('binary')
+            #:nocov:
+          else
+            string
+          end
       end
       
     protected
@@ -267,7 +279,7 @@ module CodeRay
       def reset_instance
         @tokens.clear if @tokens.respond_to?(:clear) && !@options[:keep_tokens]
         @cached_tokens = nil
-        @bin_string = nil if defined? @bin_string
+        @binary_string = nil if defined? @binary_string
       end
       
       # Scanner error with additional status information
@@ -297,8 +309,8 @@ surrounding code:
           tokens.respond_to?(:last) ? tokens.last(10).map { |t| t.inspect }.join("\n") : '',
           line, column, pos,
           matched, state, bol?, eos?,
-          string[pos - ambit, ambit],
-          string[pos, ambit],
+          binary_string[pos - ambit, ambit],
+          binary_string[pos, ambit],
         ], backtrace
       end
       

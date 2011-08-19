@@ -73,9 +73,7 @@ module CodeRay
       encoder.encode_tokens self, options
     end
     
-    # Turn into a string using Encoders::Text.
-    #
-    # +options+ are passed to the encoder if given.
+    # Turn tokens into a string by concatenating them.
     def to_s
       encode CodeRay::Encoders::Encoder.new
     end

@@ -1,20 +1,11 @@
 # encoding: utf-8
 require 'test/unit'
+require File.expand_path('../../lib/assert_warning', __FILE__)
+
+$:.unshift File.expand_path('../../../lib', __FILE__)
 require 'coderay'
 
 class BasicTest < Test::Unit::TestCase
-  
-  def assert_warning expected_warning
-    require 'stringio'
-    oldstderr = $stderr
-    $stderr = StringIO.new
-    yield
-    $stderr.rewind
-    given_warning = $stderr.read.chomp
-    assert_equal expected_warning, given_warning
-  ensure
-    $stderr = oldstderr
-  end
   
   def test_version
     assert_nothing_raised do
@@ -135,7 +126,7 @@ more code  # and another comment, in-line.
     assert_equal 0, CodeRay.scan(rHTML, :html).lines_of_code
     assert_equal 0, CodeRay.scan(rHTML, :php).lines_of_code
     assert_equal 0, CodeRay.scan(rHTML, :yaml).lines_of_code
-    assert_equal 4, CodeRay.scan(rHTML, :rhtml).lines_of_code
+    assert_equal 4, CodeRay.scan(rHTML, :erb).lines_of_code
   end
   
   def test_rubygems_not_loaded
@@ -243,8 +234,28 @@ more code  # and another comment, in-line.
     scanner = CodeRay::Scanners::Plain.new "foo\nbär+quux"
     assert_equal 0, scanner.pos
     assert_equal 1, scanner.line
-    assert_equal 0, scanner.column
-    scanner.scan(/foo\nbär/)
+    assert_equal 1, scanner.column
+    scanner.scan(/foo/)
+    assert_equal 3, scanner.pos
+    assert_equal 1, scanner.line
+    assert_equal 4, scanner.column
+    scanner.scan(/\n/)
+    assert_equal 4, scanner.pos
+    assert_equal 2, scanner.line
+    assert_equal 1, scanner.column
+    scanner.scan(/b/)
+    assert_equal 5, scanner.pos
+    assert_equal 2, scanner.line
+    assert_equal 2, scanner.column
+    scanner.scan(/a/)
+    assert_equal 5, scanner.pos
+    assert_equal 2, scanner.line
+    assert_equal 2, scanner.column
+    scanner.scan(/ä/)
+    assert_equal 7, scanner.pos
+    assert_equal 2, scanner.line
+    assert_equal 4, scanner.column
+    scanner.scan(/r/)
     assert_equal 8, scanner.pos
     assert_equal 2, scanner.line
     assert_equal 5, scanner.column

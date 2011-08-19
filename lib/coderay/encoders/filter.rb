@@ -21,29 +21,35 @@ module Encoders
     
   protected
     def setup options
-      @out = options[:tokens] || Tokens.new
+      super
+      
+      @tokens = options[:tokens] || Tokens.new
+    end
+    
+    def finish options
+      output @tokens
     end
     
   public
     
     def text_token text, kind  # :nodoc:
-      @out.text_token text, kind
+      @tokens.text_token text, kind
     end
     
     def begin_group kind  # :nodoc:
-      @out.begin_group kind
+      @tokens.begin_group kind
     end
     
     def begin_line kind  # :nodoc:
-      @out.begin_line kind
+      @tokens.begin_line kind
     end
     
     def end_group kind  # :nodoc:
-      @out.end_group kind
+      @tokens.end_group kind
     end
     
     def end_line kind  # :nodoc:
-      @out.end_line kind
+      @tokens.end_line kind
     end
     
   end

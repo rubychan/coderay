@@ -1,7 +1,7 @@
 # A simple differ using svn. Handles externals.
 class Differ < Hash
   
-  include Rake::DSL
+  include Rake::DSL if defined? Rake::DSL
   
   def initialize path
     @path = path

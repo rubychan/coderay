@@ -5,9 +5,9 @@ module Scanners
   load :ruby
   
   # Scanner for HTML ERB templates.
-  class RHTML < Scanner
+  class ERB < Scanner
     
-    register_for :rhtml
+    register_for :erb
     title 'HTML ERB Template'
     
     KINDS_NOT_LOC = HTML::KINDS_NOT_LOC
@@ -56,7 +56,7 @@ module Scanners
           if start_tag[/\A<%#/]
             encoder.text_token code, :comment
           else
-            @ruby_scanner.tokenize code
+            @ruby_scanner.tokenize code, :tokens => encoder
           end unless code.empty?
           encoder.text_token end_tag, :inline_delimiter unless end_tag.empty?
           encoder.end_group :inline

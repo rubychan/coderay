@@ -55,7 +55,6 @@ module Encoders
       end
       
       def apply_title! title
-        # FIXME: This may change the output!
         self.sub!(/(<title>)(<\/title>)/) { $1 + title + $2 }
         self
       end

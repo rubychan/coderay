@@ -114,9 +114,10 @@ module CodeRay
     def default id = nil
       if id
         id = validate_id id
-        plugin_hash[nil] = id
+        raise "The default plugin can't be named \"default\"." if id == :default
+        plugin_hash[:default] = id
       else
-        load nil
+        load :default
       end
     end
     
@@ -179,10 +180,11 @@ module CodeRay
           require path
         rescue LoadError => boom
           if @plugin_map_loaded
-            if h.has_key?(nil)  # default plugin
-              h[nil]
+            if h.has_key?(:default)
+              warn '%p could not load plugin %p; falling back to %p' % [self, id, h[:default]]
+              h[:default]
             else
-              raise PluginNotFound, 'Could not load plugin %p: %s' % [id, boom]
+              raise PluginNotFound, '%p could not load plugin %p: %s' % [self, id, boom]
             end
           else
             load_plugin_map

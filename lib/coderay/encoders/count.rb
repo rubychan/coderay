@@ -11,17 +11,23 @@ module Encoders
   protected
     
     def setup options
-      @out = 0
+      super
+      
+      @count = 0
+    end
+    
+    def finish options
+      output @count
     end
     
   public
     
     def text_token text, kind
-      @out += 1
+      @count += 1
     end
     
     def begin_group kind
-      @out += 1
+      @count += 1
     end
     alias end_group begin_group
     alias begin_line begin_group

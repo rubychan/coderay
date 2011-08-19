@@ -164,6 +164,11 @@ module Encoders
     def setup options
       super
       
+      if options[:wrap] || options[:line_numbers]
+        @real_out = @out
+        @out = ''
+      end
+      
       @HTML_ESCAPE = HTML_ESCAPE.dup
       @HTML_ESCAPE["\t"] = ' ' * options[:tab_width]
       
@@ -214,7 +219,7 @@ module Encoders
     
     def finish options
       unless @opened.empty?
-        warn '%d tokens still open: %p' % [@opened.size, @opened]
+        warn '%d tokens still open: %p' % [@opened.size, @opened] if $CODERAY_DEBUG
         @out << '</span>' while @opened.pop
         @last_opened = nil
       end
@@ -226,6 +231,11 @@ module Encoders
       end
       @out.wrap! options[:wrap]
       @out.apply_title! options[:title]
+      
+      if defined?(@real_out) && @real_out
+        @real_out << @out
+        @out = @real_out
+      end
       
       super
     end

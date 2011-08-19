@@ -15,13 +15,10 @@ module Encoders
   protected
     
     def setup options
+      super
+      
       @type_stats = Hash.new { |h, k| h[k] = TypeStats.new 0, 0 }
       @real_token_count = 0
-    end
-    
-    def generate tokens, options
-      @tokens = tokens
-      super
     end
     
     STATS = <<-STATS  # :nodoc:
@@ -51,11 +48,13 @@ Token Types (%d):
       types_stats = @type_stats.sort_by { |k, v| [-v.count, k.to_s] }.map do |k, v|
         TOKEN_TYPES_ROW % [k, v.count, 100.0 * v.count / all_count, v.size]
       end.join
-      STATS % [
+      @out << STATS % [
         all_count, @real_token_count, all_size,
         @type_stats.delete_if { |k, v| k.is_a? String }.size,
         types_stats
       ]
+      
+      super
     end
     
   public

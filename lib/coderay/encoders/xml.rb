@@ -10,7 +10,7 @@ module Encoders
     
     FILE_EXTENSION = 'xml'
     
-    require 'rexml/document'
+    autoload :REXML, 'rexml/document'
     
     DEFAULT_OPTIONS = {
       :tab_width => 8,
@@ -20,6 +20,8 @@ module Encoders
     
   protected
     def setup options
+      super
+      
       @doc = REXML::Document.new
       @doc << REXML::XMLDecl.new
       @tab_width = options[:tab_width]
@@ -27,9 +29,9 @@ module Encoders
     end
     
     def finish options
-      @out = ''
       @doc.write @out, options[:pretty], options[:transitive], true
-      @out
+      
+      super
     end
     
   public

@@ -153,7 +153,17 @@ module CodeRay
       #
       # See the HTML Encoder for an example of option caching.
       def setup options
-        @out = ''
+        @out = get_output(options)
+      end
+      
+      def get_output options
+        options[:out] || ''
+      end
+      
+      # Append data.to_s to the output. Returns the argument.
+      def output data
+        @out << data.to_s
+        data
       end
       
       # Called with merged options after encoding starts.

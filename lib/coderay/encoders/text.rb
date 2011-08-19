@@ -24,17 +24,20 @@ module Encoders
     
     def text_token text, kind
       super
-      @out << @sep if @sep
+      
+      if @first
+        @first = false
+      else
+        @out << @sep
+      end if @sep
     end
     
   protected
     def setup options
       super
+      
+      @first = true
       @sep = options[:separator]
-    end
-    
-    def finish options
-      super.chomp @sep
     end
     
   end

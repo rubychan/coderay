@@ -3,31 +3,44 @@ require 'rubygems' unless defined? Gem
 require 'shoulda-context'
 
 require 'pathname'
-$:.unshift 'lib'
+require 'json'
+
+$:.unshift File.expand_path('../../../lib', __FILE__)
 require 'coderay'
 
 puts "Running CodeRay #{CodeRay::VERSION} executable tests..."
 
 class TestCodeRayExecutable < Test::Unit::TestCase
   
-  ruby = 'ruby'
-  
   ROOT_DIR = Pathname.new(File.dirname(__FILE__)) + '..' + '..'
   EXECUTABLE = ROOT_DIR + 'bin' + 'coderay'
-  EXE_COMMAND = '%s -wI%s %s'% [
-    ruby,              # calling Ruby process command
-    ROOT_DIR + 'lib',  # library dir
-    EXECUTABLE         # coderay
-  ]
+  EXE_COMMAND =
+    if RUBY_PLATFORM === 'java' && `ruby --ng -e ''` && $?.success?
+      # use Nailgun
+      'ruby --ng -wI%s %s'
+    else
+      'ruby -wI%s %s'
+    end % [ROOT_DIR + 'lib', EXECUTABLE]
   
-  def coderay args, fake_tty = false
-    if fake_tty
+  def coderay args, options = {}
+    if options[:fake_tty]
       command = "#{EXE_COMMAND} #{args} --tty"
     else
       command = "#{EXE_COMMAND} #{args}"
     end
+    
     puts command if $DEBUG
-    output = `#{command} 2>&1`
+    
+    if options[:input]
+      output = IO.popen "#{command} 2>&1", "r+" do |io|
+        io.write options[:input]
+        io.close_write
+        io.read
+      end
+    else
+      output = `#{command} 2>&1`
+    end
+    
     if output[EXECUTABLE.to_s]
       raise output
     else
@@ -74,30 +87,30 @@ class TestCodeRayExecutable < Test::Unit::TestCase
   end
   
   context 'highlighting a file to the terminal' do
-    source_file = 'test/executable/source.py'
+    source_file = ROOT_DIR + 'test/executable/source.py'
     
     source = File.read source_file
     
     ansi_seq = /\e\[[0-9;]+m/
     
     should 'not throw an error' do
-      assert_nothing_raised { coderay(source_file, :tty) }
+      assert_nothing_raised { coderay(source_file, :fake_tty => true) }
     end
     should 'output its contents to stdout' do
-      target = coderay(source_file, :tty)
+      target = coderay(source_file, :fake_tty => true)
       assert_equal source, target.chomp.gsub(ansi_seq, '')
     end
     should 'output ANSI-colored text' do
-      target = coderay(source_file, :tty)
+      target = coderay(source_file, :fake_tty => true)
       assert_not_equal source, target.chomp
       assert_equal 6, target.scan(ansi_seq).size
     end
   end
   
-  context 'highlighting a file into a pipe (source.rb > source.rb.html)' do
-    source_file = 'test/executable/source.rb'
+  context 'highlighting a file into a pipe (source.rb -html > source.rb.html)' do
+    source_file = ROOT_DIR + 'test/executable/source.rb'
     target_file = "#{source_file}.html"
-    command = "#{source_file} > #{target_file}"
+    command = "#{source_file} -html > #{target_file}"
     
     source = File.read source_file
     
@@ -126,7 +139,7 @@ class TestCodeRayExecutable < Test::Unit::TestCase
   end
   
   context 'highlighting a file into another file (source.rb source.rb.json)' do
-    source_file = 'test/executable/source.rb'
+    source_file = ROOT_DIR + 'test/executable/source.rb'
     target_file = "#{source_file}.json"
     command = "#{source_file} #{target_file}"
     
@@ -151,8 +164,8 @@ class TestCodeRayExecutable < Test::Unit::TestCase
   end
   
   context 'highlighting a file without explicit input type (source.py)' do
-    source_file = 'test/executable/source.py'
-    command = source_file
+    source_file = ROOT_DIR + 'test/executable/source.py'
+    command = "#{source_file} -html"
     
     source = File.read source_file
     
@@ -166,8 +179,8 @@ class TestCodeRayExecutable < Test::Unit::TestCase
   end
   
   context 'highlighting a file with explicit input type (-ruby source.py)' do
-    source_file = 'test/executable/source.py'
-    command = "-ruby #{source_file}"
+    source_file = ROOT_DIR + 'test/executable/source.py'
+    command = "-ruby #{source_file} -html"
     
     source = File.read source_file
     
@@ -181,7 +194,7 @@ class TestCodeRayExecutable < Test::Unit::TestCase
   end
   
   context 'highlighting a file with explicit input and output type (-ruby source.py -span)' do
-    source_file = 'test/executable/source.py'
+    source_file = ROOT_DIR + 'test/executable/source.py'
     command = "-ruby #{source_file} -span"
     
     source = File.read source_file
@@ -191,6 +204,21 @@ class TestCodeRayExecutable < Test::Unit::TestCase
     should 'just respect the output type and include span tags' do
       target = coderay(command)
       assert_equal source, target.chomp.gsub(span_tags, '')
+    end
+  end
+  
+  context 'the LOC counter' do
+    source_file = ROOT_DIR + 'test/executable/source_with_comments.rb'
+    command = "-ruby -loc"
+    
+    should 'work' do
+      output = coderay(command, :input => <<-CODE)
+# test
+=begin
+=end
+test
+      CODE
+      assert_equal "1\n", output
     end
   end
   

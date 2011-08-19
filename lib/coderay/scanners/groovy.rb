@@ -220,7 +220,7 @@ module Scanners
             encoder.text_token match, :content
             
           elsif match = scan(/ \\. /mx)
-            encoder.text_token match, :content  # FIXME: Shouldn't this be :error?
+            encoder.text_token match, :content  # TODO: Shouldn't this be :error?
             
           elsif match = scan(/ \\ | \n /x)
             encoder.end_group state

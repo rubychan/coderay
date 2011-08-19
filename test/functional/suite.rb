@@ -1,5 +1,6 @@
 require 'test/unit'
-$:.unshift 'lib'
+
+$:.unshift File.expand_path('../../../lib', __FILE__)
 require 'coderay'
 
 mydir = File.dirname(__FILE__)

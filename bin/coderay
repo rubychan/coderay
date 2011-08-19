@@ -105,8 +105,10 @@ when 'highlight', nil
     if output_file
       output_filetype ||= CodeRay::FileType[output_file]
     else
-      output_filetype ||= tty? ? :term : :page
+      output_filetype ||= :term
     end
+    
+    output_filetype = :page if output_filetype.to_s == 'html'
     
     if input_file
       input = File.read input_file
@@ -114,14 +116,27 @@ when 'highlight', nil
       input = $stdin.read
     end
     
-    output = CodeRay.scan(input, input_filetype).encode(output_filetype)
-    
-    if output_file
-      File.open output_file, 'w' do |file|
-        file.puts output
+    begin
+      file =
+        if output_file
+          File.open output_file, 'w'
+        else
+          $stdout.sync = true
+          $stdout
+        end
+      CodeRay.encode(input, input_filetype, output_filetype, :out => file)
+      file.puts
+    rescue CodeRay::PluginHost::PluginNotFound => boom
+      if boom.message[/CodeRay::(\w+)s could not load plugin :?(.*?): /]
+        puts "I don't know the #$1 \"#$2\"."
+      else
+        puts boom.message
       end
-    else
-      puts output
+      # puts "I don't know this plugin: #{boom.message[/Could not load plugin (.*?): /, 1]}."
+    rescue CodeRay::Scanners::Scanner::ScanError  # FIXME: rescue Errno::EPIPE
+      # ignore
+    ensure
+      file.close
     end
   end
 when 'list'
@@ -151,6 +166,13 @@ when 'commands'
 when 'help'
   help
 else
-  puts "Unknown command: #{subcommand}"
+  $stdout = $stderr
   help
+  puts
+  if subcommand[/\A\w+\z/]
+    puts "Unknown command: #{subcommand}"
+  else
+    puts "File not found: #{subcommand}"
+  end
+  exit 1
 end

@@ -8,6 +8,7 @@ gemspec
 group :development do
   gem "rake", "~> 0.9.2"
   gem "shoulda-context", "= 1.0.0.beta1"
+  gem "RedCloth"
   gem "json" unless RUBY_VERSION >= '1.9.1'
   gem "bundler", "~> 1.0.0"
 end

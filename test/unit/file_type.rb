@@ -73,8 +73,8 @@ class FileTypeTests < Test::Unit::TestCase
     assert_equal :page, FileType['test.htm']
     assert_equal :page, FileType['test.xhtml']
     assert_equal :page, FileType['test.html.xhtml']
-    assert_equal :rhtml, FileType['_form.rhtml']
-    assert_equal :rhtml, FileType['_form.html.erb']
+    assert_equal :erb, FileType['_form.rhtml']
+    assert_equal :erb, FileType['_form.html.erb']
   end
 
   def test_yaml

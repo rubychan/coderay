@@ -44,7 +44,7 @@ module Encoders
         ( [^\}]+ )?          # $2 = style
         \s* \} \s*
       |
-        ( . )                # $3 = error
+        ( [^\n]+ )           # $3 = error
       /mx
       def parse stylesheet
         stylesheet.scan CSS_CLASS_PATTERN do |selectors, style, error|

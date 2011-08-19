@@ -3,7 +3,6 @@ module Encoders
   
   map \
     :loc             => :lines_of_code,
-    :html            => :page,
     :plain           => :text,
     :plaintext       => :text,
     :remove_comments => :comment_filter,

@@ -89,7 +89,7 @@ module Scanners
             end
             
           elsif value_expected && match = scan(/<([[:alpha:]]\w*) (?: [^\/>]*\/> | .*?<\/\1>)/xim)
-            # FIXME: scan over nested tags
+            # TODO: scan over nested tags
             xml_scanner.tokenize match, :tokens => encoder
             value_expected = false
             next

@@ -31,11 +31,12 @@ module Encoders
       end
       
       options[:exclude] = kinds_not_loc
+      
       super options
     end
     
     def finish options
-      @out.to_s.scan(NON_EMPTY_LINE).size
+      output @tokens.text.scan(NON_EMPTY_LINE).size
     end
     
   end

@@ -27,7 +27,7 @@ module Encoders
       if kind == :space
         @out << text
       else
-        # FIXME: Escape (
+        # TODO: Escape (
         text = text.gsub(/[)\\]/, '\\\\\0')  # escape ) and \
         @out << kind.to_s << '(' << text << ')'
       end

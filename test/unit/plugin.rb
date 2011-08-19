@@ -1,6 +1,8 @@
 require 'test/unit'
+require File.expand_path('../../lib/assert_warning', __FILE__)
+
+$:.unshift File.expand_path('../../../lib', __FILE__)
 require 'coderay'
-require 'pathname'
 
 class PluginScannerTest < Test::Unit::TestCase
   
@@ -20,7 +22,7 @@ class PluginScannerTest < Test::Unit::TestCase
       extend CodeRay::Plugin
       plugin_host PluginsWithDefault
     end
-    default :default
+    default :default_plugin
   end
   
   def test_load
@@ -36,7 +38,9 @@ class PluginScannerTest < Test::Unit::TestCase
   
   def test_default
     assert_nothing_raised do
-      assert_operator PluginsWithDefault[:gargamel], :<, PluginsWithDefault::Plugin
+      assert_warning 'PluginScannerTest::PluginsWithDefault could not load plugin :gargamel; falling back to :default_plugin' do
+        assert_operator PluginsWithDefault[:gargamel], :<, PluginsWithDefault::Plugin
+      end
     end
     assert_equal PluginsWithDefault::Default, PluginsWithDefault.default
   end
@@ -62,18 +66,6 @@ class PluginScannerTest < Test::Unit::TestCase
   
   def test_title
     assert_equal 'The Example', Plugins::Example.title
-  end
-  
-  def assert_warning expected_warning
-    require 'stringio'
-    oldstderr = $stderr
-    $stderr = StringIO.new
-    yield
-    $stderr.rewind
-    given_warning = $stderr.read.chomp
-    assert_equal expected_warning, given_warning
-  ensure
-    $stderr = oldstderr
   end
   
 end

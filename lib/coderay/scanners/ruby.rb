@@ -26,7 +26,7 @@ module Scanners
       state, heredocs = @state
       heredocs = heredocs.dup if heredocs.is_a?(Array)
       
-      if state && state.instance_of?(self.class::StringState)
+      if state && state.instance_of?(StringState)
         encoder.begin_group state.type
       end
       
@@ -426,13 +426,18 @@ module Scanners
       end
       
       # cleaning up
-      if options[:keep_state]
-        heredocs = nil if heredocs && heredocs.empty?
-        @state = state, heredocs
+      if state.is_a? StringState
+        encoder.end_group state.type
       end
       
-      if state.is_a? self.class::StringState
-        encoder.end_group state.type
+      if options[:keep_state]
+        if state.is_a?(StringState) && state.heredoc
+          (heredocs ||= []).unshift state
+          state = :initial
+        elsif heredocs && heredocs.empty?
+          heredocs = nil
+        end
+        @state = state, heredocs
       end
       
       if inline_block_stack

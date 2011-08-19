@@ -13,6 +13,12 @@ h3. Supported by both
 * RHTML
 * Ruby
 * XML
+* JavaScript
+* CSS
+* PHP
+* Diff
+* SQL
+
 
 h3. Only in CodeRay
 
@@ -20,12 +26,6 @@ h3. Only in CodeRay
 * Nitro-XHTML
 
 h3. Only in Pygments, but soon in CodeRay
-
-* JavaScript
-* CSS
-* PHP
-* Diff
-* SQL
 
 h3. Soon only in CodeRay
 

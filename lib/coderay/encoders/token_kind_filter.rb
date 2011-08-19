@@ -34,6 +34,7 @@ module Encoders
   protected
     def setup options
       super
+      
       @group_excluded = false
       @exclude = options[:exclude]
       @exclude = Array(@exclude) unless @exclude == :all

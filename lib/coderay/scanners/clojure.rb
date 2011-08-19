@@ -156,7 +156,7 @@ module CodeRay
             elsif match = scan(/['`\(\[\)\]\{\}]|\#[({]|~@?|[@\^]/)
               encoder.text_token match, :operator
             elsif match = scan(/;.*/)
-              encoder.text_token match, :comment  # FIXME: recognize (comment ...) too
+              encoder.text_token match, :comment  # TODO: recognize (comment ...) too
             elsif match = scan(/\#?\\(?:newline|space|.?)/)
               encoder.text_token match, :char
             elsif match = scan(/\#[ft]/)

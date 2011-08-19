@@ -36,32 +36,45 @@ module Encoders
     
   protected
     def setup options
-      @out = []
+      super
+      
+      @first = true
+      @out << '['
     end
     
     def finish options
-      @out.to_json
+      @out << ']'
+    end
+    
+    def append data
+      if @first
+        @first = false
+      else
+        @out << ','
+      end
+      
+      @out << data.to_json
     end
     
   public
     def text_token text, kind
-      @out << { :type => 'text', :text => text, :kind => kind }
+      append :type => 'text', :text => text, :kind => kind
     end
     
     def begin_group kind
-      @out << { :type => 'block', :action => 'open', :kind => kind }
+      append :type => 'block', :action => 'open', :kind => kind
     end
     
     def end_group kind
-      @out << { :type => 'block', :action => 'close', :kind => kind }
+      append :type => 'block', :action => 'close', :kind => kind
     end
     
     def begin_line kind
-      @out << { :type => 'block', :action => 'begin_line', :kind => kind }
+      append :type => 'block', :action => 'begin_line', :kind => kind
     end
     
     def end_line kind
-      @out << { :type => 'block', :action => 'end_line', :kind => kind }
+      append :type => 'block', :action => 'end_line', :kind => kind
     end
     
   end

@@ -159,8 +159,7 @@ module CodeRay
     # See also demo/demo_simple.
     def scan code, lang, options = {}, &block
       # FIXME: return a proxy for direct-stream encoding
-      scanner = Scanners[lang].new code, options, &block
-      scanner.tokenize
+      scanner(lang, options, &block).tokenize code
     end
     
     # Scans +filename+ (a path to a code file) with the Scanner for +lang+.
@@ -175,11 +174,9 @@ module CodeRay
     #  require 'coderay'
     #  page = CodeRay.scan_file('some_c_code.c').html
     def scan_file filename, lang = :auto, options = {}, &block
-      file = IO.read filename
-      if lang == :auto
-        lang = FileType.fetch filename, :text, true
-      end
-      scan file, lang, options = {}, &block
+      lang = FileType.fetch filename, :text, true if lang == :auto
+      code = File.read filename
+      scan code, lang, options = {}, &block
     end
     
     # Encode a string.
@@ -261,8 +258,8 @@ module CodeRay
     # +options+ to it.
     #
     # See Scanner.new.
-    def scanner lang, options = {}
-      Scanners[lang].new '', options
+    def scanner lang, options = {}, &block
+      Scanners[lang].new '', options, &block
     end
     
     # Extract the options for the scanner from the +options+ hash.

@@ -213,9 +213,7 @@ more code  # and another comment, in-line.
   def test_scanner_tokenize
     assert_equal ['foo', :plain], CodeRay::Scanners::Plain.new.tokenize('foo')
     assert_equal [['foo', :plain], ['bar', :plain]], CodeRay::Scanners::Plain.new.tokenize(['foo', 'bar'])
-    assert_raise ArgumentError do
-      CodeRay::Scanners::Plain.new.tokenize 42
-    end
+    CodeRay::Scanners::Plain.new.tokenize 42
   end
   
   def test_scanner_tokens

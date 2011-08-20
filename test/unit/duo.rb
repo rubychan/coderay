@@ -16,10 +16,30 @@ class DuoTest < Test::Unit::TestCase
   end
   
   def test_call
-    duo = CodeRay::Duo[:python => :xml]
-    assert_equal <<-'XML'.chomp, duo.call('def test: "pass"')
-<?xml version='1.0'?><coderay-tokens><keyword>def</keyword> <method>test</method><operator>:</operator> <string><delimiter>&quot;</delimiter><content>pass</content><delimiter>&quot;</delimiter></string></coderay-tokens>
-    XML
+    duo = CodeRay::Duo[:python => :yml]
+    assert_equal <<-'YAML', duo.call('def test: "pass"')
+--- 
+- - def
+  - :keyword
+- - " "
+  - :space
+- - test
+  - :method
+- - ":"
+  - :operator
+- - " "
+  - :space
+- - :begin_group
+  - :string
+- - "\""
+  - :delimiter
+- - pass
+  - :content
+- - "\""
+  - :delimiter
+- - :end_group
+  - :string
+    YAML
   end
   
 end

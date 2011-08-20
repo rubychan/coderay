@@ -8,7 +8,8 @@ module Encoders
     :remove_comments => :comment_filter,
     :stats           => :statistic,
     :term            => :terminal,
-    :tty             => :terminal
+    :tty             => :terminal,
+    :yml             => :yaml
   
   # No default because Tokens#nonsense should raise NoMethodError.
   

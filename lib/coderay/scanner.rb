@@ -69,6 +69,8 @@ module CodeRay
         def normalize code
           # original = code
           code = code.to_s unless code.is_a? ::String
+          return code if code.empty?
+          
           if code.respond_to? :encoding
             code = encode_with_encoding code, self.encoding
           else
@@ -183,14 +185,12 @@ module CodeRay
         @tokens = options[:tokens] || @tokens || Tokens.new
         @tokens.scanner = self if @tokens.respond_to? :scanner=
         case source
-        when String
-          self.string = source
         when Array
-          self.string = source.join
+          self.string = self.class.normalize(source.join)
         when nil
           reset
         else
-          raise ArgumentError, 'expected String, Array, or nil'
+          self.string = self.class.normalize(source)
         end
         
         begin

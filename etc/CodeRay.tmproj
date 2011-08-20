@@ -5,6 +5,8 @@
 	<key>documents</key>
 	<array>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -24,27 +26,25 @@
 			<key>filename</key>
 			<string>../coderay.gemspec</string>
 			<key>lastUsed</key>
-			<date>2011-08-19T02:13:23Z</date>
+			<date>2011-08-19T02:43:54Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../Changes-1.0.textile</string>
 			<key>lastUsed</key>
-			<date>2011-08-19T01:12:40Z</date>
+			<date>2011-08-19T03:20:53Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../README_INDEX.rdoc</string>
 			<key>lastUsed</key>
-			<date>2011-08-19T02:16:06Z</date>
+			<date>2011-08-19T02:40:24Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>../README.textile</string>
 			<key>lastUsed</key>
-			<date>2011-08-19T02:29:46Z</date>
-			<key>selected</key>
-			<true/>
+			<date>2011-08-19T02:38:26Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -145,7 +145,7 @@
 					<key>filename</key>
 					<string>../test/scanners/coderay_suite.rb</string>
 					<key>lastUsed</key>
-					<date>2011-08-19T00:50:30Z</date>
+					<date>2011-08-19T03:16:08Z</date>
 				</dict>
 				<dict>
 					<key>filename</key>
@@ -179,6 +179,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{214, 4}, {1066, 774}}</string>
+	<string>{{0, 4}, {1066, 774}}</string>
 </dict>
 </plist>

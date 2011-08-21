@@ -20,9 +20,7 @@ module Encoders
     end
     
     def finish options
-      ::YAML.dump @data, @out
-      
-      super
+      output ::YAML.dump(@data)
     end
     
   public

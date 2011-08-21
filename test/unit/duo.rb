@@ -1,4 +1,5 @@
 require 'test/unit'
+require 'yaml'
 require 'coderay'
 
 class DuoTest < Test::Unit::TestCase
@@ -17,29 +18,18 @@ class DuoTest < Test::Unit::TestCase
   
   def test_call
     duo = CodeRay::Duo[:python => :yml]
-    assert_equal <<-'YAML', duo.call('def test: "pass"')
---- 
-- - def
-  - :keyword
-- - " "
-  - :space
-- - test
-  - :method
-- - ":"
-  - :operator
-- - " "
-  - :space
-- - :begin_group
-  - :string
-- - "\""
-  - :delimiter
-- - pass
-  - :content
-- - "\""
-  - :delimiter
-- - :end_group
-  - :string
-    YAML
+    yaml = [["def", :keyword],
+            [" ", :space],
+            ["test", :method],
+            [":", :operator],
+            [" ", :space],
+            [:begin_group, :string],
+            ["\"", :delimiter],
+            ["pass", :content],
+            ["\"", :delimiter],
+            [:end_group, :string]]
+    
+    assert_equal yaml, YAML.load(duo.call('def test: "pass"'))
   end
   
 end

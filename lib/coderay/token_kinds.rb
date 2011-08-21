@@ -22,6 +22,7 @@ module CodeRay
     :complex             => 'complex',
     :constant            => 'constant',
     :content             => 'content',
+    :debug               => 'debug',
     :decorator           => 'decorator',
     :definition          => 'definition',
     :delimiter           => 'delimiter',

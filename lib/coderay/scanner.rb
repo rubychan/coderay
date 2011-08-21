@@ -100,7 +100,7 @@ module CodeRay
         def encode_with_encoding code, target_encoding
           if code.encoding == target_encoding
             if code.valid_encoding?
-              return to_unix code
+              return to_unix(code)
             else
               source_encoding = guess_encoding code
             end

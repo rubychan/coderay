@@ -1,3 +1,5 @@
+autoload :YAML, 'yaml'
+
 module CodeRay
 module Encoders
   
@@ -5,8 +7,6 @@ module Encoders
   #
   # Slow.
   class YAML < Encoder
-    
-    autoload :YAML, 'yaml'
     
     register_for :yaml
     

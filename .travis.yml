@@ -11,4 +11,4 @@ branches:
   only:
     - master
     - stable
-script: "rake test test:scanners"
+script: "rake test" # test:scanners"

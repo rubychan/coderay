@@ -58,9 +58,10 @@ module Scanners
       '"' => /[^&">\n]+/,
     }  # :nodoc:
     
-    def reset_instance  # :nodoc:
+    def reset
       super
       @state = :initial
+      @plain_string_content = nil
     end
     
   protected
@@ -80,10 +81,11 @@ module Scanners
     end
     
     def scan_tokens encoder, options
-      
       state = @state
       plain_string_content = @plain_string_content
       in_tag = in_attribute = nil
+      
+      encoder.begin_group :string if state == :attribute_value_string
       
       until eos?
         
@@ -238,11 +240,9 @@ module Scanners
       if options[:keep_state]
         @state = state
         @plain_string_content = plain_string_content
-      else
-        if state == :attribute_value_string
-          encoder.end_group :string
-        end
       end
+      
+      encoder.end_group :string if state == :attribute_value_string
       
       encoder
     end

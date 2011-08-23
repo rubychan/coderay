@@ -5,13 +5,11 @@ require 'coderay/version'
 Gem::Specification.new do |s|
   s.name = 'coderay'
   
-  if ENV['final'] == 'yes'
-    s.version = CodeRay::VERSION
-  else
-    # thanks to @Argorak for this solution
-    revision = 134 + (`git log --oneline | wc -l`.to_i)
-    s.version = "#{CodeRay::VERSION}.#{revision}pre"
-  end
+  # thanks to @Argorak for this solution
+  revision = 134 + (`git log --oneline | wc -l`.to_i)
+  s.version = "#{CodeRay::VERSION}.#{revision}rc1"
+  
+  # s.version = CodeRay::VERSION
   
   s.authors     = ['Kornelius Kalnbach']
   s.email       = ['murphy@rubychan.de']

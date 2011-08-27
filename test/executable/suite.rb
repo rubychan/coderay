@@ -15,7 +15,7 @@ class TestCodeRayExecutable < Test::Unit::TestCase
   ROOT_DIR = Pathname.new(File.dirname(__FILE__)) + '..' + '..'
   EXECUTABLE = ROOT_DIR + 'bin' + 'coderay'
   EXE_COMMAND =
-    if RUBY_PLATFORM === 'java' && `ruby --ng -e ''` && $?.success?
+    if RUBY_PLATFORM === 'java' && `ruby --ng -e '' 2> /dev/null` && $?.success?
       # use Nailgun
       'ruby --ng -wI%s %s'
     else

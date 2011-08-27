@@ -8,7 +8,7 @@ gemspec
 group :development do
   gem "bundler", "~> 1.0.0"
   gem "rake", "~> 0.9.2"
-  gem "RedCloth"
+  gem "RedCloth", RUBY_PLATFORM == 'java' ? "= 4.2.7" : "~> 4.0.3"
   gem "term-ansicolor"
   gem "shoulda-context", "= 1.0.0.beta1" if RUBY_VERSION >= '1.8.7'
   gem "json" unless RUBY_VERSION >= '1.9.1'

@@ -15,9 +15,8 @@ module Scanners
     
     def scan_tokens encoder, options
       
-      value_expected = nil
       state = :initial
-      key_indent = indent = 0
+      key_indent = string_indent = 0
       
       until eos?
         
@@ -55,14 +54,14 @@ module Scanners
           when match = scan(/[|>][-+]?/)
             encoder.begin_group :string
             encoder.text_token match, :delimiter
-            string_indent = key_indent || column(pos - match.size - 1)
+            string_indent = key_indent || column(pos - match.size) - 1
             encoder.text_token matched, :content if scan(/(?:\n+ {#{string_indent + 1}}.*)+/)
             encoder.end_group :string
             next
           when match = scan(/(?![!"*&]).+?(?=$|\s+#)/)
             encoder.begin_group :string
             encoder.text_token match, :content
-            string_indent = key_indent || column(pos - match.size - 1)
+            string_indent = key_indent || column(pos - match.size) - 1
             encoder.text_token matched, :content if scan(/(?:\n+ {#{string_indent + 1}}.*)+/)
             encoder.end_group :string
             next
@@ -79,7 +78,7 @@ module Scanners
             next
           when state == :initial && match = scan(/[\w.() ]*\S(?= *:(?: |$))/)
             encoder.text_token match, :key
-            key_indent = column(pos - match.size - 1)
+            key_indent = column(pos - match.size) - 1
             state = :colon
             next
           when match = scan(/(?:"[^"\n]*"|'[^'\n]*')(?= *:(?: |$))/)
@@ -88,7 +87,7 @@ module Scanners
             encoder.text_token match[1..-2], :content
             encoder.text_token match[-1,1], :delimiter
             encoder.end_group :key
-            key_indent = column(pos - match.size - 1)
+            key_indent = column(pos - match.size) - 1
             state = :colon
             next
           when match = scan(/(![\w\/]+)(:([\w:]+))?/)

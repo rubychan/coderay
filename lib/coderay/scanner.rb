@@ -231,9 +231,6 @@ module CodeRay
       
       # The current column position of the scanner, starting with 1.
       # See also: #line.
-      #
-      # Beware, this is implemented inefficiently. It should be used
-      # for debugging only.
       def column pos = self.pos
         return 1 if pos <= 0
         pos - (binary_string.rindex(?\n, pos - 1) || -1)

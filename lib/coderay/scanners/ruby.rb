@@ -16,6 +16,10 @@ module Scanners
     autoload :Patterns,    'coderay/scanners/ruby/patterns'
     autoload :StringState, 'coderay/scanners/ruby/string_state'
     
+    def interpreted_string_state
+      StringState.new :string, true, '"'
+    end
+    
   protected
     
     def setup
@@ -23,7 +27,7 @@ module Scanners
     end
     
     def scan_tokens encoder, options
-      state, heredocs = @state
+      state, heredocs = options[:state] || @state
       heredocs = heredocs.dup if heredocs.is_a?(Array)
       
       if state && state.instance_of?(StringState)

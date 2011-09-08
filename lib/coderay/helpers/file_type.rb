@@ -88,6 +88,7 @@ module CodeRay
       'groovy'   => :groovy,
       'gvy'      => :groovy,
       'h'        => :c,
+      'haml'     => :haml,
       'htm'      => :page,
       'html'     => :page,
       'html.erb' => :erb,

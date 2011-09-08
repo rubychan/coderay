@@ -15,6 +15,7 @@ h3. General changes
 * *NEW*: The new Diff scanner colorizes code inside of the diff, and highlights inline changes.
 * *NEW*: Extended support and usage of HTML5 and CSS 3 features.
 * *NEW*: Direct Streaming
+* *NEW* scanners: Clojure and HAML
 * *CHANGED*: Token classes (used as CSS classes) are readable names; breaks you stylesheet!
 * *IMPROVED* documentation
 * *IMPROVED* speed: faster startup (using @autoload@), scanning, and encoding
@@ -211,6 +212,13 @@ h3. @Scanners::Diff@
 * *IMPROVED*: Background colors for Diff output have been optimized.
 
 h3. *RENAMED*: @Scanners::ERB@ (was @Scanners::RHTML@)
+
+h3. *NEW*: @Scanners::HAML@
+ 
+It uses the new :state options of the HTML and Ruby scanners.
+ 
+Some rare cases are not considered (like @#{...}@ snippets inside of :javascript blocks),
+but it highlights pretty well.
 
 h3. @Scanners::HTML@
  

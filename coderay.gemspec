@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   
   # thanks to @Argorak for this solution
   revision = 134 + (`git log --oneline | wc -l`.to_i)
-  s.version = "#{CodeRay::VERSION}.#{revision}rc1"
+  s.version = "#{CodeRay::VERSION}.#{revision}rc2"
   
   # s.version = CodeRay::VERSION
   

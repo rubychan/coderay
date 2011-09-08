@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>currentDocument</key>
+	<string>../lib/coderay/scanners/haml.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -118,7 +120,7 @@
 		</dict>
 		<dict>
 			<key>filename</key>
-			<string>../Rakefile</string>
+			<string>../rakefile</string>
 			<key>lastUsed</key>
 			<date>2011-08-23T02:18:45Z</date>
 		</dict>

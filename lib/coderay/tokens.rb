@@ -303,31 +303,11 @@ module CodeRay
       @dump = Marshal.load dump
     end
     
-    if defined?(RUBY_ENGINE) && RUBY_ENGINE['rbx']
-      #:nocov:
-      def text_token text, kind
-        self << text << kind
-      end
-      def begin_group kind
-        self << :begin_group << kind
-      end
-      def end_group kind
-        self << :end_group << kind
-      end
-      def begin_line kind
-        self << :begin_line << kind
-      end
-      def end_line kind
-        self << :end_line << kind
-      end
-      #:nocov:
-    else
-      alias text_token push
-      def begin_group kind; push :begin_group, kind end
-      def end_group kind; push :end_group, kind end
-      def begin_line kind; push :begin_line, kind end
-      def end_line kind; push :end_line, kind end
-    end
+    alias text_token push
+    def begin_group kind; push :begin_group, kind end
+    def end_group kind; push :end_group, kind end
+    def begin_line kind; push :begin_line, kind end
+    def end_line kind; push :end_line, kind end
     alias tokens concat
     
   end

@@ -13,15 +13,15 @@ module Scanners
     KINDS_NOT_LOC = HTML::KINDS_NOT_LOC
     
     ERB_RUBY_BLOCK = /
-      <%(?!%)[=-]?
-      (?>
+      (<%(?!%)[-=\#]?)
+      ((?>
         [^\-%]*    # normal*
         (?>        # special
           (?: %(?!>) | -(?!%>) )
           [^\-%]*  # normal*
         )*
-      )
-      (?: -?%> )?
+      ))
+      ((?: -?%> )?)
     /x  # :nodoc:
     
     START_OF_ERB = /
@@ -48,21 +48,25 @@ module Scanners
           @html_scanner.tokenize match, :tokens => encoder
           
         elsif match = scan(/#{ERB_RUBY_BLOCK}/o)
-          start_tag = match[/\A<%[-=#]?/]
-          end_tag = match[/-?%?>?\z/]
+          start_tag = self[1]
+          code = self[2]
+          end_tag = self[3]
+          
           encoder.begin_group :inline
           encoder.text_token start_tag, :inline_delimiter
-          code = match[start_tag.size .. -1 - end_tag.size]
-          if start_tag[/\A<%#/]
+          
+          if start_tag == '<%#'
             encoder.text_token code, :comment
           else
             @ruby_scanner.tokenize code, :tokens => encoder
           end unless code.empty?
+          
           encoder.text_token end_tag, :inline_delimiter unless end_tag.empty?
           encoder.end_group :inline
           
         else
           raise_inspect 'else-case reached!', encoder
+          
         end
         
       end

@@ -81,7 +81,7 @@ module Scanners
     end
     
     def scan_tokens encoder, options
-      state = @state
+      state = options[:state] || @state
       plain_string_content = @plain_string_content
       in_tag = in_attribute = nil
       
@@ -103,7 +103,7 @@ module Scanners
               encoder.text_token match, :doctype
             elsif match = scan(/<\?xml(?:.*?\?>|.*)/m)
               encoder.text_token match, :preprocessor
-            elsif match = scan(/<\?(?:.*?\?>|.*)|<%(?:.*?%>|.*)/m)
+            elsif match = scan(/<\?(?:.*?\?>|.*)/m)
               encoder.text_token match, :comment
             elsif match = scan(/<\/[-\w.:]*>?/m)
               in_tag = nil

@@ -16,9 +16,9 @@ module Scanners
     
     def setup
       super
-      @ruby_scanner          = CodeRay.scanner :ruby,        :tokens => @tokens, :keep_tokens => true
-      @embedded_ruby_scanner = CodeRay.scanner :ruby,        :tokens => @tokens, :keep_tokens => true, :state => @ruby_scanner.interpreted_string_state
-      @html_scanner          = CodeRay.scanner :html,        :tokens => @tokens, :keep_tokens => true
+      @ruby_scanner          = CodeRay.scanner :ruby, :tokens => @tokens, :keep_tokens => true
+      @embedded_ruby_scanner = CodeRay.scanner :ruby, :tokens => @tokens, :keep_tokens => true, :state => @ruby_scanner.interpreted_string_state
+      @html_scanner          = CodeRay.scanner :html, :tokens => @tokens, :keep_tokens => true
     end
     
     def scan_tokens encoder, options

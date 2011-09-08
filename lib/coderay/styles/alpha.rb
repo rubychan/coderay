@@ -52,7 +52,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .debug { color: white !important; background: blue !important; }
 
 .annotation { color:#007 }
-.attribute-name { color:#f08 }
+.attribute-name { color:#b48 }
 .attribute-value { color:#700 }
 .binary { color:#509 }
 .char .content { color:#D20 }
@@ -97,7 +97,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .octal { color:#40E }
 .operator { }
 .predefined { color:#369; font-weight:bold }
-.predefined-class { color:#069 }
+.predefined-constant { color:#069 }
 .predefined-type { color:#0a5; font-weight:bold }
 .preprocessor { color:#579 }
 .pseudo-class { color:#00C; font-weight:bold }

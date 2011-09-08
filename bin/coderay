@@ -2,7 +2,7 @@
 require 'coderay'
 
 $options, args = ARGV.partition { |arg| arg[/^-[hv]$|--\w+/] }
-subcommand = args.detect { |arg| arg[/^\w/] }
+subcommand = args.first if /^\w/ === args.first
 subcommand = nil if subcommand && File.exist?(subcommand)
 args.delete subcommand
 
@@ -105,7 +105,7 @@ when 'highlight', nil
     if output_file
       output_filetype ||= CodeRay::FileType[output_file]
     else
-      output_filetype ||= :term
+      output_filetype ||= :terminal
     end
     
     output_filetype = :page if output_filetype.to_s == 'html'

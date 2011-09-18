@@ -2,6 +2,8 @@ require 'test/unit'
 require 'coderay'
 $VERBOSE = true
 
+require File.expand_path('../../lib/assert_warning', __FILE__)
+
 class LinesOfCodeTest < Test::Unit::TestCase
   
   def test_creation
@@ -39,17 +41,8 @@ puts "Hello world!"
     tokens.concat ["\n", :space]
     tokens.concat ["Hello\n", :comment]
     
-    stderr, fake_stderr = $stderr, Object.new
-    begin
-      $err = ''
-      def fake_stderr.write x
-        $err << x
-      end
-      $stderr = fake_stderr
+    assert_warning 'Tokens have no associated scanner, counting all nonempty lines.' do
       assert_equal 1, tokens.lines_of_code
-      assert_equal "Tokens have no associated scanner, counting all nonempty lines.\n", $err
-    ensure
-      $stderr = stderr
     end
     
     tokens.scanner = ScannerMockup.new

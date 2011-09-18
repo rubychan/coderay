@@ -48,6 +48,8 @@ end
     
     # keep scanned tokens for later use
     tokens = CodeRay.scan('{ "just": "an", "example": 42 }', :json)
+    assert_kind_of CodeRay::TokensProxy, tokens
+    
     assert_equal ["{", :operator, " ", :space, :begin_group, :key,
       "\"", :delimiter, "just", :content, "\"", :delimiter,
       :end_group, :key, ":", :operator, " ", :space,
@@ -56,8 +58,8 @@ end
       " ", :space, :begin_group, :key, "\"", :delimiter,
       "example", :content, "\"", :delimiter, :end_group, :key,
       ":", :operator, " ", :space, "42", :integer,
-      " ", :space, "}", :operator], tokens
-
+      " ", :space, "}", :operator], tokens.tokens
+    
     # produce a token statistic
     assert_equal <<-STATISTIC, tokens.statistic
 
@@ -84,7 +86,7 @@ Token Types (7):
     STATISTIC
     
     # count the tokens
-    assert_equal 26, tokens.count  # => 26
+    assert_equal 26, tokens.count
     
     # produce a HTML div, but with CSS classes
     div = tokens.div(:css => :class)

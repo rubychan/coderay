@@ -134,6 +134,7 @@ module CodeRay
   
   # Tokens
   autoload :Tokens, 'coderay/tokens'
+  autoload :TokensProxy, 'coderay/tokens_proxy'
   autoload :TokenKinds, 'coderay/token_kinds'
   
   # Plugin system
@@ -159,7 +160,7 @@ module CodeRay
     # See also demo/demo_simple.
     def scan code, lang, options = {}, &block
       # FIXME: return a proxy for direct-stream encoding
-      scanner(lang, options, &block).tokenize code
+      TokensProxy.new code, lang, options, block
     end
     
     # Scans +filename+ (a path to a code file) with the Scanner for +lang+.

@@ -70,7 +70,8 @@ method([])]
   
   def test_filtering_text_tokens
     assert_equal TEST_OUTPUT, CodeRay::Scanners::Debug.new.tokenize(TEST_INPUT)
-    assert_equal TEST_OUTPUT, CodeRay.scan(TEST_INPUT, :debug)
+    assert_kind_of CodeRay::TokensProxy, CodeRay.scan(TEST_INPUT, :debug)
+    assert_equal TEST_OUTPUT, CodeRay.scan(TEST_INPUT, :debug).tokens
   end
   
 end

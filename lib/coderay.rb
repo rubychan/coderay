@@ -146,7 +146,7 @@ module CodeRay
   autoload :Styles, 'coderay/style'
   
   # Convenience access and reusable Encoder/Scanner pair
-  # autoload :Duo, 'coderay/duo'
+  autoload :Duo, 'coderay/duo'
   
   class << self
     

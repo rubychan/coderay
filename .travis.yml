@@ -1,5 +1,4 @@
 rvm:
-  - 1.8.6  # doesn't work on Travis CI? http://travis-ci.org/#!/rubychan/coderay/builds/88416
   - 1.8.7
   - 1.9.2
   - ruby-head

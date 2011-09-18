@@ -54,15 +54,33 @@ end
 def commands
   puts <<-COMMANDS
   general:
-    highlight   code highlighting (default command)
-    stylesheet  print the CSS stylesheet with the given name
+    highlight   code highlighting (default command, optional)
+    stylesheet  print the CSS stylesheet with the given name (aliases: style, css)
   
   about:
-    list [of]   list all available plugins (or just the scanners|encoders)
+    list [of]   list all available plugins (or just the scanners|encoders|styles|filetypes)
     commands    print this list
     help        show some help
     version     print CodeRay version
   COMMANDS
+end
+
+def print_list_of plugin_host
+  plugins = plugin_host.all_plugins.map do |plugin|
+    info = "  #{plugin.plugin_id}: #{plugin.title}"
+    
+    aliases = (plugin.aliases - [:default]).map { |key| "-#{key}" }.sort_by { |key| key.size }
+    if plugin.respond_to?(:file_extension) || !aliases.empty?
+      additional_info = []
+      additional_info << aliases.join(', ') unless aliases.empty?
+      info << " (#{additional_info.join('; ')})"
+    end
+    
+    info << '  <-- default' if plugin.aliases.include? :default
+    
+    info
+  end
+  puts plugins.sort
 end
 
 if option? '-v', '--version'
@@ -87,28 +105,32 @@ when 'highlight', nil
     when /^ff?$/
       input_file, output_file, = *names
     when /^f-f?$/
-      input_file, output_filetype, output_file, = *names
+      input_file, output_format, output_file, = *names
     when /^-ff?$/
-      input_filetype, input_file, output_file, = *names
+      input_lang, input_file, output_file, = *names
     when /^-f-f?$/
-      input_filetype, input_file, output_filetype, output_file, = *names
+      input_lang, input_file, output_format, output_file, = *names
     when /^--?f?$/
-      input_filetype, output_filetype, output_file, = *names
+      input_lang, output_format, output_file, = *names
     else
-      raise signature
+      $stdout = $stderr
+      help
+      puts
+      puts "Unknown parameter order: #{args.join ' '}, expected: [-language] [input] [-format] [output]"
+      exit 1
     end
     
     if input_file
-      input_filetype ||= CodeRay::FileType.fetch input_file, :text, true
+      input_lang ||= CodeRay::FileType.fetch input_file, :text, true
     end
     
     if output_file
-      output_filetype ||= CodeRay::FileType[output_file]
+      output_format ||= CodeRay::FileType[output_file]
     else
-      output_filetype ||= :terminal
+      output_format ||= :terminal
     end
     
-    output_filetype = :page if output_filetype.to_s == 'html'
+    output_format = :page if output_format.to_s == 'html'
     
     if input_file
       input = File.read input_file
@@ -124,9 +146,10 @@ when 'highlight', nil
           $stdout.sync = true
           $stdout
         end
-      CodeRay.encode(input, input_filetype, output_filetype, :out => file)
+      CodeRay.encode(input, input_lang, output_format, :out => file)
       file.puts
     rescue CodeRay::PluginHost::PluginNotFound => boom
+      $stdout = $stderr
       if boom.message[/CodeRay::(\w+)s could not load plugin :?(.*?): /]
         puts "I don't know the #$1 \"#$2\"."
       else
@@ -134,32 +157,46 @@ when 'highlight', nil
       end
       # puts "I don't know this plugin: #{boom.message[/Could not load plugin (.*?): /, 1]}."
     rescue CodeRay::Scanners::Scanner::ScanError  # FIXME: rescue Errno::EPIPE
-      # ignore
+      # this is sometimes raised by pagers; ignore [TODO: wtf?]
     ensure
       file.close
     end
   end
-when 'list'
+when 'li', 'list'
   arg = args.first && args.first.downcase
   if [nil, 's', 'sc', 'scanner', 'scanners'].include? arg
     puts 'input languages (Scanners):'
-    scanners = CodeRay::Scanners.all_plugins.map do |plugin|
-      aliases = (plugin.aliases - [nil]).map { |key| "-#{key}" }.sort_by { |key| key.size }
-      "  #{plugin.lang}: #{plugin.title}#{" (.#{plugin.file_extension}; #{aliases.join(', ')})" unless aliases.empty?}"
-    end
-    puts scanners.sort
-    puts
+    print_list_of CodeRay::Scanners
   end
   
   if [nil, 'e', 'en', 'enc', 'encoder', 'encoders'].include? arg
     puts 'output formats (Encoders):'
-    encoders = CodeRay::Encoders.all_plugins.map do |plugin|
-      aliases = (plugin.aliases - [nil]).map { |key| "-#{key}" }.sort_by { |key| key.size }
-      "  #{plugin.plugin_id}: #{plugin.title}#{" (.#{plugin.file_extension}; #{aliases.join(', ')})" unless aliases.empty?}"
-    end
-    puts encoders.sort
+    print_list_of CodeRay::Encoders
   end
-when 'stylesheet'
+  
+  if [nil, 'st', 'style', 'styles'].include? arg
+    puts 'CSS themes for HTML output (Styles):'
+    print_list_of CodeRay::Styles
+  end
+  
+  if [nil, 'f', 'ft', 'file', 'filetype', 'filetypes'].include? arg
+    puts 'recognized file types:'
+    
+    filetypes = Hash.new { |h, k| h[k] = [] }
+    CodeRay::FileType::TypeFromExt.inject filetypes do |types, (ext, type)|
+      types[type.to_s] << ".#{ext}"
+      types
+    end
+    CodeRay::FileType::TypeFromName.inject filetypes do |types, (name, type)|
+      types[type.to_s] << name
+      types
+    end
+    
+    filetypes.sort.each do |type, exts|
+      puts "  #{type}: #{exts.sort_by { |ext| ext.size }.join(', ')}"
+    end
+  end
+when 'stylesheet', 'style', 'css'
   puts CodeRay::Encoders[:html]::CSS.new(args.first).stylesheet
 when 'commands'
   commands

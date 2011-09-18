@@ -21,8 +21,8 @@ module Encoders
       require 'json'
     rescue LoadError
       begin
-        require 'rubygems'
-        gem "json"
+        require 'rubygems' unless defined? Gem
+        gem 'json'
         require 'json'
       rescue LoadError
         $stderr.puts "The JSON encoder needs the JSON library.\n" \

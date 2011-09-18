@@ -177,7 +177,7 @@ module CodeRay
     def scan_file filename, lang = :auto, options = {}, &block
       lang = FileType.fetch filename, :text, true if lang == :auto
       code = File.read filename
-      scan code, lang, options = {}, &block
+      scan code, lang, options, &block
     end
     
     # Encode a string.

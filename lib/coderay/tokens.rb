@@ -64,12 +64,7 @@ module CodeRay
     #
     # options are passed to the encoder.
     def encode encoder, options = {}
-      unless encoder.is_a? Encoders::Encoder
-        if encoder.respond_to? :to_sym
-          encoder_class = Encoders[encoder]
-        end
-        encoder = encoder_class.new options
-      end
+      encoder = Encoders[encoder].new options if encoder.respond_to? :to_sym
       encoder.encode_tokens self, options
     end
     
@@ -83,13 +78,9 @@ module CodeRay
     # For example, if you call +tokens.html+, the HTML encoder
     # is used to highlight the tokens.
     def method_missing meth, options = {}
-      encode_with meth, options
+      encode meth, options
     rescue PluginHost::PluginNotFound
       super
-    end
-    
-    def encode_with encoder, options = {}
-      Encoders[encoder].new(options).encode_tokens self
     end
     
     # Returns the tokens compressed by joining consecutive

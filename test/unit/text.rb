@@ -8,7 +8,7 @@ class TextTest < Test::Unit::TestCase
 puts "Hello world!"
     RUBY
     tokens = CodeRay.scan ruby, :ruby
-    assert_equal ruby, tokens.encode_with(:text)
+    assert_equal ruby, tokens.encode(:text)
   end
   
 end

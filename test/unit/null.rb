@@ -8,7 +8,7 @@ class NullTest < Test::Unit::TestCase
 puts "Hello world!"
     RUBY
     tokens = CodeRay.scan ruby, :ruby
-    assert_equal '', tokens.encode_with(:null)
+    assert_equal '', tokens.encode(:null)
   end
   
 end

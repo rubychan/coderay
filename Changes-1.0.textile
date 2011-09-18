@@ -61,7 +61,7 @@ The @coderay@ executable was rewritten and has a few new features:
 
 h3. @Tokens@
  
-* *NEW* methods @encode_with@, @count@, @begin_group@, @end_group@, @begin_line@, and @end_line@.
+* *NEW* methods @count@, @begin_group@, @end_group@, @begin_line@, and @end_line@.
 * *REMOVED* methods @#stream?@, @#each_text_token@.
 * *REMOVED* @#text@ and @#text_size@ methods. Use the @Text@ encoder instead.
 * *REMOVED* special implementation of @#each@ taking a filter parameter. Use @TokenKindFilter@ instead.

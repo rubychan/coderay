@@ -26,7 +26,7 @@ class BasicTest < Test::Unit::TestCase
   ].flatten
   def test_simple_scan
     assert_nothing_raised do
-      assert_equal RUBY_TEST_TOKENS, CodeRay.scan(RUBY_TEST_CODE, :ruby).to_ary
+      assert_equal RUBY_TEST_TOKENS, CodeRay.scan(RUBY_TEST_CODE, :ruby).tokens
     end
   end
   

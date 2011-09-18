@@ -9,7 +9,7 @@ class CountTest < Test::Unit::TestCase
 # a minimal Ruby program
 puts "Hello world!"
     RUBY
-    assert_equal 11, tokens.encode_with(:count)
+    assert_equal 11, tokens.encode(:count)
   end
   
 end

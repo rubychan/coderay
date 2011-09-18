@@ -61,7 +61,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .class { color:#B06; font-weight:bold }
 .class-variable { color:#369 }
 .color { color:#0A0 }
-.comment { color:#888 }
+.comment { color:#777 }
 .comment .char { color:#444 }
 .comment .delimiter { color:#444 }
 .complex { color:#A08 }
@@ -83,7 +83,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .hex { color:#02b }
 .imaginary { color:#f00 }
 .include { color:#B44; font-weight:bold }
-.inline { background-color: hsla(0,0%,0%,0.1); color: black }
+.inline { background-color: hsla(0,0%,0%,0.07); color: black }
 .inline-delimiter { font-weight: bold; color: #666 }
 .instance-variable { color:#33B }
 .integer  { color:#00D }
@@ -104,16 +104,16 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .regexp .content { color:#808 }
 .regexp .delimiter { color:#404 }
 .regexp .modifier { color:#C2C }
-.regexp { background-color:hsla(300,100%,50%,0.09); }
+.regexp { background-color:hsla(300,100%,50%,0.06); }
 .reserved { color:#080; font-weight:bold }
 .shell .content { color:#2B2 }
 .shell .delimiter { color:#161 }
-.shell { background-color:hsla(120,100%,50%,0.09); }
+.shell { background-color:hsla(120,100%,50%,0.06); }
 .string .char { color: #b0b }
 .string .content { color: #D20 }
 .string .delimiter { color: #710 }
 .string .modifier { color: #E40 }
-.string { background-color:hsla(0,100%,50%,0.08); }
+.string { background-color:hsla(0,100%,50%,0.05); }
 .symbol .content { color:#A60 }
 .symbol .delimiter { color:#630 }
 .symbol { color:#A60 }
@@ -122,8 +122,8 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .value { color: #088; }
 .variable  { color:#037 }
 
-.insert { background: hsla(120,100%,50%,0.1) }
-.delete { background: hsla(0,100%,50%,0.1) }
+.insert { background: hsla(120,100%,50%,0.12) }
+.delete { background: hsla(0,100%,50%,0.12) }
 .change { color: #bbf; background: #007; }
 .head { color: #f8f; background: #505 }
 .head .filename { color: white; }

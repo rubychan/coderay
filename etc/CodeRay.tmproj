@@ -32,7 +32,9 @@
 			<key>filename</key>
 			<string>../Changes-1.0.textile</string>
 			<key>lastUsed</key>
-			<date>2011-09-08T23:01:08Z</date>
+			<date>2011-09-14T00:53:48Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -56,7 +58,7 @@
 			<key>filename</key>
 			<string>../Changes.textile</string>
 			<key>lastUsed</key>
-			<date>2011-08-19T01:04:06Z</date>
+			<date>2011-09-14T00:48:21Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>

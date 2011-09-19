@@ -159,7 +159,7 @@ when 'highlight', nil
     rescue CodeRay::Scanners::Scanner::ScanError  # FIXME: rescue Errno::EPIPE
       # this is sometimes raised by pagers; ignore [TODO: wtf?]
     ensure
-      file.close
+      file.close if output_file
     end
   end
 when 'li', 'list'

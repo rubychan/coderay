@@ -3,6 +3,7 @@ module Scanners
   
   module Java::BuiltinTypes  # :nodoc:
     
+    #:nocov:
     List = %w[
       AbstractAction AbstractBorder AbstractButton AbstractCellEditor AbstractCollection
       AbstractColorChooserPanel AbstractDocument AbstractExecutorService AbstractInterruptibleChannel
@@ -412,6 +413,7 @@ module Scanners
       XPathFactoryConfigurationException XPathFunction XPathFunctionException XPathFunctionResolver
       XPathVariableResolver ZipEntry ZipException ZipFile ZipInputStream ZipOutputStream ZoneView
     ]
+    #:nocov:
     
   end
   

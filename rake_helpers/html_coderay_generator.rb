@@ -1087,13 +1087,12 @@ module Generators
     def markup_code(tokens)
       code = tokens.map { |t| t.text }.join
       options = {
-              :css => :class,
-              :line_numbers_start => code[/\A.*?, line (\d+)/,1].to_i - 1,
-              :bold_every => :no_bolding,
+        :css => :class,
+        :line_numbers_start => code[/\A.*?, line (\d+)/,1].to_i - 1,
+        :bold_every => :no_bolding,
       }
       options[:line_numbers] = nil unless Options.instance.include_line_numbers
-      out = CodeRay.scan(code, :ruby).div(options)
-      out.wrap! :div
+      CodeRay.scan(code, :ruby).div(options)
     end
 
     # we rely on the fact that the first line of a source code

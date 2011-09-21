@@ -1,5 +1,7 @@
 require 'test/unit'
 require 'rubygems'
+
+$VERBOSE = $CODERAY_DEBUG = true
 $:.unshift 'lib'
 
 mydir = File.dirname(__FILE__)

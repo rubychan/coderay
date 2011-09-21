@@ -37,33 +37,6 @@ class TokensTest < Test::Unit::TestCase
     end
   end
   
-  def test_optimize
-    assert_raise NotImplementedError do
-      make_tokens.optimize
-    end
-    assert_raise NotImplementedError do
-      make_tokens.optimize!
-    end
-  end
-  
-  def test_fix
-    assert_raise NotImplementedError do
-      make_tokens.fix
-    end
-    assert_raise NotImplementedError do
-      make_tokens.fix!
-    end
-  end
-  
-  def test_split_into_lines
-    assert_raise NotImplementedError do
-      make_tokens.split_into_lines
-    end
-    assert_raise NotImplementedError do
-      make_tokens.split_into_lines!
-    end
-  end
-  
   def test_split_into_parts
     parts_4_3 = [
       ["stri", :type],

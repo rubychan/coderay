@@ -34,7 +34,7 @@ module CodeRay
         # downcase class name instead.
         def const_missing sym
           if sym == :FILE_EXTENSION
-            (@plugin_id || name[/\w+$/].downcase).to_s
+            (defined?(@plugin_id) && @plugin_id || name[/\w+$/].downcase).to_s
           else
             super
           end

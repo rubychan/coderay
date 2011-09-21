@@ -63,6 +63,7 @@ h3. @Tokens@
  
 * *NEW* methods @count@, @begin_group@, @end_group@, @begin_line@, and @end_line@.
 * *REMOVED* methods @#stream?@, @#each_text_token@.
+* *REMOVED* methods @#optimize@, @#fix@, @#split_into_lines@ along with their bang! variants.
 * *REMOVED* @#text@ and @#text_size@ methods. Use the @Text@ encoder instead.
 * *REMOVED* special implementation of @#each@ taking a filter parameter. Use @TokenKindFilter@ instead.
 

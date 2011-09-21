@@ -148,7 +148,9 @@ more code  # and another comment, in-line.
       end
     end
     assert_equal 'reserved', CodeRay::TokenKinds[:reserved]
-    assert_equal false, CodeRay::TokenKinds[:shibboleet]
+    assert_warning 'Undefined Token kind: :shibboleet' do
+      assert_equal false, CodeRay::TokenKinds[:shibboleet]
+    end
   end
   
   class Milk < CodeRay::Encoders::Encoder

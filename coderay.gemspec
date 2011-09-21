@@ -20,19 +20,13 @@ Gem::Specification.new do |s|
   s.description = 'Fast and easy syntax highlighting for selected languages, written in Ruby. Comes with RedCloth integration and LOC counter.'
   
   s.platform              = Gem::Platform::RUBY
-  s.required_ruby_version = '>= 1.8.7'
+  s.required_ruby_version = '>= 1.8.6'
   
-  # s.add_dependency "paint", '~> 0.8.2'
-  
-  # s.files         = `git ls-files`.split("\n")
-  # s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  # s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
-  # s.require_paths = ["lib"]
   readme_file = 'README_INDEX.rdoc'
   
-  s.files         = Dir['lib/**/*.rb'] + %W(Rakefile #{readme_file} LICENSE) + Dir['test/functional/*.rb']
-  s.test_files    = Dir['test/functional/*.rb']
-  s.executables   = ['coderay']
+  s.files         = `git ls-files -- lib/* test/functional/* Rakefile #{readme_file} LICENSE`.split("\n")
+  s.test_files    = `git ls-files --       test/functional/*`.split("\n")
+  s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']
   
   s.rubyforge_project = s.name

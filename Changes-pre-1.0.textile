@@ -1,0 +1,421 @@
+h1=. CodeRay Version History
+ 
+p=. _This files lists all changes in the CodeRay library since the 0.8.4 release._
+ 
+{{toc}}
+ 
+h2. Changes in 0.9.8 "banister" [2011-05-01]
+ 
+Fixes for JRuby's 1.9 mode and minor issues.
+ 
+h3. Rake tasks
+ 
+* *REMOVED* obsolete @has_rdoc@ gem specification, fixing a warning.
+
+h3. @Scanners::Scanner@
+ 
+* *NEW* method @#scan_rest@ replaces @scan_until(/\z/)@, which is broken in JRuby 1.6 --1.9 mode.
+  See "#297":http://redmine.rubychan.de/issues/297.
+
+h3. @Scanners::CSS@
+ 
+* *FIXED* LOC counting (should be 0).
+  See "#296":http://redmine.rubychan.de/issues/296.
+
+h3. @Scanners::Ruby@
+ 
+* *FIXED* the @IDENT@ pattern not to use character properties, which are broken in JRuby 1.6 --1.9 mode.
+  See "#297":http://redmine.rubychan.de/issues/297, thanks to banister for reporting!
+
+h3. @Scanners::SQL@
+ 
+* *ADDED* more keywords: @between@, @databases@, @distinct@, @fields@, @full@, @having@, @is@, @prompt@, @tables@.
+  See "#221":http://redmine.rubychan.de/issues/221, thanks to Etienne Massip again.
+
+h3. @FileType@
+ 
+* *NEW* regonizes ColdFusion file type extensions @.cfm@ and @.cfc@ as XML.
+  See "#298":http://redmine.rubychan.de/issues/298, thanks to Emidio Stani.
+
+
+h2. Changes in 0.9.7 "Etienne" [2011-01-14]
+ 
+Fixes a dangerous JavaScript scanner bug, and a testing problem with Ruby 1.9.1.
+ 
+h3. Tests
+ 
+* *FIXED* The functional tests now load the lib directory (instead of the gem) in Ruby 1.9.1.
+
+h3. @Scanners::JavaScript@
+ 
+* *FIXED* @KEY_CHECK_PATTERN@ regexp
+  See "#264":http://redmine.rubychan.de/issues/264, thanks to Etienne Massip!
+
+
+h2. Changes in 0.9.6 "WoNáDo" [2010-11-25]
+ 
+Minor improvements to the Ruby scanner and a fix for Ruby 1.9.
+ 
+h3. @Scanners::Ruby@
+ 
+* *IMPROVED* handling of new hash syntax (keys are marked as @:key@ now,
+  colon is a separate @:operator@ token, all idents can be used as keys)
+  See "#257":http://code.licenser.net/issues/257, thanks to WoNáDo!
+* *ADDED* @__ENCODING__@ magic constant (Ruby 1.9)
+* *FIXED*: Scanner no longer tries to modify the input string on Ruby 1.9.
+  See "#260":http://code.licenser.net/issues/260, thanks to Jan Lelis!
+
+
+h2. Changes in 0.9.5 "Germany.rb" [2010-09-28]
+ 
+Support for Rubinius ("#251":http://redmine.rubychan.de/issues/251), improved mutlibyte handling, Ruby 1.9 syntax, and valid HTML.
+ 
+h3. @Encoders::HTML@
+ 
+* *FIXED*: Line tokens use @span@ with @display: block@ instead of @div@, which was invalid HTML ("#255":http://redmine.rubychan.de/issues/255).
+
+h3. @Scanner::Scanner@
+ 
+* *IMPROVED* handling of encodings in Ruby 1.9: UTF-8 and Windows-1252 are checked.
+* *NEW*: Invalid chars will be converted to @?@ in Ruby 1.9.
+* *FIXED* @string=@ method for Rubinius. See "issue 481":http://github.com/evanphx/rubinius/issues/481 on their site.
+
+h3. @Scanners::CSS@
+ 
+* *FIXED*: Don't use non-ASCII regexps.
+
+h3. @Scanners::Diff@
+ 
+* *FIXED*: Highlight unexpected lines as @:comment@.
+
+h3. @Scanners::PHP@
+ 
+* *FIXED*: Use @ASCII-8BIT@ encoding for now.
+
+h3. @Scanners::Ruby@
+ 
+* *ADDED* support for some Ruby 1.9 syntax ("#254":http://redmine.rubychan.de/issues/254):
+** the @->@ lambda shortcut
+** new Hash syntax using colons (@{ a: b }@)
+* *FIXED*: Use @UTF-8@ encoding.
+* *IMPROVED* unicode support on Ruby 1.8 ("#253":http://redmine.rubychan.de/issues/253).
+* *FIXED* recognition of non-ASCII identifiers in Ruby 1.9, JRuby, and Rubinius ("#253":http://redmine.rubychan.de/issues/253).
+* *CHANGED* heredoc recognition to ignore delimiters starting with a digit. This is incorrect, but causes less false positives.
+
+h3. @Scanners::SQL@
+ 
+* *FIXED* scanning of comments; nice catch, Rubinius!
+  ("#252":http://redmine.rubychan.de/issues/252)
+
+
+h2. Changes in 0.9.4 "Ramadan" [2010-08-31]
+ 
+Updated command line interface and minor scanner fixes for the Diff, HTML, and RHTML scanners.
+ 
+h3. @coderay@ executable
+ 
+* *FIXED*: Partly rewritten, simplified, fixed.
+  ("#244":http://redmine.rubychan.de/issues/244)
+
+h3. @Scanners::Diff@
+ 
+* *FIXED* handling of change headers with code on the same line as the @@ marker.
+  ("#247":http://redmine.rubychan.de/issues/242)
+
+h3. @Scanners::HTML@
+ 
+* *FIXED* a missing regexp modifier that slowed down the scanning.
+  ("#245":http://redmine.rubychan.de/issues/245)
+
+h3. @Scanners::RHTML@
+ 
+* *FIXED* highlighting of ERB comment blocks.
+  ("#246":http://redmine.rubychan.de/issues/246)
+
+
+h2. Changes in 0.9.3 "Eyjafjallajökull" [2010-04-18]
+ 
+* *FIXED*: Documentation of Tokens.
+  ("#218":http://redmine.rubychan.de/issues/218)
+ 
+h3. @coderay@ executable
+ 
+* *NEW*: automatic TTY detection (uses @Term@ encoder)
+* *NEW*: optional 3rd parameter for the filename
+* *FIXED*: Converted to UNIX format.
+* *FIXED*: Warn about generated files.
+* *FIXED*: Ensure line break after the output (especially for LoC counter).
+
+h3. @Scanners::JavaScript@
+ 
+* *FIXED*: Don't keep state of XML scanner between calls for E4X literals.
+
+h3. @Scanners::Java@, @Scanners::JSON@
+ 
+* *FIXED*: Close unfinished strings with the correct token kind.
+
+
+h2. Changes in 0.9.2 "Flameeyes" [2010-03-14]
+ 
+* *NEW* Basic tests and a _Rakefile_ are now included in the Gem. [Flameeyes]
+  A @doc@ task is also included.
+* *FIXED* Use @$CODERAY_DEBUG@ for debugging instead of @$DEBUG@. [Trans]
+  ("#192":http://redmine.rubychan.de/issues/192)
+* *REMOVED* @Term::Ansicolor@ was bundled under _lib/_, but not used. [Flameeyes]
+  ("#205":http://redmine.rubychan.de/issues/205)
+* *WORKAROUND* for Ruby bug 
+  "#2745":http://redmine.ruby-lang.org/issues/show/2745
+ 
+h3. @Encoders::Term@
+ 
+* *FIXED* strings are closed correctly
+  ("#138":http://redmine.rubychan.de/issues/138)
+* *FIXED* several token kinds had no associated color
+  ("#139":http://redmine.rubychan.de/issues/139)
+* *NEW* alias @terminal@
+  
+  *NOTE:* This encoder will be renamed to @Encoders::Terminal@ in the next release.
+
+h3. @Scanners::Debug@
+ 
+* *FIXED* Don't close tokens that are not open. Send @:error@ token instead.
+
+h3. @Scanners::Groovy@
+ 
+* *FIXED* token kind of closing brackets is @:operator@ instead of @nil@
+  ("#148":http://redmine.rubychan.de/issues/148)
+
+h3. @Scanners::PHP@
+ 
+* *FIXED* allow @\@ operator (namespace separator)
+  ("#209":http://redmine.rubychan.de/issues/209)
+
+h3. @Scanners::YAML@
+ 
+* *FIXED* doesn't send debug tokens when @$DEBUG@ is true [Trans]
+  ("#149":http://redmine.rubychan.de/issues/149)
+
+
+h2. Changes in 0.9.1 [2009-12-31]
+ 
+h3. Token classes
+ 
+* *NEW* token classes @:complex@, @:decorator@, @:imaginary@
+  (all for Python)
+* *REMOVED* token class @:procedure@
+  – use @:function@ or @:method@ instead.
+
+h3. @Tokens@
+ 
+* *NEW* method @#scanner@
+  
+  Stores the scanner.
+* *REMOVED* methods @.write_token@, @.read_token@, @.escape@, @.unescape@
+  
+  They were only used by the @Tokens@ encoder, which was removed also.
+
+h3. @Encoders::Encoder@
+ 
+* *REMOVED* Don't require the _stringio_ library.
+* *NEW* public methods @#open_token@, @#close_token@, @#begin_line@, @#end_line@
+  These methods are called automatically, like @#text_token@.
+* *NEW* proteced method @#append_encoded_token_to_output@
+
+h3. @Encoders::Tokens@
+ 
+* *REMOVED* – use @Tokens#dump@ and @Tokens.load@.
+
+h3. @Encoders::Filter@
+ 
+* *NEW*
+  A @Filter@ encoder has another @Tokens@ instance as output.
+
+h3. @Encoders::TokenClassFilter@
+ 
+* *NEW*
+  
+  It takes 2 options, @:exclude@ and @:include@, that specify which token classes
+  to include or exclude for the output. They can be a single token class,
+  an @Array@ of classes, or the value @:all@.
+
+h3. @Encoders::CommentFilter@
+ 
+* *NEW*
+  
+  Removes tokens of the @:comment@ class.
+
+h3. @Encoders::LinesOfCode@
+ 
+* *NEW*
+  
+  Counts the lines of code according to the @KINDS_NOT_LOC@ token class list
+  defined by the scanner. It uses the new @TokenClassFilter@.
+  
+  Alias: @:loc@, as in @tokens.loc@.
+
+h3. @Encoders::JSON@
+ 
+* *NEW*
+  
+  Outputs tokens in a simple JSON format.
+
+h3. @Encoders::Term@
+ 
+* *NEW* (beta, by Rob Aldred)
+  
+  Outputs code highlighted for a color terminal.
+
+h3. @Encoders::HTML@
+ 
+* *NEW* option @:title@ (default value is _CodeRay output_)
+  
+  Setting this changes the title of the HTML page.
+* *NEW* option @:highlight_lines@ (default: @nil@)
+  
+  Highlights the given set of line numbers.
+- *REMOVED* option @:level@
+  
+  It didn't do anything. CodeRay always outputs XHTML.
+
+h3. @Encoders::Text@
+ 
+* Uses @Encoder@ interface with @super@ and @#text_token@.
+
+h3. @Encoders::XML@
+ 
+* @FIXED@ ("#94":http://redmine.rubychan.de/issues/94)
+  
+  It didn't work at all.
+
+h3. Scanners
+ 
+* *NEW* Mapped @:h@ to @:c@, @:cplusplus@ and @:'c++'@ to @:cpp@,
+  @:ecma@, @:ecmascript@, @:ecma_script@ to @:java_script@,
+  @:pascal@ to @:delphi@, and @:plain@ to @:plaintext@.
+
+h3. @Scanners::Scanner@
+ 
+* *NEW* constant @KINDS_NOT_LOC@
+  
+  A list of all token classes not considered in LOC count.
+  Added appropriate values for scanners.
+* *NEW* method @#lang@ returns the scanner's lang, which is its @plugin_id@.
+* *FIXED* automatic, safe UTF-8 detection _[Ruby 1.9]_
+* *FIXED* column takes care of multibyte encodings _[Ruby 1.9]_
+* *FIXED* is dumpable (@Tokens@ store their scanner in an @@scanner@ variable)
+
+h3. @Scanners::Cpp@
+ 
+* *NEW* (C++)
+
+h3. @Scanners::Groovy@
+ 
+* *NEW* (beta)
+
+h3. @Scanners::Python@
+ 
+* *NEW*
+
+h3. @Scanners::PHP@
+ 
+* *NEW* (based on Stefan Walk's work)
+
+h3. @Scanners::SQL@
+ 
+* *NEW* (based on code by Josh Goebel)
+
+h3. @Scanners::C@
+ 
+* *IMPROVED* added a list of @:directive@ tokens that were @:reserved@ before
+* *IMPROVED* detection of labels
+* *IMPROVED* allow @1L@ and @1LL@ style literals
+
+h3. @Scanners::CSS@
+ 
+* *IMPROVED* element selectors are highlighted as @:type@ instead of @:keyword@
+
+h3. @Scanners::Delphi@
+ 
+* *IMPROVED* Don't cache tokens in CaseIgnoringWordList.
+
+h3. @Scanners::Java@
+ 
+* *IMPROVED* @assert@ is highlighted as a @:keyword@ now
+* *IMPROVED* @const@ and @goto@ are highlighted as @:reserved@
+* *IMPROVED* @false@, @true@, and @null@ are highlighted as @:pre_constant@
+* *IMPROVED* @threadsafe@ is no longer a @:directive@
+* *IMPROVED* @String@ is highlighted as a @:pre_type@
+* *IMPROVED* built-in classes ending with _Error_ or _Exception_ are
+  highlighted as a @:exception@ instead of @:pre_type@
+
+h3. @Scanners::JavaScript@
+ 
+* *NEW* a list of @PREDEFINED_CONSTANTS@ to be highlighted as @:pre_constant@
+* *NEW* XML literals are recognized and highlighted
+* *NEW* function name highlighting
+* *IMPROVED* @.1@ is highlighted a number
+* *FIXED* strings close with the correct kind when terminated unexpectedly
+
+h3. @Scanners::JSON@
+ 
+* *IMPROVED* constants (@true@, @false@, @nil@) are highlighted as @:value@
+
+h3. @Scanners::Ruby@
+ 
+* *IMPROVED* @Patterns::KEYWORDS_EXPECTING_VALUE@ for more accurate
+  @value_expected@ detection
+* *IMPROVED* handling of @\@ as a string delimiter
+* *IMPROVED* handling of unicode strings; automatic switching to unicode
+* *IMPROVED* highlighting of @self.method@ definitions
+* *REMOVED* @Patterns::FANCY_START_SAVE@ (obsolete)
+* *FIXED* encoding issues _[Ruby 1.9]_
+* *FIXED* a problem in early Ruby 1.8.6 patch versions with @Regexp.escape@
+
+h3. @Scanners::YAML@
+ 
+* *IMPROVED* indentation detection
+
+h3. @Styles::Cycnus@
+ 
+* changed a few colors (exceptions, inline strings, predefined types)
+
+h3. @Plugin@
+ 
+* *NEW* method @#title@
+  
+  Set and get the plugin's title. Titles can be arbitrary strings.
+* *NEW* method @#helper@ loads helpers from different plugins
+  
+  Use this syntax: @helper 'other_plugin/helper_name'@
+
+h3. @FileType@
+ 
+* *NEW* @FileType[]@ takes @Pathname@ instances
+* *NEW* regonizes @.cc@, @.cpp@, @.cp@, @.cxx@, @.c++@, @.C@, @.hh@, @.hpp@, @.h++@, @.cu@ extensions (C++)
+  
+  Thanks to Sander Cox and the TextMate C bundle.
+* *NEW* regonizes @.pas@, @.dpr@ extensions (Delphi)
+* *NEW* regonizes @.gvy@, @.groovy@ extensions (Groovy)
+* *NEW* regonizes @.php@, @.php3@, @.php4@, @.php5@ extensions (PHP)
+* *NEW* regonizes @.py@, @.py3@, @.pyw@ extensions (Python)
+* *NEW* regonizes @.rxml@ extension (Ruby)
+* *NEW* regonizes @.sql@ extension (SQL)
+* File types list was sorted alphabetically.
+
+h3. @CaseIgnoringWordList@
+ 
+* *FIXED* ("#97":http://redmine.rubychan.de/issues/97)
+  
+  The default value is no longer ignored.
+
+h3. @ForRedCloth@
+ 
+* *FIXED* for RedCloth versions 4.2.0+ ("#119":http://redmine.rubychan.de/issues/119)
+
+h3. Cleanups
+ 
+* warnings about character classes _[Ruby 1.9]_
+* encoding issues _[Ruby 1.9]_
+* documentation, code
+
+

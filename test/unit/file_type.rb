@@ -1,4 +1,6 @@
 require 'test/unit'
+require File.expand_path('../../lib/assert_warning', __FILE__)
+
 require 'coderay/helpers/file_type'
 
 class FileTypeTests < Test::Unit::TestCase
@@ -9,31 +11,22 @@ class FileTypeTests < Test::Unit::TestCase
     assert_raise FileType::UnknownFileType do
       FileType.fetch ''
     end
-
+    
     assert_throws :not_found do
       FileType.fetch '.' do
         throw :not_found
       end
     end
-
+    
     assert_equal :default, FileType.fetch('c', :default)
   end
   
   def test_block_supersedes_default_warning
-    stderr, fake_stderr = $stderr, Object.new
-    begin
-      $err = ''
-      def fake_stderr.write x
-        $err << x
-      end
-      $stderr = fake_stderr
+    assert_warning 'Block supersedes default value argument; use either.' do
       FileType.fetch('c', :default) { }
-      assert_equal "Block supersedes default value argument; use either.\n", $err
-    ensure
-      $stderr = stderr
     end
   end
-
+  
   def test_ruby
     assert_equal :ruby, FileType[__FILE__]
     assert_equal :ruby, FileType['test.rb']
@@ -48,7 +41,7 @@ class FileTypeTests < Test::Unit::TestCase
     assert_not_equal :ruby, FileType['set.rb/set']
     assert_not_equal :ruby, FileType['~/projects/blabla/rb']
   end
-
+  
   def test_c
     assert_equal :c, FileType['test.c']
     assert_equal :c, FileType['C:\\Program Files\\x\\y\\c\\test.h']
@@ -57,7 +50,7 @@ class FileTypeTests < Test::Unit::TestCase
     assert_not_equal :c, FileType['set.h/set']
     assert_not_equal :c, FileType['~/projects/blabla/c']
   end
-
+  
   def test_cpp
     assert_equal :cpp, FileType['test.c++']
     assert_equal :cpp, FileType['test.cxx']
@@ -68,7 +61,7 @@ class FileTypeTests < Test::Unit::TestCase
     assert_not_equal :cpp, FileType['test.c']
     assert_not_equal :cpp, FileType['test.h']
   end
-
+  
   def test_html
     assert_equal :page, FileType['test.htm']
     assert_equal :page, FileType['test.xhtml']
@@ -76,14 +69,14 @@ class FileTypeTests < Test::Unit::TestCase
     assert_equal :erb, FileType['_form.rhtml']
     assert_equal :erb, FileType['_form.html.erb']
   end
-
+  
   def test_yaml
     assert_equal :yaml, FileType['test.yml']
     assert_equal :yaml, FileType['test.yaml']
     assert_equal :yaml, FileType['my.html.yaml']
     assert_not_equal :yaml, FileType['YAML']
   end
-
+  
   def test_pathname
     require 'pathname'
     pn = Pathname.new 'test.rb'
@@ -92,7 +85,7 @@ class FileTypeTests < Test::Unit::TestCase
     assert_equal :ruby, FileType[dir + pn]
     assert_equal :cpp, FileType[dir + 'test.cpp']
   end
-
+  
   def test_no_shebang
     dir = './test'
     if File.directory? dir
@@ -119,5 +112,5 @@ class FileTypeTests < Test::Unit::TestCase
     File.open(tmpfile, 'w') { |f| f.puts '#!/usr/bin/env ruby' }
     assert_equal :ruby, FileType[tmpfile, true]
   end
-
+  
 end

@@ -1,4 +1,5 @@
 require 'test/unit'
+require 'pathname'
 require File.expand_path('../../lib/assert_warning', __FILE__)
 
 $:.unshift File.expand_path('../../../lib', __FILE__)

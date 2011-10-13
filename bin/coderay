@@ -197,7 +197,7 @@ when 'li', 'list'
     end
   end
 when 'stylesheet', 'style', 'css'
-  puts CodeRay::Encoders[:html]::CSS.new(args.first).stylesheet
+  puts CodeRay::Encoders[:html]::CSS.new(args.first || :default).stylesheet
 when 'commands'
   commands
 when 'help'

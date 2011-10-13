@@ -76,7 +76,7 @@ module Scanners
           when match = scan(/[,{}\[\]]/)
             encoder.text_token match, :operator
             next
-          when state == :initial && match = scan(/[\w.() ]*\S(?= *:(?: |$))/)
+          when state == :initial && match = scan(/[-\w.()\/ ]*\S(?= *:(?: |$))/)
             encoder.text_token match, :key
             key_indent = column(pos - match.size) - 1
             state = :colon

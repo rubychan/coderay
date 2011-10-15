@@ -4,6 +4,12 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
  
 {{toc}}
  
+h2. Changes in 1.0.1
+ 
+* fixed warning in the output of "coderay stylesheet"
+* YAML scanner allows "-" and "/" in key names
+* minor fixes in the tests
+
 h2. Changes in 1.0
  
 CodeRay 1.0 is a major rewrite of the library, and incompatible to earlier versions.

@@ -11,13 +11,12 @@ spec/reports
 test/tmp
 test/version_tmp
 tmp
-
 doc
 Gemfile.lock
 .rvmrc
-
 test/executable/source.rb.html
 test/executable/source.rb.json
 test/scanners
 bench/test.div.html
 diff.html
+etc/CodeRay.tmproj

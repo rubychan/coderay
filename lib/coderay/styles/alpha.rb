@@ -45,7 +45,6 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .CodeRay span.line-numbers { padding: 0px 4px; }
 .CodeRay .line { display: block; float: left; width: 100%; }
 .CodeRay .code { width: 100%; }
-.CodeRay .code pre { overflow: auto; }
     MAIN
 
     TOKEN_COLORS = <<-'TOKENS'

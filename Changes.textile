@@ -8,6 +8,7 @@ h2. Changes in 1.0.1
  
 * fixed warning in the output of "coderay stylesheet"
 * YAML scanner allows "-" and "/" in key names
+* fix additional scrollbar in code when last line contains an eyecatcher
 * minor fixes in the tests
 
 h2. Changes in 1.0

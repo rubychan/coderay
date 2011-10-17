@@ -6,9 +6,14 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
  
 h2. Changes in 1.0.1
  
-* fixed warning in the output of "coderay stylesheet"
+New:
+ 
 * YAML scanner allows "-" and "/" in key names
-* fix additional scrollbar in code when last line contains an eyecatcher
+ 
+Fixes:
+ 
+* fixed warning in the output of "coderay stylesheet"
+* fixed additional scrollbar in code when last line contains an eyecatcher
 * minor fixes in the tests (issue github-#4)
 
 h2. Changes in 1.0

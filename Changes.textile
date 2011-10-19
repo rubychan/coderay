@@ -10,6 +10,10 @@ New:
  
 * YAML scanner allows "-" and "/" in key names
  
+Changes:
+ 
+* HTML page output has no white border anymore (alpha style)
+ 
 Fixes:
  
 * fixed warning in the output of "coderay stylesheet"

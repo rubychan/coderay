@@ -34,8 +34,8 @@ end
     
     # output as standalone HTML page (using CSS classes)
     page = CodeRay.scan('puts "Hello, world!"', :ruby).page
-    assert page[<<-PAGE]
-<body style="background-color: white;">
+    assert_match <<-PAGE, page
+<body>
 
 <table class="CodeRay"><tr>
   <td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>

@@ -140,10 +140,18 @@ module Encoders
   text-decoration: inherit;
   color: inherit;
 }
+body {
+  background-color: white;
+  padding: 0;
+  margin: 0;
+}
 <%CSS%>
+.CodeRay {
+  border: none;
+}
   </style>
 </head>
-<body style="background-color: white;">
+<body>
 
 <%CONTENT%>
 </body>

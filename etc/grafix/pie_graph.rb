@@ -125,7 +125,7 @@ script.aculo.us  225.6K: incremental, shuffled, complete, identity, highlighting
      trace-test  151.1K: incremental, shuffled, complete, identity, highlighting, finished in  0.41s ( 133 Ktok/s).
             xml    0.1K: incremental, shuffled, ticket ?, identity, highlighting, finished in  0.00s.
             KNOWN ISSUE: JavaScript scanner is confused by nested XML literals.
-                         No ticket yet. Visit http://redmine.rubychan.de/projects/coderay/issues/new.
+                         No ticket yet. Visit http://odd-eyed-code.org/projects/coderay/issues/new.
 Finished in 10.07s.
 .
     >> Testing JSON scanner <<

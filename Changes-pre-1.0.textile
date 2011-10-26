@@ -15,27 +15,27 @@ h3. Rake tasks
 h3. @Scanners::Scanner@
  
 * *NEW* method @#scan_rest@ replaces @scan_until(/\z/)@, which is broken in JRuby 1.6 --1.9 mode.
-  See "#297":http://redmine.rubychan.de/issues/297.
+  See "#297":http://odd-eyed-code.org/issues/297.
 
 h3. @Scanners::CSS@
  
 * *FIXED* LOC counting (should be 0).
-  See "#296":http://redmine.rubychan.de/issues/296.
+  See "#296":http://odd-eyed-code.org/issues/296.
 
 h3. @Scanners::Ruby@
  
 * *FIXED* the @IDENT@ pattern not to use character properties, which are broken in JRuby 1.6 --1.9 mode.
-  See "#297":http://redmine.rubychan.de/issues/297, thanks to banister for reporting!
+  See "#297":http://odd-eyed-code.org/issues/297, thanks to banister for reporting!
 
 h3. @Scanners::SQL@
  
 * *ADDED* more keywords: @between@, @databases@, @distinct@, @fields@, @full@, @having@, @is@, @prompt@, @tables@.
-  See "#221":http://redmine.rubychan.de/issues/221, thanks to Etienne Massip again.
+  See "#221":http://odd-eyed-code.org/issues/221, thanks to Etienne Massip again.
 
 h3. @FileType@
  
 * *NEW* regonizes ColdFusion file type extensions @.cfm@ and @.cfc@ as XML.
-  See "#298":http://redmine.rubychan.de/issues/298, thanks to Emidio Stani.
+  See "#298":http://odd-eyed-code.org/issues/298, thanks to Emidio Stani.
 
 
 h2. Changes in 0.9.7 "Etienne" [2011-01-14]
@@ -49,7 +49,7 @@ h3. Tests
 h3. @Scanners::JavaScript@
  
 * *FIXED* @KEY_CHECK_PATTERN@ regexp
-  See "#264":http://redmine.rubychan.de/issues/264, thanks to Etienne Massip!
+  See "#264":http://odd-eyed-code.org/issues/264, thanks to Etienne Massip!
 
 
 h2. Changes in 0.9.6 "WoNáDo" [2010-11-25]
@@ -68,11 +68,11 @@ h3. @Scanners::Ruby@
 
 h2. Changes in 0.9.5 "Germany.rb" [2010-09-28]
  
-Support for Rubinius ("#251":http://redmine.rubychan.de/issues/251), improved mutlibyte handling, Ruby 1.9 syntax, and valid HTML.
+Support for Rubinius ("#251":http://odd-eyed-code.org/issues/251), improved mutlibyte handling, Ruby 1.9 syntax, and valid HTML.
  
 h3. @Encoders::HTML@
  
-* *FIXED*: Line tokens use @span@ with @display: block@ instead of @div@, which was invalid HTML ("#255":http://redmine.rubychan.de/issues/255).
+* *FIXED*: Line tokens use @span@ with @display: block@ instead of @div@, which was invalid HTML ("#255":http://odd-eyed-code.org/issues/255).
 
 h3. @Scanner::Scanner@
  
@@ -94,18 +94,18 @@ h3. @Scanners::PHP@
 
 h3. @Scanners::Ruby@
  
-* *ADDED* support for some Ruby 1.9 syntax ("#254":http://redmine.rubychan.de/issues/254):
+* *ADDED* support for some Ruby 1.9 syntax ("#254":http://odd-eyed-code.org/issues/254):
 ** the @->@ lambda shortcut
 ** new Hash syntax using colons (@{ a: b }@)
 * *FIXED*: Use @UTF-8@ encoding.
-* *IMPROVED* unicode support on Ruby 1.8 ("#253":http://redmine.rubychan.de/issues/253).
-* *FIXED* recognition of non-ASCII identifiers in Ruby 1.9, JRuby, and Rubinius ("#253":http://redmine.rubychan.de/issues/253).
+* *IMPROVED* unicode support on Ruby 1.8 ("#253":http://odd-eyed-code.org/issues/253).
+* *FIXED* recognition of non-ASCII identifiers in Ruby 1.9, JRuby, and Rubinius ("#253":http://odd-eyed-code.org/issues/253).
 * *CHANGED* heredoc recognition to ignore delimiters starting with a digit. This is incorrect, but causes less false positives.
 
 h3. @Scanners::SQL@
  
 * *FIXED* scanning of comments; nice catch, Rubinius!
-  ("#252":http://redmine.rubychan.de/issues/252)
+  ("#252":http://odd-eyed-code.org/issues/252)
 
 
 h2. Changes in 0.9.4 "Ramadan" [2010-08-31]
@@ -115,28 +115,28 @@ Updated command line interface and minor scanner fixes for the Diff, HTML, and R
 h3. @coderay@ executable
  
 * *FIXED*: Partly rewritten, simplified, fixed.
-  ("#244":http://redmine.rubychan.de/issues/244)
+  ("#244":http://odd-eyed-code.org/issues/244)
 
 h3. @Scanners::Diff@
  
 * *FIXED* handling of change headers with code on the same line as the @@ marker.
-  ("#247":http://redmine.rubychan.de/issues/242)
+  ("#247":http://odd-eyed-code.org/issues/242)
 
 h3. @Scanners::HTML@
  
 * *FIXED* a missing regexp modifier that slowed down the scanning.
-  ("#245":http://redmine.rubychan.de/issues/245)
+  ("#245":http://odd-eyed-code.org/issues/245)
 
 h3. @Scanners::RHTML@
  
 * *FIXED* highlighting of ERB comment blocks.
-  ("#246":http://redmine.rubychan.de/issues/246)
+  ("#246":http://odd-eyed-code.org/issues/246)
 
 
 h2. Changes in 0.9.3 "Eyjafjallajökull" [2010-04-18]
  
 * *FIXED*: Documentation of Tokens.
-  ("#218":http://redmine.rubychan.de/issues/218)
+  ("#218":http://odd-eyed-code.org/issues/218)
  
 h3. @coderay@ executable
  
@@ -160,18 +160,18 @@ h2. Changes in 0.9.2 "Flameeyes" [2010-03-14]
 * *NEW* Basic tests and a _Rakefile_ are now included in the Gem. [Flameeyes]
   A @doc@ task is also included.
 * *FIXED* Use @$CODERAY_DEBUG@ for debugging instead of @$DEBUG@. [Trans]
-  ("#192":http://redmine.rubychan.de/issues/192)
+  ("#192":http://odd-eyed-code.org/issues/192)
 * *REMOVED* @Term::Ansicolor@ was bundled under _lib/_, but not used. [Flameeyes]
-  ("#205":http://redmine.rubychan.de/issues/205)
+  ("#205":http://odd-eyed-code.org/issues/205)
 * *WORKAROUND* for Ruby bug 
   "#2745":http://redmine.ruby-lang.org/issues/show/2745
  
 h3. @Encoders::Term@
  
 * *FIXED* strings are closed correctly
-  ("#138":http://redmine.rubychan.de/issues/138)
+  ("#138":http://odd-eyed-code.org/issues/138)
 * *FIXED* several token kinds had no associated color
-  ("#139":http://redmine.rubychan.de/issues/139)
+  ("#139":http://odd-eyed-code.org/issues/139)
 * *NEW* alias @terminal@
   
   *NOTE:* This encoder will be renamed to @Encoders::Terminal@ in the next release.
@@ -183,17 +183,17 @@ h3. @Scanners::Debug@
 h3. @Scanners::Groovy@
  
 * *FIXED* token kind of closing brackets is @:operator@ instead of @nil@
-  ("#148":http://redmine.rubychan.de/issues/148)
+  ("#148":http://odd-eyed-code.org/issues/148)
 
 h3. @Scanners::PHP@
  
 * *FIXED* allow @\@ operator (namespace separator)
-  ("#209":http://redmine.rubychan.de/issues/209)
+  ("#209":http://odd-eyed-code.org/issues/209)
 
 h3. @Scanners::YAML@
  
 * *FIXED* doesn't send debug tokens when @$DEBUG@ is true [Trans]
-  ("#149":http://redmine.rubychan.de/issues/149)
+  ("#149":http://odd-eyed-code.org/issues/149)
 
 
 h2. Changes in 0.9.1 [2009-12-31]
@@ -283,7 +283,7 @@ h3. @Encoders::Text@
 
 h3. @Encoders::XML@
  
-* @FIXED@ ("#94":http://redmine.rubychan.de/issues/94)
+* @FIXED@ ("#94":http://odd-eyed-code.org/issues/94)
   
   It didn't work at all.
 
@@ -404,13 +404,13 @@ h3. @FileType@
 
 h3. @CaseIgnoringWordList@
  
-* *FIXED* ("#97":http://redmine.rubychan.de/issues/97)
+* *FIXED* ("#97":http://odd-eyed-code.org/issues/97)
   
   The default value is no longer ignored.
 
 h3. @ForRedCloth@
  
-* *FIXED* for RedCloth versions 4.2.0+ ("#119":http://redmine.rubychan.de/issues/119)
+* *FIXED* for RedCloth versions 4.2.0+ ("#119":http://odd-eyed-code.org/issues/119)
 
 h3. Cleanups
  

@@ -87,7 +87,7 @@ h3. *RENAMED*: @TokenKinds@
  
 Renamed from @Tokens::ClassOfKind@ (was also @Tokens::AbbreviationForKind@ for a while).
 The term "token class" is no longer used in CodeRay. Instead, tokens have _kinds_.
-See "#122":http://redmine.rubychan.de/issues/122.
+See "#122":http://odd-eyed-code.org/issues/122.
  
 * *CHANGED* all token CSS classes to readable names.
 * *ADDED* token kinds @:filename@, @:namespace@, and @:eyecatcher@.
@@ -118,9 +118,9 @@ h3. @Encoders::HTML@
 The HTML encoder was cleaned up and simplified.
  
 * *NEW*: HTML5 and CSS 3 compatible.
-  See "#215":http://redmine.rubychan.de/issues/215.
+  See "#215":http://odd-eyed-code.org/issues/215.
 * *ADDED* support for @:line_number_anchors@.
-  See "#208":http://redmine.rubychan.de/issues/208.
+  See "#208":http://odd-eyed-code.org/issues/208.
 * *CHANGED* the default style to @:alpha@.
 * *CHANGED*: Use double click to toggle line numbers in table mode (as single
   click jumps to an anchor.)
@@ -148,7 +148,7 @@ h3. @Encoders::Text@
 h3. *RENAMED*: @Encoders::TokenKindFilter@ (was @Encoders::TokenClassFilter@)
  
 * *NEW*: Handles token groups.
-  See "#223":http://redmine.rubychan.de/issues/223.
+  See "#223":http://odd-eyed-code.org/issues/223.
 * *RENAMED* @include_block_token?@ to @include_group?@.
 
 h3. @Encoders::Statistic@
@@ -175,7 +175,7 @@ Thanks to Licenser, CodeRay now supports the Clojure language.
 h3. @Scanners::CSS@
  
 * *NEW*: Rudimentary support for the @attr@, @counter@, and @counters@ functions.
-  See "#224":http://redmine.rubychan.de/issues/224.
+  See "#224":http://odd-eyed-code.org/issues/224.
 * *NEW*: Rudimentary support for CSS 3 colors.
 * *CHANGED*: Attribute selectors are highlighted as @:attribute_name@ instead of @:string@.
 * *CHANGED*: Comments are scanned as one token instead of three.
@@ -195,7 +195,7 @@ h3. @Scanners::Delphi@
 h3. @Scanners::Diff@
  
 * *NEW*: Highlighting of code based on file names.
-  See ticket "#52":http://redmine.rubychan.de/issues/52.
+  See ticket "#52":http://odd-eyed-code.org/issues/52.
   
   Use the @:highlight_code@ option to turn this feature off. It's enabled
   by default.
@@ -210,7 +210,7 @@ h3. @Scanners::Diff@
   between the lines and changes, but the quality of the results depend on
   the scanner.
 * *NEW*: Inline change highlighting, as suggested by Eric Thomas.
-  See ticket "#227":http://redmine.rubychan.de/issues/227 for details.
+  See ticket "#227":http://odd-eyed-code.org/issues/227 for details.
   
   Use the @:inline_diff@ option to turn this feature off. It's enabled by
   default.
@@ -249,7 +249,7 @@ h3. @Scanners::JavaScript@
 h3. @Scanners::Java@
  
 * *NEW*: Package names are highlighted as @:namespace@.
-  See "#210":http://redmine.rubychan.de/issues/210.
+  See "#210":http://odd-eyed-code.org/issues/210.
 
 h3. *REMOVED*: @Scanners::NitroXHTML@
  
@@ -264,7 +264,7 @@ h3. *RENAMED*: @Scanners::Text@ (was @Scanners::Plaintext@)
 h3. @Scanners::Python@
  
 * *CHANGED*: Docstrings are highlighted as @:comment@.
-  See "#190":http://redmine.rubychan.de/issues/190.
+  See "#190":http://odd-eyed-code.org/issues/190.
 
 h3. *NEW*: @Scanners::Raydebug@
 
@@ -275,7 +275,7 @@ h3. @Scanners::Ruby@
  
 * *ADDED* more predefined keywords (see http://murfy.de/ruby-constants).
 * *IMPROVED* support for singleton method definitions.
-  See "#147":http://redmine.rubychan.de/issues/147.
+  See "#147":http://odd-eyed-code.org/issues/147.
 * *FIXED*: Don't highlight methods with a capital letter as constants
   (eg. @GL.PushMatrix@).
 * *NEW*: Highlight buggy floats (like .5) as @:error@.
@@ -292,14 +292,14 @@ h3. @Scanners::Ruby@
 h3. *REMOVED* @Scanners::Scheme@
  
 * It is too buggy, and nobody was using it. To be added again when it's fixed.
-  See "#59":http://redmine.rubychan.de/issues/59.
+  See "#59":http://odd-eyed-code.org/issues/59.
 
 h3. @Scanners::SQL@
  
 * *IMPROVED*: Extended list of keywords and functions (thanks to
   Joshua Galvez, Etienne Massip, and others).
  
-  See "#221":http://redmine.rubychan.de/issues/221.
+  See "#221":http://odd-eyed-code.org/issues/221.
 * *FIXED*: Closes open string groups.
 * *FIXED*: Words after @.@ are always recognized as @:ident@.
 
@@ -307,14 +307,14 @@ h3. @Scanners::YAML@
  
 * *FIXED*: Allow spaces before colon in mappings.
  
-  See "#231":http://redmine.rubychan.de/issues/231.
+  See "#231":http://odd-eyed-code.org/issues/231.
 
 h3. *NEW*: @Styles::Alpha@
 
-A style that uses transparent HSLA colors as defined in CSS 3. See "#199":http://redmine.rubychan.de/issues/199.
+A style that uses transparent HSLA colors as defined in CSS 3. See "#199":http://odd-eyed-code.org/issues/199.
  
 It also uses the CSS 3 property @user-select: none@ to keep the user from selecting the line numbers. This is especially
-nice for @:inline@ line numbers. See "#226":http://redmine.rubychan.de/issues/226.
+nice for @:inline@ line numbers. See "#226":http://odd-eyed-code.org/issues/226.
 
 h3. @WordList@
  

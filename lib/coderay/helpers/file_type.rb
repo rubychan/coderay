@@ -84,6 +84,7 @@ module CodeRay
       'css'      => :css,
       'diff'     => :diff,
       'dpr'      => :delphi,
+      'erb'      => :erb,
       'gemspec'  => :ruby,
       'groovy'   => :groovy,
       'gvy'      => :groovy,

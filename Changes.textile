@@ -4,6 +4,12 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
  
 {{toc}}
  
+h2. Changes in 1.0.2
+ 
+Fixes:
+ 
+* .erb files are recognized as ERB.
+
 h2. Changes in 1.0.1
  
 New:

@@ -119,6 +119,7 @@ module CodeRay
       # 'sch'      => :scheme,
       'sql'      => :sql,
       # 'ss'       => :scheme,
+      'tmproj'   => :xml,
       'xhtml'    => :page,
       'xml'      => :xml,
       'yaml'     => :yaml,

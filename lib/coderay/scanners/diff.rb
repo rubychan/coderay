@@ -49,7 +49,7 @@ module Scanners
             encoder.text_token match, :head
             if match = scan(/.*?(?=$|[\t\n\x00]|  \(revision)/)
               encoder.text_token match, :filename
-              if options[:highlight_code]
+              if options[:highlight_code] && match != '/dev/null'
                 file_type = FileType.fetch(match, :text)
                 file_type = :text if file_type == :diff
                 content_scanner = scanners[file_type]

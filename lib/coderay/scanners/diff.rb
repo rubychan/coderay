@@ -22,7 +22,7 @@ module Scanners
       
       line_kind = nil
       state = :initial
-      deleted_lines = 0
+      deleted_lines_count = 0
       scanners = Hash.new do |h, lang|
         h[lang] = Scanners[lang].new '', :keep_tokens => true, :keep_state => true
       end
@@ -32,7 +32,7 @@ module Scanners
       until eos?
         
         if match = scan(/\n/)
-          deleted_lines = 0 unless line_kind == :delete
+          deleted_lines_count = 0 unless line_kind == :delete
           if line_kind
             encoder.end_line line_kind
             line_kind = nil
@@ -101,37 +101,59 @@ module Scanners
             end
             next
           elsif match = scan(/-/)
-            deleted_lines += 1
-            encoder.begin_line line_kind = :delete
-            encoder.text_token match, :delete
-            if options[:inline_diff] && deleted_lines == 1 && check(/(?>.*)\n\+(?>.*)$(?!\n\+)/)
-              content_scanner_entry_state = content_scanner.state
-              skip(/(.*)\n\+(.*)$/)
-              head, deletion, insertion, tail = diff self[1], self[2]
-              pre, deleted, post = content_scanner.tokenize [head, deletion, tail], :tokens => Tokens.new
-              encoder.tokens pre
-              unless deleted.empty?
-                encoder.begin_group :eyecatcher
-                encoder.tokens deleted
-                encoder.end_group :eyecatcher
+            deleted_lines_count += 1
+            if options[:inline_diff] && deleted_lines_count == 1 && (changed_lines_count = 1 + check(/(?>.*(?:\n\-.*)*)/).count("\n")) && match?(/(?>.*(?:\n\-.*){#{changed_lines_count - 1}}(?:\n\+.*){#{changed_lines_count}})$(?!\n\+)/)
+              deleted_lines  = Array.new(changed_lines_count) { |i| skip(/\n\-/) if i > 0; scan(/.*/) }
+              inserted_lines = Array.new(changed_lines_count) { |i| skip(/\n\+/)         ; scan(/.*/) }
+              
+              deleted_lines_tokenized  = []
+              inserted_lines_tokenized = []
+              for deleted_line, inserted_line in deleted_lines.zip(inserted_lines)
+                pre, deleted_part, inserted_part, post = diff deleted_line, inserted_line
+                content_scanner_entry_state = content_scanner.state
+                deleted_lines_tokenized  << content_scanner.tokenize([pre, deleted_part, post], :tokens => Tokens.new)
+                content_scanner.state = content_scanner_entry_state || :initial
+                inserted_lines_tokenized << content_scanner.tokenize([pre, inserted_part, post], :tokens => Tokens.new)
               end
-              encoder.tokens post
-              encoder.end_line line_kind
-              encoder.text_token "\n", :space
-              encoder.begin_line line_kind = :insert
-              encoder.text_token '+', :insert
-              content_scanner.state = content_scanner_entry_state || :initial
-              pre, inserted, post = content_scanner.tokenize [head, insertion, tail], :tokens => Tokens.new
-              encoder.tokens pre
-              unless inserted.empty?
-                encoder.begin_group :eyecatcher
-                encoder.tokens inserted
-                encoder.end_group :eyecatcher
+              
+              for pre, deleted_part, post in deleted_lines_tokenized
+                encoder.begin_line :delete
+                encoder.text_token '-', :delete
+                encoder.tokens pre
+                unless deleted_part.empty?
+                  encoder.begin_group :eyecatcher
+                  encoder.tokens deleted_part
+                  encoder.end_group :eyecatcher
+                end
+                encoder.tokens post
+                encoder.end_line :delete
+                encoder.text_token "\n", :space
               end
-              encoder.tokens post
+              
+              for pre, inserted_part, post in inserted_lines_tokenized
+                encoder.begin_line :insert
+                encoder.text_token '+', :insert
+                encoder.tokens pre
+                unless inserted_part.empty?
+                  encoder.begin_group :eyecatcher
+                  encoder.tokens inserted_part
+                  encoder.end_group :eyecatcher
+                end
+                encoder.tokens post
+                changed_lines_count -= 1
+                if changed_lines_count > 0
+                  encoder.end_line :insert
+                  encoder.text_token "\n", :space
+                end
+              end
+              
+              line_kind = :insert
+              
             elsif match = scan(/.*/)
+              encoder.begin_line line_kind = :delete
+              encoder.text_token '-', :delete
               if options[:highlight_code]
-                if deleted_lines == 1
+                if deleted_lines_count == 1
                   content_scanner_entry_state = content_scanner.state
                 end
                 content_scanner.tokenize match, :tokens => encoder unless match.empty?

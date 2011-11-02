@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   else
     # thanks to @Argorak for this solution
     revision = 134 + (`git log --oneline | wc -l`.to_i)
-    s.version = "#{CodeRay::VERSION}.#{revision}rc3"
+    s.version = "#{CodeRay::VERSION}.#{revision}rc1"
   end
   
   s.authors     = ['Kornelius Kalnbach']

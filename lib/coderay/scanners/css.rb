@@ -35,7 +35,7 @@ module Scanners
       
       reldimensions = %w[em ex px]
       absdimensions = %w[in cm mm pt pc]
-      Unit = Regexp.union(*(reldimensions + absdimensions))
+      Unit = Regexp.union(*(reldimensions + absdimensions + %w[s]))
       
       Dimension = /#{Num}#{Unit}/
       
@@ -50,10 +50,14 @@ module Scanners
     
   protected
     
+    def setup
+      @state = :initial
+      @value_expected = nil
+    end
+    
     def scan_tokens encoder, options
-      
-      value_expected = nil
-      states = [:initial]
+      states = Array(options[:state] || @state)
+      value_expected = @value_expected
       
       until eos?
         
@@ -127,11 +131,9 @@ module Scanners
           
         elsif match = scan(/\}/)
           value_expected = false
+          encoder.text_token match, :operator
           if states.last == :block || states.last == :media
-            encoder.text_token match, :operator
             states.pop
-          else
-            encoder.text_token match, :error
           end
           
         elsif match = scan(/#{RE::String}/o)
@@ -181,6 +183,11 @@ module Scanners
           
         end
         
+      end
+      
+      if options[:keep_state]
+        @state = states
+        @value_expected = value_expected
       end
       
       encoder

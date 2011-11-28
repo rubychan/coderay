@@ -7,20 +7,20 @@
 #
 # I try to make CodeRay easy to use and intuitive, but at the same time fully
 # featured, complete, fast and efficient.
-# 
+#
 # See README.
-# 
+#
 # It consists mainly of
 # * the main engine: CodeRay (Scanners::Scanner, Tokens, Encoders::Encoder)
 # * the plugin system: PluginHost, Plugin
 # * the scanners in CodeRay::Scanners
 # * the encoders in CodeRay::Encoders
 # * the styles in CodeRay::Styles
-# 
+#
 # Here's a fancy graphic to light up this gray docu:
-# 
+#
 # http://cycnus.de/raindark/coderay/scheme.png
-# 
+#
 # == Documentation
 #
 # See CodeRay, Encoders, Scanners, Tokens.
@@ -31,32 +31,32 @@
 # path. Run Ruby with -rubygems option if required.
 #
 # === Highlight Ruby code in a string as html
-# 
+#
 #   require 'coderay'
 #   print CodeRay.scan('puts "Hello, world!"', :ruby).html
 #
 #   # prints something like this:
 #   puts <span class="s">&quot;Hello, world!&quot;</span>
-# 
-# 
+#
+#
 # === Highlight C code from a file in a html div
-# 
+#
 #   require 'coderay'
 #   print CodeRay.scan(File.read('ruby.h'), :c).div
 #   print CodeRay.scan_file('ruby.h').html.div
-# 
+#
 # You can include this div in your page. The used CSS styles can be printed with
-# 
+#
 #   % coderay_stylesheet
-# 
+#
 # === Highlight without typing too much
-# 
+#
 # If you are one of the hasty (or lazy, or extremely curious) people, just run this file:
-# 
+#
 #   % ruby -rubygems /path/to/coderay/coderay.rb > example.html
-# 
+#
 # and look at the file it created in your browser.
-# 
+#
 # = CodeRay Module
 #
 # The CodeRay module provides convenience methods for the engine.
@@ -67,38 +67,38 @@
 #   the Encoder / Scanner.
 # * Input and language are always sorted in this order: +code+, +lang+.
 #   (This is in alphabetical order, if you need a mnemonic ;)
-# 
+#
 # You should be able to highlight everything you want just using these methods;
 # so there is no need to dive into CodeRay's deep class hierarchy.
 #
 # The examples in the demo directory demonstrate common cases using this interface.
-#  
+#
 # = Basic Access Ways
 #
 # Read this to get a general view what CodeRay provides.
-# 
+#
 # == Scanning
-#  
+#
 #  Scanning means analysing an input string, splitting it up into Tokens.
 #  Each Token knows about what type it is: string, comment, class name, etc.
 #
 #  Each +lang+ (language) has its own Scanner; for example, <tt>:ruby</tt> code is
 #  handled by CodeRay::Scanners::Ruby.
-# 
+#
 # CodeRay.scan:: Scan a string in a given language into Tokens.
 #                This is the most common method to use.
 # CodeRay.scan_file:: Scan a file and guess the language using FileType.
-# 
+#
 # The Tokens object you get from these methods can encode itself; see Tokens.
-# 
+#
 # == Encoding
 #
 # Encoding means compiling Tokens into an output. This can be colored HTML or
 # LaTeX, a textual statistic or just the number of non-whitespace tokens.
-# 
+#
 # Each Encoder provides output in a specific +format+, so you select Encoders via
 # formats like <tt>:html</tt> or <tt>:statistic</tt>.
-# 
+#
 # CodeRay.encode:: Scan and encode a string in a given language.
 # CodeRay.encode_tokens:: Encode the given tokens.
 # CodeRay.encode_file:: Scan a file, guess the language using FileType and encode it.
@@ -118,39 +118,29 @@
 # To make use of CodeRay.scanner, use CodeRay::Scanner::code=.
 #
 # The scanning methods provide more flexibility; we recommend to use these.
-# 
+#
 # == Reusing Scanners and Encoders
-# 
+#
 # If you want to re-use scanners and encoders (because that is faster), see
 # CodeRay::Duo for the most convenient (and recommended) interface.
 module CodeRay
-  
+
   $CODERAY_DEBUG ||= false
-  
+
   require 'coderay/version'
-  
-  # helpers
-  autoload :FileType, 'coderay/helpers/file_type'
-  
-  # Tokens
-  autoload :Tokens, 'coderay/tokens'
-  autoload :TokensProxy, 'coderay/tokens_proxy'
-  autoload :TokenKinds, 'coderay/token_kinds'
-  
-  # Plugin system
-  autoload :PluginHost, 'coderay/helpers/plugin'
-  autoload :Plugin, 'coderay/helpers/plugin'
-  
-  # Plugins
-  autoload :Scanners, 'coderay/scanner'
-  autoload :Encoders, 'coderay/encoder'
-  autoload :Styles, 'coderay/style'
-  
-  # Convenience access and reusable Encoder/Scanner pair
-  autoload :Duo, 'coderay/duo'
-  
+
   class << self
-    
+
+    ##
+    # Creates an absolute path to solve known edge issues with autoload.
+    # *Protected*
+    # Also thanks Yard.
+    def __p(path)
+      path = path.split('/')
+      File.join(File.expand_path(File.dirname(__FILE__)), 'coderay', *path)
+    end
+    protected :__p
+
     # Scans the given +code+ (a String) with the Scanner for +lang+.
     #
     # This is a simple way to use CodeRay. Example:
@@ -162,7 +152,7 @@ module CodeRay
       # FIXME: return a proxy for direct-stream encoding
       TokensProxy.new code, lang, options, block
     end
-    
+
     # Scans +filename+ (a path to a code file) with the Scanner for +lang+.
     #
     # If +lang+ is :auto or omitted, the CodeRay::FileType module is used to
@@ -179,7 +169,7 @@ module CodeRay
       code = File.read filename
       scan code, lang, options, &block
     end
-    
+
     # Encode a string.
     #
     # This scans +code+ with the the Scanner for +lang+ and then
@@ -190,12 +180,12 @@ module CodeRay
     def encode code, lang, format, options = {}
       encoder(format, options).encode code, lang, options
     end
-    
+
     # Encode pre-scanned Tokens.
     # Use this together with CodeRay.scan:
     #
     #  require 'coderay'
-    #  
+    #
     #  # Highlight a short Ruby code example in a HTML span
     #  tokens = CodeRay.scan '1 + 2', :ruby
     #  puts CodeRay.encode_tokens(tokens, :span)
@@ -203,7 +193,7 @@ module CodeRay
     def encode_tokens tokens, format, options = {}
       encoder(format, options).encode_tokens tokens, options
     end
-    
+
     # Encodes +filename+ (a path to a code file) with the Scanner for +lang+.
     #
     # See CodeRay.scan_file.
@@ -216,7 +206,7 @@ module CodeRay
       tokens = scan_file filename, :auto, get_scanner_options(options)
       encode_tokens tokens, format, options
     end
-    
+
     # Highlight a string into a HTML <div>.
     #
     # CSS styles use classes, so you have to include a stylesheet
@@ -226,7 +216,7 @@ module CodeRay
     def highlight code, lang, options = { :css => :class }, format = :div
       encode code, lang, format, options
     end
-    
+
     # Highlight a file into a HTML <div>.
     #
     # CSS styles use classes, so you have to include a stylesheet
@@ -236,16 +226,16 @@ module CodeRay
     def highlight_file filename, options = { :css => :class }, format = :div
       encode_file filename, format, options
     end
-    
+
     # Finds the Encoder class for +format+ and creates an instance, passing
     # +options+ to it.
     #
     # Example:
     #  require 'coderay'
-    #  
+    #
     #  stats = CodeRay.encoder(:statistic)
     #  stats.encode("puts 17 + 4\n", :ruby)
-    #  
+    #
     #  puts '%d out of %d tokens have the kind :integer.' % [
     #    stats.type_stats[:integer].count,
     #    stats.real_token_count
@@ -254,7 +244,7 @@ module CodeRay
     def encoder format, options = {}
       Encoders[format].new options
     end
-    
+
     # Finds the Scanner class for +lang+ and creates an instance, passing
     # +options+ to it.
     #
@@ -262,7 +252,7 @@ module CodeRay
     def scanner lang, options = {}, &block
       Scanners[lang].new '', options, &block
     end
-    
+
     # Extract the options for the scanner from the +options+ hash.
     #
     # Returns an empty Hash if <tt>:scanner_options</tt> is not set.
@@ -272,7 +262,27 @@ module CodeRay
     def get_scanner_options options
       options.fetch :scanner_options, {}
     end
-    
+
   end
-  
+
+  # helpers
+  autoload :FileType, __p('helpers/file_type')
+
+  # Tokens
+  autoload :Tokens, __p('tokens')
+  autoload :TokensProxy, __p('tokens_proxy')
+  autoload :TokenKinds, __p('token_kinds')
+
+  # Plugin system
+  autoload :PluginHost, __p('helpers/plugin')
+  autoload :Plugin, __p('helpers/plugin')
+
+  # Plugins
+  autoload :Scanners, __p('scanner')
+  autoload :Encoders, __p('encoder')
+  autoload :Styles, __p('style')
+
+  # Convenience access and reusable Encoder/Scanner pair
+  autoload :Duo, __p('duo')
+
 end

@@ -135,7 +135,7 @@ module CodeRay
     # Creates an absolute path to solve known edge issues with autoload.
     # *Protected*
     # Also thanks Yard.
-    def __p(path)
+    def __to_abspath(path)
       path = path.split('/')
       File.join(File.expand_path(File.dirname(__FILE__)), 'coderay', *path)
     end
@@ -266,23 +266,23 @@ module CodeRay
   end
 
   # helpers
-  autoload :FileType, __p('helpers/file_type')
+  autoload :FileType, __to_abspath('helpers/file_type')
 
   # Tokens
-  autoload :Tokens, __p('tokens')
-  autoload :TokensProxy, __p('tokens_proxy')
-  autoload :TokenKinds, __p('token_kinds')
+  autoload :Tokens, __to_abspath('tokens')
+  autoload :TokensProxy, __to_abspath('tokens_proxy')
+  autoload :TokenKinds, __to_abspath('token_kinds')
 
   # Plugin system
-  autoload :PluginHost, __p('helpers/plugin')
-  autoload :Plugin, __p('helpers/plugin')
+  autoload :PluginHost, __to_abspath('helpers/plugin')
+  autoload :Plugin, __to_abspath('helpers/plugin')
 
   # Plugins
-  autoload :Scanners, __p('scanner')
-  autoload :Encoders, __p('encoder')
-  autoload :Styles, __p('style')
+  autoload :Scanners, __to_abspath('scanner')
+  autoload :Encoders, __to_abspath('encoder')
+  autoload :Styles, __to_abspath('style')
 
   # Convenience access and reusable Encoder/Scanner pair
-  autoload :Duo, __p('duo')
+  autoload :Duo, __to_abspath('duo')
 
 end

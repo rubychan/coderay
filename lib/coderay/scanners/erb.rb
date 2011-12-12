@@ -41,7 +41,7 @@ module Scanners
     end
     
     def scan_tokens encoder, options
-      
+      # FIXME: keep_state
       until eos?
         
         if (match = scan_until(/(?=#{START_OF_ERB})/o) || scan_rest) and not match.empty?

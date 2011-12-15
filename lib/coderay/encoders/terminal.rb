@@ -24,14 +24,14 @@ module CodeRay
         :attribute_value => '31',
         :binary => '1;35',
         :char => {
-          :self => '36', :delimiter => '34'
+          :self => '36', :delimiter => '1;34'
         },
         :class => '1;35',
         :class_variable => '36',
         :color => '32',
         :comment => '37',
-        :complex => '34',
-        :constant => ['34', '4'],
+        :complex => '1;34',
+        :constant => ['1;34', '4'],
         :decoration => '35',
         :definition => '1;32',
         :directive => ['32', '4'],
@@ -56,7 +56,7 @@ module CodeRay
         :predefined_type => '1;30',
         :predefined => ['4', '1;34'],
         :preprocessor => '36',
-        :pseudo_class => '34',
+        :pseudo_class => '1;34',
         :regexp => {
           :self => '31',
           :content => '31',
@@ -77,10 +77,10 @@ module CodeRay
           :delimiter => '1;32',
         },
         :symbol => '1;32',
-        :tag => '34',
+        :tag => '1;34',
         :type => '1;34',
         :value => '36',
-        :variable => '34',
+        :variable => '1;34',
         
         :insert => '42',
         :delete => '41',

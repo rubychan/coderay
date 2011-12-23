@@ -6,7 +6,7 @@ module Scanners
     
     register_for :java
     
-    autoload :BuiltinTypes, 'coderay/scanners/java/builtin_types'
+    autoload :BuiltinTypes, CodeRay.abs_path('coderay/scanners/java/builtin_types')
     
     # http://java.sun.com/docs/books/tutorial/java/nutsandbolts/_keywords.html
     KEYWORDS = %w[

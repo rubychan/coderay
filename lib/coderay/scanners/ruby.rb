@@ -13,8 +13,8 @@ module Scanners
     register_for :ruby
     file_extension 'rb'
     
-    autoload :Patterns,    'coderay/scanners/ruby/patterns'
-    autoload :StringState, 'coderay/scanners/ruby/string_state'
+    autoload :Patterns,    CodeRay.abs_path('coderay/scanners/ruby/patterns')
+    autoload :StringState, CodeRay.abs_path('coderay/scanners/ruby/string_state')
     
     def interpreted_string_state
       StringState.new :string, true, '"'

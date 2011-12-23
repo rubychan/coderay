@@ -127,7 +127,18 @@ module CodeRay
   
   $CODERAY_DEBUG ||= false
   
-  require 'coderay/version'
+  # Assuming the rel_path is a subpath of lib/
+  def self.abs_path(rel_path)
+    File.join(File.dirname(__FILE__), rel_path)
+  end
+
+  # In order to work in environments that alter $:, we need to
+  # set the absolute path when autoloading files.
+  def self.autoload(const_name, rel_path)
+    super const_name, abs_path(rel_path)
+  end
+
+  require abs_path('coderay/version')
   
   # helpers
   autoload :FileType, 'coderay/helpers/file_type'

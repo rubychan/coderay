@@ -109,9 +109,9 @@ module Encoders
       :hint => false,
     }
     
-    autoload :Output,    CodeRay.abs_path('coderay/encoders/html/output')
-    autoload :CSS,       CodeRay.abs_path('coderay/encoders/html/css')
-    autoload :Numbering, CodeRay.abs_path('coderay/encoders/html/numbering')
+    autoload :Output,    CodeRay.coderay_path('encoders', 'html', 'output')
+    autoload :CSS,       CodeRay.coderay_path('encoders', 'html', 'css')
+    autoload :Numbering, CodeRay.coderay_path('encoders', 'html', 'numbering')
     
     attr_reader :css
     

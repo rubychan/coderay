@@ -97,7 +97,6 @@ Token Types (7):
     DIV
     
     # highlight a file (HTML div); guess the file type base on the extension
-    require 'coderay/helpers/file_type'
     assert_equal :ruby, CodeRay::FileType[__FILE__]
     
     # get a new scanner for Python

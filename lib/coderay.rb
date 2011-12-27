@@ -127,27 +127,34 @@ module CodeRay
   
   $CODERAY_DEBUG ||= false
   
-  require 'coderay/version'
+  CODERAY_PATH = File.join File.dirname(__FILE__), 'coderay'
+  
+  # Assuming the path is a subpath of lib/coderay/
+  def self.coderay_path *path
+    File.join CODERAY_PATH, *path
+  end
+  
+  require coderay_path('version')
   
   # helpers
-  autoload :FileType, 'coderay/helpers/file_type'
+  autoload :FileType,    coderay_path('helpers', 'file_type')
   
   # Tokens
-  autoload :Tokens, 'coderay/tokens'
-  autoload :TokensProxy, 'coderay/tokens_proxy'
-  autoload :TokenKinds, 'coderay/token_kinds'
+  autoload :Tokens,      coderay_path('tokens')
+  autoload :TokensProxy, coderay_path('tokens_proxy')
+  autoload :TokenKinds,  coderay_path('token_kinds')
   
   # Plugin system
-  autoload :PluginHost, 'coderay/helpers/plugin'
-  autoload :Plugin, 'coderay/helpers/plugin'
+  autoload :PluginHost,  coderay_path('helpers', 'plugin')
+  autoload :Plugin,      coderay_path('helpers', 'plugin')
   
   # Plugins
-  autoload :Scanners, 'coderay/scanner'
-  autoload :Encoders, 'coderay/encoder'
-  autoload :Styles, 'coderay/style'
+  autoload :Scanners,    coderay_path('scanner')
+  autoload :Encoders,    coderay_path('encoder')
+  autoload :Styles,      coderay_path('style')
   
-  # Convenience access and reusable Encoder/Scanner pair
-  autoload :Duo, 'coderay/duo'
+  # convenience access and reusable Encoder/Scanner pair
+  autoload :Duo,         coderay_path('duo')
   
   class << self
     

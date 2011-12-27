@@ -4,6 +4,13 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
  
 {{toc}}
  
+h2. Changes in 1.0.5
+ 
+Fixes:
+ 
+* @autoload@ calls do not depend on @coderay/lib@ being in the load path (GitHub issue #6; thanks to tvon, banister, envygeeks, and ConradIrwin)
+* avoid dark blue as terminal color (GitHub issue #9; thanks to shevegen)
+
 h2. Changes in 1.0.4
  
 Fixes in the CSS scanner:

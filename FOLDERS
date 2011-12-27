@@ -17,7 +17,6 @@ Run <code>rake bench</code> to perform an example benchmark.
 Executional files for CodeRay.
 
 coderay:: The CodeRay executable.
-coderay_stylesheet:: Prints the default stylesheet.
 
 == demo - Demos and functional tests
 

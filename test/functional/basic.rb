@@ -13,6 +13,22 @@ class BasicTest < Test::Unit::TestCase
     end
   end
   
+  def with_empty_load_path
+    old_load_path = $:.dup
+    $:.clear
+    yield
+  ensure
+    $:.replace old_load_path
+  end
+  
+  def test_autoload
+    with_empty_load_path do
+      assert_nothing_raised do
+        CodeRay::Scanners::Java::BuiltinTypes
+      end
+    end
+  end
+  
   RUBY_TEST_CODE = 'puts "Hello, World!"'
   
   RUBY_TEST_TOKENS = [

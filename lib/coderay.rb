@@ -127,14 +127,14 @@ module CodeRay
   
   $CODERAY_DEBUG ||= false
   
-  require 'coderay/version'
-  
   CODERAY_PATH = File.join File.dirname(__FILE__), 'coderay'
   
   # Assuming the path is a subpath of lib/coderay/
   def self.coderay_path *path
     File.join CODERAY_PATH, *path
   end
+  
+  require coderay_path('version')
   
   # helpers
   autoload :FileType,    coderay_path('helpers', 'file_type')

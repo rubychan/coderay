@@ -144,7 +144,7 @@ module Scanners
           encoder.end_group :string
           
         elsif match = scan(/#{RE::Function}/o)
-          encoder.begin_group :string
+          encoder.begin_group :function
           start = match[/^\w+\(/]
           encoder.text_token start, :delimiter
           if match[-1] == ?)
@@ -153,7 +153,7 @@ module Scanners
           else
             encoder.text_token match[start.size..-1], :content
           end
-          encoder.end_group :string
+          encoder.end_group :function
           
         elsif match = scan(/(?: #{RE::Dimension} | #{RE::Percentage} | #{RE::Num} )/ox)
           encoder.text_token match, :float

@@ -4,6 +4,10 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
  
 {{toc}}
  
+h2. Changes in 1.0.6
+ 
+* The CSS Scanner now highlights tokens like @url(...)@ as @:function@ instead of @:string@. [GH-13, thanks to Joel Holdbrooks]
+
 h2. Changes in 1.0.5
  
 Fixes:

@@ -20,3 +20,4 @@ test/scanners
 bench/test.div.html
 diff.html
 etc/CodeRay.tmproj
+*.swp

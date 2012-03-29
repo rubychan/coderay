@@ -256,19 +256,23 @@ module Encoders
       if text =~ /#{HTML_ESCAPE_PATTERN}/o
         text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
       end
-      if @independent_lines && @opened.any? && text.end_with?("\n")
-        text.chomp!
-        close_eol_reopen = "#{'</span>' * @opened.size}\n"
+
+      style = @span_for_kind[@last_opened ? [kind, *@opened] : kind]
+
+      if @independent_lines && (i = text.index("\n")) && (c = @opened.size + (style ? 1 : 0)) > 0
+        close = '</span>' * c
+        reopen = ''
         @opened.each_with_index do |k, index|
-          close_eol_reopen << (@span_for_kind[index > 0 ? [k, *@opened[0 ... index ]] : k] || '<span>')
+          reopen << (@span_for_kind[index > 0 ? [k, *@opened[0 ... index ]] : k] || '<span>')
         end
+        text[i .. -1] = text[i .. -1].gsub("\n", "#{close}\n#{reopen}#{style}")
       end
-      if style = @span_for_kind[@last_opened ? [kind, *@opened] : kind]
+
+      if style
         @out << style << text << '</span>'
       else
         @out << text
       end
-      @out << close_eol_reopen if close_eol_reopen
     end
 
     # token groups, eg. strings

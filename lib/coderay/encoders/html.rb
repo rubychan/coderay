@@ -48,7 +48,7 @@ module Encoders
   # Default: 'CodeRay output'
   #
   # === :independent_lines
-  # Split multilines blocks into line-wide blocks.
+  # Split multiline blocks at line breaks.
   # Forced to true if :line_numbers option is set to :inline.
   #
   # Default: false
@@ -105,8 +105,9 @@ module Encoders
       :style => :alpha,
       :wrap  => nil,
       :title => 'CodeRay output',
-
-      :independent_lines   => false,
+      
+      :independent_lines => false,
+      
       :line_numbers        => nil,
       :line_number_anchors => 'n',
       :line_number_start   => 1,
@@ -174,11 +175,11 @@ module Encoders
         @real_out = @out
         @out = ''
       end
-
+      
       options[:independent_lines] = true if options[:line_numbers] == :inline
-
+      
       @independent_lines = (options[:independent_lines] == true)
-
+      
       @HTML_ESCAPE = HTML_ESCAPE.dup
       @HTML_ESCAPE["\t"] = ' ' * options[:tab_width]
       
@@ -256,9 +257,9 @@ module Encoders
       if text =~ /#{HTML_ESCAPE_PATTERN}/o
         text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
       end
-
+      
       style = @span_for_kind[@last_opened ? [kind, *@opened] : kind]
-
+      
       if @independent_lines && (i = text.index("\n")) && (c = @opened.size + (style ? 1 : 0)) > 0
         close = '</span>' * c
         reopen = ''
@@ -267,14 +268,14 @@ module Encoders
         end
         text[i .. -1] = text[i .. -1].gsub("\n", "#{close}\n#{reopen}#{style}")
       end
-
+      
       if style
         @out << style << text << '</span>'
       else
         @out << text
       end
     end
-
+    
     # token groups, eg. strings
     def begin_group kind
       @out << (@span_for_kind[@last_opened ? [kind, *@opened] : kind] || '<span>')

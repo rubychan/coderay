@@ -2,36 +2,35 @@ require 'test/unit'
 require 'coderay'
 
 class HtmlTest < Test::Unit::TestCase
-
+  
   def test_independent_lines_option
-
     snippets = {}
-
+    
     snippets[:ruby] = {}
-
+    
     snippets[:ruby][:in] = <<-RUBY
 ruby_inside = <<-RUBY_INSIDE
 This is tricky,
 isn't it?
 RUBY_INSIDE
-  RUBY
-
+    RUBY
+    
     snippets[:ruby][:expected_with_option_off] = <<-HTML_OPT_INDEPENDENT_LINES_OFF
 ruby_inside = <span class=\"string\"><span class=\"delimiter\">&lt;&lt;-RUBY_INSIDE</span></span><span class=\"string\"><span class=\"content\">
 This is tricky,
 isn't it?</span><span class=\"delimiter\">
 RUBY_INSIDE</span></span>
-  HTML_OPT_INDEPENDENT_LINES_OFF
-
+    HTML_OPT_INDEPENDENT_LINES_OFF
+    
     snippets[:ruby][:expected_with_option_on] = <<-HTML_OPT_INDEPENDENT_LINES_ON
 ruby_inside = <span class=\"string\"><span class=\"delimiter\">&lt;&lt;-RUBY_INSIDE</span></span><span class=\"string\"><span class=\"content\"></span></span>
 <span class=\"string\"><span class=\"content\">This is tricky,</span></span>
 <span class=\"string\"><span class=\"content\">isn't it?</span><span class=\"delimiter\"></span></span>
 <span class=\"string\"><span class=\"delimiter\">RUBY_INSIDE</span></span>
-  HTML_OPT_INDEPENDENT_LINES_ON
-
+    HTML_OPT_INDEPENDENT_LINES_ON
+    
     snippets[:java] = {}
-
+    
     snippets[:java][:in] = <<-JAVA
 import java.lang.*;
 
@@ -51,8 +50,8 @@ public class Test {
     System.out.println(MESSAGE);
   }
 }
-  JAVA
-
+    JAVA
+    
     snippets[:java][:expected_with_option_off] = <<-HTML_OPT_INDEPENDENT_LINES_OFF
 <span class=\"keyword\">import</span> <span class=\"include\">java.lang</span>.*;
 
@@ -71,8 +70,8 @@ public class Test {
     <span class=\"predefined-type\">System</span>.out.println(MESSAGE);
   }
 }
-  HTML_OPT_INDEPENDENT_LINES_OFF
-
+    HTML_OPT_INDEPENDENT_LINES_OFF
+    
     snippets[:java][:expected_with_option_on] = <<-HTML_OPT_INDEPENDENT_LINES_ON
 <span class=\"keyword\">import</span> <span class=\"include\">java.lang</span>.*;
 
@@ -91,11 +90,11 @@ public class Test {
     <span class=\"predefined-type\">System</span>.out.println(MESSAGE);
   }
 }
-  HTML_OPT_INDEPENDENT_LINES_ON
-
-    snippets.entries().each do |lang, code|
+    HTML_OPT_INDEPENDENT_LINES_ON
+    
+    for lang, code in snippets
       tokens = CodeRay.scan code[:in], lang
-
+      
       assert_equal code[:expected_with_option_off], tokens.html
       assert_equal code[:expected_with_option_off], tokens.html(:independent_lines => false)
       assert_equal code[:expected_with_option_on],  tokens.html(:independent_lines => true)

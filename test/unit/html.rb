@@ -3,7 +3,7 @@ require 'coderay'
 
 class HtmlTest < Test::Unit::TestCase
   
-  def test_independent_lines_option
+  def test_break_lines_option
     snippets = {}
     
     snippets[:ruby] = {}
@@ -96,8 +96,8 @@ public class Test {
       tokens = CodeRay.scan code[:in], lang
       
       assert_equal code[:expected_with_option_off], tokens.html
-      assert_equal code[:expected_with_option_off], tokens.html(:independent_lines => false)
-      assert_equal code[:expected_with_option_on],  tokens.html(:independent_lines => true)
+      assert_equal code[:expected_with_option_off], tokens.html(:break_lines => false)
+      assert_equal code[:expected_with_option_on],  tokens.html(:break_lines => true)
     end
   end
 end

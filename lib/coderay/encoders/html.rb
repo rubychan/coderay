@@ -47,7 +47,8 @@ module Encoders
   #
   # Default: 'CodeRay output'
   #
-  # === :independent_lines
+  # === :break_lines
+  # 
   # Split multiline blocks at line breaks.
   # Forced to true if :line_numbers option is set to :inline.
   #
@@ -106,7 +107,7 @@ module Encoders
       :wrap  => nil,
       :title => 'CodeRay output',
       
-      :independent_lines => false,
+      :break_lines => false,
       
       :line_numbers        => nil,
       :line_number_anchors => 'n',
@@ -176,9 +177,9 @@ module Encoders
         @out = ''
       end
       
-      options[:independent_lines] = true if options[:line_numbers] == :inline
+      options[:break_lines] = true if options[:line_numbers] == :inline
       
-      @independent_lines = (options[:independent_lines] == true)
+      @break_lines = (options[:break_lines] == true)
       
       @HTML_ESCAPE = HTML_ESCAPE.dup
       @HTML_ESCAPE["\t"] = ' ' * options[:tab_width]
@@ -260,7 +261,7 @@ module Encoders
       
       style = @span_for_kind[@last_opened ? [kind, *@opened] : kind]
       
-      if @independent_lines && (i = text.index("\n")) && (c = @opened.size + (style ? 1 : 0)) > 0
+      if @break_lines && (i = text.index("\n")) && (c = @opened.size + (style ? 1 : 0)) > 0
         close = '</span>' * c
         reopen = ''
         @opened.each_with_index do |k, index|

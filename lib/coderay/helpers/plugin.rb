@@ -176,7 +176,6 @@ module CodeRay
         id = validate_id(plugin_id)
         path = path_to id
         begin
-          raise LoadError, "#{path} not found" unless File.exist? path
           require path
         rescue LoadError => boom
           if @plugin_map_loaded

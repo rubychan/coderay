@@ -1,3 +1,4 @@
+# encoding: ASCII-8BIT
 module CodeRay
 module Scanners
   

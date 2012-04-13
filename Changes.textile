@@ -4,6 +4,17 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
  
 {{toc}}
  
+h2. Changes in 1.0.7
+ 
+* Fix issue with plugin files not being loaded. [GH-20, thanks to Will Read]
+
+h2. Changes in 1.0.6
+ 
+* New option @:break_lines@ for the HTML encoder (splits tokens at line breaks). [GH-15, thanks to Etienne Massip]
+* Improved speed of @:line_numbers => :inline@ option for the HTML encoder.
+* Fixed wrong HTML file type. (was @:page@) [GH-16, thanks to Doug Hammond]
+* The CSS Scanner now highlights tokens like @url(...)@ as @:function@ instead of @:string@. [GH-13, thanks to Joel Holdbrooks]
+
 h2. Changes in 1.0.5
  
 Fixes:

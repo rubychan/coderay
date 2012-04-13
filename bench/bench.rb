@@ -79,6 +79,7 @@ N.times do
 
   options = {
     :tab_width => 2,
+    # :line_numbers => :inline,
     :css => $style ? :style : :class,
   }
   $hl = CodeRay.encoder(format, options) unless $dump_output

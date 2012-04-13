@@ -63,9 +63,9 @@ class FileTypeTests < Test::Unit::TestCase
   end
   
   def test_html
-    assert_equal :page, FileType['test.htm']
-    assert_equal :page, FileType['test.xhtml']
-    assert_equal :page, FileType['test.html.xhtml']
+    assert_equal :html, FileType['test.htm']
+    assert_equal :html, FileType['test.xhtml']
+    assert_equal :html, FileType['test.html.xhtml']
     assert_equal :erb, FileType['_form.rhtml']
     assert_equal :erb, FileType['_form.html.erb']
   end

@@ -48,6 +48,8 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       @encoder.begin_group(:string)
       @encoder.text_token(match, :delimiter)
       @state = :long_string
+    elsif match = scan(/_[A-Z]+/) # _UPPERCASE are names reserved for Lua
+      @encoder.text_token(match, :predefined)
     elsif match = scan(/[a-zA-Z_][a-zA-Z0-9_]*/) # Normal letters (or letters followed by digits)
       kind = IDENT_KIND[match]
 

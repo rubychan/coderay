@@ -48,8 +48,6 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       @encoder.begin_group(:string)
       @encoder.text_token(match, :delimiter)
       @state = :long_string
-    elsif match = scan(/[\+\-\*\/%^\#=~<>\(\)\{\}\[\]:;,] | \.(?!\d)/x)
-      @encoder.text_token(match, :operator)
     elsif match = scan(/[a-zA-Z_][a-zA-Z0-9_]*/) # Normal letters (or letters followed by digits)
       kind = IDENT_KIND[match]
 
@@ -62,11 +60,13 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       @encoder.begin_group(:string)
       @encoder.text_token(match, :delimiter)
       @start_delim = match
-      @state = :string                            # hex number ←|→ decimal number
-    elsif match = scan(/0x(?:[0-9a-z])* \. [0-9a-z]+ (?:p-\d+)? | \d*\.\d+ (?:e[+\-]?\d+)?/ix) # hexadecimal constants have no E power, decimal ones no P power
-      @encoder.text_token(match, :float) # hex | decimal
-    elsif match = scan(/0x[0-9a-z]+ (?:p-\d+)? | \d+ (?:e[+\-]?\d+)?/ix) # hexadecimal constants have no E power, decimal ones no P power
+      @state = :string                 # hex number ←|→ decimal number
+    elsif match = scan(/0x\h* \. \h+ (?:p[+\-]?\d+)? | \d*\.\d+ (?:e[+\-]?\d+)?/ix) # hexadecimal constants have no E power, decimal ones no P power
+      @encoder.text_token(match, :float) #hex | decimal
+    elsif match = scan(/0x\h+ (?:p[+\-]?\d+)? | \d+ (?:e[+\-]?\d+)?/ix) # hexadecimal constants have no E power, decimal ones no P power
       @encoder.text_token(match, :integer)
+    elsif match = scan(/[\+\-\*\/%^\#=~<>\(\)\{\}\[\]:;,] | \.(?!\d)/x)
+      @encoder.text_token(match, :operator)
     elsif match = scan(/\s+/)
       @encoder.text_token(match, :space)
     else

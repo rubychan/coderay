@@ -1,37 +1,64 @@
 # -*- coding: utf-8 -*-
 
-# http://www.lua.org/manual/5.2/manual.html
+# Scanner for the Lua[http://lua.org] programming lanuage.
+#
+# The language’s complete syntax is defined in
+# {the Lua manual}[http://www.lua.org/manual/5.2/manual.html],
+# which is what this scanner tries to conform to.
 class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
 
   register_for :lua
   file_extension "lua"
   title "Lua"
 
+  # Keywords used in Lua.
   KEYWORDS = %w[and break do else elseif end
   for function goto if in
   local not or repeat return
   then until while
   ]
 
+  # Constants set by the Lua core.
   PREDEFINED_CONSTANTS = %w[false true nil]
 
+  # The expressions contained in this array are parts of Lua’s `basic'
+  # library. Although it’s not entirely necessary to load that library,
+  # it is highly recommended and one would have to provide own implementations
+  # of some of these expressions if one does not do so. They however aren’t
+  # keywords, neither are they constants, but nearly predefined, so they
+  # get tagged as `predefined' rather than anything else.
+  #
+  # This list excludes values of form `_UPPERCASE' because the Lua manual
+  # requires such identifiers to be reserved by Lua anyway and they are
+  # highlighted directly accordingly, without the need for specific
+  # identifiers to be listed here.
+  PREDEFINED_EXPRESSIONS = %w[
+  assert collectgarbage dofile error getmetatable
+  ipairs load loadfile next pairs pcall print
+  rawequal rawget rawlen rawset select setmetatable
+  tonumber tostring type xpcall
+  ]
+
+  # Automatic token kind selection for normal words.
   IDENT_KIND = CodeRay::WordList.new(:ident)
     .add(KEYWORDS, :keyword)
     .add(PREDEFINED_CONSTANTS, :predefined_constant)
+    .add(PREDEFINED_EXPRESSIONS, :predefined)
 
   protected
 
+  # Scanner initialization.
   def setup
     @state       = :initial
     @brace_depth = 0
   end
 
+  # CodeRay entry hook. Starts parsing.
   def scan_tokens(encoder, options)
     @encoder = encoder
     @options = options
 
     send(:"handle_state_#@state") until eos?
-
 
     @encoder
   end

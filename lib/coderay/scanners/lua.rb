@@ -124,12 +124,12 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       @start_delim = match
       @state = :string
 
-                                       # hex number ←|→ decimal number
-    elsif match = scan(/0x\h* \. \h+ (?:p[+\-]?\d+)? | \d*\.\d+ (?:e[+\-]?\d+)?/ix) # hexadecimal constants have no E power, decimal ones no P power
+                      # ↓Prefix                hex number ←|→ decimal number
+    elsif match = scan(/-? (?:0x\h* \. \h+ (?:p[+\-]?\d+)? | \d*\.\d+ (?:e[+\-]?\d+)?)/ix) # hexadecimal constants have no E power, decimal ones no P power
       @encoder.text_token(match, :float)
 
-                                # hex number ←|→ decimal number
-    elsif match = scan(/0x\h+ (?:p[+\-]?\d+)? | \d+ (?:e[+\-]?\d+)?/ix) # hexadecimal constants have no E power, decimal ones no P power
+                      # ↓Prefix         hex number ←|→ decimal number
+    elsif match = scan(/-? (?:0x\h+ (?:p[+\-]?\d+)? | \d+ (?:e[+\-]?\d+)?)/ix) # hexadecimal constants have no E power, decimal ones no P power
       @encoder.text_token(match, :integer)
 
     elsif match = scan(/[\+\-\*\/%^\#=~<>\(\)\[\]:;,] | \.(?!\d)/x)

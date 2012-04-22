@@ -48,13 +48,18 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       @encoder.begin_group(:string)
       @encoder.text_token(match, :delimiter)
       @state = :long_string
+    elsif match = scan(/::\s*[a-zA-Z_][a-zA-Z0-9_]+\s*::/) # ::goto_label::
+      @encoder.text_token(match, :label)
     elsif match = scan(/_[A-Z]+/) # _UPPERCASE are names reserved for Lua
       @encoder.text_token(match, :predefined)
     elsif match = scan(/[a-zA-Z_][a-zA-Z0-9_]*/) # Normal letters (or letters followed by digits)
       kind = IDENT_KIND[match]
 
+      # Extra highlighting for entities following certain keywords
       if kind == :keyword and match == "function"
         @state = :function_expected
+      elsif kind == :keyword and match == "goto"
+        @state = :goto_label_expected
       end
 
       @encoder.text_token(match, kind)
@@ -82,11 +87,22 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     elsif match = scan(/[a-zA-Z_][a-zA-Z0-9_]*/) # function foo()
       @encoder.text_token(match, :function)
       @state = :initial
-    elsif match = scan(/\s+/) # Between the function keyword and the ident may be any amount of whitespace
+    elsif match = scan(/\s+/) # Between the `function' keyword and the ident may be any amount of whitespace
       @encoder.text_token(match, :space)
     else
       @encoder.text_token(getch, :error)
       @state = :initial
+    end
+  end
+
+  def handle_state_goto_label_expected
+    if match = scan(/[a-zA-Z_][a-zA-Z0-9_]*/)
+      @encoder.text_token(match, :label)
+      @state = :initial
+    elsif match = scan(/\s+/) # Between the `goto' keyword and the label may be any amount of whitespace
+      @encoder.text_token(match, :space)
+    else
+      @encoder.text_token(getch, :error)
     end
   end
 

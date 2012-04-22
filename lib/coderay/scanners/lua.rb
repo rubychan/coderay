@@ -99,13 +99,13 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
 
       @encoder.text_token(match, kind)
 
-    elsif match = scan(/{/)
+    elsif match = scan(/{/) # Opening table brace {
       @encoder.begin_group(:table)
       @encoder.text_token(match, @brace_depth >= 1 ? :inline_delimiter : :delimiter)
       @brace_depth += 1
       @state        = :table
 
-    elsif match = scan(/}/)
+    elsif match = scan(/}/) # Closing table brace }
       if @brace_depth == 1
         @brace_depth = 0
         @encoder.text_token(match, :delimiter)
@@ -118,11 +118,11 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       end
       @encoder.end_group(:table)
 
-    elsif match = scan(/["']/)
+    elsif match = scan(/["']/) # String delimiters " and '
       @encoder.begin_group(:string)
       @encoder.text_token(match, :delimiter)
       @start_delim = match
-      @state = :string
+      @state       = :string
 
                       # ↓Prefix                hex number ←|→ decimal number
     elsif match = scan(/-? (?:0x\h* \. \h+ (?:p[+\-]?\d+)? | \d*\.\d+ (?:e[+\-]?\d+)?)/ix) # hexadecimal constants have no E power, decimal ones no P power
@@ -132,13 +132,13 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     elsif match = scan(/-? (?:0x\h+ (?:p[+\-]?\d+)? | \d+ (?:e[+\-]?\d+)?)/ix) # hexadecimal constants have no E power, decimal ones no P power
       @encoder.text_token(match, :integer)
 
-    elsif match = scan(/[\+\-\*\/%^\#=~<>\(\)\[\]:;,] | \.(?!\d)/x)
+    elsif match = scan(/[\+\-\*\/%^\#=~<>\(\)\[\]:;,] | \.(?!\d)/x) # Operators
       @encoder.text_token(match, :operator)
 
-    elsif match = scan(/\s+/)
+    elsif match = scan(/\s+/) # Space
       @encoder.text_token(match, :space)
 
-    else
+    else # Invalid stuff. Note that Lua doesn’t accept multibyte chars outside of strings, hence these are also errors.
       @encoder.text_token(getch, :error)
     end
 

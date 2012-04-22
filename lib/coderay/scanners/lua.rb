@@ -122,7 +122,10 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
   end
 
   def handle_state_function_expected
-    if match = scan(/[a-zA-Z_] (?:[a-zA-Z0-9_\.] (?!\.\d))* [\.\:]/x) # function tbl.subtbl.foo() | function tbl:foo() # Colon only allowed as last separator
+    if match = scan(/\(\s*\)/) # x = function() # "Anonymous" function without explicit name
+      @encoder.text_token(match, :operator)
+      @state = :initial
+    elsif match = scan(/[a-zA-Z_] (?:[a-zA-Z0-9_\.] (?!\.\d))* [\.\:]/x) # function tbl.subtbl.foo() | function tbl:foo() # Colon only allowed as last separator
       @encoder.text_token(match, :ident)
     elsif match = scan(/[a-zA-Z_][a-zA-Z0-9_]*/) # function foo()
       @encoder.text_token(match, :function)

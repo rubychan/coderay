@@ -147,7 +147,10 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
   end
 
   def handle_state_local_var_expected
-    if match = scan(/[a-zA-Z_][a-zA-Z0-9_]*/)
+    if match = scan(/function/) # local function ...
+      @encoder.text_token(match, :keyword)
+      @state = :function_expected
+    elsif match = scan(/[a-zA-Z_][a-zA-Z0-9_]*/)
       @encoder.text_token(match, :local_variable)
     elsif match = scan(/,/)
       @encoder.text_token(match, :operator)

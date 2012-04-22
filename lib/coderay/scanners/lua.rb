@@ -60,6 +60,8 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
         @state = :function_expected
       elsif kind == :keyword and match == "goto"
         @state = :goto_label_expected
+      elsif kind == :keyword and match == "local"
+        @state = :local_var_expected
       end
 
       @encoder.text_token(match, kind)
@@ -100,6 +102,27 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       @encoder.text_token(match, :label)
       @state = :initial
     elsif match = scan(/\s+/) # Between the `goto' keyword and the label may be any amount of whitespace
+      @encoder.text_token(match, :space)
+    else
+      @encoder.text_token(getch, :error)
+    end
+  end
+
+  def handle_state_local_var_expected
+    if match = scan(/[a-zA-Z_][a-zA-Z0-9_]*/)
+      @encoder.text_token(match, :local_variable)
+    elsif match = scan(/,/)
+      @encoder.text_token(match, :operator)
+    elsif match = scan(/\=/)
+      @encoder.text_token(match, :operator)
+      # After encountering the equal sign, arbitrary expressions are
+      # allowed again, so just return to the main state for further
+      # parsing.
+      @state = :initial
+    elsif match = scan(/\n/)
+      @encoder.text_token(match, :space)
+      @state = :initial
+    elsif match = scan(/\s+/)
       @encoder.text_token(match, :space)
     else
       @encoder.text_token(getch, :error)

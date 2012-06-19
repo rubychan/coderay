@@ -149,12 +149,9 @@ module Scanners
             if match = scan(/=/)  #/
               encoder.text_token match, :operator
               state = :attribute_value
-            elsif scan(/#{ATTR_NAME}/o) || scan(/#{TAG_END}/o)
+            else
               state = :attribute
               next
-            else
-              encoder.text_token getch, :error
-              state = :attribute
             end
             
           when :attribute_value

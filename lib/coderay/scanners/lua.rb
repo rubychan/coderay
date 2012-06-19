@@ -40,10 +40,10 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
   ]
 
   # Automatic token kind selection for normal words.
-  IDENT_KIND = CodeRay::WordList.new(:ident)
-    .add(KEYWORDS, :keyword)
-    .add(PREDEFINED_CONSTANTS, :predefined_constant)
-    .add(PREDEFINED_EXPRESSIONS, :predefined)
+  IDENT_KIND = CodeRay::WordList.new(:ident).
+    add(KEYWORDS, :keyword).
+    add(PREDEFINED_CONSTANTS, :predefined_constant).
+    add(PREDEFINED_EXPRESSIONS, :predefined)
 
   protected
 
@@ -99,13 +99,13 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
 
       @encoder.text_token(match, kind)
 
-    elsif match = scan(/{/) # Opening table brace {
+    elsif match = scan(/\{/) # Opening table brace {
       @encoder.begin_group(:table)
       @encoder.text_token(match, @brace_depth >= 1 ? :inline_delimiter : :delimiter)
       @brace_depth += 1
       @state        = :table
 
-    elsif match = scan(/}/) # Closing table brace }
+    elsif match = scan(/\}/) # Closing table brace }
       if @brace_depth == 1
         @brace_depth = 0
         @encoder.text_token(match, :delimiter)

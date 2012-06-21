@@ -4,11 +4,6 @@ module CodeRay
   # 
   # <b>A Hash subclass designed for mapping word lists to token types.</b>
   # 
-  # Copyright (c) 2006-2011 by murphy (Kornelius Kalnbach) <murphy rubychan de>
-  #
-  # License:: LGPL / ask the author
-  # Version:: 2.0 (2011-05-08)
-  #
   # A WordList is a Hash with some additional features.
   # It is intended to be used for keyword recognition.
   #

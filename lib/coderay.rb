@@ -78,12 +78,12 @@
 # Read this to get a general view what CodeRay provides.
 # 
 # == Scanning
-#  
-#  Scanning means analysing an input string, splitting it up into Tokens.
-#  Each Token knows about what type it is: string, comment, class name, etc.
+# 
+# Scanning means analysing an input string, splitting it up into Tokens.
+# Each Token knows about what type it is: string, comment, class name, etc.
 #
-#  Each +lang+ (language) has its own Scanner; for example, <tt>:ruby</tt> code is
-#  handled by CodeRay::Scanners::Ruby.
+# Each +lang+ (language) has its own Scanner; for example, <tt>:ruby</tt> code is
+# handled by CodeRay::Scanners::Ruby.
 # 
 # CodeRay.scan:: Scan a string in a given language into Tokens.
 #                This is the most common method to use.

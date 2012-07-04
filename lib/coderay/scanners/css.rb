@@ -8,7 +8,7 @@ module Scanners
     KINDS_NOT_LOC = [
       :comment,
       :class, :pseudo_class, :type,
-      :constant, :directive,
+      :id, :directive,
       :key, :value, :operator, :color, :float, :string,
       :error, :important,
     ]  # :nodoc:
@@ -73,7 +73,7 @@ module Scanners
               encoder.text_token match, :class
               next
             elsif match = scan(RE::Id)
-              encoder.text_token match, :constant
+              encoder.text_token match, :id
               next
             elsif match = scan(RE::PseudoClass)
               encoder.text_token match, :pseudo_class

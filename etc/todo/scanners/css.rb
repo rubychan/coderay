@@ -114,7 +114,7 @@ module Scanners
               kind = :class
 
             elsif scan RE::Id 
-              kind = :constant
+              kind = :id
 
             elsif scan RE::Ident
               kind = :label

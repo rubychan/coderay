@@ -5,9 +5,9 @@ rvm:
   - jruby-18mode
   - jruby-19mode
   - rbx-18mode
-  # - rbx-19mode  # test again later
-  - ruby-head
-  - jruby-head
+  - rbx-19mode  # test again later
+  # - ruby-head  # test again later
+  # - jruby-head  # test again later
   - ree
 branches:
   only:

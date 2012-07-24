@@ -7,7 +7,7 @@ module Scanners
     
     KINDS_NOT_LOC = [
       :comment,
-      :class, :pseudo_class, :type,
+      :class, :pseudo_class, :tag,
       :id, :directive,
       :key, :value, :operator, :color, :float, :string,
       :error, :important,
@@ -67,7 +67,7 @@ module Scanners
         elsif case states.last
           when :initial, :media
             if match = scan(/(?>#{RE::Ident})(?!\()|\*/ox)
-              encoder.text_token match, :type
+              encoder.text_token match, :tag
               next
             elsif match = scan(RE::Class)
               encoder.text_token match, :class
@@ -102,7 +102,7 @@ module Scanners
             
           when :media_before_name
             if match = scan(RE::Ident)
-              encoder.text_token match, :type
+              encoder.text_token match, :tag
               states[-1] = :media_after_name
               next
             end

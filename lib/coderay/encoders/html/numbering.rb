@@ -17,7 +17,7 @@ module Encoders
         
         anchor_prefix = options[:line_number_anchors]
         anchor_prefix = 'line' if anchor_prefix == true
-        anchor_prefix = anchor_prefix.to_s[/\w+/] if anchor_prefix
+        anchor_prefix = anchor_prefix.to_s[/[\w-]+/] if anchor_prefix
         anchoring =
           if anchor_prefix
             proc do |line|

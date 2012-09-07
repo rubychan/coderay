@@ -4,6 +4,10 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
  
 {{toc}}
  
+h2. Next Version
+ 
+* add @:string/:char@, remove @:regexp/:function@ color from Terminal encoder [GH #29, thanks to Kyrylo Silin]
+
 h2. Changes in 1.0.7
  
 * Changed license from LGPL to MIT. [GH-25, thanks to jessehu]

@@ -57,10 +57,10 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
   def scan_tokens(encoder, options)
     @encoder = encoder
     @options = options
-    
+
     until eos?
   case state
-        
+
   when :initial
     if match = scan(/\-\-\[\=*\[/)   #--[[ long (possibly multiline) comment ]]
       @num_equals = match.count("=") # Number must match for comment end
@@ -144,7 +144,7 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     # (tables can contain full expressions in parts).
     # If this is the case, return to :table scanning state.
     @state = :table if @state == :initial && @brace_depth >= 1
-    
+
   when :function_expected
     if match = scan(/\(.*?\)/m) # x = function() # "Anonymous" function without explicit name
       @encoder.text_token(match, :operator)
@@ -170,7 +170,7 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     else
       @encoder.text_token(getch, :error)
     end
-  
+
   when :local_var_expected
     if match = scan(/function/) # local function ...
       @encoder.text_token(match, :keyword)
@@ -179,7 +179,7 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       @encoder.text_token(match, :local_variable)
     elsif match = scan(/,/)
       @encoder.text_token(match, :operator)
-    elsif match = scan(/=/)
+    elsif match = scan(/\=/)
       @encoder.text_token(match, :operator)
       # After encountering the equal sign, arbitrary expressions are
       # allowed again, so just return to the main state for further
@@ -193,7 +193,7 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     else
       @encoder.text_token(getch, :error)
     end
-    
+
   when :long_comment
     if match = scan(/.*?(?=\]={#@num_equals}\])/m)
       @encoder.text_token(match, :content)
@@ -206,7 +206,7 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     end
     @encoder.end_group(:comment)
     @state = :initial
-    
+
   when :long_string
     if match = scan(/.*?(?=\]={#@num_equals}\])/m) # Long strings do not interpret any escape sequences
       @encoder.text_token(match, :content)
@@ -219,7 +219,7 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     end
     @encoder.end_group(:string)
     @state = :initial
-    
+
   when :string
     if match = scan(/[^\\#@start_delim\n]+/) # Everything except \ and the start delimiter character is string content (newlines are only allowed if preceeded by \ or \z)
       @encoder.text_token(match, :content)
@@ -236,14 +236,14 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     else
       @encoder.text_token(getch, :error)
     end
-  
+
   when :table
     if match = scan(/[,;]/)
       @encoder.text_token(match, :operator)
     elsif match = scan(/[a-zA-Z_][a-zA-Z0-9_]* (?=\s*=)/x)
       @encoder.text_token(match, :key)
       @encoder.text_token(scan(/\s+/), :space) if check(/\s+/)
-      @encoder.text_token(scan(/=/), :operator)
+      @encoder.text_token(scan(/\=/), :operator)
       @state = :initial
     elsif match = scan(/\s+/m)
       @encoder.text_token(match, :space)

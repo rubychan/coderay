@@ -57,13 +57,11 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
   def scan_tokens(encoder, options)
     @encoder = encoder
     @options = options
-
-    send(:"handle_state_#@state") until eos?
-
-    @encoder
-  end
-
-  def handle_state_initial
+    
+    until eos?
+  case state
+        
+  when :initial
     if match = scan(/\-\-\[\=*\[/)   #--[[ long (possibly multiline) comment ]]
       @num_equals = match.count("=") # Number must match for comment end
       @encoder.begin_group(:comment)
@@ -146,9 +144,8 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     # (tables can contain full expressions in parts).
     # If this is the case, return to :table scanning state.
     @state = :table if @state == :initial && @brace_depth >= 1
-  end
-
-  def handle_state_function_expected
+    
+  when :function_expected
     if match = scan(/\(.*?\)/m) # x = function() # "Anonymous" function without explicit name
       @encoder.text_token(match, :operator)
       @state = :initial
@@ -163,9 +160,8 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       @encoder.text_token(getch, :error)
       @state = :initial
     end
-  end
 
-  def handle_state_goto_label_expected
+  when :goto_label_expected
     if match = scan(/[a-zA-Z_][a-zA-Z0-9_]*/)
       @encoder.text_token(match, :label)
       @state = :initial
@@ -174,9 +170,8 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     else
       @encoder.text_token(getch, :error)
     end
-  end
-
-  def handle_state_local_var_expected
+  
+  when :local_var_expected
     if match = scan(/function/) # local function ...
       @encoder.text_token(match, :keyword)
       @state = :function_expected
@@ -198,9 +193,8 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     else
       @encoder.text_token(getch, :error)
     end
-  end
-
-  def handle_state_long_comment
+    
+  when :long_comment
     if match = scan(/.*?(?=\]={#@num_equals}\])/m)
       @encoder.text_token(match, :content)
 
@@ -212,9 +206,8 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     end
     @encoder.end_group(:comment)
     @state = :initial
-  end
-
-  def handle_state_long_string
+    
+  when :long_string
     if match = scan(/.*?(?=\]={#@num_equals}\])/m) # Long strings do not interpret any escape sequences
       @encoder.text_token(match, :content)
 
@@ -226,9 +219,8 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     end
     @encoder.end_group(:string)
     @state = :initial
-  end
-
-  def handle_state_string
+    
+  when :string
     if match = scan(/[^\\#@start_delim\n]+/) # Everything except \ and the start delimiter character is string content (newlines are only allowed if preceeded by \ or \z)
       @encoder.text_token(match, :content)
     elsif match = scan(/\\(?:['"abfnrtv\\]|z\s*|x\h\h|\d{1,3}|\n)/m)
@@ -244,9 +236,8 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     else
       @encoder.text_token(getch, :error)
     end
-  end
-
-  def handle_state_table
+  
+  when :table
     if match = scan(/[,;]/)
       @encoder.text_token(match, :operator)
     elsif match = scan(/[a-zA-Z_][a-zA-Z0-9_]* (?=\s*=)/x)
@@ -262,6 +253,13 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       # advances the pointer).
       @state = :initial
     end
+  else
+    raise
+  end
+
+    end
+
+    @encoder
   end
 
 end

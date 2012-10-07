@@ -7,6 +7,7 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
 h2. Next Version
  
 * add @:string/:char@, remove @:regexp/:function@ color from Terminal encoder [GH #29, thanks to Kyrylo Silin]
+* Fix HTML scanner: Don't crash if HTML in a diff contains a JavaScript tag.
 
 h2. Changes in 1.0.7
  

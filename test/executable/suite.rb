@@ -114,7 +114,7 @@ class TestCodeRayExecutable < Test::Unit::TestCase
     
     source = File.read source_file
     
-    pre = %r{<td class="code"><pre>(.*?)</pre>}m
+    pre = %r{<td class="code".*?><pre>(.*?)<\/pre>}m
     tag = /<[^>]*>/
     
     should 'not throw an error' do
@@ -169,7 +169,7 @@ class TestCodeRayExecutable < Test::Unit::TestCase
     
     source = File.read source_file
     
-    pre = %r{<td class="code"><pre>(.*?)</pre>}m
+    pre = %r{<td class="code".*?><pre>(.*?)</pre>}m
     tag_class = /<span class="([^>"]*)"?[^>]*>/
     
     should 'respect the file extension and highlight the input as Python' do
@@ -184,7 +184,7 @@ class TestCodeRayExecutable < Test::Unit::TestCase
     
     source = File.read source_file
     
-    pre = %r{<td class="code"><pre>(.*?)</pre>}m
+    pre = %r{<td class="code".*?><pre>(.*?)</pre>}m
     tag_class = /<span class="([^>"]*)"?[^>]*>/
     
     should 'ignore the file extension and highlight the input as Ruby' do

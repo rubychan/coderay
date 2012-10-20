@@ -134,6 +134,9 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .delete .delete { color: #c00; background:transparent; font-weight:bold }
 .change .change { color: #88f }
 .head .head { color: #f4f }
+
+.project  { color: #707; font-weight: bold }
+.complete { text-decoration: line-through; color: gray }
     TOKENS
 
   end

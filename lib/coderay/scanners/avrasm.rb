@@ -20,7 +20,7 @@ module Scanners
       add(PREDEFINED_TYPES, :pre_type).
       add(PREDEFINED_CONSTANTS, :pre_constant)
 
-    ESCAPE = / [rbfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
+    ESCAPE = / [rbfntv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x
     UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x
 
     def scan_tokens tokens, options

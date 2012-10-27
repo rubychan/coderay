@@ -6,6 +6,9 @@ module Scanners
 
     register_for :fortran
 
+    # file extensions: f, f95, f03, f77, F90, inc (uppercase or lowercase)
+    file_extension 'f'
+
     include Streamable
 
     KEYWORDS = %w[

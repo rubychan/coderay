@@ -6,9 +6,6 @@
 # but it should work fine for Common Lisp
 # and reasonably well for Scheme.
 
-require 'rubygems'
-require 'coderay'
-
 module CodeRay::Scanners
   class Lisp < Scanner
     register_for :lisp
@@ -81,7 +78,7 @@ module CodeRay::Scanners
             else
               sym = matched
               if KEYWORDS.include? sym
-                kind = :reserved                
+                kind = :reserved
                 defined = DEFINES[sym]
               end
             end

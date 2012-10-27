@@ -4,11 +4,11 @@
 
 module CodeRay
 module Scanners
-  
+
   class AppleScript < Scanner
 
     register_for :applescript
-    
+
     RESERVED_WORDS = [
       '#include', 'for', 'foreach', 'if', 'elseif', 'else', 'while', 'do', 'dowhile', 'end',
       'switch', 'case', 'return', 'break', 'continue', 'in', 'to', 'of', 'repeat', 'tell', 'then','as'
@@ -100,9 +100,9 @@ module Scanners
 			'UTC', 'valueOf', 'variable', 'version', 'Video', 'visible', 'void', 'watch', 'width',
 			'with', 'wordwrap', 'XML', 'xmlDecl', 'XMLNode', 'XMLSocket'
     ]
-    
+
     PREDEFINED_TYPES = [
-      'boolean', 'small integer', 'integer', 'double integer', 
+      'boolean', 'small integer', 'integer', 'double integer',
       'small real', 'real', 'date','list', 'record', 'string', 'class'
     ]
 
@@ -118,21 +118,21 @@ module Scanners
       'all caps', 'all lowercase', 'bold', 'condensed', 'expanded', 'hidden', 'italic', 'outline', 'plain', 'shadow', 'small caps', 'strikethrough', 'subscript', 'superscript', 'underline',
       'version'
     ]
-    
+
     PLAIN_STRING_CONTENT = {
       "'" => /[^'\n]+/,
       '"' => /[^"\n]+/,
     }
-    
-    
+
+
     IDENT_KIND = CaseIgnoringWordList.new(:ident).
       add(RESERVED_WORDS, :reserved).
       add(KEYWORD_OPERATOR, :operator).
       add(DIRECTIVES, :directive).
       add(PREDEFINED_TYPES, :pre_type).
       add(PREDEFINED_CONSTANTS, :pre_constant)
-      
-      
+
+
 
     def scan_tokens tokens, options
 
@@ -145,24 +145,24 @@ module Scanners
         match = nil
 
         if state == :initial
-          
+
           if scan(/\s+/x)
             kind = :space
-            
+
           elsif scan(%r! \{ \$ [^}]* \}? | \(\* \$ (?: .*? \*\) | .* ) !mx)
             kind = :preprocessor
-            
-          elsif scan(/^[\s\t]*--.*/x)
+
+          elsif scan(/^[\s]*--.*/x)
             kind = :comment
           elsif scan(/\(\* (?: .*? \*\)$ | .* )/mx)
             kind = :comment
-            
+
           elsif scan(/ [-+*\/=<>:;,.@\^|\(\)\[\]]+ /x)
             kind = :operator
-            
+
           elsif match = scan(/ [A-Za-z_][A-Za-z_0-9]* /x)
             kind = IDENT_KIND[match]
-            
+
           elsif match = scan(/ ' ( [^\n']|'' ) (?:'|$) /x)
             tokens << [:open, :char]
             tokens << ["'", :delimiter]
@@ -170,37 +170,37 @@ module Scanners
             tokens << ["'", :delimiter]
             tokens << [:close, :char]
             next
-            
+
           elsif match = scan(/["']/)
             tokens << [:open, :string]
             state = :string
             plain_string_content = PLAIN_STRING_CONTENT[match]
             kind = :delimiter
-            
+
           else
             kind = :plain
             getch
 
           end
-          
-        elsif state == :string
-            if scan(plain_string_content)
-              kind = :content
-            elsif scan(/['"]/)
-              tokens << [matched, :delimiter]
-              tokens << [:close, :string]
-              state = :initial
-              next
-            elsif scan(/ \\ | $ /x)
-              tokens << [:close, :string]
-              kind = :error
-              state = :initial
-            end
 
-          else
-            raise_inspect "else case \" reached; %p not handled." % peek(1), tokens
+        elsif state == :string
+          if scan(plain_string_content)
+            kind = :content
+          elsif scan(/['"]/)
+            tokens << [matched, :delimiter]
+            tokens << [:close, :string]
+            state = :initial
+            next
+          elsif scan(/ \\ | $ /x)
+            tokens << [:close, :string]
+            kind = :error
+            state = :initial
           end
-        
+
+        else
+          raise_inspect "else case \" reached; %p not handled." % peek(1), tokens
+        end
+
         match ||= matched
         if $DEBUG and not kind
           raise_inspect 'Error token %p in line %d' %
@@ -208,7 +208,7 @@ module Scanners
         end
         raise_inspect 'Empty token', tokens unless match
         tokens << [match, kind]
-        
+
       end
       tokens
     end

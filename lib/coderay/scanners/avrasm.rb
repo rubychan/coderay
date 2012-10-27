@@ -1,6 +1,7 @@
 module CodeRay
 module Scanners
 
+  # by Andreas Schwarz
   class AVRASM < Scanner
 
     register_for :avrasm
@@ -44,7 +45,7 @@ module Scanners
           elsif scan(/\.(\w*)/x)
             kind = :preprocessor
             state = :include_expected if self[1] == 'include'
-          
+
           elsif scan(/@[0-9]+/)
             kind = :preprocessor
 

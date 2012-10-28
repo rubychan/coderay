@@ -98,10 +98,10 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       @encoder.text_token(match, kind)
 
     elsif match = scan(/\{/) # Opening table brace {
-      @encoder.begin_group(:table)
+      @encoder.begin_group(:map)
       @encoder.text_token(match, @brace_depth >= 1 ? :inline_delimiter : :delimiter)
       @brace_depth += 1
-      @state        = :table
+      @state        = :map
 
     elsif match = scan(/\}/) # Closing table brace }
       if @brace_depth == 1
@@ -112,9 +112,9 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       else
         @brace_depth -= 1
         @encoder.text_token(match, :inline_delimiter)
-        @state = :table
+        @state = :map
       end
-      @encoder.end_group(:table)
+      @encoder.end_group(:map)
 
     elsif match = scan(/["']/) # String delimiters " and '
       @encoder.begin_group(:string)
@@ -142,8 +142,8 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
 
     # It may be that we’re scanning a full-blown subexpression of a table
     # (tables can contain full expressions in parts).
-    # If this is the case, return to :table scanning state.
-    @state = :table if @state == :initial && @brace_depth >= 1
+    # If this is the case, return to :map scanning state.
+    @state = :map if @state == :initial && @brace_depth >= 1
 
   when :function_expected
     if match = scan(/\(.*?\)/m) # x = function() # "Anonymous" function without explicit name
@@ -237,7 +237,7 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       @encoder.text_token(getch, :error)
     end
 
-  when :table
+  when :map
     if match = scan(/[,;]/)
       @encoder.text_token(match, :operator)
     elsif match = scan(/[a-zA-Z_][a-zA-Z0-9_]* (?=\s*=)/x)

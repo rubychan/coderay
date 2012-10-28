@@ -1,6 +1,6 @@
 module CodeRay
 module Styles
-  
+
   # A colorful theme using CSS 3 colors (with alpha channel).
   class Alpha < Style
 
@@ -116,9 +116,9 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .symbol .content { color:#A60 }
 .symbol .delimiter { color:#630 }
 .symbol { color:#A60 }
-.table .content { color:#808 }
-.table .delimiter { color:#40A}
-.table { background-color:hsla(200,100%,50%,0.06); }
+.map .content { color:#808 }
+.map .delimiter { color:#40A}
+.map { background-color:hsla(200,100%,50%,0.06); }
 .tag { color:#070 }
 .type { color:#339; font-weight:bold }
 .value { color: #088; }

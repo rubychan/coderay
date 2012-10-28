@@ -1,5 +1,4 @@
 namespace :test do
-  
   desc 'run all sample tests'
   task :samples do
     ruby './sample/suite.rb'
@@ -17,22 +16,33 @@ namespace :test do
   end
   
   scanner_suite = 'test/scanners/suite.rb'
-  task scanner_suite do
-    unless File.exist? scanner_suite
-      puts 'Scanner tests not found; downloading from Subversion...'
-      sh 'svn co http://svn.rubychan.de/coderay-scanner-tests/trunk/ test/scanners/'
-      puts 'Finished.'
-    end
-  end
-  
   desc 'run all scanner tests'
   task :scanners => :update_scanner_suite do
     ruby scanner_suite
   end
   
-  desc 'update scanner test suite from SVN'
-  task :update_scanner_suite => scanner_suite do
-    sh "svn up #{File.dirname(scanner_suite)}"
+  desc 'update scanner test suite from GitHub'
+  task :update_scanner_suite do
+    if File.exist? scanner_suite
+      Dir.chdir File.dirname(scanner_suite) do
+        if File.directory? '.git'
+          puts 'Updating scanner test suite...'
+          sh 'git pull'
+        elsif File.directory? '.svn'
+          raise <<-ERROR
+Found the deprecated Subversion scanner test suite in ./#{File.dirname(scanner_suite)}.
+Please rename or remove it and run again to use the GitHub repository:
+
+  mv test/scanners test/scanners-old
+          ERROR
+        else
+          raise 'No scanner test suite found.'
+        end
+      end
+    else
+      puts 'Downloading scanner test suite...'
+      sh 'git clone https://github.com/rubychan/coderay-scanner-tests.git test/scanners/'
+    end
   end
   
   namespace :scanner do
@@ -72,7 +82,6 @@ namespace :test do
       puts "Skipping."
     end
   end
-  
 end
 
 task :test => %w(test:functional test:units test:exe)

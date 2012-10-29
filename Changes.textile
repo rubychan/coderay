@@ -4,8 +4,15 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
  
 {{toc}}
  
+h2. Next Version
+ 
+* add @:string/:char@, remove @:regexp/:function@ color from Terminal encoder [GH #29, thanks to Kyrylo Silin]
+* allow @-@ in line number anchor prefix for HTML encoder [GH #32, thanks to shurizzle]
+* Fix HTML scanner: Don't crash if HTML in a diff contains a JavaScript tag.
+
 h2. Changes in 1.0.7
  
+* Changed license from LGPL to MIT. [GH-25, thanks to jessehu]
 * Fix issue with plugin files not being loaded. [GH-20, thanks to Will Read]
 * Fix HTML scanner bug: Don't choke on boolean attributes. [GH-26, thanks to jugglinmike]
 

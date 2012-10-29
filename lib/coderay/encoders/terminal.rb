@@ -62,7 +62,6 @@ module CodeRay
           :content => '31',
           :delimiter => '1;29',
           :modifier => '35',
-          :function => '1;29'
         },
         :reserved => '1;31',
         :shell => {
@@ -75,6 +74,7 @@ module CodeRay
           :modifier => '1;32',
           :escape => '1;36',
           :delimiter => '1;32',
+          :char => '1;36',
         },
         :symbol => '1;32',
         :tag => '1;34',

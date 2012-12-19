@@ -96,6 +96,7 @@ module CodeRay
       'java'     => :java,
       'js'       => :java_script,
       'json'     => :json,
+      'amps'     => :amps,
       'mab'      => :ruby,
       'pas'      => :delphi,
       'patch'    => :diff,

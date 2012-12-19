@@ -12,7 +12,9 @@ module Scanners
 
     LIQUID_BLOCK = /
       ({[{|%])
+      \s
       (.*?)
+      \s
       ([%|}]})
     /
       
@@ -25,26 +27,26 @@ module Scanners
       @liquid_attribute_scanner = CodeRay.scanner :html, tokens: @tokens, keep_tokens: true, keep_stat: true
     end
  
-    def scan_tokens
+    def scan_tokens(tokens, options)
       until eos?
-        if (match = scan_until(/(?=#{START_OF_LIQUID})/o) || scan_reset) and not match.empty?
-          @html_scanner.tokenize match, tokens: encoder
+        if (match = scan_until(/(?=#{START_OF_LIQUID})/o) || scan_rest) and not match.empty?
+          @html_scanner.tokenize match, tokens: tokens 
         elsif match = scan(/#{LIQUID_BLOCK}/o)
           start_tag = self[1]
           code = self[2]
           end_tag = self[3]
     
-          encoder.begin_group :inline
-          encoder.text_token start_tag, :inline_delimiter
+          tokens.begin_group :inline
+          tokens.text_token start_tag, :inline_delimiter
  
           unless code.empty?
-            @liquid_attribute_scanner.tokenize code, tokens: encoder, state: :attribute
+            @liquid_attribute_scanner.tokenize code, tokens: tokens, state: :attribute
           end
           
-          encoder.text_token end_tag, :inline_delimiter unless end_tag.empty?
-          encoder.end_group :inline
+          tokens.text_token end_tag, :inline_delimiter unless end_tag.empty?
+          tokens.end_group :inline
         else 
-          raise_inspect 'else-case reached!', encoder
+          raise_inspect 'else-case reached!', tokens
         end 
       end
     end

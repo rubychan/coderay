@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   
   readme_file = 'README_INDEX.rdoc'
   
-  s.files         = `git ls-files -- lib/* test/functional/* Rakefile #{readme_file} LICENSE`.split("\n")
+  s.files         = `git ls-files -- lib/* test/functional/* Rakefile #{readme_file} MIT-LICENSE`.split("\n")
   s.test_files    = `git ls-files --       test/functional/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']

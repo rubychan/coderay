@@ -17,6 +17,8 @@ Gem::Specification.new do |s|
   s.summary     = 'Fast syntax highlighting for selected languages.'
   s.description = 'Fast and easy syntax highlighting for selected languages, written in Ruby. Comes with RedCloth integration and LOC counter.'
   
+  s.license = 'MIT'
+  
   s.platform              = Gem::Platform::RUBY
   s.required_ruby_version = '>= 1.8.6'
   

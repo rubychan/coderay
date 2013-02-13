@@ -4,7 +4,7 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
  
 {{toc}}
  
-h2. Next Version
+h2. Changes in 1.0.8
  
 * add @:string/:char@, remove @:regexp/:function@ color from Terminal encoder [GH #29, thanks to Kyrylo Silin]
 * allow @-@ in line number anchor prefix for HTML encoder [GH #32, thanks to shurizzle]

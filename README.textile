@@ -1,4 +1,4 @@
-h1. CodeRay !https://secure.travis-ci.org/rubychan/coderay.png!:https://secure.travis-ci.org/rubychan/coderay
+h1. CodeRay !https://api.travis-ci.org/rubychan/coderay.png!:https://travis-ci.org/rubychan/coderay
 
 h2. About
 

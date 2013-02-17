@@ -8,7 +8,7 @@ h2. Changes in 1.0.9
  
 * Fix Ruby scanner: Ruby 1.9 hash syntax @{ key: value }@ is highlighted correctly. [GH #106, thanks to Seth Vargo]
 * Fix HTML scanner: Accept DTDs. [GH #83]
-* Fix PHP scanner: Accept Unicode. [GH #40]
+* Fix PHP scanner: Accept Unicode. [GH #40, thanks to Lance Li]
  
 h2. Changes in 1.0.8
  

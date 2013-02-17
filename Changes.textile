@@ -7,6 +7,7 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
 h2. Changes in 1.0.9
  
 * Fix Ruby scanner: Ruby 1.9 hash syntax @{ key: value }@ is highlighted correctly. [GH #106, thanks to Seth Vargo]
+* Fix HTML scanner: Accept DTDs. [GH #83]
  
 h2. Changes in 1.0.8
  

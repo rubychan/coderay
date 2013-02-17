@@ -94,18 +94,27 @@ module Scanners
             if !method_call_expected &&
                match = scan(unicode ? /#{patterns::METHOD_NAME}/uo :
                                       /#{patterns::METHOD_NAME}/o)
-              value_expected = false
-              kind = patterns::IDENT_KIND[match]
-              if kind == :ident
-                if match[/\A[A-Z]/] && !(match[/[!?]$/] || match?(/\(/))
-                  kind = :constant
+              
+              if value_expected != :colon_expected && scan(/:(?= )/)
+                value_expected = true
+                encoder.text_token match, :key
+                encoder.text_token ':',   :operator
+              else
+                value_expected = false
+                kind = patterns::IDENT_KIND[match]
+                if kind == :ident
+                  if match[/\A[A-Z]/] && !(match[/[!?]$/] || match?(/\(/))
+                    kind = :constant
+                  end
+                elsif kind == :keyword
+                  state = patterns::KEYWORD_NEW_STATE[match]
+                  if patterns::KEYWORDS_EXPECTING_VALUE[match]
+                    value_expected = match == 'when' ? :colon_expected : true
+                  end
                 end
-              elsif kind == :keyword
-                state = patterns::KEYWORD_NEW_STATE[match]
-                value_expected = true if patterns::KEYWORDS_EXPECTING_VALUE[match]
+                value_expected = true if !value_expected && check(/#{patterns::VALUE_FOLLOWS}/o)
+                encoder.text_token match, kind
               end
-              value_expected = true if !value_expected && check(/#{patterns::VALUE_FOLLOWS}/o)
-              encoder.text_token match, kind
               
             elsif method_call_expected &&
                match = scan(unicode ? /#{patterns::METHOD_AFTER_DOT}/uo :
@@ -213,7 +222,7 @@ module Scanners
               encoder.text_token match, :integer
               
             elsif match = scan(/ %=? | <(?:<|=>?)? | \? /x)
-              value_expected = true
+              value_expected = match == '?' ? :colon_expected : true
               encoder.text_token match, :operator
               
             elsif match = scan(/`/)

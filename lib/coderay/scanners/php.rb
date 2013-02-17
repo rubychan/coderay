@@ -210,7 +210,7 @@ module Scanners
       
       HTML_INDICATOR = /<!DOCTYPE html|<(?:html|body|div|p)[> ]/i
       
-      IDENTIFIER = 'ä'[/[[:alpha:]]/] == 'ä' ? Regexp.new('[[:alpha:]_[^\0-\177]][[:alnum:]_[^\0-\177]]*') : Regexp.new('[a-z_\17f-\xFF][a-z0-9_\x7f-\xFF]*/', true)
+      IDENTIFIER = 'ä'[/[[:alpha:]]/] == 'ä' ? Regexp.new('[[:alpha:]_[^\0-\177]][[:alnum:]_[^\0-\177]]*') : Regexp.new('[a-z_\x7f-\xFF][a-z0-9_\x7f-\xFF]*', true)
       VARIABLE = /\$#{IDENTIFIER}/
       
       OPERATOR = /

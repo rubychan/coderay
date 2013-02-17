@@ -128,9 +128,9 @@ module Scanners
               value_expected = check(/#{patterns::VALUE_FOLLOWS}/o)
               
             # OPERATORS #
-            elsif !method_call_expected && match = scan(/ (\.(?!\.)|::) | (?: \.\.\.? | ==?=? | [,\(\[\{] )() | [\)\]\}] /x)
+            elsif !method_call_expected && match = scan(/ (\.(?!\.)|::) | ( \.\.\.? | ==?=? | [,\(\[\{] ) | [\)\]\}] /x)
               method_call_expected = self[1]
-              value_expected = !method_call_expected && self[2]
+              value_expected = !method_call_expected && !!self[2]
               if inline_block_stack
                 case match
                 when '{'

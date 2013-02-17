@@ -95,13 +95,13 @@ module Scanners
                match = scan(unicode ? /#{patterns::METHOD_NAME}/uo :
                                       /#{patterns::METHOD_NAME}/o)
               
-              if value_expected != :colon_expected && scan(/:(?= )/)
+              kind = patterns::IDENT_KIND[match]
+              if kind == :ident && value_expected != :colon_expected && scan(/:(?!:)/)
                 value_expected = true
                 encoder.text_token match, :key
                 encoder.text_token ':',   :operator
               else
                 value_expected = false
-                kind = patterns::IDENT_KIND[match]
                 if kind == :ident
                   if match[/\A[A-Z]/] && !(match[/[!?]$/] || match?(/\(/))
                     kind = :constant

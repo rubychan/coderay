@@ -54,10 +54,17 @@ module Scanners
     
   protected
     
+    def setup
+      @state = :initial
+    end
+    
     def scan_tokens encoder, options
       
-      state = :initial
-      string_delimiter = nil
+      state, string_delimiter = options[:state] || @state
+      if string_delimiter
+        encoder.begin_group state
+      end
+      
       value_expected = true
       key_expected = false
       function_expected = false
@@ -72,9 +79,10 @@ module Scanners
             value_expected = true if !value_expected && match.index(?\n)
             encoder.text_token match, :space
             
-          elsif match = scan(%r! // [^\n\\]* (?: \\. [^\n\\]* )* | /\* (?: .*? \*/ | .* ) !mx)
+          elsif match = scan(%r! // [^\n\\]* (?: \\. [^\n\\]* )* | /\* (?: .*? \*/ | .*() ) !mx)
             value_expected = true
             encoder.text_token match, :comment
+            state = :open_multi_line_comment if self[1]
             
           elsif check(/\.?\d/)
             key_expected = value_expected = false
@@ -182,11 +190,26 @@ module Scanners
             raise_inspect "else case \" reached; %p not handled." % peek(1), encoder
           end
           
+        when :open_multi_line_comment
+          if match = scan(%r! .*? \*/ !mx)
+            state = :initial
+          else
+            match = scan(%r! .+ !mx)
+          end
+          value_expected = true
+          encoder.text_token match, :comment if match
+          
         else
-          raise_inspect 'Unknown state', encoder
+          #:nocov:
+          raise_inspect 'Unknown state: %p' % [state], encoder
+          #:nocov:
           
         end
         
+      end
+      
+      if options[:keep_state]
+        @state = state, string_delimiter
       end
       
       if [:string, :regexp].include? state

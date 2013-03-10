@@ -22,7 +22,7 @@ end
     CODE
     assert_equal <<-DIV, div
 <table class="CodeRay"><tr>
-  <td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><a href="#n1" name="n1">1</a>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
 <a href="#n2" name="n2">2</a>
 <a href="#n3" name="n3">3</a>
 </pre></td>
@@ -38,7 +38,7 @@ end
 <body>
 
 <table class="CodeRay"><tr>
-  <td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
 </pre></td>
   <td class="code"><pre>puts <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello, world!</span><span class="delimiter">&quot;</span></span></pre></td>
 </tr></table>

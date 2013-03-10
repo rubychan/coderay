@@ -101,7 +101,7 @@ module Scanners
           when :initial
             if match = scan(/<!--(?:.*?-->|.*)/m)
               encoder.text_token match, :comment
-            elsif match = scan(/<!DOCTYPE(?:.*?>|.*)/m)
+            elsif match = scan(/<!(\w+)(?:.*?>|.*)|\]>/m)
               encoder.text_token match, :doctype
             elsif match = scan(/<\?xml(?:.*?\?>|.*)/m)
               encoder.text_token match, :preprocessor

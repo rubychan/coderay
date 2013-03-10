@@ -1,9 +1,9 @@
 # encoding: utf-8
 module CodeRay
 module Scanners
-
+  
   module Ruby::Patterns  # :nodoc: all
-
+    
     KEYWORDS = %w[
       and def end in or unless begin
       defined? ensure module redo super until
@@ -12,7 +12,7 @@ module Scanners
       while alias class elsif if not return
       undef yield
     ]
-
+    
     # See http://murfy.de/ruby-constants.
     PREDEFINED_CONSTANTS = %w[
       nil true false self
@@ -24,19 +24,19 @@ module Scanners
       RUBY_PLATFORM RUBY_RELEASE_DATE RUBY_REVISION RUBY_VERSION
       __FILE__ __LINE__ __ENCODING__
     ]
-
+    
     IDENT_KIND = WordList.new(:ident).
       add(KEYWORDS, :keyword).
       add(PREDEFINED_CONSTANTS, :predefined_constant)
-
+    
     KEYWORD_NEW_STATE = WordList.new(:initial).
       add(%w[ def ], :def_expected).
       add(%w[ undef ], :undef_expected).
       add(%w[ alias ], :alias_expected).
       add(%w[ class module ], :module_expected)
-
-    IDENT = 'ä'[/[[:alpha:]]/] == 'ä' ? /[[:alpha:]_][[:alnum:]_]*/ : /[^\W\d]\w*/
-
+    
+    IDENT = 'ä'[/[[:alpha:]]/] == 'ä' ? Regexp.new('[[:alpha:]_[^\0-\177]][[:alnum:]_[^\0-\177]]*') : /[^\W\d]\w*/
+    
     METHOD_NAME = / #{IDENT} [?!]? /ox
     METHOD_NAME_OPERATOR = /
       \*\*?           # multiplication and power
@@ -57,25 +57,25 @@ module Scanners
     GLOBAL_VARIABLE = / \$ (?: #{IDENT} | [1-9]\d* | 0\w* | [~&+`'=\/,;_.<>!@$?*":\\] | -[a-zA-Z_0-9] ) /ox
     PREFIX_VARIABLE = / #{GLOBAL_VARIABLE} | #{OBJECT_VARIABLE} /ox
     VARIABLE = / @?@? #{IDENT} | #{GLOBAL_VARIABLE} /ox
-
+    
     QUOTE_TO_TYPE = {
       '`' => :shell,
       '/'=> :regexp,
     }
     QUOTE_TO_TYPE.default = :string
-
+    
     REGEXP_MODIFIERS = /[mousenix]*/
-
+    
     DECIMAL = /\d+(?:_\d+)*/
     OCTAL = /0_?[0-7]+(?:_[0-7]+)*/
     HEXADECIMAL = /0x[0-9A-Fa-f]+(?:_[0-9A-Fa-f]+)*/
     BINARY = /0b[01]+(?:_[01]+)*/
-
+    
     EXPONENT = / [eE] [+-]? #{DECIMAL} /ox
     FLOAT_SUFFIX = / #{EXPONENT} | \. #{DECIMAL} #{EXPONENT}? /ox
     FLOAT_OR_INT = / #{DECIMAL} (?: #{FLOAT_SUFFIX} () )? /ox
     NUMERIC = / (?: (?=0) (?: #{OCTAL} | #{HEXADECIMAL} | #{BINARY} ) | #{FLOAT_OR_INT} ) /ox
-
+    
     SYMBOL = /
       :
       (?:
@@ -85,7 +85,7 @@ module Scanners
       )
     /ox
     METHOD_NAME_OR_SYMBOL = / #{METHOD_NAME_EX} | #{SYMBOL} /ox
-
+    
     SIMPLE_ESCAPE = /
         [abefnrstv]
       |  [0-7]{1,3}
@@ -110,7 +110,7 @@ module Scanners
       | \\ #{ESCAPE}
       )
     /mox
-
+    
     # NOTE: This is not completely correct, but
     # nobody needs heredoc delimiters ending with \n.
     HEREDOC_OPEN = /
@@ -122,13 +122,13 @@ module Scanners
         ( [^\n]*? ) \3     # $4 = delim
       )
     /mx
-
+    
     RUBYDOC = /
       =begin (?!\S)
       .*?
       (?: \Z | ^=end (?!\S) [^\n]* )
     /mx
-
+    
     DATA = /
       __END__$
       .*?
@@ -136,7 +136,7 @@ module Scanners
     /mx
     
     RUBYDOC_OR_DATA = / #{RUBYDOC} | #{DATA} /xo
-
+    
     # Checks for a valid value to follow. This enables
     # value_expected in method calls without parentheses.
     VALUE_FOLLOWS = /

@@ -4,6 +4,7 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
 
 h2. Changes in 1.1
 
+* Diff scanner: Highlight inline changes in multi-line changes [#99]
 * Remove double-click toggle handler from HTML table output
 * Display line numbers in HTML @:table@ mode even for single-line code (remove special case) [#41, thanks to Ariejan de Vroom]
 

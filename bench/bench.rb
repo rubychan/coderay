@@ -108,7 +108,7 @@ N.times do
   $file_created = here('test.' +
     ($dump_output ? 'dump' : $hl.file_extension))
   File.open($file_created, 'wb') do |f|
-    f.write $o
+    # f.write $o
   end
   Dir.chdir(here) do
     FileUtils.copy 'test.dump', 'example.dump' if $dump_output

@@ -1,15 +1,15 @@
 module CodeRay
 module Encoders
-
+  
   class HTML
-
+    
     module Numbering  # :nodoc:
-
+      
       def self.number! output, mode = :table, options = {}
         return self unless mode
-
+        
         options = DEFAULT_OPTIONS.merge options
-
+        
         start = options[:line_number_start]
         unless start.is_a? Integer
           raise ArgumentError, "Invalid value %p for :line_number_start; Integer expected." % start
@@ -17,7 +17,7 @@ module Encoders
         
         anchor_prefix = options[:line_number_anchors]
         anchor_prefix = 'line' if anchor_prefix == true
-        anchor_prefix = anchor_prefix.to_s[/\w+/] if anchor_prefix
+        anchor_prefix = anchor_prefix.to_s[/[\w-]+/] if anchor_prefix
         anchoring =
           if anchor_prefix
             proc do |line|
@@ -56,12 +56,17 @@ module Encoders
             raise ArgumentError, 'Invalid value %p for :bolding; false or Integer expected.' % bold_every
           end
         
-        line_count = output.count("\n")
-        position_of_last_newline = output.rindex(RUBY_VERSION >= '1.9' ? /\n/ : ?\n)
-        if position_of_last_newline
+        if position_of_last_newline = output.rindex(RUBY_VERSION >= '1.9' ? /\n/ : ?\n)
           after_last_newline = output[position_of_last_newline + 1 .. -1]
           ends_with_newline = after_last_newline[/\A(?:<\/span>)*\z/]
-          line_count += 1 if not ends_with_newline
+          
+          if ends_with_newline
+            line_count = output.count("\n")
+          else
+            line_count = output.count("\n") + 1
+          end
+        else
+          line_count = 1
         end
         
         case mode
@@ -74,30 +79,30 @@ module Encoders
             line_number += 1
             "<span class=\"line-numbers\">#{indent}#{line_number_text}</span>#{line}"
           end
-
+        
         when :table
           line_numbers = (start ... start + line_count).map(&bolding).join("\n")
           line_numbers << "\n"
           line_numbers_table_template = Output::TABLE.apply('LINE_NUMBERS', line_numbers)
-
+          
           output.gsub!(/<\/div>\n/, '</div>')
           output.wrap_in! line_numbers_table_template
           output.wrapped_in = :div
-
+        
         when :list
           raise NotImplementedError, 'The :list option is no longer available. Use :table.'
-
+        
         else
           raise ArgumentError, 'Unknown value %p for mode: expected one of %p' %
             [mode, [:table, :inline]]
         end
-
+        
         output
       end
-
+      
     end
-
+    
   end
-
+  
 end
 end

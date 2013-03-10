@@ -69,6 +69,7 @@ module Scanners
     def setup
       @state = :initial
       @plain_string_content = nil
+      @in_tag = nil
     end
     
     def scan_java_script encoder, code
@@ -83,7 +84,8 @@ module Scanners
     def scan_tokens encoder, options
       state = options[:state] || @state
       plain_string_content = @plain_string_content
-      in_tag = in_attribute = nil
+      in_tag = @in_tag
+      in_attribute = nil
       
       encoder.begin_group :string if state == :attribute_value_string
       
@@ -99,7 +101,7 @@ module Scanners
           when :initial
             if match = scan(/<!--(?:.*?-->|.*)/m)
               encoder.text_token match, :comment
-            elsif match = scan(/<!DOCTYPE(?:.*?>|.*)/m)
+            elsif match = scan(/<!(\w+)(?:.*?>|.*)|\]>/m)
               encoder.text_token match, :doctype
             elsif match = scan(/<\?xml(?:.*?\?>|.*)/m)
               encoder.text_token match, :preprocessor
@@ -149,12 +151,9 @@ module Scanners
             if match = scan(/=/)  #/
               encoder.text_token match, :operator
               state = :attribute_value
-            elsif scan(/#{ATTR_NAME}/o) || scan(/#{TAG_END}/o)
+            else
               state = :attribute
               next
-            else
-              encoder.text_token getch, :error
-              state = :attribute
             end
             
           when :attribute_value
@@ -240,6 +239,7 @@ module Scanners
       if options[:keep_state]
         @state = state
         @plain_string_content = plain_string_content
+        @in_tag = in_tag
       end
       
       encoder.end_group :string if state == :attribute_value_string

@@ -124,7 +124,7 @@ module Encoders
 
       TABLE = Template.new <<-TABLE
 <table class="CodeRay"><tr>
-  <td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre><%LINE_NUMBERS%></pre></td>
+  <td class="line-numbers"><pre><%LINE_NUMBERS%></pre></td>
   <td class="code"><pre><%CONTENT%></pre></td>
 </tr></table>
       TABLE

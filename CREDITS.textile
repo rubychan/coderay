@@ -1,43 +1,4 @@
-h1. CodeRay !https://secure.travis-ci.org/rubychan/coderay.png!:https://secure.travis-ci.org/rubychan/coderay
-
-h2. About
-
-CodeRay is a Ruby library for syntax highlighting.
-
-You put your code in, and you get it back colored; Keywords, strings, floats, comments - all in different colors. And with line numbers.
-
-*Syntax Highlighting*…
-
-* makes code easier to read and maintain
-* lets you detect syntax errors faster
-* helps you to understand the syntax of a language
-* looks nice
-* is what everybody wants to have on their website
-* solves all your problems and makes the girls run after you
-
-
-h2. Installation
-
-bc. gem install coderay
-
-h3. Dependencies
-
-CodeRay needs Ruby 1.8.7+ or 1.9.2+. It also runs on Rubinius and JRuby.
-
-h2. Example Usage
-
-bc.. require 'coderay'
-
-html = CodeRay.scan("puts 'Hello, world!'", :ruby).div(:line_numbers => :table)
-
-p. 
-
-h2. Documentation
-
-See "http://coderay.rubychan.de/doc/":http://coderay.rubychan.de/doc/.
-
-
-h2. Credits
+h1. Credits
 
 h3. Special Thanks to
 

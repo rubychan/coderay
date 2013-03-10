@@ -26,7 +26,7 @@ end
 <a href="#n2" name="n2">2</a>
 <a href="#n3" name="n3">3</a>
 </pre></td>
-  <td class="code"><pre><span style="color:#00D">5</span>.times <span style="color:#080;font-weight:bold">do</span>
+  <td class="code" ondblclick="with (this.parentNode.children[0].firstChild.style) { display = (display == 'none') ? '' : display }"><pre><span style="color:#00D">5</span>.times <span style="color:#080;font-weight:bold">do</span>
   puts <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Hello, world!</span><span style="color:#710">'</span></span>
 <span style="color:#080;font-weight:bold">end</span></pre></td>
 </tr></table>
@@ -40,7 +40,7 @@ end
 <table class="CodeRay"><tr>
   <td class="line-numbers" title="double click to toggle" ondblclick="with (this.firstChild.style) { display = (display == '') ? 'none' : '' }"><pre>
 </pre></td>
-  <td class="code"><pre>puts <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello, world!</span><span class="delimiter">&quot;</span></span></pre></td>
+  <td class="code" ondblclick="with (this.parentNode.children[0].firstChild.style) { display = (display == 'none') ? '' : display }"><pre>puts <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello, world!</span><span class="delimiter">&quot;</span></span></pre></td>
 </tr></table>
 
 </body>

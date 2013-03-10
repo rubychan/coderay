@@ -63,6 +63,7 @@ module CodeRay
     :shell               => 'shell',
     :string              => 'string',
     :symbol              => 'symbol',
+    :table               => 'table',
     :tag                 => 'tag',
     :type                => 'type',
     :value               => 'value',

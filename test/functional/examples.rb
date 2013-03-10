@@ -38,7 +38,7 @@ end
 <body>
 
 <table class="CodeRay"><tr>
-  <td class="line-numbers"><pre>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
 </pre></td>
   <td class="code"><pre>puts <span class="string"><span class="delimiter">&quot;</span><span class="content">Hello, world!</span><span class="delimiter">&quot;</span></span></pre></td>
 </tr></table>

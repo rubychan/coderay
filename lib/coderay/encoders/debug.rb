@@ -28,7 +28,7 @@ module Encoders
         @out << text
       else
         # TODO: Escape (
-        text = text.gsub(/[)\\]/, '\\\\\0')  # escape ) and \
+        text = text.gsub(/[)\\]/, '\\\\\0') if text.index(/[)\\]/)
         @out << kind.to_s << '(' << text << ')'
       end
     end

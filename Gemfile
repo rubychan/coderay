@@ -11,5 +11,4 @@ group :development do
   gem "shoulda-context", "~> 1.0.0"
   gem "json" if RUBY_VERSION <  '1.9'
   gem "rdoc"
-  gem "activesupport"
 end

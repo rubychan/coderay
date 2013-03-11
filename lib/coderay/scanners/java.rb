@@ -147,7 +147,7 @@ module Scanners
           elsif match = scan(/ \\ | $ /x)
             encoder.end_group state
             state = :initial
-            encoder.text_token match, :error
+            encoder.text_token match, :error unless match.empty?
           else
             raise_inspect "else case \" reached; %p not handled." % peek(1), encoder
           end

@@ -26,13 +26,18 @@ module Scanners
       iflist|
       endiflist|
       else|
+    )/
+
+    DIRECTIVE_OPERATORS = /(
       =|
       ==|
       !=|
       >|
       <|
       <=|
-      >=
+      >=|
+      contains|
+      with
     )/
 
     FILTER_KEYWORDS = /(
@@ -67,6 +72,8 @@ module Scanners
       modulo
    )/ 
 
+    SELECTORS = 
+
     LIQUID_DIRECTIVE_BLOCK = /
       {%
       (.*?)
@@ -94,20 +101,42 @@ module Scanners
       #This should use the DIRECTIVE_KEYWORDS regex, not sure why it doesn't work
       if match = scan(/(wrap|endwrap)/)
         encoder.text_token match, :directive
-        if match = scan(/(\w+)(:)('\D+')/)
-          selector = match[0]
-          delimiter = match[1]
-          variable = match[2]
-         
-          encoder.text_token selector, :operator
-          encoder.text_token delimiter, :delimiter
-          encoder.text_token variable, :variable
+        scan_spaces(encoder)
+        #Replace with DIRECTIVE_OPERATORS
+        if match = scan(/with/)
+          encoder.text_token match, :operator
+          if delimiter = scan(/:/)
+            encoder.text_token delimiter, :delimiter
+            scan_spaces(encoder)
+          end
+          if variable = scan(/(\w+)|('\S+')|("\w+")/)
+            encoder.text_token variable, :variable
+          end
         end
       end
       scan_spaces(encoder)
-      if match = scan(/(%}|}})/)
+      if match = scan(/%}/)
         encoder.text_token match, :key
         state = :initial
+      end
+    end
+
+    def scan_output_filters(encoder, options, match)
+      encoder.text_token match, :delimiter
+      scan_spaces(encoder)
+      #Replace with OUTPUT_KEYWORDS regex
+      if directive = scan(/prepend|replace_first/)
+        encoder.text_token directive, :directive
+      end
+      if delimiter = scan(/:/)
+        encoder.text_token delimiter, :delimiter
+      end
+      scan_spaces(encoder)
+      if variable = scan(/(\w+)|('\S+')|(".+")/)
+        encoder.text_token variable, :variable
+      end
+      if next_filter = scan(/\s\|\s/)
+        scan_output_filters(encoder, options, next_filter)
       end
     end
 
@@ -115,11 +144,17 @@ module Scanners
       encoder.text_token match, :key
       state = :liquid
       scan_spaces(encoder)
-      if match = scan(/\D+/)
+      if match = scan(/(\w+)|('\S+')|("\w+")/)
         encoder.text_token match, :variable
       end
-      if scan(/\|/)
+      if match = scan(/(\s\|\s)/)
+        scan_output_filters(encoder, options, match)   
       end
+      scan_spaces(encoder)
+      if match = scan(/}}/)
+        encoder.text_token match, :key
+      end
+      state = :initial
     end
 
     def scan_tokens(encoder, options)
@@ -129,12 +164,11 @@ module Scanners
       until eos?
         if (match = scan_until(/(?=({{|{%))/) || scan_rest) and not match.empty? and state != :liquid
           @html_scanner.tokenize(match, tokens: encoder)
-          debug match, debug_cycle, state if debug_cycle == 1
           state = :initial
         scan_spaces(encoder)
-        elsif match = scan(/({%|{{)/)
+        elsif match = scan(/{%/)
           scan_directive(encoder, options, match) 
-        elsif match = scan(/({{|{{)/)
+        elsif match = scan(/{{/)
           scan_output(encoder, options, match)
         else
           raise "Else-case reached. #{debug_cycle.to_s} cycles run. State: #{state.to_s}."

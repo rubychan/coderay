@@ -1,73 +1,148 @@
 module CodeRay
 module Scanners
 
-  load :html
-
-  # Scanner for Handlebars templates.
   class Liquid < Scanner
-
+    
     register_for :liquid
-    title 'Liquid Template'
+   
+    DIRECTIVE_KEYWORDS = /(
+      list|
+      endlist|
+      for|
+      endfor|
+      wrap|
+      endwrap|
+      if|
+      endif|
+      unless|
+      endunless|
+      elsif|
+      assign|
+      cycle|
+      capture|
+      end|
+      capture|
+      fill|
+      iflist|
+      endiflist|
+      else|
+      =|
+      ==|
+      !=|
+      >|
+      <|
+      <=|
+      >=
+    )/
 
-    KINDS_NOT_LOC = HTML::KINDS_NOT_LOC
-
-    LIQUID_OUTPUT_BLOCK = /
-      ({{)
-      (.*?)
-      (}})
-    /mx  # :nodoc:
+    FILTER_KEYWORDS = /(
+      date|
+      capitalize|
+      downcase|
+      upcase|
+      first|
+      last|
+      join|
+      sort|
+      map|
+      size|
+      escape|
+      escape_once|
+      strip_html|
+      strip_newlines|
+      newline_to_br|
+      replace|
+      replace_first|
+      remove|
+      remove_first|
+      truncate|
+      truncatewords|
+      prepend|
+      append|
+      minus|
+      plus|
+      times|
+      divided_by|
+      split|
+      modulo
+   )/ 
 
     LIQUID_DIRECTIVE_BLOCK = /
-      ({%)
+      {%
       (.*?)
-      (%})
-    /mx  # :nodoc:
-
-    START_OF_LIQUID = /{{|{%/  # :nodoc:
-
-  protected
+      %}
+    /
 
     def setup
-      @html_scanner = CodeRay.scanner :html, :tokens => @tokens, :keep_tokens => true, :keep_state => true
-      @liquid_attribute_scanner = CodeRay.scanner :html, :tokens => @tokens, :keep_tokens => true, :keep_state => false
+      @html_scanner = CodeRay.scanner(:html, tokens: @tokens, keep_tokens: true, keep_state: false)
     end
 
-    def reset_instance
-      super
-      @html_scanner.reset
-      @liquid_attribute_scanner.reset
+    def debug(match, debug_cycle, state)
+      raise "Match: #{match}, left to scan: '#{post_match}', cycle: #{debug_cycle.to_s}, state: #{state.to_s}."
     end
 
-    def scan_tokens encoder, options
-      until eos?
-        if (match = scan_until(/(?=#{START_OF_LIQUID})/o) || scan_rest) and not match.empty?
-          @html_scanner.tokenize match, :tokens => encoder
+    def scan_spaces(encoder)
+      if match = scan(/\s+/)
+        encoder.text_token match, :space
+      end
+    end
 
-        elsif match = scan(/#{LIQUID_OUTPUT_BLOCK}/o) || match = scan(/#{LIQUID_DIRECTIVE_BLOCK}/o)
-
-          start_tag = self[1]
-          code = self[2]
-          end_tag = self[3]
-
-          encoder.begin_group :inline
-          encoder.text_token start_tag, :inline_delimiter
-
-          unless code.empty?
-            @liquid_attribute_scanner.tokenize code, :tokens => encoder, :state => :attribute
-          end
-
-          encoder.text_token end_tag, :inline_delimiter unless end_tag.empty?
-          encoder.end_group :inline
-
-        else
-          raise_inspect 'else-case reached!', encoder
+    def scan_directive(encoder, options, match)
+      encoder.text_token match, :key
+      state = :liquid
+      scan_spaces(encoder)
+      #This should use the DIRECTIVE_KEYWORDS regex, not sure why it doesn't work
+      if match = scan(/(wrap|endwrap)/)
+        encoder.text_token match, :directive
+        if match = scan(/(\w+)(:)('\D+')/)
+          selector = match[0]
+          delimiter = match[1]
+          variable = match[2]
+         
+          encoder.text_token selector, :operator
+          encoder.text_token delimiter, :delimiter
+          encoder.text_token variable, :variable
         end
+      end
+      scan_spaces(encoder)
+      if match = scan(/(%}|}})/)
+        encoder.text_token match, :key
+        state = :initial
+      end
+    end
+
+    def scan_output(encoder, options, match)
+      encoder.text_token match, :key
+      state = :liquid
+      scan_spaces(encoder)
+      if match = scan(/\D+/)
+        encoder.text_token match, :variable
+      end
+      if scan(/\|/)
+      end
+    end
+
+    def scan_tokens(encoder, options)
+      state = :initial
+      debug_cycle = 0
+
+      until eos?
+        if (match = scan_until(/(?=({{|{%))/) || scan_rest) and not match.empty? and state != :liquid
+          @html_scanner.tokenize(match, tokens: encoder)
+          debug match, debug_cycle, state if debug_cycle == 1
+          state = :initial
+        scan_spaces(encoder)
+        elsif match = scan(/({%|{{)/)
+          scan_directive(encoder, options, match) 
+        elsif match = scan(/({{|{{)/)
+          scan_output(encoder, options, match)
+        else
+          raise "Else-case reached. #{debug_cycle.to_s} cycles run. State: #{state.to_s}."
+        end
+        debug_cycle += 1
       end
       encoder
     end
-
   end
-
 end
 end
-

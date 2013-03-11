@@ -1,5 +1,5 @@
 namespace :generate do
-  desc 'generates a new scanner NAME=lang [ALT=alternative,plugin,ids] [EXT=file,extensions] [BASE=base lang] '
+  desc 'generates a new scanner NAME=lang [ALT=alternative,plugin,ids] [EXT=file,extensions] [BASE=base lang]'
   task :scanner do
     raise 'I need a scanner name; use NAME=lang' unless scanner_class_name = ENV['NAME']
     raise "Invalid lang: #{scanner_class_name}; use NAME=lang." unless /\A\w+\z/ === scanner_class_name
@@ -52,7 +52,7 @@ namespace :generate do
       end
     end
     
-    if alternative_ids = ENV['ALT']
+    if alternative_ids = ENV['ALT'] && alternative_ids != lang
       map_file = File.join(LIB_ROOT, 'coderay', 'scanners', '_map.rb')
       puts "Not automated. Remember to add your alternative plugin ids to #{map_file}:"
       for id in alternative_ids.split(',')

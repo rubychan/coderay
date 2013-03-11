@@ -1,3 +1,5 @@
+source :rubygems
+
 # Specify your gem's dependencies in coderay.gemspec
 gemspec
 
@@ -10,4 +12,5 @@ group :development do
   gem "term-ansicolor"
   gem "shoulda-context", "~> 1.0.0"
   gem "json" if RUBY_VERSION < '1.9'
+  gem "rdoc"
 end

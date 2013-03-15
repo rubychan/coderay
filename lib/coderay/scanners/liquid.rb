@@ -5,81 +5,13 @@ module Scanners
     
     register_for :liquid
    
-    DIRECTIVE_KEYWORDS = /
-      list|
-      endlist|
-      for|
-      endfor|
-      wrap|
-      endwrap|
-      if|
-      endif|
-      unless|
-      endunless|
-      elsif|
-      assign|
-      cycle|
-      capture|
-      end|
-      capture|
-      fill|
-      iflist|
-      endiflist|
-      else|
-    /x
+    DIRECTIVE_KEYWORDS = "list|endlist|for|endfor|wrap|endwrap|if|endif|unless|endunless|elsif|assign|cycle|capture|end|capture|fill|iflist|endiflist|else"
 
-    DIRECTIVE_OPERATORS = /
-      =|
-      ==|
-      !=|
-      >|
-      <|
-      <=|
-      >=|
-      contains|
-    /x
+    DIRECTIVE_OPERATORS = "=|==|!=|>|<|<=|>=|contains|"
 
-    MATH = /
-      =|
-      ==|
-      !=|
-      >|
-      <|
-      <=|
-      >|
-    /x
+    MATH = "=|==|!=|>|<|<=|>|"
 
-    FILTER_KEYWORDS = /
-      date|
-      capitalize|
-      downcase|
-      upcase|
-      first|
-      last|
-      join|
-      sort|
-      map|
-      size|
-      escape|
-      escape_once|
-      strip_html|
-      strip_newlines|
-      newline_to_br|
-      replace|
-      replace_first|
-      remove|
-      remove_first|
-      truncate|
-      truncatewords|
-      prepend|
-      append|
-      minus|
-      plus|
-      times|
-      divided_by|
-      split|
-      modulo
-   /x
+    FILTER_KEYWORDS = "date|capitalize|downcase|upcase|first|last|join|sort|map|size|escape|escape_once|strip_html|strip_newlines|newline_to_br|replace|replace_first|remove|remove_first|truncate|truncatewords|prepend|append|minus|plus|times|divided_by|split|modulo"
 
     LIQUID_DIRECTIVE_BLOCK = /
       {%
@@ -119,8 +51,8 @@ module Scanners
       encoder.text_token match, :key
       state = :liquid
       scan_spaces(encoder)
-      #Replace with DIRECTIVES_KEYWORDS regex
-      if match = scan(/wrap|if|endif|endwrap/)
+      #This regex doesn't work and I don't know why
+      if match = scan(/#{DIRECTIVES_KEYWORDS}/)
         encoder.text_token match, :directive
         scan_spaces(encoder)
         if match =~ /if/
@@ -128,8 +60,7 @@ module Scanners
             encoder.text_token match, :variable
           end
           scan_spaces(encoder)
-        #Replace with MATH regex
-          if match = scan(/!=/)
+          if match = scan(/#{MATH}/)
             encoder.text_token match, :char
             scan_spaces(encoder)
           end
@@ -150,10 +81,7 @@ module Scanners
     def scan_output_filters(encoder, options, match)
       encoder.text_token match, :delimiter
       scan_spaces(encoder)
-      #Replace with FILTER_KEYWORDS regex
-      testx = /replace_first|prepend/
-      if directive = scan(/#{testx}/)
-      #if directive = scan(/#{FILTER_KEYWORDS}/)
+      if directive = scan(/#{FILTER_KEYWORDS}/)
         encoder.text_token directive, :directive
       end
       if delimiter = scan(/:/)

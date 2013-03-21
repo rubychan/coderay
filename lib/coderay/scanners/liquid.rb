@@ -52,7 +52,7 @@ module Scanners
       state = :liquid
       scan_spaces(encoder)
       #This regex doesn't work and I don't know why
-      if match = scan(/#{DIRECTIVES_KEYWORDS}/)
+      if match = scan(/#{DIRECTIVE_KEYWORDS}/)
         encoder.text_token match, :directive
         scan_spaces(encoder)
         if match =~ /if/

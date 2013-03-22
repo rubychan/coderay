@@ -7,11 +7,11 @@ module Scanners
    
     DIRECTIVE_KEYWORDS = "list|endlist|for|endfor|wrap|endwrap|if|endif|unless|endunless|elsif|assign|cycle|capture|end|capture|fill|iflist|endiflist|else"
 
-    DIRECTIVE_OPERATORS = "=|==|!=|>|<|<=|>=|contains|"
+    DIRECTIVE_OPERATORS = "=|==|!=|>|<|<=|>=|contains"
 
-    MATH = "=|==|!=|>|<|<=|>|"
+    MATH = "=|==|!=|>|<|<=|>"
 
-    FILTER_KEYWORDS = "date|capitalize|downcase|upcase|first|last|join|sort|map|size|escape|escape_once|strip_html|strip_newlines|newline_to_br|replace|replace_first|remove|remove_first|truncate|truncatewords|prepend|append|minus|plus|times|divided_by|split|modulo"
+    FILTER_KEYWORDS = "date|capitalize|downcase|upcase|first|last|join|sort|map|size|escape_once|escape|strip_html|strip_newlines|newline_to_br|replace_first|replace|remove_first|remove|truncate|truncatewords|prepend|append|minus|plus|times|divided_by|split|modulo"
 
     LIQUID_DIRECTIVE_BLOCK = /
       {%

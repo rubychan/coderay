@@ -99,6 +99,7 @@ module CodeRay
       'mab'      => :ruby,
       'pas'      => :delphi,
       'patch'    => :diff,
+      'phtml'    => :html,
       'php'      => :php,
       'php3'     => :php,
       'php4'     => :php,

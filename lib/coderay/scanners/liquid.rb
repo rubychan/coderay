@@ -5,13 +5,17 @@ module Scanners
     
     register_for :liquid
    
-    DIRECTIVE_KEYWORDS = "endlist|list|endfor|for|endwrap|wrap|endif|if|endunless|unless|elsif|assignlist|assign|cycle|capture|end|capture|fill|endiflist|iflist|else"
+    DIRECTIVE_KEYWORDS = /endlist|list|endfor|for|endwrap|wrap|endif|if|endunless|unless|elsif|assignlist|assign|cycle|capture|end|capture|fill|endiflist|iflist|else/
 
-    DIRECTIVE_OPERATORS = "=|==|!=|>|<|<=|>=|contains|\+"
+    DIRECTIVE_OPERATORS = /#{MATH}|contains/
 
     MATH = /==|=|!=|>|<=|<|>|\+/
 
-    FILTER_KEYWORDS = "date|capitalize|downcase|upcase|first|last|join|sort|map|size|escape_once|escape|strip_html|strip_newlines|newline_to_br|replace_first|replace|remove_first|remove|truncate|truncatewords|prepend|append|minus|plus|times|divided_by|split|modulo"
+    FILTER_KEYWORDS = /#{FILTER_WITH_VALUE_KEYWORDS}|textilize|capitalize|downcase|upcase|first|last|sort|map|size|escape_once|escape|strip_html|strip_newlines|newline_to_br/
+
+    FILTER_WITH_VALUE_KEYWORDS = /date|replace_first|replace|remove_first|remove_first|remove|minus|times|divided_by|modulo|mod|split|join|truncatewords|truncate|prepend|append/
+
+    SELECTOR_KEYWORDS = /in|with|snippet|script|tag|tabs|items_per_tab/
 
     LIQUID_DIRECTIVE_BLOCK = /
       {{1,2}%
@@ -29,19 +33,26 @@ module Scanners
       end
     end
 
+    def scan_key_value_pair(encoder, options, match)
+      scan_spaces(encoder)
+      encoder.text_token match, :key
+      if delimiter = scan(/:/)
+        encoder.text_token delimiter, :delimiter
+        scan_spaces(encoder)
+      end
+      if value = scan(/\w+/)
+        encoder.text_token value, :value 
+      elsif value = scan(/('\S+')|("\w+")/)
+        encoder.text_token value, :string
+      end
+    end
+
     def scan_selector(encoder, options, match)
       scan_spaces(encoder)
-      if match = scan(/in|with|script|tabs|items_per_tab/)
-        Rails.logger.debug 'DEBUG: Scanning selector'
-        scan_spaces(encoder)
-        encoder.text_token match, :type
-        if delimiter = scan(/:/)
-          encoder.text_token delimiter, :delimiter
-          scan_spaces(encoder)
-        end
-        if variable = scan(/(\w+)|('\S+')|("\w+")/)
-          encoder.text_token variable, :variable
-        end
+      Rails.logger.debug 'DEBUG: Looking for a selector'
+      if match = scan(/#{SELECTOR_KEYWORDS}/)
+        Rails.logger.debug 'DEBUG: Selector keyword found'
+        scan_key_value_pair(encoder, options, match)
         scan_selector(encoder, options, match)
       else
         false
@@ -53,7 +64,6 @@ module Scanners
       encoder.text_token match, :tag
       state = :liquid
       scan_spaces(encoder)
-      #This regex doesn't work and I don't know why
       if match = scan(/#{DIRECTIVE_KEYWORDS}/)
         encoder.text_token match, :directive
         scan_spaces(encoder)
@@ -84,15 +94,10 @@ module Scanners
     def scan_output_filters(encoder, options, match)
       encoder.text_token match, :operator
       scan_spaces(encoder)
-      if directive = scan(/#{FILTER_KEYWORDS}/)
+      if match = scan(/#{FILTER_WITH_VALUE_KEYWORDS}/)
+        scan_key_value_pair(encoder, options, match)
+      elsif directive = scan(/#{FILTER_KEYWORDS}/)
         encoder.text_token directive, :directive
-      end
-      if delimiter = scan(/:/)
-        encoder.text_token delimiter, :delimiter
-      end
-      scan_spaces(encoder)
-      if variable = scan(/(\w+)|('\S+')|(".+")/)
-        encoder.text_token variable, :variable
       end
       if next_filter = scan(/\s\|\s/)
         scan_output_filters(encoder, options, next_filter)

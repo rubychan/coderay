@@ -67,7 +67,7 @@ module CodeRay
     :type                => 'type',
     :value               => 'value',
     :variable            => 'variable',
-    
+
     :change              => 'change',
     :delete              => 'delete',
     :head                => 'head',
@@ -76,7 +76,7 @@ module CodeRay
     :eyecatcher          => 'eyecatcher',
     
     :ident               => false,
-    :operator            => false,
+    :operator            => 'operator',
     
     :space               => false,
     :plain               => false

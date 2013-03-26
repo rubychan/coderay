@@ -5,11 +5,11 @@ module Scanners
     
     register_for :liquid
    
-    DIRECTIVE_KEYWORDS = "list|endlist|for|endfor|wrap|endwrap|if|endif|unless|endunless|elsif|assignlist|assign|cycle|capture|end|capture|fill|iflist|endiflist|else"
+    DIRECTIVE_KEYWORDS = "endlist|list|endfor|for|endwrap|wrap|endif|if|endunless|unless|elsif|assignlist|assign|cycle|capture|end|capture|fill|endiflist|iflist|else"
 
-    DIRECTIVE_OPERATORS = "=|==|!=|>|<|<=|>=|contains"
+    DIRECTIVE_OPERATORS = "=|==|!=|>|<|<=|>=|contains|\+"
 
-    MATH = "==|=|!=|>|<=|<|>"
+    MATH = /==|=|!=|>|<=|<|>|\+/
 
     FILTER_KEYWORDS = "date|capitalize|downcase|upcase|first|last|join|sort|map|size|escape_once|escape|strip_html|strip_newlines|newline_to_br|replace_first|replace|remove_first|remove|truncate|truncatewords|prepend|append|minus|plus|times|divided_by|split|modulo"
 
@@ -63,7 +63,7 @@ module Scanners
           end
           scan_spaces(encoder)
           if match = scan(/#{MATH}/)
-            encoder.text_token match, :char
+            encoder.text_token match, :operator
             scan_spaces(encoder)
             scan_selector(encoder, options, match)
           end
@@ -82,7 +82,7 @@ module Scanners
     end
 
     def scan_output_filters(encoder, options, match)
-      encoder.text_token match, :delimiter
+      encoder.text_token match, :operator
       scan_spaces(encoder)
       if directive = scan(/#{FILTER_KEYWORDS}/)
         encoder.text_token directive, :directive
@@ -125,7 +125,6 @@ module Scanners
         if (match = scan_until(/(?=({{2,3}|{{1,2}%))/) || scan_rest) and not match.empty? and state != :liquid
           Rails.logger.debug "DEBUG: HTML scanning: #{match}"
           if match =~ /^"|^'/
-            #match = match.sub /^"|^'/, ''
             @html_scanner.tokenize(match, { tokens: encoder, state: :attribute_value_string })
           else
             @html_scanner.tokenize(match, tokens: encoder)

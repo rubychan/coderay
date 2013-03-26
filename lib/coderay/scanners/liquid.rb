@@ -9,14 +9,14 @@ module Scanners
 
     DIRECTIVE_OPERATORS = "=|==|!=|>|<|<=|>=|contains"
 
-    MATH = "=|==|!=|>|<|<=|>"
+    MATH = "==|=|!=|>|<=|<|>"
 
     FILTER_KEYWORDS = "date|capitalize|downcase|upcase|first|last|join|sort|map|size|escape_once|escape|strip_html|strip_newlines|newline_to_br|replace_first|replace|remove_first|remove|truncate|truncatewords|prepend|append|minus|plus|times|divided_by|split|modulo"
 
     LIQUID_DIRECTIVE_BLOCK = /
-      {%
+      {{1,2}%
       (.*?)
-      %}
+      %}{1,2}
     /x
 
     def setup
@@ -75,7 +75,7 @@ module Scanners
       end
       scan_selector(encoder, options, match)
       scan_spaces(encoder)
-      if match = scan(/%}/)
+      if match = scan(/%}{1,2}/)
         encoder.text_token match, :tag
         state = :initial
       end
@@ -111,7 +111,7 @@ module Scanners
         scan_output_filters(encoder, options, match)   
       end
       scan_spaces(encoder)
-      if match = scan(/}}/)
+      if match = scan(/}{2,3}/)
         encoder.text_token match, :tag
       end
       state = :initial
@@ -122,7 +122,7 @@ module Scanners
       state = :initial
 
       until eos?
-        if (match = scan_until(/(?=({{|{%))/) || scan_rest) and not match.empty? and state != :liquid
+        if (match = scan_until(/(?=({{2,3}|{{1,2}%))/) || scan_rest) and not match.empty? and state != :liquid
           Rails.logger.debug "DEBUG: HTML scanning: #{match}"
           if match =~ /^"|^'/
             #match = match.sub /^"|^'/, ''
@@ -132,9 +132,9 @@ module Scanners
           end
           state = :initial
         scan_spaces(encoder)
-        elsif match = scan(/{%/)
+        elsif match = scan(/{{1,2}%/)
           scan_directive(encoder, options, match) 
-        elsif match = scan(/{{/)
+        elsif match = scan(/{{2,3}/)
           scan_output(encoder, options, match)
         else
           raise "Else-case reached. State: #{state.to_s}."

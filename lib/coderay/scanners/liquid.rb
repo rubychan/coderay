@@ -5,7 +5,7 @@ module Scanners
     
     register_for :liquid
    
-    DIRECTIVE_KEYWORDS = "list|endlist|for|endfor|wrap|endwrap|if|endif|unless|endunless|elsif|assign|cycle|capture|end|capture|fill|iflist|endiflist|else"
+    DIRECTIVE_KEYWORDS = "list|endlist|for|endfor|wrap|endwrap|if|endif|unless|endunless|elsif|assignlist|assign|cycle|capture|end|capture|fill|iflist|endiflist|else"
 
     DIRECTIVE_OPERATORS = "=|==|!=|>|<|<=|>=|contains"
 
@@ -20,7 +20,7 @@ module Scanners
     /x
 
     def setup
-      @html_scanner = CodeRay.scanner(:html, tokens: @tokens, keep_tokens: true, keep_state: false)
+      @html_scanner = CodeRay.scanner(:html, tokens: @tokens, keep_tokens: true, keep_state: true)
     end
 
     def scan_spaces(encoder)
@@ -31,7 +31,7 @@ module Scanners
 
     def scan_selector(encoder, options, match)
       scan_spaces(encoder)
-      if match = scan(/in|with/)
+      if match = scan(/in|with|script|tabs|items_per_tab/)
         Rails.logger.debug 'DEBUG: Scanning selector'
         scan_spaces(encoder)
         encoder.text_token match, :type
@@ -43,19 +43,21 @@ module Scanners
           encoder.text_token variable, :variable
         end
         scan_selector(encoder, options, match)
+      else
+        false
       end
     end
 
     def scan_directive(encoder, options, match)
       Rails.logger.debug 'DEBUG: Scanning directive'
-      encoder.text_token match, :key
+      encoder.text_token match, :tag
       state = :liquid
       scan_spaces(encoder)
       #This regex doesn't work and I don't know why
       if match = scan(/#{DIRECTIVE_KEYWORDS}/)
         encoder.text_token match, :directive
         scan_spaces(encoder)
-        if match =~ /if/
+        if match =~ /if|assign|assignlist/
           if match = scan(/\w+\.?\w*/)
             encoder.text_token match, :variable
           end
@@ -63,6 +65,7 @@ module Scanners
           if match = scan(/#{MATH}/)
             encoder.text_token match, :char
             scan_spaces(encoder)
+            scan_selector(encoder, options, match)
           end
           if match = scan(/(\w+)|('\S+')|(".+")/)
             encoder.text_token match, :variable
@@ -73,7 +76,7 @@ module Scanners
       scan_selector(encoder, options, match)
       scan_spaces(encoder)
       if match = scan(/%}/)
-        encoder.text_token match, :key
+        encoder.text_token match, :tag
         state = :initial
       end
     end
@@ -98,10 +101,10 @@ module Scanners
 
     def scan_output(encoder, options, match)
       Rails.logger.debug 'DEBUG: Scanning output'
-      encoder.text_token match, :key
+      encoder.text_token match, :tag
       state = :liquid
       scan_spaces(encoder)
-      if match = scan(/(\w+)|('\S+')|("\w+")/)
+      if match = scan(/(\w+\.?\w*)|('\S+')|("\w+")/)
         encoder.text_token match, :variable
       end
       if match = scan(/(\s\|\s)/)
@@ -109,7 +112,7 @@ module Scanners
       end
       scan_spaces(encoder)
       if match = scan(/}}/)
-        encoder.text_token match, :key
+        encoder.text_token match, :tag
       end
       state = :initial
     end
@@ -120,7 +123,13 @@ module Scanners
 
       until eos?
         if (match = scan_until(/(?=({{|{%))/) || scan_rest) and not match.empty? and state != :liquid
-          @html_scanner.tokenize(match, tokens: encoder)
+          Rails.logger.debug "DEBUG: HTML scanning: #{match}"
+          if match =~ /^"|^'/
+            #match = match.sub /^"|^'/, ''
+            @html_scanner.tokenize(match, { tokens: encoder, state: :attribute_value_string })
+          else
+            @html_scanner.tokenize(match, tokens: encoder)
+          end
           state = :initial
         scan_spaces(encoder)
         elsif match = scan(/{%/)

@@ -7,15 +7,17 @@ module Scanners
    
     DIRECTIVE_KEYWORDS = /endlist|list|endfor|for|endwrap|wrap|endif|if|endunless|unless|elsif|assignlist|assign|cycle|capture|end|capture|fill|endiflist|iflist|else/
 
-    DIRECTIVE_OPERATORS = /#{MATH}|contains/
-
     MATH = /==|=|!=|>|<=|<|>|\+/
+
+    DIRECTIVE_PREPOSITIONS= /contains|in|#{MATH}/
 
     FILTER_KEYWORDS = /#{FILTER_WITH_VALUE_KEYWORDS}|textilize|capitalize|downcase|upcase|first|last|sort|map|size|escape_once|escape|strip_html|strip_newlines|newline_to_br/
 
     FILTER_WITH_VALUE_KEYWORDS = /date|replace_first|replace|remove_first|remove_first|remove|minus|times|divided_by|modulo|mod|split|join|truncatewords|truncate|prepend|append/
 
-    SELECTOR_KEYWORDS = /in|with|snippet|script|tag|tabs|items_per_tab/
+    SELECTOR_KEYWORDS = /in|with|snippet|script|content_item|folder|widget|wrapper|category|asset_folder|asset/
+
+    DIRECTIVE_KEYS = /#{SELECTOR_KEYWORDS}|tabs|items_per_tab/
 
     LIQUID_DIRECTIVE_BLOCK = /
       {{1,2}%
@@ -35,7 +37,11 @@ module Scanners
 
     def scan_key_value_pair(encoder, options, match)
       scan_spaces(encoder)
-      encoder.text_token match, :key
+      if match =~ /#{SELECTOR_KEYWORDS}/
+        encoder.text_token match, :directive
+      else
+        encoder.text_token match, :key
+      end
       if delimiter = scan(/:/)
         encoder.text_token delimiter, :delimiter
         scan_spaces(encoder)
@@ -50,9 +56,14 @@ module Scanners
     def scan_selector(encoder, options, match)
       scan_spaces(encoder)
       Rails.logger.debug 'DEBUG: Looking for a selector'
-      if match = scan(/#{SELECTOR_KEYWORDS}/)
-        Rails.logger.debug 'DEBUG: Selector keyword found'
-        scan_key_value_pair(encoder, options, match)
+      if match = scan(/#{DIRECTIVE_KEYS}/) 
+        if peek(1) == ':'
+          Rails.logger.debug "DEBUG: Peek: #{peek(5)}"
+          Rails.logger.debug 'DEBUG: Selector keyword found'
+          scan_key_value_pair(encoder, options, match)
+        else 
+          encoder.text_token match, :variable
+        end
         scan_selector(encoder, options, match)
       else
         false
@@ -68,11 +79,12 @@ module Scanners
         encoder.text_token match, :directive
         scan_spaces(encoder)
         if match =~ /if|assign|assignlist/
+          scan_selector(encoder, options, match)
           if match = scan(/\w+\.?\w*/)
             encoder.text_token match, :variable
           end
           scan_spaces(encoder)
-          if match = scan(/#{MATH}/)
+          if match = scan(/#{DIRECTIVE_PREPOSITIONS}/)
             encoder.text_token match, :operator
             scan_spaces(encoder)
             scan_selector(encoder, options, match)

@@ -141,11 +141,7 @@ module Scanners
       until eos?
         if (match = scan_until(/(?=({{2,3}|{{1,2}%))/) || scan_rest) and not match.empty? and state != :liquid
           Rails.logger.debug "DEBUG: HTML scanning: #{match}"
-          if match =~ /^"|^'/
-            @html_scanner.tokenize(match, { tokens: encoder, state: :attribute_value_string })
-          else
-            @html_scanner.tokenize(match, tokens: encoder)
-          end
+          @html_scanner.tokenize(match, tokens: encoder)
           state = :initial
         scan_spaces(encoder)
         elsif match = scan(/{{1,2}%/)

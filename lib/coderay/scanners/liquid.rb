@@ -78,7 +78,7 @@ module Scanners
       if match = scan(/#{DIRECTIVE_KEYWORDS}/)
         encoder.text_token match, :directive
         scan_spaces(encoder)
-        if match =~ /if|assign|assignlist/
+        if match =~ /if|assign|assignlist|for|list/
           scan_selector(encoder, options, match)
           if match = scan(/\w+\.?\w*/)
             encoder.text_token match, :variable

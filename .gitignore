@@ -5,6 +5,8 @@ spec/reports
 doc
 Gemfile.lock
 .rvmrc
+.ruby-gemset
+.ruby-version
 test/executable/source.rb.html
 test/executable/source.rb.json
 test/scanners

@@ -3,6 +3,8 @@ module Scanners
 
   class Liquid < Scanner
     
+    require 'csv'
+
     register_for :liquid
    
     DIRECTIVE_KEYWORDS = /endlist|list|endfor|for|endwrap|wrap|endif|if|endunless|unless|elsif|assignlist|assign|cycle|capture|end|capture|fill|endiflist|iflist|else/
@@ -11,19 +13,19 @@ module Scanners
 
     DIRECTIVE_PREPOSITIONS= /contains|in|#{MATH}/
 
-    FILTER_KEYWORDS = /#{FILTER_WITH_VALUE_KEYWORDS}|textilize|capitalize|downcase|upcase|first|last|sort|map|size|escape_once|escape|strip_html|strip_newlines|newline_to_br/
-
     FILTER_WITH_VALUE_KEYWORDS = /date|replace_first|replace|remove_first|remove_first|remove|minus|times|divided_by|modulo|mod|split|join|truncatewords|truncate|prepend|append/
 
-    SELECTOR_KEYWORDS = /in|with|snippet|script|content_item|folder|widget|wrapper|category|asset_folder|asset/
+    FILTER_KEYWORDS = /#{FILTER_WITH_VALUE_KEYWORDS}|textilize|capitalize|downcase|upcase|first|last|sort|map|size|escape_once|escape|strip_html|strip_newlines|newline_to_br/
 
-    DIRECTIVE_KEYS = /#{SELECTOR_KEYWORDS}|tabs|items_per_tab/
+    SELECTOR_KEYWORDS = /in|with|snippet|script|content_item|folder|widget|wrapper|category|asset_folder|asset/
 
     LIQUID_DIRECTIVE_BLOCK = /
       {{1,2}%
       (.*?)
       %}{1,2}
     /x
+
+    KEY_VALUE_REGEX = /(\w+)(:)(\w+|".*"|'.*?')/
 
     def setup
       @html_scanner = CodeRay.scanner(:html, tokens: @tokens, keep_tokens: true, keep_state: true)
@@ -35,35 +37,62 @@ module Scanners
       end
     end
 
+    def scan_string(encoder, substring)
+      if substring and string_array = substring.match(/('|")(.+)('|")/)
+        delimiter = string_array.captures[0]
+        contents = string_array.captures[1]
+        delimiter_2 = string_array.captures[2]
+
+        encoder.begin_group :string
+        encoder.text_token delimiter, :delimiter
+        encoder.text_token contents, :contents
+        encoder.text_token delimiter, :delimiter
+        encoder.end_group :string
+        
+        true
+      else
+        false
+      end
+    end  
+
+    def scan_csv_list(encoder, list)
+      CSV.parse(list) do |row|
+        column_index = 0
+        row.each do |value|
+          column_index += 1
+          unless scan_string(encoder, value)
+            encoder.text_token value, :value
+          end
+          unless column_index >= row.length
+            encoder.text_token ',', :delimiter 
+          end
+        end
+      end
+    end
+
     def scan_key_value_pair(encoder, options, match)
       scan_spaces(encoder)
-      if match =~ /#{SELECTOR_KEYWORDS}/
-        encoder.text_token match, :directive
-      else
-        encoder.text_token match, :key
-      end
-      if delimiter = scan(/:/)
+      if match = check(/#{KEY_VALUE_REGEX}/)
+        key = scan(/\w+/)
+        delimiter, values = scan(/(:)(\S+)|(".*?")|('.*?')/).match(/(:)(\S+)|(".*?")|('.*?')/).captures
+
+        if key =~ /#{SELECTOR_KEYWORDS}/
+          encoder.text_token key, :directive
+        else
+          encoder.text_token key, :key
+        end
+
         encoder.text_token delimiter, :delimiter
-        scan_spaces(encoder)
-      end
-      if value = scan(/\w+/)
-        encoder.text_token value, :value 
-      elsif value = scan(/('\S+')|("\w+")/)
-        encoder.text_token value, :string
+        scan_csv_list(encoder, values)        
+        true
+      else
+        false
       end
     end
 
     def scan_selector(encoder, options, match)
       scan_spaces(encoder)
-      Rails.logger.debug 'DEBUG: Looking for a selector'
-      if match = scan(/#{DIRECTIVE_KEYS}/) 
-        if peek(1) == ':'
-          Rails.logger.debug "DEBUG: Peek: #{peek(5)}"
-          Rails.logger.debug 'DEBUG: Selector keyword found'
-          scan_key_value_pair(encoder, options, match)
-        else 
-          encoder.text_token match, :variable
-        end
+      if  scan_key_value_pair(encoder, options, match)
         scan_selector(encoder, options, match)
       else
         false
@@ -71,7 +100,6 @@ module Scanners
     end
 
     def scan_directive(encoder, options, match)
-      Rails.logger.debug 'DEBUG: Scanning directive'
       encoder.text_token match, :tag
       state = :liquid
       scan_spaces(encoder)
@@ -106,9 +134,7 @@ module Scanners
     def scan_output_filters(encoder, options, match)
       encoder.text_token match, :operator
       scan_spaces(encoder)
-      if match = scan(/#{FILTER_WITH_VALUE_KEYWORDS}/)
-        scan_key_value_pair(encoder, options, match)
-      elsif directive = scan(/#{FILTER_KEYWORDS}/)
+      if !scan_key_value_pair(encoder, options, match) and directive = scan(/#{FILTER_KEYWORDS}/)
         encoder.text_token directive, :directive
       end
       if next_filter = scan(/\s\|\s/)
@@ -117,7 +143,6 @@ module Scanners
     end
 
     def scan_output(encoder, options, match)
-      Rails.logger.debug 'DEBUG: Scanning output'
       encoder.text_token match, :tag
       state = :liquid
       scan_spaces(encoder)
@@ -135,12 +160,10 @@ module Scanners
     end
 
     def scan_tokens(encoder, options)
-      Rails.logger.debug "DEBUG: Scan started: #{self.string}"
       state = :initial
 
       until eos?
         if (match = scan_until(/(?=({{2,3}|{{1,2}%))/) || scan_rest) and not match.empty? and state != :liquid
-          Rails.logger.debug "DEBUG: HTML scanning: #{match}"
           @html_scanner.tokenize(match, tokens: encoder)
           state = :initial
         scan_spaces(encoder)

@@ -1,5 +1,4 @@
 module CodeRay
-
   # = FileType
   #
   # A simple filetype recognizer.

@@ -28,7 +28,7 @@ module Scanners
     KEY_VALUE_REGEX = /(\w+)(:)(\w+|".*"|'.*?')/
 
     def setup
-      @html_scanner = CodeRay.scanner(:html, tokens: @tokens, keep_tokens: true, keep_state: true)
+      @html_scanner = CodeRay.scanner(:html, :tokens => @tokens, :keep_tokens => true, :keep_state => true)
     end
 
     def scan_spaces(encoder)
@@ -72,11 +72,11 @@ module Scanners
 
     def scan_key_value_pair(encoder, options, match)
       scan_spaces(encoder)
-      if match = check(/#{KEY_VALUE_REGEX}/)
+      if match = check(/#{KEY_VALUE_REGEX}/o)
         key = scan(/\w+/)
         delimiter, values = scan(/(:)(\S+)|(".*?")|('.*?')/).match(/(:)(\S+)|(".*?")|('.*?')/).captures
 
-        if key =~ /#{SELECTOR_KEYWORDS}/
+        if key =~ /#{SELECTOR_KEYWORDS}/o
           encoder.text_token key, :directive
         else
           encoder.text_token key, :key
@@ -103,7 +103,7 @@ module Scanners
       encoder.text_token match, :tag
       state = :liquid
       scan_spaces(encoder)
-      if match = scan(/#{DIRECTIVE_KEYWORDS}/)
+      if match = scan(/#{DIRECTIVE_KEYWORDS}/o)
         encoder.text_token match, :directive
         scan_spaces(encoder)
         if match =~ /if|assign|assignlist|for|list/
@@ -112,8 +112,8 @@ module Scanners
             encoder.text_token match, :variable
           end
           scan_spaces(encoder)
-          if match = scan(/#{DIRECTIVE_PREPOSITIONS}/)
-            encoder.text_token match, :operator
+          if match = scan(/#{DIRECTIVE_PREPOSITIONS}/o)
+            encoder.text_token match, :keyword
             scan_spaces(encoder)
             scan_selector(encoder, options, match)
           end
@@ -127,12 +127,11 @@ module Scanners
       scan_spaces(encoder)
       if match = scan(/%}{1,2}/)
         encoder.text_token match, :tag
-        state = :initial
       end
     end
 
     def scan_output_filters(encoder, options, match)
-      encoder.text_token match, :operator
+      encoder.text_token match, :keyword
       scan_spaces(encoder)
       if !scan_key_value_pair(encoder, options, match) and directive = scan(/#{FILTER_KEYWORDS}/)
         encoder.text_token directive, :directive
@@ -144,7 +143,6 @@ module Scanners
 
     def scan_output(encoder, options, match)
       encoder.text_token match, :tag
-      state = :liquid
       scan_spaces(encoder)
       if match = scan(/(\w+\.?\w*)|('\S+')|("\w+")/)
         encoder.text_token match, :variable
@@ -156,23 +154,20 @@ module Scanners
       if match = scan(/}{2,3}/)
         encoder.text_token match, :tag
       end
-      state = :initial
     end
 
     def scan_tokens(encoder, options)
-      state = :initial
 
       until eos?
-        if (match = scan_until(/(?=({{2,3}|{{1,2}%))/) || scan_rest) and not match.empty? and state != :liquid
-          @html_scanner.tokenize(match, tokens: encoder)
-          state = :initial
+        if (match = scan_until(/(?=({{2,3}|{{1,2}%))/) || scan_rest) and not match.empty?
+          @html_scanner.tokenize(match, :tokens => encoder)
         scan_spaces(encoder)
         elsif match = scan(/{{1,2}%/)
           scan_directive(encoder, options, match) 
         elsif match = scan(/{{2,3}/)
           scan_output(encoder, options, match)
         else
-          raise "Else-case reached. State: #{state.to_s}."
+          raise "Else-case reached." 
         end
       end
       encoder

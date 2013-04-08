@@ -2,8 +2,6 @@ module CodeRay
 module Scanners
 
   class Liquid < Scanner
-    
-    require 'csv'
 
     register_for :liquid
    
@@ -38,7 +36,8 @@ module Scanners
     end
 
     def scan_string(encoder, substring)
-      if substring and string_array = substring.match(/('|")(.+)('|")/)
+      string_array = substring.match(/('|")(.+)('|")/)
+      if string_array
         delimiter = string_array.captures[0]
         contents = string_array.captures[1]
         delimiter_2 = string_array.captures[2]
@@ -46,7 +45,7 @@ module Scanners
         encoder.begin_group :string
         encoder.text_token delimiter, :delimiter
         encoder.text_token contents, :contents
-        encoder.text_token delimiter, :delimiter
+        encoder.text_token delimiter_2, :delimiter
         encoder.end_group :string
         
         true
@@ -56,17 +55,22 @@ module Scanners
     end  
 
     def scan_csv_list(encoder, list)
-      CSV.parse(list) do |row|
-        column_index = 0
-        row.each do |value|
-          column_index += 1
-          unless scan_string(encoder, value)
-            encoder.text_token value, :value
-          end
-          unless column_index >= row.length
-            encoder.text_token ',', :delimiter 
+      if !list.scan(/('.*?')(,)?/).empty?
+        captured = list.scan(/('.*?')(,)?/)
+      elsif !list.scan(/(".*?")(,)?/).empty?
+        captured = list.scan(/(".*?")(,)?/)
+      else
+        captured = list.scan(/(\w)(,)?/)
+      end
+      captured.each do |value|
+        unless scan_string(encoder, value[0])
+          if value[0] =~ /^\d$/
+            encoder.text_token value[0], :integer 
+          else
+            encoder.text_token value[0], :variable
           end
         end
+        encoder.text_token(value[1], :delimiter) if value[1]
       end
     end
 
@@ -101,7 +105,6 @@ module Scanners
 
     def scan_directive(encoder, options, match)
       encoder.text_token match, :tag
-      state = :liquid
       scan_spaces(encoder)
       if match = scan(/#{DIRECTIVE_KEYWORDS}/o)
         encoder.text_token match, :directive

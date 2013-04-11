@@ -7,7 +7,7 @@ module Scanners
     register_for :sass
     file_extension 'sass'
     
-    SASS_FUNCTION = /(?:inline-image|linear-gradient|color-stops|mix|lighten|darken|rotate|image-url|image-width|image-height|sprite|sprite-url|sprite-path|sprite-file|sprite-map|sprite-position|unquote|join|round|ceil|floor|nth)/
+    SASS_FUNCTION = /(?:inline-image|linear-gradient|color-stops|mix|lighten|darken|rotate|image-url|image-width|image-height|sprite-url|sprite-path|sprite-file|sprite-map|sprite-position|sprite|unquote|join|round|ceil|floor|nth)/
     
     STRING_CONTENT_PATTERN = {
       "'" => /(?:[^\n\'\#]+|\\\n|#{RE::Escape}|#(?!\{))+/,

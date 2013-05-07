@@ -5,7 +5,7 @@ module Scanners
 
     register_for :liquid
    
-    DIRECTIVE_KEYWORDS = /endlist|list|endfor|for|endwrap|wrap|endif|if|endunless|unless|elsif|assignlist|assign|cycle|capture|end|capture|fill|endiflist|iflist|else/
+    DIRECTIVE_KEYWORDS = /paginate|endlist|list|endfor|for|endwrap|wrap|endif|if|endunless|unless|elsif|assignlist|assign|cycle|capture|end|capture|fill|endiflist|iflist|else/
 
     MATH = /==|=|!=|>|<=|<|>|\+/
 
@@ -97,6 +97,11 @@ module Scanners
     def scan_selector(encoder, options, match)
       scan_spaces(encoder)
       if  scan_key_value_pair(encoder, options, match)
+        scan_spaces(encoder)
+        if match = scan(/\+/)
+          encoder.text_token match, :directive
+        end
+        scan_spaces(encoder)
         scan_selector(encoder, options, match)
       else
         false
@@ -109,7 +114,7 @@ module Scanners
       if match = scan(/#{DIRECTIVE_KEYWORDS}/o)
         encoder.text_token match, :directive
         scan_spaces(encoder)
-        if match =~ /if|assign|assignlist|for|list/
+        if match =~ /if|assign|assignlist|for|list|paginate/
           scan_selector(encoder, options, match)
           if match = scan(/\w+\.?\w*/)
             encoder.text_token match, :variable

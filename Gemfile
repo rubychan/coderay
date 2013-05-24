@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 # Specify your gem's dependencies in coderay.gemspec
 gemspec
@@ -9,7 +9,7 @@ group :development do
   gem "bundler", ">= 1.0.0"
   gem "rake"
   gem "RedCloth", RUBY_PLATFORM == 'java' ? ">= 4.2.7" : ">= 4.0.3"
-  gem "term-ansicolor"
+  gem "term-ansicolor", '= 1.1.1'
   gem "shoulda-context", "~> 1.0.0"
   gem "json" if RUBY_VERSION < '1.9'
   gem "rdoc"

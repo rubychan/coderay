@@ -30,8 +30,12 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
 
   SCANNER = /
     (?<space>\s*)      # eat leading whitespace, just to make iteration of fluff easier
-    (?<fluff>(?m:.*?)) # eat content up until something we want
+    (?<fluff>(?m).*?) # eat content up until something we want
     (?:
+      (?<funcname>
+        \bfunction\s+[^\(]+
+      )
+      |
       \b(?<keyword>#{KEYWORDS.join('|')})\b
       |
       (?: # strings
@@ -44,7 +48,7 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
         (?<s2q2>')
         |
         (?<s3q1>\[(?<stringequals>=*)\[)
-        (?<s3>(?m:.*?))
+        (?<s3>(?m).*?)
         (?<s3q2>\]\k<stringequals>\])
       )
       |
@@ -64,13 +68,13 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
             |
             \.\d+                # .3
           )
-          (?:e[-+]?\d+)?      # 3.1e-7
+          (?:e[-+]?\d+)?         # 3.1e-7
         )
       )\b
       |
       (?:
         (?<blockstart>--\[(?<blockequals>=*)\[)
-        (?<blockmain>(?m:.*?))
+        (?<blockmain>(?m).*?)
         (?<blockclose>\]\k<blockequals>\])
       )
       |
@@ -152,6 +156,12 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
           tokens.text_token(piece, space ? :space : :content)
           space = !space
         end
+      end
+      if match[:funcname] && !match[:funcname].empty?
+        f,s,n = match[:funcname].split(/(\s+)/)
+        tokens.text_token(f,:keyword)
+        tokens.text_token(s,:space)
+        tokens.text_token(n,:function)
       end
       CAPTURE_KINDS.each do |capture,kind|
         next unless match[capture] && !match[capture].empty?

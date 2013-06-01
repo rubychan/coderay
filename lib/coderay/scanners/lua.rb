@@ -30,7 +30,7 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
 
   SCANNER = /
     (?<space>\s*)      # eat leading whitespace, just to make iteration of fluff easier
-    (?<fluff>[\d\D]*?) # eat content up until something we want
+    (?<fluff>(?m:.*?)) # eat content up until something we want
     (?:
       \b(?<keyword>#{KEYWORDS.join('|')})\b
       |
@@ -44,34 +44,34 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
         (?<s2q2>')
         |
         (?<s3q1>\[(?<stringequals>=*)\[)
-        (?<s3>[\d\D]*?)                  # Not using multiline mode due to single-line comments
+        (?<s3>(?m:.*?))
         (?<s3q2>\]\k<stringequals>\])
       )
       |
       \b(?<number>
         -? # Allows -2 to be properly highlighted, but makes 10-5 show -5 as a single number
-        (?:
-          0[xX]
+        (?i:
+          0x
           (?:
-            [\da-fA-F]+\.?[\da-fA-F]*  # 0xA and 0xA. and 0xA.1
+            [\da-f]+\.?[\da-f]*  # 0xA and 0xA. and 0xA.1
             |
-            \.[\da-fA-F]+              # 0x.A
+            \.[\da-f]+           # 0x.A
           )
-          (?:[pP][-+]?\d+)?            # 0xA.1p-3
+          (?:p[-+]?\d+)?         # 0xA.1p-3
           |
           (?:
-            \d+\.?\d*                  # 3 and 3. and 3.14
+            \d+\.?\d*            # 3 and 3. and 3.14
             |
-            \.\d+                      # .3
+            \.\d+                # .3
           )
-          (?:[eE][-+]?\d+)?            # 3.1e-7
+          (?:e[-+]?\d+)?      # 3.1e-7
         )
       )\b
       |
       (?:
-        (?<blockcommentstart>--\[(?<commentequals>=*)\[)
-        (?<blockcommentmain>[\d\D]*?) # Not using multiline mode due to single-line comments
-        (?<blockcommentclose>\]\k<commentequals>\])
+        (?<blockstart>--\[(?<blockequals>=*)\[)
+        (?<blockmain>(?m:.*?))
+        (?<blockclose>\]\k<blockequals>\])
       )
       |
       (?<comment>
@@ -99,7 +99,7 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
       )
       |
       (?<gotolabel>
-        ::[a-zA-Z_]\w*::
+        (?i:::[a-z_]\w*::)
       )
     )
   /x
@@ -107,11 +107,11 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
   CAPTURE_KINDS = {
     reserved:     :reserved,
     comment:      :comment,
-    blockcommentstart: {
+    blockstart: {
       _group:     :comment,
-      blockcommentstart: :delimiter,
-      blockcommentmain:  :content,
-      blockcommentclose: :delimiter
+      blockstart: :delimiter,
+      blockmain:  :content,
+      blockclose: :delimiter
     },
     keyword:      :keyword,
     number:       :float,

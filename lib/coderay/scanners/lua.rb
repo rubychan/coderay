@@ -1,16 +1,15 @@
-# -*- coding: utf-8 -*-
+# encoding: utf-8
 
-# Scanner for the Lua[http://lua.org] programming lanuage.
-#
-# The language’s complete syntax is defined in
-# {the Lua manual}[http://www.lua.org/manual/5.2/manual.html],
-# which is what this scanner tries to conform to.
+# Scanner for the Lua programming lanuage.
+# This scanner attempts to mimic the syntax defined at:
+# http://www.lua.org/manual/5.2/manual.html
 class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
 
   register_for :lua
   file_extension "lua"
   title "Lua"
 
+  # http://www.lua.org/manual/5.2/manual.html#3.1
   KEYWORDS = %w[
     and break do else elseif end
     for function goto if in
@@ -18,9 +17,11 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     then until while
   ]
 
-  PREDEFINED_CONSTANTS = %w[false true nil]
+  # http://www.lua.org/manual/5.2/manual.html#3.1
+  CONSTANTS = %w[false true nil]
 
-  PREDEFINED_EXPRESSIONS = %w[
+  # http://www.lua.org/manual/5.2/manual.html#6.1
+  LIBRARY = %w[
   assert collectgarbage dofile error getmetatable
   ipairs load loadfile next pairs pcall print
   rawequal rawget rawlen rawset select setmetatable
@@ -33,20 +34,18 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     (?:
       \b(?<keyword>#{KEYWORDS.join('|')})\b
       |
-      (?<blockcomment>
-        --\[(?<commentequals>=*)\[[\d\D]*?\]\k<commentequals>\]
-      )
-      |
-      (?:
-        (?<s1q1>")(?<s1>(?:[^\\"\n]|\\[abfnrtvz\\"']|\\\n|\\\d{1,3}|\\x[\da-fA-F]{2})*)(?<s1q2>")
+      (?: # strings
+        (?<s1q1>")
+        (?<s1>(?:[^\\"\n]|\\[abfnrtvz\\"']|\\\n|\\\d{1,3}|\\x[\da-fA-F]{2})*)
+        (?<s1q2>")
         |
-        (?<s2q1>')(?<s2>(?:[^\\'\n]|\\[abfnrtvz\\"']|\\\n|\\\d{1,3}|\\x[\da-fA-F]{2})*)(?<s2q2>')
+        (?<s2q1>')
+        (?<s2>(?:[^\\'\n]|\\[abfnrtvz\\"']|\\\n|\\\d{1,3}|\\x[\da-fA-F]{2})*)
+        (?<s2q2>')
         |
-        (?<s3q1>\[(?<stringequals>=*)\[)(?<s3>[\d\D]*?)(?<s3q2>\]\k<stringequals>\])
-      )
-      |
-      (?<comment>
-        --(?!\[).+
+        (?<s3q1>\[(?<stringequals>=*)\[)
+        (?<s3>[\d\D]*?)                  # Not using multiline mode due to single-line comments
+        (?<s3q2>\]\k<stringequals>\])
       )
       |
       \b(?<number>
@@ -54,31 +53,53 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
         (?:
           0[xX]
           (?:
-            [\da-fA-F]+\.?[\da-fA-F]*
+            [\da-fA-F]+\.?[\da-fA-F]*  # 0xA and 0xA. and 0xA.1
             |
-            [\da-fA-F]*\.[\da-fA-F]+
+            \.[\da-fA-F]+              # 0x.A
           )
-          (?:[pP][-+]?\d+)?
+          (?:[pP][-+]?\d+)?            # 0xA.1p-3
           |
           (?:
-            \d+\.?\d*
+            \d+\.?\d*                  # 3 and 3. and 3.14
             |
-            \d*\.\d+
+            \.\d+                      # .3
           )
-          (?:[eE][-+]?\d+)?
+          (?:[eE][-+]?\d+)?            # 3.1e-7
         )
       )\b
       |
-      \b(?<constant>#{PREDEFINED_CONSTANTS.join('|')})\b
+      (?<comment>
+        --(?!\[).+
+      )
       |
-      \b(?<library>#{PREDEFINED_EXPRESSIONS.join('|')})\b
+      \b(?<constant>#{CONSTANTS.join('|')})\b
       |
-      (?<gotolabel>
-        ::[a-zA-Z_]\w*::
+      \b(?<library>#{LIBRARY.join('|')})\b
+      |
+      (?<operators>
+        (?<!\.)\.{2,3}(?!\.)
+        |
+        (?<!=)={1,2}(?!=)
+        |
+        [+\-*\/%^#]
+        |
+        ~=
+        |
+        [<>]=?
+      )
+      |
+      (?<blockcomment>
+        --\[(?<commentequals>=*)
+        \[[\d\D]*?               # Not using multiline mode due to single-line comments
+        \]\k<commentequals>\]
       )
       |
       (?<reserved>
-        \b_[A-Z]+\b
+        \b_[A-Z]+\b                    # _VERSION
+      )
+      |
+      (?<gotolabel>
+        ::[a-zA-Z_]\w*::
       )
     )
   /x
@@ -101,11 +122,13 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     s3:           :string,
     s3q2:         :delimiter,
     gotolabel:    :label,
+    operators:    :operator,
   }
 
   protected
 
   def scan_tokens(tokens, options)
+    # We use the block form of gsub instead of the StringScanner capabilities because StringScanner does not support named captures in 1.9
     string.gsub(SCANNER) do
       match = $~
       tokens.text_token( match[:space], :space ) unless match[:space].empty?

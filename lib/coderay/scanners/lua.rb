@@ -68,6 +68,12 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
         )
       )\b
       |
+      (?:
+        (?<blockcommentstart>--\[(?<commentequals>=*)\[)
+        (?<blockcommentmain>[\d\D]*?) # Not using multiline mode due to single-line comments
+        (?<blockcommentclose>\]\k<commentequals>\])
+      )
+      |
       (?<comment>
         --(?!\[).+
       )
@@ -88,12 +94,6 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
         [<>]=?
       )
       |
-      (?<blockcomment>
-        --\[(?<commentequals>=*)
-        \[[\d\D]*?               # Not using multiline mode due to single-line comments
-        \]\k<commentequals>\]
-      )
-      |
       (?<reserved>
         \b_[A-Z]+\b                    # _VERSION
       )
@@ -107,20 +107,34 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
   CAPTURE_KINDS = {
     reserved:     :reserved,
     comment:      :comment,
-    blockcomment: :comment,
+    blockcommentstart: {
+      _group:     :comment,
+      blockcommentstart: :delimiter,
+      blockcommentmain:  :content,
+      blockcommentclose: :delimiter
+    },
     keyword:      :keyword,
     number:       :float,
     constant:     :"predefined-constant",
     library:      :predefined,
-    s1q1:         :delimiter,
-    s1:           :string,
-    s1q2:         :delimiter,
-    s2q1:         :delimiter,
-    s2:           :string,
-    s2q2:         :delimiter,
-    s3q1:         :delimiter,
-    s3:           :string,
-    s3q2:         :delimiter,
+    s1q1:         {
+      _group:     :string,
+      s1q1:       :delimiter,
+      s1:         :content,
+      s1q2:       :delimiter,
+    },
+    s2q1:         {
+      _group:     :string,
+      s2q1:       :delimiter,
+      s2:         :content,
+      s2q2:       :delimiter,
+    },
+    s3q1:         {
+      _group:     :string,
+      s3q1:       :delimiter,
+      s3:         :content,
+      s3q2:       :delimiter,
+    },
     gotolabel:    :label,
     operators:    :operator,
   }
@@ -140,7 +154,16 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
         end
       end
       CAPTURE_KINDS.each do |capture,kind|
-        tokens.text_token( match[capture], kind ) if match[capture] && !match[capture].empty?
+        next unless match[capture] && !match[capture].empty?
+        if kind.is_a? Hash
+          tokens.begin_group(kind[:_group])
+          kind.each do |c,k|
+            tokens.text_token( match[c], k ) unless c==:_group
+          end
+          tokens.end_group(kind[:_group])
+        else
+          tokens.text_token( match[capture], kind )
+        end
       end
     end
     tokens

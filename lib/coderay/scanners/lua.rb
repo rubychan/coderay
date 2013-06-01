@@ -28,6 +28,7 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
   ]
 
   SCANNER = /
+    (?<space>\s*)      # eat leading whitespace, just to make iteration of fluff easier
     (?<fluff>[\d\D]*?) # eat content up until something we want
     (?:
       \b(?<keyword>#{KEYWORDS.join('|')})\b
@@ -48,19 +49,25 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
         --(?!\[).+
       )
       |
-      (?<number>
+      \b(?<number>
         -? # Allows -2 to be properly highlighted, but makes 10-5 show -5 as a single number
         (?:
-          0[xX][\da-fA-F]+
+          0[xX]
+          (?:
+            [\da-fA-F]+\.?[\da-fA-F]*
+            |
+            [\da-fA-F]*\.[\da-fA-F]+
+          )
+          (?:[pP][-+]?\d+)?
           |
           (?:
             \d+\.?\d*
             |
-            \d*\.?\d+
+            \d*\.\d+
           )
           (?:[eE][-+]?\d+)?
         )
-      )
+      )\b
       |
       \b(?<constant>#{PREDEFINED_CONSTANTS.join('|')})\b
       |
@@ -77,7 +84,6 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
   /x
 
   CAPTURE_KINDS = {
-    fluff:        :content,
     reserved:     :reserved,
     comment:      :comment,
     blockcomment: :comment,
@@ -101,8 +107,17 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
 
   def scan_tokens(tokens, options)
     string.gsub(SCANNER) do
+      match = $~
+      tokens.text_token( match[:space], :space ) unless match[:space].empty?
+      unless match[:fluff].empty?
+        space = false
+        match[:fluff].split(/(\s+)/).each do |piece|
+          tokens.text_token(piece, space ? :space : :content)
+          space = !space
+        end
+      end
       CAPTURE_KINDS.each do |capture,kind|
-        tokens.text_token( $~[capture], kind ) if $~[capture] && !$~[capture].empty?
+        tokens.text_token( match[capture], kind ) if match[capture] && !match[capture].empty?
       end
     end
     tokens

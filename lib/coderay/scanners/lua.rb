@@ -147,6 +147,7 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
 
   def scan_tokens(tokens, options)
     # We use the block form of gsub instead of the StringScanner capabilities because StringScanner does not support named captures in 1.9
+    match = nil
     string.gsub(SCANNER) do
       match = $~
       tokens.text_token( match[:space], :space ) unless match[:space].empty?
@@ -176,6 +177,7 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
         end
       end
     end
+    tokens.text_token(match.post_match,:content) unless match.post_match.empty?
     tokens
   end
 

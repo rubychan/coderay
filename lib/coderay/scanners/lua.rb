@@ -148,10 +148,9 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
     # We use the block form of gsub instead of the StringScanner capabilities because StringScanner does not support named captures in 1.9
     remainder_index = 0
 
-    boring_kinds = [:space,:content]
     add_boring = ->(fluff) do
-      fluff.split(/(\S+)/).each.with_index do |text,i|
-        tokens.text_token(text, boring_kinds[i%2]) unless text.empty?
+      fluff.scan(/((\s+)|(\S+))/).each do |text,ws,nws|
+        tokens.text_token(text, ws ? :space : :content)
       end
     end
 

@@ -29,7 +29,6 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
   ]
 
   SCANNER = /
-    (?<space>\s*)      # eat leading whitespace, just to make iteration of fluff easier
     (?<fluff>(?m).*?) # eat content up until something we want
     (?:
       (?<funcname>
@@ -147,17 +146,19 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
 
   def scan_tokens(tokens, options)
     # We use the block form of gsub instead of the StringScanner capabilities because StringScanner does not support named captures in 1.9
-    match = nil
+    remainder_index = 0
+
+    boring_kinds = [:space,:content]
+    add_boring = ->(fluff) do
+      fluff.split(/(\S+)/).each.with_index do |text,i|
+        tokens.text_token(text, boring_kinds[i%2]) unless text.empty?
+      end
+    end
+
     string.gsub(SCANNER) do
       match = $~
-      tokens.text_token( match[:space], :space ) unless match[:space].empty?
-      unless match[:fluff].empty?
-        space = false
-        match[:fluff].split(/(\s+)/).each do |piece|
-          tokens.text_token(piece, space ? :space : :content)
-          space = !space
-        end
-      end
+      remainder_index = match.offset(0).last
+      add_boring[match[:fluff]]
       if match[:funcname] && !match[:funcname].empty?
         f,s,n = match[:funcname].split(/(\s+)/)
         tokens.text_token(f,:keyword)
@@ -177,7 +178,9 @@ class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
         end
       end
     end
-    tokens.text_token(match.post_match,:content) unless match.post_match.empty?
+    unless remainder_index >= string.length
+      add_boring[string[remainder_index..-1]]
+    end
     tokens
   end
 

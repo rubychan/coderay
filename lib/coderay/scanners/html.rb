@@ -99,7 +99,17 @@ module Scanners
           case state
           
           when :initial
-            if match = scan(/<!--(?:.*?-->|.*)/m)
+            if match = scan(/<!\[CDATA\[/)
+              encoder.begin_group :string
+              encoder.text_token match, :delimiter
+              if match = scan(/.*?\]\]>/m)
+                encoder.text_token match[0..-4], :content
+                encoder.text_token ']]>', :delimiter
+              else
+                encoder.text_token scan(/.*/m), :error
+              end
+              encoder.end_group :string
+            elsif match = scan(/<!--(?:.*?-->|.*)/m)
               encoder.text_token match, :comment
             elsif match = scan(/<!(\w+)(?:.*?>|.*)|\]>/m)
               encoder.text_token match, :doctype

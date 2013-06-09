@@ -24,6 +24,7 @@ module Encoders
     end
     
     def text_token text, kind
+      raise 'empty token' if $CODERAY_DEBUG && text.empty?
       if kind == :space
         @out << text
       else

@@ -85,6 +85,4 @@ module CodeRay
   TokenKinds[:method]    = TokenKinds[:function]
   TokenKinds[:escape]    = TokenKinds[:delimiter]
   TokenKinds[:docstring] = TokenKinds[:comment]
-  
-  TokenKinds.freeze
 end

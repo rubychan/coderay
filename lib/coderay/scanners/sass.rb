@@ -18,13 +18,11 @@ module Scanners
     
     def setup
       @state = :initial
-      @value_expected = false
     end
     
     def scan_tokens encoder, options
       states = Array(options[:state] || @state)
       string_delimiter = nil
-      value_expected = @value_expected
       
       until eos?
         
@@ -191,7 +189,6 @@ module Scanners
       
       if options[:keep_state]
         @state = states
-        @value_expected = value_expected
       end
       
       encoder

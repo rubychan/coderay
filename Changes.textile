@@ -7,6 +7,7 @@ h2. Changes in 1.1
 * Diff scanner: Highlight inline changes in multi-line changes [#99]
 * Remove double-click toggle handler from HTML table output
 * Fixes to CSS scanner (floats, pseudoclasses)
+* Plugin does not warn about fallback when default is defined
 * Display line numbers in HTML @:table@ mode even for single-line code (remove special case) [#41, thanks to Ariejan de Vroom]
 * @CodeRay::TokenKinds@ should not be frozen [#130, thanks to Gavin Kistner]
 

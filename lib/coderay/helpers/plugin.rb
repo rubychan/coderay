@@ -180,7 +180,6 @@ module CodeRay
         rescue LoadError => boom
           if @plugin_map_loaded
             if h.has_key?(:default)
-              warn '%p could not load plugin %p; falling back to %p' % [self, id, h[:default]]
               h[:default]
             else
               raise PluginNotFound, '%p could not load plugin %p: %s' % [self, id, boom]

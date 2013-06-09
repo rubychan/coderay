@@ -1,5 +1,4 @@
 require 'test/unit'
-require File.expand_path('../../lib/assert_warning', __FILE__)
 
 $:.unshift File.expand_path('../../../lib', __FILE__)
 require 'coderay'
@@ -66,19 +65,14 @@ class BasicTest < Test::Unit::TestCase
   # See http://jgarber.lighthouseapp.com/projects/13054/tickets/124-code-markup-does-not-allow-brackets.
   def test_for_redcloth_false_positive
     require 'coderay/for_redcloth'
-    assert_warning 'CodeRay::Scanners could not load plugin :project; falling back to :text' do
-      assert_equal '<p><code>[project]_dff.skjd</code></p>',
-        RedCloth.new('@[project]_dff.skjd@').to_html
-    end
+    assert_equal '<p><code>[project]_dff.skjd</code></p>',
+      RedCloth.new('@[project]_dff.skjd@').to_html
     # false positive, but expected behavior / known issue
     assert_equal "<p><span lang=\"ruby\" class=\"CodeRay\">_dff.skjd</span></p>",
       RedCloth.new('@[ruby]_dff.skjd@').to_html
-    assert_warning 'CodeRay::Scanners could not load plugin :project; falling back to :text' do
-      assert_equal <<-BLOCKCODE.chomp,
+    assert_equal <<-BLOCKCODE.chomp, RedCloth.new('bc. [project]_dff.skjd').to_html
 <pre><code>[project]_dff.skjd</code></pre>
-        BLOCKCODE
-        RedCloth.new('bc. [project]_dff.skjd').to_html
-    end
+    BLOCKCODE
   end
   
 end if defined? RedCloth

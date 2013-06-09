@@ -1,11 +1,11 @@
 namespace :generate do
-  desc 'generates a new scanner NAME=lang [ALT=alternative,plugin,ids] [EXT=file,extensions] [BASE=base lang] '
+  desc 'generates a new scanner NAME=lang [ALT=alternative,plugin,ids] [EXT=file,extensions] [BASE=base lang]'
   task :scanner do
     raise 'I need a scanner name; use NAME=lang' unless scanner_class_name = ENV['NAME']
     raise "Invalid lang: #{scanner_class_name}; use NAME=lang." unless /\A\w+\z/ === scanner_class_name
-    require 'active_support'
+    require 'active_support/all'
     lang = scanner_class_name.underscore
-    class_name = scanner_class_name.classify
+    class_name = scanner_class_name.camelize
     
     def scanner_file_for_lang lang
       File.join(LIB_ROOT, 'coderay', 'scanners', lang + '.rb')
@@ -25,6 +25,7 @@ namespace :generate do
     File.open(scanner_file, 'w') do |file|
       file.write base_scanner.
         sub(/class \w+ < Scanner/, "class #{class_name} < Scanner").
+        sub('# Scanner for JSON (JavaScript Object Notation).', "# A scanner for #{scanner_class_name}.").
         sub(/register_for :\w+/, "register_for :#{lang}").
         sub(/file_extension '\S+'/, "file_extension '#{ENV.fetch('EXT', lang).split(',').first}'")
     end
@@ -37,9 +38,9 @@ namespace :generate do
     test_suite_file = File.join(test_dir, 'suite.rb')
     unless File.exist? test_suite_file
       puts "Creating test suite file #{test_suite_file}..."
-      base_suite = File.read File.join(test_dir, '..', 'json', 'suite.rb')
+      base_suite = File.read File.join(test_dir, '..', 'ruby', 'suite.rb')
       File.open(test_suite_file, 'w') do |file|
-        file.write base_suite.sub(/class JSON/, "class #{class_name}")
+        file.write base_suite.sub(/class Ruby/, "class #{class_name}")
       end
     end
     
@@ -51,7 +52,7 @@ namespace :generate do
       end
     end
     
-    if alternative_ids = ENV['ALT']
+    if alternative_ids = ENV['ALT'] && alternative_ids != lang
       map_file = File.join(LIB_ROOT, 'coderay', 'scanners', '_map.rb')
       puts "Not automated. Remember to add your alternative plugin ids to #{map_file}:"
       for id in alternative_ids.split(',')
@@ -59,17 +60,13 @@ namespace :generate do
       end
     end
     
-    print 'Add to SVN? [Y|n] '
+    print 'Add to git? [Y|n] '
     answer = $stdin.gets.chomp.downcase
     if answer.empty? || answer == 'y'
-      sh "svn add #{scanner_file}"
-      sh "svn add #{test_dir}"
-      svn_ignore = <<-SVN_IGNORE
-*.actual.*
-*.expected.html
-*.debug.diff*
-      SVN_IGNORE
-      sh "svn pset svn:ignore '#{svn_ignore}' #{test_dir}"
+      sh "git add #{scanner_file}"
+      cd File.join('test', 'scanners') do
+        sh "git add #{lang}"
+      end
     end
   end
 end

@@ -1,4 +1,4 @@
-# CodeRay [![Build Status](https://travis-ci.org/rubychan/coderay.png)](https://travis-ci.org/rubychan/coderay) [![Gem Version](https://badge.fury.io/rb/coderay.png)](http://badge.fury.io/rb/coderay)
+# CodeRay [![Build Status](https://travis-ci.org/rubychan/coderay.png)](https://travis-ci.org/rubychan/coderay) [![Gem Version](https://badge.fury.io/rb/coderay.png)](http://badge.fury.io/rb/coderay) [![Dependency Status](https://gemnasium.com/rubychan/coderay.png)](https://gemnasium.com/rubychan/coderay)
 
 ## About
 

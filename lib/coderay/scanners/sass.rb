@@ -139,7 +139,14 @@ module Scanners
           encoder.begin_group :string
           string_delimiter = match
           encoder.text_token match, :delimiter
-          states.push :string
+          if states.include? :sass_inline
+            content = scan_until(/(?=#{string_delimiter}|\}|\z)/)
+            encoder.text_token content, :content unless content.empty?
+            encoder.text_token string_delimiter, :delimiter if scan(/#{string_delimiter}/)
+            encoder.end_group :string
+          else
+            states.push :string
+          end
           
         elsif match = scan(/#{SASS_FUNCTION}/o)
           encoder.text_token match, :predefined

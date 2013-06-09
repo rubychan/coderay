@@ -1,4 +1,8 @@
-# CodeRay [![Build Status](https://travis-ci.org/rubychan/coderay.png)](https://travis-ci.org/rubychan/coderay) [![Gem Version](https://badge.fury.io/rb/coderay.png)](http://badge.fury.io/rb/coderay) [![Dependency Status](https://gemnasium.com/rubychan/coderay.png)](https://gemnasium.com/rubychan/coderay)
+# CodeRay
+
+[![Build Status](https://travis-ci.org/rubychan/coderay.png)](https://travis-ci.org/rubychan/coderay)
+[![Gem Version](https://badge.fury.io/rb/coderay.png)](http://badge.fury.io/rb/coderay)
+[![Dependency Status](https://gemnasium.com/rubychan/coderay.png)](https://gemnasium.com/rubychan/coderay)
 
 ## About
 
@@ -12,7 +16,7 @@ You put your code in, and you get it back colored; Keywords, strings, floats, co
 
 ### Dependencies
 
-CodeRay needs Ruby 1.8.7+ or 1.9.2+. It also runs on Rubinius and JRuby.
+CodeRay needs Ruby 1.8.7, 1.9.3 or 2.0. It also runs on JRuby.
 
 ## Example Usage
 

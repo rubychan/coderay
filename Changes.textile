@@ -10,6 +10,7 @@ h2. Changes in 1.1
 * Fixes to CSS scanner (floats, pseudoclasses)
 * Plugin does not warn about fallback when default is defined
 * Display line numbers in HTML @:table@ mode even for single-line code (remove special case) [#41, thanks to Ariejan de Vroom]
+* Add .xaml file type [#121, thanks to Kozman Bálint]
 * @CodeRay::TokenKinds@ should not be frozen [#130, thanks to Gavin Kistner]
 
 h2. Changes in 1.0.9

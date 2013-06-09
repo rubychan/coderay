@@ -286,8 +286,7 @@ module Encoders
     
     def end_group kind
       if $CODERAY_DEBUG && (@opened.empty? || @opened.last != kind)
-        warn 'Malformed token stream: Trying to close a token (%p) ' \
-          'that is not open. Open are: %p.' % [kind, @opened[1..-1]]
+        warn 'Malformed token stream: Trying to close a token group (%p) that is not open. Open are: %p.' % [kind, @opened[1..-1]]
       end
       if @opened.pop
         @out << '</span>'
@@ -312,8 +311,7 @@ module Encoders
     
     def end_line kind
       if $CODERAY_DEBUG && (@opened.empty? || @opened.last != kind)
-        warn 'Malformed token stream: Trying to close a line (%p) ' \
-          'that is not open. Open are: %p.' % [kind, @opened[1..-1]]
+        warn 'Malformed token stream: Trying to close a line (%p) that is not open. Open are: %p.' % [kind, @opened[1..-1]]
       end
       if @opened.pop
         @out << '</span>'

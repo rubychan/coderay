@@ -123,10 +123,11 @@ module CodeRay
       'xaml'     => :xml,
       'xhtml'    => :html,
       'xml'      => :xml,
+      'xaml'     => :xml,
       'yaml'     => :yaml,
       'yml'      => :yaml,
     }
-    for cpp_alias in %w[cc cpp cp cxx c++ C hh hpp h++ cu]
+    for cpp_alias in %w[cc cpp cp cxx c++ C hh hpp h++ cu cs]
       TypeFromExt[cpp_alias] = :cpp
     end
     

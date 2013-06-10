@@ -126,22 +126,21 @@ module Encoders
     
   protected
     
-    HTML_ESCAPE = {  #:nodoc:
-      '&' => '&amp;',
-      '"' => '&quot;',
-      '>' => '&gt;',
-      '<' => '&lt;',
-    }
+    def self.make_html_escape_hash
+      {
+        '&' => '&amp;',
+        '"' => '&quot;',
+        '>' => '&gt;',
+        '<' => '&lt;',
+        # "\t" => will be set to ' ' * options[:tab_width] during setup
+      }.tap do |hash|
+        # Escape ASCII control codes except \x9 == \t and \xA == \n.
+        (Array(0x00..0x8) + Array(0xB..0x1F)).each { |invalid| hash[invalid.chr] = ' ' }
+      end
+    end
     
-    # This was to prevent illegal HTML.
-    # Strange chars should still be avoided in codes.
-    evil_chars = Array(0x00...0x20) - [?\n, ?\t, ?\s]
-    evil_chars.each { |i| HTML_ESCAPE[i.chr] = ' ' }
-    #ansi_chars = Array(0x7f..0xff)
-    #ansi_chars.each { |i| HTML_ESCAPE[i.chr] = '&#%d;' % i }
-    # \x9 (\t) and \xA (\n) not included
-    #HTML_ESCAPE_PATTERN = /[\t&"><\0-\x8\xB-\x1f\x7f-\xff]/
-    HTML_ESCAPE_PATTERN = /[\t"&><\0-\x8\xB-\x1f]/
+    HTML_ESCAPE = make_html_escape_hash
+    HTML_ESCAPE_PATTERN = /[\t"&><\0-\x8\xB-\x1F]/
     
     TOKEN_KIND_TO_INFO = Hash.new do |h, kind|
       h[kind] = kind.to_s.gsub(/_/, ' ').gsub(/\b\w/) { $&.capitalize }
@@ -255,20 +254,10 @@ module Encoders
   public
     
     def text_token text, kind
-      if text =~ /#{HTML_ESCAPE_PATTERN}/o
-        text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
-      end
-      
       style = @span_for_kind[@last_opened ? [kind, *@opened] : kind]
       
-      if @break_lines && (i = text.index("\n")) && (c = @opened.size + (style ? 1 : 0)) > 0
-        close = '</span>' * c
-        reopen = ''
-        @opened.each_with_index do |k, index|
-          reopen << (@span_for_kind[index > 0 ? [k, *@opened[0 ... index ]] : k] || '<span>')
-        end
-        text[i .. -1] = text[i .. -1].gsub("\n", "#{close}\n#{reopen}#{style}")
-      end
+      text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] } if text =~ /#{HTML_ESCAPE_PATTERN}/o
+      text = break_lines(text, style) if @break_lines && (style || @opened.size > 0) && text.index("\n")
       
       if style
         @out << style << text << '</span>'
@@ -285,9 +274,7 @@ module Encoders
     end
     
     def end_group kind
-      if $CODERAY_DEBUG && (@opened.empty? || @opened.last != kind)
-        warn 'Malformed token stream: Trying to close a token group (%p) that is not open. Open are: %p.' % [kind, @opened[1..-1]]
-      end
+      check_group_nesting 'token group', kind if $CODERAY_DEBUG
       if @opened.pop
         @out << '</span>'
         @last_opened = @opened.last if @last_opened
@@ -310,15 +297,28 @@ module Encoders
     end
     
     def end_line kind
-      if $CODERAY_DEBUG && (@opened.empty? || @opened.last != kind)
-        warn 'Malformed token stream: Trying to close a line (%p) that is not open. Open are: %p.' % [kind, @opened[1..-1]]
-      end
+      check_group_nesting 'line', kind if $CODERAY_DEBUG
       if @opened.pop
         @out << '</span>'
         @last_opened = @opened.last if @last_opened
       end
     end
     
+  protected
+    
+    def check_group_nesting name, kind
+      if @opened.empty? || @opened.last != kind
+        warn "Malformed token stream: Trying to close a #{name} (%p) that is not open. Open are: %p." % [kind, @opened[1..-1]]
+      end
+    end
+    
+    def break_lines text, style
+      reopen = ''
+      @opened.each_with_index do |k, index|
+        reopen << (@span_for_kind[index > 0 ? [k, *@opened[0...index]] : k] || '<span>')
+      end
+      text.gsub("\n", "#{'</span>' * @opened.size}#{'</span>' if style}\n#{reopen}#{style}")
+    end
   end
   
 end

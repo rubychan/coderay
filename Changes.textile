@@ -6,6 +6,7 @@ h2. Changes in 1.1
 
 * New scanner: Sass [#93]
 * Diff scanner: Highlight inline changes in multi-line changes [#99]
+* JavaScript scanner: Highlight multi-line comments in diff correctly
 * Remove double-click toggle handler from HTML table output
 * Fixes to CSS scanner (floats, pseudoclasses)
 * Plugin does not warn about fallback when default is defined

@@ -24,11 +24,12 @@ module Encoders
     end
     
     def text_token text, kind
+      raise 'empty token' if $CODERAY_DEBUG && text.empty?
       if kind == :space
         @out << text
       else
         # TODO: Escape (
-        text = text.gsub(/[)\\]/, '\\\\\0')  # escape ) and \
+        text = text.gsub(/[)\\]/, '\\\\\0') if text.index(/[)\\]/)
         @out << kind.to_s << '(' << text << ')'
       end
     end

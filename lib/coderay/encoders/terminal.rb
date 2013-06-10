@@ -19,73 +19,73 @@ module CodeRay
       register_for :terminal
       
       TOKEN_COLORS = {
-        :annotation => '35',
-        :attribute_name => '33',
-        :attribute_value => '31',
-        :binary => '1;35',
+        :annotation => "\e[35m",
+        :attribute_name => "\e[33m",
+        :attribute_value => "\e[31m",
+        :binary => "\e[1;35m",
         :char => {
-          :self => '36', :delimiter => '1;34'
+          :self => "\e[36m", :delimiter => "\e[1;34m"
         },
-        :class => '1;35',
-        :class_variable => '36',
-        :color => '32',
-        :comment => '37',
-        :complex => '1;34',
-        :constant => ['1;34', '4'],
-        :decoration => '35',
-        :definition => '1;32',
-        :directive => ['32', '4'],
-        :doc => '46',
-        :doctype => '1;30',
-        :doc_string => ['31', '4'],
-        :entity => '33',
-        :error => ['1;33', '41'],
-        :exception => '1;31',
-        :float => '1;35',
-        :function => '1;34',
-        :global_variable => '42',
-        :hex => '1;36',
-        :include => '33',
-        :integer => '1;34',
-        :key => '35',
-        :label => '1;15',
-        :local_variable => '33',
-        :octal => '1;35',
-        :operator_name => '1;29',
-        :predefined_constant => '1;36',
-        :predefined_type => '1;30',
-        :predefined => ['4', '1;34'],
-        :preprocessor => '36',
-        :pseudo_class => '1;34',
+        :class => "\e[1;35m",
+        :class_variable => "\e[36m",
+        :color => "\e[32m",
+        :comment => "\e[37m",
+        :complex => "\e[1;34m",
+        :constant => "\e[1;34m\e[4m",
+        :decoration => "\e[35m",
+        :definition => "\e[1;32m",
+        :directive => "\e[32m\e[4m",
+        :doc => "\e[46m",
+        :doctype => "\e[1;30m",
+        :doc_string => "\e[31m\e[4m",
+        :entity => "\e[33m",
+        :error => "\e[1;33m\e[41m",
+        :exception => "\e[1;31m",
+        :float => "\e[1;35m",
+        :function => "\e[1;34m",
+        :global_variable => "\e[42m",
+        :hex => "\e[1;36m",
+        :include => "\e[33m",
+        :integer => "\e[1;34m",
+        :key => "\e[35m",
+        :label => "\e[1;15m",
+        :local_variable => "\e[33m",
+        :octal => "\e[1;35m",
+        :operator_name => "\e[1;29m",
+        :predefined_constant => "\e[1;36m",
+        :predefined_type => "\e[1;30m",
+        :predefined => "\e[4m\e[1;34m",
+        :preprocessor => "\e[36m",
+        :pseudo_class => "\e[1;34m",
         :regexp => {
-          :self => '31',
-          :content => '31',
-          :delimiter => '1;29',
-          :modifier => '35',
+          :self => "\e[31m",
+          :content => "\e[31m",
+          :delimiter => "\e[1;29m",
+          :modifier => "\e[35m",
         },
-        :reserved => '1;31',
+        :reserved => "\e[1;31m",
         :shell => {
-          :self => '42',
-          :content => '1;29',
-          :delimiter => '37',
+          :self => "\e[42m",
+          :content => "\e[1;29m",
+          :delimiter => "\e[37m",
         },
         :string => {
-          :self => '32',
-          :modifier => '1;32',
-          :escape => '1;36',
-          :delimiter => '1;32',
-          :char => '1;36',
+          :self => "\e[32m",
+          :modifier => "\e[1;32m",
+          :escape => "\e[1;36m",
+          :delimiter => "\e[1;32m",
+          :char => "\e[1;36m",
         },
-        :symbol => '1;32',
-        :tag => '1;34',
-        :type => '1;34',
-        :value => '36',
-        :variable => '1;34',
+        :symbol => "\e[1;32m",
+        :tag => "\e[1;34m",
+        :type => "\e[1;34m",
+        :value => "\e[36m",
+        :variable => "\e[1;34m",
         
-        :insert => '42',
-        :delete => '41',
-        :change => '44',
-        :head => '45'
+        :insert => "\e[42m",
+        :delete => "\e[41m",
+        :change => "\e[44m",
+        :head => "\e[45m"
       }
       TOKEN_COLORS[:keyword] = TOKEN_COLORS[:reserved]
       TOKEN_COLORS[:method] = TOKEN_COLORS[:function]
@@ -114,10 +114,10 @@ module CodeRay
             end
           end
           
-          @out << ansi_colorize(color)
-          @out << text.gsub("\n", ansi_clear + "\n" + ansi_colorize(color))
-          @out << ansi_clear
-          @out << ansi_colorize(@subcolors[:self]) if @subcolors && @subcolors[:self]
+          @out << color
+          @out << text.gsub("\n", "\e[0m\n" + color)
+          @out << "\e[0m"
+          @out << @subcolors[:self] if @subcolors
         else
           @out << text
         end
@@ -134,7 +134,7 @@ module CodeRay
           # nothing to close
         else
           @opened.pop
-          @out << ansi_clear
+          @out << "\e[0m"
           @out << open_token(@opened.last)
         end
       end
@@ -146,7 +146,7 @@ module CodeRay
           @opened.pop
           # whole lines to be highlighted,
           # eg. added/modified/deleted lines in a diff
-          @out << "\t" * 100 + ansi_clear
+          @out << (@line_filler ||= "\t" * 100 + "\e[0m")
           @out << open_token(@opened.last)
         end
       end
@@ -157,22 +157,15 @@ module CodeRay
         if color = TOKEN_COLORS[kind]
           if Hash === color
             @subcolors = color
-            ansi_colorize(color[:self]) if color[:self]
+            color[:self]
           else
             @subcolors = {}
-            ansi_colorize(color)
+            color
           end
         else
           @subcolors = nil
           ''
         end
-      end
-      
-      def ansi_colorize(color)
-        Array(color).map { |c| "\e[#{c}m" }.join
-      end
-      def ansi_clear
-        ansi_colorize(0)
       end
     end
   end

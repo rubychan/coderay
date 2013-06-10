@@ -294,9 +294,7 @@ module CodeRay
 tokens:
 %s
 
-current line: %d  column: %d  pos: %d
-matched: %p  state: %p
-bol?: %p,  eos?: %p
+%s
 
 surrounding code:
 %p  ~~  %p
@@ -306,21 +304,33 @@ surrounding code:
 
       MESSAGE
       
-      # Scanner error with additional status information
-      def raise_inspect message, tokens, state = self.state, ambit = 30, backtrace = caller
-        raise ScanError, SCAN_ERROR_MESSAGE % raise_inspect_arguments(message, tokens, state, ambit), backtrace
-      end
-      
       def raise_inspect_arguments message, tokens, state, ambit
         return File.basename(caller[0]),
           message,
           tokens_size(tokens),
           tokens_last(tokens, 10).map(&:inspect).join("\n"),
+          scanner_state_info(state),
+          binary_string[pos - ambit, ambit],
+          binary_string[pos, ambit]
+      end
+      
+      SCANNER_STATE_INFO = <<-INFO
+current line: %d  column: %d  pos: %d
+matched: %p  state: %p
+bol?: %p,  eos?: %p
+      INFO
+      
+      def scanner_state_info state
+        SCANNER_STATE_INFO % [
           line, column, pos,
           matched, state || 'No state given!',
           bol?, eos?,
-          binary_string[pos - ambit, ambit],
-          binary_string[pos, ambit]
+        ]
+      end
+      
+      # Scanner error with additional status information
+      def raise_inspect message, tokens, state = self.state, ambit = 30, backtrace = caller
+        raise ScanError, SCAN_ERROR_MESSAGE % raise_inspect_arguments(message, tokens, state, ambit), backtrace
       end
       
       def tokens_size tokens

@@ -182,9 +182,8 @@ module CodeRay
       # Scan the code and returns all tokens in a Tokens object.
       def tokenize source = nil, options = {}
         options = @options.merge(options)
-        @tokens = options[:tokens] || @tokens || Tokens.new
-        @tokens.scanner = self if @tokens.respond_to? :scanner=
         
+        set_tokens_from_options options
         set_string_from_source source
         
         begin
@@ -266,6 +265,11 @@ module CodeRay
         end
       end
       
+      def set_tokens_from_options options
+        @tokens = options[:tokens] || @tokens || Tokens.new
+        @tokens.scanner = self if @tokens.respond_to? :scanner=
+      end
+      
       # This is the central method, and commonly the only one a
       # subclass implements.
       #
@@ -292,7 +296,7 @@ tokens:
 
 current line: %d  column: %d  pos: %d
 matched: %p  state: %p
-bol? = %p,  eos? = %p
+bol?: %p,  eos?: %p
 
 surrounding code:
 %p  ~~  %p
@@ -303,14 +307,15 @@ surrounding code:
       MESSAGE
       
       # Scanner error with additional status information
-      def raise_inspect msg, tokens, state = self.state || 'No state given!', ambit = 30, backtrace = caller
+      def raise_inspect msg, tokens, state = self.state, ambit = 30, backtrace = caller
         raise ScanError, SCAN_ERROR_MESSAGE % [
           File.basename(caller[0]),
           msg,
-          tokens.respond_to?(:size) ? tokens.size : 0,
-          tokens.respond_to?(:last) ? tokens.last(10).map { |t| t.inspect }.join("\n") : '',
+          tokens.respond_to?(:size) ? tokens.size : '[tokens.size undefined]',
+          tokens.respond_to?(:last) ? tokens.last(10).map(&:inspect).join("\n") : '[tokens.last undefined]',
           line, column, pos,
-          matched, state, bol?, eos?,
+          matched, state || 'No state given!',
+          bol?, eos?,
           binary_string[pos - ambit, ambit],
           binary_string[pos, ambit],
         ], backtrace

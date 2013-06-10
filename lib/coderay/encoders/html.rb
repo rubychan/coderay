@@ -171,18 +171,16 @@ module Encoders
     def setup options
       super
       
-      check_options options
+      check_options! options
       
       if options[:wrap] || options[:line_numbers]
         @real_out = @out
         @out = ''
       end
       
-      options[:break_lines] = true if options[:line_numbers] == :inline
       @break_lines = (options[:break_lines] == true)
       
-      @HTML_ESCAPE = HTML_ESCAPE.dup
-      @HTML_ESCAPE["\t"] = ' ' * options[:tab_width]
+      @HTML_ESCAPE = HTML_ESCAPE.merge("\t" => ' ' * options[:tab_width])
       
       @opened = []
       @last_opened = nil
@@ -271,7 +269,7 @@ module Encoders
     
   protected
     
-    def check_options options
+    def check_options! options
       unless [false, nil, :debug, :info, :info_long].include? options[:hint]
         raise ArgumentError, "Unknown value %p for :hint; expected :info, :info_long, :debug, false, or nil." % [options[:hint]]
       end
@@ -279,24 +277,23 @@ module Encoders
       unless [:class, :style].include? options[:css]
         raise ArgumentError, 'Unknown value %p for :css.' % [options[:css]]
       end
+      
+      options[:break_lines] = true if options[:line_numbers] == :inline
     end
     
     def make_span_for_kind method, hint, css
-      css_classes = TokenKinds
-      
-      Hash.new do |h, k|
-        kind = k.is_a?(Symbol) ? k : k.first
-        
-        h[k.is_a?(Symbol) ? k : k.dup] =
-          if kind != :space && ((css_class = css_classes[kind]) || hint)
-            title = HTML.token_path_to_hint hint, k if hint
-            if method == :class
-              "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
-            else
-              style = css.get_style k.is_a?(Array) ? k.map { |c| css_classes[c] } : [css_class]
-              "<span#{title}#{" style=\"#{style}\"" if style}>"
-            end
-          end
+      Hash.new do |h, kinds|
+        h[kinds.is_a?(Symbol) ? kinds : kinds.dup] = begin
+          css_class = TokenKinds[kinds.is_a?(Symbol) ? kinds : kinds.first]
+          title     = HTML.token_path_to_hint hint, kinds if hint
+          
+          if method == :style
+            style = css.get_style(kinds.is_a?(Array) ? kinds.map { |c| TokenKinds[c] } : [TokenKinds[kinds]])
+            "<span#{title}#{" style=\"#{style}\"" if style}>"
+          else
+            "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
+          end if css_class || title
+        end
       end
     end
     

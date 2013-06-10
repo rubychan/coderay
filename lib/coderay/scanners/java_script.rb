@@ -184,6 +184,7 @@ module Scanners
           elsif match = scan(/ \\ | $ /x)
             encoder.end_group state
             encoder.text_token match, :error unless match.empty?
+            string_delimiter = nil
             key_expected = value_expected = false
             state = :initial
           else

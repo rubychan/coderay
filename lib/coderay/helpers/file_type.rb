@@ -118,6 +118,7 @@ module CodeRay
       'ru'       => :ruby,
       'rxml'     => :ruby,
       'sass'     => :sass,
+      'sh'       => :bash,
       'sql'      => :sql,
       'tmproj'   => :xml,
       'xaml'     => :xml,

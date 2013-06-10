@@ -307,25 +307,27 @@ surrounding code:
       MESSAGE
       
       # Scanner error with additional status information
-      def raise_inspect msg, tokens, state = self.state, ambit = 30, backtrace = caller
-        raise ScanError, SCAN_ERROR_MESSAGE % [
-          File.basename(caller[0]),
-          msg,
-          tokens_size,
-          tokens_last(10).map(&:inspect).join("\n"),
+      def raise_inspect message, tokens, state = self.state, ambit = 30, backtrace = caller
+        raise ScanError, SCAN_ERROR_MESSAGE % raise_inspect_arguments(message, tokens, state, ambit), backtrace
+      end
+      
+      def raise_inspect_arguments message, tokens, state, ambit
+        return File.basename(caller[0]),
+          message,
+          tokens_size(tokens),
+          tokens_last(tokens, 10).map(&:inspect).join("\n"),
           line, column, pos,
           matched, state || 'No state given!',
           bol?, eos?,
           binary_string[pos - ambit, ambit],
-          binary_string[pos, ambit],
-        ], backtrace
+          binary_string[pos, ambit]
       end
       
-      def tokens_size
+      def tokens_size tokens
         tokens.size if tokens.respond_to?(:size)
       end
       
-      def tokens_last n
+      def tokens_last tokens, n
         tokens.respond_to?(:last) ? tokens.last(n) : []
       end
       

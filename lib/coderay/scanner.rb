@@ -184,14 +184,8 @@ module CodeRay
         options = @options.merge(options)
         @tokens = options[:tokens] || @tokens || Tokens.new
         @tokens.scanner = self if @tokens.respond_to? :scanner=
-        case source
-        when Array
-          self.string = self.class.normalize(source.join)
-        when nil
-          reset
-        else
-          self.string = self.class.normalize(source)
-        end
+        
+        set_string_from_source source
         
         begin
           scan_tokens @tokens, options
@@ -261,6 +255,17 @@ module CodeRay
       def setup  # :doc:
       end
       
+      def set_string_from_source source
+        case source
+        when Array
+          self.string = self.class.normalize(source.join)
+        when nil
+          reset
+        else
+          self.string = self.class.normalize(source)
+        end
+      end
+      
       # This is the central method, and commonly the only one a
       # subclass implements.
       #
@@ -277,9 +282,7 @@ module CodeRay
         @binary_string = nil if defined? @binary_string
       end
       
-      # Scanner error with additional status information
-      def raise_inspect msg, tokens, state = self.state || 'No state given!', ambit = 30, backtrace = caller
-        raise ScanError, <<-EOE % [
+      SCAN_ERROR_MESSAGE = <<-MESSAGE
 
 
 ***ERROR in %s: %s (after %d tokens)
@@ -297,7 +300,11 @@ surrounding code:
 
 ***ERROR***
 
-        EOE
+      MESSAGE
+      
+      # Scanner error with additional status information
+      def raise_inspect msg, tokens, state = self.state || 'No state given!', ambit = 30, backtrace = caller
+        raise ScanError, SCAN_ERROR_MESSAGE % [
           File.basename(caller[0]),
           msg,
           tokens.respond_to?(:size) ? tokens.size : 0,

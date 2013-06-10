@@ -289,7 +289,7 @@ module CodeRay
       SCAN_ERROR_MESSAGE = <<-MESSAGE
 
 
-***ERROR in %s: %s (after %d tokens)
+***ERROR in %s: %s (after %s tokens)
 
 tokens:
 %s
@@ -311,14 +311,22 @@ surrounding code:
         raise ScanError, SCAN_ERROR_MESSAGE % [
           File.basename(caller[0]),
           msg,
-          tokens.respond_to?(:size) ? tokens.size : '[tokens.size undefined]',
-          tokens.respond_to?(:last) ? tokens.last(10).map(&:inspect).join("\n") : '[tokens.last undefined]',
+          tokens_size,
+          tokens_last(10).map(&:inspect).join("\n"),
           line, column, pos,
           matched, state || 'No state given!',
           bol?, eos?,
           binary_string[pos - ambit, ambit],
           binary_string[pos, ambit],
         ], backtrace
+      end
+      
+      def tokens_size
+        tokens.size if tokens.respond_to?(:size)
+      end
+      
+      def tokens_last n
+        tokens.respond_to?(:last) ? tokens.last(n) : []
       end
       
       # Shorthand for scan_until(/\z/).

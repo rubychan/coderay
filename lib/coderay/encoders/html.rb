@@ -186,7 +186,7 @@ module Encoders
       @last_opened = nil
       @css = CSS.new options[:style]
       
-      @span_for_kind = make_span_for_kind(options[:css], options[:hint], @css)
+      @span_for_kinds = make_span_for_kinds(options[:css], options[:hint])
       
       @set_last_opened = options[:hint] || options[:css] == :style
     end
@@ -217,7 +217,7 @@ module Encoders
   public
     
     def text_token text, kind
-      style = @span_for_kind[@last_opened ? [kind, *@opened] : kind]
+      style = @span_for_kinds[@last_opened ? [kind, *@opened] : kind]
       
       text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] } if text =~ /#{HTML_ESCAPE_PATTERN}/o
       text = break_lines(text, style) if @break_lines && (style || @opened.size > 0) && text.index("\n")
@@ -231,22 +231,19 @@ module Encoders
     
     # token groups, eg. strings
     def begin_group kind
-      @out << (@span_for_kind[@last_opened ? [kind, *@opened] : kind] || '<span>')
+      @out << (@span_for_kinds[@last_opened ? [kind, *@opened] : kind] || '<span>')
       @opened << kind
       @last_opened = kind if @set_last_opened
     end
     
     def end_group kind
       check_group_nesting 'token group', kind if $CODERAY_DEBUG
-      if @opened.pop
-        @out << '</span>'
-        @last_opened = @opened.last if @last_opened
-      end
+      close_span
     end
     
     # whole lines to be highlighted, eg. a deleted line in a diff
     def begin_line kind
-      if style = @span_for_kind[@last_opened ? [kind, *@opened] : kind]
+      if style = @span_for_kinds[@last_opened ? [kind, *@opened] : kind]
         if style['class="']
           @out << style.sub('class="', 'class="line ')
         else
@@ -261,10 +258,7 @@ module Encoders
     
     def end_line kind
       check_group_nesting 'line', kind if $CODERAY_DEBUG
-      if @opened.pop
-        @out << '</span>'
-        @last_opened = @opened.last if @last_opened
-      end
+      close_span
     end
     
   protected
@@ -281,18 +275,29 @@ module Encoders
       options[:break_lines] = true if options[:line_numbers] == :inline
     end
     
-    def make_span_for_kind method, hint, css
+    def css_class_for_kinds kinds
+      TokenKinds[kinds.is_a?(Symbol) ? kinds : kinds.first]
+    end
+    
+    def style_for_kinds kinds
+      css_classes = kinds.is_a?(Array) ? kinds.map { |c| TokenKinds[c] } : [TokenKinds[kinds]]
+      @css.get_style_for_css_classes css_classes
+    end
+    
+    def make_span_for_kinds method, hint
       Hash.new do |h, kinds|
         h[kinds.is_a?(Symbol) ? kinds : kinds.dup] = begin
-          css_class = TokenKinds[kinds.is_a?(Symbol) ? kinds : kinds.first]
+          css_class = css_class_for_kinds(kinds)
           title     = HTML.token_path_to_hint hint, kinds if hint
           
-          if method == :style
-            style = css.get_style(kinds.is_a?(Array) ? kinds.map { |c| TokenKinds[c] } : [TokenKinds[kinds]])
-            "<span#{title}#{" style=\"#{style}\"" if style}>"
-          else
-            "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
-          end if css_class || title
+          if css_class || title
+            if method == :style
+              style = style_for_kinds(kinds)
+              "<span#{title}#{" style=\"#{style}\"" if style}>"
+            else
+              "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
+            end
+          end
         end
       end
     end
@@ -306,9 +311,16 @@ module Encoders
     def break_lines text, style
       reopen = ''
       @opened.each_with_index do |k, index|
-        reopen << (@span_for_kind[index > 0 ? [k, *@opened[0...index]] : k] || '<span>')
+        reopen << (@span_for_kinds[index > 0 ? [k, *@opened[0...index]] : k] || '<span>')
       end
       text.gsub("\n", "#{'</span>' * @opened.size}#{'</span>' if style}\n#{reopen}#{style}")
+    end
+    
+    def close_span
+      if @opened.pop
+        @out << '</span>'
+        @last_opened = @opened.last if @last_opened
+      end
     end
   end
   

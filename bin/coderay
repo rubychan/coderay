@@ -125,7 +125,7 @@ when 'highlight', nil
     end
     
     if output_file
-      output_format ||= CodeRay::FileType[output_file]
+      output_format ||= CodeRay::FileType[output_file] || :plain
     else
       output_format ||= :terminal
     end

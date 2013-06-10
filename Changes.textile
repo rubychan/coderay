@@ -14,6 +14,7 @@ h2. Changes in 1.1
 * Add .xaml file type [#121, thanks to Kozman Bálint]
 * @CodeRay::TokenKinds@ should not be frozen [#130, thanks to Gavin Kistner]
 * Override Bootstrap's pre word-break setting for line numbers [#102, thanks to lightswitch05]
+* Accept keywords as Ruby 1.9 hash keys [#126]
 
 h2. Changes in 1.0.9
 

@@ -39,6 +39,9 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
   color: gray !important;
   text-decoration: none !important;
 }
+.CodeRay .line-numbers pre {
+  word-break: normal;
+}
 .CodeRay .line-numbers a:target { color: blue !important; }
 .CodeRay .line-numbers .highlighted { color: red !important; }
 .CodeRay .line-numbers .highlighted a { color: red !important; }

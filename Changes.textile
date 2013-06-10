@@ -13,6 +13,7 @@ h2. Changes in 1.1
 * Display line numbers in HTML @:table@ mode even for single-line code (remove special case) [#41, thanks to Ariejan de Vroom]
 * Add .xaml file type [#121, thanks to Kozman Bálint]
 * @CodeRay::TokenKinds@ should not be frozen [#130, thanks to Gavin Kistner]
+* Override Bootstrap's pre word-break setting for line numbers [#102, thanks to lightswitch05]
 
 h2. Changes in 1.0.9
 

@@ -171,13 +171,14 @@ module Encoders
     def setup options
       super
       
+      check_options options
+      
       if options[:wrap] || options[:line_numbers]
         @real_out = @out
         @out = ''
       end
       
       options[:break_lines] = true if options[:line_numbers] == :inline
-      
       @break_lines = (options[:break_lines] == true)
       
       @HTML_ESCAPE = HTML_ESCAPE.dup
@@ -187,43 +188,7 @@ module Encoders
       @last_opened = nil
       @css = CSS.new options[:style]
       
-      hint = options[:hint]
-      if hint && ![:debug, :info, :info_long].include?(hint)
-        raise ArgumentError, "Unknown value %p for :hint; \
-          expected :info, :info_long, :debug, false, or nil." % hint
-      end
-      
-      css_classes = TokenKinds
-      case options[:css]
-      when :class
-        @span_for_kind = Hash.new do |h, k|
-          if k.is_a? ::Symbol
-            kind = k_dup = k
-          else
-            kind = k.first
-            k_dup = k.dup
-          end
-          if kind != :space && (hint || css_class = css_classes[kind])
-            title = HTML.token_path_to_hint hint, k if hint
-            css_class ||= css_classes[kind]
-            h[k_dup] = "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
-          else
-            h[k_dup] = nil
-          end
-        end
-      when :style
-        @span_for_kind = Hash.new do |h, k|
-          kind = k.is_a?(Symbol) ? k : k.first
-          h[k.is_a?(Symbol) ? k : k.dup] =
-            if kind != :space && (hint || css_classes[kind])
-              title = HTML.token_path_to_hint hint, k if hint
-              style = @css.get_style Array(k).map { |c| css_classes[c] }
-              "<span#{title}#{" style=\"#{style}\"" if style}>"
-            end
-        end
-      else
-        raise ArgumentError, "Unknown value %p for :css." % options[:css]
-      end
+      @span_for_kind = make_span_for_kind(options[:css], options[:hint], @css)
       
       @set_last_opened = options[:hint] || options[:css] == :style
     end
@@ -305,6 +270,35 @@ module Encoders
     end
     
   protected
+    
+    def check_options options
+      unless [false, nil, :debug, :info, :info_long].include? options[:hint]
+        raise ArgumentError, "Unknown value %p for :hint; expected :info, :info_long, :debug, false, or nil." % [options[:hint]]
+      end
+      
+      unless [:class, :style].include? options[:css]
+        raise ArgumentError, 'Unknown value %p for :css.' % [options[:css]]
+      end
+    end
+    
+    def make_span_for_kind method, hint, css
+      css_classes = TokenKinds
+      
+      Hash.new do |h, k|
+        kind = k.is_a?(Symbol) ? k : k.first
+        
+        h[k.is_a?(Symbol) ? k : k.dup] =
+          if kind != :space && ((css_class = css_classes[kind]) || hint)
+            title = HTML.token_path_to_hint hint, k if hint
+            if method == :class
+              "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
+            else
+              style = css.get_style k.is_a?(Array) ? k.map { |c| css_classes[c] } : [css_class]
+              "<span#{title}#{" style=\"#{style}\"" if style}>"
+            end
+          end
+      end
+    end
     
     def check_group_nesting name, kind
       if @opened.empty? || @opened.last != kind

@@ -76,7 +76,7 @@ module CodeRay module Scanners
         kind = match = nil
 
         if match = scan(/\n/)
-          encoder.text_token(match, :plain)
+          encoder.text_token(match, :end_line)
           next
         end
 
@@ -85,9 +85,11 @@ module CodeRay module Scanners
             kind = :directive
           elsif match = scan(/\s*#.*/)
             kind = :comment
-          elsif match = scan(/.#/)
+          elsif match = scan(/[^"]#/)
             kind = :ident
-          elsif match = scan(/(?:\. |source ).*/)
+          elsif match = scan(/\.\.+/)
+            kind = :plain
+          elsif match = scan(/(?:\.|source)\s+/)
             kind = :reserved
           elsif match = scan(/(?:\\.|,)/)
             kind = :plain
@@ -146,13 +148,11 @@ module CodeRay module Scanners
             encoder.begin_group :shell
             encoder.text_token(match, :delimiter)
             next
-          elsif match = scan(/ \) /ox)
-            if @brace_shell > 0
-              encoder.text_token(match, :delimiter)
-              encoder.end_group :shell
-              @brace_shell -= 1
-              next
-            end
+          elsif @brace_shell > 0 && match = scan(/ \) /ox)
+            encoder.text_token(match, :delimiter)
+            encoder.end_group :shell
+            @brace_shell -= 1
+            next
           elsif match = scan(PRE_CONSTANTS)
             kind = :predefined_constant
           elsif match = scan(/[^\s'"]*[A-Za-z_][A-Za-z_0-9]*\+?=/)
@@ -266,7 +266,7 @@ module CodeRay module Scanners
   
 
     def match_array(match, encoder)
-        match =~ /([A-Za-z_]+)\[(.*?)\]/
+        match =~ /(.+)\[(.*?)\]/
         var = $1
         key = $2
         kind = IDENT_KIND[var]

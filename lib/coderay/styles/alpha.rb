@@ -122,6 +122,9 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .symbol .content { color:#A60 }
 .symbol .delimiter { color:#630 }
 .symbol { color:#A60 }
+.table .content { color:#808 }
+.table .delimiter { color:#40A}
+.table { background-color:hsla(200,100%,50%,0.06); }
 .tag { color:#070 }
 .type { color:#339; font-weight:bold }
 .value { color: #088; }

@@ -39,6 +39,7 @@ module CodeRay
     :function            => 'function',
     :global_variable     => 'global-variable',
     :hex                 => 'hex',
+    :id                  => 'id',
     :imaginary           => 'imaginary',
     :important           => 'important',
     :include             => 'include',

@@ -93,6 +93,7 @@ module CodeRay
     # This method is used by @Scanner#tokenize@ when called with an Array
     # of source strings. The Diff encoder uses it for inline highlighting.
     def split_into_parts *sizes
+      return Array.new(sizes.size) { Tokens.new } if size == 2 && first == ''
       parts = []
       opened = []
       content = nil

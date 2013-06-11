@@ -39,6 +39,7 @@ module CodeRay
     :function            => 'function',
     :global_variable     => 'global-variable',
     :hex                 => 'hex',
+    :id                  => 'id',
     :imaginary           => 'imaginary',
     :important           => 'important',
     :include             => 'include',
@@ -85,6 +86,4 @@ module CodeRay
   TokenKinds[:method]    = TokenKinds[:function]
   TokenKinds[:escape]    = TokenKinds[:delimiter]
   TokenKinds[:docstring] = TokenKinds[:comment]
-  
-  TokenKinds.freeze
 end

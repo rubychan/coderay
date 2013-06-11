@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source 'https://rubygems.org'
 
 # Specify your gem's dependencies in coderay.gemspec
 gemspec
@@ -9,10 +9,10 @@ gem 'paint', '~> 0.8.4'
 # Include everything needed to run rake, tests, features, etc.
 group :development do
   gem "bundler", ">= 1.0.0"
-  gem "rake", "~> 0.9.2"
+  gem "rake"
   gem "RedCloth", RUBY_PLATFORM == 'java' ? ">= 4.2.7" : ">= 4.0.3"
-  gem "term-ansicolor"
-  gem "shoulda-context", "~> 1.0.0" if RUBY_VERSION >= '1.8.7'
-  gem "json" unless RUBY_VERSION >= '1.9.1'
-  gem "rdoc" if RUBY_VERSION >= '1.8.7'
+  gem "term-ansicolor", '~> 1.2.2'
+  gem "shoulda-context", "~> 1.1.2"
+  gem "json" if RUBY_VERSION < '1.9'
+  gem "rdoc"
 end

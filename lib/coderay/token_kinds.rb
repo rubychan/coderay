@@ -75,6 +75,9 @@ module CodeRay
     :insert              => 'insert',
     
     :eyecatcher          => 'eyecatcher',
+
+    :project             => 'project',
+    :complete            => 'complete',
     
     :ident               => false,
     :operator            => false,

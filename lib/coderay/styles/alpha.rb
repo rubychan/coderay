@@ -84,6 +84,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .function .delimiter { color:#024; font-weight:bold }
 .global-variable { color:#d70 }
 .hex { color:#02b }
+.id  { color:#33D; font-weight:bold }
 .imaginary { color:#f00 }
 .include { color:#B44; font-weight:bold }
 .inline { background-color: hsla(0,0%,0%,0.07); color: black }

@@ -38,16 +38,16 @@ module Scanners
         elsif case states.last
           when :initial, :media, :sass_inline
             if match = scan(/(?>#{RE::Ident})(?!\()/ox)
-              encoder.text_token match, value_expected ? :value : (check(/.*:/) ? :key : :type)
+              encoder.text_token match, value_expected ? :value : (check(/.*:/) ? :key : :tag)
               next
             elsif !value_expected && (match = scan(/\*/))
-              encoder.text_token match, :type
+              encoder.text_token match, :tag
               next
             elsif match = scan(RE::Class)
               encoder.text_token match, :class
               next
             elsif match = scan(RE::Id)
-              encoder.text_token match, :constant
+              encoder.text_token match, :id
               next
             elsif match = scan(RE::PseudoClass)
               encoder.text_token match, :pseudo_class

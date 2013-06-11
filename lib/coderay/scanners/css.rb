@@ -10,7 +10,7 @@ module Scanners
       :class, :pseudo_class, :tag,
       :id, :directive,
       :key, :value, :operator, :color, :float, :string,
-      :error, :important,
+      :error, :important, :type,
     ]  # :nodoc:
     
     module RE  # :nodoc:
@@ -99,7 +99,7 @@ module Scanners
             
           when :media_before_name
             if match = scan(RE::Ident)
-              encoder.text_token match, :tag
+              encoder.text_token match, :type
               states[-1] = :media_after_name
               next
             end

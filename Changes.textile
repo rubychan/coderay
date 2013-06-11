@@ -15,6 +15,8 @@ h2. Changes in 1.1
 * @CodeRay::TokenKinds@ should not be frozen [#130, thanks to Gavin Kistner]
 * Override Bootstrap's pre word-break setting for line numbers [#102, thanks to lightswitch05]
 * Accept keywords as Ruby 1.9 hash keys [#126]
+* New token type @:id@ for CSS/Sass [#27]
+* CSS scanner uses @:id@ and @:tag@ now [#27]
 
 h2. Changes in 1.0.9
 

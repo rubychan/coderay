@@ -7,8 +7,6 @@ module Scanners
     register_for :sass
     file_extension 'sass'
     
-    SASS_FUNCTION = /(?:inline-image|linear-gradient|color-stops|mix|lighten|darken|rotate|image-url|image-width|image-height|sprite-url|sprite-path|sprite-file|sprite-map|sprite-position|sprite|unquote|join|round|ceil|floor|nth)/
-    
     STRING_CONTENT_PATTERN = {
       "'" => /(?:[^\n\'\#]+|\\\n|#{RE::Escape}|#(?!\{))+/,
       '"' => /(?:[^\n\"\#]+|\\\n|#{RE::Escape}|#(?!\{))+/,
@@ -26,10 +24,22 @@ module Scanners
       
       until eos?
         
-        if match = scan(/\s+/)
+        if bol? && (match = scan(/(?>( +)?(\/[\*\/])(.+)?)(?=\n)/))
+          encoder.text_token self[1], :space if self[1]
+          encoder.begin_group :comment
+          encoder.text_token self[2], :delimiter
+          encoder.text_token self[3], :content if self[3]
+          if match = scan(/(?:\n+#{self[1]} .*)+/)
+            encoder.text_token match, :content
+          end
+          encoder.end_group :comment
+        elsif match = scan(/\n|[^\n\S]+\n?/)
           encoder.text_token match, :space
-          value_expected = false if match.index(/\n/)
-          
+          if match.index(/\n/)
+            value_expected = false
+            states.pop if states.last == :include
+          end
+        
         elsif states.last == :sass_inline && (match = scan(/\}/))
           encoder.text_token match, :inline_delimiter
           encoder.end_group :inline
@@ -61,7 +71,11 @@ module Scanners
             elsif match = scan(/(\=|@mixin +)#{RE::Ident}/o)
               encoder.text_token match, :function
               next
-            elsif match = scan(/@media/)
+            elsif match = scan(/@import\b/)
+              encoder.text_token match, :directive
+              states << :include
+              next
+            elsif match = scan(/@media\b/)
               encoder.text_token match, :directive
               # states.push :media_before_name
               next
@@ -90,11 +104,17 @@ module Scanners
               encoder.text_token match, :inline_delimiter
               states.push :sass_inline
             elsif match = scan(/ \\ | $ /x)
-              encoder.end_group state
+              encoder.end_group :string
               encoder.text_token match, :error unless match.empty?
               states.pop
             else
               raise_inspect "else case #{string_delimiter} reached; %p not handled." % peek(1), encoder
+            end
+          
+          when :include
+            if match = scan(/[^\s'",]+/)
+              encoder.text_token match, :include
+              next
             end
           
           else
@@ -148,9 +168,6 @@ module Scanners
             states.push :string
           end
           
-        elsif match = scan(/#{SASS_FUNCTION}/o)
-          encoder.text_token match, :predefined
-          
         elsif match = scan(/#{RE::Function}/o)
           encoder.begin_group :function
           start = match[/^[-\w]+\(/]
@@ -162,6 +179,9 @@ module Scanners
             encoder.text_token match[start.size..-1], :content
           end
           encoder.end_group :function
+          
+        elsif match = scan(/[a-z][-a-z_]*(?=\()/o)
+          encoder.text_token match, :predefined
           
         elsif match = scan(/(?: #{RE::Dimension} | #{RE::Percentage} | #{RE::Num} )/ox)
           encoder.text_token match, :float

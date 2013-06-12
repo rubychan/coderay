@@ -39,6 +39,9 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
   color: gray !important;
   text-decoration: none !important;
 }
+.CodeRay .line-numbers pre {
+  word-break: normal;
+}
 .CodeRay .line-numbers a:target { color: blue !important; }
 .CodeRay .line-numbers .highlighted { color: red !important; }
 .CodeRay .line-numbers .highlighted a { color: red !important; }
@@ -78,14 +81,17 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .exception { color:#C00; font-weight:bold }
 .float { color:#60E }
 .function { color:#06B; font-weight:bold }
+.function .delimiter { color:#024; font-weight:bold }
 .global-variable { color:#d70 }
 .hex { color:#02b }
+.id  { color:#33D; font-weight:bold }
 .imaginary { color:#f00 }
 .include { color:#B44; font-weight:bold }
 .inline { background-color: hsla(0,0%,0%,0.07); color: black }
 .inline-delimiter { font-weight: bold; color: #666 }
 .instance-variable { color:#33B }
 .integer  { color:#00D }
+.important { color:#D00 }
 .key .char { color: #60f }
 .key .delimiter { color: #404 }
 .key { color: #606 }
@@ -137,6 +143,8 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .delete .delete { color: #c00; background:transparent; font-weight:bold }
 .change .change { color: #88f }
 .head .head { color: #f4f }
+
+.done { text-decoration: line-through; color: gray }
     TOKENS
 
   end

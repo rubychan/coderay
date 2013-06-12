@@ -131,7 +131,7 @@ module CodeRay
     
     # A Hash of plugion_id => Plugin pairs.
     def plugin_hash
-      @plugin_hash ||= make_plugin_hash
+      @plugin_hash ||= (@plugin_hash = make_plugin_hash).tap { load_plugin_map }
     end
     
     # Returns an array of all .rb files in the plugin path.
@@ -158,7 +158,6 @@ module CodeRay
     # This is done automatically when plugin_path is called.
     def load_plugin_map
       mapfile = path_to '_map'
-      @plugin_map_loaded = true
       if File.exist? mapfile
         require mapfile
         true
@@ -171,23 +170,16 @@ module CodeRay
     
     # Return a plugin hash that automatically loads plugins.
     def make_plugin_hash
-      @plugin_map_loaded ||= false
       Hash.new do |h, plugin_id|
         id = validate_id(plugin_id)
         path = path_to id
         begin
           require path
         rescue LoadError => boom
-          if @plugin_map_loaded
-            if h.has_key?(:default)
-              warn '%p could not load plugin %p; falling back to %p' % [self, id, h[:default]]
-              h[:default]
-            else
-              raise PluginNotFound, '%p could not load plugin %p: %s' % [self, id, boom]
-            end
+          if h.has_key?(:default)
+            h[:default]
           else
-            load_plugin_map
-            h[plugin_id]
+            raise PluginNotFound, '%p could not load plugin %p: %s' % [self, id, boom]
           end
         else
           # Plugin should have registered by now
@@ -271,7 +263,6 @@ module CodeRay
     end
     
     def aliases
-      plugin_host.load_plugin_map
       plugin_host.plugin_hash.inject [] do |aliases, (key, _)|
         aliases << key if plugin_host[key] == self
         aliases

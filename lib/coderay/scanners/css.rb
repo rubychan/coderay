@@ -7,27 +7,25 @@ module Scanners
     
     KINDS_NOT_LOC = [
       :comment,
-      :class, :pseudo_class, :type,
-      :constant, :directive,
+      :class, :pseudo_class, :tag,
+      :id, :directive,
       :key, :value, :operator, :color, :float, :string,
-      :error, :important,
+      :error, :important, :type,
     ]  # :nodoc:
     
     module RE  # :nodoc:
       Hex = /[0-9a-fA-F]/
-      Unicode = /\\#{Hex}{1,6}(?:\r\n|\s)?/ # differs from standard because it allows uppercase hex too
-      Escape = /#{Unicode}|\\[^\r\n\f0-9a-fA-F]/
-      NMChar = /[-_a-zA-Z0-9]|#{Escape}/
-      NMStart = /[_a-zA-Z]|#{Escape}/
-      NL = /\r\n|\r|\n|\f/
-      String1 = /"(?:[^\n\r\f\\"]|\\#{NL}|#{Escape})*"?/  # TODO: buggy regexp
-      String2 = /'(?:[^\n\r\f\\']|\\#{NL}|#{Escape})*'?/  # TODO: buggy regexp
+      Unicode = /\\#{Hex}{1,6}\b/ # differs from standard because it allows uppercase hex too
+      Escape = /#{Unicode}|\\[^\n0-9a-fA-F]/
+      NMChar = /[-_a-zA-Z0-9]/
+      NMStart = /[_a-zA-Z]/
+      String1 = /"(?:[^\n\\"]+|\\\n|#{Escape})*"?/  # TODO: buggy regexp
+      String2 = /'(?:[^\n\\']+|\\\n|#{Escape})*'?/  # TODO: buggy regexp
       String = /#{String1}|#{String2}/
       
       HexColor = /#(?:#{Hex}{6}|#{Hex}{3})/
-      Color = /#{HexColor}/
       
-      Num = /-?(?:[0-9]+|[0-9]*\.[0-9]+)/
+      Num = /-?(?:[0-9]*\.[0-9]+|[0-9]+)/
       Name = /#{NMChar}+/
       Ident = /-?#{NMStart}#{NMChar}*/
       AtKeyword = /@#{Ident}/
@@ -35,16 +33,15 @@ module Scanners
       
       reldimensions = %w[em ex px]
       absdimensions = %w[in cm mm pt pc]
-      Unit = Regexp.union(*(reldimensions + absdimensions + %w[s]))
+      Unit = Regexp.union(*(reldimensions + absdimensions + %w[s dpi dppx deg]))
       
       Dimension = /#{Num}#{Unit}/
       
-      Comment = %r! /\* (?: .*? \*/ | .* ) !mx
-      Function = /(?:url|alpha|attr|counters?)\((?:[^)\n\r\f]|\\\))*\)?/
+      Function = /(?:url|alpha|attr|counters?)\((?:[^)\n]|\\\))*\)?/
       
-      Id = /##{Name}/
+      Id = /(?!#{HexColor}\b(?!-))##{Name}/
       Class = /\.#{Name}/
-      PseudoClass = /:#{Name}/
+      PseudoClass = /::?#{Ident}/
       AttributeSelector = /\[[^\]]*\]?/
     end
     
@@ -52,7 +49,7 @@ module Scanners
     
     def setup
       @state = :initial
-      @value_expected = nil
+      @value_expected = false
     end
     
     def scan_tokens encoder, options
@@ -67,13 +64,13 @@ module Scanners
         elsif case states.last
           when :initial, :media
             if match = scan(/(?>#{RE::Ident})(?!\()|\*/ox)
-              encoder.text_token match, :type
+              encoder.text_token match, :tag
               next
             elsif match = scan(RE::Class)
               encoder.text_token match, :class
               next
             elsif match = scan(RE::Id)
-              encoder.text_token match, :constant
+              encoder.text_token match, :id
               next
             elsif match = scan(RE::PseudoClass)
               encoder.text_token match, :pseudo_class
@@ -158,7 +155,7 @@ module Scanners
         elsif match = scan(/(?: #{RE::Dimension} | #{RE::Percentage} | #{RE::Num} )/ox)
           encoder.text_token match, :float
           
-        elsif match = scan(/#{RE::Color}/o)
+        elsif match = scan(/#{RE::HexColor}/o)
           encoder.text_token match, :color
           
         elsif match = scan(/! *important/)
@@ -170,7 +167,7 @@ module Scanners
         elsif match = scan(RE::AtKeyword)
           encoder.text_token match, :directive
           
-        elsif match = scan(/ [+>:;,.=()\/] /x)
+        elsif match = scan(/ [+>~:;,.=()\/] /x)
           if match == ':'
             value_expected = true
           elsif match == ';'

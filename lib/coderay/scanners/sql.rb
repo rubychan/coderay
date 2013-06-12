@@ -148,7 +148,7 @@ module CodeRay module Scanners
               encoder.text_token string_content, :content
               string_content = ''
             end
-            encoder.text_token match, :error
+            encoder.text_token match, :error unless match.empty?
             state = :initial
           else
             raise "else case \" reached; %p not handled." % peek(1), encoder

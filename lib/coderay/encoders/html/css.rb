@@ -11,7 +11,7 @@ module Encoders
       end
 
       def initialize style = :default
-        @classes = Hash.new
+        @styles = Hash.new
         style = CSS.load_stylesheet style
         @stylesheet = [
           style::CSS_MAIN_STYLES,
@@ -20,12 +20,12 @@ module Encoders
         parse style::TOKEN_COLORS
       end
 
-      def get_style styles
-        cl = @classes[styles.first]
+      def get_style_for_css_classes css_classes
+        cl = @styles[css_classes.first]
         return '' unless cl
         style = ''
-        1.upto styles.size do |offset|
-          break if style = cl[styles[offset .. -1]]
+        1.upto css_classes.size do |offset|
+          break if style = cl[css_classes[offset .. -1]]
         end
         # warn 'Style not found: %p' % [styles] if style.empty?
         return style
@@ -52,8 +52,8 @@ module Encoders
           for selector in selectors.split(',')
             classes = selector.scan(/[-\w]+/)
             cl = classes.pop
-            @classes[cl] ||= Hash.new
-            @classes[cl][classes] = style.to_s.strip.delete(' ').chomp(';')
+            @styles[cl] ||= Hash.new
+            @styles[cl][classes] = style.to_s.strip.delete(' ').chomp(';')
           end
         end
       end

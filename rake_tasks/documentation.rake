@@ -14,12 +14,13 @@ Rake::RDocTask.new :doc do |rd|
   rd.main = 'lib/README'
   rd.title = 'CodeRay Documentation'
   
-  rd.options << '--line-numbers' << '--inline-source' << '--tab-width' << '2'
-  rd.options << '--fmt' << ENV.fetch('format', 'html_coderay')
-  require 'pathname'
-  template = File.join ROOT, 'rake_helpers', 'coderay_rdoc_template.rb'
-  rd.template = Pathname.new(template).expand_path.to_s
+  rd.options << '--line-numbers' << '--tab-width' << '2'
+  # rd.options << '--fmt' << ENV.fetch('format', 'html_coderay')
+  # require 'pathname'
+  # template = File.join ROOT, 'rake_helpers', 'coderay_rdoc_template.rb'
+  # rd.template = Pathname.new(template).expand_path.to_s
   
+  rd.main = 'README_INDEX.rdoc'
   rd.rdoc_files.add 'README_INDEX.rdoc'
   rd.rdoc_files.add Dir['lib']
   rd.rdoc_dir = 'doc'

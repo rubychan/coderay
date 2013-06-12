@@ -29,7 +29,8 @@ module CodeRay
     :directive           => 'directive',
     :doc                 => 'doc',
     :doctype             => 'doctype',
-    :doc_string          => 'doc-string',
+    :docstring           => 'doc-string',
+    :done                => 'done',
     :entity              => 'entity',
     :error               => 'error',
     :escape              => 'escape',
@@ -39,6 +40,7 @@ module CodeRay
     :function            => 'function',
     :global_variable     => 'global-variable',
     :hex                 => 'hex',
+    :id                  => 'id',
     :imaginary           => 'imaginary',
     :important           => 'important',
     :include             => 'include',
@@ -83,8 +85,4 @@ module CodeRay
   )
   
   TokenKinds[:method]    = TokenKinds[:function]
-  TokenKinds[:escape]    = TokenKinds[:delimiter]
-  TokenKinds[:docstring] = TokenKinds[:comment]
-  
-  TokenKinds.freeze
 end

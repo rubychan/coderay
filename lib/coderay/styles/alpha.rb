@@ -56,7 +56,9 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .annotation { color:#007 }
 .attribute-name { color:#b48 }
 .attribute-value { color:#700 }
-.binary { color:#509 }
+.binary { color:#549 }
+.binary .delimiter { color:#325 }
+.binary .char { color:#325 }
 .char .content { color:#D20 }
 .char .delimiter { color:#710 }
 .char { color:#D20 }

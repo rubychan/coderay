@@ -141,8 +141,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .change .change { color: #88f }
 .head .head { color: #f4f }
 
-.project  { color: #707; font-weight: bold }
-.complete { text-decoration: line-through; color: gray }
+.done { text-decoration: line-through; color: gray }
     TOKENS
 
   end

@@ -29,7 +29,8 @@ module CodeRay
     :directive           => 'directive',
     :doc                 => 'doc',
     :doctype             => 'doctype',
-    :doc_string          => 'doc-string',
+    :docstring           => 'doc-string',
+    :done                => 'done',
     :entity              => 'entity',
     :error               => 'error',
     :escape              => 'escape',
@@ -75,9 +76,6 @@ module CodeRay
     :insert              => 'insert',
     
     :eyecatcher          => 'eyecatcher',
-
-    :project             => 'project',
-    :complete            => 'complete',
     
     :ident               => false,
     :operator            => false,
@@ -87,6 +85,4 @@ module CodeRay
   )
   
   TokenKinds[:method]    = TokenKinds[:function]
-  TokenKinds[:escape]    = TokenKinds[:delimiter]
-  TokenKinds[:docstring] = TokenKinds[:comment]
 end

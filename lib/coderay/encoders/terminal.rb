@@ -37,7 +37,7 @@ module CodeRay
         :directive => "\e[32m\e[4m",
         :doc => "\e[46m",
         :doctype => "\e[1;30m",
-        :doc_string => "\e[31m\e[4m",
+        :docstring => "\e[31m\e[4m",
         :entity => "\e[33m",
         :error => "\e[1;33m\e[41m",
         :exception => "\e[1;31m",

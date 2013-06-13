@@ -18,14 +18,7 @@ module Encoders
     
     FILE_EXTENSION = 'raydebug'
     
-    def initialize options = {}
-      super
-      @opened = []
-    end
-    
     def text_token text, kind
-      raise 'empty token' if $CODERAY_DEBUG && text.empty?
-      
       if kind == :space
         @out << text
       else
@@ -36,26 +29,18 @@ module Encoders
     end
     
     def begin_group kind
-      @opened << kind if $CODERAY_DEBUG
-      
       @out << "#{kind}<"
     end
     
     def end_group kind
-      raise "We are inside #{@opened.inspect}, not #{kind}" if $CODERAY_DEBUG && @opened.pop != kind
-      
       @out << '>'
     end
     
     def begin_line kind
-      @opened << kind if $CODERAY_DEBUG
-      
       @out << "#{kind}["
     end
     
     def end_line kind
-      raise "We are inside #{@opened.inspect}, not #{kind}" if $CODERAY_DEBUG && @opened.pop != kind
-      
       @out << ']'
     end
     

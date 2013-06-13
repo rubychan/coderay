@@ -20,6 +20,7 @@ h2. Changes in 1.1
 * Override Bootstrap's pre word-break setting for line numbers [#102, thanks to lightswitch05]
 * Fixed @:docstring@ token type style
 * @Plugin@ does not warn about fallback when default is defined
+* @Debug@ encoder refactored; use @DebugLint@ if you want strict checking now
 
 h2. Changes in 1.0.9
 

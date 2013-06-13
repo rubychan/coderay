@@ -9,7 +9,6 @@ module Encoders
   #
   # You cannot fully restore the tokens information from the
   # output, because consecutive :space tokens are merged.
-  # Use Tokens#dump for caching purposes.
   # 
   # See also: Scanners::Debug
   class Debug < Encoder

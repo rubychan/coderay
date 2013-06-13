@@ -1,8 +1,5 @@
 module CodeRay
   
-  # GZip library for writing and reading token dumps.
-  autoload :GZip, coderay_path('helpers', 'gzip')
-  
   # = Tokens  TODO: Rewrite!
   #
   # The Tokens class represents a list of tokens returnd from
@@ -45,8 +42,7 @@ module CodeRay
   # See how small it is? ;)
   #
   # Tokens gives you the power to handle pre-scanned code very easily:
-  # You can convert it to a webpage, a YAML file, or dump it into a gzip'ed string
-  # that you put in your DB.
+  # You can convert it to a webpage, a YAML file, or a .raydebug representation.
   # 
   # It also allows you to generate tokens directly (without using a scanner),
   # to load them from a file, and still use any Encoder that CodeRay provides.
@@ -157,51 +153,9 @@ module CodeRay
       parts
     end
     
-    # Dumps the object into a String that can be saved
-    # in files or databases.
-    #
-    # The dump is created with Marshal.dump;
-    # In addition, it is gzipped using GZip.gzip.
-    #
-    # The returned String object includes Undumping
-    # so it has an #undump method. See Tokens.load.
-    #
-    # You can configure the level of compression,
-    # but the default value 7 should be what you want
-    # in most cases as it is a good compromise between
-    # speed and compression rate.
-    #
-    # See GZip module.
-    def dump gzip_level = 7
-      dump = Marshal.dump self
-      dump = GZip.gzip dump, gzip_level
-      dump.extend Undumping
-    end
-    
     # Return the actual number of tokens.
     def count
       size / 2
-    end
-    
-    # Include this module to give an object an #undump
-    # method.
-    #
-    # The string returned by Tokens.dump includes Undumping.
-    module Undumping
-      # Calls Tokens.load with itself.
-      def undump
-        Tokens.load self
-      end
-    end
-    
-    # Undump the object using Marshal.load, then
-    # unzip it using GZip.gunzip.
-    #
-    # The result is commonly a Tokens object, but
-    # this is not guaranteed.
-    def Tokens.load dump
-      dump = GZip.gunzip dump
-      @dump = Marshal.load dump
     end
     
     alias text_token push

@@ -1,7 +1,7 @@
 namespace :test do
   desc 'run all sample tests'
   task :samples do
-    ruby './sample/suite.rb'
+    ruby './test/samples/suite.rb'
   end
   
   desc 'run functional tests'

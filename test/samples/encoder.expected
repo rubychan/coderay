@@ -1,0 +1,65 @@
+Encoders Demo: puts 17 + 4
+
+Statistic:
+
+Code Statistics
+
+Tokens                   8
+  Non-Whitespace         4
+Bytes Total             12
+
+Token Types (4):
+  type                     count     ratio    size (average)
+-------------------------------------------------------------
+  TOTAL                        8  100.00 %     1.5
+  space                        4   50.00 %     1.0
+  integer                      2   25.00 %     1.5
+  ident                        1   12.50 %     4.0
+  operator                     1   12.50 %     1.0
+
+
+Original text:
+[{"type":"text","text":"puts","kind":"ident"},{"type":"text","text":" ","kind":"space"},{"type":"text","text":"17","kind":"integer"},{"type":"text","text":" ","kind":"space"},{"type":"text","text":"+","kind":"operator"},{"type":"text","text":" ","kind":"space"},{"type":"text","text":"4","kind":"integer"},{"type":"text","text":"\n","kind":"space"}]
+
+YAML:
+--- 
+- - puts
+  - :ident
+- - " "
+  - :space
+- - "17"
+  - :integer
+- - " "
+  - :space
+- - +
+  - :operator
+- - " "
+  - :space
+- - "4"
+  - :integer
+- - |
+    
+
+  - :space
+
+Dump:
+"x\234\355\3121\n\2000\f@\321\335StLp\022\204\236G0H\226\266\304\364\376\235\304K\374\365\361\374\266\2262f\276Z\274\245=\026rT-}X\\\331C\366\337O\335\234N\247\323\351t:\235N\247\323\351t:\235N\377\372\002\2613\031\257"
+compressed: 79 byte < 1200 byte
+
+Undump:
+
+Code Statistics
+
+Tokens                 800
+  Non-Whitespace       400
+Bytes Total           1200
+
+Token Types (4):
+  type                     count     ratio    size (average)
+-------------------------------------------------------------
+  TOTAL                      800  100.00 %     1.5
+  space                      400   50.00 %     1.0
+  integer                    200   25.00 %     1.5
+  ident                      100   12.50 %     4.0
+  operator                   100   12.50 %     1.0
+

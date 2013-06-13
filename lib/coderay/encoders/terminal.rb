@@ -19,105 +19,135 @@ module CodeRay
       register_for :terminal
       
       TOKEN_COLORS = {
-        :annotation => "\e[35m",
-        :attribute_name => "\e[33m",
+        :debug => "\e[1;37;44m",
+        
+        :annotation => "\e[34m",
+        :attribute_name => "\e[35m",
         :attribute_value => "\e[31m",
-        :binary => "\e[1;35m",
-        :char => {
-          :self => "\e[36m", :delimiter => "\e[1;34m"
+        :binary => {
+          :self => "\e[31m",
+          :char => "\e[1;31m",
+          :delimiter => "\e[1;31m",
         },
-        :class => "\e[1;35m",
+        :char => {
+          :self => "\e[35m",
+          :delimiter => "\e[1;35m"
+        },
+        :class => "\e[1;35;4m",
         :class_variable => "\e[36m",
         :color => "\e[32m",
-        :comment => "\e[37m",
-        :complex => "\e[1;34m",
-        :constant => "\e[1;34m\e[4m",
-        :decoration => "\e[35m",
-        :definition => "\e[1;32m",
-        :directive => "\e[32m\e[4m",
-        :doc => "\e[46m",
-        :doctype => "\e[1;30m",
-        :docstring => "\e[31m\e[4m",
-        :entity => "\e[33m",
-        :error => "\e[1;33m\e[41m",
+        :comment => {
+          :self => "\e[1;30m",
+          :char => "\e[37m",
+          :delimiter => "\e[37m",
+        },
+        :constant => "\e[1;34;4m",
+        :decorator => "\e[35m",
+        :definition => "\e[1;33m",
+        :directive => "\e[33m",
+        :docstring => "\e[31m",
+        :doctype => "\e[1;34m",
+        :done => "\e[1;30;2m",
+        :entity => "\e[31m",
+        :error => "\e[1;37;41m",
         :exception => "\e[1;31m",
         :float => "\e[1;35m",
         :function => "\e[1;34m",
-        :global_variable => "\e[42m",
+        :global_variable => "\e[1;32m",
         :hex => "\e[1;36m",
-        :include => "\e[33m",
+        :id => "\e[1;34m",
+        :include => "\e[31m",
         :integer => "\e[1;34m",
-        :key => "\e[35m",
-        :label => "\e[1;15m",
+        :imaginary => "\e[1;34m",
+        :important => "\e[1;31m",
+        :key => {
+          :self => "\e[35m",
+          :char => "\e[1;35m",
+          :delimiter => "\e[1;35m",
+        },
+        :keyword => "\e[32m",
+        :label => "\e[1;33m",
         :local_variable => "\e[33m",
-        :octal => "\e[1;35m",
-        :operator_name => "\e[1;29m",
+        :namespace => "\e[1;35m",
+        :octal => "\e[1;34m",
+        :predefined => "\e[36m",
         :predefined_constant => "\e[1;36m",
-        :predefined_type => "\e[1;30m",
-        :predefined => "\e[4m\e[1;34m",
-        :preprocessor => "\e[36m",
+        :predefined_type => "\e[1;32m",
+        :preprocessor => "\e[1;36m",
         :pseudo_class => "\e[1;34m",
         :regexp => {
-          :self => "\e[31m",
-          :content => "\e[31m",
-          :delimiter => "\e[1;29m",
+          :self => "\e[35m",
+          :delimiter => "\e[1;35m",
           :modifier => "\e[35m",
+          :char => "\e[1;35m",
         },
-        :reserved => "\e[1;31m",
+        :reserved => "\e[32m",
         :shell => {
-          :self => "\e[42m",
-          :content => "\e[1;29m",
-          :delimiter => "\e[37m",
+          :self => "\e[33m",
+          :char => "\e[1;33m",
+          :delimiter => "\e[1;33m",
+          :escape => "\e[1;33m",
         },
         :string => {
-          :self => "\e[32m",
-          :modifier => "\e[1;32m",
-          :escape => "\e[1;36m",
-          :delimiter => "\e[1;32m",
-          :char => "\e[1;36m",
+          :self => "\e[31m",
+          :modifier => "\e[1;31m",
+          :char => "\e[1;35m",
+          :delimiter => "\e[1;31m",
+          :escape => "\e[1;31m",
         },
-        :symbol => "\e[1;32m",
-        :tag => "\e[1;34m",
+        :symbol => {
+          :self => "\e[33m",
+          :delimiter => "\e[1;33m",
+        },
+        :tag => "\e[32m",
         :type => "\e[1;34m",
         :value => "\e[36m",
-        :variable => "\e[1;34m",
+        :variable => "\e[34m",
         
-        :insert => "\e[42m",
-        :delete => "\e[41m",
-        :change => "\e[44m",
-        :head => "\e[45m"
+        :insert => {
+          :self => "\e[42m",
+          :insert => "\e[1;32;42m",
+          :eyecatcher => "\e[102m",
+        },
+        :delete => {
+          :self => "\e[41m",
+          :delete => "\e[1;31;41m",
+          :eyecatcher => "\e[101m",
+        },
+        :change => {
+          :self => "\e[44m",
+          :change => "\e[37;44m",
+        },
+        :head => {
+          :self => "\e[45m",
+          :filename => "\e[37;45m"
+        },
       }
+      
       TOKEN_COLORS[:keyword] = TOKEN_COLORS[:reserved]
       TOKEN_COLORS[:method] = TOKEN_COLORS[:function]
-      TOKEN_COLORS[:imaginary] = TOKEN_COLORS[:complex]
-      TOKEN_COLORS[:begin_group] = TOKEN_COLORS[:end_group] =
-        TOKEN_COLORS[:escape] = TOKEN_COLORS[:delimiter]
+      TOKEN_COLORS[:escape] = TOKEN_COLORS[:delimiter]
       
     protected
       
       def setup(options)
         super
         @opened = []
-        @subcolors = nil
+        @color_scopes = [TOKEN_COLORS]
       end
       
     public
       
       def text_token text, kind
-        if color = (@subcolors || TOKEN_COLORS)[kind]
-          if Hash === color
-            if color[:self]
-              color = color[:self]
-            else
-              @out << text
-              return
-            end
-          end
+        if color = @color_scopes.last[kind]
+          color = color[:self] if color.is_a? Hash
           
           @out << color
-          @out << text.gsub("\n", "\e[0m\n" + color)
+          @out << (text.index("\n") ? text.gsub("\n", "\e[0m\n" + color) : text)
           @out << "\e[0m"
-          @out << @subcolors[:self] if @subcolors
+          if outer_color = @color_scopes.last[:self]
+            @out << outer_color
+          end
         else
           @out << text
         end
@@ -130,40 +160,33 @@ module CodeRay
       alias begin_line begin_group
       
       def end_group kind
-        if @opened.empty?
-          # nothing to close
-        else
-          @opened.pop
+        if @opened.pop
+          @color_scopes.pop
           @out << "\e[0m"
-          @out << open_token(@opened.last)
+          if outer_color = @color_scopes.last[:self]
+            @out << outer_color
+          end
         end
       end
       
       def end_line kind
-        if @opened.empty?
-          # nothing to close
-        else
-          @opened.pop
-          # whole lines to be highlighted,
-          # eg. added/modified/deleted lines in a diff
-          @out << (@line_filler ||= "\t" * 100 + "\e[0m")
-          @out << open_token(@opened.last)
-        end
+        @out << (@line_filler ||= "\t" * 100)
+        end_group kind
       end
       
     private
       
       def open_token kind
-        if color = TOKEN_COLORS[kind]
-          if Hash === color
-            @subcolors = color
+        if color = @color_scopes.last[kind]
+          if color.is_a? Hash
+            @color_scopes << color
             color[:self]
           else
-            @subcolors = {}
+            @color_scopes << @color_scopes.last
             color
           end
         else
-          @subcolors = nil
+          @color_scopes << @color_scopes.last
           ''
         end
       end

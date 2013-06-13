@@ -25,34 +25,37 @@ module Encoders
     
     def text_token text, kind
       raise 'empty token' if $CODERAY_DEBUG && text.empty?
+      
       if kind == :space
         @out << text
       else
-        # TODO: Escape (
-        text = text.gsub(/[)\\]/, '\\\\\0') if text.index(/[)\\]/)
-        @out << kind.to_s << '(' << text << ')'
+        text = text.gsub('\\', '\\\\\\\\') if text.index('\\')
+        text = text.gsub(')',  '\\\\)')    if text.index(')')
+        @out << "#{kind}(#{text})"
       end
     end
     
     def begin_group kind
-      @opened << kind
-      @out << kind.to_s << '<'
+      @opened << kind if $CODERAY_DEBUG
+      
+      @out << "#{kind}<"
     end
     
     def end_group kind
-      if @opened.last != kind
-        puts @out
-        raise "we are inside #{@opened.inspect}, not #{kind}"
-      end
-      @opened.pop
+      raise "We are inside #{@opened.inspect}, not #{kind}" if $CODERAY_DEBUG && @opened.pop != kind
+      
       @out << '>'
     end
     
     def begin_line kind
-      @out << kind.to_s << '['
+      @opened << kind if $CODERAY_DEBUG
+      
+      @out << "#{kind}["
     end
     
     def end_line kind
+      raise "We are inside #{@opened.inspect}, not #{kind}" if $CODERAY_DEBUG && @opened.pop != kind
+      
       @out << ']'
     end
     

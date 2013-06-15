@@ -12,6 +12,7 @@ h2. Changes in 1.1
 * Remove double-click toggle handler from HTML table output
 * Fixes to CSS scanner (floats, pseudoclasses)
 * CSS scanner uses @:id@ and @:tag@ now [#27]
+* Removed @Tokens#dump@, @Tokens.load@, @Tokens::Undumping@, and @zlib@ dependency. Nobody was using this, right?
 * Add .xaml file type [#121, thanks to Kozman Bálint]
 * @CodeRay::TokenKinds@ should not be frozen [#130, thanks to Gavin Kistner]
 * New token type @:id@ for CSS/Sass [#27]

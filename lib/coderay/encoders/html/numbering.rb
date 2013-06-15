@@ -26,7 +26,7 @@ module Encoders
               "<a href=\"##{anchor}\" name=\"#{anchor}\">#{line}</a>"
             end
           else
-            proc { |line| line.to_s }  # :to_s.to_proc in Ruby 1.8.7+
+            :to_s.to_proc
           end
         
         bold_every = options[:bold_every]

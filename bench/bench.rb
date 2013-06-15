@@ -14,11 +14,10 @@ require 'coderay'
 lang = ARGV.fetch(0) do
   puts <<-HELP
 Usage:
-  ruby bench.rb (c|ruby|dump) (null|text|tokens|count|statistic|yaml|html) [size in kB] [stream]
+  ruby bench.rb (c|ruby) (null|text|tokens|count|statistic|yaml|html) [size in kB] [stream]
 
   SIZE defaults to 100 kB (= 100,000 bytes).
   SIZE = 0 means the whole input.
-  SIZE is ignored when dump is input.
 
 -p generates a profile (slow! use with SIZE = 1)
 -o shows the output
@@ -48,10 +47,6 @@ if format == 'comp'
   end
 end
 
-$dump_input = lang == 'dump'
-$dump_output = format == 'dump'
-require 'coderay/helpers/gzip_simple.rb' if $dump_input
-
 def here fn = nil
   return MYDIR unless fn
   File.join here, fn
@@ -66,59 +61,38 @@ N.times do
 
   data = nil
   File.open(here("#$filename." + lang), 'rb') { |f| data = f.read }
-  if $dump_input
-    @size = CodeRay::Tokens.load(data).text.size
-  else
-    raise 'Example file is empty.' if data.empty?
-    unless @size.zero?
-      data += data until data.size >= @size
-      data = data[0, @size]
-    end
-    @size = data.size
+  raise 'Example file is empty.' if data.empty?
+  unless @size.zero?
+    data += data until data.size >= @size
+    data = data[0, @size]
   end
-
+  @size = data.size
+  
   options = {
     :tab_width => 2,
     # :line_numbers => :inline,
     :css => $style ? :style : :class,
   }
-  $hl = CodeRay.encoder(format, options) unless $dump_output
+  $hl = CodeRay.encoder(format, options)
   time = bm.report('CodeRay') do
     if $stream || true
-      if $dump_input
-        raise 'Can\'t stream dump.'
-      elsif $dump_output
-        raise 'Can\'t dump stream.'
-      end
       $o = $hl.encode(data, lang, options)
     else
-      if $dump_input
-        tokens = CodeRay::Tokens.load data
-      else
-        tokens = CodeRay.scan(data, lang)
-      end
+      tokens = CodeRay.scan(data, lang)
       tokens.optimize! if $optimize
-      if $dump_output
-        $o = tokens.optimize.dump
-      else
-        $o = tokens.encode($hl)
-      end
+      $o = tokens.encode($hl)
     end
   end
-  $file_created = here('test.' +
-    ($dump_output ? 'dump' : $hl.file_extension))
+  $file_created = here('test.' + $hl.file_extension)
   File.open($file_created, 'wb') do |f|
     # f.write $o
   end
-  Dir.chdir(here) do
-    FileUtils.copy 'test.dump', 'example.dump' if $dump_output
-  end
-
+  
   time_real = time.real
-
+  
   puts "\t%7.2f KB/s (%d.%d KB)" % [((@size / 1000.0) / time_real), @size / 1000, @size % 1000]
   puts $o if ARGV.include? '-o'
-
+  
 end
 end
 puts "Files created: #$file_created"

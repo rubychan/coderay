@@ -3,25 +3,23 @@ module CodeRay
   # GZip library for writing and reading token dumps.
   autoload :GZip, coderay_path('helpers', 'gzip')
   
-  # = Tokens  TODO: Rewrite!
+  # The Tokens class represents a list of tokens returned from
+  # a Scanner. It's actually just an Array with a few helper methods.
   #
-  # The Tokens class represents a list of tokens returnd from
-  # a Scanner.
-  #
-  # A token is not a special object, just a two-element Array
+  # A token itself is not a special object, just a two-element Array
   # consisting of
   # * the _token_ _text_ (the original source of the token in a String) or
   #   a _token_ _action_ (begin_group, end_group, begin_line, end_line)
   # * the _token_ _kind_ (a Symbol representing the type of the token)
   #
-  # A token looks like this:
+  # It looks like this:
   #
   #   ['# It looks like this', :comment]
   #   ['3.1415926', :float]
   #   ['$^', :error]
   #
   # Some scanners also yield sub-tokens, represented by special
-  # token actions, namely begin_group and end_group.
+  # token actions, for example :begin_group and :end_group.
   #
   # The Ruby scanner, for example, splits "a string" into:
   #
@@ -33,23 +31,17 @@ module CodeRay
   #   [:end_group, :string]
   #  ]
   #
-  # Tokens is the interface between Scanners and Encoders:
-  # The input is split and saved into a Tokens object. The Encoder
-  # then builds the output from this object.
+  # Tokens can be used to save the output of a Scanners in a simple
+  # Ruby object that can be send to an Encoder later:
   #
-  # Thus, the syntax below becomes clear:
-  #
-  #   CodeRay.scan('price = 2.59', :ruby).html
-  #   # the Tokens object is here -------^
-  #
-  # See how small it is? ;)
+  #   tokens = CodeRay.scan('price = 2.59', :ruby).tokens
+  #   tokens.encode(:html)
+  #   tokens.html
+  #   CodeRay.encoder(:html).encode_tokens(tokens)
   #
   # Tokens gives you the power to handle pre-scanned code very easily:
-  # You can convert it to a webpage, a YAML file, or dump it into a gzip'ed string
-  # that you put in your DB.
-  # 
-  # It also allows you to generate tokens directly (without using a scanner),
-  # to load them from a file, and still use any Encoder that CodeRay provides.
+  # You can serialize it to a JSON string and store it in a database, pass it
+  # around to encode it more than once, send it to other algorithms...
   class Tokens < Array
     
     # The Scanner instance that created the tokens.
@@ -58,8 +50,7 @@ module CodeRay
     # Encode the tokens using encoder.
     #
     # encoder can be
-    # * a symbol like :html oder :statistic
-    # * an Encoder class
+    # * a plugin name like :html oder 'statistic'
     # * an Encoder object
     #
     # options are passed to the encoder.

@@ -44,7 +44,7 @@ module CodeRay
     :important           => 'important',          # CSS, Taskpaper
     :include             => 'include',            # C, Groovy, Java, Python, Sass
     :inline              => 'inline',             # nested code, eg. inline string evaluation; lots of scanners
-    :inline_delimiter    => 'inline-delimiter',   # used instead of :inline > :delimiter FIXME: Why?
+    :inline_delimiter    => 'inline-delimiter',   # used instead of :inline > :delimiter FIXME: Why use inline_delimiter?
     :instance_variable   => 'instance-variable',  # Ruby
     :integer             => 'integer',            # most scanners
     :key                 => 'key',                # lots of scanners, used together with :value

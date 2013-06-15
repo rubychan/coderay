@@ -75,7 +75,7 @@ module Encoders
           line_number = start
           output.gsub!(/^.*$\n?/) do |line|
             line_number_text = bolding.call line_number
-            indent = ' ' * (max_width - line_number.to_s.size)  # TODO: Optimize (10^x)
+            indent = ' ' * (max_width - line_number.to_s.size)
             line_number += 1
             "<span class=\"line-numbers\">#{indent}#{line_number_text}</span>#{line}"
           end

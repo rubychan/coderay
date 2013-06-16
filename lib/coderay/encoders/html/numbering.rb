@@ -1,10 +1,7 @@
 module CodeRay
 module Encoders
-  
   class HTML
-    
     module Numbering  # :nodoc:
-      
       def self.number! output, mode = :table, options = {}
         return self unless mode
         
@@ -12,7 +9,7 @@ module Encoders
         
         start = options[:line_number_start]
         unless start.is_a? Integer
-          raise ArgumentError, "Invalid value %p for :line_number_start; Integer expected." % start
+          raise ArgumentError, "Invalid value %p for :line_number_start; Integer expected." % [start]
         end
         
         anchor_prefix = options[:line_number_anchors]
@@ -53,7 +50,7 @@ module Encoders
               end
             end
           else
-            raise ArgumentError, 'Invalid value %p for :bolding; false or Integer expected.' % bold_every
+            raise ArgumentError, 'Invalid value %p for :bolding; false or Integer expected.' % [bold_every]
           end
         
         if position_of_last_newline = output.rindex(RUBY_VERSION >= '1.9' ? /\n/ : ?\n)
@@ -83,26 +80,25 @@ module Encoders
         when :table
           line_numbers = (start ... start + line_count).map(&bolding).join("\n")
           line_numbers << "\n"
-          line_numbers_table_template = Output::TABLE.apply('LINE_NUMBERS', line_numbers)
+          line_numbers_table_template = TABLE.sub('<%LINE_NUMBERS%>', line_numbers)
           
           output.gsub!(/<\/div>\n/, '</div>')
-          output.wrap_in! line_numbers_table_template
-          output.wrapped_in = :div
-        
-        when :list
-          raise NotImplementedError, 'The :list option is no longer available. Use :table.'
+          output.replace line_numbers_table_template.sub('<%CONTENT%>', output)
         
         else
-          raise ArgumentError, 'Unknown value %p for mode: expected one of %p' %
-            [mode, [:table, :inline]]
+          raise ArgumentError, 'Unknown value %p for mode: expected one of %p' % [mode, [:table, :inline]]
         end
         
         output
       end
       
+      TABLE = <<-TABLE
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><%LINE_NUMBERS%></pre></td>
+  <td class="code"><pre><%CONTENT%></pre></td>
+</tr></table>
+      TABLE
     end
-    
   end
-  
 end
 end

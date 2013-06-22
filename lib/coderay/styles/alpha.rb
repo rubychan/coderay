@@ -123,7 +123,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .symbol { color:#A60 }
 .symbol .content { color:#A60 }
 .symbol .delimiter { color:#630 }
-.tag { color:#070 }
+.tag { color:#070; font-weight:bold }
 .type { color:#339; font-weight:bold }
 .value { color: #088 }
 .variable { color:#037 }

@@ -120,6 +120,7 @@ module CodeRay
       'sass'      => :sass,
       'sql'       => :sql,
       'taskpaper' => :taskpaper,
+      'template'  => :json,  # AWS CloudFormation template
       'tmproj'    => :xml,
       'xaml'      => :xml,
       'xhtml'     => :html,

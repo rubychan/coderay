@@ -1,6 +1,6 @@
 module CodeRay
 module Styles
-
+  
   # A colorful theme using CSS 3 colors (with alpha channel).
   class Alpha < Style
 

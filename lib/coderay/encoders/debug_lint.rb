@@ -35,7 +35,7 @@ module Encoders
     end
     
     def end_group kind
-      raise IncorrectTokenGroupNesting, "We are inside #{@opened.inspect}, not #{kind}" if @opened.pop != kind
+      raise IncorrectTokenGroupNesting, "We are inside #{@opened.inspect}, not #{kind} (end_group)" if @opened.pop != kind
       super
     end
     
@@ -45,7 +45,7 @@ module Encoders
     end
     
     def end_line kind
-      raise IncorrectTokenGroupNesting, "We are inside #{@opened.inspect}, not #{kind}" if @opened.pop != kind
+      raise IncorrectTokenGroupNesting, "We are inside #{@opened.inspect}, not #{kind} (end_line)" if @opened.pop != kind
       super
     end
     

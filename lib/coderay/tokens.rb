@@ -3,17 +3,16 @@ module CodeRay
   # The Tokens class represents a list of tokens returned from
   # a Scanner. It's actually just an Array with a few helper methods.
   #
-  # A token itself is not a special object, just a two-element Array
-  # consisting of
+  # A token itself is not a special object, just two elements in an Array:
   # * the _token_ _text_ (the original source of the token in a String) or
   #   a _token_ _action_ (begin_group, end_group, begin_line, end_line)
   # * the _token_ _kind_ (a Symbol representing the type of the token)
   #
   # It looks like this:
   #
-  #   ['# It looks like this', :comment]
-  #   ['3.1415926', :float]
-  #   ['$^', :error]
+  #   ..., '# It looks like this', :comment, ...
+  #   ..., '3.1415926', :float, ...
+  #   ..., '$^', :error, ...
   #
   # Some scanners also yield sub-tokens, represented by special
   # token actions, for example :begin_group and :end_group.
@@ -21,11 +20,11 @@ module CodeRay
   # The Ruby scanner, for example, splits "a string" into:
   #
   #  [
-  #   [:begin_group, :string],
-  #   ['"', :delimiter],
-  #   ['a string', :content],
-  #   ['"', :delimiter],
-  #   [:end_group, :string]
+  #   :begin_group, :string,
+  #   '"',          :delimiter,
+  #   'a string',   :content,
+  #   '"',          :delimiter,
+  #   :end_group,   :string
   #  ]
   #
   # Tokens can be used to save the output of a Scanners in a simple

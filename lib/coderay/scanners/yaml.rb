@@ -47,7 +47,7 @@ module Scanners
           when !check(/(?:"[^"]*")(?=: |:$)/) && match = scan(/"/)
             encoder.begin_group :string
             encoder.text_token match, :delimiter
-            encoder.text_token match, :content if match = scan(/ [^"\\]* (?: \\. [^"\\]* )* /mx)
+            encoder.text_token match, :content if (match = scan(/ [^"\\]* (?: \\. [^"\\]* )* /mx)) && !match.empty?
             encoder.text_token match, :delimiter if match = scan(/"/)
             encoder.end_group :string
             next

@@ -1,0 +1,5 @@
+1,3d0
+< <--$IE-->.TEXT_FIELD(:NAME, "PANFRAGE OHNE $GV UND MIT #{<--$GV-->}").SET ARTIKEL
+< ODER
+< TEXT = <--$BLA-->.TEST(...) 
+\ No newline at end of file

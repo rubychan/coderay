@@ -1,6 +1,6 @@
 desc 'Report code statistics (LOC) from the application'
 task :stats do
-  require 'rake_helpers/code_statistics'
+  require './rake_tasks/code_statistics'
   CodeStatistics.new(
     ['Main', 'lib', /coderay.rb$/],
     ['CodeRay', 'lib/coderay/'],

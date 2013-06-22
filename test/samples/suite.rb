@@ -1,5 +1,5 @@
 mydir = File.dirname(__FILE__)
-$:.unshift mydir + '/../lib/'
+$:.unshift mydir + '/../../lib/'
 
 $VERBOSE = true
 
@@ -29,7 +29,7 @@ class CodeRaySuite < TestCase
         output = name + '.expected'
         code = File.open(input, 'rb') { |f| break f.read }
         
-        result = `ruby -wI../lib #{input}`
+        result = `ruby -wI../../lib #{input}`
         
         diff = output.sub '.expected', '.diff'
         File.delete diff if File.exist? diff
@@ -39,10 +39,10 @@ class CodeRaySuite < TestCase
           ok = expected == result
           unless ok
             File.open(computed, 'w') { |f| f.write result }
-            `diff #{output} #{computed} > #{diff}` if $DEBUG
+            `diff #{output} #{computed} > #{diff}`
             puts "Test failed; output written to #{diff}."
           end
-          assert(ok, "Output error: #{computed} != #{output}") unless $DEBUG
+          assert(ok, "Output error: #{computed} != #{output}")
         else
           File.open(output, 'w') do |f| f.write result end
           puts "New test: #{output}"

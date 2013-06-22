@@ -27,8 +27,9 @@ puts 'YAML:'
 puts yaml
 
 # alternative 3
+require 'zlib'
 BIGSAMPLE = SAMPLE * 100
-dump = CodeRay.scan(BIGSAMPLE, :ruby).dump
+dump = Zlib::Deflate.deflate(CodeRay.scan(BIGSAMPLE, :ruby).debug)
 puts
 puts 'Dump:'
 p dump
@@ -36,4 +37,4 @@ puts 'compressed: %d byte < %d byte' % [dump.size, BIGSAMPLE.size]
 
 puts
 puts 'Undump:'
-puts dump.undump.statistic
+puts CodeRay.scan(Zlib::Inflate.inflate(dump), :debug).statistic

@@ -18,15 +18,6 @@ class TokensTest < Test::Unit::TestCase
     assert_equal tokens.count, 4
   end
   
-  def test_dump_undump
-    tokens = make_tokens
-    tokens2 = nil
-    assert_nothing_raised do
-      tokens2 = tokens.dump.undump
-    end
-    assert_equal tokens, tokens2
-  end
-  
   def test_to_s
     assert_equal 'string()', make_tokens.to_s
   end

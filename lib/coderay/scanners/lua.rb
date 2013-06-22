@@ -8,17 +8,17 @@ module Scanners
   # The language’s complete syntax is defined in
   # {the Lua manual}[http://www.lua.org/manual/5.2/manual.html],
   # which is what this scanner tries to conform to.
-  class CodeRay::Scanners::Lua < CodeRay::Scanners::Scanner
+  class Lua < Scanner
     
     register_for :lua
-    file_extension "lua"
-    title "Lua"
+    file_extension 'lua'
+    title 'Lua'
     
     # Keywords used in Lua.
     KEYWORDS = %w[and break do else elseif end
-    for function goto if in
-    local not or repeat return
-    then until while
+      for function goto if in
+      local not or repeat return
+      then until while
     ]
     
     # Constants set by the Lua core.
@@ -36,10 +36,10 @@ module Scanners
     # highlighted directly accordingly, without the need for specific
     # identifiers to be listed here.
     PREDEFINED_EXPRESSIONS = %w[
-    assert collectgarbage dofile error getmetatable
-    ipairs load loadfile next pairs pcall print
-    rawequal rawget rawlen rawset select setmetatable
-    tonumber tostring type xpcall
+      assert collectgarbage dofile error getmetatable
+      ipairs load loadfile next pairs pcall print
+      rawequal rawget rawlen rawset select setmetatable
+      tonumber tostring type xpcall
     ]
     
     # Automatic token kind selection for normal words.
@@ -52,7 +52,7 @@ module Scanners
     
     # Scanner initialization.
     def setup
-      @state       = :initial
+      @state = :initial
       @brace_depth = 0
     end
     

@@ -4,6 +4,7 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
 
 h2. Changes in 1.1
 
+* New scanner: Lua [#21, #22, thanks to Quintus]
 * New scanner: Sass [#93]
 * New scanner: Taskpaper [#39, thanks to shimomura]
 * Diff scanner: Highlight inline changes in multi-line changes [#99]
@@ -17,6 +18,7 @@ h2. Changes in 1.1
 * @CodeRay::TokenKinds@ should not be frozen [#130, thanks to Gavin Kistner]
 * New token type @:id@ for CSS/Sass [#27]
 * New token type @:done@ for Taskpaper [#39]
+* New token type @:map@ for Lua, introducing a nice nested-shades trick [#22, thanks to Quintus and nathany]
 * Display line numbers in HTML @:table@ mode even for single-line code (remove special case) [#41, thanks to Ariejan de Vroom]
 * Override Bootstrap's pre word-break setting for line numbers [#102, thanks to lightswitch05]
 * Fixed @:docstring@ token type style

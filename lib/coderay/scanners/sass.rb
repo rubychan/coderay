@@ -176,7 +176,7 @@ module Scanners
             encoder.text_token match[start.size..-2], :content
             encoder.text_token ')', :delimiter
           else
-            encoder.text_token match[start.size..-1], :content
+            encoder.text_token match[start.size..-1], :content if start.size < match.size
           end
           encoder.end_group :function
           

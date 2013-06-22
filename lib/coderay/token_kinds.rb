@@ -51,6 +51,7 @@ module CodeRay
     :keyword             => 'keyword',            # reserved word that's actually implemented; most scanners
     :label               => 'label',              # C, PHP
     :local_variable      => 'local-variable',     # local and magic variables; some scanners
+    :map                 => 'map',                # Lua tables
     :modifier            => 'modifier',           # used inside on strings; lots of scanners
     :namespace           => 'namespace',          # Clojure, Java, Taskpaper
     :octal               => 'octal',              # lots of scanners

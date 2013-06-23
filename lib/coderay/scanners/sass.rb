@@ -176,7 +176,7 @@ module Scanners
             encoder.text_token match[start.size..-2], :content
             encoder.text_token ')', :delimiter
           else
-            encoder.text_token match[start.size..-1], :content
+            encoder.text_token match[start.size..-1], :content if start.size < match.size
           end
           encoder.end_group :function
           
@@ -195,7 +195,7 @@ module Scanners
         elsif match = scan(/(?:rgb|hsl)a?\([^()\n]*\)?/)
           encoder.text_token match, :color
           
-        elsif match = scan(/@else if\b|#{RE::AtKeyword}/)
+        elsif match = scan(/@else if\b|#{RE::AtKeyword}/o)
           encoder.text_token match, :directive
           value_expected = true
           
@@ -216,6 +216,14 @@ module Scanners
       
       if options[:keep_state]
         @state = states
+      end
+      
+      while state = states.pop
+        if state == :sass_inline
+          encoder.end_group :inline
+        elsif state == :string
+          encoder.end_group :string
+        end
       end
       
       encoder

@@ -1,11 +1,11 @@
 module CodeRay
 module Scanners
-
+  
   # = Debug Scanner
   # 
   # Parses the output of the Encoders::Debug encoder.
   class Raydebug < Scanner
-
+    
     register_for :raydebug
     file_extension 'raydebug'
     title 'CodeRay Token Dump'
@@ -13,11 +13,11 @@ module Scanners
   protected
     
     def scan_tokens encoder, options
-
+      
       opened_tokens = []
-
+      
       until eos?
-
+        
         if match = scan(/\s+/)
           encoder.text_token match, :space
           
@@ -26,7 +26,7 @@ module Scanners
           encoder.text_token kind, :class
           encoder.text_token '(', :operator
           match = self[2]
-          encoder.text_token match, kind.to_sym
+          encoder.text_token match, kind.to_sym unless match.empty?
           encoder.text_token match, :operator if match = scan(/\)/)
           
         elsif match = scan(/ (\w+) ([<\[]) /x)
@@ -59,8 +59,8 @@ module Scanners
       
       encoder
     end
-
+    
   end
-
+  
 end
 end

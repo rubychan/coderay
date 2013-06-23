@@ -59,13 +59,15 @@ module Scanners
     # CodeRay entry hook. Starts parsing.
     def scan_tokens(encoder, options)
       state = options[:state] || @state
+      brace_depth = @brace_depth
+      num_equals = nil
       
       until eos?
         case state
         
         when :initial
           if match = scan(/\-\-\[\=*\[/)   #--[[ long (possibly multiline) comment ]]
-            @num_equals = match.count("=") # Number must match for comment end
+            num_equals = match.count("=") # Number must match for comment end
             encoder.begin_group(:comment)
             encoder.text_token(match, :delimiter)
             state = :long_comment
@@ -74,7 +76,7 @@ module Scanners
             encoder.text_token(match, :comment)
           
           elsif match = scan(/\[=*\[/)     # [[ long (possibly multiline) string ]]
-            @num_equals = match.count("=") # Number must match for comment end
+            num_equals = match.count("=") # Number must match for comment end
             encoder.begin_group(:string)
             encoder.text_token(match, :delimiter)
             state = :long_string
@@ -101,19 +103,19 @@ module Scanners
           
           elsif match = scan(/\{/) # Opening table brace {
             encoder.begin_group(:map)
-            encoder.text_token(match, @brace_depth >= 1 ? :inline_delimiter : :delimiter)
-            @brace_depth += 1
+            encoder.text_token(match, brace_depth >= 1 ? :inline_delimiter : :delimiter)
+            brace_depth += 1
             state        = :map
           
           elsif match = scan(/\}/) # Closing table brace }
-            if @brace_depth == 1
-              @brace_depth = 0
+            if brace_depth == 1
+              brace_depth = 0
               encoder.text_token(match, :delimiter)
               encoder.end_group(:map)
-            elsif @brace_depth == 0 # Mismatched brace
+            elsif brace_depth == 0 # Mismatched brace
               encoder.text_token(match, :error)
             else
-              @brace_depth -= 1
+              brace_depth -= 1
               encoder.text_token(match, :inline_delimiter)
               encoder.end_group(:map)
               state = :map
@@ -122,7 +124,7 @@ module Scanners
           elsif match = scan(/["']/) # String delimiters " and '
             encoder.begin_group(:string)
             encoder.text_token(match, :delimiter)
-            @start_delim = match
+            start_delim = match
             state       = :string
           
                             # ↓Prefix                hex number ←|→ decimal number
@@ -146,7 +148,7 @@ module Scanners
           # It may be that we’re scanning a full-blown subexpression of a table
           # (tables can contain full expressions in parts).
           # If this is the case, return to :map scanning state.
-          state = :map if state == :initial && @brace_depth >= 1
+          state = :map if state == :initial && brace_depth >= 1
         
         when :function_expected
           if match = scan(/\(.*?\)/m) # x = function() # "Anonymous" function without explicit name
@@ -198,10 +200,10 @@ module Scanners
           end
         
         when :long_comment
-          if match = scan(/.*?(?=\]={#@num_equals}\])/m)
+          if match = scan(/.*?(?=\]={#{num_equals}}\])/m)
             encoder.text_token(match, :content)
             
-            delim = scan(/\]={#@num_equals}\]/)
+            delim = scan(/\]={#{num_equals}}\]/)
             encoder.text_token(delim, :delimiter)
           else # No terminator found till EOF
             encoder.text_token(rest, :error)
@@ -211,10 +213,10 @@ module Scanners
           state = :initial
         
         when :long_string
-          if match = scan(/.*?(?=\]={#@num_equals}\])/m) # Long strings do not interpret any escape sequences
+          if match = scan(/.*?(?=\]={#{num_equals}}\])/m) # Long strings do not interpret any escape sequences
             encoder.text_token(match, :content)
             
-            delim = scan(/\]={#@num_equals}\]/)
+            delim = scan(/\]={#{num_equals}}\]/)
             encoder.text_token(delim, :delimiter)
           else # No terminator found till EOF
             encoder.text_token(rest, :error)
@@ -224,11 +226,11 @@ module Scanners
           state = :initial
         
         when :string
-          if match = scan(/[^\\#@start_delim\n]+/) # Everything except \ and the start delimiter character is string content (newlines are only allowed if preceeded by \ or \z)
+          if match = scan(/[^\\#{start_delim}\n]+/) # Everything except \ and the start delimiter character is string content (newlines are only allowed if preceeded by \ or \z)
             encoder.text_token(match, :content)
           elsif match = scan(/\\(?:['"abfnrtv\\]|z\s*|x\h\h|\d{1,3}|\n)/m)
             encoder.text_token(match, :char)
-          elsif match = scan(Regexp.compile(@start_delim))
+          elsif match = scan(Regexp.compile(start_delim))
             encoder.text_token(match, :delimiter)
             encoder.end_group(:string)
             state = :initial
@@ -265,6 +267,9 @@ module Scanners
       if options[:keep_state]
         @state = state
       end
+      
+      encoder.end_group :string if [:string].include? state
+      brace_depth.times { encoder.end_group :map }
       
       encoder
     end

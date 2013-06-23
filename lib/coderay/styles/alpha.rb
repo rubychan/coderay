@@ -107,7 +107,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .operator { }
 .predefined { color:#369; font-weight:bold }
 .predefined-constant { color:#069 }
-.predefined-type { color:#0a5; font-weight:bold }
+.predefined-type { color:#0a8; font-weight:bold }
 .preprocessor { color:#579 }
 .pseudo-class { color:#00C; font-weight:bold }
 .regexp { background-color:hsla(300,100%,50%,0.06); }

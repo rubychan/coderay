@@ -33,7 +33,8 @@ module Scanners
     )
     
     IN_ATTRIBUTE = WordList::CaseIgnoring.new(nil).
-      add(EVENT_ATTRIBUTES, :script)
+      add(EVENT_ATTRIBUTES, :script).
+      add(['style'], :style)
     
     ATTR_NAME = /[\w.:-]+/  # :nodoc:
     TAG_END = /\/?>/  # :nodoc:
@@ -79,10 +80,10 @@ module Scanners
       end
     end
     
-    def scan_css encoder, code
+    def scan_css encoder, code, state = [:initial]
       if code && !code.empty?
         @css_scanner ||= Scanners::CSS.new '', :keep_tokens => true
-        @css_scanner.tokenize code, :tokens => encoder
+        @css_scanner.tokenize code, :tokens => encoder, :state => state
       end
     end
     
@@ -166,17 +167,21 @@ module Scanners
               encoder.text_token match, :attribute_value
               state = :attribute
             elsif match = scan(/["']/)
-              if in_attribute == :script
-                encoder.begin_group :inline
-                encoder.text_token match, :inline_delimiter
+              if in_attribute == :script || in_attribute == :style
+                encoder.begin_group :string
+                encoder.text_token match, :delimiter
                 if scan(/javascript:[ \t]*/)
                   encoder.text_token matched, :comment
                 end
                 code = scan_until(match == '"' ? /(?="|\z)/ : /(?='|\z)/)
-                scan_java_script encoder, code
+                if in_attribute == :script
+                  scan_java_script encoder, code
+                else
+                  scan_css encoder, code, [:block]
+                end
                 match = scan(/["']/)
-                encoder.text_token match, :inline_delimiter if match
-                encoder.end_group :inline
+                encoder.text_token match, :delimiter if match
+                encoder.end_group :string
                 state = :attribute
                 in_attribute = nil
               else

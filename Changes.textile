@@ -10,7 +10,7 @@ h2. Changes in 1.1
 * Diff scanner: Highlight inline changes in multi-line changes [#99]
 * JavaScript scanner: Highlight multi-line comments in diff correctly
 * Ruby scanner: Accept keywords as Ruby 1.9 hash keys [#126]
-* HTML scanner displays style tags and attributes now
+* HTML scanner displays style tags and attributes now [#145]
 * Remove double-click toggle handler from HTML table output
 * Fixes to CSS scanner (floats, pseudoclasses)
 * Fixed empty tokens and unclosed token groups in HTML, CSS, Diff, Goovy, PHP, Raydebug, Ruby, SQL, and YAML scanners [#144]

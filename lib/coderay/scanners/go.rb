@@ -128,7 +128,11 @@ module Scanners
           
           elsif match = scan(/\$/)
             encoder.text_token match, :ident
-          
+
+          elsif match = scan(/\d*(\.\d*)?([eE][+-]?\d+)?i/)
+            label_expected = false
+            encoder.text_token match, :imaginary
+
           elsif match = scan(/0[xX][0-9A-Fa-f]+/)
             label_expected = false
             encoder.text_token match, :hex
@@ -137,13 +141,13 @@ module Scanners
             label_expected = false
             encoder.text_token match, :octal
           
-          elsif match = scan(/(?:\d+)(?![.eEfF])L?L?/)
-            label_expected = false
-            encoder.text_token match, :integer
-          
           elsif match = scan(/\d|\d*\.\d+(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+/)
             label_expected = false
             encoder.text_token match, :float
+
+          elsif match = scan(/(?:\d+)(?![.eEfF])L?L?/)
+            label_expected = false
+            encoder.text_token match, :integer
           
           else
             encoder.text_token getch, :error

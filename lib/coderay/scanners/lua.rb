@@ -268,6 +268,9 @@ module Scanners
         @state = state
       end
       
+      encoder.end_group :string if [:string].include? state
+      brace_depth.times { encoder.end_group :map }
+      
       encoder
     end
     

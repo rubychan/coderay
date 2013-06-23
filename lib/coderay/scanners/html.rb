@@ -33,7 +33,8 @@ module Scanners
     )
     
     IN_ATTRIBUTE = WordList::CaseIgnoring.new(nil).
-      add(EVENT_ATTRIBUTES, :script)
+      add(EVENT_ATTRIBUTES, :script).
+      add(['style'], :style)
     
     ATTR_NAME = /[\w.:-]+/  # :nodoc:
     TAG_END = /\/?>/  # :nodoc:
@@ -75,9 +76,14 @@ module Scanners
     def scan_java_script encoder, code
       if code && !code.empty?
         @java_script_scanner ||= Scanners::JavaScript.new '', :keep_tokens => true
-        # encoder.begin_group :inline
         @java_script_scanner.tokenize code, :tokens => encoder
-        # encoder.end_group :inline
+      end
+    end
+    
+    def scan_css encoder, code, state = [:initial]
+      if code && !code.empty?
+        @css_scanner ||= Scanners::CSS.new '', :keep_tokens => true
+        @css_scanner.tokenize code, :tokens => encoder, :state => state
       end
     end
     
@@ -118,7 +124,7 @@ module Scanners
             elsif match = scan(/<\/[-\w.:]*>?/m)
               in_tag = nil
               encoder.text_token match, :tag
-            elsif match = scan(/<(?:(script)|[-\w.:]+)(>)?/m)
+            elsif match = scan(/<(?:(script|style)|[-\w.:]+)(>)?/m)
               encoder.text_token match, :tag
               in_tag = self[1]
               if self[2]
@@ -169,17 +175,21 @@ module Scanners
               encoder.text_token match, :attribute_value
               state = :attribute
             elsif match = scan(/["']/)
-              if in_attribute == :script
-                encoder.begin_group :inline
-                encoder.text_token match, :inline_delimiter
+              if in_attribute == :script || in_attribute == :style
+                encoder.begin_group :string
+                encoder.text_token match, :delimiter
                 if scan(/javascript:[ \t]*/)
                   encoder.text_token matched, :comment
                 end
                 code = scan_until(match == '"' ? /(?="|\z)/ : /(?='|\z)/)
-                scan_java_script encoder, code
+                if in_attribute == :script
+                  scan_java_script encoder, code
+                else
+                  scan_css encoder, code, [:block]
+                end
                 match = scan(/["']/)
-                encoder.text_token match, :inline_delimiter if match
-                encoder.end_group :inline
+                encoder.text_token match, :delimiter if match
+                encoder.end_group :string
                 state = :attribute
                 in_attribute = nil
               else
@@ -214,19 +224,23 @@ module Scanners
             
           when :in_special_tag
             case in_tag
-            when 'script'
+            when 'script', 'style'
               encoder.text_token match, :space if match = scan(/[ \t]*\n/)
               if scan(/(\s*<!--)(?:(.*?)(-->)|(.*))/m)
                 code = self[2] || self[4]
                 closing = self[3]
                 encoder.text_token self[1], :comment
               else
-                code = scan_until(/(?=(?:\n\s*)?<\/script>)|\z/)
+                code = scan_until(/(?=(?:\n\s*)?<\/#{in_tag}>)|\z/)
                 closing = false
               end
               unless code.empty?
                 encoder.begin_group :inline
-                scan_java_script encoder, code
+                if in_tag == 'script'
+                  scan_java_script encoder, code
+                else
+                  scan_css encoder, code
+                end
                 encoder.end_group :inline
               end
               encoder.text_token closing, :comment if closing

@@ -161,7 +161,7 @@ module Scanners
             encoder.text_token match, :char
           elsif match = scan(/ \\ | $ /x)
             encoder.end_group :string
-            encoder.text_token match, :error
+            encoder.text_token match, :error unless match.empty?
             state = :initial
             label_expected = false
           else

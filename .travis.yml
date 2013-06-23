@@ -14,6 +14,8 @@ branches:
     - master
 matrix:
   allow_failures:
-    - rvm: rbx-18mode
+    - rvm: ruby-head
+    - rvm: jruby-head
+    - rvm: rbx-19mode
     - rvm: rbx-19mode
 script: "rake test" # test:scanners"

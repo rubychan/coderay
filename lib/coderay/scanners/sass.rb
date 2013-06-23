@@ -195,7 +195,7 @@ module Scanners
         elsif match = scan(/(?:rgb|hsl)a?\([^()\n]*\)?/)
           encoder.text_token match, :color
           
-        elsif match = scan(/@else if\b|#{RE::AtKeyword}/)
+        elsif match = scan(/@else if\b|#{RE::AtKeyword}/o)
           encoder.text_token match, :directive
           value_expected = true
           

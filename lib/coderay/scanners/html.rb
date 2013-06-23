@@ -1,13 +1,13 @@
 module CodeRay
 module Scanners
-
+  
   # HTML Scanner
   # 
   # Alias: +xhtml+
   # 
   # See also: Scanners::XML
   class HTML < Scanner
-
+    
     register_for :html
     
     KINDS_NOT_LOC = [
@@ -100,15 +100,13 @@ module Scanners
           
           when :initial
             if match = scan(/<!\[CDATA\[/)
-              encoder.begin_group :string
-              encoder.text_token match, :delimiter
+              encoder.text_token match, :inline_delimiter
               if match = scan(/.*?\]\]>/m)
-                encoder.text_token match[0..-4], :content
-                encoder.text_token ']]>', :delimiter
-              else
-                encoder.text_token scan(/.*/m), :error
+                encoder.text_token match[0..-4], :plain
+                encoder.text_token ']]>', :inline_delimiter
+              elsif match = scan(/.+/)
+                encoder.text_token match, :error
               end
-              encoder.end_group :string
             elsif match = scan(/<!--(?:.*?-->|.*)/m)
               encoder.text_token match, :comment
             elsif match = scan(/<!(\w+)(?:.*?>|.*)|\]>/m)

@@ -141,7 +141,7 @@ module Scanners
             label_expected = false
             encoder.text_token match, :integer
           
-          elsif match = scan(/\d[fF]?|\d*\.\d+(?:[eE][+-]?\d+)?[fF]?|\d+[eE][+-]?\d+[fF]?/)
+          elsif match = scan(/\d|\d*\.\d+(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+/)
             label_expected = false
             encoder.text_token match, :float
           

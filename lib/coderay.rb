@@ -134,7 +134,7 @@ module CodeRay
     File.join CODERAY_PATH, *path
   end
   
-  require coderay_path('version')
+  require 'coderay/version'
   
   # helpers
   autoload :FileType,    coderay_path('helpers', 'file_type')

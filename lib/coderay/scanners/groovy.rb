@@ -226,7 +226,7 @@ module Scanners
             encoder.text_token match, :content  # TODO: Shouldn't this be :error?
             
           elsif match = scan(/ \\ | \n /x)
-            encoder.end_group state
+            encoder.end_group state == :regexp ? :regexp : :string
             encoder.text_token match, :error
             after_def = value_expected = false
             state = :initial
@@ -246,7 +246,7 @@ module Scanners
       end
       
       if [:multiline_string, :string, :regexp].include? state
-        encoder.end_group state
+        encoder.end_group state == :regexp ? :regexp : :string
       end
       
       if options[:keep_state]
@@ -256,7 +256,7 @@ module Scanners
       until inline_block_stack.empty?
         state, = *inline_block_stack.pop
         encoder.end_group :inline
-        encoder.end_group state
+        encoder.end_group state == :regexp ? :regexp : :string
       end
       
       encoder

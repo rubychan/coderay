@@ -37,14 +37,9 @@ module Scanners
       make new panic print println real recover
     ] # :nodoc:
     
-    DIRECTIVES = [
-      'go_no_directive',  # Seems no directive concept in Go?
-    ]  # :nodoc:
-    
     IDENT_KIND = WordList.new(:ident).
       add(KEYWORDS, :keyword).
       add(PREDEFINED_TYPES, :predefined_type).
-      add(DIRECTIVES, :directive).
       add(PREDEFINED_CONSTANTS, :predefined_constant).
       add(PREDEFINED_FUNCTIONS, :predefined)  # :nodoc:
     

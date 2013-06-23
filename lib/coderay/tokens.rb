@@ -1,55 +1,43 @@
 module CodeRay
   
-  # GZip library for writing and reading token dumps.
-  autoload :GZip, coderay_path('helpers', 'gzip')
-  
-  # = Tokens  TODO: Rewrite!
+  # The Tokens class represents a list of tokens returned from
+  # a Scanner. It's actually just an Array with a few helper methods.
   #
-  # The Tokens class represents a list of tokens returnd from
-  # a Scanner.
-  #
-  # A token is not a special object, just a two-element Array
-  # consisting of
+  # A token itself is not a special object, just two elements in an Array:
   # * the _token_ _text_ (the original source of the token in a String) or
   #   a _token_ _action_ (begin_group, end_group, begin_line, end_line)
   # * the _token_ _kind_ (a Symbol representing the type of the token)
   #
-  # A token looks like this:
+  # It looks like this:
   #
-  #   ['# It looks like this', :comment]
-  #   ['3.1415926', :float]
-  #   ['$^', :error]
+  #   ..., '# It looks like this', :comment, ...
+  #   ..., '3.1415926', :float, ...
+  #   ..., '$^', :error, ...
   #
   # Some scanners also yield sub-tokens, represented by special
-  # token actions, namely begin_group and end_group.
+  # token actions, for example :begin_group and :end_group.
   #
   # The Ruby scanner, for example, splits "a string" into:
   #
   #  [
-  #   [:begin_group, :string],
-  #   ['"', :delimiter],
-  #   ['a string', :content],
-  #   ['"', :delimiter],
-  #   [:end_group, :string]
+  #   :begin_group, :string,
+  #   '"',          :delimiter,
+  #   'a string',   :content,
+  #   '"',          :delimiter,
+  #   :end_group,   :string
   #  ]
   #
-  # Tokens is the interface between Scanners and Encoders:
-  # The input is split and saved into a Tokens object. The Encoder
-  # then builds the output from this object.
+  # Tokens can be used to save the output of a Scanners in a simple
+  # Ruby object that can be send to an Encoder later:
   #
-  # Thus, the syntax below becomes clear:
-  #
-  #   CodeRay.scan('price = 2.59', :ruby).html
-  #   # the Tokens object is here -------^
-  #
-  # See how small it is? ;)
+  #   tokens = CodeRay.scan('price = 2.59', :ruby).tokens
+  #   tokens.encode(:html)
+  #   tokens.html
+  #   CodeRay.encoder(:html).encode_tokens(tokens)
   #
   # Tokens gives you the power to handle pre-scanned code very easily:
-  # You can convert it to a webpage, a YAML file, or dump it into a gzip'ed string
-  # that you put in your DB.
-  # 
-  # It also allows you to generate tokens directly (without using a scanner),
-  # to load them from a file, and still use any Encoder that CodeRay provides.
+  # You can serialize it to a JSON string and store it in a database, pass it
+  # around to encode it more than once, send it to other algorithms...
   class Tokens < Array
     
     # The Scanner instance that created the tokens.
@@ -58,8 +46,7 @@ module CodeRay
     # Encode the tokens using encoder.
     #
     # encoder can be
-    # * a symbol like :html oder :statistic
-    # * an Encoder class
+    # * a plugin name like :html oder 'statistic'
     # * an Encoder object
     #
     # options are passed to the encoder.
@@ -93,6 +80,7 @@ module CodeRay
     # This method is used by @Scanner#tokenize@ when called with an Array
     # of source strings. The Diff encoder uses it for inline highlighting.
     def split_into_parts *sizes
+      return Array.new(sizes.size) { Tokens.new } if size == 2 && first == ''
       parts = []
       opened = []
       content = nil
@@ -156,51 +144,9 @@ module CodeRay
       parts
     end
     
-    # Dumps the object into a String that can be saved
-    # in files or databases.
-    #
-    # The dump is created with Marshal.dump;
-    # In addition, it is gzipped using GZip.gzip.
-    #
-    # The returned String object includes Undumping
-    # so it has an #undump method. See Tokens.load.
-    #
-    # You can configure the level of compression,
-    # but the default value 7 should be what you want
-    # in most cases as it is a good compromise between
-    # speed and compression rate.
-    #
-    # See GZip module.
-    def dump gzip_level = 7
-      dump = Marshal.dump self
-      dump = GZip.gzip dump, gzip_level
-      dump.extend Undumping
-    end
-    
     # Return the actual number of tokens.
     def count
       size / 2
-    end
-    
-    # Include this module to give an object an #undump
-    # method.
-    #
-    # The string returned by Tokens.dump includes Undumping.
-    module Undumping
-      # Calls Tokens.load with itself.
-      def undump
-        Tokens.load self
-      end
-    end
-    
-    # Undump the object using Marshal.load, then
-    # unzip it using GZip.gunzip.
-    #
-    # The result is commonly a Tokens object, but
-    # this is not guaranteed.
-    def Tokens.load dump
-      dump = GZip.gunzip dump
-      @dump = Marshal.load dump
     end
     
     alias text_token push

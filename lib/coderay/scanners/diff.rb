@@ -45,7 +45,7 @@ module Scanners
           if match = scan(/--- |\+\+\+ |=+|_+/)
             encoder.begin_line line_kind = :head
             encoder.text_token match, :head
-            if match = scan(/.*?(?=$|[\t\n\x00]|  \(revision)/)
+            if match = scan(/[^\x00\n]+?(?=$|[\t\n]|  \(revision)/)
               encoder.text_token match, :filename
               if options[:highlight_code] && match != '/dev/null'
                 file_type = CodeRay::FileType.fetch(match, :text)

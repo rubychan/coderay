@@ -166,7 +166,6 @@ module CodeRay
     #
     # See also demo/demo_simple.
     def scan code, lang, options = {}, &block
-      # FIXME: return a proxy for direct-stream encoding
       TokensProxy.new code, lang, options, block
     end
     

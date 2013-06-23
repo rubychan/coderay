@@ -9,7 +9,6 @@ module Encoders
   #
   # You cannot fully restore the tokens information from the
   # output, because consecutive :space tokens are merged.
-  # Use Tokens#dump for caching purposes.
   # 
   # See also: Scanners::Debug
   class Debug < Encoder
@@ -18,37 +17,26 @@ module Encoders
     
     FILE_EXTENSION = 'raydebug'
     
-    def initialize options = {}
-      super
-      @opened = []
-    end
-    
     def text_token text, kind
       if kind == :space
         @out << text
       else
-        # TODO: Escape (
-        text = text.gsub(/[)\\]/, '\\\\\0') if text.index(/[)\\]/)
-        @out << kind.to_s << '(' << text << ')'
+        text = text.gsub('\\', '\\\\\\\\') if text.index('\\')
+        text = text.gsub(')',  '\\\\)')    if text.index(')')
+        @out << "#{kind}(#{text})"
       end
     end
     
     def begin_group kind
-      @opened << kind
-      @out << kind.to_s << '<'
+      @out << "#{kind}<"
     end
     
     def end_group kind
-      if @opened.last != kind
-        puts @out
-        raise "we are inside #{@opened.inspect}, not #{kind}"
-      end
-      @opened.pop
       @out << '>'
     end
     
     def begin_line kind
-      @out << kind.to_s << '['
+      @out << "#{kind}["
     end
     
     def end_line kind

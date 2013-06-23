@@ -14,7 +14,7 @@ class TestCodeRayExecutable < Test::Unit::TestCase
   
   ROOT_DIR = Pathname.new(File.dirname(__FILE__)) + '..' + '..'
   EXECUTABLE = ROOT_DIR + 'bin' + 'coderay'
-  RUBY_COMMAND = RUBY_VERSION < '2.0.0' ? 'ruby -w' : 'ruby'  # Ruby 2 currently throws warnings for bundler
+  RUBY_COMMAND = 'ruby'
   EXE_COMMAND =
     if RUBY_PLATFORM === 'java' && `ruby --ng -e '' 2> /dev/null` && $?.success?
       # use Nailgun

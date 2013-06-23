@@ -3,14 +3,14 @@ module Styles
   
   # A colorful theme using CSS 3 colors (with alpha channel).
   class Alpha < Style
-
+    
     register_for :alpha
-
+    
     code_background = 'hsl(0,0%,95%)'
     numbers_background = 'hsl(180,65%,90%)'
     border_color = 'silver'
     normal_color = 'black'
-
+    
     CSS_MAIN_STYLES = <<-MAIN  # :nodoc:
 .CodeRay {
   background-color: #{code_background};
@@ -145,8 +145,8 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .change .change { color: #88f }
 .head .head { color: #f4f }
     TOKENS
-
+    
   end
-
+  
 end
 end

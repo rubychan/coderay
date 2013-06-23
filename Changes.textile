@@ -13,6 +13,8 @@ h2. Changes in 1.1
 * HTML scanner displays style tags and attributes now
 * Remove double-click toggle handler from HTML table output
 * Fixes to CSS scanner (floats, pseudoclasses)
+* Fixed empty tokens and unclosed token groups in HTML, CSS, Diff, Goovy, PHP, Raydebug, Ruby, SQL, and YAML scanners [#144]
+* Added @:keep_state@ functionality to more scanners [#116]
 * CSS scanner uses @:id@ and @:tag@ now [#27]
 * Removed @Tokens#dump@, @Tokens.load@, @Tokens::Undumping@, and @zlib@ dependency. Nobody was using this, right?
 * Add .xaml file type [#121, thanks to Kozman Bálint]
@@ -21,10 +23,13 @@ h2. Changes in 1.1
 * New token type @:done@ for Taskpaper [#39]
 * New token type @:map@ for Lua, introducing a nice nested-shades trick [#22, thanks to Quintus and nathany]
 * Display line numbers in HTML @:table@ mode even for single-line code (remove special case) [#41, thanks to Ariejan de Vroom]
-* Override Bootstrap's pre word-break setting for line numbers [#102, thanks to lightswitch05]
+* Override Bootstrap's @pre { word-break: break-all }@ styling for line numbers [#102, thanks to lightswitch05]
 * Fixed @:docstring@ token type style
 * @Plugin@ does not warn about fallback when default is defined
+* @HTML@ encoder will not warn about unclosed token groups at the end of the stream
 * @Debug@ encoder refactored; use @DebugLint@ if you want strict checking now
+* @Debug@ encoder will not warn about errors in the token stream
+* New @DebugLint@ encoder that checks for empty tokens and correct nesting
 
 h2. Changes in 1.0.9
 

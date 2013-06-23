@@ -1,8 +1,9 @@
-module CodeRay module Scanners
+module CodeRay
+module Scanners
   
   # by Josh Goebel
   class SQL < Scanner
-
+    
     register_for :sql
     
     KEYWORDS = %w(
@@ -149,6 +150,7 @@ module CodeRay module Scanners
               string_content = ''
             end
             encoder.text_token match, :error unless match.empty?
+            encoder.end_group :string
             state = :initial
           else
             raise "else case \" reached; %p not handled." % peek(1), encoder
@@ -171,4 +173,5 @@ module CodeRay module Scanners
     
   end
   
-end end
+end
+end

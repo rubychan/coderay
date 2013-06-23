@@ -47,7 +47,7 @@ module Scanners
           when !check(/(?:"[^"]*")(?=: |:$)/) && match = scan(/"/)
             encoder.begin_group :string
             encoder.text_token match, :delimiter
-            encoder.text_token match, :content if match = scan(/ [^"\\]* (?: \\. [^"\\]* )* /mx)
+            encoder.text_token match, :content if (match = scan(/ [^"\\]* (?: \\. [^"\\]* )* /mx)) && !match.empty?
             encoder.text_token match, :delimiter if match = scan(/"/)
             encoder.end_group :string
             next
@@ -84,7 +84,7 @@ module Scanners
           when match = scan(/(?:"[^"\n]*"|'[^'\n]*')(?= *:(?: |$))/)
             encoder.begin_group :key
             encoder.text_token match[0,1], :delimiter
-            encoder.text_token match[1..-2], :content
+            encoder.text_token match[1..-2], :content if match.size > 2
             encoder.text_token match[-1,1], :delimiter
             encoder.end_group :key
             key_indent = column(pos - match.size) - 1

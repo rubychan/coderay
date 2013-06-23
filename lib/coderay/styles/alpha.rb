@@ -98,7 +98,7 @@ table.CodeRay td { padding: 2px 4px; vertical-align: top; }
 .key .delimiter { color: #404 }
 .keyword { color:#080; font-weight:bold }
 .label { color:#970; font-weight:bold }
-.local-variable { color:#963 }
+.local-variable { color:#950 }
 .map .content { color:#808 }
 .map .delimiter { color:#40A}
 .map { background-color:hsla(200,100%,50%,0.06); }

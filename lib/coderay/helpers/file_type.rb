@@ -1,5 +1,5 @@
 module CodeRay
-  
+
   # = FileType
   #
   # A simple filetype recognizer.
@@ -8,18 +8,18 @@ module CodeRay
   #
   #  # determine the type of the given
   #  lang = FileType[file_name]
-  #  
+  #
   #  # return :text if the file type is unknown
   #  lang = FileType.fetch file_name, :text
-  #  
+  #
   #  # try the shebang line, too
   #  lang = FileType.fetch file_name, :text, true
   module FileType
-    
+
     UnknownFileType = Class.new Exception
-    
+
     class << self
-      
+
       # Try to determine the file type of the file.
       #
       # +filename+ is a relative or absolute path to a file.
@@ -30,7 +30,7 @@ module CodeRay
         name = File.basename filename
         ext = File.extname(name).sub(/^\./, '')  # from last dot, delete the leading dot
         ext2 = filename.to_s[/\.(.*)/, 1]  # from first dot
-        
+
         type =
           TypeFromExt[ext] ||
           TypeFromExt[ext.downcase] ||
@@ -39,10 +39,10 @@ module CodeRay
           TypeFromName[name] ||
           TypeFromName[name.downcase]
         type ||= shebang(filename) if read_shebang
-        
+
         type
       end
-      
+
       # This works like Hash#fetch.
       #
       # If the filetype cannot be found, the +default+ value
@@ -51,7 +51,7 @@ module CodeRay
         if default && block_given?
           warn 'Block supersedes default value argument; use either.'
         end
-        
+
         if type = self[filename, read_shebang]
           type
         else
@@ -60,9 +60,9 @@ module CodeRay
           raise UnknownFileType, 'Could not determine type of %p.' % filename
         end
       end
-      
+
     protected
-      
+
       def shebang filename
         return unless File.exist? filename
         File.open filename, 'r' do |f|
@@ -73,9 +73,9 @@ module CodeRay
           end
         end
       end
-      
+
     end
-    
+
     TypeFromExt = {
       'c'         => :c,
       'cfc'       => :xml,
@@ -116,7 +116,7 @@ module CodeRay
       'rhtml'     => :erb,
       'rjs'       => :ruby,
       'rpdf'      => :ruby,
-      'ru'        => :ruby,
+      'ru'        => :ruby,  # config.ru
       'rxml'      => :ruby,
       'sass'      => :sass,
       'sql'       => :sql,
@@ -132,16 +132,19 @@ module CodeRay
     for cpp_alias in %w[cc cpp cp cxx c++ C hh hpp h++ cu]
       TypeFromExt[cpp_alias] = :cpp
     end
-    
+
     TypeFromShebang = /\b(?:ruby|perl|python|sh)\b/
-    
+
     TypeFromName = {
       'Capfile'  => :ruby,
       'Rakefile' => :ruby,
       'Rantfile' => :ruby,
       'Gemfile'  => :ruby,
+      'Guardfile' => :ruby,
+      'Vagrantfile' => :ruby,
+      'Appraisals' => :ruby
     }
-    
+
   end
-  
+
 end

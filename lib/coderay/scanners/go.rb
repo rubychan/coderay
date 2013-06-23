@@ -64,6 +64,7 @@ module Scanners
           if match = scan(/ \s+ | \\\n /x)
             if in_preproc_line && match != "\\\n" && match.index(?\n)
               in_preproc_line = false
+              case_expected = false
               label_expected = label_expected_before_preproc_line
             end
             encoder.text_token match, :space
@@ -72,7 +73,6 @@ module Scanners
             encoder.text_token match, :comment
           
           elsif match = scan(/ [-+*=<>?:;,!&^|()\[\]{}~%]+ | \/=? | \.(?!\d) /x)
-            label_expected = match =~ /[;\{\}]/
             if case_expected
               label_expected = true if match == ':'
               case_expected = false
@@ -83,6 +83,7 @@ module Scanners
             kind = IDENT_KIND[match]
             if kind == :ident && label_expected && !in_preproc_line && scan(/:(?!:)/)
               kind = :label
+              label_expected = false
               match << matched
             else
               label_expected = false

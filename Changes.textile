@@ -6,6 +6,7 @@ h2. Changes in 1.1
 
 * New scanner: Lua [#21, #22, thanks to Quintus]
 * New scanner: Sass [#93]
+* New scanner: Go [#28, thanks to Eric Guo]
 * New scanner: Taskpaper [#39, thanks to shimomura]
 * Diff scanner: Highlight inline changes in multi-line changes [#99]
 * JavaScript scanner: Highlight multi-line comments in diff correctly

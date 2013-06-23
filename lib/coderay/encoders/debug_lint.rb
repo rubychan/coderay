@@ -19,11 +19,6 @@ module Encoders
     EmptyToken = Class.new InvalidTokenStream
     IncorrectTokenGroupNesting = Class.new InvalidTokenStream
     
-    def initialize options = {}
-      super
-      @opened = []
-    end
-    
     def text_token text, kind
       raise EmptyToken, 'empty token' if text.empty?
       super
@@ -35,7 +30,8 @@ module Encoders
     end
     
     def end_group kind
-      raise IncorrectTokenGroupNesting, "We are inside #{@opened.inspect}, not #{kind} (end_group)" if @opened.pop != kind
+      raise IncorrectTokenGroupNesting, 'We are inside %s, not %p (end_group)' % [@opened.reverse.map(&:inspect).join(' < '), kind] if @opened.last != kind
+      @opened.pop
       super
     end
     
@@ -45,7 +41,20 @@ module Encoders
     end
     
     def end_line kind
-      raise IncorrectTokenGroupNesting, "We are inside #{@opened.inspect}, not #{kind} (end_line)" if @opened.pop != kind
+      raise IncorrectTokenGroupNesting, 'We are inside %s, not %p (end_line)' % [@opened.reverse.map(&:inspect).join(' < '), kind] if @opened.last != kind
+      @opened.pop
+      super
+    end
+    
+    protected
+    
+    def setup options
+      super
+      @opened = []
+    end
+    
+    def finish options
+      raise 'Some tokens still open at end of token stream: %p' % [@opened] unless @opened.empty?
       super
     end
     

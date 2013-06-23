@@ -145,10 +145,10 @@ module Scanners
           start = match[/^\w+\(/]
           encoder.text_token start, :delimiter
           if match[-1] == ?)
-            encoder.text_token match[start.size..-2], :content
+            encoder.text_token match[start.size..-2], :content if match.size > start.size + 1
             encoder.text_token ')', :delimiter
           else
-            encoder.text_token match[start.size..-1], :content if start.size < match.size
+            encoder.text_token match[start.size..-1], :content if match.size > start.size
           end
           encoder.end_group :function
           

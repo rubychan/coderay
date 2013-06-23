@@ -18,9 +18,9 @@ class TestCodeRayExecutable < Test::Unit::TestCase
   EXE_COMMAND =
     if RUBY_PLATFORM === 'java' && `ruby --ng -e '' 2> /dev/null` && $?.success?
       # use Nailgun
-      "#{RUBY_COMMAND}--ng -I%s %s"
+      "#{RUBY_COMMAND}--ng -w -I%s %s"
     else
-      "#{RUBY_COMMAND} -I%s %s"
+      "#{RUBY_COMMAND} -w -I%s %s"
     end % [ROOT_DIR + 'lib', EXECUTABLE]
   
   def coderay args, options = {}

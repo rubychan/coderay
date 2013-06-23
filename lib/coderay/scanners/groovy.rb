@@ -36,9 +36,12 @@ module Scanners
     
   protected
     
+    def setup
+      @state = :initial
+    end
+    
     def scan_tokens encoder, options
-      
-      state = :initial
+      state = options[:state] || @state
       inline_block_stack = []
       inline_block_paren_depth = nil
       string_delimiter = nil
@@ -243,6 +246,16 @@ module Scanners
       end
       
       if [:multiline_string, :string, :regexp].include? state
+        encoder.end_group state
+      end
+      
+      if options[:keep_state]
+        @state = state
+      end
+      
+      until inline_block_stack.empty?
+        state, = *inline_block_stack.pop
+        encoder.end_group :inline
         encoder.end_group state
       end
       

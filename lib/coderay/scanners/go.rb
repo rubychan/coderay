@@ -103,7 +103,14 @@ module Scanners
             end
             encoder.text_token match, :delimiter
             state = :string
-
+          
+          elsif match = scan(/ ` ([^`]+)? (`)? /x)
+            encoder.begin_group :shell
+            encoder.text_token '`', :delimiter
+            encoder.text_token self[1], :content if self[1]
+            encoder.text_token self[2], :delimiter if self[2]
+            encoder.end_group :shell
+          
           elsif match = scan(/ \# \s* if \s* 0 /x)
             match << scan_until(/ ^\# (?:elif|else|endif) .*? $ | \z /xm) unless eos?
             encoder.text_token match, :comment

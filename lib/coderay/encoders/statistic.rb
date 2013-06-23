@@ -67,7 +67,6 @@ Token Types (%d):
       @type_stats['TOTAL'].count += 1
     end
     
-    # TODO Hierarchy handling
     def begin_group kind
       block_token ':begin_group', kind
     end

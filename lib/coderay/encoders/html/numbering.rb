@@ -26,7 +26,7 @@ module Encoders
               "<a href=\"##{anchor}\" name=\"#{anchor}\">#{line}</a>"
             end
           else
-            proc { |line| line.to_s }  # :to_s.to_proc in Ruby 1.8.7+
+            :to_s.to_proc
           end
         
         bold_every = options[:bold_every]
@@ -75,7 +75,7 @@ module Encoders
           line_number = start
           output.gsub!(/^.*$\n?/) do |line|
             line_number_text = bolding.call line_number
-            indent = ' ' * (max_width - line_number.to_s.size)  # TODO: Optimize (10^x)
+            indent = ' ' * (max_width - line_number.to_s.size)
             line_number += 1
             "<span class=\"line-numbers\">#{indent}#{line_number_text}</span>#{line}"
           end

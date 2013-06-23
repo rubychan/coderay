@@ -114,7 +114,7 @@ Token Types (7):
     
     # format the tokens
     term = terminal_encoder.encode_tokens(tokens)
-    assert_equal "\e[1;31mimport\e[0m \e[33mthis\e[0m;  \e[37m# The Zen of Python\e[0m", term
+    assert_equal "\e[32mimport\e[0m \e[31mthis\e[0m;  \e[1;30m# The Zen of Python\e[0m", term
     
     # re-using scanner and encoder
     ruby_highlighter = CodeRay::Duo[:ruby, :div]

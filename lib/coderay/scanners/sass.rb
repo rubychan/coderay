@@ -218,6 +218,14 @@ module Scanners
         @state = states
       end
       
+      while state = states.pop
+        if state == :sass_inline
+          encoder.end_group :inline
+        elsif state == :string
+          encoder.end_group :string
+        end
+      end
+      
       encoder
     end
     

@@ -500,6 +500,10 @@ module Scanners
         
       end
       
+      while state = states.pop
+        encoder.end_group :string if [:sqstring, :dqstring].include? state
+      end
+      
       encoder
     end
     

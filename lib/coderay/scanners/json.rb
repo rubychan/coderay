@@ -26,6 +26,10 @@ module Scanners
     def scan_tokens encoder, options
       state = options[:state] || @state
       
+      if [:string, :key].include? state
+        encoder.begin_group state
+      end
+      
       until eos?
         
         case state

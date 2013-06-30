@@ -11,5 +11,4 @@ Gemfile.lock
 test/executable/source.rb.html
 test/executable/source.rb.json
 test/scanners
-bench/test.div.html
 old-stuff

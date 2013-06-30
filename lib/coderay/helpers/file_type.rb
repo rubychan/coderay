@@ -117,7 +117,7 @@ module CodeRay
       'rhtml'     => :erb,
       'rjs'       => :ruby,
       'rpdf'      => :ruby,
-      'ru'        => :ruby,
+      'ru'        => :ruby,  # config.ru
       'rxml'      => :ruby,
       'sass'      => :sass,
       'sql'       => :sql,
@@ -141,6 +141,9 @@ module CodeRay
       'Rakefile' => :ruby,
       'Rantfile' => :ruby,
       'Gemfile'  => :ruby,
+      'Guardfile' => :ruby,
+      'Vagrantfile' => :ruby,
+      'Appraisals' => :ruby
     }
     
   end

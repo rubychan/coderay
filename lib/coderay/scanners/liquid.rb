@@ -5,7 +5,7 @@ module Scanners
 
     register_for :liquid
    
-    DIRECTIVE_KEYWORDS = /paginate|endlist|list|endfor|for|endwrap|wrap|endif|if|endunless|unless|elsif|assignlist|assign|cycle|capture|end|capture|fill|endiflist|iflist|else/
+    DIRECTIVE_KEYWORDS = /endcode|code|endpaginate|endtablerow|tablerow|endifchanged|ifchanged|endcomment|comment|endcache|cache|endexpire|expire|paginate|endlist|list|endfor|for|endwrap|wrap|endif|if|endunless|unless|elsif|assignlist|assign|cycle|capture|end|capture|fill|endiflist|iflist|else/
 
     MATH = /==|=|!=|>|<=|<|>|\+/
 
@@ -13,7 +13,7 @@ module Scanners
 
     FILTER_WITH_VALUE_KEYWORDS = /date|replace_first|replace|remove_first|remove_first|remove|minus|times|divided_by|modulo|mod|split|join|truncatewords|truncate|prepend|append/
 
-    FILTER_KEYWORDS = /#{FILTER_WITH_VALUE_KEYWORDS}|textilize|capitalize|downcase|upcase|first|last|sort|map|size|escape_once|escape|strip_html|strip_newlines|newline_to_br/
+    FILTER_KEYWORDS = /#{FILTER_WITH_VALUE_KEYWORDS}|slugify|uri_escape|render|code|textilize|capitalize|downcase|upcase|first|last|sort|map|size|escape_once|escape|strip_html|strip_newlines|newline_to_br/
 
     SELECTOR_KEYWORDS = /tagged|in|with|snippet|script|content_item|folder|widget|wrapper|category|asset_folder|asset/
 

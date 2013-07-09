@@ -15,7 +15,7 @@ module Scanners
 
     FILTER_KEYWORDS = /#{FILTER_WITH_VALUE_KEYWORDS}|textilize|capitalize|downcase|upcase|first|last|sort|map|size|escape_once|escape|strip_html|strip_newlines|newline_to_br/
 
-    SELECTOR_KEYWORDS = /in|with|snippet|script|content_item|folder|widget|wrapper|category|asset_folder|asset/
+    SELECTOR_KEYWORDS = /tagged|in|with|snippet|script|content_item|folder|widget|wrapper|category|asset_folder|asset/
 
     LIQUID_DIRECTIVE_BLOCK = /
       {{1,2}%
@@ -74,20 +74,43 @@ module Scanners
       end
     end
 
+    def scan_key_of_key_value_pair(encoder, options, match)
+      scan_spaces(encoder)
+      key = scan(/\w+/)
+
+      if key =~ /#{SELECTOR_KEYWORDS}/o
+        encoder.text_token key, :directive
+      else
+        encoder.text_token key, :key
+      end
+    end
+
+    def scan_value_of_key_value_pair(encoder, options, match)
+      scan_spaces(encoder)
+      first_character = peek(1)
+
+      if values = scan(/\S+,\S+/)
+        #match is set, so do nothing else
+      elsif first_character == '"' || first_character == "'"
+        values = scan(/#{first_character}.*?#{first_character}/)
+      else
+        values = scan(/\S+/)
+      end
+      #scan_spaces(encoder)
+      scan_csv_list(encoder, values)
+    end
+
     def scan_key_value_pair(encoder, options, match)
       scan_spaces(encoder)
       if match = check(/#{KEY_VALUE_REGEX}/o)
-        key = scan(/\w+/)
-        delimiter, values = scan(/(:)(\S+)|(".*?")|('.*?')/).match(/(:)(\S+)|(".*?")|('.*?')/).captures
+        scan_key_of_key_value_pair(encoder, options, match)
 
-        if key =~ /#{SELECTOR_KEYWORDS}/o
-          encoder.text_token key, :directive
-        else
-          encoder.text_token key, :key
-        end
-
+        delimiter = scan(/:/)
         encoder.text_token delimiter, :delimiter
-        scan_csv_list(encoder, values)        
+
+        scan_value_of_key_value_pair(encoder, options, match)
+
+        scan_spaces(encoder)
         true
       else
         false

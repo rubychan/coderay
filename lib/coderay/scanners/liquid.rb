@@ -5,11 +5,11 @@ module Scanners
 
     register_for :liquid
    
-    DIRECTIVE_KEYWORDS = /endcode|code|endpaginate|endtablerow|tablerow|endifchanged|ifchanged|endcomment|comment|endcache|cache|endexpire|expire|paginate|endlist|list|endfor|for|endwrap|wrap|endif|if|endunless|unless|elsif|assignlist|assign|cycle|capture|end|capture|fill|endiflist|iflist|else/
+    DIRECTIVE_KEYWORDS = /endcase|case|when|endiflist|iflist|endraw|raw|endcode|code|endpaginate|endtablerow|tablerow|endifchanged|ifchanged|endcomment|comment|endcache|cache|endexpire|expire|paginate|endlist|list|endfor|for|endwrap|wrap|endif|if|endunless|unless|elsif|assignlist|assign|cycle|capture|end|capture|fill|else/
 
     MATH = /==|=|!=|>|<=|<|>|\+/
 
-    DIRECTIVE_PREPOSITIONS= /contains|in|#{MATH}/
+    DIRECTIVE_PREPOSITIONS= /contains|in|#{MATH}|with/
 
     FILTER_WITH_VALUE_KEYWORDS = /date|replace_first|replace|remove_first|remove_first|remove|minus|times|divided_by|modulo|mod|split|join|truncatewords|truncate|prepend|append/
 
@@ -23,7 +23,7 @@ module Scanners
       %}{1,2}
     /x
 
-    KEY_VALUE_REGEX = /(\w+)(:)(\w+|".*"|'.*?')/
+    KEY_VALUE_REGEX = /(\w+)(:)\s?(\w+|".*"|'.*?')/
 
     def setup
       @html_scanner = CodeRay.scanner(:html, :tokens => @tokens, :keep_tokens => true, :keep_state => true)
@@ -60,11 +60,11 @@ module Scanners
       elsif !list.scan(/(".*?")(,)?/).empty?
         captured = list.scan(/(".*?")(,)?/)
       else
-        captured = list.scan(/(\w)(,)?/)
+        captured = list.scan(/(\S+)(,)?/)
       end
       captured.each do |value|
         unless scan_string(encoder, value[0])
-          if value[0] =~ /^\d$/
+          if value[0] =~ /^\d+$/
             encoder.text_token value[0], :integer 
           else
             encoder.text_token value[0], :variable
@@ -112,6 +112,10 @@ module Scanners
 
         scan_spaces(encoder)
         true
+      elsif match = scan(/with/)
+        encoder.text_token match, :key
+
+        scan_value_of_key_value_pair(encoder, options, match)
       else
         false
       end
@@ -119,9 +123,9 @@ module Scanners
 
     def scan_selector(encoder, options, match)
       scan_spaces(encoder)
-      if  scan_key_value_pair(encoder, options, match)
+      if scan_key_value_pair(encoder, options, match)
         scan_spaces(encoder)
-        if match = scan(/\+/)
+        if match = scan(/\+|\|/)
           encoder.text_token match, :directive
         end
         scan_spaces(encoder)
@@ -137,7 +141,7 @@ module Scanners
       if match = scan(/#{DIRECTIVE_KEYWORDS}/o)
         encoder.text_token match, :directive
         scan_spaces(encoder)
-        if match =~ /if|assign|assignlist|for|list|paginate/
+        if match =~ /case|when|fill|if|assign|assignlist|for|list|paginate/
           scan_selector(encoder, options, match)
           if match = scan(/\w+\.?\w*/)
             encoder.text_token match, :variable

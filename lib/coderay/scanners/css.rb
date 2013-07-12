@@ -53,7 +53,7 @@ module Scanners
     end
     
     def scan_tokens encoder, options
-      states = Array(options[:state] || @state)
+      states = Array(options[:state] || @state).dup
       value_expected = @value_expected
       
       until eos?

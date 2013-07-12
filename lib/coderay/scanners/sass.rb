@@ -19,7 +19,7 @@ module Scanners
     end
     
     def scan_tokens encoder, options
-      states = Array(options[:state] || @state)
+      states = Array(options[:state] || @state).dup
       string_delimiter = nil
       
       until eos?
@@ -119,7 +119,7 @@ module Scanners
           
           else
             #:nocov:
-            raise_inspect 'Unknown state', encoder
+            raise_inspect 'Unknown state: %p' % [states.last], encoder
             #:nocov:
             
           end
@@ -215,7 +215,7 @@ module Scanners
       end
       
       if options[:keep_state]
-        @state = states
+        @state = states.dup
       end
       
       while state = states.pop

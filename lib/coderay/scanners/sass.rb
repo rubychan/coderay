@@ -44,7 +44,7 @@ module Scanners
         elsif case states.last
           when :initial, :media, :sass_inline
             if match = scan(/(?>#{RE::Ident})(?!\()/ox)
-              encoder.text_token match, value_expected ? :value : (check(/.*:/) ? :key : :tag)
+              encoder.text_token match, value_expected ? :value : (check(/.*:(?![a-z])/) ? :key : :tag)
               next
             elsif !value_expected && (match = scan(/\*/))
               encoder.text_token match, :tag

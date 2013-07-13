@@ -209,6 +209,8 @@ module Scanners
         
       end
       
+      states.pop if states.last == :include
+      
       if options[:keep_state]
         @state = states.dup
       end

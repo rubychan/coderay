@@ -86,6 +86,7 @@ module CodeRay
       'dpr'       => :delphi,
       'erb'       => :erb,
       'gemspec'   => :ruby,
+      'go'        => :go, 
       'groovy'    => :groovy,
       'gvy'       => :groovy,
       'h'         => :c,

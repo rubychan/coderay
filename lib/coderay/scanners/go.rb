@@ -44,7 +44,7 @@ module Scanners
       add(PREDEFINED_FUNCTIONS, :predefined)  # :nodoc:
     
     ESCAPE = / [rbfntv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x  # :nodoc:
-    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x  # :nodoc:
+    UNICODE_ESCAPE = / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x  # :nodoc:
     
     protected
     
@@ -123,7 +123,7 @@ module Scanners
             label_expected_before_preproc_line = label_expected
             state = :include_expected if self[1] == 'include'
           
-          elsif match = scan(/ L?' (?: [^\'\n\\] | \\ #{ESCAPE} )? '? /ox)
+          elsif match = scan(/ L?' (?: [^\'\n\\] | \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) )? '? /ox)
             label_expected = false
             encoder.text_token match, :char
           

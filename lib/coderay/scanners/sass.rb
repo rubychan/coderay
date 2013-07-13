@@ -7,11 +7,6 @@ module Scanners
     register_for :sass
     file_extension 'sass'
     
-    STRING_CONTENT_PATTERN = {
-      "'" => /(?:[^\n\'\#]+|\\\n|#{RE::Escape}|#(?!\{))+/,
-      '"' => /(?:[^\n\"\#]+|\\\n|#{RE::Escape}|#(?!\{))+/,
-    }
-    
   protected
     
     def setup
@@ -19,8 +14,9 @@ module Scanners
     end
     
     def scan_tokens encoder, options
-      states = Array(options[:state] || @state)
-      string_delimiter = nil
+      states = Array(options[:state] || @state).dup
+      
+      encoder.begin_group :string if states.last == :sqstring || states.last == :dqstring
       
       until eos?
         
@@ -48,7 +44,7 @@ module Scanners
         elsif case states.last
           when :initial, :media, :sass_inline
             if match = scan(/(?>#{RE::Ident})(?!\()/ox)
-              encoder.text_token match, value_expected ? :value : (check(/.*:/) ? :key : :tag)
+              encoder.text_token match, value_expected ? :value : (check(/.*:(?![a-z])/) ? :key : :tag)
               next
             elsif !value_expected && (match = scan(/\*/))
               encoder.text_token match, :tag
@@ -91,24 +87,23 @@ module Scanners
               next
             end
             
-          when :string
-            if match = scan(STRING_CONTENT_PATTERN[string_delimiter])
+          when :sqstring, :dqstring
+            if match = scan(states.last == :sqstring ? /(?:[^\n\'\#]+|\\\n|#{RE::Escape}|#(?!\{))+/o : /(?:[^\n\"\#]+|\\\n|#{RE::Escape}|#(?!\{))+/o)
               encoder.text_token match, :content
             elsif match = scan(/['"]/)
               encoder.text_token match, :delimiter
               encoder.end_group :string
-              string_delimiter = nil
               states.pop
             elsif match = scan(/#\{/)
               encoder.begin_group :inline
               encoder.text_token match, :inline_delimiter
               states.push :sass_inline
             elsif match = scan(/ \\ | $ /x)
-              encoder.end_group :string
+              encoder.end_group states.last
               encoder.text_token match, :error unless match.empty?
               states.pop
             else
-              raise_inspect "else case #{string_delimiter} reached; %p not handled." % peek(1), encoder
+              raise_inspect "else case #{states.last} reached; %p not handled." % peek(1), encoder
             end
           
           when :include
@@ -119,7 +114,7 @@ module Scanners
           
           else
             #:nocov:
-            raise_inspect 'Unknown state', encoder
+            raise_inspect 'Unknown state: %p' % [states.last], encoder
             #:nocov:
             
           end
@@ -157,15 +152,15 @@ module Scanners
           
         elsif match = scan(/['"]/)
           encoder.begin_group :string
-          string_delimiter = match
           encoder.text_token match, :delimiter
           if states.include? :sass_inline
-            content = scan_until(/(?=#{string_delimiter}|\}|\z)/)
+            # no nesting, just scan the string until delimiter
+            content = scan_until(/(?=#{match}|\}|\z)/)
             encoder.text_token content, :content unless content.empty?
-            encoder.text_token string_delimiter, :delimiter if scan(/#{string_delimiter}/)
+            encoder.text_token match, :delimiter if scan(/#{match}/)
             encoder.end_group :string
           else
-            states.push :string
+            states.push match == "'" ? :sqstring : :dqstring
           end
           
         elsif match = scan(/#{RE::Function}/o)
@@ -214,14 +209,16 @@ module Scanners
         
       end
       
+      states.pop if states.last == :include
+      
       if options[:keep_state]
-        @state = states
+        @state = states.dup
       end
       
       while state = states.pop
         if state == :sass_inline
           encoder.end_group :inline
-        elsif state == :string
+        elsif state == :sqstring || state == :dqstring
           encoder.end_group :string
         end
       end

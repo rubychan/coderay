@@ -1,3 +1,5 @@
+require 'bundler/gem_tasks'
+
 $:.unshift File.dirname(__FILE__) unless $:.include? '.'
 
 ROOT = '.'

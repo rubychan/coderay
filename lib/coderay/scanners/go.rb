@@ -165,9 +165,10 @@ module Scanners
             label_expected = false
           elsif match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
             encoder.text_token match, :char
-          elsif match = scan(/ \\ | $ /x)
+          elsif match = scan(/ \\ /x)
+            encoder.text_token match, :error
+          elsif match = scan(/$/)
             encoder.end_group :string
-            encoder.text_token match, :error unless match.empty?
             state = :initial
             label_expected = false
           else

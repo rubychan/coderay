@@ -25,7 +25,7 @@ module Scanners
       
       HexColor = /#(?:#{Hex}{6}|#{Hex}{3})/
       
-      Num = /-?(?:[0-9]*\.[0-9]+|[0-9]+)/
+      Num = /-?(?:[0-9]*\.[0-9]+|[0-9]+)n?/
       Name = /#{NMChar}+/
       Ident = /-?#{NMStart}#{NMChar}*/
       AtKeyword = /@#{Ident}/

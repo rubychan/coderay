@@ -62,7 +62,7 @@ module Scanners
           if match = scan(/[ \t\f\v]+/)
             encoder.text_token match, :space
             
-          elsif match = scan(/\n/)
+          elsif skip(/\n/)
             if heredocs
               unscan  # heredoc scanning needs \n at start
               state = heredocs.shift
@@ -70,22 +70,23 @@ module Scanners
               heredocs = nil if heredocs.empty?
             else
               state = :initial if state == :undef_comma_expected
-              encoder.text_token match, :space
+              encoder.text_token "\n", :space
               value_expected = true
             end
             
           elsif match = scan(bol? ? / \#(!)?.* | #{patterns::RUBYDOC_OR_DATA} /ox : /\#.*/)
             encoder.text_token match, self[1] ? :doctype : :comment
             
-          elsif match = scan(/\\\n/)
+          elsif skip(/\\\n/)
             if heredocs
               unscan  # heredoc scanning needs \n at start
-              encoder.text_token scan(/\\/), :space
+              skip(/\\/)
+              encoder.text_token '\\', :space
               state = heredocs.shift
               encoder.begin_group state.type
               heredocs = nil if heredocs.empty?
             else
-              encoder.text_token match, :space
+              encoder.text_token "\\\n", :space
             end
             
           elsif state == :initial
@@ -96,7 +97,7 @@ module Scanners
                                       /#{patterns::METHOD_NAME}/o)
               
               kind = patterns::IDENT_KIND[match]
-              if value_expected != :colon_expected && scan(/:(?!:)/)
+              if value_expected != :colon_expected && skip(/:(?!:)/)
                 value_expected = true
                 encoder.text_token match, :key
                 encoder.text_token ':',   :operator
@@ -181,9 +182,9 @@ module Scanners
               value_expected = false
               encoder.text_token match, :instance_variable
               
-            elsif value_expected && match = scan(/\//)
+            elsif value_expected && skip(/\//)
               encoder.begin_group :regexp
-              encoder.text_token match, :delimiter
+              encoder.text_token '/', :delimiter
               state = self.class::StringState.new :regexp, true, '/'
               
             elsif match = scan(value_expected ? /[-+]?#{patterns::NUMERIC}/o : /#{patterns::NUMERIC}/o)
@@ -225,10 +226,10 @@ module Scanners
               value_expected = match == '?' ? :colon_expected : true
               encoder.text_token match, :operator
               
-            elsif match = scan(/`/)
+            elsif skip(/`/)
               encoder.begin_group :shell
-              encoder.text_token match, :delimiter
-              state = self.class::StringState.new :shell, true, match
+              encoder.text_token '`', :delimiter
+              state = self.class::StringState.new :shell, true, '`'
               
             elsif match = scan(unicode ? /#{patterns::GLOBAL_VARIABLE}/uo :
                                          /#{patterns::GLOBAL_VARIABLE}/o)
@@ -240,8 +241,8 @@ module Scanners
               encoder.text_token match, :class_variable
               value_expected = false
               
-            elsif match = scan(/\\\z/)
-              encoder.text_token match, :space
+            elsif skip(/\\\z/)
+              encoder.text_token '\\', :space
               
             else
               if method_call_expected
@@ -293,8 +294,8 @@ module Scanners
             end
             
           elsif state == :module_expected
-            if match = scan(/<</)
-              encoder.text_token match, :operator
+            if skip(/<</)
+              encoder.text_token '<<', :operator
             else
               state = :initial
               if match = scan(unicode ? / (?:#{patterns::IDENT}::)* #{patterns::IDENT} /oux :
@@ -325,8 +326,8 @@ module Scanners
             end
             
           elsif state == :undef_comma_expected
-            if match = scan(/,/)
-              encoder.text_token match, :operator
+            if skip(/,/)
+              encoder.text_token ',', :operator
               state = :undef_expected
             else
               state = :initial

@@ -31,7 +31,7 @@ module Scanners
       'nil', 'iota',
       'true', 'false',
     ]  # :nodoc:
-
+    
     PREDEFINED_FUNCTIONS = %w[
       append cap close complex copy delete imag len
       make new panic print println real recover
@@ -73,7 +73,7 @@ module Scanners
           elsif match = scan(%r! // [^\n\\]* (?: \\. [^\n\\]* )* | /\* (?: .*? \*/ | .* ) !mx)
             encoder.text_token match, :comment
           
-          elsif match = scan(/ [-+*=<>?:;,!&^|()\[\]{}~%]+ | \/=? | \.(?!\d) /x)
+          elsif match = scan(/ <?- (?![\d.]) | [+*=<>?:;,!&^|()\[\]{}~%]+ | \/=? | \.(?!\d) /x)
             if case_expected
               label_expected = true if match == ':'
               case_expected = false
@@ -129,24 +129,24 @@ module Scanners
           
           elsif match = scan(/\$/)
             encoder.text_token match, :ident
-
-          elsif match = scan(/\d*(\.\d*)?([eE][+-]?\d+)?i/)
+          
+          elsif match = scan(/-?\d*(\.\d*)?([eE][+-]?\d+)?i/)
             label_expected = false
             encoder.text_token match, :imaginary
-
-          elsif match = scan(/0[xX][0-9A-Fa-f]+/)
+          
+          elsif match = scan(/-?0[xX][0-9A-Fa-f]+/)
             label_expected = false
             encoder.text_token match, :hex
           
-          elsif match = scan(/(?:0[0-7]+)(?![89.eEfF])/)
+          elsif match = scan(/-?(?:0[0-7]+)(?![89.eEfF])/)
             label_expected = false
             encoder.text_token match, :octal
           
-          elsif match = scan(/\d|\d*\.\d+(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+/)
+          elsif match = scan(/-?(?:\d*\.\d+|\d+\.)(?:[eE][+-]?\d+)?|\d+[eE][+-]?\d+/)
             label_expected = false
             encoder.text_token match, :float
-
-          elsif match = scan(/(?:\d+)(?![.eEfF])L?L?/)
+          
+          elsif match = scan(/-?(?:\d+)(?![.eEfF])L?L?/)
             label_expected = false
             encoder.text_token match, :integer
           

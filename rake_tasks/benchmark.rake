@@ -1,7 +1,6 @@
 desc 'Do a benchmark'
 task :benchmark do
-  ruby "-v"
-  ruby "-wIlib bench/bench.rb ruby div 3000 N5"
+  ruby 'bench/bench.rb ruby html 3000'
 end
 
 task :bench => :benchmark

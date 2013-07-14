@@ -25,7 +25,7 @@ module Scanners
       
       HexColor = /#(?:#{Hex}{6}|#{Hex}{3})/
       
-      Num = /-?(?:[0-9]*\.[0-9]+|[0-9]+)/
+      Num = /-?(?:[0-9]*\.[0-9]+|[0-9]+)n?/
       Name = /#{NMChar}+/
       Ident = /-?#{NMStart}#{NMChar}*/
       AtKeyword = /@#{Ident}/
@@ -53,7 +53,7 @@ module Scanners
     end
     
     def scan_tokens encoder, options
-      states = Array(options[:state] || @state)
+      states = Array(options[:state] || @state).dup
       value_expected = @value_expected
       
       until eos?
@@ -145,10 +145,10 @@ module Scanners
           start = match[/^\w+\(/]
           encoder.text_token start, :delimiter
           if match[-1] == ?)
-            encoder.text_token match[start.size..-2], :content
+            encoder.text_token match[start.size..-2], :content if match.size > start.size + 1
             encoder.text_token ')', :delimiter
           else
-            encoder.text_token match[start.size..-1], :content
+            encoder.text_token match[start.size..-1], :content if match.size > start.size
           end
           encoder.end_group :function
           

@@ -193,7 +193,6 @@ module Encoders
     
     def finish options
       unless @opened.empty?
-        warn '%d tokens still open: %p' % [@opened.size, @opened] if $CODERAY_DEBUG
         @out << '</span>' while @opened.pop
         @last_opened = nil
       end

@@ -86,6 +86,7 @@ module CodeRay
       'dpr'       => :delphi,
       'erb'       => :erb,
       'gemspec'   => :ruby,
+      'go'        => :go, 
       'groovy'    => :groovy,
       'gvy'       => :groovy,
       'h'         => :c,
@@ -96,6 +97,7 @@ module CodeRay
       'java'      => :java,
       'js'        => :java_script,
       'json'      => :json,
+      'lua'       => :lua,
       'mab'       => :ruby,
       'pas'       => :delphi,
       'patch'     => :diff,
@@ -115,7 +117,7 @@ module CodeRay
       'rhtml'     => :erb,
       'rjs'       => :ruby,
       'rpdf'      => :ruby,
-      'ru'        => :ruby,
+      'ru'        => :ruby,  # config.ru
       'rxml'      => :ruby,
       'sass'      => :sass,
       'sql'       => :sql,
@@ -139,6 +141,9 @@ module CodeRay
       'Rakefile' => :ruby,
       'Rantfile' => :ruby,
       'Gemfile'  => :ruby,
+      'Guardfile' => :ruby,
+      'Vagrantfile' => :ruby,
+      'Appraisals' => :ruby
     }
     
   end

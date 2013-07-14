@@ -4,24 +4,33 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
 
 h2. Changes in 1.1
 
+* New scanner: Lua [#21, #22, thanks to Quintus]
 * New scanner: Sass [#93]
+* New scanner: Go [#28, thanks to Eric Guo and Nathan Youngman]
 * New scanner: Taskpaper [#39, thanks to shimomura]
 * Diff scanner: Highlight inline changes in multi-line changes [#99]
 * JavaScript scanner: Highlight multi-line comments in diff correctly
 * Ruby scanner: Accept keywords as Ruby 1.9 hash keys [#126]
+* HTML scanner displays style tags and attributes now [#145]
 * Remove double-click toggle handler from HTML table output
-* Fixes to CSS scanner (floats, pseudoclasses)
+* Fixes to CSS scanner (floats, pseudoclasses, nth-child) [#143]
+* Fixed empty tokens and unclosed token groups in HTML, CSS, Diff, Goovy, PHP, Raydebug, Ruby, SQL, and YAML scanners [#144]
+* Added @:keep_state@ functionality to more scanners [#116]
 * CSS scanner uses @:id@ and @:tag@ now [#27]
 * Removed @Tokens#dump@, @Tokens.load@, @Tokens::Undumping@, and @zlib@ dependency. Nobody was using this, right?
 * Add .xaml file type [#121, thanks to Kozman Bálint]
 * @CodeRay::TokenKinds@ should not be frozen [#130, thanks to Gavin Kistner]
 * New token type @:id@ for CSS/Sass [#27]
 * New token type @:done@ for Taskpaper [#39]
+* New token type @:map@ for Lua, introducing a nice nested-shades trick [#22, thanks to Quintus and nathany]
 * Display line numbers in HTML @:table@ mode even for single-line code (remove special case) [#41, thanks to Ariejan de Vroom]
-* Override Bootstrap's pre word-break setting for line numbers [#102, thanks to lightswitch05]
+* Override Bootstrap's @pre { word-break: break-all }@ styling for line numbers [#102, thanks to lightswitch05]
 * Fixed @:docstring@ token type style
 * @Plugin@ does not warn about fallback when default is defined
+* @HTML@ encoder will not warn about unclosed token groups at the end of the stream
 * @Debug@ encoder refactored; use @DebugLint@ if you want strict checking now
+* @Debug@ encoder will not warn about errors in the token stream
+* New @DebugLint@ encoder that checks for empty tokens and correct nesting
 
 h2. Changes in 1.0.9
 

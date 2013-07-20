@@ -21,6 +21,7 @@ module Encoders
       end
 
       def get_style_for_css_classes css_classes
+        # FIXME: cache attack
         cl = @styles[css_classes.first]
         return '' unless cl
         style = ''
@@ -52,6 +53,7 @@ module Encoders
           for selector in selectors.split(',')
             classes = selector.scan(/[-\w]+/)
             cl = classes.pop
+            # FIXME: cache attack
             @styles[cl] ||= Hash.new
             @styles[cl][classes] = style.to_s.strip.delete(' ').chomp(';')
           end

@@ -207,6 +207,7 @@ module CodeRay
         id
       elsif id.is_a? String
         if id[/\w+/] == id
+          # FIXME: cache attack
           id.downcase.to_sym
         else
           raise ArgumentError, "Invalid id given: #{id}"

@@ -26,6 +26,7 @@ module Scanners
           encoder.text_token kind, :class
           encoder.text_token '(', :operator
           match = self[2]
+          # FIXME: cache attack
           encoder.text_token match, kind.to_sym unless match.empty?
           encoder.text_token match, :operator if match = scan(/\)/)
           
@@ -39,6 +40,7 @@ module Scanners
           else
             raise 'CodeRay bug: This case should not be reached.'
           end
+          # FIXME: cache attack
           kind = kind.to_sym
           opened_tokens << kind
           encoder.begin_group kind

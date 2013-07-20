@@ -75,10 +75,12 @@ module Scanners
       <<=? | >>=? | [<>=]=? | !=  # comparison and assignment
     /x  # :nodoc:
     
+    # FIXME: cache attack
     STRING_DELIMITER_REGEXP = Hash.new { |h, delimiter|
       h[delimiter] = Regexp.union delimiter  # :nodoc:
     }
     
+    # FIXME: cache attack
     STRING_CONTENT_REGEXP = Hash.new { |h, delimiter|
       h[delimiter] = / [^\\\n]+? (?= \\ | $ | #{Regexp.escape(delimiter)} ) /x  # :nodoc:
     }
@@ -183,6 +185,7 @@ module Scanners
               kind = :ident
             elsif kind == :keyword
               state = DEF_NEW_STATE[match]
+              # FIXME: cache attack
               from_import_state << match.to_sym if state == :include_expected
             end
             encoder.text_token match, kind

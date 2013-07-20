@@ -21,6 +21,7 @@ module Scanners
           encoder.text_token match, :space
           
         elsif match = scan(/ (\w+) \( ( [^\)\\]* ( \\. [^\)\\]* )* ) \)? /x)
+          # FIXME: cache attack
           kind = self[1].to_sym
           match = self[2].gsub(/\\(.)/m, '\1')
           unless TokenKinds.has_key? kind
@@ -30,6 +31,7 @@ module Scanners
           encoder.text_token match, kind
           
         elsif match = scan(/ (\w+) ([<\[]) /x)
+          # FIXME: cache attack
           kind = self[1].to_sym
           opened_tokens << kind
           case self[2]

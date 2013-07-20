@@ -14,6 +14,7 @@ module Scanners
         { }
       ] ].each { |k,v| k.freeze; v.freeze }  # debug, if I try to change it with <<
       
+      # FIXME: cache attack
       STRING_PATTERN = Hash.new do |h, k|
         delim, interpreted = *k
         # delim = delim.dup  # workaround for old Ruby

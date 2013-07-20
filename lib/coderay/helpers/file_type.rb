@@ -68,6 +68,7 @@ module CodeRay
         File.open filename, 'r' do |f|
           if first_line = f.gets
             if type = first_line[TypeFromShebang]
+              # FIXME: cache attack
               type.to_sym
             end
           end

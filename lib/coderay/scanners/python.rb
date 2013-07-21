@@ -75,12 +75,10 @@ module Scanners
       <<=? | >>=? | [<>=]=? | !=  # comparison and assignment
     /x  # :nodoc:
     
-    # FIXME: cache attack
     STRING_DELIMITER_REGEXP = Hash.new { |h, delimiter|
       h[delimiter] = Regexp.union delimiter  # :nodoc:
     }
     
-    # FIXME: cache attack
     STRING_CONTENT_REGEXP = Hash.new { |h, delimiter|
       h[delimiter] = / [^\\\n]+? (?= \\ | $ | #{Regexp.escape(delimiter)} ) /x  # :nodoc:
     }

@@ -21,7 +21,6 @@ module Scanners
       line_kind = nil
       state = :initial
       deleted_lines_count = 0
-      # FIXME: cache attack
       scanners = Hash.new do |h, lang|
         h[lang] = Scanners[lang].new '', :keep_tokens => true, :keep_state => true
       end

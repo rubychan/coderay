@@ -1,3 +1,5 @@
+require 'set'
+
 module CodeRay
 module Scanners
   
@@ -11,6 +13,11 @@ module Scanners
     title 'CodeRay Token Dump'
     
   protected
+    
+    def setup
+      super
+      @known_token_kinds = TokenKinds.keys.map(&:to_s).to_set
+    end
     
     def scan_tokens encoder, options
       
@@ -26,8 +33,13 @@ module Scanners
           encoder.text_token kind, :class
           encoder.text_token '(', :operator
           match = self[2]
-          # FIXME: cache attack
-          encoder.text_token match, kind.to_sym unless match.empty?
+          unless match.empty?
+            if @known_token_kinds.include? kind
+              encoder.text_token match, kind.to_sym
+            else
+              encoder.text_token match, :plain
+            end
+          end
           encoder.text_token match, :operator if match = scan(/\)/)
           
         elsif match = scan(/ (\w+) ([<\[]) /x)

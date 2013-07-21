@@ -142,7 +142,6 @@ module Encoders
     HTML_ESCAPE = make_html_escape_hash
     HTML_ESCAPE_PATTERN = /[\t"&><\0-\x8\xB-\x1F]/
     
-    # FIXME: cache attack
     TOKEN_KIND_TO_INFO = Hash.new do |h, kind|
       h[kind] = kind.to_s.gsub(/_/, ' ').gsub(/\b\w/) { $&.capitalize }
     end

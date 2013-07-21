@@ -1,3 +1,5 @@
+require 'set'
+
 module CodeRay
 module Scanners
   
@@ -11,6 +13,11 @@ module Scanners
     
   protected
     
+    def setup
+      super
+      @known_token_kinds = TokenKinds.keys.map(&:to_s).to_set
+    end
+    
     def scan_tokens encoder, options
       
       opened_tokens = []
@@ -21,26 +28,24 @@ module Scanners
           encoder.text_token match, :space
           
         elsif match = scan(/ (\w+) \( ( [^\)\\]* ( \\. [^\)\\]* )* ) \)? /x)
-          # FIXME: cache attack
-          kind = self[1].to_sym
-          match = self[2].gsub(/\\(.)/m, '\1')
-          unless TokenKinds.has_key? kind
-            kind = :error
-            match = matched
+          if @known_token_kinds.include? self[1]
+            encoder.text_token self[2].gsub(/\\(.)/m, '\1'), self[1].to_sym
+          else
+            encoder.text_token matched, :error
           end
-          encoder.text_token match, kind
           
         elsif match = scan(/ (\w+) ([<\[]) /x)
-          # FIXME: cache attack
-          kind = self[1].to_sym
-          opened_tokens << kind
-          case self[2]
-          when '<'
-            encoder.begin_group kind
-          when '['
-            encoder.begin_line kind
-          else
-            raise 'CodeRay bug: This case should not be reached.'
+          if @known_token_kinds.include? self[1]
+            kind = self[1].to_sym
+            opened_tokens << kind
+            case self[2]
+            when '<'
+              encoder.begin_group kind
+            when '['
+              encoder.begin_line kind
+            else
+              raise 'CodeRay bug: This case should not be reached.'
+            end
           end
           
         elsif !opened_tokens.empty? && match = scan(/ > /x)

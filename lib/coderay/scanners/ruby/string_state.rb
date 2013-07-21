@@ -17,7 +17,6 @@ module Scanners
       # FIXME: cache attack
       STRING_PATTERN = Hash.new do |h, k|
         delim, interpreted = *k
-        # delim = delim.dup  # workaround for old Ruby
         delim_pattern = Regexp.escape(delim)
         if closing_paren = CLOSING_PAREN[delim]
           delim_pattern << Regexp.escape(closing_paren)

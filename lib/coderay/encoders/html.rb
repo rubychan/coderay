@@ -284,9 +284,8 @@ module Encoders
     end
     
     def make_span_for_kinds method, hint
-      # FIXME: cache attack
       Hash.new do |h, kinds|
-        h[kinds] = begin
+        begin
           css_class = css_class_for_kinds(kinds)
           title     = HTML.token_path_to_hint hint, kinds if hint
           
@@ -298,6 +297,9 @@ module Encoders
               "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
             end
           end
+        end.tap do |span|
+          h.clear if h.size >= 100
+          h[kinds] = span
         end
       end
     end

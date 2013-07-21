@@ -51,7 +51,7 @@ class DebugScannerTest < Test::Unit::TestCase
   end
   
   TEST_INPUT = <<-'DEBUG'.chomp
-integer(10)operator((\\\))string<content(test)>head[
+integer(10)operator((\\\))string<content(test)>test[
 
   	   
 method([])]
@@ -62,10 +62,10 @@ method([])]
     [:begin_group, :string],
     ['test', :content],
     [:end_group, :string],
-    [:begin_line, :head],
+    [:begin_line, :unknown],
     ["\n\n  \t   \n", :space],
     ["[]", :method],
-    [:end_line, :head],
+    [:end_line, :unknown],
   ].flatten
   
   def test_filtering_text_tokens

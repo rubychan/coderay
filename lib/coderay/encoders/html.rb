@@ -286,7 +286,7 @@ module Encoders
     def make_span_for_kinds method, hint
       # FIXME: cache attack
       Hash.new do |h, kinds|
-        h[kinds.is_a?(Symbol) ? kinds : kinds.dup] = begin
+        h[kinds] = begin
           css_class = css_class_for_kinds(kinds)
           title     = HTML.token_path_to_hint hint, kinds if hint
           

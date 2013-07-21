@@ -1,10 +1,7 @@
 module CodeRay
   
   # A Hash of all known token kinds and their associated CSS classes.
-  TokenKinds = Hash.new do |h, k|
-    warn 'Undefined Token kind: %p' % [k] if $CODERAY_DEBUG
-    false
-  end
+  TokenKinds = Hash.new(false)
   
   # speedup
   TokenKinds.compare_by_identity if TokenKinds.respond_to? :compare_by_identity

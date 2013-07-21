@@ -310,8 +310,8 @@ module Encoders
     
     def break_lines text, style
       reopen = ''
-      @opened.each_with_index do |k, index|
-        reopen << (@span_for_kinds[index > 0 ? [k, *@opened[0...index]] : k] || '<span>')
+      @opened.each_with_index do |kind, index|
+        reopen << (@span_for_kinds[index > 0 ? [kind, *@opened[0...index]] : kind] || '<span>')
       end
       text.gsub("\n", "#{'</span>' * @opened.size}#{'</span>' if style}\n#{reopen}#{style}")
     end

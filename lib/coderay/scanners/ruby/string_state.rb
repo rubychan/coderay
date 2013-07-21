@@ -14,7 +14,6 @@ module Scanners
         { }
       ] ].each { |k,v| k.freeze; v.freeze }  # debug, if I try to change it with <<
       
-      # FIXME: cache attack
       STRING_PATTERN = Hash.new do |h, k|
         delim, interpreted = *k
         delim_pattern = Regexp.escape(delim)
@@ -29,12 +28,13 @@ module Scanners
         #     '| [|?*+(){}\[\].^$]'
         #   end
         
-        h[k] =
-          if interpreted && delim != '#'
-            / (?= [#{delim_pattern}] | \# [{$@] ) /mx
-          else
-            / (?= [#{delim_pattern}] ) /mx
-          end
+        if interpreted && delim != '#'
+          / (?= [#{delim_pattern}] | \# [{$@] ) /mx
+        else
+          / (?= [#{delim_pattern}] ) /mx
+        end.tap do |pattern|
+          h[k] = pattern if (delim.respond_to?(:ord) ? delim.ord : delim[0]) < 256
+        end
       end
       
       def initialize kind, interpreted, delim, heredoc = false

@@ -115,7 +115,10 @@ module Scanners
       elsif match = scan(/with/)
         encoder.text_token match, :key
 
-        scan_value_of_key_value_pair(encoder, options, match)
+        if scan_key_value_pair(encoder, options, match)
+        else
+          scan_value_of_key_value_pair(encoder, options, match)
+        end
       else
         false
       end
@@ -141,7 +144,7 @@ module Scanners
       if match = scan(/#{DIRECTIVE_KEYWORDS}/o)
         encoder.text_token match, :directive
         scan_spaces(encoder)
-        if match =~ /case|when|fill|if|assign|assignlist|for|list|paginate/
+        if match =~ /case|when|fill|ifchanged|if|assign|assignlist|for|list|paginate/
           scan_selector(encoder, options, match)
           if match = scan(/\w+\.?\w*/)
             encoder.text_token match, :variable

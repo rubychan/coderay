@@ -27,6 +27,7 @@ h2. Changes in 1.1
 * Display line numbers in HTML @:table@ mode even for single-line code (remove special case) [#41, thanks to Ariejan de Vroom]
 * Override Bootstrap's @pre { word-break: break-all }@ styling for line numbers [#102, thanks to lightswitch05]
 * Fixed @:docstring@ token type style
+* Fixed several problems related to Hash caches and dynamic Symbol creation that might have been exploited by an attacker [#148]
 * @Plugin@ does not warn about fallback when default is defined
 * @HTML@ encoder will not warn about unclosed token groups at the end of the stream
 * @Debug@ encoder refactored; use @DebugLint@ if you want strict checking now

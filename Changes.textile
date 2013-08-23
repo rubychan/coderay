@@ -24,9 +24,14 @@ h2. Changes in 1.1
 * New token type @:id@ for CSS/Sass [#27]
 * New token type @:done@ for Taskpaper [#39]
 * New token type @:map@ for Lua, introducing a nice nested-shades trick [#22, thanks to Quintus and Nathan Youngman]
+* New token type @:unknown@ for Debug scanner
 * Display line numbers in HTML @:table@ mode even for single-line code (remove special case) [#41, thanks to Ariejan de Vroom]
 * Override Bootstrap's @pre { word-break: break-all }@ styling for line numbers [#102, thanks to lightswitch05]
 * Fixed @:docstring@ token type style
+* Fixed several problems related to Hash caches and dynamic Symbol creation that might have been exploited by an attacker [#148]
+* @PluginHost@ now works with Strings instead of Symbols internally (to avoid using @#to_sym@)
+* The @Debug@ scanner maps unknown token kinds to @:unknown@ (to avoid creating Symbols based on possibly unsafe input)
+* The @Raydebug@ scanner highlights unknown token kinds as @:plain@
 * @Plugin@ does not warn about fallback when default is defined
 * @HTML@ encoder will not warn about unclosed token groups at the end of the stream
 * @Debug@ encoder refactored; use @DebugLint@ if you want strict checking now

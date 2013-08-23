@@ -80,5 +80,6 @@ module CodeRay
     :plain               => false                 # almost all scanners
   )
   
-  TokenKinds[:method] = TokenKinds[:function]
+  TokenKinds[:method]  = TokenKinds[:function]
+  TokenKinds[:unknown] = TokenKinds[:plain]
 end

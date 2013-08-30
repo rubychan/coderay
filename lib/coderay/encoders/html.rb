@@ -197,13 +197,15 @@ module Encoders
         @last_opened = nil
       end
       
-      @out.extend Output
-      @out.css = @css
-      if options[:line_numbers]
-        Numbering.number! @out, options[:line_numbers], options
+      if @out.respond_to? :to_str
+        @out.extend Output
+        @out.css = @css
+        if options[:line_numbers]
+          Numbering.number! @out, options[:line_numbers], options
+        end
+        @out.wrap! options[:wrap]
+        @out.apply_title! options[:title]
       end
-      @out.wrap! options[:wrap]
-      @out.apply_title! options[:title]
       
       if defined?(@real_out) && @real_out
         @real_out << @out

@@ -38,7 +38,7 @@ module CodeRay
           (TypeFromExt[ext2.downcase] if ext2) ||
           TypeFromName[name] ||
           TypeFromName[name.downcase]
-        type ||= shebang(filename) if read_shebang
+        type ||= type_from_shebang(filename) if read_shebang
         
         type
       end
@@ -63,7 +63,7 @@ module CodeRay
       
     protected
       
-      def shebang filename
+      def type_from_shebang filename
         return unless File.exist? filename
         File.open filename, 'r' do |f|
           if first_line = f.gets

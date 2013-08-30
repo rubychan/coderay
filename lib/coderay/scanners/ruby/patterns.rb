@@ -157,13 +157,16 @@ module Scanners
       yield
     ])
     
-    FANCY_STRING_START = / % ( [QqrsWwx] | (?![a-zA-Z0-9]) ) ([^a-zA-Z0-9]) /x
+    FANCY_STRING_START = / % ( [iIqQrswWx] | (?![a-zA-Z0-9]) ) ([^a-zA-Z0-9]) /x
     FANCY_STRING_KIND = Hash.new(:string).merge({
+      'i' => :symbol,
+      'I' => :symbol,
       'r' => :regexp,
       's' => :symbol,
       'x' => :shell,
     })
     FANCY_STRING_INTERPRETED = Hash.new(true).merge({
+      'i' => false,
       'q' => false,
       's' => false,
       'w' => false,

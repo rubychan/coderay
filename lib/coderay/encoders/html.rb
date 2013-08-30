@@ -206,11 +206,11 @@ module Encoders
       style = @span_for_kinds[@last_opened ? [kind, *@opened] : kind]
       
       text = EscapeUtils.escape_html(text)
-      # if text.index(/[\0-\t\xB-\x1F]/)
-      #   # Escape ASCII control codes except \x9 == \t and \xA == \n.
-      #   text.tr!("\0-\x8\xB-\x1F", ' ') if text.index(/[\0-\x8\xB-\x1F]/)
-        # text.gsub!("\t", @expand_tab)   if text.index("\t")
-      # end
+      if text.index(/[\0-\t\xB-\x1F]/)
+        # Escape ASCII control codes except \x9 == \t and \xA == \n.
+        text.tr!("\0-\x8\xB-\x1F", ' ') if text.index(/[\0-\x8\xB-\x1F]/)
+        text.gsub!("\t", @expand_tab)   if text.index("\t")
+      end
       
       text = break_lines(text, style) if @break_lines && (style || @opened.size > 0) && text.index("\n")
       

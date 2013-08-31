@@ -4,40 +4,57 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
 
 h2. Changes in 1.1
 
-* New scanner: Lua [#21, #22, thanks to Quintus]
-* New scanner: Sass [#93]
-* New scanner: Go [#28, thanks to Eric Guo and Nathan Youngman]
-* New scanner: Taskpaper [#39, thanks to shimomura]
-* Diff scanner: Highlight inline changes in multi-line changes [#99]
-* JavaScript scanner: Highlight multi-line comments in diff correctly
-* Ruby scanner: Accept %i and %I symbol lists (Ruby 2.0) [thanks to Nathan Youngman]
-* Ruby scanner: Accept keywords as Ruby 1.9 hash keys [#126]
-* HTML scanner displays style tags and attributes now [#145]
-* Remove double-click toggle handler from HTML table output
-* Fixes to CSS scanner (floats, pseudoclasses, nth-child) [#143]
-* Fixed empty tokens and unclosed token groups in HTML, CSS, Diff, Goovy, PHP, Raydebug, Ruby, SQL, and YAML scanners [#144]
-* Added @:keep_state@ functionality to more scanners [#116]
-* CSS scanner uses @:id@ and @:tag@ now [#27]
-* Removed @Tokens#dump@, @Tokens.load@, @Tokens::Undumping@, and @zlib@ dependency. Nobody was using this, right?
+New scanners:
+
+* Go [#28, thanks to Eric Guo and Nathan Youngman]
+* Lua [#21, #22, thanks to Quintus]
+* Sass [#93]
+* Taskpaper [#39, thanks to shimomura]
+
+More new stuff:
+
 * Add .xaml file type [#121, thanks to Kozman Bálint]
-* @CodeRay::TokenKinds@ should not be frozen [#130, thanks to Gavin Kistner]
 * New token type @:id@ for CSS/Sass [#27]
 * New token type @:done@ for Taskpaper [#39]
 * New token type @:map@ for Lua, introducing a nice nested-shades trick [#22, thanks to Quintus and Nathan Youngman]
 * New token type @:unknown@ for Debug scanner
-* Display line numbers in HTML @:table@ mode even for single-line code (remove special case) [#41, thanks to Ariejan de Vroom]
-* Override Bootstrap's @pre { word-break: break-all }@ styling for line numbers [#102, thanks to lightswitch05]
+* New DebugLint encoder that checks for empty tokens and correct nesting
+
+Improvements:
+
+* CSS scanner uses @:id@ and @:tag@ now [#27]
+* Diff scanner: Highlight inline changes in multi-line changes [#99]
+* JavaScript scanner: Highlight multi-line comments in diff correctly
+* HTML scanner displays style tags and attributes now [#145]
+* Ruby scanner: Accept %i and %I symbol lists (Ruby 2.0) [thanks to Nathan Youngman]
+* Ruby scanner: Accept keywords as Ruby 1.9 hash keys [#126]
+
+Removed:
+
+* @Tokens#dump@, @Tokens.load@, @Tokens::Undumping@, and @zlib@ dependency
+* Double-click toggle handler from HTML table output
+
+Fixes:
+
+* Fixes to CSS scanner (floats, pseudoclasses, nth-child) [#143]
+* Fixed empty tokens and unclosed token groups in HTML, CSS, Diff, Goovy, PHP, Raydebug, Ruby, SQL, and YAML scanners [#144]
 * Fixed @:docstring@ token type style
 * Fixed several problems related to Hash caches and dynamic Symbol creation that might have been exploited by an attacker [#148]
-* @PluginHost@ now works with Strings instead of Symbols internally (to avoid using @#to_sym@)
-* The @Debug@ scanner maps unknown token kinds to @:unknown@ (to avoid creating Symbols based on possibly unsafe input)
-* The @Raydebug@ scanner highlights unknown token kinds as @:plain@
-* @Plugin@ does not warn about fallback when default is defined
-* Fixed @HTML@ encoder when output is a StringIO (eg. when using @-HTML@)
-* @HTML@ encoder will not warn about unclosed token groups at the end of the stream
-* @Debug@ encoder refactored; use @DebugLint@ if you want strict checking now
-* @Debug@ encoder will not warn about errors in the token stream
-* New @DebugLint@ encoder that checks for empty tokens and correct nesting
+* Fixed HTML encoder when output is a StringIO (eg. when using @-HTML@ as a command line parameter)
+* TokenKinds should not be frozen [#130, thanks to Gavin Kistner]
+* Display line numbers in HTML @:table@ mode even for single-line code (remove special case) [#41, thanks to Ariejan de Vroom]
+* Override Bootstrap's @pre { word-break: break-all }@ styling for line numbers [#102, thanks to lightswitch05]
+* HTML encoder will not warn about unclosed token groups at the end of the stream
+
+Internals:
+
+* The Debug scanner maps unknown token kinds to @:unknown@ (to avoid creating Symbols based on possibly unsafe input)
+* The Raydebug scanner highlights unknown token kinds as @:plain@
+* Debug encoder refactored; use DebugLint if you want strict checking now
+* Debug encoder will not warn about errors in the token stream
+* Plugin does not warn about fallback when default is defined
+* PluginHost now works with Strings instead of Symbols internally (to avoid using @#to_sym@)
+* Added @:keep_state@ functionality to more scanners [#116]
 
 h2. Changes in 1.0.9
 

@@ -178,9 +178,18 @@ module Encoders
         @out = ''
       end
       
+      @tab_replacement = ' ' * options[:tab_width]
+      @escape_cache = Hash.new do |cache, text|
+        cache.clear if cache.size >= 100
+        
+        cache[text] =
+          if text =~ /#{HTML_ESCAPE_PATTERN}/o
+            text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| m == "\t" ? @tab_replacement : HTML_ESCAPE[m] }
+          else
+            text
+          end
+      end
       @break_lines = (options[:break_lines] == true)
-      
-      @HTML_ESCAPE = HTML_ESCAPE.merge("\t" => ' ' * options[:tab_width])
       
       @opened = []
       @last_opened = nil
@@ -197,7 +206,7 @@ module Encoders
         @last_opened = nil
       end
       
-      if @out.respond_to? :to_str
+      if options[:wrap] || options[:line_numbers]
         @out.extend Output
         @out.css = @css
         if options[:line_numbers]
@@ -220,7 +229,7 @@ module Encoders
     def text_token text, kind
       style = @span_for_kinds[@last_opened ? [kind, *@opened] : kind]
       
-      text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] } if text =~ /#{HTML_ESCAPE_PATTERN}/o
+      text = @escape_cache[text] if text.size <= 1 || text =~ /#{HTML_ESCAPE_PATTERN}/o
       text = break_lines(text, style) if @break_lines && (style || @opened.size > 0) && text.index("\n")
       
       if style

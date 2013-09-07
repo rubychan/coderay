@@ -28,4 +28,4 @@ html = CodeRay.scan("puts 'Hello, world!'", :ruby).div(:line_numbers => :table)
 
 ## Documentation
 
-See [http://coderay.rubychan.de/doc/](http://coderay.rubychan.de/doc/).
+See [rubydoc](http://rubydoc.info/gems/coderay).

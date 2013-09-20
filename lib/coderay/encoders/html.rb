@@ -128,11 +128,11 @@ module Encoders
     
     def self.make_html_escape_hash
       {
-        '&' => '&amp;',
-        '"' => '&quot;',
-        '>' => '&gt;',
-        '<' => '&lt;',
-        # "\t" => will be set to ' ' * options[:tab_width] during setup
+        '&'  => '&amp;',
+        '"'  => '&quot;',
+        '>'  => '&gt;',
+        '<'  => '&lt;',
+        "\t" => ' ' * DEFAULT_OPTIONS[:tab_width],
       }.tap do |hash|
         # Escape ASCII control codes except \x9 == \t and \xA == \n.
         (Array(0x00..0x8) + Array(0xB..0x1F)).each { |invalid| hash[invalid.chr] = ' ' }
@@ -178,18 +178,9 @@ module Encoders
         @out = ''
       end
       
-      @tab_replacement = ' ' * options[:tab_width]
-      @escape_cache = Hash.new do |cache, text|
-        cache.clear if cache.size >= 100
-        
-        cache[text] =
-          if text =~ /#{HTML_ESCAPE_PATTERN}/o
-            text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| m == "\t" ? @tab_replacement : HTML_ESCAPE[m] }
-          else
-            text
-          end
-      end
       @break_lines = (options[:break_lines] == true)
+      
+      @escape_cache = make_escape_cache(options)
       
       @opened = []
       @last_opened = nil
@@ -283,6 +274,26 @@ module Encoders
       end
       
       options[:break_lines] = true if options[:line_numbers] == :inline
+    end
+    
+    def make_escape_cache options
+      html_escape =
+        if options[:tab_width] == DEFAULT_OPTIONS[:tab_width]
+          HTML_ESCAPE
+        else
+          HTML_ESCAPE.merge("\t" => ' ' * options[:tab_width])
+        end
+      
+      Hash.new do |cache, text|
+        cache.clear if cache.size >= 100
+        
+        cache[text] =
+          if text =~ /#{HTML_ESCAPE_PATTERN}/o
+            text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| html_escape[m] }
+          else
+            text
+          end
+      end
     end
     
     def css_class_for_kinds kinds

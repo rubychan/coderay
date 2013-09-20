@@ -1,1 +1,0 @@
-[["puts", :ident], [" ", :space], ["3", :integer], [" ", :space], ["+", :operator], [" ", :space], ["4", :integer], [",", :operator], [" ", :space], [:open, :string], ["'", :delimiter], ["3 + 4", :content], ["'", :delimiter], [:close, :string]]

@@ -24,7 +24,7 @@ module Encoders
         end
 
         def make_stylesheet css, in_tag = false  # :nodoc:
-          sheet = css.css
+          sheet = css.stylesheet
           sheet = <<-'CSS' if in_tag
 <style type="text/css">
 #{sheet}

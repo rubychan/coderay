@@ -11,13 +11,12 @@ module Encoders
         @style ||= CodeRay::Styles[@style_name]
       end
 
-      def css
+      def stylesheet
         @css ||= [
           style::CSS_MAIN_STYLES,
           style::TOKEN_COLORS.gsub(/^(?!$)/, '.CodeRay ')
         ].join("\n")
       end
-      alias stylesheet css
 
       def get_style_for_css_classes css_classes
         cl = styles[css_classes.first]

@@ -3,21 +3,22 @@ module Encoders
 
   class HTML
     class CSS  # :nodoc:
-      def initialize style = :default
-        @style = style
+      def initialize style_name = :default
+        @style_name = style_name
       end
-      
-      def stylesheet
-        @stylesheet ||= CodeRay::Styles[@style]
+
+      def style
+        @style ||= CodeRay::Styles[@style_name]
       end
-      
+
       def css
-        [
-          stylesheet::CSS_MAIN_STYLES,
-          stylesheet::TOKEN_COLORS.gsub(/^(?!$)/, '.CodeRay ')
+        @css ||= [
+          style::CSS_MAIN_STYLES,
+          style::TOKEN_COLORS.gsub(/^(?!$)/, '.CodeRay ')
         ].join("\n")
       end
-      
+      alias stylesheet css
+
       def get_style_for_css_classes css_classes
         cl = styles[css_classes.first]
         return '' unless cl
@@ -29,7 +30,7 @@ module Encoders
         return style
       end
 
-    private
+      private
 
       CSS_CLASS_PATTERN = /
         (                    # $1 = selectors
@@ -46,7 +47,7 @@ module Encoders
       /mx
       def styles
         @styles ||= Hash.new.tap do |styles|
-          stylesheet::TOKEN_COLORS.scan CSS_CLASS_PATTERN do |selectors, style, error|
+          style::TOKEN_COLORS.scan CSS_CLASS_PATTERN do |selectors, style, error|
             raise "CSS parse error: '#{error.inspect}' not recognized" if error
             for selector in selectors.split(',')
               classes = selector.scan(/[-\w]+/)

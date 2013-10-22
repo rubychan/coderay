@@ -20,7 +20,7 @@ module CodeRay
     extend PluginHost
     plugin_path File.dirname(__FILE__), 'scanners'
     
-    autoload :Encoder, CodeRay.coderay_path('scanners', 'scanner')
+    autoload :Scanner, CodeRay.coderay_path('scanners', 'scanner')
     
   end
   

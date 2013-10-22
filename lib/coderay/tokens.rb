@@ -67,7 +67,7 @@ module CodeRay
     def method_missing meth, options = {}
       encode meth, options
     rescue PluginHost::PluginNotFound
-      raise
+      super
     end
     
     # Split the tokens into parts of the given +sizes+.

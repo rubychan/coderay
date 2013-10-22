@@ -289,7 +289,7 @@ module Encoders
       Hash.new do |h, kinds|
         begin
           css_class = css_class_for_kinds(kinds)
-          title     = Html.token_path_to_hint hint, kinds if hint
+          title     = HTML.token_path_to_hint hint, kinds if hint
           
           if css_class || title
             if method == :style

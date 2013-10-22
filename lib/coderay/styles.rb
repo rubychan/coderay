@@ -4,8 +4,12 @@ module CodeRay
   # 
   # See Plugin.
   module Styles
+    
     extend PluginHost
     plugin_path File.dirname(__FILE__), 'styles'
+    
+    autoload :Style, CodeRay.coderay_path('styles', 'style')
+    
   end
   
 end

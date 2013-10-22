@@ -16,8 +16,12 @@ module CodeRay
   #
   # See PluginHost.
   module Scanners
+    
     extend PluginHost
     plugin_path File.dirname(__FILE__), 'scanners'
+    
+    autoload :Encoder, CodeRay.coderay_path('scanners', 'scanner')
+    
   end
   
 end

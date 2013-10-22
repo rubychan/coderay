@@ -47,8 +47,6 @@ module CodeRay
     # Example:
     #  yaml_plugin = MyPluginHost[:yaml]
     def [] id, *args, &blk
-      # const = id.to_s.titleize
-      # const_get const
       plugin = validate_id(id)
       begin
         plugin = plugin_hash.[](plugin, *args, &blk)

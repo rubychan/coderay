@@ -80,6 +80,7 @@ module Scanners
           raise_inspect 'Unknown state: %p' % [state], encoder
           
         end
+        
       end
       
       if options[:keep_state]

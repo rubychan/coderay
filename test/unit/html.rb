@@ -60,7 +60,7 @@ public class Test {
  * used to test the
  */</span>
 <span class=\"directive\">public</span> <span class=\"type\">class</span> <span class=\"class\">Test</span> {
-  <span class=\"directive\">public</span> <span class=\"directive\">static</span> <span class=\"directive\">final</span> <span class=\"predefined-type\">String</span> MESSAGE = <span class=\"string\"><span class=\"delimiter\">&quot;</span><span class=\"content\">My message    To the world</span><span class=\"delimiter\">&quot;</span></span>;
+  <span class=\"directive\">public</span> <span class=\"directive\">static</span> <span class=\"directive\">final</span> <span class=\"predefined-type\">String</span> MESSAGE = <span class=\"string\"><span class=\"delimiter\">\"</span><span class=\"content\">My message    To the world</span><span class=\"delimiter\">\"</span></span>;
 
   <span class=\"directive\">static</span> <span class=\"type\">void</span> main() {
     <span class=\"comment\">/*
@@ -80,7 +80,7 @@ public class Test {
 <span class=\"comment\"> * used to test the</span>
 <span class=\"comment\"> */</span>
 <span class=\"directive\">public</span> <span class=\"type\">class</span> <span class=\"class\">Test</span> {
-  <span class=\"directive\">public</span> <span class=\"directive\">static</span> <span class=\"directive\">final</span> <span class=\"predefined-type\">String</span> MESSAGE = <span class=\"string\"><span class=\"delimiter\">&quot;</span><span class=\"content\">My message    To the world</span><span class=\"delimiter\">&quot;</span></span>;
+  <span class=\"directive\">public</span> <span class=\"directive\">static</span> <span class=\"directive\">final</span> <span class=\"predefined-type\">String</span> MESSAGE = <span class=\"string\"><span class=\"delimiter\">\"</span><span class=\"content\">My message    To the world</span><span class=\"delimiter\">\"</span></span>;
 
   <span class=\"directive\">static</span> <span class=\"type\">void</span> main() {
     <span class=\"comment\">/*</span>

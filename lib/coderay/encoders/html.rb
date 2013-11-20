@@ -129,7 +129,6 @@ module Encoders
     def self.make_html_escape_hash
       {
         '&'  => '&amp;',
-        '"'  => '&quot;',
         '>'  => '&gt;',
         '<'  => '&lt;',
         "\t" => ' ' * DEFAULT_OPTIONS[:tab_width],
@@ -140,7 +139,7 @@ module Encoders
     end
     
     HTML_ESCAPE = make_html_escape_hash
-    HTML_ESCAPE_PATTERN = /[\t"&><\0-\x8\xB-\x1F]/
+    HTML_ESCAPE_PATTERN = /[\t&><\0-\x8\xB-\x1F]/
     
     TOKEN_KIND_TO_INFO = Hash.new do |h, kind|
       h[kind] = kind.to_s.gsub(/_/, ' ').gsub(/\b\w/) { $&.capitalize }

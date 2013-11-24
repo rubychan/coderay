@@ -5,7 +5,7 @@ module CodeRay
   # See Plugin.
   module Styles
     extend PluginHost
-    plugin_path File.dirname(__FILE__), 'styles'
+    plugin_path File.dirname(__FILE__).untaint, 'styles'
     
     # Base class for styles.
     # 

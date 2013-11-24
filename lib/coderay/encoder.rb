@@ -10,7 +10,7 @@ module CodeRay
   module Encoders
     
     extend PluginHost
-    plugin_path File.dirname(__FILE__), 'encoders'
+    plugin_path File.dirname(__FILE__).untaint, 'encoders'
     
     # = Encoder
     #

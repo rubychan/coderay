@@ -121,7 +121,7 @@ module CodeRay module Scanners
           elsif match = scan(/'[^']*'?/)
             kind = :string
           elsif match = scan(/(?: \& | > | < | \| >> | << | >\& )/ox)
-            kind = :bin
+            kind = :binary
           elsif match = scan(/\d+[\.-](?:\d+[\.-]?)+/)
             #versions, dates, and hyphen delimited numbers
             kind = :float

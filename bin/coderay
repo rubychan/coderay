@@ -125,7 +125,7 @@ when 'highlight', nil
     end
     
     if output_file
-      output_format ||= CodeRay::FileType[output_file]
+      output_format ||= CodeRay::FileType[output_file] || :plain
     else
       output_format ||= :terminal
     end
@@ -143,7 +143,6 @@ when 'highlight', nil
         if output_file
           File.open output_file, 'w'
         else
-          $stdout.sync = true
           $stdout
         end
       CodeRay.encode(input, input_lang, output_format, :out => file)
@@ -156,8 +155,9 @@ when 'highlight', nil
         puts boom.message
       end
       # puts "I don't know this plugin: #{boom.message[/Could not load plugin (.*?): /, 1]}."
-    rescue CodeRay::Scanners::Scanner::ScanError  # FIXME: rescue Errno::EPIPE
-      # this is sometimes raised by pagers; ignore [TODO: wtf?]
+    rescue CodeRay::Scanners::Scanner::ScanError
+      # this is sometimes raised by pagers; ignore
+    # FIXME: rescue Errno::EPIPE
     ensure
       file.close if output_file
     end

@@ -14,15 +14,21 @@ module Scanners
     
     ESCAPE = / [bfnrt\\"\/] /x  # :nodoc:
     UNICODE_ESCAPE = / u[a-fA-F0-9]{4} /x  # :nodoc:
+    KEY = / (?> (?: [^\\"]+ | \\. )* ) " \s* : /x
     
   protected
     
+    def setup
+      @state = :initial
+    end
+    
     # See http://json.org/ for a definition of the JSON lexic/grammar.
     def scan_tokens encoder, options
+      state = options[:state] || @state
       
-      state = :initial
-      stack = []
-      key_expected = false
+      if [:string, :key].include? state
+        encoder.begin_group state
+      end
       
       until eos?
         
@@ -32,18 +38,11 @@ module Scanners
           if match = scan(/ \s+ /x)
             encoder.text_token match, :space
           elsif match = scan(/"/)
-            state = key_expected ? :key : :string
+            state = check(/#{KEY}/o) ? :key : :string
             encoder.begin_group state
             encoder.text_token match, :delimiter
           elsif match = scan(/ [:,\[{\]}] /x)
             encoder.text_token match, :operator
-            case match
-            when ':' then key_expected = false
-            when ',' then key_expected = true if stack.last == :object
-            when '{' then stack << :object; key_expected = true
-            when '[' then stack << :array
-            when '}', ']' then stack.pop  # no error recovery, but works for valid JSON
-            end
           elsif match = scan(/ true | false | null /x)
             encoder.text_token match, :value
           elsif match = scan(/ -? (?: 0 | [1-9]\d* ) /x)
@@ -80,6 +79,10 @@ module Scanners
           raise_inspect 'Unknown state: %p' % [state], encoder
           
         end
+      end
+      
+      if options[:keep_state]
+        @state = state
       end
       
       if [:string, :key].include? state

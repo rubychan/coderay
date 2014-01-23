@@ -96,7 +96,7 @@ module Scanners
                                       /#{patterns::METHOD_NAME}/o)
               
               kind = patterns::IDENT_KIND[match]
-              if kind == :ident && value_expected != :colon_expected && scan(/:(?!:)/)
+              if value_expected != :colon_expected && scan(/:(?!:)/)
                 value_expected = true
                 encoder.text_token match, :key
                 encoder.text_token ':',   :operator
@@ -269,7 +269,7 @@ module Scanners
             end
             
             if last_state
-              state = last_state
+              state = last_state unless state.is_a?(StringState)  # otherwise, a simple 'def"' results in unclosed tokens
               last_state = nil
             end
             

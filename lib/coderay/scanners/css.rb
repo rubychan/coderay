@@ -7,10 +7,10 @@ module Scanners
     
     KINDS_NOT_LOC = [
       :comment,
-      :class, :pseudo_class, :type,
-      :constant, :directive,
+      :class, :pseudo_class, :tag,
+      :id, :directive,
       :key, :value, :operator, :color, :float, :string,
-      :error, :important,
+      :error, :important, :type,
     ]  # :nodoc:
     
     module RE  # :nodoc:
@@ -25,7 +25,7 @@ module Scanners
       
       HexColor = /#(?:#{Hex}{6}|#{Hex}{3})/
       
-      Num = /-?(?:[0-9]*\.[0-9]+|[0-9]+)/
+      Num = /-?(?:[0-9]*\.[0-9]+|[0-9]+)n?/
       Name = /#{NMChar}+/
       Ident = /-?#{NMStart}#{NMChar}*/
       AtKeyword = /@#{Ident}/
@@ -53,7 +53,7 @@ module Scanners
     end
     
     def scan_tokens encoder, options
-      states = Array(options[:state] || @state)
+      states = Array(options[:state] || @state).dup
       value_expected = @value_expected
       
       until eos?
@@ -64,13 +64,13 @@ module Scanners
         elsif case states.last
           when :initial, :media
             if match = scan(/(?>#{RE::Ident})(?!\()|\*/ox)
-              encoder.text_token match, :type
+              encoder.text_token match, :tag
               next
             elsif match = scan(RE::Class)
               encoder.text_token match, :class
               next
             elsif match = scan(RE::Id)
-              encoder.text_token match, :constant
+              encoder.text_token match, :id
               next
             elsif match = scan(RE::PseudoClass)
               encoder.text_token match, :pseudo_class
@@ -145,10 +145,10 @@ module Scanners
           start = match[/^\w+\(/]
           encoder.text_token start, :delimiter
           if match[-1] == ?)
-            encoder.text_token match[start.size..-2], :content
+            encoder.text_token match[start.size..-2], :content if match.size > start.size + 1
             encoder.text_token ')', :delimiter
           else
-            encoder.text_token match[start.size..-1], :content
+            encoder.text_token match[start.size..-1], :content if match.size > start.size
           end
           encoder.end_group :function
           

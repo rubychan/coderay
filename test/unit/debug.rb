@@ -18,15 +18,15 @@ class DebugEncoderTest < Test::Unit::TestCase
     [:begin_group, :string],
     ['test', :content],
     [:end_group, :string],
-    [:begin_line, :test],
+    [:begin_line, :head],
     ["\n", :space],
     ["\n  \t", :space],
     ["   \n", :space],
     ["[]", :method],
-    [:end_line, :test],
+    [:end_line, :head],
   ].flatten
   TEST_OUTPUT = <<-'DEBUG'.chomp
-integer(10)operator((\\\))string<content(test)>test[
+integer(10)operator((\\\))string<content(test)>head[
 
   	   
 method([])]
@@ -62,10 +62,10 @@ method([])]
     [:begin_group, :string],
     ['test', :content],
     [:end_group, :string],
-    [:begin_line, :test],
+    [:begin_line, :unknown],
     ["\n\n  \t   \n", :space],
     ["[]", :method],
-    [:end_line, :test],
+    [:end_line, :unknown],
   ].flatten
   
   def test_filtering_text_tokens

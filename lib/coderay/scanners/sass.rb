@@ -7,13 +7,6 @@ module Scanners
     register_for :sass
     file_extension 'sass'
     
-    SASS_FUNCTION = /(?:inline-image|linear-gradient|color-stops|mix|lighten|darken|rotate|image-url|image-width|image-height|sprite-url|sprite-path|sprite-file|sprite-map|sprite-position|sprite|unquote|join|round|ceil|floor|nth)/
-    
-    STRING_CONTENT_PATTERN = {
-      "'" => /(?:[^\n\'\#]+|\\\n|#{RE::Escape}|#(?!\{))+/,
-      '"' => /(?:[^\n\"\#]+|\\\n|#{RE::Escape}|#(?!\{))+/,
-    }
-    
   protected
     
     def setup
@@ -21,15 +14,28 @@ module Scanners
     end
     
     def scan_tokens encoder, options
-      states = Array(options[:state] || @state)
-      string_delimiter = nil
+      states = Array(options[:state] || @state).dup
+      
+      encoder.begin_group :string if states.last == :sqstring || states.last == :dqstring
       
       until eos?
         
-        if match = scan(/\s+/)
+        if bol? && (match = scan(/(?>( +)?(\/[\*\/])(.+)?)(?=\n)/))
+          encoder.text_token self[1], :space if self[1]
+          encoder.begin_group :comment
+          encoder.text_token self[2], :delimiter
+          encoder.text_token self[3], :content if self[3]
+          if match = scan(/(?:\n+#{self[1]} .*)+/)
+            encoder.text_token match, :content
+          end
+          encoder.end_group :comment
+        elsif match = scan(/\n|[^\n\S]+\n?/)
           encoder.text_token match, :space
-          value_expected = false if match.index(/\n/)
-          
+          if match.index(/\n/)
+            value_expected = false
+            states.pop if states.last == :include
+          end
+        
         elsif states.last == :sass_inline && (match = scan(/\}/))
           encoder.text_token match, :inline_delimiter
           encoder.end_group :inline
@@ -38,16 +44,16 @@ module Scanners
         elsif case states.last
           when :initial, :media, :sass_inline
             if match = scan(/(?>#{RE::Ident})(?!\()/ox)
-              encoder.text_token match, value_expected ? :value : (check(/.*:/) ? :key : :type)
+              encoder.text_token match, value_expected ? :value : (check(/.*:(?![a-z])/) ? :key : :tag)
               next
             elsif !value_expected && (match = scan(/\*/))
-              encoder.text_token match, :type
+              encoder.text_token match, :tag
               next
             elsif match = scan(RE::Class)
               encoder.text_token match, :class
               next
             elsif match = scan(RE::Id)
-              encoder.text_token match, :constant
+              encoder.text_token match, :id
               next
             elsif match = scan(RE::PseudoClass)
               encoder.text_token match, :pseudo_class
@@ -61,7 +67,11 @@ module Scanners
             elsif match = scan(/(\=|@mixin +)#{RE::Ident}/o)
               encoder.text_token match, :function
               next
-            elsif match = scan(/@media/)
+            elsif match = scan(/@import\b/)
+              encoder.text_token match, :directive
+              states << :include
+              next
+            elsif match = scan(/@media\b/)
               encoder.text_token match, :directive
               # states.push :media_before_name
               next
@@ -77,29 +87,34 @@ module Scanners
               next
             end
             
-          when :string
-            if match = scan(STRING_CONTENT_PATTERN[string_delimiter])
+          when :sqstring, :dqstring
+            if match = scan(states.last == :sqstring ? /(?:[^\n\'\#]+|\\\n|#{RE::Escape}|#(?!\{))+/o : /(?:[^\n\"\#]+|\\\n|#{RE::Escape}|#(?!\{))+/o)
               encoder.text_token match, :content
             elsif match = scan(/['"]/)
               encoder.text_token match, :delimiter
               encoder.end_group :string
-              string_delimiter = nil
               states.pop
             elsif match = scan(/#\{/)
               encoder.begin_group :inline
               encoder.text_token match, :inline_delimiter
               states.push :sass_inline
             elsif match = scan(/ \\ | $ /x)
-              encoder.end_group state
+              encoder.end_group states.last
               encoder.text_token match, :error unless match.empty?
               states.pop
             else
-              raise_inspect "else case #{string_delimiter} reached; %p not handled." % peek(1), encoder
+              raise_inspect "else case #{states.last} reached; %p not handled." % peek(1), encoder
+            end
+          
+          when :include
+            if match = scan(/[^\s'",]+/)
+              encoder.text_token match, :include
+              next
             end
           
           else
             #:nocov:
-            raise_inspect 'Unknown state', encoder
+            raise_inspect 'Unknown state: %p' % [states.last], encoder
             #:nocov:
             
           end
@@ -137,19 +152,16 @@ module Scanners
           
         elsif match = scan(/['"]/)
           encoder.begin_group :string
-          string_delimiter = match
           encoder.text_token match, :delimiter
           if states.include? :sass_inline
-            content = scan_until(/(?=#{string_delimiter}|\}|\z)/)
+            # no nesting, just scan the string until delimiter
+            content = scan_until(/(?=#{match}|\}|\z)/)
             encoder.text_token content, :content unless content.empty?
-            encoder.text_token string_delimiter, :delimiter if scan(/#{string_delimiter}/)
+            encoder.text_token match, :delimiter if scan(/#{match}/)
             encoder.end_group :string
           else
-            states.push :string
+            states.push match == "'" ? :sqstring : :dqstring
           end
-          
-        elsif match = scan(/#{SASS_FUNCTION}/o)
-          encoder.text_token match, :predefined
           
         elsif match = scan(/#{RE::Function}/o)
           encoder.begin_group :function
@@ -159,9 +171,12 @@ module Scanners
             encoder.text_token match[start.size..-2], :content
             encoder.text_token ')', :delimiter
           else
-            encoder.text_token match[start.size..-1], :content
+            encoder.text_token match[start.size..-1], :content if start.size < match.size
           end
           encoder.end_group :function
+          
+        elsif match = scan(/[a-z][-a-z_]*(?=\()/o)
+          encoder.text_token match, :predefined
           
         elsif match = scan(/(?: #{RE::Dimension} | #{RE::Percentage} | #{RE::Num} )/ox)
           encoder.text_token match, :float
@@ -175,7 +190,7 @@ module Scanners
         elsif match = scan(/(?:rgb|hsl)a?\([^()\n]*\)?/)
           encoder.text_token match, :color
           
-        elsif match = scan(/@else if\b|#{RE::AtKeyword}/)
+        elsif match = scan(/@else if\b|#{RE::AtKeyword}/o)
           encoder.text_token match, :directive
           value_expected = true
           
@@ -194,8 +209,18 @@ module Scanners
         
       end
       
+      states.pop if states.last == :include
+      
       if options[:keep_state]
-        @state = states
+        @state = states.dup
+      end
+      
+      while state = states.pop
+        if state == :sass_inline
+          encoder.end_group :inline
+        elsif state == :sqstring || state == :dqstring
+          encoder.end_group :string
+        end
       end
       
       encoder

@@ -38,7 +38,7 @@ module CodeRay
           (TypeFromExt[ext2.downcase] if ext2) ||
           TypeFromName[name] ||
           TypeFromName[name.downcase]
-        type ||= shebang(filename) if read_shebang
+        type ||= type_from_shebang(filename) if read_shebang
         
         type
       end
@@ -63,7 +63,7 @@ module CodeRay
       
     protected
       
-      def shebang filename
+      def type_from_shebang filename
         return unless File.exist? filename
         File.open filename, 'r' do |f|
           if first_line = f.gets
@@ -77,55 +77,59 @@ module CodeRay
     end
     
     TypeFromExt = {
-      'c'        => :c,
-      'cfc'      => :xml,
-      'cfm'      => :xml,
-      'clj'      => :clojure,
-      'css'      => :css,
-      'diff'     => :diff,
-      'dpr'      => :delphi,
-      'erb'      => :erb,
-      'gemspec'  => :ruby,
-      'groovy'   => :groovy,
-      'gvy'      => :groovy,
-      'h'        => :c,
-      'haml'     => :haml,
-      'htm'      => :html,
-      'html'     => :html,
-      'html.erb' => :erb,
-      'java'     => :java,
-      'js'       => :java_script,
-      'json'     => :json,
-      'mab'      => :ruby,
-      'pas'      => :delphi,
-      'patch'    => :diff,
-      'phtml'    => :php,
-      'php'      => :php,
-      'php3'     => :php,
-      'php4'     => :php,
-      'php5'     => :php,
-      'prawn'    => :ruby,
-      'py'       => :python,
-      'py3'      => :python,
-      'pyw'      => :python,
-      'rake'     => :ruby,
-      'raydebug' => :raydebug,
-      'rb'       => :ruby,
-      'rbw'      => :ruby,
-      'rhtml'    => :erb,
-      'rjs'      => :ruby,
-      'rpdf'     => :ruby,
-      'ru'       => :ruby,
-      'rxml'     => :ruby,
-      'sass'     => :sass,
-      'sh'       => :bash,
-      'sql'      => :sql,
-      'tmproj'   => :xml,
-      'xaml'     => :xml,
-      'xhtml'    => :html,
-      'xml'      => :xml,
-      'yaml'     => :yaml,
-      'yml'      => :yaml,
+      'c'         => :c,
+      'cfc'       => :xml,
+      'cfm'       => :xml,
+      'clj'       => :clojure,
+      'css'       => :css,
+      'diff'      => :diff,
+      'dpr'       => :delphi,
+      'erb'       => :erb,
+      'gemspec'   => :ruby,
+      'go'        => :go, 
+      'groovy'    => :groovy,
+      'gvy'       => :groovy,
+      'h'         => :c,
+      'haml'      => :haml,
+      'htm'       => :html,
+      'html'      => :html,
+      'html.erb'  => :erb,
+      'java'      => :java,
+      'js'        => :java_script,
+      'json'      => :json,
+      'lua'       => :lua,
+      'mab'       => :ruby,
+      'pas'       => :delphi,
+      'patch'     => :diff,
+      'phtml'     => :php,
+      'php'       => :php,
+      'php3'      => :php,
+      'php4'      => :php,
+      'php5'      => :php,
+      'prawn'     => :ruby,
+      'py'        => :python,
+      'py3'       => :python,
+      'pyw'       => :python,
+      'rake'      => :ruby,
+      'raydebug'  => :raydebug,
+      'rb'        => :ruby,
+      'rbw'       => :ruby,
+      'rhtml'     => :erb,
+      'rjs'       => :ruby,
+      'rpdf'      => :ruby,
+      'ru'        => :ruby,  # config.ru
+      'rxml'      => :ruby,
+      'sass'      => :sass,
+      'sh'        => :bash,
+      'sql'       => :sql,
+      'taskpaper' => :taskpaper,
+      'template'  => :json,  # AWS CloudFormation template
+      'tmproj'    => :xml,
+      'xaml'      => :xml,
+      'xhtml'     => :html,
+      'xml'       => :xml,
+      'yaml'      => :yaml,
+      'yml'       => :yaml,
     }
     for cpp_alias in %w[cc cpp cp cxx c++ C hh hpp h++ cu]
       TypeFromExt[cpp_alias] = :cpp
@@ -138,6 +142,9 @@ module CodeRay
       'Rakefile' => :ruby,
       'Rantfile' => :ruby,
       'Gemfile'  => :ruby,
+      'Guardfile' => :ruby,
+      'Vagrantfile' => :ruby,
+      'Appraisals' => :ruby
     }
     
   end

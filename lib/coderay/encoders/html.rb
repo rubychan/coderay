@@ -126,22 +126,21 @@ module Encoders
     
   protected
     
-    HTML_ESCAPE = {  #:nodoc:
-      '&' => '&amp;',
-      '"' => '&quot;',
-      '>' => '&gt;',
-      '<' => '&lt;',
-    }
+    def self.make_html_escape_hash
+      {
+        '&' => '&amp;',
+        '"' => '&quot;',
+        '>' => '&gt;',
+        '<' => '&lt;',
+        # "\t" => will be set to ' ' * options[:tab_width] during setup
+      }.tap do |hash|
+        # Escape ASCII control codes except \x9 == \t and \xA == \n.
+        (Array(0x00..0x8) + Array(0xB..0x1F)).each { |invalid| hash[invalid.chr] = ' ' }
+      end
+    end
     
-    # This was to prevent illegal HTML.
-    # Strange chars should still be avoided in codes.
-    evil_chars = Array(0x00...0x20) - [?\n, ?\t, ?\s]
-    evil_chars.each { |i| HTML_ESCAPE[i.chr] = ' ' }
-    #ansi_chars = Array(0x7f..0xff)
-    #ansi_chars.each { |i| HTML_ESCAPE[i.chr] = '&#%d;' % i }
-    # \x9 (\t) and \xA (\n) not included
-    #HTML_ESCAPE_PATTERN = /[\t&"><\0-\x8\xB-\x1f\x7f-\xff]/
-    HTML_ESCAPE_PATTERN = /[\t"&><\0-\x8\xB-\x1f]/
+    HTML_ESCAPE = make_html_escape_hash
+    HTML_ESCAPE_PATTERN = /[\t"&><\0-\x8\xB-\x1F]/
     
     TOKEN_KIND_TO_INFO = Hash.new do |h, kind|
       h[kind] = kind.to_s.gsub(/_/, ' ').gsub(/\b\w/) { $&.capitalize }
@@ -172,77 +171,41 @@ module Encoders
     def setup options
       super
       
+      check_options! options
+      
       if options[:wrap] || options[:line_numbers]
         @real_out = @out
         @out = ''
       end
       
-      options[:break_lines] = true if options[:line_numbers] == :inline
-      
       @break_lines = (options[:break_lines] == true)
       
-      @HTML_ESCAPE = HTML_ESCAPE.dup
-      @HTML_ESCAPE["\t"] = ' ' * options[:tab_width]
+      @HTML_ESCAPE = HTML_ESCAPE.merge("\t" => ' ' * options[:tab_width])
       
       @opened = []
       @last_opened = nil
       @css = CSS.new options[:style]
       
-      hint = options[:hint]
-      if hint && ![:debug, :info, :info_long].include?(hint)
-        raise ArgumentError, "Unknown value %p for :hint; \
-          expected :info, :info_long, :debug, false, or nil." % hint
-      end
-      
-      css_classes = TokenKinds
-      case options[:css]
-      when :class
-        @span_for_kind = Hash.new do |h, k|
-          if k.is_a? ::Symbol
-            kind = k_dup = k
-          else
-            kind = k.first
-            k_dup = k.dup
-          end
-          if kind != :space && (hint || css_class = css_classes[kind])
-            title = HTML.token_path_to_hint hint, k if hint
-            css_class ||= css_classes[kind]
-            h[k_dup] = "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
-          else
-            h[k_dup] = nil
-          end
-        end
-      when :style
-        @span_for_kind = Hash.new do |h, k|
-          kind = k.is_a?(Symbol) ? k : k.first
-          h[k.is_a?(Symbol) ? k : k.dup] =
-            if kind != :space && (hint || css_classes[kind])
-              title = HTML.token_path_to_hint hint, k if hint
-              style = @css.get_style Array(k).map { |c| css_classes[c] }
-              "<span#{title}#{" style=\"#{style}\"" if style}>"
-            end
-        end
-      else
-        raise ArgumentError, "Unknown value %p for :css." % options[:css]
-      end
+      @span_for_kinds = make_span_for_kinds(options[:css], options[:hint])
       
       @set_last_opened = options[:hint] || options[:css] == :style
     end
     
     def finish options
       unless @opened.empty?
-        warn '%d tokens still open: %p' % [@opened.size, @opened] if $CODERAY_DEBUG
         @out << '</span>' while @opened.pop
         @last_opened = nil
       end
       
-      @out.extend Output
-      @out.css = @css
-      if options[:line_numbers]
-        Numbering.number! @out, options[:line_numbers], options
+      if @out.respond_to? :to_str
+        @out.extend Output
+        @out.css = @css
+        if options[:line_numbers]
+          Numbering.number! @out, options[:line_numbers], options
+        end
+        @out.wrap! options[:wrap]
+        @out.apply_title! options[:title]
       end
-      @out.wrap! options[:wrap]
-      @out.apply_title! options[:title]
       
       if defined?(@real_out) && @real_out
         @real_out << @out
@@ -255,20 +218,10 @@ module Encoders
   public
     
     def text_token text, kind
-      if text =~ /#{HTML_ESCAPE_PATTERN}/o
-        text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] }
-      end
+      style = @span_for_kinds[@last_opened ? [kind, *@opened] : kind]
       
-      style = @span_for_kind[@last_opened ? [kind, *@opened] : kind]
-      
-      if @break_lines && (i = text.index("\n")) && (c = @opened.size + (style ? 1 : 0)) > 0
-        close = '</span>' * c
-        reopen = ''
-        @opened.each_with_index do |k, index|
-          reopen << (@span_for_kind[index > 0 ? [k, *@opened[0 ... index ]] : k] || '<span>')
-        end
-        text[i .. -1] = text[i .. -1].gsub("\n", "#{close}\n#{reopen}#{style}")
-      end
+      text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] } if text =~ /#{HTML_ESCAPE_PATTERN}/o
+      text = break_lines(text, style) if @break_lines && (style || @opened.size > 0) && text.index("\n")
       
       if style
         @out << style << text << '</span>'
@@ -279,24 +232,19 @@ module Encoders
     
     # token groups, eg. strings
     def begin_group kind
-      @out << (@span_for_kind[@last_opened ? [kind, *@opened] : kind] || '<span>')
+      @out << (@span_for_kinds[@last_opened ? [kind, *@opened] : kind] || '<span>')
       @opened << kind
       @last_opened = kind if @set_last_opened
     end
     
     def end_group kind
-      if $CODERAY_DEBUG && (@opened.empty? || @opened.last != kind)
-        warn 'Malformed token stream: Trying to close a token group (%p) that is not open. Open are: %p.' % [kind, @opened[1..-1]]
-      end
-      if @opened.pop
-        @out << '</span>'
-        @last_opened = @opened.last if @last_opened
-      end
+      check_group_nesting 'token group', kind if $CODERAY_DEBUG
+      close_span
     end
     
     # whole lines to be highlighted, eg. a deleted line in a diff
     def begin_line kind
-      if style = @span_for_kind[@last_opened ? [kind, *@opened] : kind]
+      if style = @span_for_kinds[@last_opened ? [kind, *@opened] : kind]
         if style['class="']
           @out << style.sub('class="', 'class="line ')
         else
@@ -310,15 +258,74 @@ module Encoders
     end
     
     def end_line kind
-      if $CODERAY_DEBUG && (@opened.empty? || @opened.last != kind)
-        warn 'Malformed token stream: Trying to close a line (%p) that is not open. Open are: %p.' % [kind, @opened[1..-1]]
+      check_group_nesting 'line', kind if $CODERAY_DEBUG
+      close_span
+    end
+    
+  protected
+    
+    def check_options! options
+      unless [false, nil, :debug, :info, :info_long].include? options[:hint]
+        raise ArgumentError, "Unknown value %p for :hint; expected :info, :info_long, :debug, false, or nil." % [options[:hint]]
       end
+      
+      unless [:class, :style].include? options[:css]
+        raise ArgumentError, 'Unknown value %p for :css.' % [options[:css]]
+      end
+      
+      options[:break_lines] = true if options[:line_numbers] == :inline
+    end
+    
+    def css_class_for_kinds kinds
+      TokenKinds[kinds.is_a?(Symbol) ? kinds : kinds.first]
+    end
+    
+    def style_for_kinds kinds
+      css_classes = kinds.is_a?(Array) ? kinds.map { |c| TokenKinds[c] } : [TokenKinds[kinds]]
+      @css.get_style_for_css_classes css_classes
+    end
+    
+    def make_span_for_kinds method, hint
+      Hash.new do |h, kinds|
+        begin
+          css_class = css_class_for_kinds(kinds)
+          title     = HTML.token_path_to_hint hint, kinds if hint
+          
+          if css_class || title
+            if method == :style
+              style = style_for_kinds(kinds)
+              "<span#{title}#{" style=\"#{style}\"" if style}>"
+            else
+              "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
+            end
+          end
+        end.tap do |span|
+          h.clear if h.size >= 100
+          h[kinds] = span
+        end
+      end
+    end
+    
+    def check_group_nesting name, kind
+      if @opened.empty? || @opened.last != kind
+        warn "Malformed token stream: Trying to close a #{name} (%p) that is not open. Open are: %p." % [kind, @opened[1..-1]]
+      end
+    end
+    
+    def break_lines text, style
+      reopen = ''
+      @opened.each_with_index do |kind, index|
+        reopen << (@span_for_kinds[index > 0 ? [kind, *@opened[0...index]] : kind] || '<span>')
+      end
+      text.gsub("\n", "#{'</span>' * @opened.size}#{'</span>' if style}\n#{reopen}#{style}")
+    end
+    
+    def close_span
       if @opened.pop
         @out << '</span>'
         @last_opened = @opened.last if @last_opened
       end
     end
-    
   end
   
 end

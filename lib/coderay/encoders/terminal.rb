@@ -19,105 +19,135 @@ module CodeRay
       register_for :terminal
       
       TOKEN_COLORS = {
-        :annotation => '35',
-        :attribute_name => '33',
-        :attribute_value => '31',
-        :binary => '1;35',
+        :debug => "\e[1;37;44m",
+        
+        :annotation => "\e[34m",
+        :attribute_name => "\e[35m",
+        :attribute_value => "\e[31m",
+        :binary => {
+          :self => "\e[31m",
+          :char => "\e[1;31m",
+          :delimiter => "\e[1;31m",
+        },
         :char => {
-          :self => '36', :delimiter => '1;34'
+          :self => "\e[35m",
+          :delimiter => "\e[1;35m"
         },
-        :class => '1;35',
-        :class_variable => '36',
-        :color => '32',
-        :comment => '37',
-        :complex => '1;34',
-        :constant => ['1;34', '4'],
-        :decoration => '35',
-        :definition => '1;32',
-        :directive => ['32', '4'],
-        :doc => '46',
-        :doctype => '1;30',
-        :doc_string => ['31', '4'],
-        :entity => '33',
-        :error => ['1;33', '41'],
-        :exception => '1;31',
-        :float => '1;35',
-        :function => '1;34',
-        :global_variable => '42',
-        :hex => '1;36',
-        :include => '33',
-        :integer => '1;34',
-        :key => '35',
-        :label => '1;15',
-        :local_variable => '33',
-        :octal => '1;35',
-        :operator_name => '1;29',
-        :predefined_constant => '1;36',
-        :predefined_type => '1;30',
-        :predefined => ['4', '1;34'],
-        :preprocessor => '36',
-        :pseudo_class => '1;34',
+        :class => "\e[1;35;4m",
+        :class_variable => "\e[36m",
+        :color => "\e[32m",
+        :comment => {
+          :self => "\e[1;30m",
+          :char => "\e[37m",
+          :delimiter => "\e[37m",
+        },
+        :constant => "\e[1;34;4m",
+        :decorator => "\e[35m",
+        :definition => "\e[1;33m",
+        :directive => "\e[33m",
+        :docstring => "\e[31m",
+        :doctype => "\e[1;34m",
+        :done => "\e[1;30;2m",
+        :entity => "\e[31m",
+        :error => "\e[1;37;41m",
+        :exception => "\e[1;31m",
+        :float => "\e[1;35m",
+        :function => "\e[1;34m",
+        :global_variable => "\e[1;32m",
+        :hex => "\e[1;36m",
+        :id => "\e[1;34m",
+        :include => "\e[31m",
+        :integer => "\e[1;34m",
+        :imaginary => "\e[1;34m",
+        :important => "\e[1;31m",
+        :key => {
+          :self => "\e[35m",
+          :char => "\e[1;35m",
+          :delimiter => "\e[1;35m",
+        },
+        :keyword => "\e[32m",
+        :label => "\e[1;33m",
+        :local_variable => "\e[33m",
+        :namespace => "\e[1;35m",
+        :octal => "\e[1;34m",
+        :predefined => "\e[36m",
+        :predefined_constant => "\e[1;36m",
+        :predefined_type => "\e[1;32m",
+        :preprocessor => "\e[1;36m",
+        :pseudo_class => "\e[1;34m",
         :regexp => {
-          :self => '31',
-          :content => '31',
-          :delimiter => '1;29',
-          :modifier => '35',
+          :self => "\e[35m",
+          :delimiter => "\e[1;35m",
+          :modifier => "\e[35m",
+          :char => "\e[1;35m",
         },
-        :reserved => '1;31',
+        :reserved => "\e[32m",
         :shell => {
-          :self => '42',
-          :content => '1;29',
-          :delimiter => '37',
+          :self => "\e[33m",
+          :char => "\e[1;33m",
+          :delimiter => "\e[1;33m",
+          :escape => "\e[1;33m",
         },
         :string => {
-          :self => '32',
-          :modifier => '1;32',
-          :escape => '1;36',
-          :delimiter => '1;32',
-          :char => '1;36',
+          :self => "\e[31m",
+          :modifier => "\e[1;31m",
+          :char => "\e[1;35m",
+          :delimiter => "\e[1;31m",
+          :escape => "\e[1;31m",
         },
-        :symbol => '1;32',
-        :tag => '1;34',
-        :type => '1;34',
-        :value => '36',
-        :variable => '1;34',
+        :symbol => {
+          :self => "\e[33m",
+          :delimiter => "\e[1;33m",
+        },
+        :tag => "\e[32m",
+        :type => "\e[1;34m",
+        :value => "\e[36m",
+        :variable => "\e[34m",
         
-        :insert => '42',
-        :delete => '41',
-        :change => '44',
-        :head => '45'
+        :insert => {
+          :self => "\e[42m",
+          :insert => "\e[1;32;42m",
+          :eyecatcher => "\e[102m",
+        },
+        :delete => {
+          :self => "\e[41m",
+          :delete => "\e[1;31;41m",
+          :eyecatcher => "\e[101m",
+        },
+        :change => {
+          :self => "\e[44m",
+          :change => "\e[37;44m",
+        },
+        :head => {
+          :self => "\e[45m",
+          :filename => "\e[37;45m"
+        },
       }
+      
       TOKEN_COLORS[:keyword] = TOKEN_COLORS[:reserved]
       TOKEN_COLORS[:method] = TOKEN_COLORS[:function]
-      TOKEN_COLORS[:imaginary] = TOKEN_COLORS[:complex]
-      TOKEN_COLORS[:begin_group] = TOKEN_COLORS[:end_group] =
-        TOKEN_COLORS[:escape] = TOKEN_COLORS[:delimiter]
+      TOKEN_COLORS[:escape] = TOKEN_COLORS[:delimiter]
       
     protected
       
       def setup(options)
         super
         @opened = []
-        @subcolors = nil
+        @color_scopes = [TOKEN_COLORS]
       end
       
     public
       
       def text_token text, kind
-        if color = (@subcolors || TOKEN_COLORS)[kind]
-          if Hash === color
-            if color[:self]
-              color = color[:self]
-            else
-              @out << text
-              return
-            end
-          end
+        if color = @color_scopes.last[kind]
+          color = color[:self] if color.is_a? Hash
           
-          @out << ansi_colorize(color)
-          @out << text.gsub("\n", ansi_clear + "\n" + ansi_colorize(color))
-          @out << ansi_clear
-          @out << ansi_colorize(@subcolors[:self]) if @subcolors && @subcolors[:self]
+          @out << color
+          @out << (text.index("\n") ? text.gsub("\n", "\e[0m\n" + color) : text)
+          @out << "\e[0m"
+          if outer_color = @color_scopes.last[:self]
+            @out << outer_color
+          end
         else
           @out << text
         end
@@ -130,49 +160,35 @@ module CodeRay
       alias begin_line begin_group
       
       def end_group kind
-        if @opened.empty?
-          # nothing to close
-        else
-          @opened.pop
-          @out << ansi_clear
-          @out << open_token(@opened.last)
+        if @opened.pop
+          @color_scopes.pop
+          @out << "\e[0m"
+          if outer_color = @color_scopes.last[:self]
+            @out << outer_color
+          end
         end
       end
       
       def end_line kind
-        if @opened.empty?
-          # nothing to close
-        else
-          @opened.pop
-          # whole lines to be highlighted,
-          # eg. added/modified/deleted lines in a diff
-          @out << "\t" * 100 + ansi_clear
-          @out << open_token(@opened.last)
-        end
+        @out << (@line_filler ||= "\t" * 100)
+        end_group kind
       end
       
     private
       
       def open_token kind
-        if color = TOKEN_COLORS[kind]
-          if Hash === color
-            @subcolors = color
-            ansi_colorize(color[:self]) if color[:self]
+        if color = @color_scopes.last[kind]
+          if color.is_a? Hash
+            @color_scopes << color
+            color[:self]
           else
-            @subcolors = {}
-            ansi_colorize(color)
+            @color_scopes << @color_scopes.last
+            color
           end
         else
-          @subcolors = nil
+          @color_scopes << @color_scopes.last
           ''
         end
-      end
-      
-      def ansi_colorize(color)
-        Array(color).map { |c| "\e[#{c}m" }.join
-      end
-      def ansi_clear
-        ansi_colorize(0)
       end
     end
   end

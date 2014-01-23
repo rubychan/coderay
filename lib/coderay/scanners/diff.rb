@@ -69,7 +69,7 @@ module Scanners
             state = :added
           elsif match = scan(/\\ .*/)
             encoder.text_token match, :comment
-          elsif match = scan(/@@(?>[^@\n]*)@@/)
+          elsif match = scan(/@@(?>[^@\n]+)@@/)
             content_scanner.state = :initial unless match?(/\n\+/)
             content_scanner_entry_state = nil
             if check(/\n|$/)

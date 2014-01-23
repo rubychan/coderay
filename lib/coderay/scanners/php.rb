@@ -265,7 +265,7 @@ module Scanners
             @html_scanner.tokenize match unless match.empty?
           end
         
-        when :php
+        when :php, :php_inline
           if match = scan(/\s+/)
             encoder.text_token match, :space
           
@@ -332,7 +332,7 @@ module Scanners
             if states.size == 1
               encoder.text_token match, :error
             else
-              states.pop
+              state = states.pop
               if states.last.is_a?(::Array)
                 delimiter = states.last[1]
                 states[-1] = states.last[0]
@@ -340,6 +340,7 @@ module Scanners
                 encoder.end_group :inline
               else
                 encoder.text_token match, :operator
+                encoder.end_group :inline if state == :php_inline
                 label_expected = true
               end
             end
@@ -350,7 +351,14 @@ module Scanners
           
           elsif match = scan(RE::PHP_END)
             encoder.text_token match, :inline_delimiter
-            states = [:initial]
+            while state = states.pop
+              encoder.end_group :string if [:sqstring, :dqstring].include? state
+              if state.is_a? Array
+                encoder.end_group :inline
+                encoder.end_group :string if [:sqstring, :dqstring].include? state.first
+              end
+            end
+            states << :initial
           
           elsif match = scan(/<<<(?:(#{RE::IDENTIFIER})|"(#{RE::IDENTIFIER})"|'(#{RE::IDENTIFIER})')/o)
             encoder.begin_group :string
@@ -400,6 +408,7 @@ module Scanners
           elsif match = scan(/\\/)
             encoder.text_token match, :error
           else
+            encoder.end_group :string
             states.pop
           end
         
@@ -459,7 +468,7 @@ module Scanners
               encoder.begin_group :inline
               states[-1] = [states.last, delimiter]
               delimiter = nil
-              states.push :php
+              states.push :php_inline
               encoder.text_token match, :delimiter
             else
               encoder.text_token match, :content
@@ -469,6 +478,7 @@ module Scanners
           elsif match = scan(/\$/)
             encoder.text_token match, :content
           else
+            encoder.end_group :string
             states.pop
           end
         
@@ -498,6 +508,14 @@ module Scanners
           raise_inspect 'Unknown state!', encoder, states
         end
         
+      end
+      
+      while state = states.pop
+        encoder.end_group :string if [:sqstring, :dqstring].include? state
+        if state.is_a? Array
+          encoder.end_group :inline
+          encoder.end_group :string if [:sqstring, :dqstring].include? state.first
+        end
       end
       
       encoder

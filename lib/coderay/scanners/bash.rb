@@ -76,7 +76,7 @@ module CodeRay module Scanners
         kind = match = nil
 
         if match = scan(/\n/)
-          encoder.text_token(match, :end_line)
+          encoder.text_token(match, :space)
           next
         end
 

@@ -184,7 +184,7 @@ module Scanners
         elsif match = scan(/#{RE::HexColor}/o)
           encoder.text_token match, :color
           
-        elsif match = scan(/! *(?:important|optional)/)
+        elsif match = scan(/! *(?:important|optional|default)/)
           encoder.text_token match, :important
           
         elsif match = scan(/(?:rgb|hsl)a?\([^()\n]*\)?/)

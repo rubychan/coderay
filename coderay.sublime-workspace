@@ -1,0 +1,1035 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"ma",
+				"maruku"
+			],
+			[
+				"key",
+				"keyframes"
+			],
+			[
+				"in",
+				"inc	include"
+			],
+			[
+				"pref",
+				"prefixes"
+			],
+			[
+				"inc",
+				"inc	include (inc)"
+			],
+			[
+				"else",
+				"else	else"
+			],
+			[
+				"if",
+				"if	if"
+			],
+			[
+				"post",
+				"post__name"
+			],
+			[
+				"nam",
+				"name"
+			],
+			[
+				"the",
+				"thePassword"
+			],
+			[
+				"new",
+				"newFile"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "lib/coderay/scanners/css.rb",
+			"settings":
+			{
+				"buffer_size": 6013,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "lib/coderay/scanners/scss.rb",
+			"settings":
+			{
+				"buffer_size": 7824,
+				"line_ending": "Unix",
+				"name": "scss.rb"
+			}
+		},
+		{
+			"file": "lib/coderay/scanners/sass.rb",
+			"settings":
+			{
+				"buffer_size": 7808,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/matty/Library/Application Support/Sublime Text 2/Packages/User/CSS.sublime-settings",
+			"settings":
+			{
+				"buffer_size": 92,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "notes.todo",
+			"settings":
+			{
+				"buffer_size": 299,
+				"line_ending": "Unix",
+				"name": "notes.todo"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 47.0,
+		"selected_items":
+		[
+			[
+				"syn sass",
+				"Set Syntax: Sass"
+			],
+			[
+				"syn html",
+				"Set Syntax: HTML"
+			],
+			[
+				"hmtl",
+				"Set Syntax: HTML (Tcl)"
+			],
+			[
+				"liq",
+				"Set Syntax: HTML (Liquid)"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"ruby",
+				"Set Syntax: Ruby"
+			],
+			[
+				"rub",
+				"Set Syntax: Ruby"
+			],
+			[
+				"json",
+				"Set Syntax: JSON"
+			],
+			[
+				"syn mar",
+				"Set Syntax: Markdown"
+			],
+			[
+				"html",
+				"HTML: Encode Special Characters"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/matty/Git/coderay/test/scanners/sass/compass.in.sass",
+		"/Users/matty/Git/coderay/Rakefile",
+		"/Users/matty/Git/coderay/README.markdown",
+		"/Users/matty/Git/mattycollins.com.au/_config.yml",
+		"/Users/matty/Git/mattycollins.com.au/mattycollins.com.au.sublime-project",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/scripts/main.js",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/_module.scss",
+		"/Users/matty/Git/mattycollins.com.au/_posts/13-05-14-accessible-sprites.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-12-03-better-related-posts.md",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/_init.scss",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2014-01-19-learning-jekyll.md",
+		"/Users/matty/Git/mattycollins.com.au/styleguide/index.md",
+		"/Users/matty/Git/mattycollins.com.au/styleguide/typography/index.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/13-06-11-double-stranded-sass.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/13-09-29-content-and-color.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/13-11-09-baby-got-neck.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/13-11-10-disqus.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/13-4-28-jekyll-and-hyde.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-22-dat-workflow.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-12-10-accessibility-basics.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2014-01-22-semantic-classes-in-css.md",
+		"/Users/matty/Git/mattycollins.com.au/about/this-guy.html",
+		"/Users/matty/Git/mattycollins.com.au/about/this-site.html",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/_base.scss",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2012-09-5-guest-post-on-css-tricks.md",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/controls/_syntax.scss",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-17-designing-in-browser.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-12-09-device-testing-in-visual-studio.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-12-19-On-Twenty-Thirteen.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/13-04-18-git-around-me.md",
+		"/Users/matty/Git/mattycollins.com.au/_layouts/default.html",
+		"/Users/matty/Git/mattycollins.com.au/blerg/index.html",
+		"/Users/matty/git/mattycollins.com.au/_posts/2014-01-22-semantic-class-in-css.md",
+		"/Users/matty/Git/mattycollins.com.au/.htaccess",
+		"/Users/matty/Library/Application Support/Sublime Text 2/Packages/User/link.sublime-snippet",
+		"/Users/matty/Library/Application Support/Sublime Text 2/Packages/User/Markdown/link.sublime-snippet",
+		"/Users/matty/Git/mattycollins.com.au/_layouts/about.html",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2014-01-19-using-smacss-and-jekyll.md",
+		"/Users/matty/Git/mattycollins.com.au/_includes/header.html",
+		"/Users/matty/Git/mattycollins.com.au/_includes/head.html",
+		"/Users/matty/Git/mattycollins.com.au/_includes/footer.html",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2014-01-19-using-smaccs-and-jekyll.md",
+		"/Users/matty/git/mattycollins.com.au/_posts/2014-01-19-using-smaccs-and-jekyll.md",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/_leVars.scss",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/_theme.scss",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/controls/_fauxHighlight.scss",
+		"/Users/matty/Git/mattycollins.com.au/index.html",
+		"/Users/matty/Git/mattycollins.com.au/about.html",
+		"/Users/matty/Git/mattycollins.com.au/_layouts/home.html",
+		"/Users/matty/Git/mattycollins.com.au/about/testimonials.html",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/controls/_testimonials.scss",
+		"/Users/matty/Git/mattycollins.com.au/_data/testimonials.yml",
+		"/Users/matty/Git/mattycollins.com.au/data/testimondials.yml",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-12-19-on-twenty-thirteen.md",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/giraffic.0.1/_mixins.scss",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/controls/_related.scss",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/controls/_social.scss",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/controls/_giraffe.scss",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/controls/_comments.scss",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/controls/_pageNotFound.scss",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/controls/_bio.scss",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/controls/_footnotes.scss",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/controls/_navigation.scss",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/controls/_screenSizes.scss",
+		"/Users/matty/Git/mattycollins.com.au/_site/giraffe/styles/screen.css",
+		"/Users/matty/Git/mattycollins.com.au/_site/giraffe/styles/nomedia.css",
+		"/Users/matty/Git/mattycollins.com.au/mattycollins.com.au.sublime-workspace",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/giraffic.0.1/_helpers.scss",
+		"/Users/matty/Git/mattycollins.com.au/_drafts/device-testing-in-visual-studio.md",
+		"/Users/matty/Git/mattycollins.com.au/Rakefile",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-12-03-sidebar-enhancements.md",
+		"/Users/matty/Git/mattycollins.com.au/_drafts/sidebar-enhancements.md",
+		"/Users/matty/Git/mattycollins.com.au/_includes/bio.html",
+		"/Users/matty/Git/mattycollins.com.au/humans.txt",
+		"/Users/matty/Git/mattycollins.com.au/_posts/13-11-06-lorem-ipsum.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/posts.todo",
+		"/Users/matty/Git/mattycollins.com.au/_layouts/page.html",
+		"/Users/matty/Git/mattycollins.com.au/sitemap.xml",
+		"/Users/matty/Git/mattycollins.com.au/robots.txt",
+		"/Users/matty/Git/sauce-bottle/readme.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-25-adding-seo.md",
+		"/Users/matty/Git/mattycollins.com.au/404.html",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/controls/_pager.scss",
+		"/Users/matty/Git/mattycollins.com.au/blerg.html",
+		"/Users/matty/Git/mattycollins.com.au/_drafts/mad-flows.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-22-test.md",
+		"/Users/matty/Git/mattycollins.com.au/_drafts/draft.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/mad-flows.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-20-demo.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-20-testing-my-new-post-title.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-20-again.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-20-one-more-time.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-20-another-one.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-20-what-about-can-t-do-this.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-20-nicole-smells-like-dog-buns.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-20-can-i-space.md",
+		"/Users/matty/Git/mattycollins.com.au/mattycollins-progress.todo",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-17-Anthology of Interest II.md",
+		"/Users/matty/Git/mattycollins.com.au/_drafts/in-browser.md",
+		"/Users/matty/Git/mattycollins.com.au/Interest",
+		"/Users/matty/Git/mattycollins.com.au/of",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-17-Anthology",
+		"/Users/matty/Git/mattycollins.com.au/II.md",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/styles/giraffic.0.1/_giraffic.scss",
+		"/Users/matty/Git/mattycollins.com.au/giraffe/scripts/plugins.js",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-17-nicole.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-17-demo.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-17-workflow.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-17-wait.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-17-yes.md",
+		"/Users/matty/Git/mattycollins.com.au/_posts/2013-11-17-test.md",
+		"/Users/matty/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/matty/mattycollins.com.au/_config.yml",
+		"/Users/matty/mattycollins.com.au/mattycollins.com.au.sublime-workspace",
+		"/Users/matty/mattycollins.com.au/giraffe/styles/screen.scss",
+		"/Users/matty/mattycollins.com.au/mattycollins.com.au.sublime-project"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"html",
+			"ruby",
+			"scss",
+			"delimiter",
+			"highlight",
+			"/*",
+			"false",
+			"\";\n",
+			"```",
+			"endhighlight",
+			"{% highlight",
+			"true",
+			"endhighlight",
+			"{% highlight ",
+			"social",
+			"\";\n",
+			"false",
+			"redcarpet",
+			"rdiscount",
+			"endhightlight",
+			"fixme:",
+			"redcarpet",
+			"social",
+			"rdiscount",
+			"markdown",
+			"post_url",
+			"endhighlight",
+			"highlight",
+			"endhighlight",
+			"highlight",
+			"endhighlight",
+			"{% highlight ",
+			"endhighlight",
+			"{% highlight ",
+			"rdiscount",
+			"endhighlight",
+			"highlight",
+			"box dim",
+			"false",
+			"will",
+			" _",
+			"theme",
+			"from",
+			"these",
+			"and",
+			"classes",
+			"callTaction",
+			"donate",
+			"background",
+			"color",
+			"html",
+			"and",
+			"that",
+			"apply",
+			"button",
+			"subHeadline",
+			"beta",
+			"media__title",
+			"beta",
+			"it",
+			"blog",
+			"beta",
+			"news__title",
+			"news",
+			"div",
+			"notation",
+			"and",
+			"summary",
+			"newsList",
+			"html",
+			"article",
+			"newsList",
+			"recentNews",
+			"running",
+			"learning",
+			"seo_description",
+			"search_engine_keywords",
+			"argument",
+			"is",
+			"snippet",
+			"this",
+			"python",
+			"html",
+			"some",
+			"with",
+			"paDge",
+			"macro",
+			"minor",
+			"--micro",
+			"t-micro",
+			"micro",
+			"blue",
+			"social",
+			"testimonia",
+			" I ",
+			" i ",
+			"ProductiDon",
+			"-",
+			".",
+			"--mut",
+			"goto",
+			"Sublime",
+			"hightlight",
+			"keyframe",
+			"animation",
+			"duration",
+			"webkit",
+			"nicole",
+			"frames demo",
+			"demo",
+			"duration",
+			"\">\n",
+			"javascript",
+			"j",
+			"javascript button",
+			"additional",
+			"adding",
+			"link",
+			"link so",
+			"15",
+			"meaning",
+			"meadning",
+			".\n",
+			"accessible",
+			"accessibility",
+			".",
+			",",
+			"the"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "lib/coderay/scanners/css.rb",
+					"settings":
+					{
+						"buffer_size": 6013,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								107,
+								107
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 366.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "lib/coderay/scanners/scss.rb",
+					"settings":
+					{
+						"buffer_size": 7824,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								97,
+								97
+							]
+						],
+						"settings":
+						{
+							"auto_name": "scss.rb",
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "lib/coderay/scanners/sass.rb",
+					"settings":
+					{
+						"buffer_size": 7808,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								166,
+								166
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/matty/Library/Application Support/Sublime Text 2/Packages/User/CSS.sublime-settings",
+					"settings":
+					{
+						"buffer_size": 92,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								92,
+								92
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 4,
+					"file": "notes.todo",
+					"settings":
+					{
+						"buffer_size": 299,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								299,
+								299
+							]
+						],
+						"settings":
+						{
+							"auto_name": "notes.todo",
+							"syntax": "Packages/PlainTasks/PlainTasks.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.728845534437,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"conf",
+				"_config.yml"
+			],
+			[
+				"mod",
+				"giraffe/styles/_module.scss"
+			],
+			[
+				"syn",
+				"giraffe/styles/controls/_syntax.scss"
+			],
+			[
+				"main",
+				"giraffe/scripts/main.js"
+			],
+			[
+				"con",
+				"_config.yml"
+			],
+			[
+				"sem",
+				"_posts/2014-01-22-semantic-classes-in-css.md"
+			],
+			[
+				"larn",
+				"_posts/2014-01-19-learning-jekyll.md"
+			],
+			[
+				"bet",
+				"_posts/2013-12-03-better-related-posts.md"
+			],
+			[
+				"",
+				"_config.yml"
+			],
+			[
+				"sp",
+				"_posts/13-05-14-accessible-sprites.md"
+			],
+			[
+				"rela",
+				"_posts/2013-12-03-better-related-posts.md"
+			],
+			[
+				"spr",
+				"_posts/13-05-14-accessible-sprites.md"
+			],
+			[
+				".scs",
+				"giraffe/styles/_base.scss"
+			],
+			[
+				"csst",
+				"_posts/2012-09-5-guest-post-on-css-tricks.md"
+			],
+			[
+				"spri",
+				"_posts/13-05-14-accessible-sprites.md"
+			],
+			[
+				"acspe",
+				"_posts/13-05-14-accessible-sprites.md"
+			],
+			[
+				"better",
+				"_posts/2013-12-03-better-related-posts.md"
+			],
+			[
+				"lear",
+				"_posts/2014-01-19-learning-jekyll.md"
+			],
+			[
+				"relat",
+				"_posts/2013-12-03-better-related-posts.md"
+			],
+			[
+				"hta",
+				".htaccess"
+			],
+			[
+				"hig",
+				"giraffe/styles/controls/_fauxHighlight.scss"
+			],
+			[
+				"conte",
+				"_posts/13-09-29-content-and-color.md"
+			],
+			[
+				"bas",
+				"giraffe/styles/_base.scss"
+			],
+			[
+				"base",
+				"giraffe/styles/_base.scss"
+			],
+			[
+				"theme",
+				"giraffe/styles/_theme.scss"
+			],
+			[
+				"leva",
+				"giraffe/styles/_leVars.scss"
+			],
+			[
+				"onthr",
+				"_posts/2013-12-19-on-twenty-thirteen.md"
+			],
+			[
+				"th",
+				"giraffe/styles/_theme.scss"
+			],
+			[
+				"the",
+				"giraffe/styles/_theme.scss"
+			],
+			[
+				"hi",
+				"giraffe/styles/controls/_fauxHighlight.scss"
+			],
+			[
+				"nav",
+				"giraffe/styles/controls/_navigation.scss"
+			],
+			[
+				"ssiz",
+				"giraffe/styles/controls/_screenSizes.scss"
+			],
+			[
+				"mxin",
+				"giraffe/styles/giraffic.0.1/_mixins.scss"
+			],
+			[
+				"foot",
+				"giraffe/styles/controls/_footnotes.scss"
+			],
+			[
+				"hea",
+				"_includes/head.html"
+			],
+			[
+				"high",
+				"giraffe/styles/controls/_fauxHighlight.scss"
+			],
+			[
+				"inde",
+				"index.html"
+			],
+			[
+				"help",
+				"giraffe/styles/giraffic.0.1/_helpers.scss"
+			],
+			[
+				"acce",
+				"_posts/13-05-14-accessible-sprites.md"
+			],
+			[
+				"dra",
+				"_drafts/device-testing-in-visual-studio.md"
+			],
+			[
+				"gues",
+				"_posts/2012-09-5-guest-post-on-css-tricks.md"
+			],
+			[
+				"rake",
+				"Rakefile"
+			],
+			[
+				"sideb",
+				"_posts/2013-12-03-sidebar-enhancements.md"
+			],
+			[
+				"dat",
+				"_posts/2013-11-22-dat-workflow.md"
+			],
+			[
+				"defau",
+				"_layouts/default.html"
+			],
+			[
+				"draf",
+				"_drafts/sidebar-enhancements.md"
+			],
+			[
+				"them",
+				"giraffe/styles/_theme.scss"
+			],
+			[
+				"footn",
+				"giraffe/styles/controls/_footnotes.scss"
+			],
+			[
+				"mode",
+				"giraffe/styles/_module.scss"
+			],
+			[
+				"def",
+				"_layouts/default.html"
+			],
+			[
+				"gitar",
+				"_posts/13-04-18-git-around-me.md"
+			],
+			[
+				"bio",
+				"_includes/bio.html"
+			],
+			[
+				"ost",
+				"_posts/posts.todo"
+			],
+			[
+				"huma",
+				"humans.txt"
+			],
+			[
+				"dis",
+				"_posts/13-11-10-disqus.md"
+			],
+			[
+				"bab",
+				"_posts/13-11-09-baby-got-neck.md"
+			],
+			[
+				"lore",
+				"_posts/13-11-06-lorem-ipsum.md"
+			],
+			[
+				"jek",
+				"_posts/13-4-28-jekyll-and-hyde.md"
+			],
+			[
+				"inb",
+				"_posts/2013-11-17-designing-in-browser.md"
+			],
+			[
+				"cont",
+				"_posts/13-09-29-content-and-color.md"
+			],
+			[
+				"da",
+				"_posts/2013-11-22-dat-workflow.md"
+			],
+			[
+				"robo",
+				"robots.txt"
+			],
+			[
+				"site",
+				"sitemap.xml"
+			],
+			[
+				"about",
+				"about/this-guy.html"
+			],
+			[
+				"this",
+				"about/this-site.html"
+			],
+			[
+				"content",
+				"_posts/13-09-29-content-and-color.md"
+			],
+			[
+				"header",
+				"_includes/header.html"
+			],
+			[
+				"thme",
+				"giraffe/styles/_theme.scss"
+			],
+			[
+				"page",
+				"_layouts/page.html"
+			],
+			[
+				"thi",
+				"about/this-guy.html"
+			],
+			[
+				"p",
+				"_layouts/page.html"
+			],
+			[
+				"ind",
+				"index.html"
+			],
+			[
+				"hum",
+				"humans.txt"
+			],
+			[
+				"head",
+				"_includes/head.html"
+			],
+			[
+				"htc",
+				".htaccess"
+			],
+			[
+				"404",
+				"404.html"
+			],
+			[
+				"acc",
+				".htaccess"
+			],
+			[
+				"defa",
+				"_layouts/default.html"
+			],
+			[
+				"ht",
+				".htaccess"
+			],
+			[
+				"_.scss",
+				"giraffe/styles/controls/_bio.scss"
+			],
+			[
+				"bler",
+				"blerg.html"
+			],
+			[
+				"rak",
+				"Rakefile"
+			],
+			[
+				"var",
+				"giraffe/styles/_leVars.scss"
+			],
+			[
+				"todo",
+				"_posts/posts.todo"
+			],
+			[
+				"ra",
+				"Rakefile"
+			],
+			[
+				"post/",
+				"_posts/13-11-06-lorem-ipsum.md"
+			],
+			[
+				"mad",
+				"_drafts/mad-flows.md"
+			],
+			[
+				"rk",
+				"Rakefile"
+			],
+			[
+				"mixin",
+				"giraffe/styles/giraffic.0.1/_mixins.scss"
+			],
+			[
+				"giraf",
+				"giraffe/styles/giraffic.0.1/_giraffic.scss"
+			],
+			[
+				"giraff",
+				"giraffe/styles/controls/_giraffe.scss"
+			],
+			[
+				"plug",
+				"giraffe/scripts/plugins.js"
+			],
+			[
+				".scss",
+				"mattycollins.com.au/giraffe/styles/screen.scss"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"mat",
+				"/Users/matty/Git/mattycollins.com.au/mattycollins.com.au.sublime-project"
+			],
+			[
+				"",
+				"/Users/matty/Git/mattycollins.com.au/mattycollins.com.au.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 422.0,
+	"status_bar_visible": true
+}

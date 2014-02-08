@@ -1,0 +1,28 @@
+ ☐ remove sublime stuff
+ ☐ remove this file
+
+thoughts:
+ ☐ look at css for base
+ ☐ add things from sass
+
+scss things:
+ ☐ % placeholder
+ ☐ "&" with id
+ ☐ for
+ ☐ while
+ ☐ each
+ ✔ debug @done (14-02-08 15:30)
+ ✔ warn @done (14-02-08 15:30)
+ ✔ if / else @done (14-02-08 15:30)
+ ☐ loops
+ ✔ inline "or" @done (14-02-08 15:30)
+ ✔ litteral ruby "#{$}" @done (14-02-08 15:30)
+ ✔ !default @done (14-02-08 15:30)
+ ✔ functions @done (14-02-08 15:30)
+
+to start:
+ ✔ copy css @done (14-02-08 14:56)
+ ✔ run test @done (14-02-08 14:56)
+ ✔ create test dir @done (14-02-08 14:56)
+ ✔ run said test @done (14-02-08 15:30)
+ ☐ 

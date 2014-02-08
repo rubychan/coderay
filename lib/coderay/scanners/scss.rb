@@ -49,7 +49,7 @@ module Scanners
             elsif !value_expected && (match = scan(/\*/))
               encoder.text_token match, :tag
               next
-            # dont know how to update RE:Name to add "%" as valid start of class name
+            # TODO: update RE:Name to add "%" as valid start of class name
             elsif match = scan(/[\.\%][-_a-zA-Z0-9]+/)
               encoder.text_token match, :class
               next
@@ -91,8 +91,6 @@ module Scanners
               else
                 encoder.text_token match, :key
               end
-
-
               next
             end
             

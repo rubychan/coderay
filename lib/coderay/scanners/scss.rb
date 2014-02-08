@@ -79,12 +79,20 @@ module Scanners
             end
           
           when :block
-            if match = scan(/(?>#{RE::Ident})(?!\()/ox)
+            # check for nested selectors class or element
+            if match = scan(/(\.|\%)[-_a-zA-Z0-9]+/)
+                encoder.text_token match, :class
+                next
+            # TODO: test for tag
+            # assume standard block now 
+            elsif match = scan(/(?>#{RE::Ident})(?!\()/ox)
               if value_expected
                 encoder.text_token match, :value
               else
                 encoder.text_token match, :key
               end
+
+
               next
             end
             

@@ -49,7 +49,8 @@ module Scanners
             elsif !value_expected && (match = scan(/\*/))
               encoder.text_token match, :tag
               next
-            elsif match = scan(RE::Class)
+            # dont know how to update RE:Name to add "%" as valid start of class name
+            elsif match = scan(/[\.\%][-_a-zA-Z0-9]+/)
               encoder.text_token match, :class
               next
             elsif match = scan(RE::Id)

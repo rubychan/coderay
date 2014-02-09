@@ -88,8 +88,10 @@ module Scanners
             elsif match = scan(/(?>#{RE::Ident})(?!\()/ox)
               if value_expected
                 encoder.text_token match, :value
-              else
+              elsif check(/\s*:/)
                 encoder.text_token match, :key
+              else
+                encoder.text_token match, :tag
               end
               next
             end

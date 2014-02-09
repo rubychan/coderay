@@ -44,7 +44,7 @@ module Scanners
         elsif case states.last
           when :initial, :media, :sass_inline
             if match = scan(/(?>#{RE::Ident})(?!\()/ox)
-              encoder.text_token match, value_expected ? :value : (check(/.*:(?![a-z])/) ? :key : :tag)
+              encoder.text_token match, value_expected ? :value : (check(/\S*:(?![a-z])/) ? :key : :tag)
               next
             elsif !value_expected && (match = scan(/\*/))
               encoder.text_token match, :tag
@@ -77,26 +77,7 @@ module Scanners
               # states.push :media_before_name
               next
             end
-          
-          when :block
-            # check for nested selectors
-            if match = scan(/(\.|\%)[-_a-zA-Z0-9]+/)
-                encoder.text_token match, :class
-                next
-            elsif match = scan(RE::Id)
-              encoder.text_token match, :id
-              next
-            elsif match = scan(/(?>#{RE::Ident})(?!\()/ox)
-              if value_expected
-                encoder.text_token match, :value
-              elsif check(/\s*:/)
-                encoder.text_token match, :key
-              else
-                encoder.text_token match, :tag
-              end
-              next
-            end
-            
+
           when :sqstring, :dqstring
             if match = scan(states.last == :sqstring ? /(?:[^\n\'\#]+|\\\n|#{RE::Escape}|#(?!\{))+/o : /(?:[^\n\"\#]+|\\\n|#{RE::Escape}|#(?!\{))+/o)
               encoder.text_token match, :content
@@ -151,7 +132,6 @@ module Scanners
         elsif match = scan(/\{/)
           value_expected = false
           encoder.text_token match, :operator
-          states.push :block
           
         elsif match = scan(/\}/)
           value_expected = false

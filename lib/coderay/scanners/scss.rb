@@ -50,7 +50,7 @@ module Scanners
               encoder.text_token match, :tag
               next
             # TODO: update RE:Name to add "%" as valid start of class name
-            elsif match = scan(/[\.\%][-_a-zA-Z0-9]+/)
+            elsif match = scan(/(\.|\%)[^\d][-_a-zA-Z\d#\{\}\$]+/)
               encoder.text_token match, :class
               next
             elsif match = scan(RE::Id)

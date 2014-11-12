@@ -11,6 +11,7 @@ group :development do
   gem "RedCloth", RUBY_PLATFORM == 'java' ? ">= 4.2.7" : ">= 4.0.3"
   gem "term-ansicolor"
   gem "shoulda-context"
+  gem "test-unit"
   gem "json" if RUBY_VERSION < '1.9'
   gem "rdoc"
 end

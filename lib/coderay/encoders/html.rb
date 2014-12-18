@@ -280,7 +280,7 @@ module Encoders
         if options[:tab_width] == DEFAULT_OPTIONS[:tab_width]
           HTML_ESCAPE
         else
-          HTML_ESCAPE.merge("\t" => ' ' * options[:tab_width])
+          HTML_ESCAPE.merge("\t" => options[:tab_width] ? ' ' * options[:tab_width] : "\t")
         end
       
       Hash.new do |cache, text|

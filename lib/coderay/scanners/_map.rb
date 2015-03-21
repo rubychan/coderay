@@ -10,6 +10,7 @@ module Scanners
     :eruby       => :erb,
     :irb         => :ruby,
     :javascript  => :java_script,
+    :javascript4 => :java_script4,
     :js          => :java_script,
     :pascal      => :delphi,
     :patch       => :diff,

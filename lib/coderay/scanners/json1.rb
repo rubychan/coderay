@@ -2,10 +2,10 @@ module CodeRay
 module Scanners
   
   # Scanner for JSON (JavaScript Object Notation).
-  class JSON < Scanner
+  class JSON1 < Scanner
     
-    register_for :json
-    file_extension 'json'
+    register_for :json1
+    file_extension 'json1'
     
     KINDS_NOT_LOC = [
       :float, :char, :content, :delimiter,
@@ -14,7 +14,7 @@ module Scanners
     
     ESCAPE = / [bfnrt\\"\/] /x  # :nodoc:
     UNICODE_ESCAPE = / u[a-fA-F0-9]{4} /x  # :nodoc:
-    KEY = / (?> (?: [^\\"]+ | \\. )* ) " \s* : /x
+    KEY = / (?> (?: [^\\"]+ | \\. )* ) " \s* : /mx
     
   protected
     
@@ -37,40 +37,41 @@ module Scanners
         when :initial
           if match = scan(/ \s+ /x)
             encoder.text_token match, :space
-          elsif match = scan(/"/)
-            state = check(/#{KEY}/o) ? :key : :string
-            encoder.begin_group state
+          elsif match = scan(/ " (?=#{KEY}) /ox)
+            state = :key
+            encoder.begin_group :key
+            encoder.text_token match, :delimiter
+          elsif match = scan(/ " /x)
+            state = :string
+            encoder.begin_group :string
             encoder.text_token match, :delimiter
           elsif match = scan(/ [:,\[{\]}] /x)
             encoder.text_token match, :operator
           elsif match = scan(/ true | false | null /x)
             encoder.text_token match, :value
+          elsif match = scan(/ -? (?: 0 | [1-9]\d* ) (?: \.\d+ (?: [eE][-+]? \d+ )? | [eE][-+]? \d+ ) /x)
+            encoder.text_token match, :float
           elsif match = scan(/ -? (?: 0 | [1-9]\d* ) /x)
-            if scan(/ \.\d+ (?:[eE][-+]?\d+)? | [eE][-+]? \d+ /x)
-              match << matched
-              encoder.text_token match, :float
-            else
-              encoder.text_token match, :integer
-            end
+            encoder.text_token match, :integer
           else
             encoder.text_token getch, :error
           end
           
         when :string, :key
-          if match = scan(/[^\\"]+/)
+          if match = scan(/ [^\\"]+ /x)
             encoder.text_token match, :content
-          elsif match = scan(/"/)
+          elsif match = scan(/ " /x)
             encoder.text_token match, :delimiter
             encoder.end_group state
             state = :initial
-          elsif match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
+          elsif match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /ox)
             encoder.text_token match, :char
-          elsif match = scan(/\\./m)
+          elsif match = scan(/ \\. /mx)
             encoder.text_token match, :content
-          elsif match = scan(/ \\ | $ /x)
+          elsif match = scan(/ \\ /x)
             encoder.end_group state
-            encoder.text_token match, :error unless match.empty?
             state = :initial
+            encoder.text_token match, :error
           else
             raise_inspect "else case \" reached; %p not handled." % peek(1), encoder
           end
@@ -79,6 +80,7 @@ module Scanners
           raise_inspect 'Unknown state: %p' % [state], encoder
           
         end
+        
       end
       
       if options[:keep_state]

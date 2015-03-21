@@ -59,7 +59,7 @@ module Scanners
   class JSON4 < RuleBasedScanner4
     
     register_for :json4
-    file_extension 'json4'
+    file_extension 'json'
     
     KINDS_NOT_LOC = [
       :float, :char, :content, :delimiter,

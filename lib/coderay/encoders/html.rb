@@ -180,7 +180,7 @@ module Encoders
       
       @break_lines = (options[:break_lines] == true)
       
-      @HTML_ESCAPE = HTML_ESCAPE.merge("\t" => ' ' * options[:tab_width])
+      @HTML_ESCAPE = HTML_ESCAPE.merge("\t" => options[:tab_width] ? ' ' * options[:tab_width] : "\t")
       
       @opened = []
       @last_opened = nil

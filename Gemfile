@@ -6,11 +6,12 @@ gemspec
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
 group :development do
-  gem "bundler", ">= 1.0.0"
+  gem "bundler"
   gem "rake"
   gem "RedCloth", RUBY_PLATFORM == 'java' ? ">= 4.2.7" : ">= 4.0.3"
-  gem "term-ansicolor", '~> 1.2.2'
-  gem "shoulda-context", "~> 1.1.2"
+  gem "term-ansicolor"
+  gem "shoulda-context"
+  gem "test-unit"
   gem "json" if RUBY_VERSION < '1.9'
   gem "rdoc"
 end

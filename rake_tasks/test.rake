@@ -37,7 +37,7 @@ Please rename or remove it and run again to use the GitHub repository:
     else
       puts 'Downloading scanner test suite...'
       sh 'git clone https://github.com/rubychan/coderay-scanner-tests.git test/scanners/'
-    end
+    end unless ENV['SKIP_UPDATE_SCANNER_SUITE']
   end
   
   namespace :scanner do

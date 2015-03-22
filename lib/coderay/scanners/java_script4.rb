@@ -1,9 +1,10 @@
+# TODO: string_delimiter should be part of the state: push(:regexp, '/'), check_if -> (state, delimiter) { … }
 module CodeRay
 module Scanners
   
   class RuleBasedScanner5 < Scanner
     
-    CheckIf = Struct.new :callback
+    CheckIf = Struct.new :condition
     
     class << self
       attr_accessor :states
@@ -22,7 +23,18 @@ module Scanners
         @@code << "  \n"
       end
       
-      def token *pattern_and_actions
+      def on? pattern
+        pattern_expression = pattern.inspect
+        @@code << "  #{'els' unless @@first}if check(#{pattern_expression})\n"
+        
+        @@first = true
+        yield
+        @@code << "  end\n"
+        
+        @@first = false
+      end
+      
+      def on *pattern_and_actions
         if index = pattern_and_actions.find_index { |item| !item.is_a?(CheckIf) }
           preconditions = pattern_and_actions[0..index - 1] if index > 0
           pattern       = pattern_and_actions[index]         or raise 'I need a pattern!'
@@ -34,16 +46,23 @@ module Scanners
           for precondition in preconditions
             case precondition
             when CheckIf
-              callback = make_callback(precondition.callback)
-              case precondition.callback.arity
-              when 0
-                arguments = ''
-              when 1
-                arguments = '(state)'
+              case precondition.condition
+              when Proc
+                callback = make_callback(precondition.condition)
+                case precondition.condition.arity
+                when 0
+                  arguments = ''
+                when 1
+                  arguments = '(state)'
+                else
+                  raise "I got %p arguments for precondition: %p, but I only know how to evaluate 0..1" % [precondition.condition.arity, callback]
+                end
+                precondition_expression << "#{callback}#{arguments} && "
+              when Symbol
+                precondition_expression << "#{precondition.condition} && "
               else
-                raise "I got %p arguments for precondition: %p, but I only know how to evaluate 0..1" % [precondition.callback.arity, callback]
+                raise "I don't know how to evaluate this check_if precondition: %p" % [precondition.condition]
               end
-              precondition_expression << "#{callback}#{arguments} && "
             else
               raise "I don't know how to evaluate this precondition: %p" % [precondition]
             end
@@ -51,6 +70,8 @@ module Scanners
         end
         
         case pattern
+        # when String
+        #   pattern_expression = pattern
         when Regexp
           pattern_expression = pattern.inspect
         when Proc
@@ -127,8 +148,8 @@ module Scanners
         [:pop]
       end
       
-      def check_if &callback
-        CheckIf.new callback
+      def check_if value = nil, &callback
+        CheckIf.new value || callback
       end
       
       protected
@@ -201,37 +222,35 @@ module Scanners
     }  # :nodoc:
     
     state :initial do
-      token %r/ \s+ | \\\n /x, :space, -> (match) do
-        @value_expected = true if !@value_expected && match.index(?\n)
-      end
+      # on %r/ [ \t]* \n \s* /x, :space, -> { @value_expected = true }
+      # on %r/ [ \t]+ | \\\n /x, :space
+      on %r/ \s+ | \\\n /x, :space, -> (match) { @value_expected = true if !@value_expected && match.index(?\n) }
       
-      token %r! // [^\n\\]* (?: \\. [^\n\\]* )* | /\* (?: .*? \*/ | .*() ) !mx, :comment, -> (match) do
-        @value_expected = true
+      on %r! // [^\n\\]* (?: \\. [^\n\\]* )* | /\* (?: .*? \*/ | .*() ) !mx, :comment, -> { @value_expected = true }
         # state = :open_multi_line_comment if self[1]
+      
+      on? %r/\.?\d/ do
+        on %r/0[xX][0-9A-Fa-f]+/, :hex, -> { @key_expected = @value_expected = false }
+        on %r/(?>0[0-7]+)(?![89.eEfF])/, :octal, -> { @key_expected = @value_expected = false }
+        on %r/\d+[fF]|\d*\.\d+(?:[eE][+-]?\d+)?[fF]?|\d+[eE][+-]?\d+[fF]?/, :float, -> { @key_expected = @value_expected = false }
+        on %r/\d+/, :integer, -> { @key_expected = @value_expected = false }
       end
       
-      # elsif check(/\.?\d/)
-      token %r/0[xX][0-9A-Fa-f]+/, :hex, -> { @key_expected = @value_expected = false }
-      token %r/(?>0[0-7]+)(?![89.eEfF])/, :octal, -> { @key_expected = @value_expected = false }
-      token %r/\d+[fF]|\d*\.\d+(?:[eE][+-]?\d+)?[fF]?|\d+[eE][+-]?\d+[fF]?/, :float, -> { @key_expected = @value_expected = false }
-      token %r/\d+/, :integer, -> { @key_expected = @value_expected = false }
-      
-      token check_if { @value_expected }, %r/<([[:alpha:]]\w*) (?: [^\/>]*\/> | .*?<\/\1>)/xim, -> (match, encoder) do
+      on check_if(:@value_expected), %r/<([[:alpha:]]\w*) (?: [^\/>]*\/> | .*?<\/\1>)/xim, -> (match, encoder) do
         # TODO: scan over nested tags
         xml_scanner.tokenize match, :tokens => encoder
         @value_expected = false
       end
       
-      token %r/ [-+*=<>?:;,!&^|(\[{~%]+ | \.(?!\d) /x, :operator, -> (match) do
+      on %r/ [-+*=<>?:;,!&^|(\[{~%]+ | \.(?!\d) /x, :operator, -> (match) do
         @value_expected = true
-        last_operator = match[-1]
-        @key_expected = (last_operator == ?{) || (last_operator == ?,)
+        @key_expected = /[{,]$/ === match
         @function_expected = false
       end
       
-      token %r/ [)\]}]+ /x, :operator, -> { @function_expected = @key_expected = @value_expected = false }
+      on %r/ [)\]}]+ /x, :operator, -> { @function_expected = @key_expected = @value_expected = false }
       
-      token %r/ [$a-zA-Z_][A-Za-z_0-9$]* /x, -> (match, encoder) do
+      on %r/ [$a-zA-Z_][A-Za-z_0-9$]* /x, -> (match, encoder) do
         kind = IDENT_KIND[match]
         @value_expected = (kind == :keyword) && KEYWORDS_EXPECTING_VALUE[match]
         # TODO: labels
@@ -246,37 +265,47 @@ module Scanners
             kind = :key
           end
         end
+        encoder.text_token match, kind
         @function_expected = (kind == :keyword) && (match == 'function')
         @key_expected = false
-        encoder.text_token match, kind
       end
       
-      token %r/["']/, push { |match|
+      on %r/["']/, push { |match|
+        @string_delimiter = match
         @key_expected && check(KEY_CHECK_PATTERN[match]) ? :key : :string
-      }, :delimiter, -> (match) { @string_delimiter = match }
+      }, :delimiter
       
-      token check_if { @value_expected }, %r/\//, push(:regexp), :delimiter, -> { @string_delimiter = '/' }
+      on check_if(:@value_expected), %r/\//, push(:regexp), :delimiter, -> { @string_delimiter = '/' }
       
-      token %r/ \/ /x, :operator, -> { @value_expected = true; @key_expected = false }
+      on %r/ \/ /x, :operator, -> { @value_expected = true; @key_expected = false }
     end
     
     state :string, :regexp, :key do
-      token -> { STRING_CONTENT_PATTERN[@string_delimiter] }, :content
+      on -> { STRING_CONTENT_PATTERN[@string_delimiter] }, :content
+      # on 'STRING_CONTENT_PATTERN[@string_delimiter]', :content
       
-      token %r/\//, :delimiter, -> (match, encoder) do
-        modifiers = scan(/[gim]+/)
-        encoder.text_token modifiers, :modifier if modifiers && !modifiers.empty?
-      end, -> do
+      # on %r/\//, :delimiter, -> (match, encoder) do
+      #   modifiers = scan(/[gim]+/)
+      #   encoder.text_token modifiers, :modifier if modifiers && !modifiers.empty?
+      #   @string_delimiter = nil
+      #   @key_expected = @value_expected = false
+      # end, pop
+      #
+      # on %r/["']/, :delimiter, -> do
+      #   @string_delimiter = nil
+      #   @key_expected = @value_expected = false
+      # end, pop
+      
+      on %r/["'\/]/, :delimiter, -> (match, encoder) do
+        if match == '/'
+          modifiers = scan(/[gim]+/)
+          encoder.text_token modifiers, :modifier if modifiers && !modifiers.empty?
+        end
         @string_delimiter = nil
         @key_expected = @value_expected = false
       end, pop
       
-      token %r/["']/, :delimiter, -> do
-        @string_delimiter = nil
-        @key_expected = @value_expected = false
-      end, pop
-      
-      token check_if { |state| state != :regexp }, %r/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox, -> (match, encoder) do
+      on check_if { |state| state != :regexp }, %r/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox, -> (match, encoder) do
         if @string_delimiter == "'" && !(match == "\\\\" || match == "\\'")
           encoder.text_token match, :content
         else
@@ -284,26 +313,26 @@ module Scanners
         end
       end
       
-      token check_if { |state| state == :regexp }, %r/ \\ (?: #{ESCAPE} | #{REGEXP_ESCAPE} | #{UNICODE_ESCAPE} ) /mox, :char
-      token %r/\\./m, :content
-      token %r/ \\ /x, pop, :error, -> (match, encoder) do
+      on check_if { |state| state == :regexp }, %r/ \\ (?: #{ESCAPE} | #{REGEXP_ESCAPE} | #{UNICODE_ESCAPE} ) /mox, :char
+      on %r/\\./m, :content
+      on %r/ \\ /x, pop, :error, -> do
         @string_delimiter = nil
         @key_expected = @value_expected = false
       end
     end
     
-    state :open_multi_line_comment do
-      token %r! .*? \*/ !mx, :initial  # don't consume!
-      token %r/ .+ /mx, :comment, -> { @value_expected = true }
-      
-      # if match = scan(%r! .*? \*/ !mx)
-      #   state = :initial
-      # else
-      #   match = scan(%r! .+ !mx)
-      # end
-      # value_expected = true
-      # encoder.text_token match, :comment if match
-    end
+    # state :open_multi_line_comment do
+    #   on %r! .*? \*/ !mx, :initial  # don't consume!
+    #   on %r/ .+ /mx, :comment, -> { @value_expected = true }
+    #
+    #   # if match = scan(%r! .*? \*/ !mx)
+    #   #   state = :initial
+    #   # else
+    #   #   match = scan(%r! .+ !mx)
+    #   # end
+    #   # value_expected = true
+    #   # encoder.text_token match, :comment if match
+    # end
     
   protected
     
@@ -348,7 +377,10 @@ module Scanners
     end
     RUBY
     
-    # puts scan_tokens_code
+    if ENV['PUTS']
+      puts scan_tokens_code
+      puts "callbacks: #{@callbacks.size}"
+    end
     class_eval scan_tokens_code, __FILE__, def_line
     
   protected

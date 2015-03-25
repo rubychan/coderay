@@ -15,28 +15,28 @@ module Scanners
       attr_accessor :states
       
       def state *names, &block
-        @@code ||= ""
+        @code ||= ""
         
-        @@code << "when #{names.map(&:inspect).join(', ')}\n"
+        @code << "when #{names.map(&:inspect).join(', ')}\n"
         
-        @@first = true
+        @first = true
         instance_eval(&block)
-        @@code << "  else\n"
-        # @@code << "    raise 'no match for #{names.map(&:inspect).join(', ')}'\n"
-        @@code << "    encoder.text_token getch, :error\n"
-        @@code << "  end\n"
-        @@code << "  \n"
+        @code << "  else\n"
+        # @code << "    raise 'no match for #{names.map(&:inspect).join(', ')}'\n"
+        @code << "    encoder.text_token getch, :error\n"
+        @code << "  end\n"
+        @code << "  \n"
       end
       
       def on? pattern
         pattern_expression = pattern.inspect
-        @@code << "  #{'els' unless @@first}if check(#{pattern_expression})\n"
+        @code << "  #{'els' unless @first}if check(#{pattern_expression})\n"
         
-        @@first = true
+        @first = true
         yield
-        @@code << "  end\n"
+        @code << "  end\n"
         
-        @@first = false
+        @first = false
       end
       
       def on *pattern_and_actions
@@ -77,69 +77,69 @@ module Scanners
           raise "I don't know how to evaluate this pattern: %p" % [pattern]
         end
         
-        @@code << "  #{'els' unless @@first}if #{precondition_expression}match = scan(#{pattern_expression})\n"
+        @code << "  #{'els' unless @first}if #{precondition_expression}match = scan(#{pattern_expression})\n"
         
         for action in actions
           case action
           when String
             raise
-            @@code << "    p 'evaluate #{action.inspect}'\n" if $DEBUG
-            @@code << "    #{action}\n"
+            @code << "    p 'evaluate #{action.inspect}'\n" if $DEBUG
+            @code << "    #{action}\n"
             
           when Symbol
-            @@code << "    p 'text_token %p %p' % [match, #{action.inspect}]\n" if $DEBUG
-            @@code << "    encoder.text_token match, #{action.inspect}\n"
+            @code << "    p 'text_token %p %p' % [match, #{action.inspect}]\n" if $DEBUG
+            @code << "    encoder.text_token match, #{action.inspect}\n"
           when Kind
             case action.token_kind
             when Proc
-              @@code << "    encoder.text_token match, #{make_callback(action.token_kind)}\n"
+              @code << "    encoder.text_token match, #{make_callback(action.token_kind)}\n"
             else
               raise "I don't know how to evaluate this kind: %p" % [action.token_kind]
             end
           when Groups
-            @@code << "    p 'text_tokens %p in groups %p' % [match, #{action.token_kinds.inspect}]\n" if $DEBUG
+            @code << "    p 'text_tokens %p in groups %p' % [match, #{action.token_kinds.inspect}]\n" if $DEBUG
             action.token_kinds.each_with_index do |kind, i|
-              @@code << "    encoder.text_token self[#{i + 1}], #{kind.inspect} if self[#{i + 1}]\n"
+              @code << "    encoder.text_token self[#{i + 1}], #{kind.inspect} if self[#{i + 1}]\n"
             end
           
           when Push
             case action.state
             when String
               raise
-              @@code << "    p 'push %p' % [#{action.state}]\n" if $DEBUG
-              @@code << "    state = #{action.state}\n"
+              @code << "    p 'push %p' % [#{action.state}]\n" if $DEBUG
+              @code << "    state = #{action.state}\n"
             when Symbol
-              @@code << "    p 'push %p' % [#{action.state.inspect}]\n" if $DEBUG
-              @@code << "    state = #{action.state.inspect}\n"
+              @code << "    p 'push %p' % [#{action.state.inspect}]\n" if $DEBUG
+              @code << "    state = #{action.state.inspect}\n"
             when Proc
-              @@code << "    state = #{make_callback(action.state)}\n"
+              @code << "    state = #{make_callback(action.state)}\n"
             else
               raise "I don't know how to evaluate this push state: %p" % [action.state]
             end
-            @@code << "    states << state\n"
-            @@code << "    encoder.begin_group state\n"
+            @code << "    states << state\n"
+            @code << "    encoder.begin_group state\n"
           when Pop
-            @@code << "    p 'pop %p' % [states.last]\n" if $DEBUG
-            @@code << "    encoder.end_group states.pop\n"
-            @@code << "    state = states.last\n"
+            @code << "    p 'pop %p' % [states.last]\n" if $DEBUG
+            @code << "    encoder.end_group states.pop\n"
+            @code << "    state = states.last\n"
           
           when ValueSetter
             case action.value
             when Proc
-              @@code << "    #{action.targets.join(' = ')} = #{make_callback(action.value)}\n"
+              @code << "    #{action.targets.join(' = ')} = #{make_callback(action.value)}\n"
             else
-              @@code << "    #{action.targets.join(' = ')} = #{action.value.inspect}\n"
+              @code << "    #{action.targets.join(' = ')} = #{action.value.inspect}\n"
             end
           
           when Proc
-            @@code << "    #{make_callback(action)}\n"
+            @code << "    #{make_callback(action)}\n"
             
           else
             raise "I don't know how to evaluate this action: %p" % [action]
           end
         end
         
-        @@first = false
+        @first = false
       end
       
       def groups *token_kinds
@@ -356,7 +356,7 @@ module Scanners
         
         case state
         
-#{ @@code.chomp.gsub(/^/, '        ') }
+#{ @code.chomp.gsub(/^/, '        ') }
         else
           raise_inspect 'Unknown state: %p' % [state], encoder
           

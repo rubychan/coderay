@@ -8,7 +8,9 @@ module Scanners
     Kind = Struct.new :token_kind
     Push = Struct.new :state
     Pop = Class.new
-    CheckIf = Struct.new :condition
+    Check = Struct.new :condition
+    CheckIf = Class.new Check
+    CheckUnless = Class.new Check
     ValueSetter = Struct.new :targets, :value
     
     class << self
@@ -40,7 +42,7 @@ module Scanners
       end
       
       def on *pattern_and_actions
-        if index = pattern_and_actions.find_index { |item| !item.is_a?(CheckIf) }
+        if index = pattern_and_actions.find_index { |item| !item.is_a?(Check) }
           preconditions = pattern_and_actions[0..index - 1] if index > 0
           pattern       = pattern_and_actions[index]         or raise 'I need a pattern!'
           actions       = pattern_and_actions[index + 1..-1] or raise 'I need actions!'
@@ -58,6 +60,15 @@ module Scanners
                 precondition_expression << "#{precondition.condition} && "
               else
                 raise "I don't know how to evaluate this check_if precondition: %p" % [precondition.condition]
+              end
+            when CheckUnless
+              case precondition.condition
+              when Proc
+                precondition_expression << "!#{make_callback(precondition.condition)} && "
+              when Symbol
+                precondition_expression << "!#{precondition.condition} && "
+              else
+                raise "I don't know how to evaluate this check_unless precondition: %p" % [precondition.condition]
               end
             else
               raise "I don't know how to evaluate this precondition: %p" % [precondition]
@@ -161,6 +172,10 @@ module Scanners
       
       def check_if value = nil, &callback
         CheckIf.new value || callback
+      end
+      
+      def check_unless value = nil, &callback
+        CheckUnless.new value || callback
       end
       
       def flag_on *flags

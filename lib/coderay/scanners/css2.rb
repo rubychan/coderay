@@ -1,9 +1,7 @@
-require_relative 'java_script5'
-
 module CodeRay
 module Scanners
 
-  class CSS2 < RuleBasedScanner6
+  class CSS2 < RuleBasedScanner
     
     register_for :css2
     

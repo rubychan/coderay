@@ -6,10 +6,13 @@ module CodeRay
       Kind = Struct.new :token_kind
       Push = Struct.new :state
       Pop = Class.new
+      PushState = Struct.new :state
+      PopState = Class.new
       Check = Struct.new :condition
       CheckIf = Class.new Check
       CheckUnless = Class.new Check
       ValueSetter = Struct.new :targets, :value
+      Continue = Class.new
       
       class << self
         attr_accessor :states
@@ -101,7 +104,7 @@ module CodeRay
             when Kind
               case action.token_kind
               when Proc
-                @code << "    encoder.text_token match, #{make_callback(action.token_kind)}\n"
+                @code << "    encoder.text_token match, kind = #{make_callback(action.token_kind)}\n"
               else
                 raise "I don't know how to evaluate this kind: %p" % [action.token_kind]
               end
@@ -111,7 +114,7 @@ module CodeRay
                 @code << "    encoder.text_token self[#{i + 1}], #{kind.inspect} if self[#{i + 1}]\n"
               end
             
-            when Push
+            when Push, PushState
               case action.state
               when String
                 raise
@@ -126,22 +129,31 @@ module CodeRay
                 raise "I don't know how to evaluate this push state: %p" % [action.state]
               end
               @code << "    states << state\n"
-              @code << "    encoder.begin_group state\n"
-            when Pop
+              @code << "    encoder.begin_group state\n" if action.is_a? Push
+            when Pop, PopState
               @code << "    p 'pop %p' % [states.last]\n" if $DEBUG
-              @code << "    encoder.end_group states.pop\n"
+              if action.is_a? Pop
+                @code << "    encoder.end_group states.pop\n"
+              else
+                @code << "    states.pop\n"
+              end
               @code << "    state = states.last\n"
             
             when ValueSetter
               case action.value
               when Proc
                 @code << "    #{action.targets.join(' = ')} = #{make_callback(action.value)}\n"
+              when Symbol
+                @code << "    #{action.targets.join(' = ')} = #{action.value}\n"
               else
                 @code << "    #{action.targets.join(' = ')} = #{action.value.inspect}\n"
               end
             
             when Proc
               @code << "    #{make_callback(action)}\n"
+              
+            when Continue
+              @code << "    next\n"
               
             else
               raise "I don't know how to evaluate this action: %p" % [action]
@@ -168,6 +180,15 @@ module CodeRay
           Pop.new
         end
         
+        def push_state state = nil, &block
+          raise 'push_state requires a state or a block; got nothing' unless state || block
+          PushState.new state || block
+        end
+        
+        def pop_state
+          PopState.new
+        end
+        
         def check_if value = nil, &callback
           CheckIf.new value || callback
         end
@@ -190,6 +211,10 @@ module CodeRay
         
         def unset *flags
           ValueSetter.new Array(flags), nil
+        end
+        
+        def continue
+          Continue.new
         end
         
         protected

@@ -81,6 +81,8 @@ module CodeRay
       'cfc'       => :xml,
       'cfm'       => :xml,
       'clj'       => :clojure,
+      'cs'        => :csharp,
+      'csx'       => :csharp,
       'css'       => :css,
       'diff'      => :diff,
       'dpr'       => :delphi,

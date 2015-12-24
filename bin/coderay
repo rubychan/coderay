@@ -35,7 +35,7 @@ defaults:
 
 common:
   coderay file.rb                      # highlight file to terminal
-  coderay file.rb > file.html          # highlight file to HTML page
+  coderay file.rb -page > file.html    # highlight file to HTML page
   coderay file.rb -div > file.html     # highlight file to HTML snippet
 
 configure output:

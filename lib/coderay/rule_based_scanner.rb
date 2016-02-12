@@ -13,6 +13,7 @@ module CodeRay
       CheckIf = Class.new Check
       CheckUnless = Class.new Check
       ValueSetter = Struct.new :targets, :value
+      Increment = Struct.new :targets, :operation, :value
       Continue = Class.new
       
       class << self
@@ -172,6 +173,16 @@ module CodeRay
                 @code << "    #{action.targets.join(' = ')} = #{action.value.inspect}\n"
               end
             
+            when Increment
+              case action.value
+              when Proc
+                @code << "    #{action.targets.join(' = ')} #{action.operation}= #{make_callback(action.value)}\n"
+              when Symbol
+                @code << "    #{action.targets.join(' = ')} #{action.operation}= #{action.value}\n"
+              else
+                @code << "    #{action.targets.join(' = ')} #{action.operation}= #{action.value.inspect}\n"
+              end
+            
             when Proc
               @code << "    #{make_callback(action)}\n"
               
@@ -238,6 +249,14 @@ module CodeRay
         
         def unset *flags
           ValueSetter.new Array(flags), nil
+        end
+        
+        def increment *counters
+          Increment.new Array(counters), :+, 1
+        end
+        
+        def decrement *counters
+          Increment.new Array(counters), :-, 1
         end
         
         def continue

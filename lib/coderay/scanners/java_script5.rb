@@ -100,7 +100,7 @@ module Scanners
     end
     
     state :string, :key do
-      on -> (string_delimiter) { STRING_CONTENT_PATTERN[string_delimiter] }, :content
+      on pattern { |string_delimiter| STRING_CONTENT_PATTERN[string_delimiter] }, :content
       on %r/["']/, :delimiter, unset(:string_delimiter), flag_off(:key_expected, :value_expected), pop
       on %r/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /x, kind { |match, string_delimiter|
         string_delimiter == "'" && !(match == "\\\\" || match == "\\'") ? :content : :char

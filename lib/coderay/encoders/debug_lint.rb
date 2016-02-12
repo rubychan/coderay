@@ -29,7 +29,7 @@ module Encoders
     end
     
     def end_group kind
-      raise Lint::IncorrectTokenGroupNesting, 'We are inside %s, not %p (end_group)' % [@opened.reverse.map(&:inspect).join(' < '), kind] if @opened.last != kind
+      raise Lint::IncorrectTokenGroupNesting, 'We are inside %p, not %p (end_group)' % [@opened.reverse, kind] if @opened.last != kind
       @opened.pop
       super
     end
@@ -40,7 +40,7 @@ module Encoders
     end
     
     def end_line kind
-      raise Lint::IncorrectTokenGroupNesting, 'We are inside %s, not %p (end_line)' % [@opened.reverse.map(&:inspect).join(' < '), kind] if @opened.last != kind
+      raise Lint::IncorrectTokenGroupNesting, 'We are inside %p, not %p (end_line)' % [@opened.reverse, kind] if @opened.last != kind
       @opened.pop
       super
     end

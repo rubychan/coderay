@@ -117,7 +117,7 @@ module Scanners
     RUBY
     
     if ENV['PUTS']
-      puts scan_tokens_code
+      puts CodeRay.scan(scan_tokens_code, :ruby).terminal
       puts "callbacks: #{callbacks.size}"
     end
     class_eval scan_tokens_code, __FILE__, def_line

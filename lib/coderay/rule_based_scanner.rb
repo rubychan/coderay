@@ -5,8 +5,8 @@ module CodeRay
       Pattern = Struct.new :pattern
       Groups = Struct.new :token_kinds
       Kind = Struct.new :token_kind
-      Push = Struct.new :state
-      Pop = Class.new
+      Push = Struct.new :state, :group
+      Pop = Struct.new :group
       PushState = Struct.new :state
       PopState = Class.new
       Check = Struct.new :condition
@@ -128,11 +128,35 @@ module CodeRay
                 raise "I don't know how to evaluate this push state: %p" % [action.state]
               end
               @code << "    states << state\n"
-              @code << "    encoder.begin_group state\n" if action.is_a? Push
+              if action.is_a? Push
+                if action.state == action.group
+                  @code << "    encoder.begin_group state\n"
+                else
+                  case action.state
+                  when Symbol
+                    @code << "    p 'begin group %p' % [#{action.group.inspect}]\n" if $DEBUG
+                    @code << "    encoder.begin_group #{action.group.inspect}\n"
+                  when Proc
+                    @code << "    encoder.begin_group #{make_callback(action.group)}\n"
+                  else
+                    raise "I don't know how to evaluate this push state: %p" % [action.state]
+                  end
+                end
+              end
             when Pop, PopState
               @code << "    p 'pop %p' % [states.last]\n" if $DEBUG
               if action.is_a? Pop
-                @code << "    encoder.end_group states.pop\n"
+                if action.group
+                  case action.group
+                  when Symbol
+                    @code << "    encoder.end_group #{action.group.inspect}\n"
+                  else
+                    raise "I don't know how to evaluate this pop group: %p" % [action.group]
+                  end
+                  @code << "    states.pop\n"
+                else
+                  @code << "    encoder.end_group states.pop\n"
+                end
               else
                 @code << "    states.pop\n"
               end
@@ -174,13 +198,13 @@ module CodeRay
           Kind.new token_kind || block
         end
         
-        def push state = nil, &block
+        def push state = nil, group = state, &block
           raise 'push requires a state or a block; got nothing' unless state || block
-          Push.new state || block
+          Push.new state || block, group || block
         end
         
-        def pop
-          Pop.new
+        def pop group = nil
+          Pop.new group
         end
         
         def push_state state = nil, &block

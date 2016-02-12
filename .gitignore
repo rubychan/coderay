@@ -1,4 +1,5 @@
 .*
+bench/example.*
 coverage
 pkg
 spec/reports

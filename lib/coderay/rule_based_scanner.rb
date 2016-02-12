@@ -219,18 +219,20 @@ module CodeRay
         
         protected
         
-        def make_callback block
+        def callbacks
           @callbacks ||= {}
-          
+        end
+        
+        def make_callback block
           base_name = "__callback_line_#{block.source_location.last}"
           name = base_name
           counter = 'a'
-          while @callbacks.key?(name)
+          while callbacks.key?(name)
             name = "#{base_name}_#{counter}"
             counter.succ!
           end
           
-          @callbacks[name] = define_method(name, &block)
+          callbacks[name] = define_method(name, &block)
           
           arguments = block.parameters.map(&:last)
           

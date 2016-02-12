@@ -118,7 +118,7 @@ module Scanners
     
     if ENV['PUTS']
       puts scan_tokens_code
-      puts "callbacks: #{@callbacks.size}"
+      puts "callbacks: #{callbacks.size}"
     end
     class_eval scan_tokens_code, __FILE__, def_line
   end

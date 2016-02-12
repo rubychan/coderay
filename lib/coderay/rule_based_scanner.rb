@@ -2,6 +2,7 @@ module CodeRay
   module Scanners
     class RuleBasedScanner < Scanner
       
+      Pattern = Struct.new :pattern
       Groups = Struct.new :token_kinds
       Kind = Struct.new :token_kind
       Push = Struct.new :state
@@ -43,53 +44,51 @@ module CodeRay
         end
         
         def on *pattern_and_actions
-          if index = pattern_and_actions.find_index { |item| !item.is_a?(Check) }
-            preconditions = pattern_and_actions[0..index - 1] if index > 0
-            pattern       = pattern_and_actions[index]         or raise 'I need a pattern!'
-            actions       = pattern_and_actions[index + 1..-1] or raise 'I need actions!'
+          if index = pattern_and_actions.find_index { |item| !(item.is_a?(Check) || item.is_a?(Regexp) || item.is_a?(Pattern)) }
+            conditions = pattern_and_actions[0..index - 1] or raise 'I need conditions or a pattern!'
+            actions    = pattern_and_actions[index..-1]    or raise 'I need actions!'
+          else
+            raise "invalid rule structure: #{pattern_and_actions.map(&:class)}"
           end
           
-          precondition_expression = ''
-          if preconditions
-            for precondition in preconditions
-              case precondition
+          condition_expressions = []
+          if conditions
+            for condition in conditions
+              case condition
               when CheckIf
-                case precondition.condition
+                case condition.condition
                 when Proc
-                  precondition_expression << "#{make_callback(precondition.condition)} && "
+                  condition_expressions << "#{make_callback(condition.condition)}"
                 when Symbol
-                  precondition_expression << "#{precondition.condition} && "
+                  condition_expressions << "#{condition.condition}"
                 else
-                  raise "I don't know how to evaluate this check_if precondition: %p" % [precondition.condition]
+                  raise "I don't know how to evaluate this check_if condition: %p" % [condition.condition]
                 end
               when CheckUnless
-                case precondition.condition
+                case condition.condition
                 when Proc
-                  precondition_expression << "!#{make_callback(precondition.condition)} && "
+                  condition_expressions << "!#{make_callback(condition.condition)}"
                 when Symbol
-                  precondition_expression << "!#{precondition.condition} && "
+                  condition_expressions << "!#{condition.condition}"
                 else
-                  raise "I don't know how to evaluate this check_unless precondition: %p" % [precondition.condition]
+                  raise "I don't know how to evaluate this check_unless condition: %p" % [condition.condition]
                 end
+              when Pattern
+                case condition.pattern
+                when Proc
+                  condition_expressions << "match = scan(#{make_callback(condition.pattern)})"
+                else
+                  raise "I don't know how to evaluate this pattern: %p" % [condition.pattern]
+                end
+              when Regexp
+                condition_expressions << "match = scan(#{condition.inspect})"
               else
-                raise "I don't know how to evaluate this precondition: %p" % [precondition]
+                raise "I don't know how to evaluate this pattern/condition: %p" % [condition]
               end
             end
           end
           
-          case pattern
-          when String
-            raise
-            pattern_expression = pattern
-          when Regexp
-            pattern_expression = pattern.inspect
-          when Proc
-            pattern_expression = make_callback(pattern)
-          else
-            raise "I don't know how to evaluate this pattern: %p" % [pattern]
-          end
-          
-          @code << "  #{'els' unless @first}if #{precondition_expression}match = scan(#{pattern_expression})\n"
+          @code << "  #{'els' unless @first}if #{condition_expressions.join(' && ')}\n"
           
           for action in actions
             case action
@@ -165,6 +164,10 @@ module CodeRay
         
         def groups *token_kinds
           Groups.new token_kinds
+        end
+        
+        def pattern pattern = nil, &block
+          Pattern.new pattern || block
         end
         
         def kind token_kind = nil, &block

@@ -150,15 +150,11 @@ module Scanners
       states = [state]
       
       until eos?
-        
         case state
-        
 #{ @code.chomp.gsub(/^/, '        ') }
         else
           raise_inspect 'Unknown state: %p' % [state], encoder
-          
         end
-        
       end
       
       if options[:keep_state]

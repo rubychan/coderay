@@ -4,7 +4,8 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
 
 h2. Changes in 1.1.1
 
-* SQL scanner: fix open strings [#163, thanks to Adam]
+* SQL scanner: Allow @$@ signs in SQL identifiers [#164, thanks to jasir and Ben Basson]
+* SQL scanner: Fix open strings [#163, thanks to Adam]
 * Ruby scanner: Accept number literal suffixes @r@ and @i@ (Ruby 2.1)
 * Ruby scanner: Accept quoted hash keys like @{ "a": boss }@ (Ruby 2.2)
 * Ruby scanner: Accept save navigation operator @&.@ (Ruby 2.3)

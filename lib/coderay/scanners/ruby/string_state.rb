@@ -37,6 +37,14 @@ module Scanners
         end
       end
       
+      def self.simple_key_pattern delim
+        if delim == "'"
+          / (?> (?: [^\\']+ | \\. )* ) ' : /mx
+        else
+          / (?> (?: [^\\"\#]+ | \\. | \#\$[\\"] | \#\{[^\{\}]+\} | \#(?!\{) )* ) " : /mx
+        end
+      end
+      
       def initialize kind, interpreted, delim, heredoc = false
         if heredoc
           pattern = heredoc_pattern delim, interpreted, heredoc == :indented

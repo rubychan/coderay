@@ -26,7 +26,8 @@ module Encoders
   # == Options
   #
   # === :tab_width
-  # Convert \t characters to +n+ spaces (a number.)
+  # Convert \t characters to +n+ spaces (a number or false.)
+  # false will keep tab characters untouched.
   # 
   # Default: 8
   #
@@ -165,7 +166,7 @@ module Encoders
       
       @break_lines = (options[:break_lines] == true)
       
-      @expand_tab = ' ' * options[:tab_width]
+      @expand_tab = options[:tab_width] ? ' ' * options[:tab_width] : "\t"
       
       @opened = []
       @last_opened = nil

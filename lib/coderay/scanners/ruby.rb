@@ -201,7 +201,7 @@ module Scanners
               end
               value_expected = false
               
-            elsif match = scan(/ [-+!~^\/]=? | [:;] | [*|&]{1,2}=? | >>? /x)
+            elsif match = scan(/ [-+!~^\/]=? | [:;] | &\. | [*|&]{1,2}=? | >>? /x)
               value_expected = true
               encoder.text_token match, :operator
               

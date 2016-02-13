@@ -134,7 +134,7 @@ module CodeRay
     File.join CODERAY_PATH, *path
   end
   
-  require 'coderay/version'
+  autoload :VERSION, 'coderay/version'
   
   # helpers
   autoload :FileType,    coderay_path('helpers', 'file_type')
@@ -145,13 +145,13 @@ module CodeRay
   autoload :TokenKinds,  coderay_path('token_kinds')
   
   # Plugin system
-  autoload :PluginHost,  coderay_path('helpers', 'plugin')
+  autoload :PluginHost,  coderay_path('helpers', 'plugin_host')
   autoload :Plugin,      coderay_path('helpers', 'plugin')
   
   # Plugins
-  autoload :Scanners,    coderay_path('scanner')
-  autoload :Encoders,    coderay_path('encoder')
-  autoload :Styles,      coderay_path('style')
+  autoload :Scanners,    coderay_path('scanners')
+  autoload :Encoders,    coderay_path('encoders')
+  autoload :Styles,      coderay_path('styles')
   
   # DSL Scanner
   autoload :RuleBasedScanner, coderay_path('rule_based_scanner')
@@ -169,7 +169,7 @@ module CodeRay
     #
     # See also demo/demo_simple.
     def scan code, lang, options = {}, &block
-      TokensProxy.new code, lang, options, block
+      CodeRay::TokensProxy.new code, lang, options, block
     end
     
     # Scans +filename+ (a path to a code file) with the Scanner for +lang+.
@@ -184,7 +184,7 @@ module CodeRay
     #  require 'coderay'
     #  page = CodeRay.scan_file('some_c_code.c').html
     def scan_file filename, lang = :auto, options = {}, &block
-      lang = FileType.fetch filename, :text, true if lang == :auto
+      lang = CodeRay::FileType.fetch filename, :text, true if lang == :auto
       code = File.read filename
       scan code, lang, options, &block
     end
@@ -261,7 +261,7 @@ module CodeRay
     #  ]
     #  #-> 2 out of 4 tokens have the kind :integer.
     def encoder format, options = {}
-      Encoders[format].new options
+      CodeRay::Encoders[format].new options
     end
     
     # Finds the Scanner class for +lang+ and creates an instance, passing
@@ -269,7 +269,7 @@ module CodeRay
     #
     # See Scanner.new.
     def scanner lang, options = {}, &block
-      Scanners[lang].new '', options, &block
+      CodeRay::Scanners[lang].new '', options, &block
     end
     
     # Extract the options for the scanner from the +options+ hash.

@@ -114,7 +114,7 @@ module Scanners
     # NOTE: This is not completely correct, but
     # nobody needs heredoc delimiters ending with \n.
     HEREDOC_OPEN = /
-      << (-)?              # $1 = float
+      << ([-~])?              # $1 = float
       (?:
         ( [A-Za-z_0-9]+ )  # $2 = delim
       |

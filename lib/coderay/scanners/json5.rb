@@ -44,7 +44,7 @@ module Scanners
   protected
     
     scan_tokens_code = <<-"RUBY"
-    def scan_tokens encoder, options
+    def scan_tokens encoder, options#{ def_line = __LINE__; nil }
       state = options[:state] || @state
       
       if [:string, :key].include? state

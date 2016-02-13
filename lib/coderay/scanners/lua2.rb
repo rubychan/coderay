@@ -141,7 +141,6 @@ module Scanners
       # encoder.text_token("\\n\n", :error) # Visually appealing error indicator--otherwise users may wonder whether the highlighter cannot highlight multine strings
     end
     
-    # CodeRay entry hook. Starts parsing.
     scan_tokens_code = <<-"RUBY"
     def scan_tokens encoder, options#{ def_line = __LINE__; nil }
       state = options[:state] || @state

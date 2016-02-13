@@ -69,7 +69,7 @@ module Scanners
             state = :added
           elsif match = scan(/\\ .*/)
             encoder.text_token match, :comment
-          elsif match = scan(/@@(?>[^@\n]*)@@/)
+          elsif match = scan(/@@(?>[^@\n]+)@@/)
             content_scanner.state = :initial unless match?(/\n\+/)
             content_scanner_entry_state = nil
             if check(/\n|$/)
@@ -100,7 +100,7 @@ module Scanners
             next
           elsif match = scan(/-/)
             deleted_lines_count += 1
-            if options[:inline_diff] && deleted_lines_count == 1 && (changed_lines_count = 1 + check(/.*(?:\n\-.*)*/).count("\n")) && match?(/(?>.*(?:\n\-.*){#{changed_lines_count - 1}}(?:\n\+.*){#{changed_lines_count}})$(?!\n\+)/)
+            if options[:inline_diff] && deleted_lines_count == 1 && (changed_lines_count = 1 + check(/.*(?:\n\-.*)*/).count("\n")) && changed_lines_count <= 100_000 && match?(/(?>.*(?:\n\-.*){#{changed_lines_count - 1}}(?:\n\+.*){#{changed_lines_count}})$(?!\n\+)/)
               deleted_lines  = Array.new(changed_lines_count) { |i| skip(/\n\-/) if i > 0; scan(/.*/) }
               inserted_lines = Array.new(changed_lines_count) { |i| skip(/\n\+/)         ; scan(/.*/) }
               

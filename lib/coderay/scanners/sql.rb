@@ -1,8 +1,9 @@
-module CodeRay module Scanners
+module CodeRay
+module Scanners
   
   # by Josh Goebel
   class SQL < Scanner
-
+    
     register_for :sql
     
     KEYWORDS = %w(
@@ -56,6 +57,12 @@ module CodeRay module Scanners
     
     STRING_PREFIXES = /[xnb]|_\w+/i
     
+    STRING_CONTENT_PATTERN = {
+      '"' => / (?: [^\\"] | "" )+ /x,
+      "'" => / (?: [^\\'] | '' )+ /x,
+      '`' => / (?: [^\\`] | `` )+ /x,
+    }
+    
     def scan_tokens encoder, options
       
       state = :initial
@@ -89,7 +96,7 @@ module CodeRay module Scanners
             state = :string
             encoder.text_token match, :delimiter
             
-          elsif match = scan(/ @? [A-Za-z_][A-Za-z_0-9]* /x)
+          elsif match = scan(/ @? [A-Za-z_][A-Za-z_0-9\$]* /x)
             encoder.text_token match, name_expected ? :ident : (match[0] == ?@ ? :variable : IDENT_KIND[match])
             name_expected = false
             
@@ -114,41 +121,28 @@ module CodeRay module Scanners
           end
           
         elsif state == :string
-          if match = scan(/[^\\"'`]+/)
-            string_content << match
-            next
+          if match = scan(STRING_CONTENT_PATTERN[string_type])
+            encoder.text_token match, :content
           elsif match = scan(/["'`]/)
             if string_type == match
               if peek(1) == string_type  # doubling means escape
-                string_content << string_type << getch
-                next
+                encoder.text_token match + getch, :content
+              else
+                encoder.text_token match, :delimiter
+                encoder.end_group :string
+                state = :initial
+                string_type = nil
               end
-              unless string_content.empty?
-                encoder.text_token string_content, :content
-                string_content = ''
-              end
-              encoder.text_token match, :delimiter
-              encoder.end_group :string
-              state = :initial
-              string_type = nil
             else
-              string_content << match
+              encoder.text_token match, :content
             end
           elsif match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox)
-            unless string_content.empty?
-              encoder.text_token string_content, :content
-              string_content = ''
-            end
             encoder.text_token match, :char
           elsif match = scan(/ \\ . /mox)
-            string_content << match
-            next
+            encoder.text_token match, :content
           elsif match = scan(/ \\ | $ /x)
-            unless string_content.empty?
-              encoder.text_token string_content, :content
-              string_content = ''
-            end
             encoder.text_token match, :error unless match.empty?
+            encoder.end_group :string
             state = :initial
           else
             raise "else case \" reached; %p not handled." % peek(1), encoder
@@ -171,4 +165,5 @@ module CodeRay module Scanners
     
   end
   
-end end
+end
+end

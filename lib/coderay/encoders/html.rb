@@ -25,7 +25,8 @@ module Encoders
   # == Options
   #
   # === :tab_width
-  # Convert \t characters to +n+ spaces (a number.)
+  # Convert \t characters to +n+ spaces (a number or false.)
+  # false will keep tab characters untouched.
   # 
   # Default: 8
   #
@@ -180,7 +181,7 @@ module Encoders
       
       @break_lines = (options[:break_lines] == true)
       
-      @HTML_ESCAPE = HTML_ESCAPE.merge("\t" => ' ' * options[:tab_width])
+      @HTML_ESCAPE = HTML_ESCAPE.merge("\t" => options[:tab_width] ? ' ' * options[:tab_width] : "\t")
       
       @opened = []
       @last_opened = nil
@@ -193,18 +194,19 @@ module Encoders
     
     def finish options
       unless @opened.empty?
-        warn '%d tokens still open: %p' % [@opened.size, @opened] if $CODERAY_DEBUG
         @out << '</span>' while @opened.pop
         @last_opened = nil
       end
       
-      @out.extend Output
-      @out.css = @css
-      if options[:line_numbers]
-        Numbering.number! @out, options[:line_numbers], options
+      if @out.respond_to? :to_str
+        @out.extend Output
+        @out.css = @css
+        if options[:line_numbers]
+          Numbering.number! @out, options[:line_numbers], options
+        end
+        @out.wrap! options[:wrap]
+        @out.apply_title! options[:title]
       end
-      @out.wrap! options[:wrap]
-      @out.apply_title! options[:title]
       
       if defined?(@real_out) && @real_out
         @real_out << @out
@@ -286,7 +288,7 @@ module Encoders
     
     def make_span_for_kinds method, hint
       Hash.new do |h, kinds|
-        h[kinds.is_a?(Symbol) ? kinds : kinds.dup] = begin
+        begin
           css_class = css_class_for_kinds(kinds)
           title     = HTML.token_path_to_hint hint, kinds if hint
           
@@ -298,6 +300,9 @@ module Encoders
               "<span#{title}#{" class=\"#{css_class}\"" if css_class}>"
             end
           end
+        end.tap do |span|
+          h.clear if h.size >= 100
+          h[kinds] = span
         end
       end
     end
@@ -310,8 +315,8 @@ module Encoders
     
     def break_lines text, style
       reopen = ''
-      @opened.each_with_index do |k, index|
-        reopen << (@span_for_kinds[index > 0 ? [k, *@opened[0...index]] : k] || '<span>')
+      @opened.each_with_index do |kind, index|
+        reopen << (@span_for_kinds[index > 0 ? [kind, *@opened[0...index]] : kind] || '<span>')
       end
       text.gsub("\n", "#{'</span>' * @opened.size}#{'</span>' if style}\n#{reopen}#{style}")
     end

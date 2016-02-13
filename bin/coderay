@@ -35,7 +35,7 @@ defaults:
 
 common:
   coderay file.rb                      # highlight file to terminal
-  coderay file.rb > file.html          # highlight file to HTML page
+  coderay file.rb -page > file.html    # highlight file to HTML page
   coderay file.rb -div > file.html     # highlight file to HTML snippet
 
 configure output:
@@ -155,8 +155,9 @@ when 'highlight', nil
         puts boom.message
       end
       # puts "I don't know this plugin: #{boom.message[/Could not load plugin (.*?): /, 1]}."
-    rescue CodeRay::Scanners::Scanner::ScanError  # FIXME: rescue Errno::EPIPE
-      # this is sometimes raised by pagers; ignore [TODO: wtf?]
+    rescue CodeRay::Scanners::Scanner::ScanError
+      # this is sometimes raised by pagers; ignore
+    # FIXME: rescue Errno::EPIPE
     ensure
       file.close if output_file
     end

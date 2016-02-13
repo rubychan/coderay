@@ -157,12 +157,12 @@ module Scanners
             encoder.text_token match, :operator
           
           elsif match = scan(/(u?r?|b)?("""|"|'''|')/i)
+            modifiers = self[1]
             string_delimiter = self[2]
-            string_type = docstring_coming ? :docstring : :string
+            string_type = docstring_coming ? :docstring : (modifiers == 'b' ? :binary : :string)
             docstring_coming = false if docstring_coming
             encoder.begin_group string_type
             string_raw = false
-            modifiers = self[1]
             unless modifiers.empty?
               string_raw = !!modifiers.index(?r)
               encoder.text_token modifiers, :modifier

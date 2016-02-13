@@ -2,21 +2,80 @@ h1=. CodeRay Version History
 
 p=. _This files lists all changes in the CodeRay library since the 0.9.8 release._
 
+h2. Changes in 1.1.1
+
+* SQL scanner: Allow @$@ signs in SQL identifiers [#164, thanks to jasir and Ben Basson]
+* SQL scanner: Fix open strings [#163, thanks to Adam]
+* Ruby scanner: Accept number literal suffixes @r@ and @i@ (Ruby 2.1)
+* Ruby scanner: Accept quoted hash keys like @{ "a": boss }@ (Ruby 2.2)
+* Ruby scanner: Accept save navigation operator @&.@ (Ruby 2.3)
+* Ruby scanner: Accept squiggly heredoc @<<~@ (Ruby 2.3)
+* Diff scanner: Prevent running out of regexp stack.
+* HTML encoder: You can keep tabs intact now by setting @tab_width: false@.
+
 h2. Changes in 1.1
 
-* New scanner: Sass [#93]
+New scanners:
+
+* Go [#28, thanks to Eric Guo and Nathan Youngman]
+* Lua [#21, #22, thanks to Quintus]
+* Sass [#93]
+* Taskpaper [#39, thanks to shimomura]
+
+More new stuff:
+
+* @.xaml@ file type [#121, thanks to Kozman Bálint]
+* recognize @Guardfile@, @Vagrantfile@, and @Appraisals@ as Ruby files [#121, thanks to Kozman Bálint]
+* new token kind @:id@ for CSS/Sass [#27]
+* new token kind @:done@ for Taskpaper [#39]
+* new token kind @:map@ for Lua, introducing a nice nested-shades trick [#22, thanks to Quintus and Nathan Youngman]
+* new token kind @:unknown@ for Debug scanner
+* new DebugLint encoder that checks for empty tokens and correct nesting
+
+Improvements:
+
+* CSS scanner uses @:id@ and @:tag@ now [#27]
 * Diff scanner: Highlight inline changes in multi-line changes [#99]
 * JavaScript scanner: Highlight multi-line comments in diff correctly
-* Remove double-click toggle handler from HTML table output
-* Fixes to CSS scanner (floats, pseudoclasses)
-* Plugin does not warn about fallback when default is defined
-* Display line numbers in HTML @:table@ mode even for single-line code (remove special case) [#41, thanks to Ariejan de Vroom]
-* Add .xaml file type [#121, thanks to Kozman Bálint]
-* @CodeRay::TokenKinds@ should not be frozen [#130, thanks to Gavin Kistner]
-* Override Bootstrap's pre word-break setting for line numbers [#102, thanks to lightswitch05]
-* Accept keywords as Ruby 1.9 hash keys [#126]
-* New token type @:id@ for CSS/Sass [#27]
-* CSS scanner uses @:id@ and @:tag@ now [#27]
+* JSON scanner: simplify key/value heuristic, using look-ahead instead of a stack
+* HTML scanner displays style tags and attributes now [#145]
+* Ruby scanner: Accept @%i(…)@ and @%I(…)@ symbol lists (Ruby 2.0) [thanks to Nathan Youngman]
+* Ruby scanner: Accept keywords as Ruby hash keys [#126]
+* performance improvements to several scanners and encoders, especially Terminal and HTML
+* added @:keep_state@ functionality to more scanners so they work nicely with diff now [#116]
+* refactoring and cleanup to achieve better "Code Climate" ratings (but I don't really care)
+* updated and cleaned up the documentation,
+* documented list of TokenKinds
+* Alpha style: tweaked colors for @.binary@, @.local-variable@, and @.predefined-type@
+* @rake generate@ supports Git now instead of Subversion
+
+Removed:
+
+* @Tokens#dump@, @Tokens.load@, @Tokens::Undumping@, and @zlib@ dependency
+* double-click toggle handler from HTML table output
+* @rake_helpers@, @sample@ directories and several other ancient garbage
+
+Fixes:
+
+* fixes to CSS scanner (floats, pseudoclasses, nth-child) [#143]
+* fixed empty tokens and unclosed token groups in HTML, CSS, Diff, Goovy, PHP, Raydebug, Ruby, SQL, and YAML scanners [#144]
+* fixed @:docstring@ token type style
+* fixed several infinite Hash caches and dynamic Symbol creation that might have been exploited by an attacker [#148]
+* fixed HTML encoder when output is a StringIO (eg. when using @-HTML@ as a command line parameter)
+* TokenKinds should not be frozen [#130, thanks to Gavin Kistner]
+* display line numbers in HTML @:table@ mode even for single-line code (remove special case) [#41, thanks to Ariejan de Vroom]
+* override Bootstrap's @pre { word-break: break-all }@ styling for line numbers [#102, thanks to lightswitch05]
+* HTML encoder will not warn about unclosed token groups at the end of the stream
+* fixed problem with coderay/version.rb being loaded twice
+
+Internals:
+
+* The Debug scanner maps unknown token kinds to @:unknown@ (to avoid creating Symbols based on possibly unsafe input).
+* The Raydebug scanner highlights unknown token kinds as @:plain@.
+* The Debug encoder refactored; use DebugLint if you want strict checking now..
+* The Debug encoder will not warn about errors in the token stream.
+* Plugin does not warn about fallback when default is defined.
+* PluginHost now works with Strings instead of Symbols internally (to avoid using @#to_sym@).
 
 h2. Changes in 1.0.9
 
@@ -426,6 +485,3 @@ The helper classes were cleaned up; see above for details.
 
 * *CHANGED* @Plugin@ API was simplified and stripped of all unnecessary features.
 * *CHANGED* Moved @GZip@ and @FileType@ libraries into @CodeRay@; cleaned them up.
-
-
-

@@ -1,3 +1,0 @@
-<--$IE-->.TEXT_FIELD(:NAME, "PANFRAGE OHNE $GV UND MIT #{<--$GV-->}").SET ARTIKEL
-ODER
-TEXT = <--$BLA-->.TEST(...) 

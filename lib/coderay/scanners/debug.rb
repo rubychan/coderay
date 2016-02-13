@@ -1,15 +1,22 @@
+require 'set'
+
 module CodeRay
 module Scanners
   
   # = Debug Scanner
   # 
-  # Interprets the output of the Encoders::Debug encoder.
+  # Interprets the output of the Encoders::Debug encoder (basically the inverse function).
   class Debug < Scanner
     
     register_for :debug
     title 'CodeRay Token Dump Import'
     
   protected
+    
+    def setup
+      super
+      @known_token_kinds = TokenKinds.keys.map(&:to_s).to_set
+    end
     
     def scan_tokens encoder, options
       
@@ -21,16 +28,19 @@ module Scanners
           encoder.text_token match, :space
           
         elsif match = scan(/ (\w+) \( ( [^\)\\]* ( \\. [^\)\\]* )* ) \)? /x)
-          kind = self[1].to_sym
-          match = self[2].gsub(/\\(.)/m, '\1')
-          unless TokenKinds.has_key? kind
-            kind = :error
-            match = matched
+          if @known_token_kinds.include? self[1]
+            encoder.text_token self[2].gsub(/\\(.)/m, '\1'), self[1].to_sym
+          else
+            encoder.text_token matched, :unknown
           end
-          encoder.text_token match, kind
           
         elsif match = scan(/ (\w+) ([<\[]) /x)
-          kind = self[1].to_sym
+          if @known_token_kinds.include? self[1]
+            kind = self[1].to_sym
+          else
+            kind = :unknown
+          end
+          
           opened_tokens << kind
           case self[2]
           when '<'

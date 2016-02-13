@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']
   
-  s.add_dependency "escape_utils", "~> 0.3"
+  s.add_dependency "escape_utils", "~> 1.2"
   
   s.rubyforge_project = s.name
   s.rdoc_options      = '-SNw2', "-m#{readme_file}", '-t CodeRay Documentation'

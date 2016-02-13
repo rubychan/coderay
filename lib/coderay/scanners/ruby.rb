@@ -164,15 +164,19 @@ module Scanners
               end
               
             elsif match = scan(/ ' (?:(?>[^'\\]*) ')? | " (?:(?>[^"\\\#]*) ")? /mx)
-              encoder.begin_group :string
               if match.size == 1
+                kind = check(self.class::StringState.simple_key_pattern(match)) ? :key : :string
+                encoder.begin_group kind
                 encoder.text_token match, :delimiter
-                state = self.class::StringState.new :string, match == '"', match  # important for streaming
+                state = self.class::StringState.new kind, match == '"', match  # important for streaming
               else
+                kind = value_expected == true && scan(/:/) ? :key : :string
+                encoder.begin_group kind
                 encoder.text_token match[0,1], :delimiter
                 encoder.text_token match[1..-2], :content if match.size > 2
                 encoder.text_token match[-1,1], :delimiter
-                encoder.end_group :string
+                encoder.end_group kind
+                encoder.text_token ':', :operator if kind == :key
                 value_expected = false
               end
               
@@ -191,11 +195,14 @@ module Scanners
                 encoder.text_token match, :error
                 method_call_expected = false
               else
-                encoder.text_token match, self[1] ? :float : :integer  # TODO: send :hex/:octal/:binary
+                kind = self[1] ? :float : :integer  # TODO: send :hex/:octal/:binary
+                match << 'r' if match !~ /e/i && scan(/r/)
+                match << 'i' if scan(/i/)
+                encoder.text_token match, kind
               end
               value_expected = false
               
-            elsif match = scan(/ [-+!~^\/]=? | [:;] | [*|&]{1,2}=? | >>? /x)
+            elsif match = scan(/ [-+!~^\/]=? | [:;] | &\. | [*|&]{1,2}=? | >>? /x)
               value_expected = true
               encoder.text_token match, :operator
               
@@ -208,7 +215,7 @@ module Scanners
               encoder.end_group kind
               heredocs ||= []  # create heredocs if empty
               heredocs << self.class::StringState.new(kind, quote != "'", delim,
-                self[1] == '-' ? :indented : :linestart)
+                self[1] ? :indented : :linestart)
               value_expected = false
               
             elsif value_expected && match = scan(/#{patterns::FANCY_STRING_START}/o)

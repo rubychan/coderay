@@ -164,15 +164,18 @@ module Scanners
               end
               
             elsif match = scan(/ ' (?:(?>[^'\\]*) ')? | " (?:(?>[^"\\\#]*) ")? /mx)
-              encoder.begin_group :string
               if match.size == 1
+                encoder.begin_group :string
                 encoder.text_token match, :delimiter
                 state = self.class::StringState.new :string, match == '"', match  # important for streaming
               else
+                kind = value_expected == true && scan(/:/) ? :key : :string
+                encoder.begin_group kind
                 encoder.text_token match[0,1], :delimiter
                 encoder.text_token match[1..-2], :content if match.size > 2
                 encoder.text_token match[-1,1], :delimiter
-                encoder.end_group :string
+                encoder.end_group kind
+                encoder.text_token ':', :operator if kind == :key
                 value_expected = false
               end
               

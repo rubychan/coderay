@@ -13,6 +13,7 @@ h2. Changes in 1.1.1
 * Diff scanner: Prevent running out of regexp stack.
 * HTML encoder: You can keep tabs intact now by setting @tab_width: false@.
 * Alpha style: Tweaked colors for @:function@ group with @:content@.
+* File structure: One module per file, autoload CodeRay::Version, paths follow namespace hierarchy.
 
 h2. Changes in 1.1
 

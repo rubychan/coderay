@@ -25,7 +25,8 @@ module Encoders
   # == Options
   #
   # === :tab_width
-  # Convert \t characters to +n+ spaces (a number.)
+  # Convert \t characters to +n+ spaces (a number or false.)
+  # false will keep tab characters untouched.
   # 
   # Default: 8
   #

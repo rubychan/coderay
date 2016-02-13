@@ -89,7 +89,7 @@ module Scanners
     
     scan_tokens_code = <<-"RUBY"
     def scan_tokens encoder, options#{ def_line = __LINE__; nil }
-      state = :initial
+      state = @state
       label_expected = true
       case_expected = false
       label_expected_before_preproc_line = nil

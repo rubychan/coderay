@@ -10,6 +10,8 @@ h2. Changes in 1.1.1
 * Ruby scanner: Accept quoted hash keys like @{ "a": boss }@ (Ruby 2.2)
 * Ruby scanner: Accept save navigation operator @&.@ (Ruby 2.3)
 * Ruby scanner: Accept squiggly heredoc @<<~@ (Ruby 2.3)
+* Diff scanner: Prevent running out of regexp stack.
+* HTML encoder: You can keep tabs intact now by setting @tab_width: false@.
 
 h2. Changes in 1.1
 

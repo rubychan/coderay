@@ -2,6 +2,8 @@ module CodeRay
 module Scanners
   
   # Scanner for JSON (JavaScript Object Notation).
+  #
+  # See http://json.org/ for a definition of the JSON lexic/grammar.
   class JSON5 < RuleBasedScanner
     
     register_for :json5
@@ -45,7 +47,6 @@ module Scanners
       @state = :initial
     end
     
-    # See http://json.org/ for a definition of the JSON lexic/grammar.
     scan_tokens_code = <<-"RUBY"
     def scan_tokens encoder, options
       state = options[:state] || @state

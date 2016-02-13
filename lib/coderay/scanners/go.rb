@@ -1,7 +1,6 @@
 module CodeRay
 module Scanners
   
-  # Scanner for Go, copy from c
   class Go < Scanner
     
     register_for :go

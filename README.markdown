@@ -16,7 +16,7 @@ You put your code in, and you get it back colored; Keywords, strings, floats, co
 
 ### Dependencies
 
-CodeRay needs Ruby 1.8.7, 1.9.3 or 2.0. It also runs on JRuby.
+CodeRay needs Ruby 1.8.7, 1.9.3 or 2.0+. It also runs on JRuby.
 
 ## Example Usage
 
@@ -28,4 +28,4 @@ html = CodeRay.scan("puts 'Hello, world!'", :ruby).div(:line_numbers => :table)
 
 ## Documentation
 
-See [http://coderay.rubychan.de/doc/](http://coderay.rubychan.de/doc/).
+See [rubydoc](http://rubydoc.info/gems/coderay).

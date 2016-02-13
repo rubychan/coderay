@@ -1,8 +1,0 @@
-CodeRay::Encoders::YAML is not defined; you must load it first.
-Now it is loaded: CodeRay::Encoders::YAML
-See?
-Require is also possible: CodeRay::Encoders::Tokens
-See?
-Now load some mapped encoders: stats and plain.
-Require all Encoders:
-[[:count, CodeRay::Encoders::Count], [:debug, CodeRay::Encoders::Debug], [:div, CodeRay::Encoders::Div], [:html, CodeRay::Encoders::HTML], [:null, CodeRay::Encoders::Null], [:page, CodeRay::Encoders::Page], [:plain, :text], [:span, CodeRay::Encoders::Span], [:statistic, CodeRay::Encoders::Statistic], [:stats, CodeRay::Encoders::Statistic], [:text, CodeRay::Encoders::Text], [:tokens, CodeRay::Encoders::Tokens], [:xml, CodeRay::Encoders::XML], [:yaml, CodeRay::Encoders::YAML]]

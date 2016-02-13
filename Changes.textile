@@ -12,6 +12,7 @@ h2. Changes in 1.1.1
 * Ruby scanner: Accept squiggly heredoc @<<~@ (Ruby 2.3)
 * Diff scanner: Prevent running out of regexp stack.
 * HTML encoder: You can keep tabs intact now by setting @tab_width: false@.
+* Alpha style: Tweaked colors for @:function@ group with @:content@.
 
 h2. Changes in 1.1
 

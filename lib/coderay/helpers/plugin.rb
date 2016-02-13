@@ -30,7 +30,7 @@ module CodeRay
     # * a file could not be found
     # * the requested Plugin is not registered
     PluginNotFound = Class.new LoadError
-    HostNotFound = Class.new LoadError
+    HostNotFound   = Class.new LoadError
     
     PLUGIN_HOSTS = []
     PLUGIN_HOSTS_BY_ID = {}  # dummy hash
@@ -49,8 +49,8 @@ module CodeRay
     def [] id, *args, &blk
       plugin = validate_id(id)
       begin
-        plugin = plugin_hash.[] plugin, *args, &blk
-      end while plugin.is_a? Symbol
+        plugin = plugin_hash.[](plugin, *args, &blk)
+      end while plugin.is_a? String
       plugin
     end
     
@@ -95,7 +95,7 @@ module CodeRay
     def map hash
       for from, to in hash
         from = validate_id from
-        to = validate_id to
+        to   = validate_id to
         plugin_hash[from] = to unless plugin_hash.has_key? from
       end
     end
@@ -197,22 +197,22 @@ module CodeRay
       File.join plugin_path, "#{plugin_id}.rb"
     end
     
-    # Converts +id+ to a Symbol if it is a String,
-    # or returns +id+ if it already is a Symbol.
+    # Converts +id+ to a valid plugin ID String, or returns +nil+.
     #
     # Raises +ArgumentError+ for all other objects, or if the
     # given String includes non-alphanumeric characters (\W).
     def validate_id id
-      if id.is_a? Symbol or id.nil?
-        id
-      elsif id.is_a? String
+      case id
+      when Symbol
+        id.to_s
+      when String
         if id[/\w+/] == id
-          id.downcase.to_sym
+          id.downcase
         else
           raise ArgumentError, "Invalid id given: #{id}"
         end
       else
-        raise ArgumentError, "String or Symbol expected, but #{id.class} given."
+        raise ArgumentError, "Symbol or String expected, but #{id.class} given."
       end
     end
     

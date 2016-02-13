@@ -18,7 +18,8 @@ module Encoders
     register_for :debug_lint
     
     def text_token text, kind
-      raise Lint::EmptyToken, 'empty token' if text.empty?
+      raise Lint::EmptyToken,       'empty token for %p' % [kind] if text.empty?
+      raise Lint::UnknownTokenKind, 'unknown token kind %p (text was %p)' % [kind, text] unless TokenKinds.has_key? kind
       super
     end
     

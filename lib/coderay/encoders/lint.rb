@@ -17,10 +17,12 @@ module Encoders
     
     InvalidTokenStream         = Class.new StandardError
     EmptyToken                 = Class.new InvalidTokenStream
+    UnknownTokenKind           = Class.new InvalidTokenStream
     IncorrectTokenGroupNesting = Class.new InvalidTokenStream
     
     def text_token text, kind
-      raise EmptyToken, 'empty token' if text.empty?
+      raise EmptyToken,       'empty token for %p' % [kind] if text.empty?
+      raise UnknownTokenKind, 'unknown token kind %p (text was %p)' % [kind, text] unless TokenKinds.has_key? kind
     end
     
     def begin_group kind

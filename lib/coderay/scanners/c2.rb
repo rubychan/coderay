@@ -77,14 +77,14 @@ module Scanners
       on %r/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mx, :char
       on %r/"/, :delimiter, pop,   flag_off(:label_expected)
       on %r/ \\ /x, pop, :error,   flag_off(:label_expected)
-      on %r/ $ /x,  pop, flag_off(:label_expected), continue
+      on %r/ $ /x,  pop, flag_off(:label_expected)
     end
     
     state :include_expected do
       on %r/<[^>\n]+>?|"[^"\n\\]*(?:\\.[^"\n\\]*)*"?/, :include, pop_state
       on %r/ \s*? \n \s* /x, :space, pop_state
       on %r/\s+/, :space
-      on %r//, pop_state, continue  # TODO: add otherwise method for this
+      on %r//, pop_state  # TODO: add otherwise method for this
     end
     
     scan_tokens_code = <<-"RUBY"
@@ -98,14 +98,14 @@ module Scanners
       states = [state]
       
       until eos?
-        last_pos = pos
+        # last_pos = pos
         case state
 #{ @code.chomp.gsub(/^/, '        ') }
         else
           raise_inspect 'Unknown state: %p' % [state], encoder
         end
         
-        raise_inspect 'nothing was consumed! states = %p' % [states], encoder if pos == last_pos
+        # raise_inspect 'nothing was consumed! states = %p' % [states], encoder if pos == last_pos
       end
       
       if state == :string

@@ -191,7 +191,10 @@ module Scanners
                 encoder.text_token match, :error
                 method_call_expected = false
               else
-                encoder.text_token match, self[1] ? :float : :integer  # TODO: send :hex/:octal/:binary
+                kind = self[1] ? :float : :integer  # TODO: send :hex/:octal/:binary
+                match << 'r' if match !~ /e/i && scan(/r/)
+                match << 'i' if scan(/i/)
+                encoder.text_token match, kind
               end
               value_expected = false
               

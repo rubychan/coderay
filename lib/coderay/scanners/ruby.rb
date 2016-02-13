@@ -214,7 +214,7 @@ module Scanners
               encoder.end_group kind
               heredocs ||= []  # create heredocs if empty
               heredocs << self.class::StringState.new(kind, quote != "'", delim,
-                self[1] == '-' ? :indented : :linestart)
+                self[1] ? :indented : :linestart)
               value_expected = false
               
             elsif value_expected && match = scan(/#{patterns::FANCY_STRING_START}/o)

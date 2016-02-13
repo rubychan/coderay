@@ -10,6 +10,7 @@ group :development do
   gem "rake"
   gem "RedCloth", RUBY_PLATFORM == 'java' ? ">= 4.2.7" : ">= 4.0.3"
   gem "term-ansicolor"
+  gem 'tins', '~> 1.6.0'
   gem "shoulda-context"
   gem "test-unit"
   gem "json" if RUBY_VERSION < '1.9'

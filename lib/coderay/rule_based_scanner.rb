@@ -289,6 +289,11 @@ module CodeRay
           end
         end
       end
+      
+      def setup
+        @state = :initial
+      end
+      
     end
   end
 end

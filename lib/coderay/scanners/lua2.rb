@@ -52,7 +52,7 @@ module Scanners
     
     # Scanner initialization.
     def setup
-      @state = :initial
+      super
       @brace_depth = 0
       @num_equals = nil
     end

@@ -132,10 +132,6 @@ module Scanners
     
   protected
     
-    def setup
-      @state = :initial
-    end
-    
     scan_tokens_code = <<-"RUBY"
     def scan_tokens encoder, options#{ def_line = __LINE__; nil }
       state, string_delimiter = options[:state] || @state

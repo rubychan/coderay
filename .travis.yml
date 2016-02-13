@@ -21,3 +21,4 @@ matrix:
     - rvm: rbx-18mode
     - rvm: rbx-19mode
 script: "rake test" # test:scanners"
+sudo: false

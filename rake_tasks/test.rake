@@ -1,9 +1,4 @@
 namespace :test do
-  desc 'run all sample tests'
-  task :samples do
-    ruby './test/samples/suite.rb'
-  end
-  
   desc 'run functional tests'
   task :functional do
     ruby './test/functional/suite.rb'
@@ -85,4 +80,3 @@ Please rename or remove it and run again to use the GitHub repository:
 end
 
 task :test => %w(test:functional test:units test:exe)
-task :samples => 'test:samples'

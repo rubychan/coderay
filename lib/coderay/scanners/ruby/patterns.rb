@@ -114,7 +114,7 @@ module Scanners
     # NOTE: This is not completely correct, but
     # nobody needs heredoc delimiters ending with \n.
     HEREDOC_OPEN = /
-      << (-)?              # $1 = float
+      << ([-~])?           # $1 = float
       (?:
         ( [A-Za-z_0-9]+ )  # $2 = delim
       |
@@ -157,13 +157,16 @@ module Scanners
       yield
     ])
     
-    FANCY_STRING_START = / % ( [QqrsWwx] | (?![a-zA-Z0-9]) ) ([^a-zA-Z0-9]) /x
+    FANCY_STRING_START = / % ( [iIqQrswWx] | (?![a-zA-Z0-9]) ) ([^a-zA-Z0-9]) /x
     FANCY_STRING_KIND = Hash.new(:string).merge({
+      'i' => :symbol,
+      'I' => :symbol,
       'r' => :regexp,
       's' => :symbol,
       'x' => :shell,
     })
     FANCY_STRING_INTERPRETED = Hash.new(true).merge({
+      'i' => false,
       'q' => false,
       's' => false,
       'w' => false,

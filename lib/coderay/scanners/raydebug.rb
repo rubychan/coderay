@@ -1,9 +1,11 @@
+require 'set'
+
 module CodeRay
 module Scanners
   
-  # = Debug Scanner
+  # = Raydebug Scanner
   # 
-  # Parses the output of the Encoders::Debug encoder.
+  # Highlights the output of the Encoders::Debug encoder.
   class Raydebug < Scanner
     
     register_for :raydebug
@@ -11,6 +13,11 @@ module Scanners
     title 'CodeRay Token Dump'
     
   protected
+    
+    def setup
+      super
+      @known_token_kinds = TokenKinds.keys.map(&:to_s).to_set
+    end
     
     def scan_tokens encoder, options
       
@@ -26,20 +33,22 @@ module Scanners
           encoder.text_token kind, :class
           encoder.text_token '(', :operator
           match = self[2]
-          encoder.text_token match, kind.to_sym unless match.empty?
+          unless match.empty?
+            if @known_token_kinds.include? kind
+              encoder.text_token match, kind.to_sym
+            else
+              encoder.text_token match, :plain
+            end
+          end
           encoder.text_token match, :operator if match = scan(/\)/)
           
         elsif match = scan(/ (\w+) ([<\[]) /x)
-          kind = self[1]
-          case self[2]
-          when '<'
-            encoder.text_token kind, :class
-          when '['
-            encoder.text_token kind, :class
+          encoder.text_token self[1], :class
+          if @known_token_kinds.include? self[1]
+            kind = self[1].to_sym
           else
-            raise 'CodeRay bug: This case should not be reached.'
+            kind = :unknown
           end
-          kind = kind.to_sym
           opened_tokens << kind
           encoder.begin_group kind
           encoder.text_token self[2], :operator

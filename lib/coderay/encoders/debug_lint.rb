@@ -1,6 +1,8 @@
 module CodeRay
 module Encoders
   
+  load :lint
+  
   # = Debug Lint Encoder
   #
   # Debug encoder with additional checks for:
@@ -15,12 +17,9 @@ module Encoders
     
     register_for :debug_lint
     
-    InvalidTokenStream = Class.new StandardError
-    EmptyToken = Class.new InvalidTokenStream
-    IncorrectTokenGroupNesting = Class.new InvalidTokenStream
-    
     def text_token text, kind
-      raise EmptyToken, 'empty token' if text.empty?
+      raise Lint::EmptyToken,       'empty token for %p' % [kind] if text.empty?
+      raise Lint::UnknownTokenKind, 'unknown token kind %p (text was %p)' % [kind, text] unless TokenKinds.has_key? kind
       super
     end
     
@@ -30,7 +29,7 @@ module Encoders
     end
     
     def end_group kind
-      raise IncorrectTokenGroupNesting, 'We are inside %s, not %p (end_group)' % [@opened.reverse.map(&:inspect).join(' < '), kind] if @opened.last != kind
+      raise Lint::IncorrectTokenGroupNesting, 'We are inside %s, not %p (end_group)' % [@opened.reverse.map(&:inspect).join(' < '), kind] if @opened.last != kind
       @opened.pop
       super
     end
@@ -41,7 +40,7 @@ module Encoders
     end
     
     def end_line kind
-      raise IncorrectTokenGroupNesting, 'We are inside %s, not %p (end_line)' % [@opened.reverse.map(&:inspect).join(' < '), kind] if @opened.last != kind
+      raise Lint::IncorrectTokenGroupNesting, 'We are inside %s, not %p (end_line)' % [@opened.reverse.map(&:inspect).join(' < '), kind] if @opened.last != kind
       @opened.pop
       super
     end

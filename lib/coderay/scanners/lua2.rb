@@ -82,8 +82,8 @@ module Scanners
       on check_if { |brace_depth| brace_depth == 0 }, %r/\}/, :error # Mismatched brace
       on %r/\}/, :inline_delimiter, pop, decrement(:brace_depth)
       
-      on %r/'/, push(:single_quoted_string, :string), :delimiter, set(:start_delim, :match)  # String delimiters " and '
-      on %r/"/, push(:double_quoted_string, :string), :delimiter, set(:start_delim, :match)
+      on %r/"/, push(:double_quoted_string, :string), :delimiter  # String delimiters " and '
+      on %r/'/, push(:single_quoted_string, :string), :delimiter
           # ↓Prefix                hex number ←|→ decimal number
       on %r/-? (?:0x\h* \. \h+ (?:p[+\-]?\d+)? | \d*\.\d+ (?:e[+\-]?\d+)?)/ix, :float  # hexadecimal constants have no E power, decimal ones no P power
           # ↓Prefix         hex number ←|→ decimal number

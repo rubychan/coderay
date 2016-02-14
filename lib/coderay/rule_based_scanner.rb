@@ -295,7 +295,7 @@ module CodeRay
         end
         
         def additional_variables
-          variables - %i(state match kind)
+          variables - %i(encoder options state states match kind)
         end
         
         def make_callback block

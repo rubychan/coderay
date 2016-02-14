@@ -139,38 +139,18 @@ module Scanners
       # encoder.text_token("\\n\n", :error) # Visually appealing error indicator--otherwise users may wonder whether the highlighter cannot highlight multine strings
     end
     
-    scan_tokens_code = <<-"RUBY"
-    def scan_tokens encoder, options#{ def_line = __LINE__; nil }
-      state = options[:state] || @state
-      brace_depth = @brace_depth
-      num_equals = nil
-      
-      states = [state]
-      
-      until eos?
+    def close_groups encoder, states
+      states.reverse_each do |state|
         case state
-#{ @code.chomp.gsub(/^/, '        ') }
-        else
-          raise_inspect 'Unknown state: %p' % [state], encoder
+        when :long_string, :single_quoted_string, :double_quoted_string
+          encoder.end_group :string
+        when :long_comment
+          encoder.end_group :long_comment
+        when :map
+          encoder.end_group :map
         end
       end
-      
-      if options[:keep_state]
-        @state = state
-      end
-      
-      encoder.end_group :string if [:string, :single_quoted_string, :double_quoted_string].include? state
-      brace_depth.times { encoder.end_group :map }
-      
-      encoder
     end
-    RUBY
-    
-    if ENV['PUTS']
-      puts CodeRay.scan(scan_tokens_code, :ruby).terminal
-      puts "callbacks: #{callbacks.size}"
-    end
-    class_eval scan_tokens_code, __FILE__, def_line
   end
   
 end

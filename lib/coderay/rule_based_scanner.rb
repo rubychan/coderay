@@ -1,3 +1,5 @@
+require 'set'
+
 module CodeRay
   module Scanners
     class RuleBasedScanner < Scanner
@@ -240,31 +242,46 @@ module CodeRay
         end
         
         def flag_on *flags
+          flags.each { |name| variables << name }
           ValueSetter.new Array(flags), true
         end
         
         def flag_off *flags
+          flags.each { |name| variables << name }
           ValueSetter.new Array(flags), false
         end
         
         def set flag, value = nil, &callback
+          variables << flag
           ValueSetter.new [flag], value || callback
         end
         
         def unset *flags
+          flags.each { |name| variables << name }
           ValueSetter.new Array(flags), nil
         end
         
         def increment *counters
+          counters.each { |name| variables << name }
           Increment.new Array(counters), :+, 1
         end
         
         def decrement *counters
+          counters.each { |name| variables << name }
           Increment.new Array(counters), :-, 1
         end
         
         def continue
           Continue.new
+        end
+        
+        def define_scan_tokens!
+          if ENV['PUTS']
+            puts CodeRay.scan(scan_tokens_code, :ruby).terminal
+            puts "callbacks: #{callbacks.size}"
+          end
+          
+          class_eval scan_tokens_code
         end
         
         protected
@@ -273,26 +290,80 @@ module CodeRay
           @callbacks ||= {}
         end
         
+        def variables
+          @variables ||= Set.new
+        end
+        
+        def additional_variables
+          variables - %i(state match kind)
+        end
+        
         def make_callback block
           base_name = "__callback_line_#{block.source_location.last}"
-          name = base_name
+          callback_name = base_name
           counter = 'a'
-          while callbacks.key?(name)
-            name = "#{base_name}_#{counter}"
+          while callbacks.key?(callback_name)
+            callback_name = "#{base_name}_#{counter}"
             counter.succ!
           end
           
-          callbacks[name] = define_method(name, &block)
+          callbacks[callback_name] = define_method(callback_name, &block)
           
-          arguments = block.parameters.map(&:last)
+          parameters = block.parameters
           
-          if arguments.empty?
-            name
+          if parameters.empty?
+            callback_name
           else
-            "#{name}(#{arguments.join(', ')})"
+            parameter_names = parameters.map(&:last)
+            parameter_names.each { |name| variables << name }
+            "#{callback_name}(#{parameter_names.join(', ')})"
           end
         end
+        
+        def scan_tokens_code
+          <<-"RUBY"
+    def scan_tokens encoder, options
+      state = options[:state] || @state
+      
+#{ restore_local_variables_code.chomp.gsub(/^/, '  ' * 3) }
+      
+      states = [state]
+      
+      until eos?
+        case state
+#{ @code.chomp.gsub(/^/, '  ' * 4) }
+        else
+          raise_inspect 'Unknown state: %p' % [state], encoder
+        end
       end
+      
+      if options[:keep_state]
+        @state = state
+      end
+      
+#{ close_groups_code.chomp.gsub(/^/, '  ' * 3) }
+      
+      encoder
+    end
+          RUBY
+        end
+        
+        def restore_local_variables_code
+          additional_variables.sort.map { |name| "#{name} = @#{name}" }.join("\n")
+        end
+        
+        def close_groups_code
+          "close_groups(encoder, states)"
+        end
+      end
+      
+      def scan_tokens tokens, options
+        self.class.define_scan_tokens!
+
+        scan_tokens tokens, options
+      end
+      
+      protected
       
       def setup
         @state = :initial

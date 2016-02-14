@@ -27,7 +27,7 @@ module CodeRay
           @first = true
           instance_eval(&block)
           @code << "  else\n"
-          @code << "    puts 'no match for #{names.map(&:inspect).join(', ')}'\n" if $DEBUG
+          @code << "    puts \"no match for \#{state.inspect} => skip char\"\n" if $DEBUG
           @code << "    encoder.text_token getch, :error\n"
           @code << "  end\n"
           @code << "  \n"

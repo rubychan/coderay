@@ -66,17 +66,15 @@ module Scanners
       on %r/::\s*[a-zA-Z_][a-zA-Z0-9_]+\s*::/, :label  # ::goto_label::
       on %r/_[A-Z]+/, :predefined  # _UPPERCASE are names reserved for Lua
       on check_if { |brace_depth| brace_depth > 0 }, %r/([a-zA-Z_][a-zA-Z0-9_]*) (\s+)?(=)/x, groups(:key, :space, :operator)
-      on %r/[a-zA-Z_][a-zA-Z0-9_]*/, kind { |match| IDENT_KIND[match] }, push_state { |match, kind, state|  # Normal letters (or letters followed by digits)
+      on %r/[a-zA-Z_][a-zA-Z0-9_]*/, kind { |match| IDENT_KIND[match] }, push_state { |match, kind|  # Normal letters (or letters followed by digits)
         # Extra highlighting for entities following certain keywords
         if kind == :keyword && match == 'function'
-          state = :function_expected
+          :function_expected
         elsif kind == :keyword && match == 'goto'
-          state = :goto_label_expected
+          :goto_label_expected
         elsif kind == :keyword && match == 'local'
-          state = :local_var_expected
+          :local_var_expected
         end
-        
-        state
       }
       
       on %r/\{/, push(:map), kind { |brace_depth| brace_depth > 0 ? :inline_delimiter : :delimiter }, increment(:brace_depth)  # Opening table brace {

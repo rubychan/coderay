@@ -120,15 +120,19 @@ module CodeRay
                 raise
                 @code << "    p 'push %p' % [#{action.state}]\n" if $DEBUG
                 @code << "    state = #{action.state}\n"
+                @code << "    states << state\n"
               when Symbol
                 @code << "    p 'push %p' % [#{action.state.inspect}]\n" if $DEBUG
                 @code << "    state = #{action.state.inspect}\n"
+                @code << "    states << state\n"
               when Proc
-                @code << "    state = #{make_callback(action.state)}\n"
+                @code << "    if new_state = #{make_callback(action.state)}\n"
+                @code << "      state = new_state\n"
+                @code << "      states << new_state\n"
+                @code << "    end\n"
               else
                 raise "I don't know how to evaluate this push state: %p" % [action.state]
               end
-              @code << "    states << state\n"
               if action.is_a? Push
                 if action.state == action.group
                   @code << "    encoder.begin_group state\n"

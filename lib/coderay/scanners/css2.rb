@@ -45,14 +45,6 @@ module Scanners
       AttributeSelector = /(\[)([^\]]+)?(\])?/
     end
     
-  protected
-    
-    def setup
-      @state = :initial
-      @value_expected = false
-      @block = false
-    end
-    
     state :initial do
       on %r/\s+/, :space
       
@@ -83,36 +75,14 @@ module Scanners
       on %r/ [+>~,.=()\/] /x, :operator
     end
     
-    scan_tokens_code = <<-"RUBY"
-    def scan_tokens encoder, options#{ def_line = __LINE__; nil }
-      states = Array(options[:state] || @state).dup
-      value_expected = @value_expected
-      block = @block
-      state = states.last
-      
-      until eos?
-        case state
-#{ @code.chomp.gsub(/^/, '        ') }
-        else
-          raise_inspect 'Unknown state: %p' % [state], encoder
-        end
-      end
-      
-      if options[:keep_state]
-        @state = states
-        @value_expected = value_expected
-        @block = block
-      end
-      
-      encoder
-    end
-    RUBY
+    protected
     
-    if ENV['PUTS']
-      puts CodeRay.scan(scan_tokens_code, :ruby).terminal
-      puts "callbacks: #{callbacks.size}"
+    def setup
+      super
+      
+      @value_expected = false
+      @block = false
     end
-    class_eval scan_tokens_code, __FILE__, def_line
     
   end
   

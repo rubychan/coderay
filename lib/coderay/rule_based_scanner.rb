@@ -369,6 +369,10 @@ module CodeRay
         @state = :initial
       end
       
+      def close_groups encoder, states
+        # TODO
+      end
+      
     end
   end
 end

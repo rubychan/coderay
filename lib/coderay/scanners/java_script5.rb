@@ -130,48 +130,22 @@ module Scanners
     #   # encoder.text_token match, :comment if match
     # end
     
-  protected
+    protected
     
-    scan_tokens_code = <<-"RUBY"
-    def scan_tokens encoder, options#{ def_line = __LINE__; nil }
-      state, string_delimiter = options[:state] || @state
-      if string_delimiter
-        encoder.begin_group state
-      end
+    def setup
+      super
       
-      value_expected = true
-      key_expected = false
-      function_expected = false
-      
-      states = [state]
-      
-      until eos?
-        case state
-#{ @code.chomp.gsub(/^/, '        ') }
-        else
-          raise_inspect 'Unknown state: %p' % [state], encoder
-        end
-      end
-      
-      if options[:keep_state]
-        @state = state, string_delimiter
-      end
-      
-      if [:string, :regexp].include? state
-        encoder.end_group state
-      end
-      
-      encoder
+      @string_delimiter = nil
+      @value_expected = true
+      @key_expected = false
+      @function_expected = false
     end
-    RUBY
     
-    if ENV['PUTS']
-      puts CodeRay.scan(scan_tokens_code, :ruby).terminal
-      puts "callbacks: #{callbacks.size}"
+    def close_groups encoder, states
+      if [:string, :key, :regexp].include? states.last
+        encoder.end_group states.last
+      end
     end
-    class_eval scan_tokens_code, __FILE__, def_line
-    
-  protected
     
     def reset_instance
       super

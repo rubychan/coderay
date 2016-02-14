@@ -87,40 +87,24 @@ module Scanners
       on %r//, pop_state  # TODO: add otherwise method for this
     end
     
-    scan_tokens_code = <<-"RUBY"
-    def scan_tokens encoder, options#{ def_line = __LINE__; nil }
-      state = @state
-      label_expected = true
-      case_expected = false
-      label_expected_before_preproc_line = nil
-      in_preproc_line = false
+    protected
+    
+    def setup
+      super
       
-      states = [state]
-      
-      until eos?
-        # last_pos = pos
-        case state
-#{ @code.chomp.gsub(/^/, '        ') }
-        else
-          raise_inspect 'Unknown state: %p' % [state], encoder
-        end
-        
-        # raise_inspect 'nothing was consumed! states = %p' % [states], encoder if pos == last_pos
-      end
-      
-      if state == :string
+      @label_expected = true
+      @case_expected = false
+      @label_expected_before_preproc_line = nil
+      @in_preproc_line = false
+    end
+    
+    def close_groups encoder, states
+      if states.last == :string
         encoder.end_group :string
       end
-      
-      encoder
     end
-    RUBY
     
-    if ENV['PUTS']
-      puts CodeRay.scan(scan_tokens_code, :ruby).terminal
-      puts "callbacks: #{callbacks.size}"
-    end
-    class_eval scan_tokens_code, __FILE__, def_line
   end
+
 end
 end

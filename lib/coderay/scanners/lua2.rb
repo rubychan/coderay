@@ -48,15 +48,6 @@ module Scanners
       add(PREDEFINED_CONSTANTS, :predefined_constant).
       add(PREDEFINED_EXPRESSIONS, :predefined)
     
-    protected
-    
-    # Scanner initialization.
-    def setup
-      super
-      @brace_depth = 0
-      @num_equals = nil
-    end
-    
     state :initial, :map do
       on %r/\-\-\[\=*\[/, push(:long_comment, :comment), :delimiter,  #--[[ long (possibly multiline) comment ]]
         set(:num_equals, -> (match) { match.count('=') }) # Number must match for comment end
@@ -137,6 +128,15 @@ module Scanners
       on %r/"/, :delimiter, pop(:string)
       on %r/\n/, :error, pop(:string)  # Lua forbids unescaped newlines in normal non-long strings
       # encoder.text_token("\\n\n", :error) # Visually appealing error indicator--otherwise users may wonder whether the highlighter cannot highlight multine strings
+    end
+    
+    protected
+    
+    def setup
+      super
+      
+      @brace_depth = 0
+      @num_equals = nil
     end
     
     def close_groups encoder, states

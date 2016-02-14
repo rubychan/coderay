@@ -41,43 +41,11 @@ module Scanners
       on %r/ \\ /x, :error, pop
     end
     
-  protected
-    
-    scan_tokens_code = <<-"RUBY"
-    def scan_tokens encoder, options#{ def_line = __LINE__; nil }
-      state = options[:state] || @state
-      
-      if [:string, :key].include? state
-        encoder.begin_group state
+    def close_groups encoder, states
+      if [:string, :key].include? states.last
+        encoder.end_group states.last
       end
-      
-      states = [state]
-      
-      until eos?
-        case state
-#{ @code.chomp.gsub(/^/, '        ') }
-        else
-          raise_inspect 'Unknown state: %p' % [state], encoder
-        end
-      end
-      
-      if options[:keep_state]
-        @state = state
-      end
-      
-      if [:string, :key].include? state
-        encoder.end_group state
-      end
-      
-      encoder
     end
-    RUBY
-    
-    if ENV['PUTS']
-      puts CodeRay.scan(scan_tokens_code, :ruby).terminal
-      puts "callbacks: #{callbacks.size}"
-    end
-    class_eval scan_tokens_code, __FILE__, def_line
     
   end
   

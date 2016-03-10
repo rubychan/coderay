@@ -2,14 +2,14 @@ module CodeRay
 module Scanners
 
   # Scanner for C++.
-  # 
+  #
   # Aliases: +cplusplus+, c++
   class CPlusPlus < Scanner
 
     register_for :cpp
     file_extension 'cpp'
     title 'C++'
-    
+
     #-- http://www.cppreference.com/wiki/keywords/start
     KEYWORDS = [
       'and', 'and_eq', 'asm', 'bitand', 'bitor', 'break',
@@ -17,14 +17,15 @@ module Scanners
       'continue', 'default', 'delete', 'do', 'dynamic_cast', 'else',
       'enum', 'export', 'for', 'goto', 'if', 'namespace', 'new',
       'not', 'not_eq', 'or', 'or_eq', 'reinterpret_cast', 'return',
-      'sizeof', 'static_cast', 'struct', 'switch', 'template',
-      'throw', 'try', 'typedef', 'typeid', 'typename', 'union',
+      'sizeof', 'static_assert', 'static_cast', 'struct', 'switch',
+      'template', 'throw', 'try', 'typedef', 'typeid', 'typename', 'union',
       'while', 'xor', 'xor_eq',
     ]  # :nodoc:
-    
+
     PREDEFINED_TYPES = [
-      'bool', 'char', 'double', 'float', 'int', 'long',
-      'short', 'signed', 'unsigned', 'wchar_t', 'string',
+      'bool', 'char', 'char16_t', 'char32_t', 'double', 'float',
+      'int', 'long', 'nullptr' 'short', 'signed', 'unsigned',
+      'wchar_t', 'string',
     ]  # :nodoc:
     PREDEFINED_CONSTANTS = [
       'false', 'true',
@@ -34,11 +35,12 @@ module Scanners
       'this',
     ]  # :nodoc:
     DIRECTIVES = [
-      'auto', 'const', 'explicit', 'extern', 'friend', 'inline', 'mutable', 'operator',
-      'private', 'protected', 'public', 'register', 'static', 'using', 'virtual', 'void',
-      'volatile',
+      'alignas', 'alignof', 'auto', 'const', 'constexpr', 'decltype', 'explicit',
+      'extern', 'final', 'friend', 'inline', 'mutable', 'noexcept', 'operator',
+      'override', 'private', 'protected', 'public', 'register', 'static',
+      'thread_local', 'using', 'virtual', 'void', 'volatile',
     ]  # :nodoc:
-    
+
     IDENT_KIND = WordList.new(:ident).
       add(KEYWORDS, :keyword).
       add(PREDEFINED_TYPES, :predefined_type).
@@ -48,9 +50,9 @@ module Scanners
 
     ESCAPE = / [rbfntv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x  # :nodoc:
     UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x  # :nodoc:
-    
+
   protected
-    
+
     def scan_tokens encoder, options
 
       state = :initial
@@ -107,7 +109,7 @@ module Scanners
 
           elsif match = scan(/\$/)
             encoder.text_token match, :ident
-          
+
           elsif match = scan(/L?"/)
             encoder.begin_group :string
             if match[0] == ?L
@@ -180,7 +182,7 @@ module Scanners
             state = :initial
 
           end
-        
+
         when :class_name_expected
           if match = scan(/ [A-Za-z_][A-Za-z_0-9]* /x)
             encoder.text_token match, :class
@@ -194,7 +196,7 @@ module Scanners
             state = :initial
 
           end
-          
+
         else
           raise_inspect 'Unknown state', encoder
 

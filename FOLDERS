@@ -29,7 +29,6 @@ Run them as functional tests with <code>rake test:demos</code>.
 
 Some additional files for CodeRay, mainly graphics and Vim scripts.
 
-
 == lib - CodeRay library code
 
 This is the base directory for the CodeRay library.

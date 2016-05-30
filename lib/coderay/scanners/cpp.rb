@@ -15,7 +15,7 @@ module Scanners
       'and', 'and_eq', 'asm', 'bitand', 'bitor', 'break',
       'case', 'catch', 'class', 'compl', 'const_cast',
       'continue', 'default', 'delete', 'do', 'dynamic_cast', 'else',
-      'enum', 'export', 'final', 'for', 'goto', 'if', 'namespace', 'new',
+      'enum', 'export', 'for', 'goto', 'if', 'namespace', 'new',
       'not', 'not_eq', 'or', 'or_eq', 'reinterpret_cast', 'return',
       'sizeof', 'static_assert', 'static_cast', 'struct', 'switch',
       'template', 'throw', 'try', 'typedef', 'typeid', 'typename', 'union',
@@ -36,7 +36,7 @@ module Scanners
     ]  # :nodoc:
     DIRECTIVES = [
       'alignas', 'alignof', 'auto', 'const', 'constexpr', 'decltype', 'explicit',
-      'extern', 'friend', 'inline', 'mutable', 'noexcept', 'operator',
+      'extern', 'final', 'friend', 'inline', 'mutable', 'noexcept', 'operator',
       'override', 'private', 'protected', 'public', 'register', 'static',
       'thread_local', 'using', 'virtual', 'void', 'volatile',
     ]  # :nodoc:

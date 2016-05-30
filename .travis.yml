@@ -15,7 +15,6 @@ rvm:
   - jruby-19mode
   - jruby-head
   - rbx-2
->>>>>>> de2e2acd91988e6b54f50f6c44ad85f28b68c615
 branches:
   only:
     - master

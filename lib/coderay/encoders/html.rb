@@ -129,11 +129,10 @@ module Encoders
     
     def self.make_html_escape_hash
       {
-        '&' => '&amp;',
-        '"' => '&quot;',
-        '>' => '&gt;',
-        '<' => '&lt;',
-        # "\t" => will be set to ' ' * options[:tab_width] during setup
+        '&'  => '&amp;',
+        '>'  => '&gt;',
+        '<'  => '&lt;',
+        "\t" => ' ' * DEFAULT_OPTIONS[:tab_width],
       }.tap do |hash|
         # Escape ASCII control codes except \x9 == \t and \xA == \n.
         (Array(0x00..0x8) + Array(0xB..0x1F)).each { |invalid| hash[invalid.chr] = ' ' }
@@ -141,7 +140,7 @@ module Encoders
     end
     
     HTML_ESCAPE = make_html_escape_hash
-    HTML_ESCAPE_PATTERN = /[\t"&><\0-\x8\xB-\x1F]/
+    HTML_ESCAPE_PATTERN = /[\t&><\0-\x8\xB-\x1F]/
     
     TOKEN_KIND_TO_INFO = Hash.new do |h, kind|
       h[kind] = kind.to_s.gsub(/_/, ' ').gsub(/\b\w/) { $&.capitalize }
@@ -181,7 +180,7 @@ module Encoders
       
       @break_lines = (options[:break_lines] == true)
       
-      @HTML_ESCAPE = HTML_ESCAPE.merge("\t" => options[:tab_width] ? ' ' * options[:tab_width] : "\t")
+      @escape_cache = make_escape_cache(options)
       
       @opened = []
       @last_opened = nil
@@ -198,7 +197,7 @@ module Encoders
         @last_opened = nil
       end
       
-      if @out.respond_to? :to_str
+      if options[:wrap] || options[:line_numbers]
         @out.extend Output
         @out.css = @css
         if options[:line_numbers]
@@ -221,7 +220,7 @@ module Encoders
     def text_token text, kind
       style = @span_for_kinds[@last_opened ? [kind, *@opened] : kind]
       
-      text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] } if text =~ /#{HTML_ESCAPE_PATTERN}/o
+      text = @escape_cache[text] if text.size <= 1 || text =~ /#{HTML_ESCAPE_PATTERN}/o
       text = break_lines(text, style) if @break_lines && (style || @opened.size > 0) && text.index("\n")
       
       if style
@@ -275,6 +274,26 @@ module Encoders
       end
       
       options[:break_lines] = true if options[:line_numbers] == :inline
+    end
+    
+    def make_escape_cache options
+      html_escape =
+        if options[:tab_width] == DEFAULT_OPTIONS[:tab_width]
+          HTML_ESCAPE
+        else
+          HTML_ESCAPE.merge("\t" => options[:tab_width] ? ' ' * options[:tab_width] : "\t")
+        end
+      
+      Hash.new do |cache, text|
+        cache.clear if cache.size >= 100
+        
+        cache[text] =
+          if text =~ /#{HTML_ESCAPE_PATTERN}/o
+            text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| html_escape[m] }
+          else
+            text
+          end
+      end
     end
     
     def css_class_for_kinds kinds

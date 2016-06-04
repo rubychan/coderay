@@ -46,8 +46,8 @@ class BasicTest < Test::Unit::TestCase
     end
   end
   
-  RUBY_TEST_HTML = 'puts <span class="string"><span class="delimiter">&quot;</span>' + 
-    '<span class="content">Hello, World!</span><span class="delimiter">&quot;</span></span>'
+  RUBY_TEST_HTML = 'puts <span class="string"><span class="delimiter">"</span>' +
+    '<span class="content">Hello, World!</span><span class="delimiter">"</span></span>'
   def test_simple_highlight
     assert_nothing_raised do
       assert_equal RUBY_TEST_HTML, CodeRay.scan(RUBY_TEST_CODE, :ruby).html

@@ -2,6 +2,10 @@ h1=. CodeRay Version History
 
 p=. _This files lists all changes in the CodeRay library since the 0.9.8 release._
 
+h2. Changes in 1.1.2
+
+* C++ scanner: Added C++11 keywords. [#195, thanks to Johnny Willemsen]
+
 h2. Changes in 1.1.1
 
 * SQL scanner: Allow @$@ signs in SQL identifiers [#164, thanks to jasir and Ben Basson]
@@ -13,6 +17,7 @@ h2. Changes in 1.1.1
 * Diff scanner: Prevent running out of regexp stack.
 * HTML encoder: You can keep tabs intact now by setting @tab_width: false@.
 * Alpha style: Tweaked colors for @:function@ group with @:content@.
+* File structure: One module per file, autoload CodeRay::Version, paths follow namespace hierarchy.
 
 h2. Changes in 1.1
 

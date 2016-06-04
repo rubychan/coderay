@@ -7,7 +7,7 @@ gemspec
 # Include everything needed to run rake, tests, features, etc.
 group :development do
   gem "bundler"
-  gem "rake"
+  gem "rake", "~> 10.5"
   gem "RedCloth", RUBY_PLATFORM == 'java' ? ">= 4.2.7" : ">= 4.0.3"
   gem "term-ansicolor"
   gem 'tins', '~> 1.6.0'

@@ -3,6 +3,10 @@ require 'coderay'
 
 class HtmlTest < Test::Unit::TestCase
   
+  def normalize_html html
+    html.gsub('&#39;', "'").gsub('&quot;', '"')
+  end
+  
   def test_break_lines_option
     snippets = {}
     
@@ -95,9 +99,9 @@ public class Test {
     for lang, code in snippets
       tokens = CodeRay.scan code[:in], lang
       
-      assert_equal code[:expected_with_option_off], tokens.html
-      assert_equal code[:expected_with_option_off], tokens.html(:break_lines => false)
-      assert_equal code[:expected_with_option_on],  tokens.html(:break_lines => true)
+      assert_equal code[:expected_with_option_off], normalize_html(tokens.html)
+      assert_equal code[:expected_with_option_off], normalize_html(tokens.html(:break_lines => false))
+      assert_equal code[:expected_with_option_on],  normalize_html(tokens.html(:break_lines => true))
     end
   end
 end

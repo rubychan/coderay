@@ -47,11 +47,21 @@ module CodeRay
     # Example:
     #  yaml_plugin = MyPluginHost[:yaml]
     def [] id, *args, &blk
-      plugin = validate_id(id)
-      begin
-        plugin = plugin_hash.[](plugin, *args, &blk)
-      end while plugin.is_a? String
-      plugin
+      if !args.empty? || blk
+        plugin = validate_id(id)
+        begin
+          plugin = plugin_hash.[](plugin, *args, &blk)
+        end while plugin.is_a? String
+        plugin
+      else
+        (@cache ||= Hash.new do |cache, key|
+          plugin = validate_id(key)
+          begin
+            plugin = plugin_hash.[](plugin)
+          end while plugin.is_a? String
+          cache[key] = plugin
+        end)[id]
+      end
     end
     
     alias load []

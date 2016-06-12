@@ -5,10 +5,14 @@ require 'coderay'
 
 class ExamplesTest < Test::Unit::TestCase
   
+  def normalize_html html
+    html.gsub('&#39;', "'").gsub('&quot;', '"')
+  end
+  
   def test_examples
     # output as HTML div (using inline CSS styles)
     div = CodeRay.scan('puts "Hello, world!"', :ruby).div
-    assert_equal <<-DIV, div
+    assert_equal <<-DIV, normalize_html(div)
 <div class="CodeRay">
   <div class="code"><pre>puts <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">"</span><span style="color:#D20">Hello, world!</span><span style="color:#710">"</span></span></pre></div>
 </div>
@@ -20,7 +24,7 @@ class ExamplesTest < Test::Unit::TestCase
   puts 'Hello, world!'
 end
     CODE
-    assert_equal <<-DIV, div
+    assert_equal <<-DIV, normalize_html(div)
 <table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
 <a href="#n2" name="n2">2</a>
@@ -34,7 +38,7 @@ end
     
     # output as standalone HTML page (using CSS classes)
     page = CodeRay.scan('puts "Hello, world!"', :ruby).page
-    assert_match <<-PAGE, page
+    assert_match <<-PAGE, normalize_html(page)
 <body>
 
 <table class="CodeRay"><tr>
@@ -90,7 +94,7 @@ Token Types (7):
     
     # produce a HTML div, but with CSS classes
     div = tokens.div(:css => :class)
-    assert_equal <<-DIV, div
+    assert_equal <<-DIV, normalize_html(div)
 <div class="CodeRay">
   <div class="code"><pre>{ <span class="key"><span class="delimiter">"</span><span class="content">just</span><span class="delimiter">"</span></span>: <span class="string"><span class="delimiter">"</span><span class="content">an</span><span class="delimiter">"</span></span>, <span class="key"><span class="delimiter">"</span><span class="content">example</span><span class="delimiter">"</span></span>: <span class="integer">42</span> }</pre></div>
 </div>
@@ -119,7 +123,7 @@ Token Types (7):
     # re-using scanner and encoder
     ruby_highlighter = CodeRay::Duo[:ruby, :div]
     div = ruby_highlighter.encode('puts "Hello, world!"')
-    assert_equal <<-DIV, div
+    assert_equal <<-DIV, normalize_html(div)
 <div class="CodeRay">
   <div class="code"><pre>puts <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">"</span><span style="color:#D20">Hello, world!</span><span style="color:#710">"</span></span></pre></div>
 </div>

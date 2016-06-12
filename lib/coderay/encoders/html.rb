@@ -204,7 +204,7 @@ module Encoders
     def text_token text, kind
       style = @span_for_kinds[@last_opened ? [kind, *@opened] : kind]
       
-      text = EscapeUtils.escape_html text
+      text = EscapeUtils.escape_html text, false
       text = break_lines(text, style) if @break_lines && (style || @opened.size > 0) && text.index("\n")
       
       if style

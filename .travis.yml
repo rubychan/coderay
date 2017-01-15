@@ -11,19 +11,15 @@ rvm:
   - 2.3.3
   - 2.4.0
   - ruby-head
-  - jruby-18mode
-  - jruby-19mode
-  - jruby-head
-  - rbx-2
+  - jruby
+  - rbx
 branches:
   only:
     - master
 matrix:
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-18mode
-    - rvm: jruby-19mode
-    - rvm: jruby-head
-    - rvm: rbx-2
+    - rvm: jruby
+    - rvm: rbx
 script: "rake test" # test:scanners"
 sudo: false

@@ -253,7 +253,7 @@ module CodeRay
         
         def set flag, value = nil, &callback
           variables << flag
-          ValueSetter.new [flag], value || callback
+          ValueSetter.new [flag], value || callback || true
         end
         
         def unset *flags

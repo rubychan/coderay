@@ -9,10 +9,10 @@ group :development do
   gem "bundler"
   gem "rake", "~> 10.5"
   gem "RedCloth", RUBY_PLATFORM == 'java' ? ">= 4.2.7" : ">= 4.0.3"
-  gem "term-ansicolor"
+  gem "term-ansicolor", "~> 1.3.2"
   gem 'tins', '~> 1.6.0'
   gem "shoulda-context"
   gem "test-unit"
-  gem "json" if RUBY_VERSION < '1.9'
+  gem "json", "~> 1.8" if RUBY_VERSION < '1.9'
   gem "rdoc"
 end

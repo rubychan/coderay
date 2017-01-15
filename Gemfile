@@ -8,7 +8,7 @@ gemspec
 group :development do
   gem "bundler"
   gem "rake", "~> 10.5"
-  gem "RedCloth", RUBY_PLATFORM == 'java' ? ">= 4.2.7" : ">= 4.0.3"
+  gem "RedCloth", RUBY_PLATFORM == 'java' ? "= 4.2.9" : ">= 4.0.3"
   gem "term-ansicolor", "~> 1.3.2"
   gem 'tins', '~> 1.6.0'
   gem "shoulda-context", "= 1.2.1"

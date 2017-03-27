@@ -4,6 +4,7 @@ module Scanners
   map \
     :'c++'       => :cpp,
     :cplusplus   => :cpp,
+    :'c#'        => :csharp,
     :ecmascript  => :java_script,
     :ecma_script => :java_script,
     :rhtml       => :erb,

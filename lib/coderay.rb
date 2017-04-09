@@ -155,6 +155,7 @@ module CodeRay
   
   # DSL Scanner
   autoload :RuleBasedScanner, coderay_path('rule_based_scanner')
+  autoload :StateBasedScanner, coderay_path('state_based_scanner')
   
   # convenience access and reusable Encoder/Scanner pair
   autoload :Duo,         coderay_path('duo')

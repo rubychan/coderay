@@ -75,7 +75,7 @@ module Scanners
           
           tag = false
           
-          if match = scan(/%[\w:]+\/?/)
+          if match = scan(/%[-\w:]+\/?/)
             encoder.text_token match, :tag
             # if match = scan(/( +)(.+)/)
             #   encoder.text_token self[1], :space

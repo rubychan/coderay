@@ -5,6 +5,7 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
 h2. Changes in 1.1.2
 
 * C++ scanner: Added C++11 keywords. [#195, thanks to Johnny Willemsen]
+* Haml scanner: Allow @-@ in tags.
 
 h2. Changes in 1.1.1
 

@@ -161,32 +161,32 @@ more code  # and another comment, in-line.
   end
   
   def test_supported_languages_should_include_languages
-    assert_includes CodeRay.supported_languages, :ruby
+    assert CodeRay.supported_languages.include?(:ruby)
   end
   
   def test_supported_languages_without_arguments_should_include_aliases_and_exclude_internals
-    assert_includes CodeRay.supported_languages, :javascript
-    refute_includes CodeRay.supported_languages, :debug
+    assert CodeRay.supported_languages.include?(:javascript)
+    assert !CodeRay.supported_languages.include?(:debug)
   end
   
   def test_supported_languages_with_arguments_should_include_aliases_and_exclude_internals
-    assert_includes CodeRay.supported_languages(true, false), :javascript
-    refute_includes CodeRay.supported_languages(true, false), :debug
+    assert CodeRay.supported_languages(true, false).include?(:javascript)
+    assert !CodeRay.supported_languages(true, false).include?(:debug)
   end
   
   def test_supported_languages_with_arguments_should_exclude_aliases_and_include_internals
-    refute_includes CodeRay.supported_languages(false, true), :javascript
-    assert_includes CodeRay.supported_languages(false, true), :debug
+    assert !CodeRay.supported_languages(false, true).include?(:javascript)
+    assert CodeRay.supported_languages(false, true).include?(:debug)
   end
   
   def test_supported_languages_with_arguments_should_include_aliases_and_internals
-    assert_includes CodeRay.supported_languages(true, true), :javascript
-    assert_includes CodeRay.supported_languages(true, true), :debug
+    assert CodeRay.supported_languages(true, true).include?(:javascript)
+    assert CodeRay.supported_languages(true, true).include?(:debug)
   end
   
   def test_supported_languages_with_arguments_should_exclude_aliases_and_internals
-    refute_includes CodeRay.supported_languages(false, false), :javascript
-    refute_includes CodeRay.supported_languages(false, false), :debug
+    assert !CodeRay.supported_languages(false, false).include?(:javascript)
+    assert !CodeRay.supported_languages(false, false).include?(:debug)
   end
   
   def test_token_kinds

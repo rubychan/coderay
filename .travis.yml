@@ -16,6 +16,8 @@ rvm:
 branches:
   only:
     - master
+before_script:
+- if (ruby -e "exit RUBY_VERSION.to_f >= 2.4"); then export RUBYOPT="--enable-frozen-string-literal"; fi; echo $RUBYOPT
 matrix:
   allow_failures:
     - rvm: ruby-head

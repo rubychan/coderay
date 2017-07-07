@@ -44,7 +44,7 @@ module Scanners
       '"' => /[^\\"]+/,
       '/' => /[^\\\/]+/,
     }  # :nodoc:
-    IDENT = /[\p{L}_][\p{L}_0-9]*/  # :nodoc:
+    IDENT = /[[[:alpha:]]_][[[:alnum:]]_]*/  # :nodoc:
     
   protected
     

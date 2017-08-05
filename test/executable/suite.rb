@@ -194,6 +194,27 @@ class TestCodeRayExecutable < Test::Unit::TestCase
     end
   end
   
+  context 'highlighting a file without explicit input type (source.kt)' do
+    source_file = ROOT_DIR + 'test/executable/source.kt'
+    command = "#{source_file} -html"
+    
+    source = File.read source_file
+    
+    pre = %r{<td class="code"><pre>(.*?)</pre>}m
+    tag_class = /<span class="([^>"]*)"?[^>]*>/
+
+    should 'generate json' do
+      target = coderay("#{source_file} #{source_file}.json")
+      target = coderay("#{source_file} #{source_file}.html")
+    end
+    
+    # should 'respect the file extension and highlight the input as Kotlin' do
+    #   target = coderay(command)
+    #   assert_equal %w(keyword class), target[pre, 1].scan(tag_class).flatten
+    # end
+
+  end
+  
   context 'highlighting a file with explicit input and output type (-ruby source.py -span)' do
     source_file = ROOT_DIR + 'test/executable/source.py'
     command = "-ruby #{source_file} -span"

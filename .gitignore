@@ -10,5 +10,7 @@ Gemfile.lock
 .ruby-version
 test/executable/source.rb.html
 test/executable/source.rb.json
+test/executable/*.actual.html
+test/executable/*.actual.json
 test/scanners
 old-stuff

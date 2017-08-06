@@ -12,7 +12,7 @@ class Test {
         and quotes: ' " ''  ""  ok
         """
 
-    val innerBraaces = " before ${ if (true) { 1 } else { 2 } }"
+    val innerBraces = " before ${ if (true) { 1 } else { 2 } }"
 
     var v: Int = 0
 

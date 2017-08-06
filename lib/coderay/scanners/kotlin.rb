@@ -88,11 +88,11 @@ module CodeRay
                 encoder.text_token match, kind
               elsif (match = scan(/ \.(?!\d) | [,?:()\[\]] | -- | \+\+ | && | \|\| | \*\*=? | [-+*\/%^~&|<>=!]=? /x))
                 encoder.text_token match, :operator
-              elsif (match = scan(/{/))
+              elsif (match = scan(/\{/))
                 class_name_follows = false
                 encoder.text_token match, :operator
                 states << :initial
-              elsif (match = scan(/}/))
+              elsif (match = scan(/\}/))
                 encoder.text_token match, :operator
 
                 unless states.empty?
@@ -131,7 +131,7 @@ module CodeRay
               end
 
             when :string
-              if (match = scan(/\${/))
+              if (match = scan(/\$\{/))
                 encoder.text_token match, :operator
 
                 state = :initial
@@ -163,7 +163,7 @@ module CodeRay
                 raise_inspect "else case \" reached; %p not handled." % peek(1), encoder
               end
             when :multiline_string
-              if (match = scan(/\${/))
+              if (match = scan(/\$\{/))
                 encoder.text_token match, :operator
 
                 state = :initial

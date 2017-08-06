@@ -7,6 +7,13 @@ class Test {
     val template2 = "abc${1 + 'b'}def"
     val template3 = "abc $var def"
 
+    val multiline = """ first line $var ${1 + 1}
+        second line
+        and quotes: ' " ''  ""  ok
+        """
+
+    val innerBraaces = " before ${ if (true) { 1 } else { 2 } }"
+
     var v: Int = 0
 
     fun function(): ReturnType {

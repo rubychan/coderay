@@ -50,6 +50,7 @@ module CodeRay
         last_token_dot = false
         class_name_follows = false
         delimiters = []
+        states = []
 
         until eos?
 
@@ -90,14 +91,22 @@ module CodeRay
               elsif (match = scan(/{/))
                 class_name_follows = false
                 encoder.text_token match, :operator
+                states << :initial
               elsif (match = scan(/}/))
                 encoder.text_token match, :operator
 
-                unless delimiters.empty?
-                  string_delimiter = delimiters.pop
-                  encoder.end_group state
-                  state = :string
+                unless states.empty?
+                  state = states.pop
+
+                  if state == :string || state == :multiline_string
+                    string_delimiter = delimiters.pop
+                    encoder.end_group :initial
+                  end
                 end
+              elsif (match = scan(/"""/))
+                state = :multiline_string
+                encoder.begin_group :string
+                encoder.text_token match, :delimiter
               elsif (match = scan(/["']/))
                 state = :string
                 encoder.begin_group state
@@ -129,6 +138,7 @@ module CodeRay
                 encoder.begin_group state
 
                 delimiters << string_delimiter
+                states << :string
                 string_delimiter = nil
               elsif (match = scan(/ \$ #{IDENT} /ox))
                 encoder.text_token match, :ident
@@ -149,6 +159,29 @@ module CodeRay
                 encoder.end_group state
                 state = :initial
                 encoder.text_token match, :error unless match.empty?
+              else
+                raise_inspect "else case \" reached; %p not handled." % peek(1), encoder
+              end
+            when :multiline_string
+              if (match = scan(/\${/))
+                encoder.text_token match, :operator
+
+                state = :initial
+                encoder.begin_group state
+
+                delimiters << nil
+                states << :multiline_string
+              elsif (match = scan(/ \$ #{IDENT} /ox))
+                encoder.text_token match, :ident
+              elsif (match = scan(/ [^$\\"]+ /x))
+                encoder.text_token match, :content
+              elsif (match = scan(/"""/x))
+                encoder.text_token match, :delimiter
+                encoder.end_group :string
+                state = :initial
+                string_delimiter = nil
+              elsif (match = scan(/"/))
+                encoder.text_token match, :content
               else
                 raise_inspect "else case \" reached; %p not handled." % peek(1), encoder
               end

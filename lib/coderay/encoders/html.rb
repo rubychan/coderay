@@ -199,13 +199,11 @@ module Encoders
       end
       
       if @out.respond_to? :to_str
-        @out.extend Output
-        @out.css = @css
         if options[:line_numbers]
           Numbering.number! @out, options[:line_numbers], options
         end
-        @out.wrap! options[:wrap]
-        @out.apply_title! options[:title]
+        @out = Output.wrap_string_in @out, options[:wrap], @css if options[:wrap]
+        @out = @out.sub(/(<title>)(<\/title>)/) { $1 + options[:title] + $2 } if options[:title]
       end
       
       if defined?(@real_out) && @real_out
@@ -272,6 +270,10 @@ module Encoders
       
       unless [:class, :style].include? options[:css]
         raise ArgumentError, 'Unknown value %p for :css.' % [options[:css]]
+      end
+      
+      unless [nil, false, :span, :div, :page].include? options[:wrap]
+        raise ArgumentError, 'Unknown value %p for :wrap.' % [options[:wrap]]
       end
       
       options[:break_lines] = true if options[:line_numbers] == :inline

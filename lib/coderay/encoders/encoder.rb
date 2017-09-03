@@ -146,7 +146,7 @@ module CodeRay
       end
       
       def get_output options
-        options[:out] || ''
+        options[:out] || ''.dup
       end
       
       # Append data.to_s to the output. Returns the argument.

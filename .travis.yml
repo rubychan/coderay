@@ -12,7 +12,6 @@ rvm:
   - 2.4
   - ruby-head
   - jruby
-  - rbx
 branches:
   only:
     - master

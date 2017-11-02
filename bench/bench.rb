@@ -15,7 +15,7 @@ raise 'Example file is empty.' if data.empty?
 format = ARGV.fetch(1, 'html').downcase
 encoder = CodeRay.encoder(format)
 
-size = ARGV.fetch(2, 2000).to_i * 1000
+size = ARGV.fetch(2, 3000).to_i * 1000
 unless size.zero?
   data += data until data.size >= size
   data = data[0, size]

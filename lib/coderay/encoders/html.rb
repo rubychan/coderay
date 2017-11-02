@@ -161,7 +161,7 @@ module Encoders
       
       if options[:wrap] || options[:line_numbers]
         @real_out = @out
-        @out = ''
+        @out = ''.dup
       end
       
       @break_lines = (options[:break_lines] == true)
@@ -297,7 +297,7 @@ module Encoders
     end
     
     def break_lines text, style
-      reopen = ''
+      reopen = ''.dup
       @opened.each_with_index do |kind, index|
         reopen << (@span_for_kinds[index > 0 ? [kind, *@opened[0...index]] : kind] || '<span>')
       end

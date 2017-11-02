@@ -4,7 +4,10 @@ p=. _This files lists all changes in the CodeRay library since the 0.9.8 release
 
 h2. Changes in 1.1.2
 
-* C++ scanner: Added C++11 keywords. [#195, thanks to Johnny Willemsen]
+* Ruby future: Add support for frozen string literals. [#211, thanks to Pat Allan]
+* C++ scanner: Add C++11 keywords. [#195, thanks to Johnny Willemsen]
+* Haml scanner: Allow @-@ in tags.
+* Java scanner: Allow Unicode characters in identifiers. [#212, thanks to t-gergely]
 
 h2. Changes in 1.1.1
 

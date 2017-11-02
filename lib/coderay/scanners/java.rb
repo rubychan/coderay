@@ -44,7 +44,7 @@ module Scanners
       '"' => /[^\\"]+/,
       '/' => /[^\\\/]+/,
     }  # :nodoc:
-    IDENT = /[a-zA-Z_][A-Za-z_0-9]*/  # :nodoc:
+    IDENT = RUBY_VERSION < '1.9' ? /[a-zA-Z_][A-Za-z_0-9]*/ : Regexp.new('[[[:alpha:]]_][[[:alnum:]]_]*')  # :nodoc:
     
   protected
     

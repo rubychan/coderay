@@ -8,21 +8,19 @@ rvm:
   - 2.0
   - 2.1
   - 2.2
-  - 2.3.0
+  - 2.3
+  - 2.4
   - ruby-head
-  - jruby-18mode
-  - jruby-19mode
-  - jruby-head
-  - rbx-2
+  - jruby
 branches:
   only:
     - master
+before_script:
+- if (ruby -e "exit RUBY_VERSION.to_f >= 2.3"); then export RUBYOPT="--enable-frozen-string-literal"; fi; echo $RUBYOPT
 matrix:
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-18mode
-    - rvm: jruby-19mode
-    - rvm: jruby-head
-    - rvm: rbx-2
+    - rvm: jruby
+    - rvm: rbx
 script: "rake test" # test:scanners"
 sudo: false

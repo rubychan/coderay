@@ -9,7 +9,7 @@ module Scanners
   # The language’s complete syntax is defined in
   # {the Lua manual}[http://www.lua.org/manual/5.2/manual.html],
   # which is what this scanner tries to conform to.
-  class Lua3 < RuleBasedScannerX
+  class Lua3 < RuleBasedScanner
     
     register_for :lua3
     file_extension 'lua'

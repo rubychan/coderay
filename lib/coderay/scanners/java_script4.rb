@@ -2,7 +2,7 @@
 module CodeRay
 module Scanners
   
-  class RuleBasedScanner5 < Scanner
+  class JavaScript4RuleBasedScanner < Scanner
     
     CheckIf = Struct.new :condition
     
@@ -173,7 +173,7 @@ module Scanners
   # Scanner for JavaScript.
   # 
   # Aliases: +ecmascript+, +ecma_script+, +javascript+
-  class JavaScript4 < RuleBasedScanner5
+  class JavaScript4 < JavaScript4RuleBasedScanner
     
     register_for :java_script4
     file_extension 'js'

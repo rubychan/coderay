@@ -1,7 +1,7 @@
 module CodeRay
 module Scanners
   
-  class RuleBasedScanner4 < Scanner
+  class JSON4RuleBasedScanner < Scanner
     class << self
       attr_accessor :states
       
@@ -56,7 +56,7 @@ module Scanners
   end
   
   # Scanner for JSON (JavaScript Object Notation).
-  class JSON4 < RuleBasedScanner4
+  class JSON4 < JSON4RuleBasedScanner
     
     register_for :json4
     file_extension 'json'

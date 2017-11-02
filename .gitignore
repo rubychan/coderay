@@ -1,11 +1,12 @@
 .*
 bench/example.*
 coverage
-pkg
-spec/reports
 doc
 Gemfile.lock
+old-stuff
+pkg
+spec/examples.txt
+spec/reports
 test/executable/source.rb.html
 test/executable/source.rb.json
 test/scanners
-old-stuff

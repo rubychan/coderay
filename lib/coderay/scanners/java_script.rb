@@ -100,7 +100,6 @@ module Scanners
             # TODO: scan over nested tags
             xml_scanner.tokenize match, :tokens => encoder
             value_expected = false
-            next
             
           elsif match = scan(/ [-+*=<>?:;,!&^|(\[{~%]+ | \.(?!\d) /x)
             value_expected = true

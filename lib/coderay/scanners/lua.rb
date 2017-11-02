@@ -76,7 +76,7 @@ module Scanners
             encoder.text_token(match, :comment)
           
           elsif match = scan(/\[=*\[/)     # [[ long (possibly multiline) string ]]
-            num_equals = match.count("=") # Number must match for comment end
+            num_equals = match.count("=") # Number must match for string end
             encoder.begin_group(:string)
             encoder.text_token(match, :delimiter)
             state = :long_string

@@ -3,6 +3,8 @@ require 'set'
 module CodeRay
   module Scanners
     module SimpleScannerDSL
+      NoStatesError = Class.new StandardError
+
       Pattern = Struct.new :pattern
       Groups = Struct.new :token_kinds
       Kind = Struct.new :token_kind
@@ -26,7 +28,7 @@ module CodeRay
         def eval
           @first = true
 
-          @code = ""
+          @code = ''
           instance_eval(&block)
         end
 
@@ -111,114 +113,118 @@ when #{names.map(&:inspect).join(', ')}
             end
           end
 
-          @code << "#{'els' unless @first}if #{condition_expressions.join(' && ')}\n"
+          condition_code = "#{'els' unless @first}if #{condition_expressions.join(' && ')}\n"
+          action_code    = ''
 
           for action in actions
             case action
             when String
               raise
-              @code << "p 'evaluate #{action.inspect}'\n" if $DEBUG
-              @code << "#{action}\n"
+              action_code << "p 'evaluate #{action.inspect}'\n" if $DEBUG
+              action_code << "#{action}\n"
 
             when Symbol
-              @code << "p 'text_token %p %p' % [match, #{action.inspect}]\n" if $DEBUG
-              @code << "encoder.text_token match, #{action.inspect}\n"
+              action_code << "p 'text_token %p %p' % [match, #{action.inspect}]\n" if $DEBUG
+              action_code << "encoder.text_token match, #{action.inspect}\n"
             when Kind
               case action.token_kind
               when Proc
-                @code << "encoder.text_token match, kind = #{dsl.add_callback(action.token_kind)}\n"
+                action_code << "encoder.text_token match, kind = #{dsl.add_callback(action.token_kind)}\n"
               else
                 raise "I don't know how to evaluate this kind: %p" % [action.token_kind]
               end
             when Groups
-              @code << "p 'text_tokens %p in groups %p' % [match, #{action.token_kinds.inspect}]\n" if $DEBUG
+              action_code << "p 'text_tokens %p in groups %p' % [match, #{action.token_kinds.inspect}]\n" if $DEBUG
               action.token_kinds.each_with_index do |kind, i|
-                @code << "encoder.text_token self[#{i + 1}], #{kind.inspect} if self[#{i + 1}]\n"
+                action_code << "encoder.text_token self[#{i + 1}], #{kind.inspect} if self[#{i + 1}]\n"
               end
 
             when Push, PushState
               case action.state
               when String
                 raise
-                @code << "p 'push %p' % [#{action.state}]\n" if $DEBUG
-                @code << "state = #{action.state}\n"
-                @code << "states << state\n"
+                action_code << "p 'push %p' % [#{action.state}]\n" if $DEBUG
+                action_code << "state = #{action.state}\n"
+                action_code << "states << state\n"
               when Symbol
-                @code << "p 'push %p' % [#{action.state.inspect}]\n" if $DEBUG
-                @code << "state = #{action.state.inspect}\n"
-                @code << "states << state\n"
+                action_code << "p 'push %p' % [#{action.state.inspect}]\n" if $DEBUG
+                action_code << "state = #{action.state.inspect}\n"
+                action_code << "states << state\n"
               when Proc
-                @code << "if new_state = #{dsl.add_callback(action.state)}\n"
-                @code << "  state = new_state\n"
-                @code << "  states << new_state\n"
-                @code << "end\n"
+                action_code << "if new_state = #{dsl.add_callback(action.state)}\n"
+                action_code << "  state = new_state\n"
+                action_code << "  states << new_state\n"
+                action_code << "end\n"
               else
                 raise "I don't know how to evaluate this push state: %p" % [action.state]
               end
               if action.is_a? Push
                 if action.state == action.group
-                  @code << "encoder.begin_group state\n"
+                  action_code << "encoder.begin_group state\n"
                 else
                   case action.state
                   when Symbol
-                    @code << "p 'begin group %p' % [#{action.group.inspect}]\n" if $DEBUG
-                    @code << "encoder.begin_group #{action.group.inspect}\n"
+                    action_code << "p 'begin group %p' % [#{action.group.inspect}]\n" if $DEBUG
+                    action_code << "encoder.begin_group #{action.group.inspect}\n"
                   when Proc
-                    @code << "encoder.begin_group #{dsl.add_callback(action.group)}\n"
+                    action_code << "encoder.begin_group #{dsl.add_callback(action.group)}\n"
                   else
                     raise "I don't know how to evaluate this push state: %p" % [action.state]
                   end
                 end
               end
             when Pop, PopState
-              @code << "p 'pop %p' % [states.last]\n" if $DEBUG
+              action_code << "p 'pop %p' % [states.last]\n" if $DEBUG
               if action.is_a? Pop
                 if action.group
                   case action.group
                   when Symbol
-                    @code << "encoder.end_group #{action.group.inspect}\n"
+                    action_code << "encoder.end_group #{action.group.inspect}\n"
                   else
                     raise "I don't know how to evaluate this pop group: %p" % [action.group]
                   end
-                  @code << "states.pop\n"
+                  action_code << "states.pop\n"
                 else
-                  @code << "encoder.end_group states.pop\n"
+                  action_code << "encoder.end_group states.pop\n"
                 end
               else
-                @code << "states.pop\n"
+                action_code << "states.pop\n"
               end
-              @code << "state = states.last\n"
+              action_code << "state = states.last\n"
 
             when ValueSetter
               case action.value
               when Proc
-                @code << "#{action.targets.join(' = ')} = #{dsl.add_callback(action.value)}\n"
+                action_code << "#{action.targets.join(' = ')} = #{dsl.add_callback(action.value)}\n"
               when Symbol
-                @code << "#{action.targets.join(' = ')} = #{action.value}\n"
+                action_code << "#{action.targets.join(' = ')} = #{action.value}\n"
               else
-                @code << "#{action.targets.join(' = ')} = #{action.value.inspect}\n"
+                action_code << "#{action.targets.join(' = ')} = #{action.value.inspect}\n"
               end
 
             when Increment
               case action.value
               when Proc
-                @code << "#{action.targets.join(' = ')} #{action.operation}= #{dsl.add_callback(action.value)}\n"
+                action_code << "#{action.targets.join(' = ')} #{action.operation}= #{dsl.add_callback(action.value)}\n"
               when Symbol
-                @code << "#{action.targets.join(' = ')} #{action.operation}= #{action.value}\n"
+                action_code << "#{action.targets.join(' = ')} #{action.operation}= #{action.value}\n"
               else
-                @code << "#{action.targets.join(' = ')} #{action.operation}= #{action.value.inspect}\n"
+                action_code << "#{action.targets.join(' = ')} #{action.operation}= #{action.value.inspect}\n"
               end
 
             when Proc
-              @code << "#{dsl.add_callback(action)}\n"
+              action_code << "#{dsl.add_callback(action)}\n"
 
             when Continue
-              @code << "next\n"
+              action_code << "next\n"
 
             else
               raise "I don't know how to evaluate this action: %p" % [action]
             end
           end
+
+          @code << condition_code
+          @code << action_code.gsub(/^/, '  ')
 
           @first = false
         end
@@ -347,8 +353,7 @@ when #{names.map(&:inspect).join(', ')}
         <<-"RUBY"
 state = options[:state] || @state
 states = [state]
-#{ restore_local_variables_code.chomp }
-
+#{ restore_local_variables_code }
 until eos?
   case state
 #{ states_code.chomp.gsub(/^/, '  ') }
@@ -359,7 +364,7 @@ end
 
 @state = state if options[:keep_state]
 
-#{ close_groups_code.chomp }
+close_groups(encoder, states)
 
 encoder
         RUBY
@@ -370,11 +375,11 @@ encoder
       end
 
       def states_code
-        @states.map(&:code)[0,1].join
-      end
+        unless defined? @states
+          raise NoStatesError, 'no states defined for %p' % [self.class]
+        end
 
-      def close_groups_code
-        'close_groups(encoder, states)'
+        @states.map(&:code).join
       end
     end
   end

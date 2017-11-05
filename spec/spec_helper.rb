@@ -91,6 +91,4 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 end
 
-$LOAD_PATH << 'lib/coderay'
-
 require 'coderay'

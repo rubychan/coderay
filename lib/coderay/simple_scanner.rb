@@ -15,7 +15,7 @@ module CodeRay
 
           class_eval <<-RUBY
 def scan_tokens encoder, options
-#{ scan_tokens_code.chomp.gsub(/^/, '  ' * 2) }
+#{ scan_tokens_code.chomp.gsub(/^/, '  ') }
 end
           RUBY
         end

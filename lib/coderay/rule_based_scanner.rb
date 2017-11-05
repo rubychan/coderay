@@ -363,8 +363,6 @@ module CodeRay
         scan_tokens tokens, options
       end
       
-      protected
-      
       def setup
         @state = :initial
       end

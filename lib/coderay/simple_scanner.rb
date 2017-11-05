@@ -1,4 +1,5 @@
 require 'set'
+require 'coderay/simple_scanner_dsl'
 
 module CodeRay
   module Scanners

@@ -9,7 +9,7 @@ rvm:
   - 2.1
   - 2.2
   - 2.3
-  - 2.4
+  - 2.4.2
   - ruby-head
   - jruby
 branches:
@@ -21,6 +21,5 @@ matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby
-    - rvm: rbx
 script: "rake test" # test:scanners"
 sudo: false

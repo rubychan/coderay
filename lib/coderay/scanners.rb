@@ -26,6 +26,7 @@ module CodeRay
     autoload :RuleBasedScanner, CodeRay.coderay_path('rule_based_scanner')
     autoload :SingleStateRuleBasedScanner, CodeRay.coderay_path('single_state_rule_based_scanner')
     autoload :StateBasedScanner, CodeRay.coderay_path('state_based_scanner')
+    autoload :RougeScanner, CodeRay.coderay_path('rouge_scanner')
     autoload :SimpleScanner, CodeRay.coderay_path('simple_scanner')
     
   end

@@ -16,6 +16,7 @@ module Scanners
     :javascript4 => :java_script4,
     :javascript5 => :java_script5,
     :javascript6 => :java_script6,
+    :javascript7 => :java_script7,
     :js          => :java_script,
     :pascal      => :delphi,
     :patch       => :diff,

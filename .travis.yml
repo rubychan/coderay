@@ -9,7 +9,7 @@ rvm:
   - 2.1
   - 2.2
   - 2.3
-  - 2.4
+  - 2.4.2
   - 2.5
   - ruby-head
   - jruby
@@ -20,6 +20,7 @@ before_script:
 - if (ruby -e "exit RUBY_VERSION.to_f >= 2.3"); then export RUBYOPT="--enable-frozen-string-literal"; fi; echo $RUBYOPT
 matrix:
   allow_failures:
+    - rvm: 2.5
     - rvm: ruby-head
     - rvm: jruby
 script: "rake test" # test:scanners"

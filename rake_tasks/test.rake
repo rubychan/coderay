@@ -48,6 +48,11 @@ Please rename or remove it and run again to use the GitHub repository:
       task lang => :update_scanner_suite do
         ruby "./test/scanners/suite.rb #{lang}"
       end
+      (1..6).each do |i|
+        task "#{lang}:#{i}" => :update_scanner_suite do
+          ruby "./test/scanners/suite.rb #{lang}:#{i}"
+        end
+      end
     end
   end
   

@@ -15,9 +15,12 @@ module Encoders
     
     register_for :debug
     
+    attr_reader :size
+    
     FILE_EXTENSION = 'raydebug'
     
     def text_token text, kind
+      @size += 1
       if kind == :space
         @out << text
       else
@@ -41,6 +44,13 @@ module Encoders
     
     def end_line kind
       @out << ']'
+    end
+    
+    protected
+    
+    def setup options
+      super
+      @size = 0
     end
     
   end

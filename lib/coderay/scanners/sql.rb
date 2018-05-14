@@ -29,7 +29,7 @@ module Scanners
       char varchar varchar2 enum binary text tinytext mediumtext
       longtext blob tinyblob mediumblob longblob timestamp
       date time datetime year double decimal float int
-      integer tinyint mediumint bigint smallint unsigned bit
+      integer tinyint mediumint bigint smallint unsigned bit numberic
       bool boolean hex bin oct
     )
     

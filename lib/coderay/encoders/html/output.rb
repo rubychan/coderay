@@ -76,8 +76,6 @@ module Encoders
             apply_title! title
           end
           self
-        when nil
-          return self
         else
           raise "Unknown value %p for :wrap" % element
         end

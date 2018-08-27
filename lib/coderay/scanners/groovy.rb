@@ -43,7 +43,7 @@ module Scanners
     def scan_tokens encoder, options
       state = options[:state] || @state
       inline_block_stack = []
-      inline_block_paren_depth = nil
+      inline_block_paren_depth = 0
       string_delimiter = nil
       import_clause = class_name_follows = last_token = after_def = false
       value_expected = true
@@ -196,7 +196,8 @@ module Scanners
             
           elsif (state == :string || state == :multiline_string) &&
               (match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox))
-            if string_delimiter[0] == ?' && !(match == "\\\\" || match == "\\'")
+            if !(string_delimiter.nil?) && string_delimiter.kind_of?(Array) \
+              && string_delimiter[0] == ?' && !(match == "\\\\" || match == "\\'")
               encoder.text_token match, :content
             else
               encoder.text_token match, :char

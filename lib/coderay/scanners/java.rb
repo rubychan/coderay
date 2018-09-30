@@ -12,8 +12,7 @@ module Scanners
     KEYWORDS = %w[
       assert break case catch continue default do else
       finally for if instanceof import new package
-      return switch throw try typeof while
-      debugger export
+      return switch throw try while
     ]  # :nodoc:
     RESERVED = %w[ const goto ]  # :nodoc:
     CONSTANTS = %w[ false null true ]  # :nodoc:

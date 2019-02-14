@@ -14,5 +14,5 @@ group :development do
   gem 'shoulda-context',  RUBY_VERSION < '1.9' ? '= 1.2.1'    : '>= 1.2.1'
   gem 'test-unit',        RUBY_VERSION < '1.9' ? '~> 2.0'     : '>= 3.0'
   gem 'json', '>= 1.8' if RUBY_VERSION < '1.9'
-  gem 'rdoc',             RUBY_VERSION < '1.9' ? '~> 4.2.2'   : '>= 4.2.2'
+  gem 'rdoc',             Gem::Version.new(RUBY_VERSION) < Gem::Version.new('1.9.3') ? '~> 4.2.2' : Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2') ? '< 6' : '>= 6'
 end

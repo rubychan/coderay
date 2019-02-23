@@ -18,6 +18,7 @@ class FilterTest < Test::Unit::TestCase
       tokens.text_token i.to_s, :index
     end
     assert_equal tokens, CodeRay::Encoders::Filter.new.encode_tokens(tokens)
+    assert_equal CodeRay::Tokens, tokens.filter.class
     assert_equal tokens, tokens.filter
   end
   
@@ -32,6 +33,7 @@ class FilterTest < Test::Unit::TestCase
       tokens.end_line :index
     end
     assert_equal tokens, CodeRay::Encoders::Filter.new.encode_tokens(tokens)
+    assert_equal CodeRay::Tokens, tokens.filter.class
     assert_equal tokens, tokens.filter
   end
   

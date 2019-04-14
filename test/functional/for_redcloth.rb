@@ -14,16 +14,20 @@ end
 
 class BasicTest < Test::Unit::TestCase
   
+  def normalize_html html
+    html.gsub('&#39;', "'").gsub('&quot;', '"')
+  end
+  
   def test_for_redcloth
     require 'coderay/for_redcloth'
-    assert_equal "<p><span lang=\"ruby\" class=\"CodeRay\">puts <span style=\"background-color:hsla(0,100%,50%,0.05)\"><span style=\"color:#710\">&quot;</span><span style=\"color:#D20\">Hello, World!</span><span style=\"color:#710\">&quot;</span></span></span></p>",
-      RedCloth.new('@[ruby]puts "Hello, World!"@').to_html
+    assert_equal "<p><span lang=\"ruby\" class=\"CodeRay\">puts <span style=\"background-color:hsla(0,100%,50%,0.05)\"><span style=\"color:#710\">\"</span><span style=\"color:#D20\">Hello, World!</span><span style=\"color:#710\">\"</span></span></span></p>",
+      normalize_html(RedCloth.new('@[ruby]puts "Hello, World!"@').to_html)
     assert_equal <<-BLOCKCODE.chomp,
 <div lang="ruby" class="CodeRay">
-  <div class="code"><pre>puts <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Hello, World!</span><span style="color:#710">&quot;</span></span></pre></div>
+  <div class="code"><pre>puts <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">"</span><span style="color:#D20">Hello, World!</span><span style="color:#710">"</span></span></pre></div>
 </div>
       BLOCKCODE
-      RedCloth.new('bc[ruby]. puts "Hello, World!"').to_html
+      normalize_html(RedCloth.new('bc[ruby]. puts "Hello, World!"').to_html)
   end
   
   def test_for_redcloth_no_lang

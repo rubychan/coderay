@@ -3,6 +3,10 @@ require 'coderay'
 
 class HtmlTest < Test::Unit::TestCase
   
+  def normalize_html html
+    html.gsub('&#39;', "'").gsub('&quot;', '"')
+  end
+  
   def test_break_lines_option
     snippets = {}
     
@@ -60,7 +64,7 @@ public class Test {
  * used to test the
  */</span>
 <span class=\"directive\">public</span> <span class=\"type\">class</span> <span class=\"class\">Test</span> {
-  <span class=\"directive\">public</span> <span class=\"directive\">static</span> <span class=\"directive\">final</span> <span class=\"predefined-type\">String</span> MESSAGE = <span class=\"string\"><span class=\"delimiter\">&quot;</span><span class=\"content\">My message    To the world</span><span class=\"delimiter\">&quot;</span></span>;
+  <span class=\"directive\">public</span> <span class=\"directive\">static</span> <span class=\"directive\">final</span> <span class=\"predefined-type\">String</span> MESSAGE = <span class=\"string\"><span class=\"delimiter\">\"</span><span class=\"content\">My message    To the world</span><span class=\"delimiter\">\"</span></span>;
 
   <span class=\"directive\">static</span> <span class=\"type\">void</span> main() {
     <span class=\"comment\">/*
@@ -80,7 +84,7 @@ public class Test {
 <span class=\"comment\"> * used to test the</span>
 <span class=\"comment\"> */</span>
 <span class=\"directive\">public</span> <span class=\"type\">class</span> <span class=\"class\">Test</span> {
-  <span class=\"directive\">public</span> <span class=\"directive\">static</span> <span class=\"directive\">final</span> <span class=\"predefined-type\">String</span> MESSAGE = <span class=\"string\"><span class=\"delimiter\">&quot;</span><span class=\"content\">My message    To the world</span><span class=\"delimiter\">&quot;</span></span>;
+  <span class=\"directive\">public</span> <span class=\"directive\">static</span> <span class=\"directive\">final</span> <span class=\"predefined-type\">String</span> MESSAGE = <span class=\"string\"><span class=\"delimiter\">\"</span><span class=\"content\">My message    To the world</span><span class=\"delimiter\">\"</span></span>;
 
   <span class=\"directive\">static</span> <span class=\"type\">void</span> main() {
     <span class=\"comment\">/*</span>
@@ -95,9 +99,9 @@ public class Test {
     for lang, code in snippets
       tokens = CodeRay.scan code[:in], lang
       
-      assert_equal code[:expected_with_option_off], tokens.html
-      assert_equal code[:expected_with_option_off], tokens.html(:break_lines => false)
-      assert_equal code[:expected_with_option_on],  tokens.html(:break_lines => true)
+      assert_equal code[:expected_with_option_off], normalize_html(tokens.html)
+      assert_equal code[:expected_with_option_off], normalize_html(tokens.html(:break_lines => false))
+      assert_equal code[:expected_with_option_on],  normalize_html(tokens.html(:break_lines => true))
     end
   end
 end

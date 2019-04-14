@@ -7,6 +7,10 @@ require 'coderay'
 
 class BasicTest < Test::Unit::TestCase
   
+  def normalize_html html
+    html.gsub('&#39;', "'").gsub('&quot;', '"')
+  end
+  
   def test_version
     assert_nothing_raised do
       assert_match(/\A\d\.\d\.\d?\z/, CodeRay::VERSION)
@@ -46,11 +50,11 @@ class BasicTest < Test::Unit::TestCase
     end
   end
   
-  RUBY_TEST_HTML = 'puts <span class="string"><span class="delimiter">&quot;</span>' + 
-    '<span class="content">Hello, World!</span><span class="delimiter">&quot;</span></span>'
+  RUBY_TEST_HTML = 'puts <span class="string"><span class="delimiter">"</span>' +
+    '<span class="content">Hello, World!</span><span class="delimiter">"</span></span>'
   def test_simple_highlight
     assert_nothing_raised do
-      assert_equal RUBY_TEST_HTML, CodeRay.scan(RUBY_TEST_CODE, :ruby).html
+      assert_equal RUBY_TEST_HTML, normalize_html(CodeRay.scan(RUBY_TEST_CODE, :ruby).html)
     end
   end
   
@@ -75,7 +79,8 @@ class BasicTest < Test::Unit::TestCase
   end
   
   def test_highlight_file
-    assert_match "require <span class=\"string\"><span class=\"delimiter\">'</span><span class=\"content\">test/unit</span><span class=\"delimiter\">'</span></span>\n", CodeRay.highlight_file(__FILE__)
+    assert_match "require <span class=\"string\"><span class=\"delimiter\">'</span><span class=\"content\">test/unit</span><span class=\"delimiter\">'</span></span>\n",
+      normalize_html(CodeRay.highlight_file(__FILE__))
   end
   
   def test_duo

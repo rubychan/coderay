@@ -1,4 +1,5 @@
 require 'set'
+require 'escape_utils'
 
 module CodeRay
 module Encoders
@@ -127,22 +128,6 @@ module Encoders
     
   protected
     
-    def self.make_html_escape_hash
-      {
-        '&' => '&amp;',
-        '"' => '&quot;',
-        '>' => '&gt;',
-        '<' => '&lt;',
-        # "\t" => will be set to ' ' * options[:tab_width] during setup
-      }.tap do |hash|
-        # Escape ASCII control codes except \x9 == \t and \xA == \n.
-        (Array(0x00..0x8) + Array(0xB..0x1F)).each { |invalid| hash[invalid.chr] = ' ' }
-      end
-    end
-    
-    HTML_ESCAPE = make_html_escape_hash
-    HTML_ESCAPE_PATTERN = /[\t"&><\0-\x8\xB-\x1F]/
-    
     TOKEN_KIND_TO_INFO = Hash.new do |h, kind|
       h[kind] = kind.to_s.gsub(/_/, ' ').gsub(/\b\w/) { $&.capitalize }
     end
@@ -181,8 +166,6 @@ module Encoders
       
       @break_lines = (options[:break_lines] == true)
       
-      @HTML_ESCAPE = HTML_ESCAPE.merge("\t" => options[:tab_width] ? ' ' * options[:tab_width] : "\t")
-      
       @opened = []
       @last_opened = nil
       @css = CSS.new options[:style]
@@ -198,7 +181,7 @@ module Encoders
         @last_opened = nil
       end
       
-      if @out.respond_to? :to_str
+      if options[:wrap] || options[:line_numbers]
         @out.extend Output
         @out.css = @css
         if options[:line_numbers]
@@ -221,7 +204,7 @@ module Encoders
     def text_token text, kind
       style = @span_for_kinds[@last_opened ? [kind, *@opened] : kind]
       
-      text = text.gsub(/#{HTML_ESCAPE_PATTERN}/o) { |m| @HTML_ESCAPE[m] } if text =~ /#{HTML_ESCAPE_PATTERN}/o
+      text = EscapeUtils.escape_html text, false
       text = break_lines(text, style) if @break_lines && (style || @opened.size > 0) && text.index("\n")
       
       if style

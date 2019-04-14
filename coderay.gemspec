@@ -31,4 +31,6 @@ Gem::Specification.new do |s|
   s.rubyforge_project = s.name
   s.rdoc_options      = '-SNw2', "-m#{readme_file}", '-t CodeRay Documentation'
   s.extra_rdoc_files  = readme_file
+
+  s.add_dependency 'escape_utils', '>= 1.0'
 end

@@ -1,3 +1,4 @@
+require 'simplecov'
 require 'test/unit'
 
 $VERBOSE = $CODERAY_DEBUG = true

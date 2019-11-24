@@ -16,7 +16,7 @@ RSpec.describe CodeRay do
 
   describe '.encode2' do
     it 'covers' do
-      expect(CodeRay.encode('test', :python, :count)).to eq(1)
+      expect(CodeRay.encode2('test', :python, :count)).to eq(1)
     end
   end
 

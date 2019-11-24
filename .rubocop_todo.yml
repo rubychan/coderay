@@ -531,29 +531,6 @@ Naming/VariableNumber:
     - 'test/unit/tokens.rb'
 
 # Offense count: 1
-Performance/Caller:
-  Exclude:
-    - 'lib/coderay/scanners/scanner.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/Casecmp:
-  Exclude:
-    - 'rake_tasks/generator.rake'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/StringReplacement:
-  Exclude:
-    - 'lib/coderay/encoders/html.rb'
-
-# Offense count: 3
-Performance/UnfreezeString:
-  Exclude:
-    - 'lib/coderay/encoders/encoder.rb'
-    - 'lib/coderay/encoders/html.rb'
-
-# Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect.
 Security/JSONLoad:

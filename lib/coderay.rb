@@ -197,6 +197,10 @@ module CodeRay
       encoder(format, options).encode code, lang, options
     end
     
+    def encode2 code, lang, format, options = {}
+      encoder(format, options).encode code, lang, options
+    end
+    
     # Encode pre-scanned Tokens.
     # Use this together with CodeRay.scan:
     #

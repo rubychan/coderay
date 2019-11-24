@@ -79,4 +79,7 @@ Please rename or remove it and run again to use the GitHub repository:
   end
 end
 
-task :test => %w(test:functional test:units test:exe)
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec)
+
+task :test => %w(test:functional test:units test:exe spec)

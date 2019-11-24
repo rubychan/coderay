@@ -219,8 +219,6 @@ module Scanners
       encoder
     end
     
-  protected
-    
     def reset_instance
       super
       @xml_scanner.reset if defined? @xml_scanner

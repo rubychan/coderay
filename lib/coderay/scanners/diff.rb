@@ -109,7 +109,7 @@ module Scanners
               for deleted_line, inserted_line in deleted_lines.zip(inserted_lines)
                 pre, deleted_part, inserted_part, post = diff deleted_line, inserted_line
                 content_scanner_entry_state = content_scanner.state
-                deleted_lines_tokenized  << content_scanner.tokenize([pre, deleted_part, post], :tokens => Tokens.new)
+                deleted_lines_tokenized << content_scanner.tokenize([pre, deleted_part, post], :tokens => Tokens.new)
                 content_scanner.state = content_scanner_entry_state || :initial
                 inserted_lines_tokenized << content_scanner.tokenize([pre, inserted_part, post], :tokens => Tokens.new)
               end
@@ -212,7 +212,7 @@ module Scanners
       # does not precede the leftmost one from the left.
       j = -1
       j -= 1 while j >= j_min && a[j] == b[j]
-      return a[0...i], a[i..j], b[i..j], (j < -1) ? a[j+1..-1] : ''
+      return a[0...i], a[i..j], b[i..j], (j < -1) ? a[j + 1..-1] : ''
     end
     
   end

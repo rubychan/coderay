@@ -22,8 +22,8 @@ module Scanners
       add(GROOVY_MAGIC_VARIABLES, :local_variable)  # :nodoc:
     
     ESCAPE = / [bfnrtv$\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x  # :nodoc:
-    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} /x  # :nodoc: no 4-byte unicode chars? U[a-fA-F0-9]{8}
-    REGEXP_ESCAPE =  / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} | \d | [bBdDsSwW\/] /x  # :nodoc:
+    UNICODE_ESCAPE = / u[a-fA-F0-9]{4} /x  # :nodoc: no 4-byte unicode chars? U[a-fA-F0-9]{8}
+    REGEXP_ESCAPE = / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} | \d | [bBdDsSwW\/] /x  # :nodoc:
     
     # TODO: interpretation inside ', ", /
     STRING_CONTENT_PATTERN = {

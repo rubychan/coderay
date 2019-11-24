@@ -1,3 +1,4 @@
+require 'simplecov'
 require 'test/unit'
 require 'rubygems' unless defined? Gem
 require 'shoulda-context'

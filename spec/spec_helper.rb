@@ -98,3 +98,6 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+
+$:.unshift File.expand_path('../lib', __FILE__)
+require 'coderay'

@@ -22,7 +22,7 @@ class BasicTest < Test::Unit::TestCase
 <div lang="ruby" class="CodeRay">
   <div class="code"><pre>puts <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="color:#D20">Hello, World!</span><span style="color:#710">&quot;</span></span></pre></div>
 </div>
-      BLOCKCODE
+    BLOCKCODE
       RedCloth.new('bc[ruby]. puts "Hello, World!"').to_html
   end
   
@@ -32,7 +32,7 @@ class BasicTest < Test::Unit::TestCase
       RedCloth.new('@puts "Hello, World!"@').to_html
     assert_equal <<-BLOCKCODE.chomp,
 <pre><code>puts \"Hello, World!\"</code></pre>
-      BLOCKCODE
+    BLOCKCODE
       RedCloth.new('bc. puts "Hello, World!"').to_html
   end
   
@@ -40,7 +40,7 @@ class BasicTest < Test::Unit::TestCase
     require 'coderay/for_redcloth'
     assert_equal <<-BLOCKCODE.chomp,
 <pre style=\"color: red;\"><code style=\"color: red;\">puts \"Hello, World!\"</code></pre>
-      BLOCKCODE
+    BLOCKCODE
       RedCloth.new('bc{color: red}. puts "Hello, World!"').to_html
   end
   
@@ -52,7 +52,7 @@ class BasicTest < Test::Unit::TestCase
 <div lang="ruby" class="CodeRay">
   <div class="code"><pre>&amp;</pre></div>
 </div>
-      BLOCKCODE
+    BLOCKCODE
       RedCloth.new('bc[ruby]. &').to_html
   end
   

@@ -1,4 +1,4 @@
-if RUBY_VERSION >= '1.9' && !RUBY_VERSION[/^2.3/]
+unless RUBY_VERSION[/^2.3/]
   require 'simplecov'
   SimpleCov.start
 end

@@ -47,7 +47,7 @@ class Myclass():
 def myfunction():
     
 
-PYTHON_FILTERED
+    PYTHON_FILTERED
   end
   
 end

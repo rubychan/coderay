@@ -13,4 +13,23 @@ RSpec.describe CodeRay do
       expect(CodeRay.coderay_path('file')).to eq("#{base}/lib/coderay/file")
     end
   end
+
+  describe '.scan' do
+    let(:code) { 'puts "Hello, World!"' }
+    let(:tokens) do
+      [
+        ['puts', :ident],
+        [' ', :space],
+        [:begin_group, :string],
+          ['"', :delimiter],
+          ['Hello, World!', :content],
+          ['"', :delimiter],
+        [:end_group, :string]
+      ].flatten
+    end
+
+    it 'returns tokens' do
+      expect(CodeRay.scan(code, :ruby).tokens).to eq(tokens)
+    end
+  end
 end

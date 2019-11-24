@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/rubychan/coderay.svg?branch=master)](https://travis-ci.org/rubychan/coderay)
 [![Gem Version](https://badge.fury.io/rb/coderay.svg)](https://badge.fury.io/rb/coderay)
-[![Dependency Status](https://gemnasium.com/rubychan/coderay.svg)](https://gemnasium.com/rubychan/coderay)
 
 ## About
 

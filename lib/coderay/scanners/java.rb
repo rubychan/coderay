@@ -20,7 +20,7 @@ module Scanners
     MAGIC_VARIABLES = %w[ this super ]  # :nodoc:
     TYPES = %w[
       boolean byte char class double enum float int interface long
-      short void
+      short void var
     ] << '[]'  # :nodoc: because int[] should be highlighted as a type
     DIRECTIVES = %w[
       abstract extends final implements native private protected public

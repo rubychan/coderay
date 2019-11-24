@@ -1,0 +1,6 @@
+engines:
+  rubocop:
+    enabled: true
+    checks:
+      Rubocop/Layout/TrailingWhitespace:
+        enabled: false

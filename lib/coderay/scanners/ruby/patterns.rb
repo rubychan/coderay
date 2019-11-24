@@ -60,7 +60,7 @@ module Scanners
     
     QUOTE_TO_TYPE = {
       '`' => :shell,
-      '/'=> :regexp,
+      '/' => :regexp,
     }
     QUOTE_TO_TYPE.default = :string
     

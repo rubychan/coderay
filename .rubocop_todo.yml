@@ -412,13 +412,6 @@ Lint/UnusedBlockArgument:
 Lint/UnusedMethodArgument:
   Enabled: false
 
-# Offense count: 2
-# Configuration parameters: ContextCreatingMethods, MethodCreatingMethods.
-Lint/UselessAccessModifier:
-  Exclude:
-    - 'lib/coderay/scanners/java_script.rb'
-    - 'lib/coderay/scanners/php.rb'
-
 # Offense count: 8
 Lint/UselessAssignment:
   Exclude:

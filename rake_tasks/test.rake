@@ -79,7 +79,9 @@ Please rename or remove it and run again to use the GitHub repository:
   end
 end
 
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new(:spec)
+unless RUBY_VERSION[/^2.3/]
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
+end
 
 task :test => %w(test:functional test:units test:exe spec)

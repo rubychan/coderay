@@ -237,18 +237,7 @@ Layout/SpaceAfterComma:
 # Cop supports --auto-correct.
 # Configuration parameters: AllowForAlignment.
 Layout/SpaceAroundOperators:
-  Exclude:
-    - 'ideosyncratic-ruby.rb'
-    - 'lib/coderay/scanners/c.rb'
-    - 'lib/coderay/scanners/cpp.rb'
-    - 'lib/coderay/scanners/diff.rb'
-    - 'lib/coderay/scanners/groovy.rb'
-    - 'lib/coderay/scanners/java.rb'
-    - 'lib/coderay/scanners/java_script.rb'
-    - 'lib/coderay/scanners/python.rb'
-    - 'lib/coderay/scanners/ruby/patterns.rb'
-    - 'rake_tasks/code_statistics.rb'
-    - 'test/unit/json_encoder.rb'
+  AllowForAlignment: true
 
 # Offense count: 2
 # Cop supports --auto-correct.

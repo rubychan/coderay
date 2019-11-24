@@ -1,6 +1,8 @@
 env:
   global:
     - "JRUBY_OPTS=-Xcext.enabled=true"
+    - "CC_TEST_REPORTER_ID=faa393209ff0a104cf37511a9a03510bcee37951971b1ca4ffc2af217851d47e"
+language: ruby
 rvm:
   - 1.8.7
   - ree
@@ -14,15 +16,20 @@ rvm:
   - 2.6
   - ruby-head
   - jruby
-branches:
-  only:
-    - master
-before_script:
-- if (ruby -e "exit RUBY_VERSION.to_f >= 2.3"); then export RUBYOPT="--enable-frozen-string-literal"; fi; echo $RUBYOPT
 matrix:
   allow_failures:
     - rvm: 1.8.7
     - rvm: ruby-head
     - rvm: jruby
+branches:
+  only:
+    - master
+before_script:
+  - if (ruby -e "exit RUBY_VERSION.to_f >= 2.3"); then export RUBYOPT="--enable-frozen-string-literal"; fi; echo $RUBYOPT
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script: "rake test" # test:scanners"
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 sudo: false

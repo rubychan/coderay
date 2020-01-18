@@ -69,19 +69,11 @@ Please rename or remove it and run again to use the GitHub repository:
   
   desc 'test the CodeRay executable'
   task :exe do
-    if RUBY_VERSION >= '1.8.7'
-      ruby './test/executable/suite.rb'
-    else
-      puts
-      puts "Can't run executable tests because shoulda-context requires Ruby 1.8.7+."
-      puts "Skipping."
-    end
+    ruby './test/executable/suite.rb'
   end
 end
 
-if RUBY_VERSION >= '1.9'
-  require 'rspec/core/rake_task'
-  RSpec::Core::RakeTask.new(:spec)
-end
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec)
 
 task :test => %w(test:functional test:units test:exe spec)

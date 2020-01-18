@@ -1,4 +1,4 @@
-require 'simplecov' if RUBY_VERSION >= '1.9'
+require 'simplecov'
 require 'test/unit'
 
 $:.unshift File.expand_path('../../../lib', __FILE__)

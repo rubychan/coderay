@@ -56,7 +56,7 @@ module Encoders
             raise ArgumentError, 'Invalid value %p for :bolding; false or Integer expected.' % bold_every
           end
         
-        if position_of_last_newline = output.rindex(RUBY_VERSION >= '1.9' ? /\n/ : ?\n)
+        if position_of_last_newline = output.rindex(/\n/)
           after_last_newline = output[position_of_last_newline + 1 .. -1]
           ends_with_newline = after_last_newline[/\A(?:<\/span>)*\z/]
           

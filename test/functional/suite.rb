@@ -1,4 +1,4 @@
-require 'simplecov' if RUBY_VERSION >= '1.9'
+require 'simplecov'
 require 'test/unit'
 
 $VERBOSE = $CODERAY_DEBUG = true

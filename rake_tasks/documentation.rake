@@ -1,10 +1,6 @@
 begin
-  if RUBY_VERSION >= '1.8.7'
-    gem 'rdoc' if defined? gem
-    require 'rdoc/task'
-  else
-    require 'rake/rdoctask'
-  end
+  gem 'rdoc' if defined? gem
+  require 'rdoc/task'
 rescue LoadError
   warn 'Please gem install rdoc.'
 end

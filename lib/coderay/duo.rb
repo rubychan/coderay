@@ -71,7 +71,7 @@ module CodeRay
     # 
     #  CodeRay::Duo[:python => :yaml].call(code)
     # 
-    # or, in Ruby 1.9 and later:
+    # or:
     # 
     #  CodeRay::Duo[:python => :yaml].(code)
     alias call encode

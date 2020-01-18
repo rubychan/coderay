@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
   
   s.platform              = Gem::Platform::RUBY
-  s.required_ruby_version = '>= 1.8.6'
+  s.required_ruby_version = '>= 2.0.0'
   
   readme_file = 'README_INDEX.rdoc'
   

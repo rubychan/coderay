@@ -15,7 +15,7 @@ You put your code in, and you get it back colored; Keywords, strings, floats, co
 
 ### Dependencies
 
-CodeRay needs Ruby 2.0+. It also runs on JRuby.
+CodeRay needs Ruby 2.4+. It also runs on JRuby.
 
 ## Example Usage
 

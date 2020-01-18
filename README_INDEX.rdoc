@@ -26,7 +26,7 @@ floats, comments - all in different colors. And with line numbers.
 
 === Dependencies
 
-CodeRay needs Ruby 2.0+. It also runs on Rubinius and JRuby.
+CodeRay needs Ruby 2.4+. It also runs on Rubinius and JRuby.
 
 
 == Example Usage

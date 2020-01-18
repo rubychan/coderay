@@ -8,7 +8,7 @@ gemspec
 group :development do
   gem 'bundler'
   gem 'rake',             '>= 10.5'
-  gem 'rdoc',             Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2') ? '< 6' : '>= 6'
+  gem 'rdoc',             '>= 6'
   gem 'RedCloth',         RUBY_PLATFORM == 'java' ? '= 4.2.9' : '>= 4.0.3'
   gem 'rspec',            '~> 3.9.0'
   gem 'shoulda-context',  '>= 1.2.1'

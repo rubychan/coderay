@@ -257,7 +257,7 @@ module Scanners
               end
               unless unicode
                 # check for unicode
-                $DEBUG_BEFORE, $DEBUG = $DEBUG, false
+                debug_before, $DEBUG = $DEBUG, false
                 begin
                   if check(/./mu).size > 1
                     # seems like we should try again with unicode
@@ -266,7 +266,7 @@ module Scanners
                 rescue
                   # bad unicode char; use getch
                 ensure
-                  $DEBUG = $DEBUG_BEFORE
+                  $DEBUG = debug_before
                 end
                 next if unicode
               end

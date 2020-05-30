@@ -7,6 +7,7 @@ h2. Changes in 1.1.3
 * Tokens: Ensure Ruby 2.6 compatibility. [#233, thanks to Jun Aruga]
 * SQL scanner: Add @numeric@ data type. [#223, thanks to m16a1]
 * Java scanner: Add @var@ as type. [#229, thanks to Davide Angelocola]
+* Gem: Fix deprecation warning. [#246, thanks to David Rodríguez]
 
 h2. Changes in 1.1.2
 

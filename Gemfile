@@ -12,7 +12,7 @@ group :development do
   gem 'RedCloth',         RUBY_PLATFORM == 'java' ? '= 4.2.9' : '>= 4.0.3'
   gem 'rspec',            '~> 3.9.0'
   gem 'shoulda-context',  '>= 1.2.1'
-  gem 'simplecov',        RUBY_VERSION < '2.7' ? '~> 0.17.1'  : '>= 0.18.5'
+  gem 'simplecov',        RUBY_VERSION < '2.7' ? '~> 0.17.1' : '>= 0.18.5'
   gem 'term-ansicolor',   '>= 1.3.2'
   gem 'test-unit',        '>= 3.0'
   gem 'tins',             '>= 1.6.0'

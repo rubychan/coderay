@@ -24,7 +24,8 @@ class DebugEncoderTest < Test::Unit::TestCase
     ["   \n", :space],
     ["[]", :method],
     [:end_line, :head],
-  ].flatten
+  ]
+  TEST_INPUT.flatten!
   TEST_OUTPUT = <<-'DEBUG'.chomp
 integer(10)operator((\\\))string<content(test)>head[
 

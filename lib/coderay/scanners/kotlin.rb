@@ -71,6 +71,7 @@ module CodeRay
                 kind = :class
                 class_name_follows = false
               else
+                #noinspection RubyEmptyElseBlockInspection
                 case match
                 when 'import'
                   :include
@@ -78,7 +79,6 @@ module CodeRay
                   :namespace
                 when 'class', 'interface'
                   class_name_follows = true
-                else
                 end
               end
               encoder.text_token match, kind

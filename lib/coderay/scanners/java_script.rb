@@ -40,8 +40,8 @@ module Scanners
       add(KEYWORDS, :keyword)  # :nodoc:
     
     ESCAPE = / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x  # :nodoc:
-    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x  # :nodoc:
-    REGEXP_ESCAPE =  / [bBdDsSwW] /x  # :nodoc:
+    UNICODE_ESCAPE = / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x  # :nodoc:
+    REGEXP_ESCAPE = / [bBdDsSwW] /x  # :nodoc:
     STRING_CONTENT_PATTERN = {
       "'" => /[^\\']+/,
       '"' => /[^\\"]+/,
@@ -100,7 +100,6 @@ module Scanners
             # TODO: scan over nested tags
             xml_scanner.tokenize match, :tokens => encoder
             value_expected = false
-            next
             
           elsif match = scan(/ [-+*=<>?:;,!&^|(\[{~%]+ | \.(?!\d) /x)
             value_expected = true

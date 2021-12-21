@@ -1,0 +1,32 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.3
+  DisplayStyleGuide: true
+  Exclude:
+    - 'test/scanners/**/*'
+    - 'bench/example.ruby'
+    - 'old-stuff/**/*'
+    - 'test/lib/**/*'
+
+Gemspec/RequiredRubyVersion:
+  Enabled: false
+
+Gemspec/DuplicatedAssignment:
+  Enabled: false
+
+Layout/AccessModifierIndentation:
+  Enabled: false
+
+Layout/AlignArguments:
+  Enabled: false
+
+Layout/AlignArray:
+  Enabled: false
+
+Layout/AlignHash:
+  Enabled: false
+
+Layout/SpaceInsideBlockBraces:
+  EnforcedStyle: space
+  EnforcedStyleForEmptyBraces: space

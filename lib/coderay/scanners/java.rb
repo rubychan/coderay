@@ -20,7 +20,7 @@ module Scanners
     MAGIC_VARIABLES = %w[ this super ]  # :nodoc:
     TYPES = %w[
       boolean byte char class double enum float int interface long
-      short void
+      short void var
     ] << '[]'  # :nodoc: because int[] should be highlighted as a type
     DIRECTIVES = %w[
       abstract extends final implements native private protected public
@@ -38,13 +38,13 @@ module Scanners
       add(DIRECTIVES, :directive)  # :nodoc:
     
     ESCAPE = / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x  # :nodoc:
-    UNICODE_ESCAPE =  / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x  # :nodoc:
+    UNICODE_ESCAPE = / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x  # :nodoc:
     STRING_CONTENT_PATTERN = {
       "'" => /[^\\']+/,
       '"' => /[^\\"]+/,
       '/' => /[^\\\/]+/,
     }  # :nodoc:
-    IDENT = /[a-zA-Z_][A-Za-z_0-9]*/  # :nodoc:
+    IDENT = RUBY_VERSION < '1.9' ? /[a-zA-Z_][A-Za-z_0-9]*/ : Regexp.new('[[[:alpha:]]_][[[:alnum:]]_]*')  # :nodoc:
     
   protected
     

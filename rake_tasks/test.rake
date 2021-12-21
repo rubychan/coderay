@@ -2,7 +2,7 @@ namespace :test do
   desc 'run functional tests'
   task :functional do
     ruby './test/functional/suite.rb'
-    ruby './test/functional/for_redcloth.rb'
+    ruby './test/functional/for_redcloth.rb' unless (''.chop! rescue true)
   end
   
   desc 'run unit tests'
@@ -37,7 +37,7 @@ Please rename or remove it and run again to use the GitHub repository:
     else
       puts 'Downloading scanner test suite...'
       sh 'git clone https://github.com/rubychan/coderay-scanner-tests.git test/scanners/'
-    end
+    end unless ENV['SKIP_UPDATE_SCANNER_SUITE']
   end
   
   namespace :scanner do
@@ -79,4 +79,9 @@ Please rename or remove it and run again to use the GitHub repository:
   end
 end
 
-task :test => %w(test:functional test:units test:exe)
+if RUBY_VERSION >= '1.9'
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
+end
+
+task :test => %w(test:functional test:units test:exe spec)

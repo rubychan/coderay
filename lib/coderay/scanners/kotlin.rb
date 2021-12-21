@@ -1,10 +1,8 @@
 module CodeRay
   module Scanners
-
     load :java
 
     class Kotlin < Java
-
       register_for :kotlin
       file_extension 'kt'
 
@@ -81,7 +79,6 @@ module CodeRay
                 when 'class', 'interface'
                   class_name_follows = true
                 else
-                  # nothing
                 end
               end
               encoder.text_token match, kind

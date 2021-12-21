@@ -15,7 +15,7 @@ module CodeRay
         class interface object fun init get set
             in out
             if when else for while do return break continue
-    ]
+      ]
 
       KOTLIN_MODIFIERS = %w[
         annotation enum data sealed companion
@@ -23,15 +23,15 @@ module CodeRay
         public protected private internal 
         inline suspend
         inner
-    ]
+      ]
 
       TYPES = %w[
-      Boolean Byte Char class Double Float Int Long Short Unit Nothing Any
-    ]
+        Boolean Byte Char class Double Float Int Long Short Unit Nothing Any
+      ]
 
       STRING_CONTENT_PATTERN = {
         "'" => /[^\\'$]+/,
-        '"' => /[^\\"$]+/,
+        '"' => /[^\\"$]+/
       } # :nodoc:s
 
       IDENT_KIND = Java::IDENT_KIND.dup.

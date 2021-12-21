@@ -75,9 +75,9 @@ module CodeRay
               else
                 case match
                 when 'import'
-                  package_name_expected = :include
+                  :include
                 when 'package'
-                  package_name_expected = :namespace
+                  :namespace
                 when 'class', 'interface'
                   class_name_follows = true
                 else
@@ -97,7 +97,7 @@ module CodeRay
               unless states.empty?
                 state = states.pop
 
-                if state == :string || state == :multiline_string
+                if [:multiline_string, :string].include? state
                   string_delimiter = delimiters.pop
                   encoder.end_group :initial
                 end
@@ -144,7 +144,7 @@ module CodeRay
             elsif (match = scan(STRING_CONTENT_PATTERN[string_delimiter]))
               encoder.text_token match, :content
             elsif (match = scan(/ \\ (?: #{ESCAPE} | #{UNICODE_ESCAPE} ) /mox))
-              if string_delimiter == "'" && !(match == "\\\\" || match == "\\'")
+              if string_delimiter == "'" && !(%W[\\\\ \\'].include? match)
                 encoder.text_token match, :content
               else
                 encoder.text_token match, :char

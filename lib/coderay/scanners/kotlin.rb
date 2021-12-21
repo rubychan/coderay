@@ -71,7 +71,7 @@ module CodeRay
                 kind = :class
                 class_name_follows = false
               else
-                #noinspection RubyEmptyElseBlockInspection
+                # noinspection RubyEmptyElseBlockInspection
                 case match
                 when 'import'
                   :include

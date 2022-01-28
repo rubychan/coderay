@@ -1,4 +1,4 @@
-.*
+.ruby-version
 bench/example.*
 coverage
 doc

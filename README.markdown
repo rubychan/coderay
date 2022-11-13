@@ -1,7 +1,6 @@
 # CodeRay
 
-[![Build Status](https://travis-ci.org/rubychan/coderay.svg?branch=master)](https://travis-ci.org/rubychan/coderay)
-[![Gem Version](https://badge.fury.io/rb/coderay.svg)](https://badge.fury.io/rb/coderay) [![Maintainability](https://api.codeclimate.com/v1/badges/e015bbd5eab45d948b6b/maintainability)](https://codeclimate.com/github/rubychan/coderay/maintainability)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/rubychan/coderay/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/rubychan/coderay/tree/master) [![Gem Version](https://badge.fury.io/rb/coderay.svg)](https://badge.fury.io/rb/coderay) [![Maintainability](https://api.codeclimate.com/v1/badges/e015bbd5eab45d948b6b/maintainability)](https://codeclimate.com/github/rubychan/coderay/maintainability)
 
 ## About
 

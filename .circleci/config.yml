@@ -1,0 +1,12 @@
+jobs:
+  build:
+    docker:
+      - image: cimg/ruby:3.1.2
+    environment:
+      RAILS_ENV: test
+    steps:
+      - checkout
+      - run: |
+          bundle install
+      - run: |
+          bundle exec rake test

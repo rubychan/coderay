@@ -195,6 +195,26 @@ class TestCodeRayExecutable < Test::Unit::TestCase
     end
   end
   
+  context 'Kotlin smoke test' do
+    source_file = ROOT_DIR + 'test/executable/source.kt'
+
+    should 'generate json' do
+      coderay("#{source_file} #{source_file}.actual.json")
+      # coderay("#{source_file} #{source_file}.actual.html")
+
+      result = JSON.parse(File.read ("#{source_file}.actual.json"))
+      expected = JSON.parse(File.read ("#{source_file}.expected.json"))
+
+      assert_equal expected, result
+    end
+    
+    # should 'respect the file extension and highlight the input as Kotlin' do
+    #   target = coderay(command)
+    #   assert_equal %w(keyword class), target[pre, 1].scan(tag_class).flatten
+    # end
+
+  end
+  
   context 'highlighting a file with explicit input and output type (-ruby source.py -span)' do
     source_file = ROOT_DIR + 'test/executable/source.py'
     command = "-ruby #{source_file} -span"

@@ -98,6 +98,7 @@ module CodeRay
       'js'        => :java_script,
       'json'      => :json,
       'lua'       => :lua,
+      'm'         => :octave,
       'mab'       => :ruby,
       'pas'       => :delphi,
       'patch'     => :diff,

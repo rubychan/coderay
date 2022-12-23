@@ -77,6 +77,7 @@ module CodeRay
     end
     
     TypeFromExt = {
+      'as'        => :actionscript,
       'c'         => :c,
       'cfc'       => :xml,
       'cfm'       => :xml,

@@ -11,26 +11,28 @@ module Scanners
     
     # The actual JavaScript keywords.
     KEYWORDS = %w[
-      break case catch continue default delete do else
-      finally for function if in instanceof new
+      async await break case catch class const continue
+      debugger default delete do else export extends
+      finally for function if import in instanceof let new
       return switch throw try typeof var void while with
+      yield
     ]  # :nodoc:
     PREDEFINED_CONSTANTS = %w[
       false null true undefined NaN Infinity
     ]  # :nodoc:
     
-    MAGIC_VARIABLES = %w[ this arguments ]  # :nodoc: arguments was introduced in JavaScript 1.4
+    MAGIC_VARIABLES = %w[ this arguments super ]  # :nodoc:
     
     KEYWORDS_EXPECTING_VALUE = WordList.new.add %w[
-      case delete in instanceof new return throw typeof with
+      await case delete in instanceof new return throw typeof with yield
     ]  # :nodoc:
     
     # Reserved for future use.
     RESERVED_WORDS = %w[
-      abstract boolean byte char class debugger double enum export extends
-      final float goto implements import int interface long native package
-      private protected public short static super synchronized throws transient
-      volatile
+      abstract boolean byte char double enum final float
+      goto implements int interface long native package
+      private protected public short static synchronized
+      throws transient volatile
     ]  # :nodoc:
     
     IDENT_KIND = WordList.new(:ident).

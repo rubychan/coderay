@@ -279,6 +279,20 @@ module CodeRay
       options.fetch :scanner_options, {}
     end
     
+    # Provide a list of supported code languages.
+    #
+    # Returns a hash of symbols.
+    def supported_languages(include_aliases=true, include_internals=false)
+      languages = CodeRay::Scanners.list
+      if include_aliases == true
+        languages += CodeRay::Scanners.plugin_hash.keys.map(&:to_sym)
+      end
+      if include_internals == false
+        languages -= %w(debug default raydebug scanner).map(&:to_sym)
+      end
+      return languages
+    end
+    
   end
   
 end

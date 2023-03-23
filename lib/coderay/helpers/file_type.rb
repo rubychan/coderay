@@ -120,6 +120,7 @@ module CodeRay
       'ru'        => :ruby,  # config.ru
       'rxml'      => :ruby,
       'sass'      => :sass,
+      'slim'      => :slim,
       'sql'       => :sql,
       'taskpaper' => :taskpaper,
       'template'  => :json,  # AWS CloudFormation template

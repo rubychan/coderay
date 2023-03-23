@@ -112,7 +112,8 @@ module Scanners
             function_expected = key_expected = value_expected = false
             encoder.text_token match, :operator
             
-          elsif match = scan(/ [$a-zA-Z_][A-Za-z_0-9$]* /x)
+          # Follows http://es5.github.io/x7.html#x7.6, but does not honor "A UnicodeEscapeSequence cannot be used to put a character into an IdentifierName that would otherwise be illegal."
+          elsif match = scan(/ ([\p{Lu}\p{Ll}\p{Lt}\p{Lm}\p{Lo}\p{Nl}$_]|\\u[0-9a-fA-F]{4})([\p{Lu}\p{Ll}\p{Lt}\p{Lm}\p{Lo}\p{Nl}$_\p{Mn}\{Mc}\p{Nd}\p{Pc}\u200C\u200D]|\\u[0-9a-fA-F]{4})* /x)
             kind = IDENT_KIND[match]
             value_expected = (kind == :keyword) && KEYWORDS_EXPECTING_VALUE[match]
             # TODO: labels

@@ -314,5 +314,42 @@ more code  # and another comment, in-line.
       CodeRay.highlight CodeRay, :plain
     end
   end
+
+  JS_UNICODE_IDENT_TEST_CODE = 'var 動 = 1;'
   
+  JS_UNICODE_IDENT_TEST_TOKENS = [
+    ['var', :keyword],
+    [' ', :space],
+    ['動', :ident],
+    [' ', :space],
+    ['=', :operator],
+    [' ', :space],
+    ["1", :integer],
+    [";", :operator]
+  ].flatten
+  def test_js_scan_unicode_ident_token
+    assert_nothing_raised do
+      assert_equal JS_UNICODE_IDENT_TEST_TOKENS, CodeRay.scan(JS_UNICODE_IDENT_TEST_CODE, :java_script).tokens
+    end
+  end
+
+  # Actual JS variable name is \u1212 here, extra backslash is to escape Ruby
+  JS_ESCAPED_UNICODE_IDENT_TEST_CODE = 'var \\u1212 = 1;'
+
+  JS_ESCAPED_UNICODE_IDENT_TEST_TOKENS = [
+    ['var', :keyword],
+    [' ', :space],
+    ['\\u1212', :ident],
+    [' ', :space],
+    ['=', :operator],
+    [' ', :space],
+    ["1", :integer],
+    [";", :operator]
+  ].flatten
+  def test_js_scan_escaped_unicode_ident_token
+    assert_nothing_raised do
+      assert_equal JS_ESCAPED_UNICODE_IDENT_TEST_TOKENS, CodeRay.scan(JS_ESCAPED_UNICODE_IDENT_TEST_CODE, :java_script).tokens
+    end
+  end
+
 end

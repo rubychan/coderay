@@ -82,6 +82,7 @@ module CodeRay
       'cfm'       => :xml,
       'clj'       => :clojure,
       'css'       => :css,
+      'ctp'       => :php,
       'diff'      => :diff,
       'dpr'       => :delphi,
       'erb'       => :erb,

@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in coderay.gemspec
 gemspec
 
+gem 'paint', '~> 0.8.4'
+
 # Add dependencies to develop your gem here.
 # Include everything needed to run rake, tests, features, etc.
 group :development do

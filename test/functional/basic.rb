@@ -155,6 +155,40 @@ more code  # and another comment, in-line.
     assert CodeRay::Scanners.list.include?(:text)
   end
   
+  def test_supported_languages_should_return_array_of_symbols
+    assert_kind_of(Array, CodeRay.supported_languages)
+    assert_kind_of(Symbol, CodeRay.supported_languages.first)
+  end
+  
+  def test_supported_languages_should_include_languages
+    assert CodeRay.supported_languages.include?(:ruby)
+  end
+  
+  def test_supported_languages_without_arguments_should_include_aliases_and_exclude_internals
+    assert CodeRay.supported_languages.include?(:javascript)
+    assert !CodeRay.supported_languages.include?(:debug)
+  end
+  
+  def test_supported_languages_with_arguments_should_include_aliases_and_exclude_internals
+    assert CodeRay.supported_languages(true, false).include?(:javascript)
+    assert !CodeRay.supported_languages(true, false).include?(:debug)
+  end
+  
+  def test_supported_languages_with_arguments_should_exclude_aliases_and_include_internals
+    assert !CodeRay.supported_languages(false, true).include?(:javascript)
+    assert CodeRay.supported_languages(false, true).include?(:debug)
+  end
+  
+  def test_supported_languages_with_arguments_should_include_aliases_and_internals
+    assert CodeRay.supported_languages(true, true).include?(:javascript)
+    assert CodeRay.supported_languages(true, true).include?(:debug)
+  end
+  
+  def test_supported_languages_with_arguments_should_exclude_aliases_and_internals
+    assert !CodeRay.supported_languages(false, false).include?(:javascript)
+    assert !CodeRay.supported_languages(false, false).include?(:debug)
+  end
+  
   def test_token_kinds
     assert_kind_of Hash, CodeRay::TokenKinds
     for kind, css_class in CodeRay::TokenKinds

@@ -180,9 +180,9 @@ module CodeRay
     # Example:
     #  require 'coderay'
     #  page = CodeRay.scan_file('some_c_code.c').html
-    def scan_file filename, lang = :auto, options = {}, &block
-      lang = CodeRay::FileType.fetch filename, :text, true if lang == :auto
-      code = File.read filename
+    def scan_file file_name, lang = :auto, options = {}, &block
+      lang = CodeRay::FileType.fetch file_name, :text, true if lang == :auto
+      code = File.read file_name
       scan code, lang, options, &block
     end
     
@@ -194,6 +194,10 @@ module CodeRay
     #
     # See CodeRay::Encoder.encode.
     def encode code, lang, format, options = {}
+      encoder(format, options).encode code, lang, options
+    end
+    
+    def encode2 code, lang, format, options = {}
       encoder(format, options).encode code, lang, options
     end
     

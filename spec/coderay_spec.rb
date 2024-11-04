@@ -14,6 +14,12 @@ RSpec.describe CodeRay do
     end
   end
 
+  describe '.encode2' do
+    it 'covers' do
+      expect(CodeRay.encode2('test', :python, :count)).to eq(1)
+    end
+  end
+
   describe '.scan' do
     let(:code) { 'puts "Hello, World!"' }
     let(:tokens) do

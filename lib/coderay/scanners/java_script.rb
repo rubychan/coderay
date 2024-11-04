@@ -42,11 +42,11 @@ module Scanners
     ESCAPE = / [bfnrtv\n\\'"] | x[a-fA-F0-9]{1,2} | [0-7]{1,3} /x  # :nodoc:
     UNICODE_ESCAPE = / u[a-fA-F0-9]{4} | U[a-fA-F0-9]{8} /x  # :nodoc:
     REGEXP_ESCAPE = / [bBdDsSwW] /x  # :nodoc:
-    STRING_CONTENT_PATTERN = {
+    STRING_CONTENT_PATTERN  = {
       "'" => /[^\\']+/,
       '"' => /[^\\"]+/,
-      '/' => /[^\\\/]+/,
-    }  # :nodoc:
+      '/' => %r{ (?: [^\\/\[]+ | \[ ([^\]\\]+ | \\.)* \]? )+ }mx,
+    }.freeze  # :nodoc:
     KEY_CHECK_PATTERN = {
       "'" => / (?> [^\\']* (?: \\. [^\\']* )* ) ' \s* : /mx,
       '"' => / (?> [^\\"]* (?: \\. [^\\"]* )* ) " \s* : /mx,
@@ -218,8 +218,6 @@ module Scanners
       
       encoder
     end
-    
-  protected
     
     def reset_instance
       super

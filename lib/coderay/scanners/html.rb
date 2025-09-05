@@ -226,7 +226,7 @@ module Scanners
             case in_tag
             when 'script', 'style'
               encoder.text_token match, :space if match = scan(/[ \t]*\n/)
-              if scan(/(\s*<!--)(?:(.*?)(-->[^\s<]*)|(.*))/m)
+              if scan(/(\s*<!--)(?:(.*?)(-->)|(.*))/m)
                 code = self[2] || self[4]
                 closing = self[3]
                 encoder.text_token self[1], :comment

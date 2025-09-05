@@ -249,7 +249,7 @@ module Encoders
         if style['class="']
           @out << style.sub('class="', 'class="line ')
         else
-          @out << style.sub('>', ' class="line">')
+          @out << style.sub(/>\s*\z/, ' class="line">')
         end
       else
         @out << '<span class="line">'

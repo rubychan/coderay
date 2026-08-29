@@ -23,13 +23,10 @@ module Encoders
     }
     
     def text_token text, kind
+      if @sep
+        @first ? @first = false : @out << @sep
+      end
       super
-      
-      if @first
-        @first = false
-      else
-        @out << @sep
-      end if @sep
     end
     
   protected

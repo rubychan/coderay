@@ -55,6 +55,7 @@ module Encoders
       end
       
       def apply_title! title
+        title = title.to_s.gsub(/[&<>]/) { |character| HTML_ESCAPE[character] }
         self.sub!(/(<title>)(<\/title>)/) { $1 + title + $2 }
         self
       end

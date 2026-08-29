@@ -73,6 +73,15 @@ module Scanners
             end
             encoder.text_token match, :operator
 
+          elsif match = scan(/L?"/)
+            encoder.begin_group :string
+            if match[0] == ?L
+              encoder.text_token 'L', :modifier
+              match = '"'
+            end
+            encoder.text_token match, :delimiter
+            state = :string
+
           elsif match = scan(/ [A-Za-z_][A-Za-z_0-9]* /x)
             kind = IDENT_KIND[match]
             if kind == :ident && label_expected && !in_preproc_line && scan(/:(?!:)/)
@@ -88,15 +97,6 @@ module Scanners
               end
             end
             encoder.text_token match, kind
-
-          elsif match = scan(/L?"/)
-            encoder.begin_group :string
-            if match[0] == ?L
-              encoder.text_token 'L', :modifier
-              match = '"'
-            end
-            encoder.text_token match, :delimiter
-            state = :string
 
           elsif match = scan(/ \# \s* if \s* 0 /x)
             match << scan_until(/ ^\# (?:elif|else|endif) .*? $ | \z /xm) unless eos?
